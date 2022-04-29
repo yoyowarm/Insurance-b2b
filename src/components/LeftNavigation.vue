@@ -9,32 +9,34 @@
         <TriangleIcon class="bg-main"/>
       </div>
     </div>
-    <DynamicLink type="router" path="/quotation/step1" @click.native="$emit('update:openMenu', false)">
-      <div class="nav-item" :class="{'active': path.includes('/quotation/step')}">
+    <DynamicLink type="router" path="/" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/'}">
       <div class="icon quotation"/>
-        <span class="text-white text-lg font-bold">方案報價</span>
-      </div>
-    </DynamicLink>
-      <div class="nav-item pointer-events-none">
-        <div class="icon freeQuotation"/>
-        <span class="text-white text-lg font-bold">自由配報價</span>
-      </div>
-    <DynamicLink type="router" path="/quotation/list" @click.native="$emit('update:openMenu', false)">
-      <div class="nav-item" :class="{'active': path === '/quotation/list'}">
-      <div class="icon quotationList"/>
         <span class="text-white text-lg font-bold">報價明細</span>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/product/list" @click.native="$emit('update:openMenu', false)">
-      <div class="nav-item" :class="{'active': path === '/product/list'}">
-        <div class="icon product"/>
-        <span class="text-white text-lg font-bold">商品資訊</span>
+    <DynamicLink type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path.includes('/place-quotation/step')}">
+      <div class="icon quotationList"/>
+        <span class="text-white text-lg font-bold">場所報價</span>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/news/list" @click.native="$emit('update:openMenu', false)">
-      <div class="nav-item" :class="{'active': path === '/news/list'}">
+    <DynamicLink type="router" path="/activity-quotation/step1" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path.includes('/activity-quotation/step')}">
+        <div class="icon product"/>
+        <span class="text-white text-lg font-bold">活動報價</span>
+      </div>
+    </DynamicLink>
+    <DynamicLink type="router" path="/Office-audit" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/Office-audit'}">
         <div class="icon news"/>
-        <span class="text-white text-lg font-bold">最新消息</span>
+        <span class="text-white text-lg font-bold">總公司核保</span>
+      </div>
+    </DynamicLink>
+    <DynamicLink type="router" path="/branch-audit" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/branch-audit'}">
+        <div class="icon news"/>
+        <span class="text-white text-lg font-bold">分公司核保</span>
       </div>
     </DynamicLink>
   </div>

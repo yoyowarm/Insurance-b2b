@@ -15,7 +15,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = "泰安商業火災保險報價系統";
+        args[0].title = "公共責任保險報價系統";
         return args;
       })
   },

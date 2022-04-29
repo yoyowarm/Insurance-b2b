@@ -1,22 +1,84 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { //報價明細
+        path: '/',
+        name: 'quotationList',
+        component: () => import(/* webpackChunkName: "about" */ '../views/QuotationList.vue')
+      },
+    ]
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+    path: '/place-quotation',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { // 場所報價第一步
+        path: '/place-quotation/step1',
+        name: 'place-quotation-step1',
+        component: () => import(/* webpackChunkName: "about" */ '../views/PlaceQuotationStep1.vue')
+      },
+      { // 場所報價第二步
+        path: '/place-quotation/step2',
+        name: 'place-quotation-step2',
+        component: () => import(/* webpackChunkName: "about" */ '../views/PlaceQuotationStep2.vue')
+      },
+      { // 場所報價第三步
+        path: '/place-quotation/step3',
+        name: 'place-quotation-step3',
+        component: () => import(/* webpackChunkName: "about" */ '../views/PlaceQuotationStep3.vue')
+      },
+    ]
+  },
+  {
+    path: '/activity-quotation',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { // 活動報價第一步
+        path: '/activity-quotation/step1',
+        name: 'activity-quotation-step1',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ActivityQuotationStep1.vue')
+      },
+      { // 活動報價第二步
+        path: '/activity-quotation/step2',
+        name: 'activity-quotation-step2',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ActivityQuotationStep2.vue')
+      },
+      { // 活動報價第三步
+        path: '/activity-quotation/step3',
+        name: 'activity-quotation-step3',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ActivityQuotationStep3.vue')
+      },
+    ]
+  },
+  {
+    path: '/Office-audit',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { // 總公司核保
+        path: '/Office-audit',
+        name: 'Office-audit',
+        component: () => import(/* webpackChunkName: "about" */ '../views/OfficeAudit.vue')
+      },
+    ]
+  },
+  {
+    path: '/branch-audit',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { //分公司核保
+        path: '/branch-audit',
+        name: 'branch-audit',
+        component: () => import(/* webpackChunkName: "about" */ '../views/BranchAudit.vue')
+      }
+    ]
+
   }
 ]
 
