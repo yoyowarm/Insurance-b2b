@@ -1,0 +1,22 @@
+export default {
+  LEVEL_QUOTA_MENU: '對應等級額度選單',
+  TARGET_MENU: '標的物選單',
+  USAGE_MENU: '使用性質選單',
+  LOSS_MENU: '停業損失選單',
+  TERM_CONTENT: '自負額文案',
+  ADDITIONAL_MENU: '附加險選單',
+  ADDITIONAL_TERM_MENU: '附加條款選單',
+  COMMISSION_MENU: '佣金選單',
+  LIABILITY_MENU: '責任險選單',
+  LIABILITY_TERM: '責任險附加條款',
+  BANK_MENU: '銀行選單',
+  BRANCH_MENU: '分行選單',
+  PROGRAM_MENU: '商火險方案選單',
+  ICHANNEL_MENU: '統計代號選單',
+  ICHANNEL: '統計代號',
+  IBROKER_MENU: '業務來源選單',
+  IBROKER_ID: '業務來源',
+  IBROKER_NAME: '業務來源名稱',
+  FIRE_PREMIUMS_TOTAL: '火險保費總計',
+  IOFFICER: '經手人'
+}
