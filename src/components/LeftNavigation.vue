@@ -17,25 +17,25 @@
     </DynamicLink>
     <DynamicLink type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/place-quotation/step')}">
-      <div class="icon quotationList"/>
+      <div class="icon placeQuotation"/>
         <span class="text-white text-lg font-bold">場所報價</span>
       </div>
     </DynamicLink>
     <DynamicLink type="router" path="/activity-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/activity-quotation/step')}">
-        <div class="icon product"/>
+        <div class="icon activityQuotation"/>
         <span class="text-white text-lg font-bold">活動報價</span>
       </div>
     </DynamicLink>
     <DynamicLink type="router" path="/Office-audit" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/Office-audit'}">
-        <div class="icon news"/>
+        <div class="icon branchAudit"/>
         <span class="text-white text-lg font-bold">總公司核保</span>
       </div>
     </DynamicLink>
     <DynamicLink type="router" path="/branch-audit" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/branch-audit'}">
-        <div class="icon news"/>
+        <div class="icon officeAudit"/>
         <span class="text-white text-lg font-bold">分公司核保</span>
       </div>
     </DynamicLink>
@@ -104,39 +104,40 @@ export default {
       min-height: 40px;
       margin-bottom: 4px;
       @apply bg-no-repeat bg-center;
-      &.news {
-        background-image: url('../assets/images/leftbar_icon_5.png');
+      &.officeAudit {
+        background-image: url('../assets/images/5.png');
       }
-      &.product {
-        background-image: url('../assets/images/leftbar_icon_4.png');
+      &.branchAudit {
+        background-image: url('../assets/images/4.png');
       }
-      &.quotationList {
-        background-image: url('../assets/images/leftbar_icon_3.png');
+      &.activityQuotation {
+        background-image: url('../assets/images/3.png');
+        height: 45px;
       }
-      &.freeQuotation {
-        background-image: url('../assets/images/leftbar_icon_2.png');
+      &.placeQuotation {
+        background-image: url('../assets/images/2.png');
       }
       &.quotation {
-        background-image: url('../assets/images/leftbar_icon_1.png');
+        background-image: url('../assets/images/1.png');
       }
     }
     &:hover, &.active {
       background-color: #fafafa;
       .icon {
-        &.news {
-          background-image: url('../assets/images/leftbar_icon_5_red.png');
+        &.officeAudit {
+          background-image: url('../assets/images/5r.png');
         }
-        &.product {
-          background-image: url('../assets/images/leftbar_icon_4_red.png');
+        &.branchAudit {
+          background-image: url('../assets/images/4r.png');
         }
-        &.quotationList {
-          background-image: url('../assets/images/leftbar_icon_3_red.png');
+        &.activityQuotation {
+          background-image: url('../assets/images/3r.png');
         }
-        &.freeQuotation {
-          background-image: url('../assets/images/leftbar_icon_2_red.png');
+        &.placeQuotation {
+          background-image: url('../assets/images/2r.png');
         }
         &.quotation {
-          background-image: url('../assets/images/leftbar_icon_1_red.png');
+          background-image: url('../assets/images/1r.png');
         }
       }
       span {
@@ -164,20 +165,20 @@ export default {
         min-height: 40px;
         margin-bottom: 4px;
         @apply bg-no-repeat bg-center;
-        &.news {
-          background-image: url('../assets/images/leftbar_icon_5_black.png');
+        &.officeAudit {
+          background-image: url('../assets/images/5b.png');
         }
-        &.product {
-          background-image: url('../assets/images/leftbar_icon_4_black.png');
+        &.branchAudit {
+          background-image: url('../assets/images/4b.png');
         }
-        &.quotationList {
-          background-image: url('../assets/images/leftbar_icon_3_black.png');
+        &.activityQuotation {
+          background-image: url('../assets/images/3b.png');
         }
-        &.freeQuotation {
-          background-image: url('../assets/images/leftbar_icon_2_black.png');
+        &.placeQuotation {
+          background-image: url('../assets/images/2b.png');
         }
         &.quotation {
-          background-image: url('../assets/images/leftbar_icon_1_black.png');
+          background-image: url('../assets/images/1b.png');
         }
       }
       &.open {
@@ -194,20 +195,20 @@ export default {
       }
       &:hover, &.active {
         .icon {
-          &.news {
-            background-image: url('../assets/images/leftbar_icon_5.png');
+          &.officeAudit {
+            background-image: url('../assets/images/5.png');
           }
-          &.product {
-            background-image: url('../assets/images/leftbar_icon_4.png');
+          &.branchAudit {
+            background-image: url('../assets/images/4.png');
           }
-          &.quotationList {
-            background-image: url('../assets/images/leftbar_icon_3.png');
+          &.activityQuotation {
+            background-image: url('../assets/images/3.png');
           }
-          &.freeQuotation {
-            background-image: url('../assets/images/leftbar_icon_2.png');
+          &.placeQuotation {
+            background-image: url('../assets/images/2.png');
           }
           &.quotation {
-            background-image: url('../assets/images/leftbar_icon_1.png');
+            background-image: url('../assets/images/1.png');
           }
         }
       }
