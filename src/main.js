@@ -7,7 +7,7 @@ import store from './store'
 import './assets/tailwind.css'
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faClipboard, faCalendarAlt } from '@fortawesome/free-regular-svg-icons'
+import { faClipboard, faCalendarAlt, faTrashAlt } from '@fortawesome/free-regular-svg-icons'
 import {
   faInfoCircle,
   faExclamationCircle,
@@ -17,11 +17,11 @@ import {
   faAngleLeft,
   faAngleRight,
   faArrowUp,
-  faExternalLinkAlt
+  faExternalLinkAlt,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-library.add(faInfoCircle, faClipboard, faExclamationCircle, faCalendarAlt, faTimesCircle, faPlusCircle, faAngleDown, faAngleLeft, faAngleRight, faExternalLinkAlt, faArrowUp)
+library.add(faInfoCircle, faClipboard, faExclamationCircle, faCalendarAlt, faTimesCircle, faPlusCircle, faAngleDown, faAngleLeft, faAngleRight, faExternalLinkAlt, faArrowUp, faTrashAlt)
 Vue.config.productionTip = false
 
 new Vue({

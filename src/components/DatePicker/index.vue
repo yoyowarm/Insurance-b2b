@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-row w-full justify-between items-center my-1.5 ml-4 mr-4 datePicker">
+  <div class="flex flex-row w-full justify-between items-center my-1.5 ml-1 mr-3 datePicker">
     <div class="flex flex-row w-full items-center">
-      <font-awesome-icon class="mr-1 text-gray-800 pt-1 text-xl" :icon="['far','calendar-alt']" />
+      <!-- <font-awesome-icon class="mr-1 text-gray-800 pt-1 text-xl" :icon="['far','calendar-alt']" /> -->
       <Select
         defaultText="民國"
         hiddenArrow
@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import 'vue2-datepicker/index.css';
 import Select from '@/components/Select'
 export default {
   props: {

@@ -87,12 +87,12 @@ export const quotationListTable = () => {
       {
         text: '報價日期',
         value: 'time',
-        size: '1-6'
+        size: '2-6'
       },
       {
         text: '狀態',
-        value: 'status',
-        size: '1-6'
+        value: 'State',
+        size: '2-6'
       },
       {
         text: '報價單編號',
@@ -100,32 +100,52 @@ export const quotationListTable = () => {
         size: '3-6'
       },
       {
+        text: '保單編號',
+        value: 'InsuranceNumbers',
+        size: '3-6'
+      },
+      {
+        text: '類型',
+        value: 'type',
+        size: '1-6'
+      },
+      {
         text: '要保人',
         value: 'guarantor',
         size: '1-6'
       },
-
+      {
+        text: '報價單操作',
+        value: 'edit',
+        size: '2-6'
+      },
     ],
     rows: [
       {
         time: '2021.11.05',
-        status: '未核保',
+        State: '未核保',
         numbers: '0000000001',
+        InsuranceNumbers: '0000000001',
         guarantor: '王曉明',
+        type: '活動',
         class: 'text-fail',
       },
       {
         time: '2021.11.05',
-        status: '已核保',
+        State: '已核保',
         numbers: '0000000001',
+        InsuranceNumbers: '0000000001',
         guarantor: '王曉明',
+        type: '活動',
         class: 'text-success',
       },
       {
         time: '2021.11.05',
-        status: '15天後保單生效',
+        State: '15天後保單生效',
         numbers: '0000000001',
+        InsuranceNumbers: '0000000001',
         guarantor: '王曉明',
+        type: '場所',
         class: 'text-warn',
       },
     ]

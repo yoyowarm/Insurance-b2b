@@ -75,7 +75,8 @@ module.exports = {
       'main-gray': '#fafafa',
       fail: '#EC4343',
       success: '#3AA551',
-      warn: '#FE8F0E'
+      warn: '#FE8F0E',
+      finish: '#29B4E0',
     },
     extend: {
       fontFamily: {
