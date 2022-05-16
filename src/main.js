@@ -1,6 +1,8 @@
 import 'core-js/stable'
 import 'regenerator-runtime/runtime'
 import Vue from 'vue'
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -18,11 +20,14 @@ import {
   faAngleRight,
   faArrowUp,
   faExternalLinkAlt,
+  faMagnifyingGlass,
+  faBriefcase
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-library.add(faInfoCircle, faClipboard, faExclamationCircle, faCalendarAlt, faTimesCircle, faPlusCircle, faAngleDown, faAngleLeft, faAngleRight, faExternalLinkAlt, faArrowUp, faTrashAlt)
+library.add(faInfoCircle, faClipboard, faExclamationCircle, faCalendarAlt, faTimesCircle, faPlusCircle, faAngleDown, faAngleLeft, faAngleRight, faExternalLinkAlt, faArrowUp, faTrashAlt, faMagnifyingGlass, faBriefcase)
 Vue.config.productionTip = false
+Vue.use(ElementUI)
 
 new Vue({
   router,

@@ -79,6 +79,17 @@ const routes = [
       }
     ]
 
+  },
+  {
+    path: '/admin/permissionSetting',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/AdminLayout.vue'),
+    children: [
+      { //權限設定
+        path: '/admin/permissionSetting',
+        name: 'permissionSetting',
+        component: () => import(/* webpackChunkName: "about" */ '../views/Admin/PermissionSetting.vue')
+      }
+    ]
   }
 ]
 
