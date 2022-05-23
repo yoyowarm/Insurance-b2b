@@ -16,6 +16,7 @@ import {
   faTimesCircle,
   faPlusCircle,
   faAngleDown,
+  faAngleUp,
   faAngleLeft,
   faAngleRight,
   faArrowUp,
@@ -25,7 +26,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-library.add(faInfoCircle, faClipboard, faExclamationCircle, faCalendarAlt, faTimesCircle, faPlusCircle, faAngleDown, faAngleLeft, faAngleRight, faExternalLinkAlt, faArrowUp, faTrashAlt, faMagnifyingGlass, faBriefcase)
+library.add(faInfoCircle, faClipboard, faExclamationCircle, faCalendarAlt, faTimesCircle, faPlusCircle, faAngleDown, faAngleUp, faAngleLeft, faAngleRight, faExternalLinkAlt, faArrowUp, faTrashAlt, faMagnifyingGlass, faBriefcase)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

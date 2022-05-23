@@ -9,7 +9,9 @@
 input:focus-visible {
   outline: none;
 }
-
+.column-3 {
+  @apply grid grid-cols-3 gap-6;
+}
 .column-5 {
   @apply grid grid-cols-5 gap-6;
 }
@@ -28,6 +30,7 @@ input:focus-visible {
   }
 }
 @media screen and (max-width: 1179px) {
+  .column-3,
   .column-5,
   .column-6 {
     @apply grid grid-cols-2 gap-6;
@@ -35,7 +38,7 @@ input:focus-visible {
 }
 
 @media screen and (max-width: 560px) {
-  .column-5 {
+  .column-5, .column-3 {
     @apply flex flex-col gap-3;
   }
   .column-5 .item {
@@ -116,4 +119,8 @@ input:focus-visible {
 }
 .scrollX .w-6-6,.scrollX .w-12-12 {
   min-width: 300px;
+}
+
+.dashed-border {
+  @apply border-dashed border-b-2 pb-6;
 }
