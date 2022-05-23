@@ -1,6 +1,6 @@
 <template>
-  <div class="layout" :class="{'open':openMenu }">
-    <header class="header">
+	<el-container>
+		<header class="header">
       <DynamicLink type="router" path="/" class="flex items-end">
         <img class="logo" src="../assets/images/logo.png" alt="">
         <div class="title md:text-xl sm:text-sm"><span>公共責任保險報價系統</span></div>
@@ -17,35 +17,33 @@
         <img src="../assets/images/mobile_nav_icon.png" alt="">
       </div>
     </header>
-    <div class="flex body bg-main-gray" ref="body" :class="{'mb-20': paginationPage && innerWidth < 771}">
+		<div class="flex body bg-main-gray" ref="body" :class="{'mb-20': paginationPage && innerWidth < 771}">
       <LeftNavigation :class="{'open':openMenu }" :openMenu.sync="openMenu"/>
-      <div class="right-block">
-        <router-view/>
-      </div>
+      <el-main class="right-block"><router-view/></el-main>
     </div>
-    <Footer ref="footer" :pagination="paginationPage"/>
-  <div class="mask-bg" :class="{'open':openMenu }" @click="openMenu= false"/>
-  </div>
+		<el-footer>
+			<Footer ref="footer" :pagination="paginationPage"/>
+		</el-footer>
+		<div class="mask-bg" :class="{'open':openMenu }" @click="openMenu= false"/>
+	</el-container>
 </template>
 
 <script>
 import DynamicLink from '@/components/DynamicLink'
 import LeftNavigation from '@/components/LeftNavigation'
-import TriangleIcon from '@/components/TriangleIcon'
 import Footer from '@/components/Footer'
 export default {
-  components: {
-    DynamicLink,
-    LeftNavigation,
-    TriangleIcon,
-    Footer
-  },
-  data() {
+	components: {
+		Footer,
+		DynamicLink,
+		LeftNavigation
+	},
+	data() {
     return {
       openMenu: false,
     }
   },
-  computed: {
+	computed: {
     paginationPage() {
       return ['/','/quotation/list', '/product/list', '/news/list'].includes(this.$route.path)
     },
@@ -147,5 +145,7 @@ export default {
       @apply block
     }
   }
-  
+  .el-footer {
+		padding: 0px
+	}
 </style>

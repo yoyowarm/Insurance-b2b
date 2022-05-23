@@ -63,7 +63,7 @@
           </InputGroup>
           <Button class="copy-button">查詢</Button>
         </div>
-        <TableGroup :data="quotationListTable" :slotName="slotArray">
+        <TableGroup :data="quotationListTable" :slotName="slotArray" scrollX>
           <template v-for="(item,index) in quotationListTable.rows">
             <div v-if="index === 0" slot="edit" :key="`edit${index}`" class="flex flex-row">
               <Button class="copy-button mr-2" outline>查看</Button>
@@ -171,7 +171,7 @@ export default {
     @apply cursor-pointer
   }
   .copy-button {
-    width: 96px;
+    min-width: 96px;
     height: 40px;
     margin-top: 0.625rem
   }
@@ -245,6 +245,9 @@ export default {
     }
     .mobile-more {
       @apply block
+    }
+    .copy-button {
+      width: 50%;
     }
   }
 </style>

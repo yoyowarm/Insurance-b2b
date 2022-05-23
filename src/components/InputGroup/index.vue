@@ -7,7 +7,7 @@
         </div>
         
       </div>
-      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0}">
+      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0}" :style="{'background': bgColor}">
         <slot name="input" v-if="!disable"/>
       </div>
       <div v-if="error" class="flex flex-row items-center mt-1.5">
@@ -52,6 +52,10 @@ export default {
     errorText: {
       type: String,
       default: '必填欄位'
+    },
+    bgColor: {
+      type: String,
+      default: ''
     }
   }
 }

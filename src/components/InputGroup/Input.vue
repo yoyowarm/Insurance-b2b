@@ -1,5 +1,8 @@
 <template>
-  <input type="text" class="placeholder:text-gray-400 text-xl focus:outline-none w-full my-1.5 ml-3.5 mr-2" :placeholder="placeholder" :value="value" @input="updateValue">
+  <div>
+    <input type="text" class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2" :class="{'pr-9': slotIcon}" :placeholder="placeholder" :value="value" @input="updateValue">
+    <div v-if="slotIcon"><slot/></div>
+  </div>
 </template>
 
 <script>
@@ -21,6 +24,10 @@ export default {
       type: Boolean,
       default: false
     },
+    slotIcon: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     updateValue (e) {
