@@ -4,7 +4,7 @@
       <div :key="item.TermName" class="flex flex-row items-center mb-2 ">
         <Checkbox
           class="my-1"
-          :id="item.TermID"
+          :id="item.TermName"
           :checked="item.IsRequired ? item.IsRequired :(copyTerms[item.TermName]? copyTerms[item.TermName].selected : false)"
           :value="item.IsRequired ? item.IsRequired :(copyTerms[item.TermName]? copyTerms[item.TermName].selected : false)"
           @updateValue="(e) =>updateTerms(item.TermName, e)"

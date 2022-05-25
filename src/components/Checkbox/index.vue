@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-row items-center">
-    <input :id="id" type="checkbox" :value="value" :disabled="disabled" :checked="checked" @change="$emit('updateValue', !value)">
+    <input :id="id" type="checkbox" :value="value" :disabled="disabled" :checked="checked" @change="updateValue(value)">
     <label :for="id" class="flex flex-row ml-2"><span>{{text}}</span><slot/></label>
   </div>
 </template>
@@ -28,7 +28,12 @@ export default {
       type: Boolean,
       default: true
     },
-  }
+  },
+  methods: {
+    updateValue(e) {
+      this.$emit('updateValue', !e)
+    }
+  },
   
 }
 </script>

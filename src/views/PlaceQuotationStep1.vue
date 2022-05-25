@@ -63,6 +63,7 @@
         :termsLists="TermsSelect.lists"
       />
     </CommonBoard>
+    <TermConditions/>
     <CommonBoard class="w-full" title="附加條款">
       <!-- <TermsList
         v-if="TermsSelect.lists.length > 0"
@@ -70,6 +71,7 @@
         :termsLists="TermsSelect.lists"
       /> -->
     </CommonBoard>
+    <TermConditions/>
     <CommonBoard class="w-full" title="備註">
       <TextBox/>
     </CommonBoard>
@@ -98,6 +100,7 @@ import PlaceInfo from '@/components/Place/PlaceInfo'
 import InsuranceAmount from '@/components/Common/InsuranceAmount'
 import Period from '@/components/Place/Period'
 import TermsList from '@/components/Common/TermsList'
+import TermConditions from '@/components/Common/TermConditions'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -113,7 +116,8 @@ export default {
     PlaceInfo,
     InsuranceAmount,
     Period,
-    TermsList
+    TermsList,
+    TermConditions
   },
   data () {
     return {
