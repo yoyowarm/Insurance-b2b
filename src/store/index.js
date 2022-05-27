@@ -6,6 +6,7 @@ import VuexPersistence from 'vuex-persist'
 import app from './app'
 import home from './home'
 import place from './place'
+import activity from './activity'
 
 
 Vue.use(Vuex)
@@ -32,7 +33,8 @@ export default new Vuex.Store({
   modules: {
     app,
     home,
-    place
+    place,
+    activity
   },
   plugins: [vuexLocal.plugin]
 })

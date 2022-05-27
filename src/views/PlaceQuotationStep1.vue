@@ -59,20 +59,20 @@
     <CommonBoard class="w-full" title="建議條款">
       <TermsList
         v-if="TermsSelect.lists.length > 0"
+        :terms.sync="termsData"
+        :termsLists="TermsSelect.lists"
+      />
+    </CommonBoard>
+    <TermConditions :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
+    <CommonBoard class="w-full mt-5" title="附加條款">
+      <TermsList
+        v-if="TermsSelect.lists.length > 0"
         :Terms.sync="termsData"
         :termsLists="TermsSelect.lists"
       />
     </CommonBoard>
-    <TermConditions/>
-    <CommonBoard class="w-full" title="附加條款">
-      <!-- <TermsList
-        v-if="TermsSelect.lists.length > 0"
-        :Terms.sync="termsData"
-        :termsLists="TermsSelect.lists"
-      /> -->
-    </CommonBoard>
-    <TermConditions/>
-    <CommonBoard class="w-full" title="備註">
+    <TermConditions :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
+    <CommonBoard class="w-full mt-5" title="備註">
       <TextBox/>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
@@ -94,7 +94,7 @@ import Button from '@/components/Button'
 import Input from '@/components/InputGroup/Input'
 import SwitchInput from '@/components/Switch'
 import PaymentItem from '@/components/PaymentItem'
-import InsuranceIndustry from '@/components/Place/InsuranceIndustry'
+import InsuranceIndustry from '@/components/Common/InsuranceIndustry'
 import TextBox from '@/components/InputGroup/Textbox'
 import PlaceInfo from '@/components/Place/PlaceInfo'
 import InsuranceAmount from '@/components/Common/InsuranceAmount'
@@ -131,7 +131,7 @@ export default {
     ...mapState({
       placeInfoList: state => state.place.placeInfo,
       period: state => state.place.period,
-      Terms: state => state.place.Terms
+      terms: state => state.place.terms
     }),
     periodData: {
       get() {
@@ -143,7 +143,7 @@ export default {
     },
     termsData: {
       get() {
-        return this.Terms
+        return this.terms
       },
       set(value) {
         this.$store.dispatch('place/updatedTerms', value)

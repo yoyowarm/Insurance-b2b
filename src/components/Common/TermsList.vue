@@ -27,7 +27,7 @@ export default {
       type: Array,
       default: () => ([])
     },
-    Terms: {
+    terms: {
       type: Object,
       default: () => ({})
     }
@@ -40,10 +40,14 @@ export default {
     }
   },
   watch: {
-    Terms: {
-      handler() {
+    terms: {
+      handler (val) {
+				this.copyTerms = {
+					...val
+				}
         this.componentInit()
-      }
+			},
+			deep: true
     },
     termsLists: {
       handler() {
@@ -60,21 +64,20 @@ export default {
       })
     },
     updateTerms(termName, e) {
-      console.log('ddddddd', this.copyTerms)
       this.copyTerms[termName].selected = e
-      this.$store.dispatch('place/updatedTerms', this.copyTerms)
+       this.$emit('update:terms', this.copyTerms)
     },
     componentInit() {
-      if (Object.keys(this.Terms).length === 0) {
+      if (Object.keys(this.copyTerms).length === 0) {
         const obj = {}
         this.termsLists.map(item => {
           if (!item.IsRequired) {
             obj[item.TermName] = {
-              selected: false
+              selected: this.terms[item.TermName] ? this.terms[item.TermName].selected : false
             }
           }
         })
-        this.$store.dispatch('place/updatedTerms', obj)
+        this.$emit('update:terms', obj)
       }
     }
   },
