@@ -1,0 +1,183 @@
+<template>
+  <div>
+    <div class="column-6">
+      <InputGroup class=" w-full mb-2.5" title="姓名" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          陳曉明
+        </div>
+      </InputGroup>
+      <InputGroup class=" w-full mb-2.5" title="統編/身分證" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          A123456789
+        </div>
+      </InputGroup>
+      <InputGroup class="w-full" title="電話" borderBtn>
+        <div slot="input">0912345678</div>
+      </InputGroup>
+      <InputGroup class="w-full" title="國籍" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          本國
+        </div>
+      </InputGroup>
+      <InputGroup class="w-full" :noMt="marginTop(560)" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          - -
+        </div>
+      </InputGroup>
+      <InputGroup class="w-full" title="職業/行業別" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          一般
+        </div>
+      </InputGroup>
+    </div>
+    <div class="column-6 pt-6 pb-3 mb-4">
+      <InputGroup class="w-full" title="負責(代表)人" v-if="copyInfo.CorporateRequired || true" borderBtn>
+         <div slot="input" class="w-full pr-24 relative">
+          陳曉明
+        </div>
+      </InputGroup>
+      <InputGroup class="w-full" title="登記/註冊地" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          本國
+        </div>
+      </InputGroup>
+      <InputGroup class="item" title="居住地址(選填)" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          台北市
+        </div>
+      </InputGroup>
+      <InputGroup class="item" :noMt="marginTop(560)" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          大安區
+        </div>
+      </InputGroup>
+      <InputGroup class="address col-span-2" :noMt="marginTop(1180)" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          敦化南路1段183號5樓
+        </div>
+      </InputGroup>
+    </div>
+    <div class="column-6 pt-6 pb-3 mb-4">
+      <InputGroup class="w-full" title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" :wrap="marginTop(560)" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          是
+        </div>
+      </InputGroup>
+      <InputGroup class="w-full col-span-5" :noMt="marginTop(560)" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          國內
+        </div>
+      </InputGroup>
+    </div>
+    <div class="column-6 pt-6 pb-3 mb-4">
+      <InputGroup class="w-full col-span-6" title="客戶屬性" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          非專業
+        </div>
+        <div class="customer-attr" slot="right">
+        <span><font-awesome-icon class="mr-1" icon="exclamation-circle" />專業客戶指法人客戶符合「專業投資機構」及「總資產達新台幣五千萬元以上」其中一項者，其他及自然人客戶則屬非專業客戶。</span>
+      </div>
+      </InputGroup>
+    </div>
+  </div>
+</template>
+
+<script>
+import InputGroup from '@/components/InputGroup'
+
+export default {
+  components: {
+    InputGroup,
+  },
+  props: {
+    marginTop: {
+      type: Function,
+      default: () => {}
+    },
+    info: {
+      type: Object,
+      default: () => ({})
+    },
+    nationalities: {
+      type: Array,
+      default: () => []
+    },
+    cityList: {
+      type: Array,
+      default: () => []
+    },
+    areaList: {
+      type: Array,
+      default: () => []
+    },
+    type: {
+      type: String,
+      default: () => ''
+    }
+  },
+  data () {
+    return {
+      copyInfo: {
+        ...this.info
+      }
+    }
+  },
+  watch: {
+    info (val) {
+      this.copyInfo = {
+        ...val
+      }
+    }
+  },
+  methods: {
+    emitSelectItem(key, item) {
+      const select = {
+        placeholder: item.Text,
+        id: item.Value
+      }
+      this.updateInfo(key, select)
+    },
+    updateInfo (key, value) {
+      this.$emit('update:info', Object.assign(this.copyInfo, { [key]: value }))
+    }
+  }
+}
+</script>
+
+<style scoped lang="scss">
+  .customer-attr {
+    @apply  flex items-center text-red-500 ml-3 absolute whitespace-no-wrap left-13
+  }
+  .address {
+    @apply col-span-3;
+  }
+  @media (min-width: 771px) and (max-width: 1126px) {
+    .customer-attr { 
+      width: calc(100vw - 350px);
+      span {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%
+      }
+    }
+  }
+   @media (max-width: 771px) {
+     .customer-attr { 
+      width: calc(100vw - 150px);
+      span {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%
+      }
+     }
+   }
+  @media only screen and (min-width: 1180px) and (max-width: 1614px) {
+    .address {
+      @apply col-span-2;
+    }
+  }
+</style>

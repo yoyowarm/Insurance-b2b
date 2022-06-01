@@ -7,7 +7,7 @@
         </div>
         
       </div>
-      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0}" :style="{'background': bgColor}">
+      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0, 'borderBtn': borderBtn}" :style="{'background': bgColor}">
         <slot name="input" v-if="!disable"/>
       </div>
       <div v-if="error" class="flex flex-row items-center mt-1.5">
@@ -39,6 +39,10 @@ export default {
       default: false
     },
     border0: {
+      type: Boolean,
+      default: false
+    },
+    borderBtn: {
       type: Boolean,
       default: false
     },
@@ -81,6 +85,9 @@ export default {
       }
       &.border0 {
         @apply border-0
+      }
+      &.borderBtn {
+        @apply border-0 border-b-2 border-solid border-gray-200 rounded-none
       }
     }
   }

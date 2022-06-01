@@ -41,6 +41,66 @@ export default {
         hour: ''
       },
     },
+    Insuraned: {
+      ID: '',
+      Name: '',
+      IsForeigner: false,
+      Nationality: {
+        Text: '',
+        Value: ''
+      },
+      Corporate: '',
+      CorporateRequired: false,
+      City: {
+        Text: '選擇縣市',
+        Value: '',
+      },
+      Area: {
+        Text: '選擇區域',
+        Value: '',
+      },
+      Street: '',
+      Mobile: '',
+      IsForeignRegister: false,
+      RegisterNationality: '',
+      Profession: false,
+      IsPolitician: false,
+      IsOverseasOrDomestic: false,
+      IsProOrNot: false,
+    },
+    Relation: {
+      Text: '選擇關係',
+      Value: '',
+    },
+    sameAsInsured: false,
+    Applicant: {
+      ID: '',
+      Name: '',
+      IsForeigner: false,
+      Nationality: {
+        Text: '',
+        Value: ''
+      },
+      Corporate: '',
+      CorporateRequired: false,
+      City: {
+        Text: '選擇縣市',
+        Value: '',
+      },
+      Area: {
+        Text: '選擇區域',
+        Value: '',
+      },
+      Street: '',
+      Mobile: '',
+      IsForeignRegister: false,
+      RegisterNationality: '',
+      Profession: false,
+      IsPolitician: false,
+      IsOverseasOrDomestic: false,
+      IsProOrNot: false,
+    },
+    SerailNo: '',
     terms: {}
   },
   getters: {

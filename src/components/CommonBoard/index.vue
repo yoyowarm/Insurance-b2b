@@ -7,7 +7,7 @@
       </div>
       <slot name="right"/>
     </div>
-    <div class="board shadow-main" :class="{'mt-0': $slots.icon}"><slot/></div>
+    <div class="board shadow-main" :class="{'mt-0': $slots.icon,'selected': selected}"><slot/></div>
 	</div>
 </template>
 
@@ -17,7 +17,11 @@ export default {
     title: {
       type:String,
       default: ''
-    }
+    },
+    selected: {
+      type: Boolean,
+      default: false
+    },
   }
 }
 </script>
@@ -30,6 +34,9 @@ export default {
   .board {
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
     @apply bg-white rounded-2xl p-6 my-3 
+  }
+  .selected {
+    @apply border-main border-solid border-4;
   }
   .mt-0 {
     margin-top: 0!important;
