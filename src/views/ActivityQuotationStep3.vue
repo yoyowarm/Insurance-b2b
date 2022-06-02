@@ -7,9 +7,9 @@
       <InsuranceInfoFin :info.sync="ApplicantData" type="ApplicantData"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="投保資料">
-      <InsuranceContent :lists="placeInfo"/>
+      <InsuranceContent :lists="activityInfo"/>
     </CommonBoard>
-    <InsuranceAmountList :lists="placeInfo"/>
+    <InsuranceAmountList :lists="activityInfo"/>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <DynamicLink type="router" path="/place-quotation/step2" >
         <Button class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
@@ -39,11 +39,11 @@ export default {
   },
   computed: {
     ...mapState({
-      'Insuraned': state => state.place.Insuraned,
-      'Relation': state => state.place.Relation,
-      'Applicant': state => state.place.Applicant,
-      'sameAsInsured': state => state.place.sameAsInsured,
-      placeInfo: state => state.place.placeInfo,
+      'Insuraned': state => state.activity.Insuraned,
+      'Relation': state => state.activity.Relation,
+      'Applicant': state => state.activity.Applicant,
+      'sameAsInsured': state => state.activity.sameAsInsured,
+      activityInfo: state => state.activity.activityInfo,
     }),
     InsuranedData: {
       get() {

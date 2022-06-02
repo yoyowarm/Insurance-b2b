@@ -3,36 +3,25 @@
 		<FormTitle title="t2停車場責任附加條款" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>	
-    <div class="column-5 mt-4 dashed-border">
-      <InputGroup class="col-span-2" title="停車場收費">
-        <SwitchInput
-          slot="input"
-          id="停車場收費"
-        />
+    <div class="column-6 ">
+      <InputGroup title="停車場收費" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          有
+        </div>
       </InputGroup>
-      <InputGroup class="col-span-2" title="代客停車">
-        <SwitchInput
-          slot="input"
-          id="代客停車"
-        />
+      <InputGroup title="代客停車" borderBtn>
+        <div slot="input" class="w-full pr-24 relative">
+          有
+        </div>
       </InputGroup>
-    </div>
-    <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="車位種類和數量">
-        <Input slot="input" placeholder="請輸入數量"/>
-        <span class="absolute -right-22 bottom-3" slot="suffix">平面式車位</span>
+      <InputGroup title="車位種類和數量" borderBtn>
+        <span slot="input">50位，平面式車位</span>
       </InputGroup>
-    </div>
-    <div class="column-5">
-      <InputGroup class="col-span-2" noMt>
-        <Input slot="input" placeholder="請輸入數量"/>
-        <span class="absolute -right-30 bottom-3" slot="suffix">室內機械式車位</span>
+      <InputGroup title="車位種類和數量" borderBtn>
+        <span slot="input">50位，室內機械式車位</span>
       </InputGroup>
-    </div>
-    <div class="column-5">
-      <InputGroup class="col-span-2" noMt>
-        <Input slot="input" placeholder="請輸入數量"/>
-        <span class="absolute -right-22 bottom-3" slot="suffix">機械塔車位</span>
+      <InputGroup title="車位種類和數量" borderBtn>
+        <span slot="input">50位，機械塔車位</span>
       </InputGroup>
     </div>
 	</div>
@@ -41,14 +30,10 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
-import SwitchInput from '@/components/Switch'
-import Input from '@/components/InputGroup/Input.vue'
 export default {
 	components: {
     InputGroup,
     FormTitle,
-    SwitchInput,
-    Input
   },
 }
 </script>

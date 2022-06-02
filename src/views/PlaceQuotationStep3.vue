@@ -26,7 +26,6 @@ import Button from '@/components/Button'
 import InsuranceInfoFin from '@/components/Common/InsuranceInfoFin'
 import InsuranceAmountList from '@/components/Common/InsuranceAmountList.vue'
 import InsuranceContent from '@/components/Place/InsuranceContent'
-
 import { mapState } from 'vuex'
 export default {
   components: {
@@ -35,7 +34,7 @@ export default {
     Button,
     InsuranceInfoFin,
     InsuranceAmountList,
-    InsuranceContent
+    InsuranceContent,
   },
   computed: {
     ...mapState({

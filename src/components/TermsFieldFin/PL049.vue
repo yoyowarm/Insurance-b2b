@@ -4,10 +4,9 @@
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>	
     <FormTitle title="本附加條款之每一意外事故及保險期間累計保險金額最高以新台幣" classList="text-lg text-gray-700 mt-3"/>
-     <div class="column-5 ">
+     <div class="column-6">
       <InputGroup class="col-span-2" noMt>
-        <Input slot="input" placeholder="請輸入金額"/>
-        <span class="absolute -right-12 bottom-3" slot="suffix">萬元</span>
+        <span slot="input">50萬元</span>
       </InputGroup>
     </div>
 	</div>
@@ -16,12 +15,10 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
-import Input from '@/components/InputGroup/Input.vue'
 export default {
 	components: {
     InputGroup,
     FormTitle,
-    Input
   },
 }
 </script>

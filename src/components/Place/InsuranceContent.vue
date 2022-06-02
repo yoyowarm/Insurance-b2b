@@ -99,6 +99,7 @@
       </InputGroup>
       </div>
     </template>
+    <TermConditionsFin :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
     <div class="column-6 pb-3 mb-4">
       <InputGroup class="w-full col-span-6" title="備註" borderBtn>
         <div slot="input" class="w-full pr-24 relative">
@@ -112,11 +113,15 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+import TermConditionsFin from '@/components/Common/TermConditionsFin'
+import { TermsLists } from '@/utils/mockData'
+import { mapState } from 'vuex'
 
 export default {
   components: {
     InputGroup,
-    FormTitle
+    FormTitle,
+    TermConditionsFin
   },
   props: {
     marginTop: {
@@ -152,6 +157,9 @@ export default {
     return {
       copyInfo: {
         ...this.info
+      },
+      TermsSelect: {
+        lists: TermsLists()
       }
     }
   },
@@ -161,6 +169,19 @@ export default {
         ...val
       }
     }
+  },
+  computed: {
+    ...mapState({
+      terms: state => state.place.terms
+    }),
+    termsData: {
+      get() {
+        return this.terms
+      },
+      set(value) {
+        this.$store.dispatch('place/updatedTerms', value)
+      }
+    },
   },
   methods: {
     emitSelectItem(key, item) {
