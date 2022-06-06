@@ -1,10 +1,11 @@
 <template>
   <div class="w-full">
-    <CommonBoard v-for="(item,index) in lists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" selected>
-      <div slot="icon" class="input-right mr-2" @click="$emit('removeItem',index)">
+    <CommonBoard v-for="(item,index) in lists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="!viewModel">
+      <div v-if="!viewModel" slot="icon" class="input-right mr-2" @click="$emit('removeItem',index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
       <Checkbox
+        v-if="!viewModel"
         :id="`${index}selected`"
         class="text-md"
         text="選擇此保險金額"
@@ -40,7 +41,7 @@
         <Button outline>預覽報價單</Button>
       </div>
     </CommonBoard>
-    <div class="flex flex-row justify-center mt-8">
+    <div v-if="!viewModel" class="flex flex-row justify-center mt-8">
       <Button outline>新增保費額度</Button>
     </div>
   </div>
@@ -68,6 +69,10 @@ export default {
     lists: {
       type: Array,
       default: () => []
+    },
+    viewModel: {
+      type: Boolean,
+      default: false
     }
   }
 }

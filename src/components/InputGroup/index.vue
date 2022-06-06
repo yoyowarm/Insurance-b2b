@@ -5,16 +5,16 @@
         <div class="slot" v-if="$slots.right">
           <slot name="right"/>
         </div>
-        
       </div>
-      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0, 'borderBtn': borderBtn}" :style="{'background': bgColor}">
+      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0, 'borderBtn': borderBtn, 'min': min, 'ml-10': $slots['input-left']}" :style="{'background': bgColor}">
+        <slot name="input-left"/>
         <slot name="input" v-if="!disable"/>
+        <slot name="input-right"/>
       </div>
       <div v-if="error" class="flex flex-row items-center mt-1.5">
         <font-awesome-icon class="mr-1 text-main " icon="exclamation-circle" />
         <span class="text-main text-base">{{errorText}}</span>
       </div>
-      <slot name="input-right"/>
       <slot name="suffix"/>
   </div>
 </template>
@@ -62,6 +62,10 @@ export default {
       type: String,
       default: ''
     },
+    min: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
@@ -88,6 +92,9 @@ export default {
       }
       &.borderBtn {
         @apply border-0 border-b-2 border-solid border-gray-200 rounded-none
+      }
+      &.min {
+        height: 20px;
       }
     }
   }

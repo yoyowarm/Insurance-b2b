@@ -7,13 +7,14 @@ import app from './app'
 import home from './home'
 import place from './place'
 import activity from './activity'
+import common from './common'
 
 
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  modules: ['app', 'home', 'place'],
+  modules: ['app', 'home', 'place', 'common'],
   reducer: (state) => {
     return {
       app: {
@@ -24,6 +25,9 @@ const vuexLocal = new VuexPersistence({
       },
       place: {
         terms: state.place.terms,
+      },
+      common: {
+        viewModel: state.common.viewModel,
       }
     }
   }
@@ -34,7 +38,8 @@ export default new Vuex.Store({
     app,
     home,
     place,
-    activity
+    activity,
+    common
   },
   plugins: [vuexLocal.plugin]
 })

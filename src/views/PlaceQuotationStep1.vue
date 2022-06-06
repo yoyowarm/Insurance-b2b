@@ -80,10 +80,11 @@
       <div class="flex flex-row">
         <Button @click.native="nextStep" class="my-8 w-40 md:w-32 mr-10" outline>試算</Button>
         <Button @click.native="nextStep" class="my-8 w-40 md:w-32 mr-10" outline>更正</Button>
-        <Button @click.native="nextStep" class="my-8 w-40 md:w-32 " outline>填寫問卷表</Button>
+        <Button @click.native="openQuestionnaire = true" class="my-8 w-40 md:w-32 " outline>填寫問卷表</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
     </div>
+    <Questionnaire :open.sync="openQuestionnaire"/>
   </div>
 </template>
 
@@ -101,6 +102,7 @@ import InsuranceAmount from '@/components/Common/InsuranceAmount'
 import Period from '@/components/Place/Period'
 import TermsList from '@/components/Common/TermsList'
 import TermConditions from '@/components/Common/TermConditions'
+import Questionnaire from '@/components/PopupDialog/Questionnaire.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -117,14 +119,16 @@ export default {
     InsuranceAmount,
     Period,
     TermsList,
-    TermConditions
+    TermConditions,
+    Questionnaire
   },
   data () {
     return {
       industryList: IndustryList(),
       TermsSelect: {
         lists: TermsLists()
-      }
+      },
+      openQuestionnaire: false,
     }
   },
   computed: {

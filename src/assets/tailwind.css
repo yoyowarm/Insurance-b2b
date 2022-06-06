@@ -15,6 +15,9 @@ input:focus-visible {
 .column-3 {
   @apply grid grid-cols-3 gap-6;
 }
+.column-4 {
+  @apply grid grid-cols-4 gap-6;
+}
 .column-5 {
   @apply grid grid-cols-5 gap-6;
 }
@@ -34,6 +37,7 @@ input:focus-visible {
 }
 @media screen and (max-width: 1179px) {
   .column-3,
+  .column-4,
   .column-5,
   .column-6 {
     @apply grid grid-cols-2 gap-6;
@@ -45,7 +49,7 @@ input:focus-visible {
   }
 }
 @media screen and (max-width: 560px) {
-  .column-5, .column-3 {
+  .column-5, .column-3, .column-4 {
     @apply flex flex-col gap-3;
   }
   .column-5 .item {
@@ -59,6 +63,7 @@ input:focus-visible {
   /* IE10+ CSS styles go here */
   .column-2,
   .column-3,
+  .column-4,
   .column-5,
   .column-6 {
     @apply flex flex-no-wrap;
@@ -70,6 +75,7 @@ input:focus-visible {
   /* IE10+ CSS styles go here */
   .column-2,
   .column-3,
+  .column-4,
   .column-5,
   .column-6 {
     @apply flex flex-wrap;
