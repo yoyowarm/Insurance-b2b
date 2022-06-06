@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full my-4">
-    <div class="column-4 dashed-border">
+  <div class="w-full my-4  dashed-border">
+    <div class="column-4">
       <InputGroup title="被保險人過去五年是否有損失紀錄">
         <SwitchInput slot="input"/>
       </InputGroup>
@@ -8,6 +8,7 @@
         <Input slot="input"/>
       </InputGroup>
     </div>
+    <div class="ml-2 mt-2 text-red-500 text-sm">*不論有無投保</div>
   </div>
 </template>
 
