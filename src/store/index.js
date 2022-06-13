@@ -8,6 +8,7 @@ import home from './home'
 import place from './place'
 import activity from './activity'
 import common from './common'
+import resource from './resource'
 
 
 Vue.use(Vuex)
@@ -28,6 +29,7 @@ const vuexLocal = new VuexPersistence({
       },
       common: {
         viewModel: state.common.viewModel,
+        editModel: state.common.editModel,
       }
     }
   }
@@ -39,7 +41,8 @@ export default new Vuex.Store({
     home,
     place,
     activity,
-    common
+    common,
+    resource
   },
   plugins: [vuexLocal.plugin]
 })

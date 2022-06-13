@@ -81,13 +81,50 @@ const routes = [
 
   },
   {
-    path: '/admin/permissionSetting',
-    component: () => import(/* webpackChunkName: "about" */ '../layouts/AdminLayout.vue'),
+    path: '/permissionSetting',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
     children: [
       { //權限設定
-        path: '/admin/permissionSetting',
+        path: '/',
         name: 'permissionSetting',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Admin/PermissionSetting.vue')
+        component: () => import(/* webpackChunkName: "about" */ '../views/PermissionSetting.vue')
+      }
+    ]
+  },
+  {
+    path: '/parameterSetting',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { //參數設定 類別
+        path: '/parameterSetting/category',
+        name: 'parameterSetting-category',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ParameterSetting/Category.vue')
+      },
+      { //參數設定 縣市最低保額
+        path: '/parameterSetting/minimumAmount',
+        name: 'parameterSetting-minimumAmount',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ParameterSetting/MinimumAmount.vue')
+      }
+    ]
+  },
+  {
+    path: '/termsSetting',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { //條款設定 建議條款
+        path: '/termsSetting/proposedTerms',
+        name: 'termsSetting-proposedTerms',
+        component: () => import(/* webpackChunkName: "about" */ '../views/TermsSetting/ProposedTerms.vue')
+      },
+      { //條款設定 另行報價額度
+        path: '/termsSetting/quotationAndWeight',
+        name: 'termsSetting-quotationAndWeight',
+        component: () => import(/* webpackChunkName: "about" */ '../views/TermsSetting/QuotationAndWeight.vue')
+      },
+      { //條款設定 另行報價和權重
+        path: '/termsSetting/quotationAndAmount',
+        name: 'termsSetting-quotationAndAmount',
+        component: () => import(/* webpackChunkName: "about" */ '../views/TermsSetting/QuotationAndAmount.vue')
       }
     ]
   }

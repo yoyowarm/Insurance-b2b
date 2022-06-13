@@ -40,7 +40,7 @@
   <select
     v-if="!search"
     class="text-gray-800 bg-white text-xl focus:outline-none w-full"
-    :class="{'appearance-none':hiddenArrow}"
+    :class="{'appearance-none':hiddenArrow, 'editModel': editModel}"
     :disabled="disabled"
     @change="(item) =>choiceItem({Value:item.target.value, Text: item.target.selectedOptions[0].dataset.text})">
     <option>{{ defaultText }}</option>
@@ -51,8 +51,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-
   props: {
     defaultText: {
       type: String,
@@ -112,6 +112,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      editModel: state => state.common.editModel
+    }),
     filterOptions() {
       if (this.searchText.trim().length > 0) {
         return this.options.filter(item => item.Text.includes(this.searchText))
@@ -228,6 +231,9 @@ export default {
     &::-webkit-scrollbar {
       width: 0;
     }
+  }
+  .editModel {
+    @apply text-main
   }
   svg path,
   svg rect{

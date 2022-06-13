@@ -6,7 +6,7 @@
           <slot name="right"/>
         </div>
       </div>
-      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0, 'borderBtn': borderBtn, 'min': min, 'ml-10': $slots['input-left']}" :style="{'background': bgColor}">
+      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0, 'borderBtn': borderBtn, 'editModel':editModel, 'min': min, 'ml-10': $slots['input-left']}" :style="{'background': bgColor}">
         <slot name="input-left"/>
         <slot name="input" v-if="!disable"/>
         <slot name="input-right"/>
@@ -65,6 +65,10 @@ export default {
     min: {
       type: Boolean,
       default: false
+    },
+    editModel: {
+      type: Boolean,
+      default: false
     }
   }
 }
@@ -92,6 +96,9 @@ export default {
       }
       &.borderBtn {
         @apply border-0 border-b-2 border-solid border-gray-200 rounded-none
+      }
+      &.editModel {
+        @apply border-main
       }
       &.min {
         height: 20px;

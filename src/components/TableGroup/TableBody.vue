@@ -4,8 +4,10 @@
         <div class="item" :key="index">
         <template v-for="(headItem,headIndex) in head">
           <span :key="`${headItem.value}-${headIndex}`" class="text-gray-600 text-sm hidden">{{headItem.text}}</span>
-          <slot v-if="$slots[headItem.value]" :name="headItem.value"/>
-          <div v-if="!$slots[headItem.value]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
+          <div v-if="$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
+            <slot :name="`${headItem.value}-${index}`"/>
+          </div>
+          <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
             <DynamicLink v-if="item.link && headItem.value === 'Title'" type="router" :path="item.link">
               <span class="link">{{item[headItem.value]}}</span>
             </DynamicLink>
@@ -14,9 +16,9 @@
             </a>
             <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer" @click="$emit('popup', index)">{{item[headItem.value]}}</span>
             <span class="text-gray-600" v-else-if="item.class && headItem.value === statusKey" :class="item.class" v-html="item[headItem.value]">
-              {{item[headItem.value].replace(/<(\/*)[^>]*>/g,'')}}
+              {{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}
             </span>
-            <span class="text-gray-600" v-else>{{item[headItem.value].replace(/<(\/*)[^>]*>/g,'')}}</span>
+            <span class="text-gray-600" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}</span>
           </div>
         </template>
         </div>
@@ -56,13 +58,27 @@ export default {
 }
 </script>
 
-<style scoped lang="postcss">
+<style scoped lang="scss">
   .table-body {
-    @apply px-3 text-gray-900
+    @apply px-4 py-2 text-gray-900;
   }
   .table-body .item {
     border-bottom: 1px solid #EBEEF1;
-    @apply py-3 flex w-full items-start
+    @apply py-3 flex w-full items-start;
+  }
+  .table-body.scrollX .item {
+    border-bottom: 0px;
+    @apply pb-0;
+    > div {
+      border-top: 1px solid #EBEEF1;
+      @apply pt-3;
+    }
+  }
+  .table-body.scrollX .item:first-child {
+    > div {
+      border-top: 0px;
+      @apply pt-0;
+    }
   }
   .link {
     color: #1076EE

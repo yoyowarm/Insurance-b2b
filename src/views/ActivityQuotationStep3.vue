@@ -11,11 +11,13 @@
     </CommonBoard>
     <InsuranceAmountList :lists="activityInfo"/>
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <DynamicLink type="router" path="/place-quotation/step2" >
+      <DynamicLink type="router" path="/place-quotation/step2" v-if="!viewModel">
         <Button class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
       </DynamicLink>
       <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
+    <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
+    <QuoteHistory :open.sync="historyDialog"/>
   </div>
 </template>
 
@@ -26,16 +28,26 @@ import Button from '@/components/Button'
 import InsuranceInfoFin from '@/components/Common/InsuranceInfoFin'
 import InsuranceAmountList from '@/components/Common/InsuranceAmountList.vue'
 import InsuranceContent from '@/components/Activity/InsuranceContent'
-
+import ViewModelSticker from '@/components/viewModelSticker'
+import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
+import routeChange from '@/utils/mixins/routeChange'
 import { mapState } from 'vuex'
 export default {
+  mixins: [routeChange],
   components: {
     CommonBoard,
     DynamicLink,
     Button,
     InsuranceInfoFin,
     InsuranceAmountList,
-    InsuranceContent
+    InsuranceContent,
+    ViewModelSticker,
+    QuoteHistory
+  },
+  data() {
+    return {
+      historyDialog: false,
+    }
   },
   computed: {
     ...mapState({
@@ -44,6 +56,7 @@ export default {
       'Applicant': state => state.activity.Applicant,
       'sameAsInsured': state => state.activity.sameAsInsured,
       activityInfo: state => state.activity.activityInfo,
+      viewModel: state => state.common.viewModel,
     }),
     InsuranedData: {
       get() {

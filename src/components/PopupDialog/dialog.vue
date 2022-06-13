@@ -1,19 +1,18 @@
 <template>
-  <div class="popup" ref="modal" :class="{'open':value, }">
+  <div class="popup" ref="modal" :class="{'open':open, }">
     <div class="dialog" :class="{'fullScreen':fullScreen}">
       <div class="header">{{headerText}}
-        <div class="icon" @click="$emit('cancel')">
+        <div class="icon"  @click="$emit('update:open', false)">
           <font-awesome-icon icon="times-circle" />
         </div>
       </div>
-      <div v-if="hasHtml" class="body" v-html="htmlText">{{htmlText}}</div>
-      <div v-else class="body"><slot/></div>
+      <div class="body"><slot/></div>
       <div v-if="confirm" class="flex w-full justify-around py-4">
-        <Button @click.native="$emit('cancel')">{{cancel}}</Button>
-        <Button @click.native="$emit('ok')">{{ok}}</Button>
+        <Button outline @click.native="()=>{$emit('update:open', false)}">{{cancel}}</Button>
+        <Button @click.native="() => {$emit('ok'); $emit('update:open', false)}">{{ok}}</Button>
       </div>
     </div>
-    <div class="mask-bg" @click="() => { if(maskClose){$emit('cancel')} }"/>
+    <div class="mask-bg" @click="$emit('update:open', false)"/>
   </div>
 </template>
 
@@ -29,14 +28,6 @@ export default {
       default: false
     },
     headerText: {
-      type: String,
-      default: ''
-    },
-    hasHtml: {
-      type: Boolean,
-      default: false
-    },
-    htmlText: {
       type: String,
       default: ''
     },

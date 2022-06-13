@@ -4,7 +4,7 @@ import Vue from 'vue'
 
 function create(Component) {
   return ({ className, ...props }, slots = {}) => {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve,) => {
       const node = document.createElement('div')
       document.body.appendChild(node)
 
@@ -13,9 +13,8 @@ function create(Component) {
           resolve(data)
           vm.$el.parentNode.removeChild(vm.$el);
         },
-        cancel = reason => {
-          reject(reason || new Error())
-          vm.$destroy()
+        cancel = () => {
+          vm.$el.parentNode.removeChild(vm.$el);
         }
       const vm = new Vue({
         el: node,

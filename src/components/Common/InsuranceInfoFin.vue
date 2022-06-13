@@ -1,77 +1,91 @@
 <template>
   <div>
     <div class="column-6">
-      <InputGroup class=" w-full mb-2.5" title="姓名" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class=" w-full mb-2.5" title="姓名" borderBtn :editModel="editModel">
+        <Input v-if="editModel" slot="input" class="w-full pr-24 relative text-main" value="陳曉明"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           陳曉明
         </div>
       </InputGroup>
-      <InputGroup class=" w-full mb-2.5" title="統編/身分證" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class=" w-full mb-2.5" title="統編/身分證" borderBtn :editModel="editModel">
+        <Input v-if="editModel" slot="input" class="w-full relative text-main" value="A123456789"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           A123456789
         </div>
       </InputGroup>
-      <InputGroup class="w-full" title="電話" borderBtn>
-        <div slot="input">0912345678</div>
+      <InputGroup class="w-full" title="電話" borderBtn :editModel="editModel">
+      <Input v-if="editModel" slot="input" class="w-full relative text-main" value="0912345678"/>
+        <div v-else slot="input">0912345678</div>
       </InputGroup>
-      <InputGroup class="w-full" title="國籍" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="w-full" title="國籍" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="本國"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           本國
         </div>
       </InputGroup>
-      <InputGroup class="w-full" :noMt="marginTop(560)" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="w-full" :noMt="marginTop(560)" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="- -"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           - -
         </div>
       </InputGroup>
-      <InputGroup class="w-full" title="職業/行業別" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="w-full" title="職業/行業別" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="一般"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           一般
         </div>
       </InputGroup>
     </div>
     <div class="column-6 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" title="負責(代表)人" v-if="copyInfo.CorporateRequired || true" borderBtn>
-         <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="w-full" title="負責(代表)人" v-if="copyInfo.CorporateRequired || true" borderBtn :editModel="editModel">
+        <Input v-if="editModel" slot="input" class="w-full pr-24 relative text-main" value="陳曉明"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           陳曉明
         </div>
       </InputGroup>
-      <InputGroup class="w-full" title="登記/註冊地" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="w-full" title="登記/註冊地" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="本國"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           本國
         </div>
       </InputGroup>
-      <InputGroup class="item" title="居住地址(選填)" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="item" title="居住地址(選填)" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="台北市"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           台北市
         </div>
       </InputGroup>
-      <InputGroup class="item" :noMt="marginTop(560)" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="item" :noMt="marginTop(560)" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="大安區"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           大安區
         </div>
       </InputGroup>
-      <InputGroup class="address col-span-2" :noMt="marginTop(1180)" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="col-span-2" :noMt="marginTop(1180)" borderBtn :editModel="editModel">
+        <Input v-if="editModel" slot="input" class="w-full relative text-main" value="敦化南路1段183號5樓"/>
+        <div v-else slot="input" class=" pr-24 relative">
           敦化南路1段183號5樓
         </div>
       </InputGroup>
     </div>
     <div class="column-6 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" :wrap="marginTop(560)" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="w-full" title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" :wrap="marginTop(560)" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="是"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           是
         </div>
       </InputGroup>
-      <InputGroup class="w-full col-span-5" :noMt="marginTop(560)" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="w-full col-span-5" :noMt="marginTop(560)" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="國內"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           國內
         </div>
       </InputGroup>
     </div>
     <div class="column-6 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full col-span-6" title="客戶屬性" borderBtn>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup class="w-full col-span-6" title="客戶屬性" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="非專業"/>
+        <div v-else slot="input" class="w-full pr-24 relative">
           非專業
         </div>
         <div class="customer-attr" slot="right">
@@ -84,10 +98,14 @@
 
 <script>
 import InputGroup from '@/components/InputGroup'
-
+import Input from '@/components/InputGroup/Input'
+import Select from '@/components/Select/index.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
     InputGroup,
+    Input,
+    Select
   },
   props: {
     marginTop: {
@@ -122,6 +140,11 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      editModel: state => state.common.editModel
+    })
+  },
   watch: {
     info (val) {
       this.copyInfo = {
@@ -148,9 +171,6 @@ export default {
   .customer-attr {
     @apply  flex items-center text-red-500 ml-3 absolute whitespace-no-wrap left-13
   }
-  .address {
-    @apply col-span-3;
-  }
   @media (min-width: 771px) and (max-width: 1126px) {
     .customer-attr { 
       width: calc(100vw - 350px);
@@ -175,9 +195,4 @@ export default {
       }
      }
    }
-  @media only screen and (min-width: 1180px) and (max-width: 1614px) {
-    .address {
-      @apply col-span-2;
-    }
-  }
 </style>

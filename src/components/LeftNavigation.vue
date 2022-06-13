@@ -39,12 +39,55 @@
         <span class="text-white text-lg font-bold">分公司核保</span>
       </div>
     </DynamicLink>
+    <DynamicLink type="router" path="/permissionSetting" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/permissionSetting'}">
+        <div class="icon officeAudit"/>
+        <span class="text-white text-lg font-bold">權限群組設定</span>
+      </div>
+    </DynamicLink>
+    <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item sub-pages" :class="{'active': path.includes('parameterSetting'), 'h160': path.includes('parameterSetting')}">
+        <div class="flex flex-row md:flex-col">
+          <div class="icon officeAudit"/>
+          <span class="text-white text-lg font-bold">參數設定</span>
+        </div>
+        <div v-if="path.includes('parameterSetting')" class="flex flex-col justify-center items-start md:items-center pl-7 md:pl-0">
+          <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
+          </DynamicLink>
+          <DynamicLink type="router" path="/parameterSetting/minimumAmount" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/minimumAmount'}">縣市最低保額</span>
+          </DynamicLink>
+        </div>
+      </div>
+    </DynamicLink>
+    <DynamicLink type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item sub-pages" :class="{'active': path.includes('termsSetting'), 'h180': path.includes('termsSetting')}">
+        <div class="flex flex-row md:flex-col">
+          <div class="icon officeAudit"/>
+          <span class="text-white text-lg font-bold">條款設定</span>
+        </div>
+        <div v-if="path.includes('termsSetting')" class="flex flex-col justify-center items-start pl-7 md:pl-0 md:items-center">
+          <DynamicLink type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/proposedTerms'}">建議條款</span>
+          </DynamicLink>
+          <DynamicLink type="router" path="/termsSetting/quotationAndWeight" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-md font-bold" :class="{'pagination': path !== '/termsSetting/quotationAndWeight'}">另行報價和權重</span>
+          </DynamicLink>
+          <DynamicLink type="router" path="/termsSetting/quotationAndAmount" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/quotationAndAmount'}">另行報價額度</span>
+          </DynamicLink>
+        </div>
+      </div>
+    </DynamicLink>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
 <script>
 import DynamicLink from '@/components/DynamicLink'
 import TriangleIcon from '@/components/TriangleIcon'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   props: {
     openMenu: {
@@ -54,12 +97,23 @@ export default {
   },
   components: {
     DynamicLink,
-    TriangleIcon
+    TriangleIcon,
+    WindowResizeListener
+  },
+  data() {
+    return {
+      windowWidth: window.innerWidth,
+    }
   },
   computed: {
     path() {
       return this.$route.path
     }
+  },
+  methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
   }
 }
 </script>
@@ -99,6 +153,12 @@ export default {
     width: 100%;
     height: 110px;
     @apply flex flex-col justify-center items-center cursor-pointer;
+    &.h160 {
+      height: 160px;
+    }
+    &.h180 {
+      height: 180px;
+    }
     .icon {
       width: 50px;
       min-height: 40px;
@@ -143,6 +203,11 @@ export default {
       span {
         color: #B3112C
       }
+      .pagination {
+        color: black!important;
+        font-weight: 400!important;
+        font-size: 14px!important;
+      }
     }
   }
   @media screen and (max-width: 770px) {
@@ -159,6 +224,15 @@ export default {
         span {
           color: #fff
         }
+      }
+      &.h160 {
+        @apply h-28
+      }
+      &.h180 {
+        @apply h-32
+      }
+      &.sub-pages {
+        @apply flex-col justify-center items-start
       }
       .icon {
         width: 50px;

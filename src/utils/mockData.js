@@ -204,7 +204,7 @@ export const quotationListTable = () => {
       {
         text: '報價單操作',
         value: 'edit',
-        size: '2-6'
+        size: '3-6'
       },
     ],
     rows: [
@@ -357,4 +357,149 @@ export const TermsLists = () => {
     },
 
   ]
+}
+
+export const historyList = () => {
+  return {
+    head: [
+      {
+        text: '日期',
+        value: 'time',
+        size: '1-6'
+      },
+      {
+        text: '單位/身分',
+        value: 'identity',
+        size: '2-6'
+      },
+      {
+        text: '操作',
+        value: 'operate',
+        size: '3-6'
+      },
+
+    ],
+    rows: [
+      {
+        time: '2021.11.05',
+        identity: '台北總公司 核保部 / 協理 林國強',
+        operate: ['核保'],
+        id: '1'
+      },
+      {
+        time: '2021.11.05',
+        identity: '岡山服務中心 公共責任險部 / 專員 陳志華',
+        operate: ['修改 投保資料 保險結束時間：111年04月15日12時 改為 111年04月16日12時', '修改 投保資料 場次1 每日人數：500人 改為 1000人', '修改 投保資料 場次2 每日人數：1000人 改為 500人'],
+        id: '2'
+      },
+      {
+        time: '2021.11.05',
+        identity: '台北總公司 核保部 / 協理 林國強',
+        operate: ['核保'],
+        id: '3'
+      },
+      {
+        time: '2021.11.05',
+        identity: '岡山服務中心 公共責任險部 / 專員 陳志華',
+        operate: ['修改 投保資料 保險結束時間：111年04月15日12時 改為 111年04月16日12時', '修改 投保資料 場次1 每日人數：500人 改為 1000人', '修改 投保資料 場次2 每日人數：1000人 改為 500人'],
+        id: '4'
+      },
+    ]
+  }
+}
+
+export const membersListTable = () => {
+  return {
+    head: [
+      {
+        text: '編號',
+        value: 'number',
+        size: '1-6'
+      },
+      {
+        text: '名稱',
+        value: 'name',
+        size: '1-6'
+      },
+      {
+        text: '建立時間',
+        value: 'time',
+        size: '3-6'
+      },
+      {
+        text: '權限群組',
+        value: 'group',
+        size: '3-6'
+      },
+      {
+        text: '狀態',
+        value: 'status',
+        size: '1-6'
+      },
+      {
+        text: 'E-mail',
+        value: 'mail',
+        size: '5-6'
+      },
+      {
+        text: '操作',
+        value: 'operate',
+        size: '4-6'
+      },
+    ],
+    rows: [
+      {
+        number: 'F624',
+        name: '林國強',
+        time: '2021-11-03 18:02',
+        group: '系統管理員',
+        status: '啟用',
+        mail: 'H014@mail.xxxx.com.tw',
+        operate: ''
+      },
+      {
+        number: 'F624',
+        name: '林國強',
+        time: '2021-11-03 18:02',
+        group: '系統管理員',
+        status: '啟用',
+        mail: 'H014@mail.xxxx.com.tw',
+        operate: ''
+      }
+    ]
+  }
+}
+
+export const groupListTable = () => {
+  return {
+    head: [
+      {
+        text: '群組名稱',
+        value: 'name',
+        size: '3-6'
+      },
+      {
+        text: '權限列表',
+        value: 'permissions',
+        size: '6-6'
+      },
+      {
+        text: '操作',
+        value: 'operate',
+        size: '4-6'
+      },
+    ],
+    rows: [
+      {
+        name: '系統管理員',
+        permissions: '負責人設定、會員管理',
+        operate: ''
+      },
+      {
+        name: '系統管理員',
+        permissions: '負責人設定、會員管理',
+        operate: ''
+      },
+    ]
+  }
 }

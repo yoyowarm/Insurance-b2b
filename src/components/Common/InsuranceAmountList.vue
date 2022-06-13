@@ -11,25 +11,25 @@
         text="選擇此保險金額"
         slot="right"
       />
-      <div class="column-5 dashed-border">
-        <InputGroup title="金額" class="col-span-2">
+      <div class="column-5" :class="{'dashed-border': !viewModel}">
+        <InputGroup title="金額" class="col-span-2" borderBtn :editModel="editModel">
           <Select slot="input" defaultText="依各縣市規定"/>
         </InputGroup>
       </div>
-      <div class="column-5 pt-5 dashed-border">
-        <InputGroup title="每一個人體傷責任金額">
+      <div class="column-5 pt-5" :class="{'dashed-border': !viewModel}">
+        <InputGroup title="每一個人體傷責任金額" borderBtn :editModel="editModel">
           <Input slot="input" placeholder="請輸入金額"/>
         </InputGroup>
-        <InputGroup title="每一意外事故體傷責任金額">
+        <InputGroup title="每一意外事故體傷責任金額" borderBtn :editModel="editModel">
           <Input slot="input" placeholder="請輸入金額"/>
         </InputGroup>
-        <InputGroup title="每一意外事故財物損失責任金額">
+        <InputGroup title="每一意外事故財物損失責任金額" borderBtn :editModel="editModel">
           <Input slot="input" placeholder="請輸入金額"/>
         </InputGroup>
-        <InputGroup title="本保險契約之最高賠償金額	">
+        <InputGroup title="本保險契約之最高賠償金額" borderBtn :editModel="editModel">
           <Input slot="input" placeholder="請輸入金額"/>
         </InputGroup>
-        <InputGroup title="自負額">
+        <InputGroup title="自負額" borderBtn :editModel="editModel">
           <Select slot="input" defaultText="請選擇金額"/>
         </InputGroup>
       </div>
@@ -38,7 +38,8 @@
       </div>
       <div class="flex flex-row justify-center mt-8">
         <Button class="mr-6" outline>預覽要保書</Button>
-        <Button outline>預覽報價單</Button>
+        <Button class="mr-6" outline>預覽報價單</Button>
+        <Button v-if="viewModel">修改保費</Button>
       </div>
     </CommonBoard>
     <div v-if="!viewModel" class="flex flex-row justify-center mt-8">
@@ -55,6 +56,7 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
 import Button from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
+import { mapState } from 'vuex'
 export default {
   components: {
     CommonBoard,
@@ -70,11 +72,13 @@ export default {
       type: Array,
       default: () => []
     },
-    viewModel: {
-      type: Boolean,
-      default: false
-    }
-  }
+  },
+  computed: {
+    ...mapState({
+      editModel: state => state.common.editModel,
+      viewModel: state => state.common.viewModel
+    })
+  },
 }
 </script>
 
