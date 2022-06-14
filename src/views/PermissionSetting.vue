@@ -8,11 +8,14 @@
       rotate
     />
     <div class="column-5 mb-4">
-      <InputGroup class="industry-input-group" bgColor="white" noMt>
+      <InputGroup v-if="currentTag == 0" class="industry-input-group" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" placeholder="搜尋姓名或編號" slotIcon>
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
+      <div v-else class="col-start-4 flex justify-end">
+        <Button class="mr-2 w-32" @click.native="callDialog(6,'新增群組','新增群組')" outline>新增群組</Button>
+      </div>
     </div>
     <div class="flex w-full">
       <TableGroup v-if="currentTag == 0" class="w-full" :data="membersListTable" :slotName="slotArray" scrollX>
@@ -86,7 +89,7 @@
           <li>權限列表：負責人設定、會員管理</li>
         </ul>
       </div>
-      <div v-if="dialog.type == 4">
+      <div v-if="dialog.type == 4 || dialog.type == 6">
         <div class="w-full dashed-border">
           <FormTitle title="群組名稱"/>
           <InputGroup noMt>

@@ -41,14 +41,14 @@
     </DynamicLink>
     <DynamicLink type="router" path="/permissionSetting" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/permissionSetting'}">
-        <div class="icon officeAudit"/>
+        <div class="icon permissionSetting"/>
         <span class="text-white text-lg font-bold">權限群組設定</span>
       </div>
     </DynamicLink>
     <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item sub-pages" :class="{'active': path.includes('parameterSetting'), 'h160': path.includes('parameterSetting')}">
-        <div class="flex flex-row md:flex-col">
-          <div class="icon officeAudit"/>
+        <div class="flex flex-row items-center md:flex-col">
+          <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
         <div v-if="path.includes('parameterSetting')" class="flex flex-col justify-center items-start md:items-center pl-7 md:pl-0">
@@ -63,8 +63,8 @@
     </DynamicLink>
     <DynamicLink type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item sub-pages" :class="{'active': path.includes('termsSetting'), 'h180': path.includes('termsSetting')}">
-        <div class="flex flex-row md:flex-col">
-          <div class="icon officeAudit"/>
+        <div class="flex flex-row items-center md:flex-col">
+          <div class="icon termsSetting"/>
           <span class="text-white text-lg font-bold">條款設定</span>
         </div>
         <div v-if="path.includes('termsSetting')" class="flex flex-col justify-center items-start pl-7 md:pl-0 md:items-center">
@@ -164,6 +164,15 @@ export default {
       min-height: 40px;
       margin-bottom: 4px;
       @apply bg-no-repeat bg-center;
+      &.termsSetting {
+        background-image: url('../assets/images/8.png');
+      }
+      &.parameterSetting  {
+        background-image: url('../assets/images/7.png');
+      }
+      &.permissionSetting {
+        background-image: url('../assets/images/6.png');
+      }
       &.officeAudit {
         background-image: url('../assets/images/5.png');
       }
@@ -184,6 +193,15 @@ export default {
     &:hover, &.active {
       background-color: #fafafa;
       .icon {
+        &.termsSetting {
+          background-image: url('../assets/images/8r.png');
+        }
+        &.parameterSetting {
+          background-image: url('../assets/images/7r.png');
+        }
+        &.permissionSetting {
+          background-image: url('../assets/images/6r.png');
+        }
         &.officeAudit {
           background-image: url('../assets/images/5r.png');
         }
@@ -239,6 +257,15 @@ export default {
         min-height: 40px;
         margin-bottom: 4px;
         @apply bg-no-repeat bg-center;
+         &.termsSetting {
+          background-image: url('../assets/images/8b.png');
+        }
+        &.parameterSetting  {
+          background-image: url('../assets/images/7b.png');
+        }
+        &.permissionSetting {
+          background-image: url('../assets/images/6b.png');
+        }
         &.officeAudit {
           background-image: url('../assets/images/5b.png');
         }
