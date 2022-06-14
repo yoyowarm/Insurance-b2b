@@ -21,11 +21,11 @@
     </CommonBoard>
     <CommonBoard class="w-full mt-12" title="投保行業">
       <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
-        <Input slot="input" class="max-w-full" placeholder="輸入行業關鍵字" slotIcon>
+        <Input slot="input" class="max-w-full" :value="searchText" @updateValue="(e) => searchText = e" placeholder="輸入行業關鍵字" slotIcon>
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry :categoryData="industryList"/>
+      <InsuranceIndustry :categoryData="industryList" :searchText="searchText"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
       <Period :period.sync="periodData"/>
@@ -74,6 +74,18 @@
     <TermConditions :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
     <CommonBoard class="w-full mt-5" title="備註">
       <TextBox/>
+      <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
+      <div class="column-6">
+        <InputGroup noMt>
+          <FileUpload slot="input" :index="1" id="fileUpload1"/>
+        </InputGroup>
+        <InputGroup noMt>
+          <FileUpload slot="input" :index="2" id="fileUpload2"/>
+        </InputGroup>
+        <InputGroup noMt>
+          <FileUpload slot="input" :index="3" id="fileUpload3"/>
+        </InputGroup>
+      </div>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
       <PaymentItem keyName="總保費試算共計" :value="`NT$ --`" unit totalStyle/>
@@ -103,6 +115,7 @@ import Period from '@/components/Place/Period'
 import TermsList from '@/components/Common/TermsList'
 import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/Questionnaire.vue'
+import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -120,11 +133,13 @@ export default {
     Period,
     TermsList,
     TermConditions,
-    Questionnaire
+    Questionnaire,
+    FileUpload
   },
   data () {
     return {
       industryList: IndustryList(),
+      searchText: '',
       TermsSelect: {
         lists: TermsLists()
       },

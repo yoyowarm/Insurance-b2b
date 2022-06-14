@@ -1,16 +1,29 @@
 <template>
   <div class="">
     <template v-for="(category,index) in categoryData">
-      <div class="border-b-0 border-dashed mb-6" :class="{'border-b-2': !(index+1 === categoryData.length)}" :key="category.category">
+      <div
+        v-if="searchText.length === 0 || ( searchText.length > 0 && category.lists.filter(item => item.Text.includes(searchText)).length > 0)"
+        class="border-b-0 border-dashed mb-6"
+        :class="{'border-b-2': !(index+1 === categoryData.length)}"
+        :key="category.category">
         <FormTitle :title="category.category" classList="text-xl text-gray-700" class="mb-6">
           <font-awesome-icon class="text-xl text-gray-700 mr-1" icon="briefcase" slot="left"/>
         </FormTitle>
           <div class="column-6 mb-8" :class="{'packUp': category.lists.length > 18}">
-            <template v-for="list in (category.lists.length > 18 && !switchList[index]) ? category.lists.slice(0, 18) : category.lists">
-              <RadioInput :key="list.Value" :class="{'col-span-2': list.Text.length >= 9}" :id="`${list.Value}`" :text="list.Text" :value="false" disabled/>
+            <template v-for="list in (category.lists.length > 18 && !switchList[index] && searchText.length === 0) ? category.lists.slice(0, 18) : category.lists">
+              <RadioInput
+                v-if="searchText.length === 0 ||( searchText.length > 0 && list.Text.includes(searchText))"
+                :key="list.Value"
+                :class="{'col-span-2': list.Text.length >= 9}"
+                :id="`${list.Value}`"
+                :text="list.Text"
+                :value="false"
+              />
             </template>
-            <span class="more" v-if="category.lists.length > 18 && !switchList[index]" @click="() => switchBtn(index)" >更多<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-down']" /></span>
-            <span class="more" v-if="category.lists.length > 18 && switchList[index]" @click="() => switchBtn(index)" >收起<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-up']" /></span>
+            <template v-if="searchText.length === 0 ||( searchText.length > 0 && category.lists.filter(item => item.Text.includes(searchText)).length > 18)">
+              <span class="more" v-if="category.lists.length > 18 && !switchList[index]" @click="() => switchBtn(index)" >更多<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-down']" /></span>
+              <span class="more" v-if="category.lists.length > 18 && switchList[index]" @click="() => switchBtn(index)" >收起<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-up']" /></span>
+            </template>
           </div>
       </div>
     </template>
@@ -29,7 +42,11 @@ export default {
     categoryData: {
       type: Array,
       default: () => {}
-    }
+    },
+    searchText: {
+      type: String,
+      default: ''
+    },
   },
   data () {
     return {
@@ -37,13 +54,6 @@ export default {
     }
   },
   methods: {
-    categoryList (category,index) {
-      if(category.length > 18 && !this.switchList[index]) {
-        return category.slice(0, 18)
-      } else {
-        return category
-      }
-    },
     switchBtn(index) {
       this.$set(this.switchList,index,!this.switchList[index])
     }
