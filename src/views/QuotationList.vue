@@ -65,7 +65,7 @@
         </div>
         <TableGroup :data="quotationListTable" :slotName="slotArray" scrollX>
           <template v-for="(item,index) in quotationListTable.rows">
-            <div v-if="index === 0" slot="edit" :key="`edit${index}`" class="flex flex-row">
+            <div :slot="`edit-${index}`" :key="`edit${index}`" class="flex flex-row">
               <Button class="copy-button mr-2" outline>查看</Button>
               <Button class="copy-button" outline>複製</Button>
             </div>
@@ -142,16 +142,23 @@ export default {
         },
       ],
       quotationListTable: quotationListTable(),
-      slotArray: [
-        {name: 'edit', class: 'w-2-6'}
-      ],
     }
   },
   computed: {
     ...mapState({
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
-    })
+    }),
+    slotArray () {
+      const arr = []
+      const slotArr = [ 'edit']
+      for (let i = 0; i < this.quotationListTable.rows.length; i++) {
+        slotArr.map(item => {
+          arr.push(`${item}-${i}`)
+        })
+      }
+      return arr
+    }
   },
   methods: {
     handleResize () {
