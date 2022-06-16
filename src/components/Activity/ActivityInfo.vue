@@ -103,7 +103,7 @@
           </InputGroup>
         </div>
         <InputGroup title="活動計日">
-          <Input slot="input" placeholder="輸入天數"/>
+          <Input slot="input" placeholder="輸入天數" unit="天"/>
         </InputGroup>
 		</div>
     </template>

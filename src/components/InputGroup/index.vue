@@ -8,7 +8,7 @@
       </div>
       <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0, 'borderBtn': borderBtn, 'editModel':editModel, 'min': min, 'ml-10': $slots['input-left']}" :style="{'background': bgColor}">
         <slot name="input-left"/>
-        <slot name="input" v-if="!disable"/>
+        <slot name="input"/>
         <slot name="input-right"/>
       </div>
       <div v-if="error" class="flex flex-row items-center mt-1.5">

@@ -1,13 +1,12 @@
 <template>
   <div>
     <FormTitle title="類別 參數設定" class="text-lg mb-14"/>
-    <CommonBoard class="category rotate">
+    <CommonBoard class="category">
       <NavMenu
-        class="menu rotate"
+        class="menu"
         :itemLists="itemLists"
         :currentTag="currentTag"
         @updatedMenu="(e) => currentTag = e"
-        rotate
       />
       <div class="column-5 mb-4">
         <InputGroup noMt>
@@ -15,13 +14,16 @@
         </InputGroup>
       </div>
       <div class="flex w-full">
-        <TableGroup class="w-full" :data="categoryListTable" :slotName="slotArray" scrollX>
+        <TableGroup class="w-full" :data="categoryListTable" :slotName="slotArray" column2 scrollX>
         <template v-for="(item,index) in categoryListTable.rows">
           <div :slot="`quote-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
             <Checkbox  :id="`quote-${index}`"/>
           </div>
-          <div :slot="`eye-${index}`" :key="`operate${index}`" class="w-full flex justify-center">
-            <font-awesome-icon class="text-main text-lg" :icon="['fas','eye']" />
+          <div :slot="`eye-${index}`" :key="`operate${index}`" class="w-full flex sm:justify-center items-center whitespace-no-wrap">
+            <font-awesome-icon class="text-main text-lg mr-2" :icon="['fas','eye']" />
+            <div class="sm:hidden flex whitespace-no-wrap">
+              <span class=" cursor-pointer text-main pr-3">顯示</span><span class="text-gray-300 pr-3">/</span><span class="cursor-pointer text-gray-300">隱藏</span>
+            </div>
             <!-- <font-awesome-icon class="text-main text-lg" :icon="['fas','eye-slash']" /> -->
           </div>
         </template>
@@ -113,15 +115,4 @@ export default {
     top: -39px;
     @apply absolute
   }
-@media screen and (max-width: 600px) {
-  .category.rotate {
-    margin-top: 0;
-    padding-left: 50px;
-  }
-  .menu.rotate{
-    top: 20px;
-    left: -5px;
-    @apply absolute
-  }
-}
 </style>

@@ -6,7 +6,6 @@
       :text="item.text"
       :active="item.value === currentTag"
       :disabled="item.disabled"
-      :rotate="rotate"
       @click.native="()=>{if(!item.disabled)$emit('updatedMenu', item.value)}"/>
   </div>
 </template>
@@ -25,10 +24,6 @@ export default {
     currentTag: {
       type: Number,
       default: 0
-    },
-    rotate: {
-      type: Boolean,
-      default: false
     },
   },
 }

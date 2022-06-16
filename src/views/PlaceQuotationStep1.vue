@@ -9,12 +9,14 @@
           <SwitchInput
             slot="input"
             id="IsRenewal"
+            :value="IsRenewal"
+            @updateValue="(e) =>IsRenewal = e"
           />
         </InputGroup>
-        <InputGroup class="w-full mb-2.5">
+        <InputGroup class="w-full mb-2.5" :disable="!IsRenewal">
         <div slot="input" class="w-full pr-24 relative">
-          <Input placeholder="輸入保單號碼"/>
-          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px">查詢</Button>
+          <Input placeholder="輸入保單號碼" :disable="!IsRenewal"/>
+          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" :disabled="!IsRenewal">查詢</Button>
         </div>
       </InputGroup>
       </div>
@@ -31,20 +33,7 @@
       <Period :period.sync="periodData"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="投保紀錄">
-      <div class="column-5">
-        <InputGroup class="item" title="投保紀錄" dash>
-          <SwitchInput
-            slot="input"
-            id="IsRenewal"
-          />
-        </InputGroup>
-        <InputGroup class="w-full mb-2.5" title="近二年平均保費" disable dash>
-          <Input slot="input" placeholder="輸入保單號碼"/>
-        </InputGroup>
-        <InputGroup class="w-full mb-2.5" title="近三年平均保費" disable>
-          <Input slot="input" placeholder="輸入保單號碼"/>
-        </InputGroup>
-      </div>
+      <InsuranceRecord/>
     </CommonBoard>
     <CommonBoard class="w-full" :title="`處所資料 數量:${placeInfoList.length}`">
       <PlaceInfo
@@ -89,10 +78,10 @@
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
       <PaymentItem keyName="總保費試算共計" :value="`NT$ --`" unit totalStyle/>
-      <div class="flex flex-row">
-        <Button @click.native="nextStep" class="my-8 w-40 md:w-32 mr-10" outline>試算</Button>
-        <Button @click.native="nextStep" class="my-8 w-40 md:w-32 mr-10" outline>更正</Button>
-        <Button @click.native="openQuestionnaire = true" class="my-8 w-40 md:w-32 " outline>填寫問卷表</Button>
+      <div class="flex flex-col sm:flex-row">
+        <Button @click.native="nextStep" class="my-2 sm:my-8 w-56 md:w-32 sm:mr-10" outline>試算</Button>
+        <Button @click.native="nextStep" class="my-2 sm:my-8 w-56 md:w-32 sm:mr-10" outline>更正</Button>
+        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-8 w-56 md:w-32 " outline>填寫問卷表</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
     </div>
@@ -116,6 +105,7 @@ import TermsList from '@/components/Common/TermsList'
 import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/Questionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
+import InsuranceRecord from '@/components/Place/InsuranceRecord.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -134,10 +124,12 @@ export default {
     TermsList,
     TermConditions,
     Questionnaire,
-    FileUpload
+    FileUpload,
+    InsuranceRecord
   },
   data () {
     return {
+      IsRenewal: false,
       industryList: IndustryList(),
       searchText: '',
       TermsSelect: {

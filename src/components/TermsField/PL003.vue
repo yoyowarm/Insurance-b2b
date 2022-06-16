@@ -13,25 +13,25 @@
     </div>
     <div class="column-5 mt-4">
       <InputGroup class="col-span-2" title="電梯種類和數量">
-        <Input slot="input" placeholder="請輸入數量"/>
+        <Input slot="input" placeholder="請輸入數量" unit="台"/>
         <span class="absolute -right-16 bottom-3" slot="suffix">電扶梯</span>
       </InputGroup>
     </div>
     <div class="column-5">
       <InputGroup class="col-span-2" noMt>
-        <Input slot="input" placeholder="請輸入數量"/>
+        <Input slot="input" placeholder="請輸入數量" unit="台"/>
         <span class="absolute -right-17 bottom-3" slot="suffix">客/貨梯</span>
       </InputGroup>
     </div>
     <div class="column-5">
       <InputGroup class="col-span-2" noMt>
-        <Input slot="input" placeholder="請輸入數量"/>
+        <Input slot="input" placeholder="請輸入數量" unit="台"/>
         <span class="absolute -right-24 bottom-3" slot="suffix">汽車升降梯</span>
       </InputGroup>
     </div>
     <div class="column-5">
       <InputGroup class="col-span-2" noMt>
-        <Input slot="input" placeholder="請輸入數量"/>
+        <Input slot="input" placeholder="請輸入數量" unit="台"/>
         <span class="absolute -right-19 bottom-3" slot="suffix">其他種類</span>
       </InputGroup>
     </div>

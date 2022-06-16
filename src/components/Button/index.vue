@@ -1,5 +1,5 @@
 <template>
-  <button class="button" :class="{outline}"><slot/></button>
+  <button class="button" :class="{outline,disabled}"><slot/></button>
 </template>
 
 <script>
@@ -9,6 +9,10 @@ export default {
       type: Boolean,
       default: false
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
@@ -18,5 +22,8 @@ export default {
 }
 .outline {
   @apply border-2 border-main text-main bg-white font-bold;
+}
+.disabled {
+  @apply cursor-not-allowed bg-gray-300 pointer-events-none;
 }
 </style>

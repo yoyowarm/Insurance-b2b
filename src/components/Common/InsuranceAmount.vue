@@ -7,16 +7,16 @@
     </div>
     <div class="column-5 pt-5">
       <InputGroup title="每一個人體傷責任金額">
-        <Input slot="input" placeholder="請輸入金額"/>
+        <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
       </InputGroup>
-      <InputGroup title="每一意外事故體傷責任金額">
-        <Input slot="input" placeholder="請輸入金額"/>
+      <InputGroup title="每一意外事故體傷責任金額" disable>
+        <Input slot="input" placeholder="請輸入金額" disable unit="萬元"/>
       </InputGroup>
-      <InputGroup title="每一意外事故財物損失責任金額">
-        <Input slot="input" placeholder="請輸入金額"/>
+      <InputGroup title="每一意外事故財物損失責任金額" disable>
+        <Input slot="input" placeholder="請輸入金額" disable unit="萬元"/>
       </InputGroup>
-      <InputGroup title="本保險契約之最高賠償金額	">
-        <Input slot="input" placeholder="請輸入金額"/>
+      <InputGroup title="本保險契約之最高賠償金額	" disable>
+        <Input slot="input" placeholder="請輸入金額" disable unit="萬元"/>
       </InputGroup>
       <InputGroup title="自負額">
         <Select slot="input" defaultText="請選擇金額"/>

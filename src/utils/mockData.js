@@ -476,7 +476,7 @@ export const groupListTable = () => {
       {
         text: '群組名稱',
         value: 'name',
-        size: '3-6'
+        size: '5-6'
       },
       {
         text: '權限列表',
@@ -486,7 +486,7 @@ export const groupListTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '4-6'
+        size: '3-6'
       },
     ],
     rows: [

@@ -1,7 +1,8 @@
 <template>
   <div>
-    <input type="text" class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2" :class="{'pr-9': slotIcon}" :placeholder="placeholder" :value="value" @input="updateValue">
+    <input type="text" class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2" :class="{'pr-9': slotIcon, disable, 'pr-14': unit.length > 0}" :placeholder="placeholder" :value="value" @input="updateValue">
     <div v-if="slotIcon"><slot/></div>
+    <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
   </div>
 </template>
 
@@ -27,7 +28,15 @@ export default {
     slotIcon: {
       type: Boolean,
       default: false
-    }
+    },
+    unit: {
+      type: String,
+      default: ''
+    },
+    disable: {
+      type: Boolean,
+      default: false
+    },
   },
   methods: {
     updateValue (e) {
@@ -52,5 +61,8 @@ export default {
 <style scoped lang="postcss">
   input {
     @apply border-0
+  }
+  .disable {
+    @apply cursor-not-allowed bg-gray-100 pointer-events-none;
   }
 </style>

@@ -11,9 +11,6 @@
     </CommonBoard>
     <InsuranceAmountList :lists="activityInfo"/>
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <DynamicLink type="router" path="/place-quotation/step2" v-if="!viewModel">
-        <Button class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
-      </DynamicLink>
       <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
@@ -23,7 +20,6 @@
 
 <script>
 import CommonBoard from '@/components/CommonBoard'
-import DynamicLink from '@/components/DynamicLink'
 import Button from '@/components/Button'
 import InsuranceInfoFin from '@/components/Common/InsuranceInfoFin'
 import InsuranceAmountList from '@/components/Common/InsuranceAmountList.vue'
@@ -36,7 +32,6 @@ export default {
   mixins: [routeChange],
   components: {
     CommonBoard,
-    DynamicLink,
     Button,
     InsuranceInfoFin,
     InsuranceAmountList,

@@ -1,37 +1,65 @@
 <template>
   <div class="table-body" :class="{scrollX, 'overflow-x-auto': scrollX}">
       <template v-for="(item, index) in rows">
-        <div class="item" :key="index">
-        <template v-for="(headItem,headIndex) in head">
-          <span :key="`${headItem.value}-${headIndex}`" class="text-gray-600 text-sm hidden">{{headItem.text}}</span>
-          <div v-if="$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
-            <slot :name="`${headItem.value}-${index}`"/>
+        <div v-if="windowWidth >= 600" class="item" :key="index" >
+          <template v-for="(headItem,headIndex) in head">
+            <span :key="`${headItem.value}-${headIndex}`" class="text-gray-600 text-sm hidden">{{headItem.text}}</span>
+            <div v-if="$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
+              <slot :name="`${headItem.value}-${index}`"/>
+            </div>
+            <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
+              <DynamicLink v-if="item.link && headItem.value === 'Title'" type="router" :path="item.link">
+                <span class="link">{{item[headItem.value]}}</span>
+              </DynamicLink>
+              <a v-else-if="item.Url && headItem.value === urlKey" :href="item.Url" download>
+                <span class="link">{{item[headItem.value]}}</span>
+              </a>
+              <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer" @click="$emit('popup', index)">{{item[headItem.value]}}</span>
+              <span class="text-gray-600" v-else-if="item.class && headItem.value === statusKey" :class="item.class" v-html="item[headItem.value]">
+                {{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}
+              </span>
+              <span class="text-gray-600" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}</span>
+            </div>
+          </template>
+        </div>
+        <div v-else class="item" :key="index">
+          <div class="" :class="{'column-2-wide' : column2}">
+            <template v-for="(headItem,headIndex) in head">
+              <div :key="`${headItem.value}-${headIndex}`" >
+                <span class="text-gray-600 text-sm hidden">{{headItem.text}}</span>
+                <div v-if="$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
+                  <slot :name="`${headItem.value}-${index}`"/>
+                </div>
+                <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`"  :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
+                  <DynamicLink v-if="item.link && headItem.value === 'Title'" type="router" :path="item.link">
+                    <span class="link">{{item[headItem.value]}}</span>
+                  </DynamicLink>
+                  <a v-else-if="item.Url && headItem.value === urlKey" :href="item.Url" download>
+                    <span class="link">{{item[headItem.value]}}</span>
+                  </a>
+                  <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer" @click="$emit('popup', index)">{{item[headItem.value]}}</span>
+                  <span class="text-gray-600" v-else-if="item.class && headItem.value === statusKey" :class="item.class" v-html="item[headItem.value]">
+                    {{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}
+                  </span>
+                  <span class="text-gray-600" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}</span>
+                </div>
+              </div>
+            </template>
           </div>
-          <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
-            <DynamicLink v-if="item.link && headItem.value === 'Title'" type="router" :path="item.link">
-              <span class="link">{{item[headItem.value]}}</span>
-            </DynamicLink>
-            <a v-else-if="item.Url && headItem.value === urlKey" :href="item.Url" download>
-              <span class="link">{{item[headItem.value]}}</span>
-            </a>
-            <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer" @click="$emit('popup', index)">{{item[headItem.value]}}</span>
-            <span class="text-gray-600" v-else-if="item.class && headItem.value === statusKey" :class="item.class" v-html="item[headItem.value]">
-              {{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}
-            </span>
-            <span class="text-gray-600" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}</span>
-          </div>
-        </template>
         </div>
     </template>
     <div v-if="rows.length === 0" class="text-gray-300 flex justify-center w-full p-4 select-none">無資料</div>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
 <script>
 import DynamicLink from '@/components/DynamicLink'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
-    DynamicLink
+    DynamicLink,
+    WindowResizeListener
   },
   props: {
     head: {
@@ -53,7 +81,21 @@ export default {
     statusKey: {
       type: String,
       default: 'State'
+    },
+    column2: {
+      type: Boolean,
+      default: false
     }
+  },
+   data() {
+    return {
+      windowWidth: window.innerWidth,
+    }
+  },
+  methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
   }
 }
 </script>
@@ -92,7 +134,7 @@ export default {
       @apply block
     }
 
-    .table-body .item > div {
+    .table-body .item div {
       @apply w-full mb-2 ;
     }
   }

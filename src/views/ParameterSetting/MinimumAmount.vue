@@ -1,39 +1,38 @@
 <template>
   <div>
     <FormTitle title="縣市最低保額 參數設定" class="text-lg mb-14"/>
-    <CommonBoard class="category rotate">
+    <CommonBoard class="category">
       <NavMenu
-        class="menu rotate"
+        class="menu"
         :itemLists="itemLists"
         :currentTag="currentTag"
         @updatedMenu="(e) => currentTag = e"
-        rotate
       />
       <div class="flex w-full">
         <TableGroup class="w-full" :data="minimumAmountTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in minimumAmountTable.rows">
           <div :slot="`slot1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt>
-              <Input slot="input" placeholder="請輸入金額"/>
+              <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
             </InputGroup>
           </div>
           <div :slot="`slot2-${index}`" :key="`slot2${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt>
-              <Input slot="input" placeholder="請輸入金額"/>
+              <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
             </InputGroup>
           </div>
           <div :slot="`slot3-${index}`" :key="`slot3${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt>
-              <Input slot="input" placeholder="請輸入金額"/>
+              <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
             </InputGroup>
           </div>
           <div :slot="`slot4-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt>
-              <Input slot="input" placeholder="請輸入金額"/>
+              <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
             </InputGroup>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="w-full flex justify-center">
-            <Button outline>編輯</Button>
+            <Button class="w-full my-2 sm:my-0" outline>編輯</Button>
           </div>
         </template>
       </TableGroup>
@@ -123,15 +122,4 @@ export default {
     top: -39px;
     @apply absolute
   }
-@media screen and (max-width: 600px) {
-  .category.rotate {
-    margin-top: 0;
-    padding-left: 50px;
-  }
-  .menu.rotate{
-    top: 20px;
-    left: -5px;
-    @apply absolute
-  }
-}
 </style>

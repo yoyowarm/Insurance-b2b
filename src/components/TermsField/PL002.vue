@@ -19,19 +19,19 @@
     </div>
     <div class="column-5 mt-4">
       <InputGroup class="col-span-2" title="車位種類和數量">
-        <Input slot="input" placeholder="請輸入數量"/>
+        <Input slot="input" placeholder="請輸入數量" unit="位"/>
         <span class="absolute -right-22 bottom-3" slot="suffix">平面式車位</span>
       </InputGroup>
     </div>
     <div class="column-5">
       <InputGroup class="col-span-2" noMt>
-        <Input slot="input" placeholder="請輸入數量"/>
+        <Input slot="input" placeholder="請輸入數量" unit="位"/>
         <span class="absolute -right-30 bottom-3" slot="suffix">室內機械式車位</span>
       </InputGroup>
     </div>
     <div class="column-5">
       <InputGroup class="col-span-2" noMt>
-        <Input slot="input" placeholder="請輸入數量"/>
+        <Input slot="input" placeholder="請輸入數量" unit="位"/>
         <span class="absolute -right-22 bottom-3" slot="suffix">機械塔車位</span>
       </InputGroup>
     </div>

@@ -1,33 +1,34 @@
 <template>
-  <CommonBoard class="permission-setting rotate">
+  <div>
+  <FormTitle title="權限群組設定" class="sm:hidden text-lg mb-14"/>
+  <CommonBoard class="permission-setting">
     <NavMenu
-      class="menu rotate"
+      class="menu"
       :itemLists="itemLists"
       :currentTag="currentTag"
       @updatedMenu="(e) => currentTag = e"
-      rotate
     />
-    <div class="column-5 mb-4">
+    <div class="column-5 sm:mb-4">
       <InputGroup v-if="currentTag == 0" class="industry-input-group" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" placeholder="搜尋姓名或編號" slotIcon>
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <div v-else class="col-start-4 flex justify-end">
-        <Button class="mr-2 w-32" @click.native="callDialog(6,'新增群組','新增群組')" outline>新增群組</Button>
+      <div v-else class="col-start-5 flex justify-end">
+        <Button class="sm:mr-2 w-full sm:w-32" @click.native="callDialog(6,'新增群組','新增群組')" outline>新增群組</Button>
       </div>
     </div>
     <div class="flex w-full">
-      <TableGroup v-if="currentTag == 0" class="w-full" :data="membersListTable" :slotName="slotArray" scrollX>
+      <TableGroup v-if="currentTag == 0" class="w-full" :data="membersListTable" :slotName="slotArray" column2 scrollX>
         <template v-for="(item,index) in membersListTable.rows">
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap">
             <Button class="mr-2" @click.native="callDialog(0,'帳號明細')" outline>明細</Button>
             <Button class="mr-2" @click.native="callDialog(1,'編輯帳號', '儲存編輯')" outline>編輯</Button>
             <Button outline @click.native="callDialog(2,'刪除帳號', '確認刪除')">刪除</Button>
         </div>
         </template>
       </TableGroup>
-      <TableGroup v-else class="w-full" :data="groupListTable" :slotName="slotArray" scrollX>
+      <TableGroup v-else class="w-full" :data="groupListTable" :slotName="slotArray" column2 scrollX>
         <template v-for="(item,index) in membersListTable.rows">
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
             <Button class="mr-2" @click.native="callDialog(3,'群組明細')" outline>明細</Button>
@@ -164,6 +165,7 @@
     </PopupDialog>
     <WindowResizeListener @resize="handleResize"/>
   </CommonBoard>
+  </div>
 </template>
 
 <script>
@@ -262,17 +264,6 @@ export default {
     top: -39px;
     @apply absolute
   }
-@media screen and (max-width: 600px) {
-  .permission-setting.rotate {
-    margin-top: 0;
-    padding-left: 50px;
-  }
-  .menu.rotate{
-    top: 20px;
-    left: -5px;
-    @apply absolute
-  }
-}
 .list-detail {
   li {
     @apply my-3

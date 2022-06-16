@@ -3,23 +3,22 @@
     <FormTitle title="另行報價和權重(數值大者優先) 條款設定" class="text-lg mb-14"/>
     <CommonBoard class="category rotate">
       <NavMenu
-        class="menu rotate"
+        class="menu"
         :itemLists="itemLists"
         :currentTag="currentTag"
         @updatedMenu="(e) => currentTag = e"
-        rotate
       />
       <div class="flex w-full">
         <TableGroup class="w-full" :data="weightListTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in weightListTable.rows">
           <div :slot="`weight-${index}`" :key="`weight${index}`" class="flex whitespace-no-wrap">
-            <Input value="1" class="mr-4 weight-input"/>
+            <Input value="1" class="md:mr-4 weight-input w-full sm:w-24"/>
           </div>
           <div :slot="`switch-${index}`" :key="`switch${index}`" class="flex whitespace-no-wrap">
             <span class="cursor-pointer text-main pr-3">是</span><span class="text-gray-300 pr-3">/</span><span class="cursor-pointer text-gray-300">否</span>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
-            <Button outline>編輯</Button>
+            <Button class="w-full sm:w-24" outline>編輯</Button>
           </div>
         </template>
       </TableGroup>
@@ -109,17 +108,6 @@ export default {
     @apply absolute
   }
   .weight-input {
-    @apply rounded-full w-4/6 h-full border-2 border-gray-300 text-center
+    @apply rounded-full h-full border-2 border-gray-300 text-center
   }
-@media screen and (max-width: 600px) {
-  .category.rotate {
-    margin-top: 0;
-    padding-left: 50px;
-  }
-  .menu.rotate{
-    top: 20px;
-    left: -5px;
-    @apply absolute
-  }
-}
 </style>

@@ -3,8 +3,7 @@
     <template v-for="(category,index) in categoryData">
       <div
         v-if="searchText.length === 0 || ( searchText.length > 0 && category.lists.filter(item => item.Text.includes(searchText)).length > 0)"
-        class="border-b-0 border-dashed mb-6"
-        :class="{'border-b-2': !(index+1 === categoryData.length)}"
+        class="border-b-2 border-dashed mb-6"
         :key="category.category">
         <FormTitle :title="category.category" classList="text-xl text-gray-700" class="mb-6">
           <font-awesome-icon class="text-xl text-gray-700 mr-1" icon="briefcase" slot="left"/>
@@ -27,16 +26,32 @@
           </div>
       </div>
     </template>
+    <div class="column-6">
+      <div class="col-span-2 flex flex-row">
+        <RadioInput
+          id="other"
+          text="其他"
+          :value="false"
+        />
+        <InputGroup class="ml-3 w-64" noMt>
+          <Input slot="input" placeholder="輸入行業名稱"/>
+        </InputGroup>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import FormTitle from '@/components/FormTitle'
 import RadioInput from '@/components/Radio'
+import InputGroup from '@/components/InputGroup'
+import Input from '@/components/InputGroup/Input'
 export default {
   components: {
     FormTitle,
-    RadioInput
+    RadioInput,
+    InputGroup,
+    Input
   },
   props: {
     categoryData: {

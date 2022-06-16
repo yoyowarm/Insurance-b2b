@@ -12,25 +12,25 @@
         slot="right"
       />
       <div class="column-5" :class="{'dashed-border': !viewModel}">
-        <InputGroup title="金額" class="col-span-2" borderBtn :editModel="editModel">
+        <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel">
           <Select slot="input" defaultText="依各縣市規定"/>
         </InputGroup>
       </div>
       <div class="column-5 pt-5" :class="{'dashed-border': !viewModel}">
-        <InputGroup title="每一個人體傷責任金額" borderBtn :editModel="editModel">
-          <Input slot="input" placeholder="請輸入金額"/>
+        <InputGroup title="每一個人體傷責任金額" :borderBtn="viewModel" :editModel="editModel">
+          <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
         </InputGroup>
-        <InputGroup title="每一意外事故體傷責任金額" borderBtn :editModel="editModel">
-          <Input slot="input" placeholder="請輸入金額"/>
+        <InputGroup title="每一意外事故體傷責任金額" :borderBtn="viewModel" :editModel="editModel">
+          <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
         </InputGroup>
-        <InputGroup title="每一意外事故財物損失責任金額" borderBtn :editModel="editModel">
-          <Input slot="input" placeholder="請輸入金額"/>
+        <InputGroup title="每一意外事故財物損失責任金額" :borderBtn="viewModel" :editModel="editModel">
+          <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
         </InputGroup>
-        <InputGroup title="本保險契約之最高賠償金額" borderBtn :editModel="editModel">
-          <Input slot="input" placeholder="請輸入金額"/>
+        <InputGroup title="本保險契約之最高賠償金額" :borderBtn="viewModel" :editModel="editModel">
+          <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
         </InputGroup>
-        <InputGroup title="自負額" borderBtn :editModel="editModel">
-          <Select slot="input" defaultText="請選擇金額"/>
+        <InputGroup title="自負額" :borderBtn="viewModel" :editModel="editModel">
+          <Select slot="input" defaultText="請選擇金額" unit="萬元"/>
         </InputGroup>
       </div>
       <div class="flex flex-row justify-center mt-4">

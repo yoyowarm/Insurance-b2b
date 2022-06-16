@@ -62,7 +62,7 @@
           @emitItem="(item) => emitSelectItem('City', item)"
         />
       </InputGroup>
-      <InputGroup class="item" dash :noMt="marginTop(560)">
+      <InputGroup class="item" dash :noMt="marginTop(560)" >
         <Select
           slot="input"
           defaultText="選擇區域"

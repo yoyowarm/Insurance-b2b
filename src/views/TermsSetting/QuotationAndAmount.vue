@@ -1,12 +1,12 @@
 <template>
   <div>
     <FormTitle title="另行報價額度 條款設定" class="text-lg"/>
-    <CommonBoard class="category rotate">
+    <CommonBoard>
       <div class="flex w-full">
         <TableGroup class="w-full" :data="amountListTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in amountListTable.rows">
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
-            <Button @click.native="() => {dialog.type = index; openDialog = true}" outline>編輯</Button>
+            <Button @click.native="() => {dialog.type = index; openDialog = true}" class="w-full sm:w-24" outline>編輯</Button>
           </div>
           <div :slot="`content-${index}`" :key="`content${index}`" class="flex flex-col">
               <template v-for="(contentText) in item.content">
@@ -156,10 +156,6 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  .category {
-    margin-top: 40px;
-    @apply  w-full relative
-  }
   .menu {
     top: -39px;
     @apply absolute
@@ -167,15 +163,4 @@ export default {
   .weight-input {
     @apply rounded-full w-4/6 h-full border-2 border-gray-300 text-center
   }
-@media screen and (max-width: 600px) {
-  .category.rotate {
-    margin-top: 0;
-    padding-left: 50px;
-  }
-  .menu.rotate{
-    top: 20px;
-    left: -5px;
-    @apply absolute
-  }
-}
 </style>

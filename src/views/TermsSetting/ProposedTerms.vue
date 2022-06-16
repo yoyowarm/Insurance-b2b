@@ -3,11 +3,10 @@
     <FormTitle title="建議條款 條款設定" class="text-lg mb-14"/>
     <CommonBoard class="category rotate">
       <NavMenu
-        class="menu rotate"
+        class="menu"
         :itemLists="itemLists"
         :currentTag="currentTag"
         @updatedMenu="(e) => currentTag = e"
-        rotate
       />
       <div class="column-5 mb-4">
         <InputGroup noMt>
@@ -107,15 +106,4 @@ export default {
     top: -39px;
     @apply absolute
   }
-@media screen and (max-width: 600px) {
-  .category.rotate {
-    margin-top: 0;
-    padding-left: 50px;
-  }
-  .menu.rotate{
-    top: 20px;
-    left: -5px;
-    @apply absolute
-  }
-}
 </style>
