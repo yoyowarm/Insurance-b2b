@@ -45,8 +45,8 @@
 						slot="input"
 						defaultText="選擇民國年"
 						:options="yearOptions"
-						:selected="`${copyPeriod.startDate.year}`"
-						@emitItem="(e) => emitSelectItem('startDate','year', e.Value)"
+						:selected="`${copyPeriod.endDate.year}`"
+						@emitItem="(e) => emitSelectItem('endDate','year', e.Value)"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-3">
@@ -54,8 +54,8 @@
 						slot="input"
 						defaultText="選擇月份"
 						:options="monthOptions"
-						:selected="`${copyPeriod.startDate.month}`"
-						@emitItem="(e) => emitSelectItem('startDate','month', e.Value)"
+						:selected="`${copyPeriod.endDate.month}`"
+						@emitItem="(e) => emitSelectItem('endDate','month', e.Value)"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-3">
@@ -63,8 +63,8 @@
 						slot="input"
 						defaultText="選擇日期"
 						:options="dayOptions"
-						:selected="`${copyPeriod.startDate.day}`"
-						@emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
+						:selected="`${copyPeriod.endDate.day}`"
+						@emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-4">
@@ -72,8 +72,8 @@
 						slot="input"
 						defaultText="選擇小時"
 						:options="hourOptions"
-						:selected="`${copyPeriod.startDate.hour}`"
-						@emitItem="(e) => emitSelectItem('startDate','hour', e.Value)"
+						:selected="`${copyPeriod.endDate.hour}`"
+						@emitItem="(e) => emitSelectItem('endDate','hour', e.Value)"
 					/>
 				</InputGroup>
 			</div>

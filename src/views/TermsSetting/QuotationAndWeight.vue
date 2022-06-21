@@ -12,13 +12,13 @@
         <TableGroup class="w-full" :data="weightListTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in weightListTable.rows">
           <div :slot="`weight-${index}`" :key="`weight${index}`" class="flex whitespace-no-wrap">
-            <Input value="1" class="md:mr-4 weight-input w-full sm:w-24"/>
+            <Input value="1" class="md:mr-4 weight-input w-full sm:w-24" :disable="!item.edit"/>
           </div>
           <div :slot="`switch-${index}`" :key="`switch${index}`" class="flex whitespace-no-wrap">
-            <span class="cursor-pointer text-main pr-3">是</span><span class="text-gray-300 pr-3">/</span><span class="cursor-pointer text-gray-300">否</span>
+            <span class=" pr-3" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}">是</span><span class="text-gray-300 pr-3">/</span><span class=" text-gray-300" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">否</span>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
-            <Button class="w-full sm:w-24" outline>編輯</Button>
+            <Button class="w-full sm:w-24" @click.native="editSwitch(index)" :outline="!item.edit"><span v-if="!item.edit">編輯</span><span v-else>儲存</span></Button>
           </div>
         </template>
       </TableGroup>
@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       windowWidth: window.innerWidth,
-      weightListTable: weightListTable(),
+      weightList: weightListTable(),
       openDialog: false,
       dialog: {
         title: '',
@@ -74,6 +74,25 @@ export default {
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
     }),
+    weightListTable: {
+      get() {
+        this.weightList.rows.map(item => {
+          // eslint-disable-next-line no-prototype-builtins
+          if(item.hasOwnProperty('edit')) {
+            return item
+          } else {
+            return {
+              ...item,
+              edit: false
+            }
+          }
+        })
+        return this.weightList
+      },
+      set(value) {
+        this.weightList = value
+      }
+    },
     slotArray () {
       const arr = []
       const slotArr = [ 'weight','switch', 'operate']
@@ -94,6 +113,22 @@ export default {
       console.log(page)
       // this.$store.dispatch('app/updatedCurrentPage',page)
     },
+    editSwitch(index) {
+      const value = !this.weightListTable.rows[index].edit
+      this.weightListTable = Object.assign(this.weightListTable, {
+        ...this.weightListTable.heads,
+        rows: this.weightListTable.rows.map((item, i) => {
+          if(i === index) {
+            return {
+              ...item,
+              edit: value
+            }
+          } else {
+            return item
+          }
+        })
+      })
+    }
   }
 }
 </script>

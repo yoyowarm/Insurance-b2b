@@ -508,8 +508,8 @@ export const categoryListTable = () => {
   return {
     head: [
       {
-        text: '應另行報價',
-        value: 'quote',
+        text: '權重值',
+        value: 'weight',
         size: '1-6'
       },
       {
@@ -523,10 +523,20 @@ export const categoryListTable = () => {
         size: '6-6'
       },
       {
+        text: '應另行報價',
+        value: 'quote',
+        size: '1-6'
+      },
+      {
         text: '隱藏/顯示',
         value: 'eye',
         size: '1-6'
       },
+      {
+        text: '操作',
+        value: 'operate',
+        size: '1-6'
+      }
     ],
     rows: [
       {

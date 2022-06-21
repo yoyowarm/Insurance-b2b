@@ -19,7 +19,7 @@
         <Input slot="input" placeholder="請輸入金額" disable unit="萬元"/>
       </InputGroup>
       <InputGroup title="自負額">
-        <Select slot="input" defaultText="請選擇金額"/>
+        <Select slot="input" :options="amountList" defaultText="請選擇金額"/>
       </InputGroup>
     </div>
   </div>
@@ -34,6 +34,18 @@ export default {
     InputGroup,
     Input,
     Select
+  },
+  data() {
+    return {
+      amountList: [
+        {Value: 1, Text: '2,500元'},
+        {Value: 2, Text: '5,000元'},
+        {Value: 3, Text: '10,000元'},
+        {Value: 4, Text: '50,000元'},
+        {Value: 5, Text: '100,000元'},
+        {Value: 6, Text: '200,000元'},
+      ]
+    }
   }
 }
 </script>

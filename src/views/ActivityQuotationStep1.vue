@@ -75,7 +75,7 @@ import InsuranceIndustry from '@/components/Common/InsuranceIndustry'
 import TextBox from '@/components/InputGroup/Textbox'
 import ActivityInfo from '@/components/Activity/ActivityInfo'
 import InsuranceAmount from '@/components/Common/InsuranceAmount'
-import Period from '@/components/Place/Period'
+import Period from '@/components/Activity/Period'
 import TermsList from '@/components/Common/TermsList'
 import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/Questionnaire.vue'
@@ -112,7 +112,7 @@ export default {
   computed: {
     ...mapState({
       activityInfoList: state => state.activity.activityInfo,
-      period: state => state.place.period,
+      period: state => state.activity.period,
       terms: state => state.place.terms
     }),
     periodData: {
@@ -133,21 +133,17 @@ export default {
     },
   },
   watch:{
-    'period.startDate': function(val) {
-      for (const [key, value] of Object.entries(val)) {
-        if (val[key] !== '' && key === 'year') {
-          this.period.endDate[key] = Number(value) + 1
-        }
-      }
-      if (Object.values(val).every(item => item !== '')) {
-        const d1 = new Date(`${Number(val.year) + 1911}/${val.month}/${val.day}`)
-        const d2 = new Date(d1)
-        d2.setFullYear(d2.getFullYear() + 1)
-        d2.setDate(d2.getDate())
-        this.period.endDate.month = d2.getMonth() + 1
-        this.period.endDate.day = d2.getDate()
-        this.periodData = Object.assign(this.period, { endDate: { year: Number(this.period.startDate.year)+1,month: d2.getMonth() + 1, day: d2.getDate(), hour: val.hour} })
-      }
+    'periodData.startDate': {
+      handler(val) {
+         if (Object.values(val).every(item => item !== '')) {
+            const d1 = new Date(`${Number(val.year) + 1911}/${val.month}/${val.day}`)
+            const d2 = new Date(d1)
+            d2.setDate(d2.getDate()+7)
+            console.log(d2.getFullYear()-1911,d2.getMonth()+1,d2.getDate(),d2.getHours())
+            this.periodData = Object.assign(this.period, { endDate: { year: d2.getFullYear()-1911,month: d2.getMonth() + 1, day: d2.getDate(), hour: val.hour} })
+          }
+      },
+      deep: true
     },
   },
   methods: {

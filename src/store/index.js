@@ -26,6 +26,11 @@ const vuexLocal = new VuexPersistence({
       },
       place: {
         terms: state.place.terms,
+        period: state.place.period,
+      },
+      activity: {
+        terms: state.activity.terms,
+        period: state.activity.period,
       },
       common: {
         viewModel: state.common.viewModel,

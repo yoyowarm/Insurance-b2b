@@ -12,27 +12,27 @@
         <TableGroup class="w-full" :data="minimumAmountTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in minimumAmountTable.rows">
           <div :slot="`slot1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
-            <InputGroup class="-mt-2 w-full" noMt>
-              <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
+            <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
+              <Input slot="input" placeholder="請輸入金額" unit="萬元" :disable="!item.edit"/>
             </InputGroup>
           </div>
           <div :slot="`slot2-${index}`" :key="`slot2${index}`" class="flex whitespace-no-wrap pr-3">
-            <InputGroup class="-mt-2 w-full" noMt>
-              <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
+            <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
+              <Input slot="input" placeholder="請輸入金額" unit="萬元" :disable="!item.edit"/>
             </InputGroup>
           </div>
           <div :slot="`slot3-${index}`" :key="`slot3${index}`" class="flex whitespace-no-wrap pr-3">
-            <InputGroup class="-mt-2 w-full" noMt>
-              <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
+            <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
+              <Input slot="input" placeholder="請輸入金額" unit="萬元" :disable="!item.edit"/>
             </InputGroup>
           </div>
           <div :slot="`slot4-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap pr-3">
-            <InputGroup class="-mt-2 w-full" noMt>
-              <Input slot="input" placeholder="請輸入金額" unit="萬元"/>
+            <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
+              <Input slot="input" placeholder="請輸入金額" unit="萬元" :disable="!item.edit"/>
             </InputGroup>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="w-full flex justify-center">
-            <Button class="w-full my-2 sm:my-0" outline>編輯</Button>
+            <Button class="w-full my-2 sm:my-0" @click.native="editSwitch(index)" :outline="!item.edit"><span v-if="!item.edit">編輯</span><span v-else>儲存</span></Button>
           </div>
         </template>
       </TableGroup>
@@ -70,7 +70,7 @@ export default {
   data() {
     return {
       windowWidth: window.innerWidth,
-      minimumAmountTable: minimumAmountTable(),
+      minimumAmount: minimumAmountTable(),
       openDialog: false,
       dialog: {
         title: '',
@@ -89,6 +89,25 @@ export default {
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
     }),
+    minimumAmountTable: {
+      get() {
+        this.minimumAmount.rows.map(item => {
+          // eslint-disable-next-line no-prototype-builtins
+          if(item.hasOwnProperty('edit')) {
+            return item
+          } else {
+            return {
+              ...item,
+              edit: false
+            }
+          }
+        })
+        return this.minimumAmount
+      },
+      set(value) {
+        this.minimumAmount = value
+      }
+    },
     slotArray () {
       const arr = []
       const slotArr = [ 'slot1', 'slot2', 'slot3', 'slot4', 'operate']
@@ -109,6 +128,26 @@ export default {
       console.log(page)
       // this.$store.dispatch('app/updatedCurrentPage',page)
     },
+    editSwitch(index) {
+      const value = !this.minimumAmountTable.rows[index].edit
+      this.minimumAmountTable = Object.assign(this.minimumAmountTable, {
+        ...this.minimumAmountTable.heads,
+        rows: this.minimumAmountTable.rows.map((item, i) => {
+          if(i === index) {
+            return {
+              ...item,
+              edit: value
+            }
+          } else {
+            return item
+          }
+        })
+      })
+    }
+  },
+  async mounted() {
+    const data = await this.$store.dispatch('resource/CountyMinimumSettings')
+    console.log(data)
   }
 }
 </script>

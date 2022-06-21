@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-menu" :class="{rotate}">
+  <div class="nav-menu">
     <Item
       v-for="(item,index) in itemLists"
       :key="index"

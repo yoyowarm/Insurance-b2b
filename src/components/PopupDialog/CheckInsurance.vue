@@ -1,19 +1,23 @@
 <template>
    <div class="popup" ref="modal" :class="{'open':open }">
     <div class="dialog">
-      <div class="header">{{headerText}}
+      <div class="header">
+        <span>{{headerText}}</span>
         <div class="icon" @click="$emit('update:open',false)">
           <font-awesome-icon icon="times-circle" />
         </div>
+        <InputGroup bgColor="#fff" class="md:ml-4 h-8 w-full md:w-auto md:-mt-7" noMt>
+          <Select :options="formList" slot="input" defaultText="選擇表單區塊"  @emitItem="e=> emitSelectItem(e)" />
+        </InputGroup>
       </div>
       <div class="body">
-        <CommonBoard class="w-full mb-7" title="被保險人資料">
+        <CommonBoard class="w-full mb-7" ref="1" title="被保險人資料">
           <InsuranceInfoFin :info.sync="InsuranedData" type="InsuranedData"/>
         </CommonBoard>
-        <CommonBoard class="w-full mb-7" title="要保險人資料">
+        <CommonBoard class="w-full mb-7" ref="2" title="要保險人資料">
           <InsuranceInfoFin :info.sync="ApplicantData" type="ApplicantData"/>
         </CommonBoard>
-        <CommonBoard class="w-full mb-7" title="投保資料">
+        <CommonBoard class="w-full mb-7" ref="3" title="投保資料">
           <InsuranceContent :lists="placeInfo"/>
         </CommonBoard>
         <InsuranceAmountList :lists="placeInfo" viewModel/>
@@ -30,6 +34,8 @@
 <script>
 import CommonBoard from '@/components/CommonBoard'
 import Button from '@/components/Button'
+import Select from '@/components/Select'
+import InputGroup from '@/components/InputGroup'
 import InsuranceInfoFin from '@/components/Common/InsuranceInfoFin'
 import InsuranceContent from '@/components/Place/InsuranceContent'
 import InsuranceAmountList from '@/components/Common/InsuranceAmountList.vue'
@@ -40,7 +46,9 @@ export default {
     CommonBoard,
     InsuranceInfoFin,
     InsuranceContent,
-    InsuranceAmountList
+    InsuranceAmountList,
+    Select,
+    InputGroup
   },
   props: {
     open: {
@@ -74,7 +82,12 @@ export default {
   },
    data () {
     return {
-      value: false
+      value: false,
+      formList: [
+        { Value: '1', Text: '被保險人資料'},
+        { Value: '2', Text: '要保險人資料'},
+        { Value: '3', Text: '投保資料'}
+      ]
     }
   },
   computed: {
@@ -103,9 +116,12 @@ export default {
     },
   },
   methods: {
-    show () {
-      this.value = true
-    },
+    emitSelectItem(e) {
+      console.log(this.$refs,e)
+      if(this.$refs[e.Value]) {
+        this.$refs[e.Value].$el.scrollIntoView({behavior: "smooth"})
+      }
+    }
   }
 }
 </script>
@@ -128,7 +144,7 @@ export default {
     z-index: 100;
     @apply bg-white rounded-2xl;
     .header {
-      height: 50px;
+      height: 60px;
       @apply flex items-center pl-6 relative bg-main w-full rounded-t-2xl text-white text-lg;
     }
     .icon {
@@ -148,7 +164,13 @@ export default {
     .dialog {
       width: 90%;
       @apply bg-white rounded-2xl;
-
+      .header {
+        height: 100px;
+        @apply flex-col pl-0 px-4 justify-center;
+        >span {
+          @apply -mt-5
+        }
+      }
     }
   }
 </style>
