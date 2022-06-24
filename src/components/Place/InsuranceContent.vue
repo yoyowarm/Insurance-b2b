@@ -123,13 +123,13 @@
       </InputGroup>
       <InputGroup class="w-full" :title="`處所${index+1}-坪數`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Input v-if="editModel" slot="input" class="w-full relative text-main" value="500"/>
-          <div v-else slot="input" class="w-full pr-24 relative">
+          <div v-else slot="input" class="w-full relative">
             500
           </div>
       </InputGroup>
       <InputGroup class="w-full" :title="`處所${index+1}-經營業務處所`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="台北市"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           台北市
         </div>
       </InputGroup>
@@ -139,8 +139,15 @@
     <div class="column-6 pb-3 mb-4">
       <InputGroup class="w-full col-span-6" title="備註" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容
+        </div>
+      </InputGroup>
+    </div>
+    <div class="column-6 pb-3 mb-4">
+      <InputGroup class="w-full col-span-6" title="上傳附件" borderBtn>
+        <div slot="input" class="w-full relative">
+          <p class="text-blue-500 px-4 pr-5 text-lg truncate relative">test.text</p>
         </div>
       </InputGroup>
     </div>

@@ -14,6 +14,7 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
+      <Button v-if="currentTag == 0" class="col-start-5 h-10" @click.native="callDialog(7,'新增成員','新增成員')" outline>新增成員</Button>
       <div v-else class="col-start-5 flex justify-end">
         <Button class="sm:mr-2 w-full sm:w-32" @click.native="callDialog(6,'新增群組','新增群組')" outline>新增群組</Button>
       </div>
@@ -162,9 +163,33 @@
           <li>權限列表：負責人設定、會員管理</li>
         </ul>
       </div>
+      <div v-if="dialog.type == 7">
+        <div class="column-2">
+          <InputGroup title="員工編號">
+            <Select slot="input" defaultText="選擇員工"/>
+          </InputGroup>
+          <InputGroup title="群組權限">
+            <Select slot="input" defaultText="選擇權限"/>
+          </InputGroup>
+        </div>
+        <div class="column-2">
+          <InputGroup title="帳號狀態">
+            <Select slot="input" defaultText="選擇狀態"/>
+          </InputGroup>
+          <InputGroup title="E-mail">
+            <Input slot="input" placeholder="輸入E-mail"/>
+          </InputGroup>
+        </div>
+        <div class="column-2">
+          <InputGroup title="分機">
+            <Input slot="input" placeholder="輸入分機"/>
+          </InputGroup>
+        </div>
+      </div>
     </PopupDialog>
     <WindowResizeListener @resize="handleResize"/>
   </CommonBoard>
+  <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -235,6 +260,15 @@ export default {
       return arr
     }
   },
+  watch: {
+    async currentTag(val) {
+      if (val === 0) {
+        await this.$store.dispatch('resource/PermissionSettingUsers')
+      } else {
+        await this.$store.dispatch('resource/PermissionSettingGroups')
+      }
+    }
+  },
   methods: {
     handleResize () {
       this.windowWidth = window.innerWidth
@@ -251,7 +285,9 @@ export default {
       if(okText) this.dialog.okText = okText
     }
   },
-
+  async mounted() {
+    await this.$store.dispatch('resource/PermissionSettingUsers')
+  }
 }
 </script>
 

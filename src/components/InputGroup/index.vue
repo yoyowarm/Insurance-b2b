@@ -79,8 +79,8 @@ export default {
     @apply flex flex-col relative;
     .input {
       border: 1px solid #BFBFBF;
-      max-height: 50px;
-      height: 50px;
+      // max-height: 50px;
+      min-height: 50px;
       @apply w-full rounded-full relative flex items-center;
       &.dash::after {
         content: '-';

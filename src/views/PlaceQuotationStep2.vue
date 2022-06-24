@@ -37,8 +37,8 @@
         :checked="sameAsInsured"
         :value="sameAsInsured"
         @updateValue="(e) => {
-          $store.dispatch('quotationStep2/sameAsInsured', e);
-          $store.dispatch('quotationStep2/updatedRelation', {Text: '本人', Value: 'RL00'});
+          $store.dispatch('place/sameAsInsured', e);
+          $store.dispatch('place/updatedRelation', {Text: '本人', Value: 'RL00'});
         }"
       />
       <InsuranceInfo
@@ -177,9 +177,9 @@ export default {
     Relation: {
       handler(value) {
         if(value.Value === 'RL00') {
-          this.$store.dispatch('quotationStep2/sameAsInsured', true)
+          this.$store.dispatch('place/sameAsInsured', true)
         } else {
-          this.$store.dispatch('quotationStep2/sameAsInsured', false)
+          this.$store.dispatch('place/sameAsInsured', false)
         }
       },
       deep: true

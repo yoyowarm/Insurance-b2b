@@ -15,6 +15,7 @@
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -27,6 +28,7 @@ import InsuranceContent from '@/components/Activity/InsuranceContent'
 import ViewModelSticker from '@/components/viewModelSticker'
 import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
 import routeChange from '@/utils/mixins/routeChange'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { mapState } from 'vuex'
 export default {
   mixins: [routeChange],
@@ -37,7 +39,8 @@ export default {
     InsuranceAmountList,
     InsuranceContent,
     ViewModelSticker,
-    QuoteHistory
+    QuoteHistory,
+    LoadingScreen
   },
   data() {
     return {
@@ -52,6 +55,7 @@ export default {
       'sameAsInsured': state => state.activity.sameAsInsured,
       activityInfo: state => state.activity.activityInfo,
       viewModel: state => state.common.viewModel,
+      'loading': state => state.app.loading,
     }),
     InsuranedData: {
       get() {

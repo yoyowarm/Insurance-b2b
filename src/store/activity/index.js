@@ -1,3 +1,5 @@
+import { quotationStep2 } from '@/utils/dataTemp'
+import Vue from 'vue';
 export default {
   namespaced: true,
   state: {
@@ -141,7 +143,15 @@ export default {
     },
     UPDATED_TERMS(state, terms) {
       state.terms = terms
-    }
+    },
+    SAME_AS_INSURED(state, sameAsInsured) {
+      state.sameAsInsured = sameAsInsured
+      if (sameAsInsured) {
+        Vue.set(state, 'Applicant', state.Insuraned)
+      } else {
+        Vue.set(state, 'Applicant', quotationStep2().Applicant)
+      }
+    },
   },
   actions: {
     addActivityInfo({ commit }) {
@@ -155,6 +165,12 @@ export default {
     },
     updatedTerms({ commit }, terms) {
       commit('UPDATED_TERMS', terms)
-    }
+    },
+    updatedRelation({ commit }, data) {
+      commit('UPDATED_RELATION', data)
+    },
+    sameAsInsured({ commit }, sameAsInsured) {
+      commit('SAME_AS_INSURED', sameAsInsured)
+    },
   }
 }

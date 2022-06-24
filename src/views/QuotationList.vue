@@ -75,6 +75,7 @@
       </CommonBoard>
     </div>
     <WindowResizeListener @resize="handleResize"/>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -91,6 +92,7 @@ import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { quotationListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import WindowResizeListener from '@/components/WindowResizeListener'
@@ -104,7 +106,8 @@ export default {
     Input,
     Select,
     Button,
-    DatePicker
+    DatePicker,
+    LoadingScreen
   },
   data() {
     return {
@@ -146,6 +149,7 @@ export default {
   },
   computed: {
     ...mapState({
+      'loading': state => state.app.loading,
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
     }),

@@ -1,18 +1,26 @@
 <template>
   <div class="w-full">
     <template v-for="(info,index) in infoList">
-      <FormTitle :key="index" :title="`處所${index+1}`" classList="text-xl text-gray-700 my-3" />
+      <FormTitle :key="`title${index}`" :title="`處所${index+1}`" classList="text-xl text-gray-700 my-3" />
       <div :key="index" class="column-5 dashed-border relative">
         <InputGroup title="持有狀態">
           <SwitchInput
             checkedText="自有"
             uncheckedText="承租"
             slot="input"
-            id="IsHold"
+            :value="info.state"
+            :id="`IsHold-${index}`"
+            @updateValue="(e) =>updateValue(e,'state',index)"
           />
         </InputGroup>
         <InputGroup title="處所坪數">
-          <Input slot="input" placeholder="輸入坪數"/>
+          <Input
+            slot="input"
+            placeholder="輸入坪數"
+            :value="info.square.toString()"
+            decimalPoint
+            @updateValue="(e) =>updateValue(e,'square',index)"
+          />
         </InputGroup>
         <InputGroup title="經營業務處所">
           <Select slot="input" defaultText="選擇縣市"/>
@@ -49,6 +57,13 @@ export default {
       type: Array,
       default: () => []
     }
+  },
+  methods: {
+    updateValue(e,type,index) {
+      const copyInfoList = [...this.infoList]
+      copyInfoList[index][type] = e
+      this.$emit('update:infoList', copyInfoList)
+    },
   }
 }
 </script>

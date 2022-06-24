@@ -62,6 +62,7 @@
       <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
     </div>
     <Questionnaire :open.sync="openQuestionnaire"/>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -80,6 +81,7 @@ import TermsList from '@/components/Common/TermsList'
 import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/Questionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -97,7 +99,8 @@ export default {
     TermsList,
     TermConditions,
     Questionnaire,
-    FileUpload
+    FileUpload,
+    LoadingScreen
   },
   data () {
     return {
@@ -113,7 +116,8 @@ export default {
     ...mapState({
       activityInfoList: state => state.activity.activityInfo,
       period: state => state.activity.period,
-      terms: state => state.place.terms
+      terms: state => state.place.terms,
+      'loading': state => state.app.loading,
     }),
     periodData: {
       get() {

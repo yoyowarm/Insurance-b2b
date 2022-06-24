@@ -87,6 +87,7 @@
       </PopupDialog>
       <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
       <WindowResizeListener @resize="handleResize"/>
+      <LoadingScreen :isLoading="loading.length > 0"/>
     </CommonBoard>
   </div>
 </template>
@@ -101,6 +102,7 @@ import Pagination from '@/components/pagination'
 import Button from '@/components/Button'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import WindowResizeListener from '@/components/WindowResizeListener'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { amountListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -113,7 +115,8 @@ export default {
     Button,
     PopupDialog,
     InputGroup,
-    Input
+    Input,
+    LoadingScreen
   },
   data() {
     return {

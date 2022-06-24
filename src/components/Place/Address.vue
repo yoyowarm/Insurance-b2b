@@ -16,6 +16,7 @@
         <InputGroup class="col-span-3" noMt>
           <Input
             slot="input"
+            class="w-full"
             placeholder="輸入地址"
           />
         </InputGroup>

@@ -26,6 +26,7 @@
       <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
       <WindowResizeListener @resize="handleResize"/>
     </CommonBoard>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -38,6 +39,7 @@ import NavMenu from '@/components/NavMenu'
 import Pagination from '@/components/pagination'
 import Button from '@/components/Button'
 import WindowResizeListener from '@/components/WindowResizeListener'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { weightListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -49,7 +51,8 @@ export default {
     WindowResizeListener,
     TableGroup,
     Input,
-    Button
+    Button,
+    LoadingScreen
   },
   data() {
     return {

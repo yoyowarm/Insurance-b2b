@@ -15,7 +15,7 @@ Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage,
-  modules: ['app', 'home', 'place', 'common'],
+  modules: ['app', 'home', 'place', 'activity', 'common'],
   reducer: (state) => {
     return {
       app: {
@@ -27,10 +27,22 @@ const vuexLocal = new VuexPersistence({
       place: {
         terms: state.place.terms,
         period: state.place.period,
+        renewal: state.place.renewal,
+        placeInfo: state.place.placeInfo,
+        Insuraned: state.place.Insuraned,
+        Relation: state.place.Relation,
+        Applicant: state.place.Applicant,
+        sameAsInsured: state.place.sameAsInsured,
+        InsuranceRecord: state.place.InsuranceRecord,
       },
       activity: {
         terms: state.activity.terms,
         period: state.activity.period,
+        activityInfo: state.activity.activityInfo,
+        Insuraned: state.activity.Insuraned,
+        Relation: state.activity.Relation,
+        Applicant: state.activity.Applicant,
+        sameAsInsured: state.activity.sameAsInsured,
       },
       common: {
         viewModel: state.common.viewModel,

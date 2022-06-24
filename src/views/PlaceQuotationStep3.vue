@@ -42,6 +42,7 @@
         </div>
       </InputGroup>
     </PopupDialog>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -56,6 +57,7 @@ import InsuranceContent from '@/components/Place/InsuranceContent'
 import ViewModelSticker from '@/components/viewModelSticker'
 import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import routeChange from '@/utils/mixins/routeChange'
 import { mapState } from 'vuex'
 export default {
@@ -70,7 +72,8 @@ export default {
     QuoteHistory,
     PopupDialog,
     InputGroup,
-    Input
+    Input,
+    LoadingScreen
   },
   data() {
     return {
@@ -86,6 +89,7 @@ export default {
       'sameAsInsured': state => state.place.sameAsInsured,
       placeInfo: state => state.place.placeInfo,
       viewModel: state => state.common.viewModel,
+      'loading': state => state.app.loading,
     }),
     InsuranedData: {
       get() {

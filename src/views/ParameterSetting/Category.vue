@@ -38,6 +38,7 @@
       <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
       <WindowResizeListener @resize="handleResize"/>
     </CommonBoard>
+     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -53,6 +54,7 @@ import Button from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
 import Pagination from '@/components/pagination'
 import WindowResizeListener from '@/components/WindowResizeListener'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { categoryListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -67,7 +69,8 @@ export default {
     InputGroup,
     Checkbox,
     Input,
-    Button
+    Button,
+    LoadingScreen
   },
   data() {
     return {
@@ -122,6 +125,18 @@ export default {
       return arr
     }
   },
+  watch: {
+    currentTag: {
+      async handler(val) {
+        if(val === 0) {
+          await this.$store.dispatch('resource/PlacesSetting')
+        } else {
+          await this.$store.dispatch('resource/ActivitiesSetting')
+        }
+      },
+      immediate: true
+    },
+  },
   methods: {
     handleResize () {
       this.windowWidth = window.innerWidth
@@ -147,6 +162,10 @@ export default {
         })
       })
     }
+  },
+  async mounted() {
+    const data = await this.$store.dispatch('resource/PlacesSetting')
+    console.log(data)
   }
 }
 </script>

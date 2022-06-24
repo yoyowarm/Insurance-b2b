@@ -1,8 +1,25 @@
+import { quotationStep2 } from '@/utils/dataTemp'
+import Vue from 'vue';
 export default {
   namespaced: true,
   state: {
-    token: '',
     InsuranceActive: 0,
+    renewal: {
+      IsRenewal: false,
+      InsuranceNumber: '',
+    },
+    InsuranceRecord: {
+      lastYear: {
+        status: false,
+        premium: '',
+        amount: '',
+      },
+      previousYear: {
+        status: false,
+        premium: '',
+        amount: '',
+      }
+    },
     placeInfo: [{
       state: false,
       square: 0,
@@ -107,6 +124,9 @@ export default {
         address: ''
       })
     },
+    UPDATED_PLACE_INFO(state, data) {
+      state.placeInfo = data
+    },
     DELETE_PLACE_INFO(state, index) {
       state.placeInfo.splice(index, 1)
     },
@@ -115,11 +135,28 @@ export default {
     },
     UPDATED_TERMS(state, terms) {
       state.terms = terms
+    },
+    UPDATED_RENEWAL(state, data) {
+      state.renewal = data
+    },
+    SAME_AS_INSURED(state, sameAsInsured) {
+      state.sameAsInsured = sameAsInsured
+      if (sameAsInsured) {
+        Vue.set(state, 'Applicant', state.Insuraned)
+      } else {
+        Vue.set(state, 'Applicant', quotationStep2().Applicant)
+      }
+    },
+    UPDATED_INSURANCE_RECORD(state, data) {
+      state.InsuranceRecord = data
     }
   },
   actions: {
     addPlaceInfo({ commit }) {
       commit('ADD_PLACE_INFO')
+    },
+    updatedPlaceInfo({ commit }, payload) {
+      commit('UPDATED_PLACE_INFO', payload)
     },
     deletePlaceInfo({ commit }, index) {
       commit('DELETE_PLACE_INFO', index)
@@ -139,5 +176,14 @@ export default {
     updatedRelation({ commit }, data) {
       commit('UPDATED_RELATION', data)
     },
+    updatedRenewal({ commit }, data) {
+      commit('UPDATED_RENEWAL', data)
+    },
+    sameAsInsured({ commit }, sameAsInsured) {
+      commit('SAME_AS_INSURED', sameAsInsured)
+    },
+    updatedInsuranceRecord({ commit }, data) {
+      commit('UPDATED_INSURANCE_RECORD', data)
+    }
   }
 }

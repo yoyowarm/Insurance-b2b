@@ -566,27 +566,27 @@ export const minimumAmountTable = () => {
     head: [
       {
         text: '主管機關',
-        value: 'name',
+        value: 'countyName',
         size: '2-6'
       },
       {
         text: '每一個人體傷責任金額',
-        value: 'slot1',
+        value: 'perBodyAmount',
         size: '5-6'
       },
       {
         text: '每一意外事故體傷責任金額',
-        value: 'slot2',
+        value: 'perAccidentBodyAmount',
         size: '5-6'
       },
       {
         text: '每一意外事故財物損失責任金額',
-        value: 'slot3',
+        value: 'perAccidentFinanceAmount',
         size: '5-6'
       },
       {
         text: '本保險契約之最高賠償金額',
-        value: 'slot4',
+        value: 'insuranceTotalAmount',
         size: '5-6'
       },
       {
@@ -596,30 +596,6 @@ export const minimumAmountTable = () => {
       }
     ],
     rows: [
-      {
-        name: '基隆市政府',
-        slot1: 'slot1',
-        slot2: 'slot2',
-        slot3: 'slot3',
-        slot4: 'slot4',
-        operate: ''
-      },
-      {
-        name: '台北市政府',
-        slot1: 'slot1',
-        slot2: 'slot2',
-        slot3: 'slot3',
-        slot4: 'slot4',
-        operate: ''
-      },
-      {
-        name: '新北市政府',
-        slot1: 'slot1',
-        slot2: 'slot2',
-        slot3: 'slot3',
-        slot4: 'slot4',
-        operate: ''
-      },
     ]
   }
 }

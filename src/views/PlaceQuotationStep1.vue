@@ -9,14 +9,14 @@
           <SwitchInput
             slot="input"
             id="IsRenewal"
-            :value="IsRenewal"
-            @updateValue="(e) =>IsRenewal = e"
+            :value="renewal.IsRenewal"
+            @updateValue="(e) =>$store.dispatch('place/updatedRenewal', Object.assign(renewal, {IsRenewal: e}))"
           />
         </InputGroup>
-        <InputGroup class="w-full mb-2.5" :disable="!IsRenewal">
+        <InputGroup class="w-full mb-2.5" :disable="!renewal.IsRenewal">
         <div slot="input" class="w-full pr-24 relative">
-          <Input placeholder="輸入保單號碼" :disable="!IsRenewal"/>
-          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" :disabled="!IsRenewal">查詢</Button>
+          <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal"/>
+          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" :disabled="!renewal.IsRenewal">查詢</Button>
         </div>
       </InputGroup>
       </div>
@@ -33,11 +33,11 @@
       <Period :period.sync="periodData"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="投保紀錄">
-      <InsuranceRecord/>
+      <InsuranceRecord :data.sync="InsuranceRecordTable"/>
     </CommonBoard>
     <CommonBoard class="w-full" :title="`處所資料 數量:${placeInfoList.length}`">
       <PlaceInfo
-        :infoList="placeInfoList"
+        :infoList.sync="placeInfoList"
         @addItem="$store.dispatch('place/addPlaceInfo')"
         @removeItem="(index) => $store.dispatch('place/deletePlaceInfo',index)"
       />
@@ -86,6 +86,7 @@
       <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
     </div>
     <Questionnaire :open.sync="openQuestionnaire"/>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -106,6 +107,7 @@ import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/Questionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import InsuranceRecord from '@/components/Place/InsuranceRecord.vue'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -125,7 +127,8 @@ export default {
     TermConditions,
     Questionnaire,
     FileUpload,
-    InsuranceRecord
+    InsuranceRecord,
+    LoadingScreen
   },
   data () {
     return {
@@ -140,10 +143,29 @@ export default {
   },
   computed: {
     ...mapState({
-      placeInfoList: state => state.place.placeInfo,
+      placeInfo: state => state.place.placeInfo,
       period: state => state.place.period,
-      terms: state => state.place.terms
+      terms: state => state.place.terms,
+      renewal: state => state.place.renewal,
+      'loading': state => state.app.loading,
+      InsuranceRecord: state => state.place.InsuranceRecord,
     }),
+    placeInfoList: {
+      get () {
+        return this.placeInfo
+      },
+      set(val) {
+        this.$store.dispatch('place/updatedPlaceInfo', val)
+      }
+    },
+    InsuranceRecordTable: {
+      get () {
+        return this.InsuranceRecord
+      },
+      set(val) {
+        this.$store.dispatch('place/updatedInsuranceRecord', val)
+      }
+    },
     periodData: {
       get() {
         return this.period

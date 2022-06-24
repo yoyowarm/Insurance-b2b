@@ -79,6 +79,7 @@
       :open.sync="open"
       headerText="報價單編號 0000000001"
     />
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -96,6 +97,7 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
 import CheckInsurance from '@/components/PopupDialog/CheckInsurance.vue'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { quotationListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import WindowResizeListener from '@/components/WindowResizeListener'
@@ -110,7 +112,8 @@ export default {
     Select,
     Button,
     DatePicker,
-    CheckInsurance
+    CheckInsurance,
+    LoadingScreen
   },
   data() {
     return {
@@ -155,6 +158,7 @@ export default {
     ...mapState({
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
+      'loading': state => state.app.loading,
     }),
     slotArray () {
       const arr = []

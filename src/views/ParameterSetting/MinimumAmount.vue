@@ -11,24 +11,24 @@
       <div class="flex w-full">
         <TableGroup class="w-full" :data="minimumAmountTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in minimumAmountTable.rows">
-          <div :slot="`slot1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`perBodyAmount-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="請輸入金額" unit="萬元" :disable="!item.edit"/>
+              <Input slot="input" placeholder="請輸入金額" :value="item.perBodyAmount.toString()" @updateValue="(e) =>updatedAmount('perBodyAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
-          <div :slot="`slot2-${index}`" :key="`slot2${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`perAccidentBodyAmount-${index}`" :key="`slot2${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="請輸入金額" unit="萬元" :disable="!item.edit"/>
+              <Input slot="input" placeholder="請輸入金額" :value="item.perAccidentBodyAmount.toString()" @updateValue="(e) =>updatedAmount('perAccidentBodyAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
-          <div :slot="`slot3-${index}`" :key="`slot3${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`perAccidentFinanceAmount-${index}`" :key="`slot3${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="請輸入金額" unit="萬元" :disable="!item.edit"/>
+              <Input slot="input" placeholder="請輸入金額" :value="item.perAccidentFinanceAmount.toString()" @updateValue="(e) =>updatedAmount('perAccidentFinanceAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
-          <div :slot="`slot4-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`insuranceTotalAmount-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="請輸入金額" unit="萬元" :disable="!item.edit"/>
+              <Input slot="input" placeholder="請輸入金額" :value="item.insuranceTotalAmount.toString()" @updateValue="(e) =>updatedAmount('insuranceTotalAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="w-full flex justify-center">
@@ -37,9 +37,8 @@
         </template>
       </TableGroup>
       </div>
-      <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
-      <WindowResizeListener @resize="handleResize"/>
     </CommonBoard>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -50,9 +49,8 @@ import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
 import TableGroup from '@/components/TableGroup'
 import NavMenu from '@/components/NavMenu'
-import Pagination from '@/components/pagination'
 import Button from '@/components/Button'
-import WindowResizeListener from '@/components/WindowResizeListener'
+import LoadingScreen from '@/components/LoadingScreen.vue'
 import { minimumAmountTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -60,16 +58,14 @@ export default {
     FormTitle,
     CommonBoard,
     NavMenu,
-    Pagination,
-    WindowResizeListener,
     TableGroup,
     InputGroup,
     Input,
-    Button
+    Button,
+    LoadingScreen
   },
   data() {
     return {
-      windowWidth: window.innerWidth,
       minimumAmount: minimumAmountTable(),
       openDialog: false,
       dialog: {
@@ -110,7 +106,7 @@ export default {
     },
     slotArray () {
       const arr = []
-      const slotArr = [ 'slot1', 'slot2', 'slot3', 'slot4', 'operate']
+      const slotArr = [ 'perBodyAmount', 'perAccidentBodyAmount', 'perAccidentFinanceAmount', 'insuranceTotalAmount', 'operate']
       for (let i = 0; i < this.minimumAmountTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -120,14 +116,6 @@ export default {
     }
   },
   methods: {
-    handleResize () {
-      this.windowWidth = window.innerWidth
-    },
-    async changePage(page) {
-      if(this.currentPage === page || page < 1) return
-      console.log(page)
-      // this.$store.dispatch('app/updatedCurrentPage',page)
-    },
     editSwitch(index) {
       const value = !this.minimumAmountTable.rows[index].edit
       this.minimumAmountTable = Object.assign(this.minimumAmountTable, {
@@ -143,11 +131,19 @@ export default {
           }
         })
       })
+    },
+    updatedAmount(type,index,e) {
+      const rows = Object.assign(this.minimumAmountTable.rows, {...this.minimumAmountTable.rows, [index]: {
+        ...this.minimumAmountTable.rows[index],
+        [type]: e
+      }})
+      const all = Object.assign(this.minimumAmountTable, {...this.minimumAmountTable, rows})
+      this.minimumAmountTable = all
     }
   },
   async mounted() {
     const data = await this.$store.dispatch('resource/CountyMinimumSettings')
-    console.log(data)
+    this.minimumAmountTable.rows = data.data
   }
 }
 </script>
