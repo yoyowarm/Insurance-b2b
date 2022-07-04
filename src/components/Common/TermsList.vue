@@ -5,8 +5,8 @@
         <Checkbox
           class="my-1"
           :id="item.TermName"
-          :checked="item.IsRequired ? item.IsRequired :(copyTerms[item.TermName]? copyTerms[item.TermName].selected : false)"
-          :value="item.IsRequired ? item.IsRequired :(copyTerms[item.TermName]? copyTerms[item.TermName].selected : false)"
+          :checked="copyTerms[item.TermName]? copyTerms[item.TermName].selected : false"
+          :value="copyTerms[item.TermName]? copyTerms[item.TermName].selected : false"
           @updateValue="(e) =>updateTerms(item.TermName, e)"
         />
         <p class="ml-1 cursor-pointer" @click="setDialog(item.TermName,true, item.TermContent)">{{item.TermName}}</p>
@@ -35,7 +35,7 @@ export default {
   data(){
     return {
       copyTerms: {
-        ...this.Terms
+        ...this.terms
       },
     }
   },
@@ -45,13 +45,11 @@ export default {
 				this.copyTerms = {
 					...val
 				}
-        this.componentInit()
 			},
 			deep: true
     },
     termsLists: {
       handler() {
-        this.componentInit()
       }
     }
   },
@@ -68,17 +66,19 @@ export default {
        this.$emit('update:terms', this.copyTerms)
     },
     componentInit() {
-      if (Object.keys(this.copyTerms).length === 0) {
-        const obj = {}
-        this.termsLists.map(item => {
-          if (!item.IsRequired) {
-            obj[item.TermName] = {
-              selected: this.terms[item.TermName] ? this.terms[item.TermName].selected : false
-            }
+      this.termsLists.map(item => {
+        // eslint-disable-next-line no-prototype-builtins
+        if(!this.terms.hasOwnProperty(item.TermName)) {
+          this.copyTerms[item.TermName] = {
+            selected: false
           }
-        })
-        this.$emit('update:terms', obj)
-      }
+        } else {
+          this.copyTerms[item.TermName] = {
+            selected: this.terms[item.TermName].selected
+          }
+        }
+      })
+      this.$emit('update:terms', this.copyTerms)
     }
   },
   mounted() {

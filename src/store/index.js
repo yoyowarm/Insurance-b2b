@@ -9,6 +9,8 @@ import place from './place'
 import activity from './activity'
 import common from './common'
 import resource from './resource'
+import permissionSetting from './permissionSetting'
+import parameterSetting from './parameterSetting'
 
 
 Vue.use(Vuex)
@@ -34,6 +36,11 @@ const vuexLocal = new VuexPersistence({
         Applicant: state.place.Applicant,
         sameAsInsured: state.place.sameAsInsured,
         InsuranceRecord: state.place.InsuranceRecord,
+        industry: state.place.industry,
+        industryText: state.place.industryText,
+        remark: state.place.remark,
+        questionnaire: state.place.questionnaire,
+        insuranceAmountList: state.place.insuranceAmountList,
       },
       activity: {
         terms: state.activity.terms,
@@ -43,6 +50,11 @@ const vuexLocal = new VuexPersistence({
         Relation: state.activity.Relation,
         Applicant: state.activity.Applicant,
         sameAsInsured: state.activity.sameAsInsured,
+        industry: state.activity.industry,
+        industryText: state.activity.industryText,
+        remark: state.activity.remark,
+        questionnaire: state.activity.questionnaire,
+        insuranceAmountList: state.activity.insuranceAmountList,
       },
       common: {
         viewModel: state.common.viewModel,
@@ -59,7 +71,9 @@ export default new Vuex.Store({
     place,
     activity,
     common,
-    resource
+    resource,
+    permissionSetting,
+    parameterSetting
   },
   plugins: [vuexLocal.plugin]
 })

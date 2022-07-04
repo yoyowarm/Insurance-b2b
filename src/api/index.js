@@ -8,8 +8,10 @@ export default function (method, url, data = null, config) {
       return request().post(url, data, config)
     case 'put':
       return request().put(url, data)
+    case 'patch':
+      return request().patch(url, data)
     case 'delete':
-      return request().delete(url, { params: data })
+      return request().delete(url, data)
     default:
       console.log(`${method} is not a valid HTTP method.`)
       return false

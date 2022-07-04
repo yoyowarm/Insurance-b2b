@@ -6,7 +6,7 @@
         <div class="icon" @click="$emit('update:open' ,false)">
           <font-awesome-icon icon="times-circle" />
         </div>
-        <InputGroup bgColor="#fff" class="md:ml-4 h-8 w-full md:w-auto md:-mt-7" noMt>
+        <InputGroup bgColor="#fff" class="md:ml-4 h-8 w-full md:w-auto md:-mt-9" noMt>
           <Select :options="formList" slot="input" defaultText="選擇表單區塊"  @emitItem="e=> emitSelectItem(e)" />
         </InputGroup>
       </div>
@@ -14,42 +14,42 @@
         <div class="column-4" ref="1">
           <FormTitle title="(一)營業處所-基本資料"/>
           <InputGroup class="col-start-4" noMt>
-            <Input slot="input" placeholder="填表人代號"/>
+            <Input slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
-        <Part1/>
+        <Part1 :data.sync="questionnaireData"/>
         <div class="column-4" ref="2">
           <FormTitle title="(二)營業處所-建築物資訊"/>
         </div>
-        <Part2/>
+        <Part2 :data.sync="questionnaireData"/>
         <div class="column-4" ref="3">
           <FormTitle title="(三)營業處所-特殊風險項目"/>
         </div>
-        <Part3/>
+        <Part3 :data.sync="questionnaireData"/>
         <div class="column-4" ref="4">
           <FormTitle title="(四)營業處所-器材使用"/>
         </div>
-        <Part4/>
+        <Part4 :data.sync="questionnaireData"/>
         <div class="column-4" ref="5">
           <FormTitle title="(五)營業處所-交通控管"/>
         </div>
-        <Part5/>
+        <Part5 :data.sync="questionnaireData"/>
         <div class="column-4" ref="6">
           <FormTitle title="(六)營業處所-人員動線及管控"/>
         </div>
-        <Part6/>
+        <Part6 :data.sync="questionnaireData"/>
         <div class="column-4" ref="7">
           <FormTitle title="(七)營業處所-安全防護"/>
         </div>
-        <Part7/>
+        <Part7 :data.sync="questionnaireData"/>
         <div class="column-4" ref="8">
           <FormTitle title="(八)營業處所-緊急救護措施"/>
         </div>
-        <Part8/>
+        <Part8 :data.sync="questionnaireData"/>
         <div class="column-4" ref="9">
           <FormTitle title="(九)營業處所-其他考量"/>
         </div>
-        <Part9/>
+        <Part9 :data.sync="questionnaireData"/>
         <div class="flex flex-row justify-center">
           <Button>填寫完成</Button>
         </div>
@@ -116,6 +116,14 @@ export default {
       type: String,
       default: 'cancel'
     },
+    questionnaire: {
+      type: Object,
+      default: () => ({})
+    },
+    type: {
+      type: String,
+      default: ''
+    }
   },
    data () {
     return {
@@ -133,9 +141,18 @@ export default {
       ]
     }
   },
+  computed: {
+    questionnaireData: {
+      get() {
+        return this.questionnaire
+      },
+      set(val) {
+        this.$store.dispatch(`${this.type}/updatedQuestionnaire`, val)
+      }
+    }
+  },
   methods: {
     emitSelectItem(e) {
-      console.log(this.$refs[e.Value],e)
       if(this.$refs[e.Value]) {
         this.$refs[e.Value].scrollIntoView({behavior: "smooth"})
       }

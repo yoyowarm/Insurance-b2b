@@ -16,7 +16,8 @@
                 :class="{'col-span-2': list.Text.length >= 9}"
                 :id="`${list.Value}`"
                 :text="list.Text"
-                :value="false"
+                :value="selected.Text === list.Text"
+                @updateValue="(e) => updateIndustry(e, list)"
               />
             </template>
             <template v-if="searchText.length === 0 ||( searchText.length > 0 && category.lists.filter(item => item.Text.includes(searchText)).length > 18)">
@@ -31,10 +32,17 @@
         <RadioInput
           id="other"
           text="其他"
-          :value="false"
+          :value="selected.Text === '其他'"
+          @updateValue="(e) => updateIndustry(e, {Text: '其他',Value: 'id',})"
         />
-        <InputGroup class="ml-3 w-64" noMt>
-          <Input slot="input" placeholder="輸入行業名稱"/>
+        <InputGroup class="ml-3 w-64" noMt :disable="selected.Text !== '其他'">
+          <Input
+            slot="input"
+            placeholder="輸入行業名稱"
+            :value="industryText"
+            :disable="selected.Text !== '其他'"
+            @updateValue="(e) =>$store.dispatch(`${type}/updatedIndustryText`, e)"
+          />
         </InputGroup>
       </div>
     </div>
@@ -62,6 +70,21 @@ export default {
       type: String,
       default: ''
     },
+    type: {
+      type: String,
+      default: ''
+    },
+    selected: {
+      type: Object,
+      default: () => ({
+      Text: '選擇行業',
+      Value: '',
+    })
+    },
+    industryText: {
+      type: String,
+      default: ''
+    },
   },
   data () {
     return {
@@ -71,6 +94,11 @@ export default {
   methods: {
     switchBtn(index) {
       this.$set(this.switchList,index,!this.switchList[index])
+    },
+    updateIndustry(e, list) {
+      if(e) {
+        this.$store.dispatch(`${this.type}/updatedIndustry`,list)
+      }
     }
   },
   mounted() {

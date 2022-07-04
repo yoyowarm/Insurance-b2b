@@ -116,7 +116,7 @@ export default {
     }
   },
   methods: {
-    editSwitch(index) {
+    async editSwitch(index) {
       const value = !this.minimumAmountTable.rows[index].edit
       this.minimumAmountTable = Object.assign(this.minimumAmountTable, {
         ...this.minimumAmountTable.heads,
@@ -131,6 +131,19 @@ export default {
           }
         })
       })
+      if(!value) {
+        const data = JSON.parse(JSON.stringify(this.minimumAmountTable.rows[index]))
+        delete data.countyName
+        delete data.edit
+        Object.keys(data).map(key => {
+          if(key !== 'authorityId') {
+            data[key] = Number(data[key])
+          }
+        })
+        await this.$store.dispatch('parameterSetting/updateCountyMinimumSettings', data)
+        const county = await this.$store.dispatch('resource/CountyMinimumSettings')
+        this.minimumAmountTable.rows = county.data.content
+      }
     },
     updatedAmount(type,index,e) {
       const rows = Object.assign(this.minimumAmountTable.rows, {...this.minimumAmountTable.rows, [index]: {
@@ -143,7 +156,7 @@ export default {
   },
   async mounted() {
     const data = await this.$store.dispatch('resource/CountyMinimumSettings')
-    this.minimumAmountTable.rows = data.data
+    this.minimumAmountTable.rows = data.data.content
   }
 }
 </script>

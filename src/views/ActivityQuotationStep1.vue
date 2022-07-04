@@ -6,7 +6,7 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry :categoryData="industryList" :searchText="searchText"/>
+      <InsuranceIndustry type="activity" :categoryData="industryList" :selected="industry" :industryText="industryText" :searchText="searchText"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="活動資料">
       <ActivityInfo
@@ -61,7 +61,7 @@
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire :open.sync="openQuestionnaire"/>
+    <Questionnaire type="activity" :open.sync="openQuestionnaire" :questionnaire="questionnaire"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
@@ -118,6 +118,9 @@ export default {
       period: state => state.activity.period,
       terms: state => state.place.terms,
       'loading': state => state.app.loading,
+      industry: state => state.activity.industry,
+      industryText: state => state.activity.industryText,
+      questionnaire: state => state.activity.questionnaire,
     }),
     periodData: {
       get() {

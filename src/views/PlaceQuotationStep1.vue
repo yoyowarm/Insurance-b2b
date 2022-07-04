@@ -27,7 +27,7 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry :categoryData="industryList" :searchText="searchText"/>
+      <InsuranceIndustry type="place" :categoryData="industryList" :selected="industry" :industryText="industryText" :searchText="searchText"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
       <Period :period.sync="periodData"/>
@@ -43,7 +43,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
-      <InsuranceAmount/>
+      <InsuranceAmount :data.sync="insuranceAmountListData"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="建議條款">
       <TermsList
@@ -54,15 +54,15 @@
     </CommonBoard>
     <TermConditions :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
     <CommonBoard class="w-full mt-5" title="附加條款">
-      <TermsList
+      <!-- <TermsList
         v-if="TermsSelect.lists.length > 0"
         :Terms.sync="termsData"
         :termsLists="TermsSelect.lists"
-      />
+      /> -->
     </CommonBoard>
     <TermConditions :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
     <CommonBoard class="w-full mt-5" title="備註">
-      <TextBox/>
+      <TextBox :value.sync="remarkData"/>
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
         <InputGroup noMt>
@@ -85,7 +85,7 @@
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire :open.sync="openQuestionnaire"/>
+    <Questionnaire type="place" :open.sync="openQuestionnaire" :questionnaire="questionnaire"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
@@ -149,6 +149,11 @@ export default {
       renewal: state => state.place.renewal,
       'loading': state => state.app.loading,
       InsuranceRecord: state => state.place.InsuranceRecord,
+      industry: state => state.place.industry,
+      industryText: state => state.place.industryText,
+      remark: state => state.place.remark,
+      questionnaire: state => state.place.questionnaire,
+      insuranceAmountList: state => state.place.insuranceAmountList,
     }),
     placeInfoList: {
       get () {
@@ -180,6 +185,22 @@ export default {
       },
       set(value) {
         this.$store.dispatch('place/updatedTerms', value)
+      }
+    },
+    remarkData: {
+      get() {
+        return this.remark.text
+      },
+      set(value) {
+        this.$store.dispatch('place/updatedRemark',{...this.remark, text: value.target.value})
+      }
+    },
+    insuranceAmountListData: {
+      get() {
+        return this.insuranceAmountList[0]
+      },
+      set(value) {
+        this.$store.dispatch('place/updatedInsuranceAmountList', [value])
       }
     },
   },

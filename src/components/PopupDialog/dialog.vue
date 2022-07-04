@@ -2,17 +2,17 @@
   <div class="popup" ref="modal" :class="{'open':open, }">
     <div class="dialog" :class="{'fullScreen':fullScreen}">
       <div class="header">{{headerText}}
-        <div class="icon"  @click="$emit('update:open', false)">
+        <div class="icon"  @click="() =>{$emit('cancel');$emit('update:open', false)}">
           <font-awesome-icon icon="times-circle" />
         </div>
       </div>
       <div class="body"><slot/></div>
       <div v-if="confirm" class="flex w-full justify-around py-4">
-        <Button outline @click.native="()=>{$emit('update:open', false)}">{{cancel}}</Button>
+        <Button outline @click.native="()=>{$emit('cancel');$emit('update:open', false)}">{{cancel}}</Button>
         <Button @click.native="() => {$emit('ok'); $emit('update:open', false)}">{{ok}}</Button>
       </div>
     </div>
-    <div class="mask-bg" @click="$emit('update:open', false)"/>
+    <div class="mask-bg" @click="() =>{$emit('cancel');$emit('update:open', false)}"/>
   </div>
 </template>
 

@@ -1,9 +1,7 @@
-import { CountyMinimumSettings } from '@/api/resource'
-import { ActivityTypes } from '@/api/Activity'
+import { CountyMinimumSettings } from '@/api/CountyMinimumSetting'
 import { AdditionTermsType, AdditionTermQuotation } from '@/api/AdditionTermSetting'
-import { Users, UserDetail, Groups, GroupDetail } from '@/api/PermissionSetting'
-import { PlaceTypes } from '@/api/Place'
-import { Places, Activities } from '@/api/PlaceActivitySetting'
+import { Users, UserDetail, Groups, GroupDetail, GroupsDetail, GroupPermissions } from '@/api/PermissionSetting'
+import { Places, Activities, PlaceTypes, ActivityTypes, PlaceActivities } from '@/api/PlaceActivitySetting'
 import { TaianUsers } from '@/api/User'
 export default {
   namespaced: true,
@@ -24,8 +22,8 @@ export default {
     async AdditionTermQuotation() {
       return await AdditionTermQuotation()
     },
-    async PermissionSettingUsers() {
-      return await Users()
+    async PermissionSettingUsers(_, skip) {
+      return await Users({ skip })
     },
     async PermissionSettingUserDetail(_, id) {
       return await UserDetail(id)
@@ -36,8 +34,17 @@ export default {
     async PermissionSettingGroupDetail(_, id) {
       return await GroupDetail(id)
     },
+    async PermissionSettingGroupsDetail() {
+      return await GroupsDetail()
+    },
+    async PermissionSettingGroupPermissions() {
+      return await GroupPermissions()
+    },
     async PlaceTypes() {
       return await PlaceTypes()
+    },
+    async PlaceActivities(_, { placeActivityType, typeName }) {
+      return await PlaceActivities({ placeActivityType, typeName })
     },
     async PlacesSetting() {
       return await Places()

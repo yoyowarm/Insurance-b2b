@@ -413,32 +413,27 @@ export const membersListTable = () => {
     head: [
       {
         text: '編號',
-        value: 'number',
-        size: '1-6'
+        value: 'employeeId',
+        size: '2-6'
       },
       {
         text: '名稱',
-        value: 'name',
-        size: '1-6'
-      },
-      {
-        text: '建立時間',
-        value: 'time',
-        size: '3-6'
+        value: 'employeeName',
+        size: '2-6'
       },
       {
         text: '權限群組',
-        value: 'group',
+        value: 'groupName',
         size: '3-6'
       },
       {
         text: '狀態',
-        value: 'status',
+        value: 'employeeStatus',
         size: '1-6'
       },
       {
         text: 'E-mail',
-        value: 'mail',
+        value: 'email',
         size: '5-6'
       },
       {
@@ -447,26 +442,7 @@ export const membersListTable = () => {
         size: '4-6'
       },
     ],
-    rows: [
-      {
-        number: 'F624',
-        name: '林國強',
-        time: '2021-11-03 18:02',
-        group: '系統管理員',
-        status: '啟用',
-        mail: 'H014@mail.xxxx.com.tw',
-        operate: ''
-      },
-      {
-        number: 'F624',
-        name: '林國強',
-        time: '2021-11-03 18:02',
-        group: '系統管理員',
-        status: '啟用',
-        mail: 'H014@mail.xxxx.com.tw',
-        operate: ''
-      }
-    ]
+    rows: []
   }
 }
 
@@ -475,8 +451,8 @@ export const groupListTable = () => {
     head: [
       {
         text: '群組名稱',
-        value: 'name',
-        size: '5-6'
+        value: 'groupName',
+        size: '2-6'
       },
       {
         text: '權限列表',
@@ -490,16 +466,6 @@ export const groupListTable = () => {
       },
     ],
     rows: [
-      {
-        name: '系統管理員',
-        permissions: '負責人設定、會員管理',
-        operate: ''
-      },
-      {
-        name: '系統管理員',
-        permissions: '負責人設定、會員管理',
-        operate: ''
-      },
     ]
   }
 }
@@ -514,22 +480,22 @@ export const categoryListTable = () => {
       },
       {
         text: '類別',
-        value: 'type',
+        value: 'typeName',
         size: '1-6'
       },
       {
         text: '場所名稱',
-        value: 'name',
+        value: 'itemName',
         size: '6-6'
       },
       {
         text: '應另行報價',
-        value: 'quote',
+        value: 'hasQuotation',
         size: '1-6'
       },
       {
         text: '隱藏/顯示',
-        value: 'eye',
+        value: 'isEnable',
         size: '1-6'
       },
       {
@@ -539,24 +505,7 @@ export const categoryListTable = () => {
       }
     ],
     rows: [
-      {
-        quote: '是',
-        type: '甲類',
-        name: '公私企業辦公處所',
-        eye: '顯示'
-      },
-      {
-        quote: '是',
-        type: '甲類',
-        name: '公私企業辦公處所',
-        eye: '顯示'
-      },
-      {
-        quote: '是',
-        type: '甲類',
-        name: '公私企業辦公處所',
-        eye: '顯示'
-      }
+
     ]
   }
 }
@@ -593,7 +542,7 @@ export const minimumAmountTable = () => {
         text: '',
         value: 'operate',
         size: '2-6'
-      }
+      },
     ],
     rows: [
     ]
@@ -630,7 +579,7 @@ export const termsListTable = () => {
       {
         name: 'PL004游泳池責任附加條款',
         switch: '是'
-      }
+      },
     ]
   }
 }
