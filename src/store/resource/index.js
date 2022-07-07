@@ -1,5 +1,5 @@
 import { CountyMinimumSettings } from '@/api/CountyMinimumSetting'
-import { AdditionTermsType, AdditionTermQuotation } from '@/api/AdditionTermSetting'
+import { AdditionTermsType, AdditionTermQuotation, AdditionTerms, AdditionTermQuotations } from '@/api/AdditionTermSetting'
 import { Users, UserDetail, Groups, GroupDetail, GroupsDetail, GroupPermissions } from '@/api/PermissionSetting'
 import { Places, Activities, PlaceTypes, ActivityTypes, PlaceActivities } from '@/api/PlaceActivitySetting'
 import { TaianUsers } from '@/api/User'
@@ -16,11 +16,17 @@ export default {
     async ActivityTypes() {
       return await ActivityTypes()
     },
-    async AdditionTermsType() {
-      return await AdditionTermsType()
+    async AdditionTermsType(_, seq) {
+      return await AdditionTermsType({ seq })
     },
     async AdditionTermQuotation() {
       return await AdditionTermQuotation()
+    },
+    async AdditionTerms(_, { skip = 0, take = 10 }) {
+      return await AdditionTerms({ skip, take })
+    },
+    async AdditionTermQuotations() {
+      return await AdditionTermQuotations()
     },
     async PermissionSettingUsers(_, skip) {
       return await Users({ skip })

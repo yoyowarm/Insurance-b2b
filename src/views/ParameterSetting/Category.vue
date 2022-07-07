@@ -10,14 +10,14 @@
       />
       <div class="column-5 mb-4">
         <InputGroup noMt>
-          <Select slot="input" :options="typeList" @emitItem="e=> currentType = e.Value" defaultText="選擇類別"/>
+          <Select slot="input" :options="typeList" @emitItem="e=> {currentType = e.Value}" defaultText="選擇類別"/>
         </InputGroup>
       </div>
       <div class="flex w-full">
         <TableGroup class="w-full" :data="categoryListTable" :slotName="slotArray" column2 scrollX>
         <template v-for="(item,index) in categoryListTable.rows">
           <div :slot="`weight-${index}`" :key="`weight${index}`" class="flex whitespace-no-wrap">
-            <Input :value="item.weight.toString()" @updateValue="e => item.weight = e" class="md:mr-4 weight-input w-full sm:w-24" :disable="!item.edit"/>
+            <Input :value="item.weight.toString()" @updateValue="e =>{ item.weight = e}" class="md:mr-4 weight-input w-full sm:w-24" :disable="!item.edit"/>
           </div>
           <div :slot="`hasQuotation-${index}`" :key="`hasQuotation${index}`" class="flex whitespace-no-wrap">
             <Checkbox
@@ -32,9 +32,9 @@
             <font-awesome-icon v-if="item.isEnable" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" class="text-lg mr-2" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye']" />
             <font-awesome-icon v-else @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye-slash']" />
             <div class="sm:hidden flex whitespace-no-wrap">
-              <span class="pr-3" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}">顯示</span>
+              <span class="pr-3" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}">顯示</span>
               <span class="text-gray-300 pr-3">/</span>
-              <span class=" text-gray-300" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">隱藏</span>
+              <span class=" text-gray-300" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">隱藏</span>
             </div>
             
           </div>
@@ -138,13 +138,16 @@ export default {
   },
   watch: {
     currentTag: {
-      async handler(val) {
+      async handler(val,oldVal) {
+        if(val !== oldVal) {
           await this.getAllList(val)
+        }
       },
       immediate: true
     },
     currentType: {
-      async handler(val) {
+      async handler(val, oldVal) {
+        if(val === oldVal) return 
         if(val == '選擇類別') {
           await this.getAllList(this.currentTag)
         } else {
@@ -154,7 +157,7 @@ export default {
           })
           this.categoryListTable = {
             head: this.categoryListTable.head,
-            rows: data.data.content.placeActivityDetais
+            rows: data.data.content.placeActivityDetails
           }
         }
       },
@@ -207,6 +210,7 @@ export default {
             rows: data.data.content
           }
       const type = await this.$store.dispatch(`resource/${val === 0 ? 'PlaceTypes' :'ActivityTypes'}`)
+      
       this.typeList = type.data.content.map(item => {
         return {
           Text: item,
@@ -216,18 +220,7 @@ export default {
     },
   },
   async mounted() {
-    const data = await this.$store.dispatch('resource/PlacesSetting')
-    this.categoryListTable = {
-      head: this.categoryListTable.head,
-      rows: data.data.content
-    }
-    const type = await this.$store.dispatch('resource/PlaceTypes')
-    this.typeList = type.data.content.map(item => {
-      return {
-        Text: item,
-        Value: item
-      }
-    })
+    await this.getAllList(0)
   }
 }
 </script>

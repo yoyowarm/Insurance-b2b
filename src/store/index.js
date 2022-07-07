@@ -11,6 +11,7 @@ import common from './common'
 import resource from './resource'
 import permissionSetting from './permissionSetting'
 import parameterSetting from './parameterSetting'
+import additionTermSetting from './additionTermSetting'
 
 
 Vue.use(Vuex)
@@ -73,7 +74,8 @@ export default new Vuex.Store({
     common,
     resource,
     permissionSetting,
-    parameterSetting
+    parameterSetting,
+    additionTermSetting
   },
   plugins: [vuexLocal.plugin]
 })

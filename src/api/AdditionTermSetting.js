@@ -1,4 +1,12 @@
 import request from './index'
 
-export const AdditionTermsType = () => request('get', '/AdditionTermSetting/GetTypeAdditionTerms')
+export const AdditionTermsType = ({ seq }) => request('get', '/AdditionTermSetting/GetTypeAdditionTerms', { seq, skip: 0, take: 1000 })
 export const AdditionTermQuotation = () => request('get', '/AdditionTermSetting/GetAdditionTermQuotation')
+
+export const AdditionTerms = ({ skip = 0, take = 10 }) => request('get', '/AdditionTermSetting/GetAdditionTerms', { skip, take })
+export const EditAdditionTermDetail = (data) => request('patch', '/AdditionTermSetting/EditAdditionTermDetail', data)
+
+export const EditAdditionTerm = (data) => request('patch', '/AdditionTermSetting/EditAdditionTerm', data)
+
+export const AdditionTermQuotations = () => request('get', '/AdditionTermSetting/GetAdditionTermQuotations')
+export const EditAdditionTermQuotation = (data) => request('patch', '/AdditionTermSetting/EditAdditionTermQuotation', data)

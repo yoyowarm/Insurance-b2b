@@ -554,32 +554,16 @@ export const termsListTable = () => {
     head: [
       {
         text: '條款名稱',
-        value: 'name',
+        value: 'additionTermName',
         size: '6-6'
       },
       {
         text: '建議條款',
-        value: 'switch',
+        value: 'isSuggest',
         size: '1-6'
       },
     ],
     rows: [
-      {
-        name: 'PL001食品中毒責任附加條款',
-        switch: '是'
-      },
-      {
-        name: 'PL002停車場責任附加條款',
-        switch: '是'
-      },
-      {
-        name: 'PL003電梯意外責任附加條款',
-        switch: '是'
-      },
-      {
-        name: 'PL004游泳池責任附加條款',
-        switch: '是'
-      },
     ]
   }
 }
@@ -594,12 +578,12 @@ export const weightListTable = () => {
       },
       {
         text: '條款名稱',
-        value: 'name',
+        value: 'additionTermName',
         size: '6-6'
       },
       {
         text: '另行報價',
-        value: 'switch',
+        value: 'hasQuotation',
         size: '1-6'
       },
       {
@@ -609,30 +593,7 @@ export const weightListTable = () => {
       }
     ],
     rows: [
-      {
-        weight: '1',
-        name: 'PL001食品中毒責任附加條款',
-        switch: '是',
-        operate: ''
-      },
-      {
-        weight: '2',
-        name: 'PL002停車場責任附加條款',
-        switch: '是',
-        operate: ''
-      },
-      {
-        weight: '3',
-        name: 'PL003電梯意外責任附加條款',
-        switch: '是',
-        operate: ''
-      },
-      {
-        weight: '4',
-        name: 'PL004游泳池責任附加條款',
-        switch: '是',
-        operate: ''
-      }
+
     ]
   }
 }
@@ -660,33 +621,33 @@ export const amountListTable = () => {
     rows: [
       {
         name: 'PL005建築物承租人火災附加條款',
-        content: ['額度超過300萬元須另行報價'],
+        content: ['額度超過 1 須另行報價'],
         id: '1',
         operate: ''
       },
       {
         name: 'PL023慰問金費用附加條款',
-        content: ['住院慰問金費用保險金額：', '每一個人1,000元、每一意外事故5,000元、保險期間內最高賠償金額10,000元', '奠儀慰問金費用保險金額：',
-          '每一個人10,000元、每一意外事故50,000元、保險期間內最高賠償金額100,000元'],
+        content: ['住院慰問金費用保險金額：', '每一個人 2 、每一意外事故 3 、保險期間內最高賠償金額 4 ', '奠儀慰問金費用保險金額：',
+          '每一個人 5 元、每一意外事故 6 、保險期間內最高賠償金額 7 '],
         id: '2',
         operate: ''
       },
       {
         name: 'PL040受託物附加條款',
         identity: '台北總公司 核保部 / 協理 林國強',
-        content: ['每一意外事故財損責任之保險金額50萬元', '保險期間內之最高賠償金額50萬元'],
+        content: ['每一意外事故財損責任之保險金額 8 ', '保險期間內之最高賠償金額 9 '],
         id: '3',
         operate: ''
       },
       {
         name: 'PL049承租人借用人責任附加條款(保額外加)',
-        content: ['額度50萬元'],
+        content: ['額度 10 '],
         id: '4',
         operate: ''
       },
       {
         name: 'PL053慰問金費用附加條款',
-        content: ['每一個人傷害醫療慰問金費用保險金額：2,000元', '每一個人身故慰問金費用保險金額：10,000元', '每一個人事故慰問金費用保險金額：20,000元', '保險期間內慰問金費用最高賠償金額：40,000元'],
+        content: ['每一個人傷害醫療慰問金費用保險金額： 11 ', '每一個人身故慰問金費用保險金額： 12 ', '每一個人事故慰問金費用保險金額： 13 ', '保險期間內慰問金費用最高賠償金額： 14 '],
         id: '5',
         operate: ''
       },

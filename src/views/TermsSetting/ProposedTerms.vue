@@ -10,14 +10,19 @@
       />
       <div class="column-5 mb-4">
         <InputGroup noMt>
-          <Select slot="input" defaultText="公私企業辦公處所"/>
+          <Select slot="input" :options="typeList" @emitItem="e=> currentType = e.Value" defaultText="選擇類別"/>
+        </InputGroup>
+        <InputGroup noMt>
+          <Select slot="input" :options="categoryList" @emitItem="e=> currentCategory = e.Value" :defaultText="currentTag === 0 ?'選擇場所' : '選擇活動'"/>
         </InputGroup>
       </div>
       <div class="flex w-full">
         <TableGroup class="w-full" :data="termsListTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in termsListTable.rows">
-          <div :slot="`switch-${index}`" :key="`switch${index}`" class="flex whitespace-no-wrap">
-            <span class="cursor-pointer text-main pr-3">是</span><span class="text-gray-300 pr-3">/</span><span class="cursor-pointer text-gray-300">否</span>
+          <div :slot="`isSuggest-${index}`" :key="`isSuggest${index}`" class="flex whitespace-no-wrap">
+            <span @click="updateTerm(!item.isSuggest,item.id)" class="pr-3" :class="{'cursor-pointer text-main': item.isSuggest, 'cursor-pointer text-gray-300': !item.isSuggest}">是</span>
+            <span class="text-gray-300 pr-3">/</span>
+            <span @click="updateTerm(!item.isSuggest,item.id)" :class="{'text-main': !item.isSuggest, 'cursor-pointer text-gray-300': item.isSuggest}">否</span>
           </div>
         </template>
       </TableGroup>
@@ -64,6 +69,10 @@ export default {
         type: 0
       },
       currentTag: 0,
+      currentType: '',
+      currentCategory: '',
+      categoryList:[],
+      typeList:[],
       itemLists:[
         { text: '處所', value: 0 },
         { text: '活動', value: 1 }
@@ -78,13 +87,45 @@ export default {
     }),
     slotArray () {
       const arr = []
-      const slotArr = [ 'switch']
+      const slotArr = ['isSuggest']
       for (let i = 0; i < this.termsListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
         })
       }
       return arr
+    }
+  },
+  watch: {
+    currentTag: {
+      async handler(val) {
+          await this.getAllList(val)
+      },
+      immediate: true
+    },
+    currentType: {
+      async handler(val) {
+        if(val == '選擇類別') {
+          await this.getAllList(this.currentTag)
+        } else {
+          const data = await this.$store.dispatch('resource/PlaceActivities', {
+            placeActivityType: this.currentTag+1,
+            typeName: val
+          })
+          this.categoryList = data.data.content.placeActivityDetails.map(item => {
+            return {
+              Text: item.itemName,
+              Value: item.dangerSeq
+            }
+          })
+        }
+      },
+      immediate: true
+    },
+    currentCategory: {
+      async handler(val) {
+        await this.AdditionTermsType(val)
+      },
     }
   },
   methods: {
@@ -96,6 +137,34 @@ export default {
       console.log(page)
       // this.$store.dispatch('app/updatedCurrentPage',page)
     },
+    async getAllList(val) {
+      const type = await this.$store.dispatch(`resource/${val === 0 ? 'PlaceTypes' :'ActivityTypes'}`)
+      this.typeList = type.data.content.map(item => {
+        return {
+          Text: item,
+          Value: item
+        }
+      })
+    },
+    async updateTerm(value, id) {
+      await this.$store.dispatch('additionTermSetting/editAdditionTermDetail', {
+        id: id,
+        isSuggest: value
+      })
+      await this.AdditionTermsType(this.currentCategory)
+    },
+    async AdditionTermsType(val) {
+      const data = await this.$store.dispatch('resource/AdditionTermsType', val)
+      this.termsListTable.rows = data.data.content.additionTermsDetails.map(item => {
+        return {
+          ...item,
+          additionTermName: `${item.additionTermId}${item.additionTermName}`,
+        }
+      })
+    },
+  },
+  async mounted() {
+    await this.getAllList(0)
   }
 }
 </script>

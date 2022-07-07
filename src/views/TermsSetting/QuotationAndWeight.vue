@@ -12,10 +12,19 @@
         <TableGroup class="w-full" :data="weightListTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in weightListTable.rows">
           <div :slot="`weight-${index}`" :key="`weight${index}`" class="flex whitespace-no-wrap">
-            <Input value="1" class="md:mr-4 weight-input w-full sm:w-24" :disable="!item.edit"/>
+            <Input :value="item.weight.toString()" @updateValue="e =>{ item.weight = e}" class="md:mr-4 weight-input w-full sm:w-24" :disable="!item.edit"/>
           </div>
-          <div :slot="`switch-${index}`" :key="`switch${index}`" class="flex whitespace-no-wrap">
-            <span class=" pr-3" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}">是</span><span class="text-gray-300 pr-3">/</span><span class=" text-gray-300" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">否</span>
+          <div :slot="`hasQuotation-${index}`" :key="`hasQuotation${index}`" class="flex whitespace-no-wrap">
+            <span
+              class="pr-3"
+              :class="{'cursor-pointer': item.edit && !item.hasQuotation,'text-main': item.hasQuotation, 'select-none': !item.edit}"
+              @click="() =>{ if(item.edit){item.hasQuotation = !item.hasQuotation}}"
+            >是</span>
+            <span class="text-gray-300 pr-3">/</span>
+            <span
+              :class="{'cursor-pointer': item.edit && item.hasQuotation,'text-main': !item.hasQuotation, 'select-none': !item.edit}"
+              @click="() =>{ if(item.edit){item.hasQuotation = !item.hasQuotation}}"
+            >否</span>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
             <Button class="w-full sm:w-24" @click.native="editSwitch(index)" :outline="!item.edit"><span v-if="!item.edit">編輯</span><span v-else>儲存</span></Button>
@@ -79,17 +88,6 @@ export default {
     }),
     weightListTable: {
       get() {
-        this.weightList.rows.map(item => {
-          // eslint-disable-next-line no-prototype-builtins
-          if(item.hasOwnProperty('edit')) {
-            return item
-          } else {
-            return {
-              ...item,
-              edit: false
-            }
-          }
-        })
         return this.weightList
       },
       set(value) {
@@ -98,7 +96,7 @@ export default {
     },
     slotArray () {
       const arr = []
-      const slotArr = [ 'weight','switch', 'operate']
+      const slotArr = [ 'weight','hasQuotation', 'operate']
       for (let i = 0; i < this.weightListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -113,10 +111,10 @@ export default {
     },
     async changePage(page) {
       if(this.currentPage === page || page < 1) return
-      console.log(page)
-      // this.$store.dispatch('app/updatedCurrentPage',page)
+      await this.getAdditionTerms((page-1)*10,10)
+      this.$store.dispatch('app/updatedCurrentPage',page)
     },
-    editSwitch(index) {
+    async editSwitch(index) {
       const value = !this.weightListTable.rows[index].edit
       this.weightListTable = Object.assign(this.weightListTable, {
         ...this.weightListTable.heads,
@@ -131,8 +129,33 @@ export default {
           }
         })
       })
-    }
-  }
+      if(!value) {
+        await this.$store.dispatch('additionTermSetting/editAdditionTerm', {
+          additionTermId: this.weightListTable.rows[index].additionTermId,
+          weight: Number(this.weightListTable.rows[index].weight),
+          hasQuotation: this.weightListTable.rows[index].hasQuotation
+        })
+        await this.getAdditionTerms((this.currentPage-1)*10,10, this.currentPage)
+      }
+    },
+    async getAdditionTerms(skip,take,page) {
+      const res = await this.$store.dispatch('resource/AdditionTerms',{skip,take})
+      this.weightListTable = {
+        head:this.weightListTable.head,
+        rows: res.data.content.additionTerms.map(item => {
+          return {
+            ...item,
+            edit: false
+          }
+        })
+      }
+      this.$store.dispatch('app/updatedCurrentPage',page? page: 1)
+      this.$store.dispatch('app/updatedTotalPage',Math.ceil(res.data.content.totalCount/10))
+    },
+  },
+  async mounted() {
+    await this.getAdditionTerms()
+  },
 }
 </script>
 
