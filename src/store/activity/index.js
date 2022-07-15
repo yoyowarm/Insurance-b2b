@@ -1,4 +1,4 @@
-import { quotationStep2 } from '@/utils/dataTemp'
+import { quotation } from '@/utils/dataTemp'
 import Vue from 'vue';
 export default {
   namespaced: true,
@@ -310,7 +310,7 @@ export default {
       if (sameAsInsured) {
         Vue.set(state, 'Applicant', state.Insuraned)
       } else {
-        Vue.set(state, 'Applicant', quotationStep2().Applicant)
+        Vue.set(state, 'Applicant', quotation().Applicant)
       }
     },
     UPDATED_INDUSTRY(state, data) {
@@ -337,20 +337,20 @@ export default {
   },
   actions: {
     clearAll({ commit }) {
-      commit('UPDATED_INSURANED', quotationStep2().Insuraned)
-      commit('UPDATED_APPLICANT', quotationStep2().Applicant)
-      commit('UPDATED_RELATION', quotationStep2().Relation)
-      commit('UPDATED_PLACE_INFO', quotationStep2().placeInfo)
-      commit('UPDATED_PERIOD', quotationStep2().period)
-      commit('UPDATED_TERMS', quotationStep2().terms)
-      commit('UPDATED_RENEWAL', quotationStep2().renewal)
-      commit('SAME_AS_INSURED', quotationStep2().sameAsInsured)
-      commit('UPDATED_INSURANCE_RECORD', quotationStep2().InsuranceRecord)
-      commit('UPDATED_INDUSTRY', quotationStep2().industry)
-      commit('UPDATED_INDUSTRY_TEXT', quotationStep2().industryText)
-      commit('UPDATED_REMARK', quotationStep2().remark)
-      commit('UPDATED_QUESTIONNAIRE', quotationStep2().questionnaire)
-      commit('UPDATED_INSURANCE_AMOUNT_LIST', quotationStep2().insuranceAmountList)
+      commit('UPDATED_INSURANED', quotation().Insuraned)
+      commit('UPDATED_APPLICANT', quotation().Applicant)
+      commit('UPDATED_RELATION', quotation().Relation)
+      commit('UPDATED_PLACE_INFO', quotation().placeInfo)
+      commit('UPDATED_PERIOD', quotation().period)
+      commit('UPDATED_TERMS', quotation().terms)
+      commit('UPDATED_RENEWAL', quotation().renewal)
+      commit('SAME_AS_INSURED', quotation().sameAsInsured)
+      commit('UPDATED_INSURANCE_RECORD', quotation().InsuranceRecord)
+      commit('UPDATED_INDUSTRY', quotation().industry)
+      commit('UPDATED_INDUSTRY_TEXT', quotation().industryText)
+      commit('UPDATED_REMARK', quotation().remark)
+      commit('UPDATED_QUESTIONNAIRE', quotation().questionnaire)
+      commit('UPDATED_INSURANCE_AMOUNT_LIST', quotation().insuranceAmountList)
     },
     addActivityInfo({ commit }) {
       commit('ADD_ACTIVITY_INFO')

@@ -225,7 +225,7 @@ export default {
       //   })
       // }
       // const detailData = detail.data[TypeKey]
-      // const copyData = quotationStep2().Insuraned
+      // const copyData = quotation().Insuraned
       // if(detailData) {
       //   let Nationality = {}
       //   let RegisterNationality = {}

@@ -6,7 +6,8 @@
           <slot name="right"/>
         </div>
       </div>
-      <div class="input" :class="{'dash': dash, 'disable': disable, 'border0':border0, 'borderBtn': borderBtn, 'editModel':editModel, 'min': min, 'ml-10': $slots['input-left']}" :style="{'background': bgColor}">
+      <div class="input"
+        :class="childClass" :style="{'background': bgColor}">
         <slot name="input-left"/>
         <slot name="input"/>
         <slot name="input-right"/>
@@ -69,6 +70,38 @@ export default {
     editModel: {
       type: Boolean,
       default: false
+    },
+    inputLeftClass: {
+      type: String,
+      default: ''
+    },
+  },
+  computed: {
+    childClass() {
+      let childClass = ''
+      if (this.dash) {
+        childClass += 'dash '
+      }
+      if (this.disable) {
+        childClass += ' disable '
+      }
+      if (this.border0) {
+        childClass += ' border0 '
+      }
+      if (this.borderBtn) {
+        childClass += ' borderBtn '
+      }
+      if (this.editModel) {
+        childClass += ' editModel '
+      }
+      if (this.min) {
+        childClass += ' min '
+      }
+      if (this.inputLeftClass) {
+        childClass += this.inputLeftClass
+      }
+
+      return childClass
     }
   }
 }

@@ -1,5 +1,5 @@
 import { mapState } from 'vuex'
-import { quotationStep1, quotationStep2 } from '@/utils/dataTemp'
+import { quotationStep1, quotation } from '@/utils/dataTemp'
 import { formatDate } from '@/utils/dateFormat'
 export default {
 	computed: {
@@ -138,9 +138,9 @@ export default {
 		},
 		step2InitAssignValue() {
 			const step2Data = this.step1Model.step2ViewModel
-			const Insuraned = quotationStep2().Insuraned
-			const Applicant = quotationStep2().Applicant
-			const Paper = quotationStep2().Paper
+			const Insuraned = quotation().Insuraned
+			const Applicant = quotation().Applicant
+			const Paper = quotation().Paper
 
 			let InsuranedNationality = {}
 			let InsuranedCity = {}

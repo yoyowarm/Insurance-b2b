@@ -8,22 +8,22 @@
             checkedText="自有"
             uncheckedText="承租"
             slot="input"
-            :value="info.state"
+            :value="info.holdState"
             :id="`IsHold-${index}`"
-            @updateValue="(e) =>updateValue(e,'state',index)"
+            @updateValue="(e) =>updateValue(e,'holdState',index)"
           />
         </InputGroup>
         <InputGroup title="處所坪數">
           <Input
             slot="input"
             placeholder="輸入坪數"
-            :value="info.square.toString()"
+            :value="info.squareFeet.toString()"
             decimalPoint
-            @updateValue="(e) =>updateValue(e,'square',index)"
+            @updateValue="(e) =>updateValue(e,'squareFeet',index)"
           />
         </InputGroup>
         <InputGroup title="經營業務處所">
-          <Select slot="input" defaultText="選擇縣市"/>
+          <Select slot="input" :options="countyList" :selected="info.city.Value" @emitItem="e=>updateValue(e,'city',index)" defaultText="選擇縣市"/>
         </InputGroup>
         <div v-if="index !== 0" class="flex items-end pb-4" @click="$emit('removeItem',index)">
           <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
@@ -56,6 +56,10 @@ export default {
     infoList: {
       type: Array,
       default: () => []
+    },
+    countyList: {
+      type: Array,
+      default: () => []
     }
   },
   methods: {
@@ -63,7 +67,7 @@ export default {
       const copyInfoList = [...this.infoList]
       copyInfoList[index][type] = e
       this.$emit('update:infoList', copyInfoList)
-    },
+    }
   }
 }
 </script>

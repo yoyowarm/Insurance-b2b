@@ -27,7 +27,7 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry type="place" :categoryData="industryList" :selected="industry" :industryText="industryText" :searchText="searchText"/>
+      <InsuranceIndustry type="place" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
       <Period :period.sync="periodData"/>
@@ -40,27 +40,26 @@
         :infoList.sync="placeInfoList"
         @addItem="$store.dispatch('place/addPlaceInfo')"
         @removeItem="(index) => $store.dispatch('place/deletePlaceInfo',index)"
+        :countyList="countyList"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
-      <InsuranceAmount :data.sync="insuranceAmountListData"/>
+      <InsuranceAmount :data.sync="insuranceAmountListData" :countyAmount="countyAmount" :infoList="placeInfo"/>
     </CommonBoard>
-    <CommonBoard class="w-full" title="建議條款">
+    <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest).length > 0">
       <TermsList
-        v-if="TermsSelect.lists.length > 0"
         :terms.sync="termsData"
-        :termsLists="TermsSelect.lists"
+        :termsLists="additionTermsList.filter(item => item.isSuggest)"
       />
     </CommonBoard>
-    <TermConditions :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
-    <CommonBoard class="w-full mt-5" title="附加條款">
-      <!-- <TermsList
-        v-if="TermsSelect.lists.length > 0"
-        :Terms.sync="termsData"
-        :termsLists="TermsSelect.lists"
-      /> -->
+    <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => item.isSuggest)" v-if="additionTermsList.filter(item => item.isSuggest).length > 0"/>
+    <CommonBoard class="w-full mt-5" title="附加條款" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0">
+      <TermsList
+        :terms.sync="termsData"
+        :termsLists="additionTermsList.filter(item => !item.isSuggest)"
+      />
     </CommonBoard>
-    <TermConditions :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
+    <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest)" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0"/>
     <CommonBoard class="w-full mt-5" title="備註">
       <TextBox :value.sync="remarkData"/>
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
@@ -104,12 +103,12 @@ import InsuranceAmount from '@/components/Common/InsuranceAmount'
 import Period from '@/components/Place/Period'
 import TermsList from '@/components/Common/TermsList'
 import TermConditions from '@/components/Common/TermConditions'
-import Questionnaire from '@/components/PopupDialog/Questionnaire.vue'
+import Questionnaire from '@/components/PopupDialog/PlaceQuestionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import InsuranceRecord from '@/components/Place/InsuranceRecord.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
-import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
+import { v4 as uuidv4 } from 'uuid';
 export default {
   components: {
     CommonBoard,
@@ -133,11 +132,13 @@ export default {
   data () {
     return {
       IsRenewal: false,
-      industryList: IndustryList(),
       searchText: '',
-      TermsSelect: {
-        lists: TermsLists()
-      },
+      industryList:[],
+      industryType:[],
+      countyList: [],
+      areaList: [],
+      countyAmount: [],
+      additionTermsList: [],
       openQuestionnaire: false,
     }
   },
@@ -221,11 +222,53 @@ export default {
         this.periodData = Object.assign(this.period, { endDate: { year: Number(this.period.startDate.year)+1,month: d2.getMonth() + 1, day: d2.getDate(), hour: val.hour} })
       }
     },
+    industry: async function(val) {
+      const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
+      this.additionTermsList = data.data.content.additionTermsDetails
+    },
   },
   methods: {
     nextStep() {
       this.$router.push({ name: 'place-quotation-step2' })
-    }
+    },
+    async pageInit() {
+      const places = await this.$store.dispatch('resource/PlacesSetting')
+      const districts = await this.$store.dispatch('resource/Districts')
+      const county = await this.$store.dispatch('resource/CountyMinimumSettings')
+      places.data.content.map(item => {
+        if(!this.industryType.includes(item.typeName)) {
+          this.industryType.push(item.typeName)
+        }
+      })
+      this.industryList = places.data.content
+      districts.data.content.map(item => {
+        this.countyList.push({
+          ...item,
+          Value: item.cityCode,
+          Text: item.cityName
+        })
+        item.countyDistricts.map(subItem => {
+          this.areaList.push({
+            ...subItem,
+            Value: subItem.zipCode,
+            Text: subItem.areaName
+          })
+        })
+      })
+      this.countyAmount = county.data.content
+      if(this.industry.Value) {
+        const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
+        this.additionTermsList = data.data.content.additionTermsDetails
+      }
+    },
+    clearAll() {
+      this.$store.dispatch('place/clearAll')
+      location.reload()
+    },
+  },
+  async mounted() {
+    await this.pageInit()
+    this.$store.dispatch('app/updatedUUID', uuidv4())
   }
 }
 </script>

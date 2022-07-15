@@ -110,7 +110,7 @@ export const quotationStep1 = () => {
   }
 }
 
-export const quotationStep2 = () => {
+export const quotation = () => {
   return {
     InsuranceActive: 0,
     renewal: {
@@ -129,12 +129,18 @@ export const quotationStep2 = () => {
         amount: '',
       }
     },
-    placeInfo: [{
-      state: false,
-      square: 0,
-      city: '',
-      area: '',
-      address: ''
+    placeInfo: [{//處所資料
+      holdState: false,
+      squareFeet: 0,
+      city: {
+        Text: '選擇縣市',
+        Value: '',
+      },
+      area: {
+        Text: '選擇區域',
+        Value: '',
+      },
+      subAddress: ''
     }],
     period: {
       startDate: {
@@ -358,19 +364,108 @@ export const quotationStep2 = () => {
     },
     insuranceAmountList: [
       {
-        amount: {
-          Text: '',
-          Value: '',
+        amountType: {
+          Text: '依各縣市規定',
+          Value: '0',
         },
-        value1: '',
-        value2: '',
-        value3: '',
-        value4: '',
-        selfInflicted: {
+        perBodyAmount: '',
+        perAccidentBodyAmount: '',
+        perAccidentFinanceAmount: '',
+        insuranceTotalAmount: '',
+        mergeSingleAmount: '',
+        selfInflictedAmount: {
           Text: '',
           Value: '',
         }
       }
-    ]
+    ],
+    internalControlData: {//內部管制資料
+      issuerNumber: '',//經手人代號
+      businessSourceCode: {//業務來源代號
+        placeholder: '個人',
+        id: 'F1'
+      },
+      statisticsCode: {//統計代號
+        placeholder: '選擇統計代碼',
+        id: ''
+      },
+      loginIdNumber: '',//登入證字號
+    },
+    insuranceAmounts: '', //保險金額
+    additionTerms: {//附加條款
+      PL002: {//停車場責任附加條款
+        value1: false,//停車場是否收費
+        value2: false,//是否有代客停車
+        value3: 0,//平面式車位
+        value4: 0,//室內機械式車位
+        value5: 0,//機械塔車位
+      },
+      PL003: {//電梯意外責任附加條款
+        value1: false,//是否簽訂檢查維護合約
+        value2: 0,//電扶梯
+        value3: 0,//客/貨梯
+        value4: 0,//汽車升降梯
+        value5: 0,//其他種類
+      },
+      PL007: {//各級學校暨幼兒園責任附加條款
+        value1: 0,//學員
+        value2: 0,//幼兒
+      },
+      PL009: {//廣告招牌附加條款A (含天災)
+        value1: 0,//每一意外事故
+        value2: 0,//處所數量
+      },
+      PL016: {//獨立承攬人責任附加條款
+        value1: 0,//承攬工程合約金額少於
+      },
+      PL022: {//裝卸搬運責任附加條款
+        value1: 0,//每一意外事故財損責任之保險金額
+        value2: 0,//保險期間內之最高賠償金額
+      },
+      PL023: {//慰問金費用附加條款
+        value1: 0,
+        value2: 0,
+        value3: 0,
+        value4: 0,
+        value5: 0,
+        value6: 0,
+      },
+      PL028: {//安養事業責任附加條款
+        value1: 0,
+        value2: 0,
+      },
+      PL040: {//受託物責任附加條款
+        value1: 0,
+        value2: 0,
+      },
+      PL041: {//接駁運送責任附加條款
+        value1: 0,
+        value2: 0,
+      },
+      PL043: {//保管箱責任附加條款
+        value1: 0,
+        value2: 0,
+        value3: 0,
+      },
+      PL047: {//放棄代位求償權附加條款
+        value1: '',
+      },
+      PL049: {//承租人借用人責任附加條款(保額外加)
+        value1: 0,
+      },
+      PL053: {//傷害醫療及身故慰問金費用附加條款
+        value1: 0,
+        value2: 0,
+        value3: 0,
+        value4: 0,
+      },
+      PL055: {//營業中斷損失責任附加條款
+        value1: 0,
+        value2: 0,
+      },
+      PL058: {//液化石油氣及容器附加條款
+        value1: 0,
+      }
+    },
   }
 }

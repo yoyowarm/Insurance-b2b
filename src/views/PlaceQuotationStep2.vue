@@ -6,7 +6,7 @@
         :info.sync="InsuranedData"
         :nationalities="nationalities"
         :cityList="cityList"
-        :areaList="InsuranedAreaList"
+        :areaList="InsuranedAreaList.filter(item => item.cityCode == InsuranedData.City.id)"
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         @getDetail="() =>insuredOrApplicantDetail('Insuraned')"
@@ -23,7 +23,7 @@
             defaultText="選擇關係"
             :options="relationShips"
             :selected="Relation.Value"
-            @emitItem="(item) => $store.dispatch('quotationStep2/updatedRelation', item)"
+            @emitItem="(item) => $store.dispatch('place/updatedRelation', item)"
           />
         </InputGroup>
       </div>
@@ -46,14 +46,14 @@
         :info.sync="ApplicantData"
         :nationalities="nationalities"
         :cityList="cityList"
-        :areaList="ApplicantAreaList"
+        :areaList="ApplicantAreaList.filter(item => item.cityCode == ApplicantData.City.id)"
          @checkID="() =>checkID('Applicant')"
          @getDetail="() =>insuredOrApplicantDetail('Applicant')"
          type="ApplicantData"
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="內控資料">
-      <BrokerInfo/>
+      <BrokerInfo :brokerList="businessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <DynamicLink type="router" path="/place-quotation/step1" >
@@ -106,6 +106,8 @@ export default {
       nationalities: [],
       relationShips: [],
       cityList: [],
+      areaList: [],
+      businessSource: [],
       InsuranedAreaList: [],
       ApplicantAreaList: [],
       detailArea: ''
@@ -225,7 +227,7 @@ export default {
       //   })
       // }
       // const detailData = detail.data[TypeKey]
-      // const copyData = quotationStep2().Insuraned
+      // const copyData = quotation().Insuraned
       // if(detailData) {
       //   let Nationality = {}
       //   let RegisterNationality = {}
@@ -286,28 +288,70 @@ export default {
     },
     async step2Init() {
       const result = await Promise.all([
-        await this.$store.dispatch('resource/nationalities'),
-        await this.$store.dispatch('resource/relationShips'),
-        await this.$store.dispatch('resource/cityList')
+        await this.$store.dispatch('resource/Nationality'),
+        await this.$store.dispatch('resource/BusinessSource'),
+        await this.$store.dispatch('resource/Relationships'),
+        await this.$store.dispatch('resource/Districts')
       ])
       const nationalities = result[0]
-      const relationShips = result[1]
-      const cityList = result[2]
-      this.nationalities = nationalities.data
-      this.relationShips = relationShips.data
-      this.cityList = cityList.data
-      if(this.Applicant.City.id) {
-        const areaList = await this.$store.dispatch('resource/areaByCityID', this.Applicant.City.id)
-        this.ApplicantAreaList = areaList.data
-      }
-      if(this.Insuraned.City.id) {
-        const areaList = await this.$store.dispatch('resource/areaByCityID', this.Insuraned.City.id)
-        this.InsuranedAreaList = areaList.data
-      }
-      if(this.InsuranceActive !== 0) {
-        this.step2InitAssignValue()
-        this.step2InitAssignArea()
-      }
+      const businessSource = result[1]
+      const relationShips = result[2]
+      const districts = result[3]
+      districts.data.content.map(item => {
+        this.cityList.push({
+          ...item,
+          Value: item.cityCode,
+          Text: item.cityName
+        })
+        item.countyDistricts.map(subItem => {
+          this.InsuranedAreaList.push({
+            ...subItem,
+            cityCode: item.cityCode,
+            Value: subItem.zipCode,
+            Text: subItem.areaName
+          })
+          this.ApplicantAreaList.push({
+            ...subItem,
+            cityCode: item.cityCode,
+            Value: subItem.zipCode,
+            Text: subItem.areaName
+          })
+        })
+      })
+      this.nationalities = nationalities.data.content.map(item => {
+        return {
+          ...item,
+          Value: item.countryNum,
+          Text: item.countryName
+        }
+      })
+      this.relationShips = relationShips.data.content.map(item => {
+        return {
+          ...item,
+          Value: item.code,
+          Text: item.nane
+        }
+      })
+      this.businessSource = businessSource.data.content.map(item => {
+        return {
+          ...item,
+          Value: item.code,
+          Text: item.name
+        }
+      })
+      // this.cityList = cityList.data
+      // if(this.Applicant.City.id) {
+      //   const areaList = await this.$store.dispatch('resource/areaByCityID', this.Applicant.City.id)
+      //   this.ApplicantAreaList = areaList.data
+      // }
+      // if(this.Insuraned.City.id) {
+      //   const areaList = await this.$store.dispatch('resource/areaByCityID', this.Insuraned.City.id)
+      //   this.InsuranedAreaList = areaList.data
+      // }
+      // if(this.InsuranceActive !== 0) {
+      //   this.step2InitAssignValue()
+      //   this.step2InitAssignArea()
+      // }
     },
     async nextStep() {
       this.$router.push('/place-quotation/step3')
@@ -391,7 +435,7 @@ export default {
     }
   },
   async mounted() {
-    // await this.step2Init() 
+    await this.step2Init() 
   },
 }
 </script>

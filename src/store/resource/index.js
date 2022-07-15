@@ -3,6 +3,10 @@ import { AdditionTermsType, AdditionTermQuotation, AdditionTerms, AdditionTermQu
 import { Users, UserDetail, Groups, GroupDetail, GroupsDetail, GroupPermissions } from '@/api/PermissionSetting'
 import { Places, Activities, PlaceTypes, ActivityTypes, PlaceActivities } from '@/api/PlaceActivitySetting'
 import { TaianUsers } from '@/api/User'
+import { Districts } from '@/api/CountySetting'
+import { Nationality } from '@/api/NationalitySetting'
+import { BusinessSource } from '@/api/BusinessSourceSetting'
+import { Relationships } from '@/api/CommonSetting'
 export default {
   namespaced: true,
   state: {},
@@ -60,6 +64,18 @@ export default {
     },
     async TaianUsers() {
       return await TaianUsers()
+    },
+    async Districts() {
+      return await Districts()
+    },
+    async Nationality() {
+      return await Nationality()
+    },
+    async BusinessSource() {
+      return await BusinessSource()
+    },
+    async Relationships() {
+      return await Relationships()
     }
   }
 }

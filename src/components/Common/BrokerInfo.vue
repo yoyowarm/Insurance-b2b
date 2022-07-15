@@ -4,10 +4,10 @@
       <Input  slot="input" placeholder="輸入代號"/>
     </InputGroup>
     <InputGroup title="業務來源">
-      <Select slot="input" defaultText="請選擇業務來源" search/>
+      <Select slot="input" :options="brokerList" defaultText="請選擇業務來源"/>
     </InputGroup>
     <InputGroup title="統計代號">
-      <Select slot="input" defaultText="請選擇統計代號" search/>
+      <Input slot="input" placeholder="輸入統計代號"/>
     </InputGroup>
     <InputGroup title="登入證字號(登錄ID)">
       <Input slot="input" placeholder="輸入號碼"/>
@@ -24,7 +24,17 @@ export default {
     InputGroup,
     Input,
     Select
-  }
+  },
+  props: {
+    brokerList: {
+      type: Array,
+      default: () => []
+    },
+    countyList: {
+      type: Array,
+      default: () => []
+    }
+  },
 }
 </script>
 <style scoped lang="scss">

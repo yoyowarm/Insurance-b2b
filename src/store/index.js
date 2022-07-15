@@ -22,6 +22,7 @@ const vuexLocal = new VuexPersistence({
   reducer: (state) => {
     return {
       app: {
+        uuid: state.app.uuid,
       },
       home: {
         token: state.home.token,
@@ -42,6 +43,7 @@ const vuexLocal = new VuexPersistence({
         remark: state.place.remark,
         questionnaire: state.place.questionnaire,
         insuranceAmountList: state.place.insuranceAmountList,
+        additionTerms: state.place.additionTerms,
       },
       activity: {
         terms: state.activity.terms,
