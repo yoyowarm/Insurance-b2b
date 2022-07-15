@@ -17,7 +17,6 @@
         />
       </InputGroup>
     </div>
-    <div class="ml-2 mt-2 text-red-500 text-sm">*不論有無投保</div>
   </div>
 </template>
 

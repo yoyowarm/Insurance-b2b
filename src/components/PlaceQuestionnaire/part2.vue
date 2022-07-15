@@ -205,7 +205,7 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3 dashed-border">
+    <div class="column-4 my-3">
       <InputGroup title="是否有游泳池" dash>
         <SwitchInput
           slot="input"
@@ -236,6 +236,17 @@
         />
       </InputGroup>
     </div>
+    <div class="column-4 my-3 dashed-border">
+      <InputGroup title="營業處所是否有機械性停車設備" dash>
+        <SwitchInput
+          slot="input"
+          id="swimPoolw"
+        />
+      </InputGroup>
+      <InputGroup title="停車設備種類">
+        <Select slot="input"/>
+      </InputGroup>
+    </div>
   </div>
 </template>
 
@@ -245,13 +256,15 @@ import Input from '@/components/InputGroup/Input'
 import RadioInput from '@/components/Radio'
 import Checkbox from '@/components/Checkbox'
 import SwitchInput from '@/components/Switch'
+import Select from '@/components/Select'
 export default {
   components: {
     InputGroup,
     Input,
     RadioInput,
     Checkbox,
-    SwitchInput
+    SwitchInput,
+    Select
   },
   props:{
     data: {

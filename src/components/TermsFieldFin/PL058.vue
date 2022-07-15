@@ -6,7 +6,7 @@
     <FormTitle title="年度購提液化石油氣總數量" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-6">
       <InputGroup noMt borderBtn>
-        <span slot="input">50公斤</span>
+        <span slot="input">{{data.PL058.value1}}公斤</span>
       </InputGroup>
     </div>
 	</div>
@@ -20,6 +20,23 @@ export default {
     InputGroup,
     FormTitle,
   },
+  props: {
+    data: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  methods: {
+    updateValue(e,type) {
+      this.$emit('update:data',{
+        ...this.data,
+        PL058: {
+          ...this.data.PL058,
+          [type]: e
+        }
+      })
+    },
+  }
 }
 </script>
 

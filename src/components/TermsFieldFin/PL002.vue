@@ -1,27 +1,27 @@
 <template>
 	<div>
-		<FormTitle title="t2停車場責任附加條款" classList="text-xl text-gray-700">
+		<FormTitle title="停車場責任附加條款" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>	
     <div class="column-6 ">
       <InputGroup title="停車場收費" borderBtn>
         <div slot="input" class="w-full pr-24 relative">
-          有
+          {{data.PL002.value1 ? '有': '無'}}
         </div>
       </InputGroup>
       <InputGroup title="代客停車" borderBtn>
         <div slot="input" class="w-full pr-24 relative">
-          有
+          {{data.PL002.value2 ? '有': '無'}}
         </div>
       </InputGroup>
       <InputGroup title="車位種類和數量" borderBtn>
-        <span slot="input">50位，平面式車位</span>
+        <span slot="input">{{data.PL002.value3}}位，平面式車位</span>
       </InputGroup>
       <InputGroup title="車位種類和數量" borderBtn>
-        <span slot="input">50位，室內機械式車位</span>
+        <span slot="input">{{data.PL002.value4}}位，室內機械式車位</span>
       </InputGroup>
       <InputGroup title="車位種類和數量" borderBtn>
-        <span slot="input">50位，機械塔車位</span>
+        <span slot="input">{{data.PL002.value5}}位，機械塔車位</span>
       </InputGroup>
     </div>
 	</div>
@@ -30,11 +30,29 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+
 export default {
 	components: {
     InputGroup,
     FormTitle,
   },
+  props: {
+    data: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  methods: {
+    updateValue(e,type) {
+      this.$emit('update:data',{
+        ...this.data,
+        PL002: {
+          ...this.data.PL002,
+          [type]: e
+        }
+      })
+    },
+  }
 }
 </script>
 

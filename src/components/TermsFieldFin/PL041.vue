@@ -5,10 +5,10 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="起訖地" borderBtn>
-        <span slot="input">起訖地</span>
+        <span slot="input">{{data.PL041.value1}}</span>
       </InputGroup>
       <InputGroup title="車牌號碼" borderBtn>
-        <span slot="input">車牌號碼</span>
+        <span slot="input">{{data.PL041.value2}}</span>
       </InputGroup>
     </div>
 	</div>
@@ -22,6 +22,23 @@ export default {
     InputGroup,
     FormTitle,
   },
+  props: {
+    data: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  methods: {
+    updateValue(e,type) {
+      this.$emit('update:data',{
+        ...this.data,
+        PL041: {
+          ...this.data.PL041,
+          [type]: e
+        }
+      })
+    },
+  }
 }
 </script>
 

@@ -6,7 +6,7 @@
     <FormTitle title="本附加條款之每一意外事故及保險期間累計保險金額最高以新台幣" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-6">
       <InputGroup class="col-span-2" noMt>
-        <span slot="input">50萬元</span>
+        <span slot="input">{{data.PL049.value1}}萬元</span>
       </InputGroup>
     </div>
 	</div>
@@ -20,6 +20,23 @@ export default {
     InputGroup,
     FormTitle,
   },
+  props: {
+    data: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  methods: {
+    updateValue(e,type) {
+      this.$emit('update:data',{
+        ...this.data,
+        PL049: {
+          ...this.data.PL049,
+          [type]: e
+        }
+      })
+    },
+  }
 }
 </script>
 

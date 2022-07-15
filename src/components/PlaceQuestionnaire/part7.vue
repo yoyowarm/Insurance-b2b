@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="營業處所相關之消防和安全措施" class="my-3"/>
+    <FormTitle title="1.營業處所相關之消防和安全措施" class="my-3"/>
     <div class="flex flex-row my-3">
       <Checkbox
         id="消防栓"
@@ -20,7 +20,7 @@
         :value="data.part7.fireExtinguisher"
         @updateValue="(e) =>updateValue(e,'fireExtinguisher')"
       />
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-0 sm:ml-8" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
@@ -31,7 +31,7 @@
           numberOnly
         />
       </InputGroup>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-0 sm:ml-8" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
@@ -119,6 +119,22 @@
       </InputGroup>
     </div>
     <div class="ml-24 text-red-500 text-sm">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>
+    <div class="flex flex-row my-3">
+      <Checkbox
+        id="其他，請詳述之"
+        class="text-md"
+        text="其他，請詳述之"
+        :checked="data.part7.fireHydrant"
+        :value="data.part7.fireHydrant"
+        @updateValue="(e) =>updateValue(e,'fireHydrant')"
+      />
+      <InputGroup noMt class="ml-4 w70">
+        <Input
+          slot="input"
+          placeholder="輸入內容"
+        />
+      </InputGroup>
+    </div>
     <div class="column-4 my-3">
       <InputGroup title="是否有自動灑水系統">
         <SwitchInput
@@ -186,6 +202,13 @@
         />
       </InputGroup>
     </div>
+    <div class="w-full flex flex-col sm:flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+      <div class="w90">{{item}}</div>
+      <div class="w10 flex flex-row justify-between">
+        <RadioInput text="是" :id="`${item}${index}1`"/>
+        <RadioInput text="否" :id="`${item}${index}2`"/>
+     </div>
+    </div>
   </div>
 </template>
 
@@ -195,18 +218,32 @@ import FormTitle from '@/components/FormTitle.vue'
 import SwitchInput from '@/components/Switch'
 import Checkbox from '@/components/Checkbox'
 import Input from '@/components/InputGroup/Input'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
     FormTitle,
     InputGroup,
     SwitchInput,
     Checkbox,
-    Input
+    Input,
+    RadioInput
   },
   props:{
     data: {
       type: Object,
       default: () => ({})
+    }
+  },
+  data() {
+    return {
+      questionList: [
+        '2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練',
+        '3.是否有禁菸管制',
+        '4.是否有監視或預警系統',
+        '5.受信總機是否正常使用並有專人開手',
+        '6.是否隨時有清潔人員',
+        '7.走道或逃生路線是否推放雜物'
+      ]
     }
   },
   methods: {
@@ -232,5 +269,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w70 {
+    width: 70%;
+  }
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
 </style>

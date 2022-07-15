@@ -1,15 +1,15 @@
 <template>
   <div class="flex flex-row column-3">
     <template v-for="item in termsLists">
-      <div :key="item.TermName" class="flex flex-row items-center mb-2 ">
+      <div :key="item.additionTermName" class="flex flex-row items-center mb-2 ">
         <Checkbox
           class="my-1"
-          :id="item.TermName"
-          :checked="copyTerms[item.TermName]? copyTerms[item.TermName].selected : false"
-          :value="copyTerms[item.TermName]? copyTerms[item.TermName].selected : false"
-          @updateValue="(e) =>updateTerms(item.TermName, e)"
+          :id="item.additionTermName"
+          :checked="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
+          :value="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
+          @updateValue="(e) =>updateTerms(item.additionTermName, e)"
         />
-        <p class="ml-1 cursor-pointer" @click="setDialog(item.TermName,true, item.TermContent)">{{item.TermName}}</p>
+        <p class="ml-1 cursor-pointer" @click="setDialog(item.additionTermName,true, item.additionTermName)">{{item.additionTermName}}</p>
       </div>
     </template>
   </div>
@@ -61,20 +61,20 @@ export default {
         htmlText
       })
     },
-    updateTerms(termName, e) {
-      this.copyTerms[termName].selected = e
+    updateTerms(additionTermName, e) {
+      this.copyTerms[additionTermName].selected = e
        this.$emit('update:terms', this.copyTerms)
     },
     componentInit() {
       this.termsLists.map(item => {
         // eslint-disable-next-line no-prototype-builtins
-        if(!this.terms.hasOwnProperty(item.TermName)) {
-          this.copyTerms[item.TermName] = {
+        if(!this.terms.hasOwnProperty(item.additionTermName)) {
+          this.copyTerms[item.additionTermName] = {
             selected: false
           }
         } else {
-          this.copyTerms[item.TermName] = {
-            selected: this.terms[item.TermName].selected
+          this.copyTerms[item.additionTermName] = {
+            selected: this.terms[item.additionTermName].selected
           }
         }
       })

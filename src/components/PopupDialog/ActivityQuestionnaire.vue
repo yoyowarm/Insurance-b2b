@@ -12,42 +12,45 @@
       </div>
       <div class="body">
         <div class="column-4" ref="1">
-          <FormTitle title="(一)營業處所-基本資料"/>
+          <FormTitle title="詢問表(一)"/>
           <InputGroup class="col-start-4" noMt>
             <Input slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
+        <div class="column-4" ref="1">
+          <FormTitle title="(一)活動場所-活動性質與場所"/>
+        </div>
         <Part1 :data.sync="questionnaireData"/>
         <div class="column-4" ref="2">
-          <FormTitle title="(二)營業處所-建築物資訊"/>
+          <FormTitle title="(二)活動場所-器材使用"/>
         </div>
         <Part2 :data.sync="questionnaireData"/>
         <div class="column-4" ref="3">
-          <FormTitle title="(三)營業處所-特殊風險項目"/>
+          <FormTitle title="(三)活動場所-交通控管"/>
         </div>
         <Part3 :data.sync="questionnaireData"/>
         <div class="column-4" ref="4">
-          <FormTitle title="(四)營業處所-器材使用"/>
+          <FormTitle title="(四)活動場所-人員動線及管控"/>
         </div>
         <Part4 :data.sync="questionnaireData"/>
         <div class="column-4" ref="5">
-          <FormTitle title="(五)營業處所-交通控管"/>
+          <FormTitle title="(五)活動場所-安全防護"/>
         </div>
         <Part5 :data.sync="questionnaireData"/>
         <div class="column-4" ref="6">
-          <FormTitle title="(六)營業處所-人員動線及管控"/>
+          <FormTitle title="(六)活動場所-緊急救護措施"/>
         </div>
         <Part6 :data.sync="questionnaireData"/>
         <div class="column-4" ref="7">
-          <FormTitle title="(七)營業處所-安全防護"/>
+          <FormTitle title="(七)活動場所-其他考量"/>
         </div>
         <Part7 :data.sync="questionnaireData"/>
-        <div class="column-4" ref="8">
-          <FormTitle title="(八)營業處所-緊急救護措施"/>
+        <div class="column-4 mt-10" ref="8">
+          <FormTitle title="詢問表(二)"/>
         </div>
         <Part8 :data.sync="questionnaireData"/>
         <div class="column-4" ref="9">
-          <FormTitle title="(九)營業處所-其他考量"/>
+          <FormTitle title="(二)器材使用"/>
         </div>
         <Part9 :data.sync="questionnaireData"/>
         <div class="flex flex-row justify-center">
@@ -65,15 +68,15 @@ import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
 import Button from '@/components/Button'
-import Part1 from '@/components/Questionnaire/part1'
-import Part2 from '@/components/Questionnaire/part2'
-import Part3 from '@/components/Questionnaire/part3'
-import Part4 from '@/components/Questionnaire/part4'
-import Part5 from '@/components/Questionnaire/part5'
-import Part6 from '@/components/Questionnaire/part6'
-import Part7 from '@/components/Questionnaire/part7'
-import Part8 from '@/components/Questionnaire/part8'
-import Part9 from '@/components/Questionnaire/part9'
+import Part1 from '@/components/ActivityQuestionnaire/part1'
+import Part2 from '@/components/ActivityQuestionnaire/part2'
+import Part3 from '@/components/ActivityQuestionnaire/part3'
+import Part4 from '@/components/ActivityQuestionnaire/part4'
+import Part5 from '@/components/ActivityQuestionnaire/part5'
+import Part6 from '@/components/ActivityQuestionnaire/part6'
+import Part7 from '@/components/ActivityQuestionnaire/part7'
+import Part8 from '@/components/ActivityQuestionnaire/part8'
+import Part9 from '@/components/ActivityQuestionnaire/part9'
 export default {
   components: {
     FormTitle,
@@ -129,15 +132,17 @@ export default {
     return {
       value: false,
       formList: [
-        { Value: '1', Text: '(一)營業處所-基本資料'},
-        { Value: '2', Text: '(二)營業處所-建築物資訊'},
-        { Value: '3', Text: '(三)營業處所-特殊風險項目'},
-        { Value: '4', Text: '(四)營業處所-器材使用'},
-        { Value: '5', Text: '(五)營業處所-交通控管'},
-        { Value: '6', Text: '(六)營業處所-人員動線及管控'},
-        { Value: '7', Text: '(七)營業處所-安全防護'},
-        { Value: '8', Text: '(八)營業處所-緊急救護措施'},
-        { Value: '9', Text: '(九)營業處所-其他考量'},
+        { Value: '1', Text: '(一)活動場所-活動性質與場所'},
+        { Value: '2', Text: '(二)活動場所-器材使用'},
+        { Value: '3', Text: '(三)活動場所-交通控管'},
+        { Value: '4', Text: '(四)活動場所-人員動線及管控'},
+        { Value: '5', Text: '(五)活動場所-安全防護'},
+        { Value: '6', Text: '(六)活動場所-緊急救護措施'},
+        { Value: '7', Text: '(七)活動場所-其他考量'},
+        { Value: '8', Text: '(一)場地選定'},
+        { Value: '9', Text: '(二)器材使用'},
+        { Value: '9', Text: '(三)交通控管'},
+        { Value: '9', Text: '(四)安全防護'},
       ]
     }
   },

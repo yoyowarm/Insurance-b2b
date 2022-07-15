@@ -5,7 +5,7 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="承攬工程合約金額少於" borderBtn>
-        <span slot="input">50萬元者為限</span>
+        <span slot="input">{{data.PL016.value1}}萬元者為限</span>
       </InputGroup>
     </div>
 	</div>
@@ -19,6 +19,23 @@ export default {
     InputGroup,
     FormTitle,
   },
+  props: {
+    data: {
+      type: Object,
+      default: () => ({})
+    }
+  },
+  methods: {
+    updateValue(e,type) {
+      this.$emit('update:data',{
+        ...this.data,
+        PL016: {
+          ...this.data.PL016,
+          [type]: e
+        }
+      })
+    },
+  }
 }
 </script>
 
