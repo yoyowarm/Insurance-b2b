@@ -51,7 +51,7 @@
         </div>
         <Part9 :data.sync="questionnaireData"/>
         <div class="flex flex-row justify-center">
-          <Button>填寫完成</Button>
+          <Button @click.native="() =>{$store.dispatch('place/updatePlaceQuotation', true);$emit('update:open' ,false)}">填寫完成</Button>
         </div>
       </div>
     </div>

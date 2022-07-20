@@ -4,33 +4,33 @@
       <InputGroup title="是否設有中控中心以監控公用設備">
         <SwitchInput
           slot="input"
-          id="centralControl"
-          :value="data.part4.centralControl"
-          @updateValue="(e) =>updateValue(e,'centralControl')"
+          id="hasCentralControl"
+          :value="data.part4.hasCentralControl"
+          @updateValue="(e) =>updateValue(e,'hasCentralControl')"
         />
       </InputGroup>
       <InputGroup title="是否使用高壓電設施(600V以上)">
         <SwitchInput
           slot="input"
-          id="highVoltage"
-          :value="data.part4.highVoltage"
-          @updateValue="(e) =>updateValue(e,'highVoltage')"
+          id="hasHighVoltage"
+          :value="data.part4.hasHighVoltage"
+          @updateValue="(e) =>updateValue(e,'hasHighVoltage')"
         />
       </InputGroup>
       <InputGroup title="是否有裸露電線或導體">
         <SwitchInput
           slot="input"
-          id="bareWires"
-          :value="data.part4.bareWires"
-          @updateValue="(e) =>updateValue(e,'bareWires')"
+          id="hasBareWires"
+          :value="data.part4.hasBareWires"
+          @updateValue="(e) =>updateValue(e,'hasBareWires')"
         />
       </InputGroup>
       <InputGroup title="供電系統是否裝有自動斷電設備">
         <SwitchInput
           slot="input"
-          id="automaticPowerOff"
-          :value="data.part4.automaticPowerOff"
-          @updateValue="(e) =>updateValue(e,'automaticPowerOff')"
+          id="hasAutomaticPowerOff"
+          :value="data.part4.hasAutomaticPowerOff"
+          @updateValue="(e) =>updateValue(e,'hasAutomaticPowerOff')"
         />
       </InputGroup>
     </div>
@@ -38,9 +38,9 @@
       <InputGroup title="所有電線是否裝在管內(含踏板)以避免短路">
         <SwitchInput
           slot="input"
-          id="wireInTube"
-          :value="data.part4.wireInTube"
-          @updateValue="(e) =>updateValue(e,'wireInTube')"
+          id="hasWireInTube"
+          :value="data.part4.hasWireInTube"
+          @updateValue="(e) =>updateValue(e,'hasWireInTube')"
         />
       </InputGroup>
     </div>

@@ -24,17 +24,17 @@
       <InputGroup title="是否有陽台" dash>
         <SwitchInput
           slot="input"
-          id="balcony"
-          :value="data.part3.balcony"
-          @updateValue="(e) =>updateValue(e,'balcony')"
+          id="hasBalcony"
+          :value="data.part3.hasBalcony"
+          @updateValue="(e) =>updateValue(e,'hasBalcony')"
         />
       </InputGroup>
       <InputGroup title="人員可否進入陽台" >
         <SwitchInput
           slot="input"
-          id="accessBalcony"
-          :value="data.part3.accessBalcony"
-          @updateValue="(e) =>updateValue(e,'accessBalcony')"
+          id="hasCarpetsCurtains"
+          :value="data.part3.hasCarpetsCurtains"
+          @updateValue="(e) =>updateValue(e,'hasCarpetsCurtains')"
         />
       </InputGroup>
     </div>
@@ -50,25 +50,25 @@
       <InputGroup title="地毯、窗簾是否為防火材質" >
         <SwitchInput
           slot="input"
-          id="fireproofMaterial"
-          :value="data.part3.fireproofMaterial"
-          @updateValue="(e) =>updateValue(e,'fireproofMaterial')"
+          id="hasFireproofMaterial"
+          :value="data.part3.hasFireproofMaterial"
+          @updateValue="(e) =>updateValue(e,'hasFireproofMaterial')"
         />
       </InputGroup>
       <InputGroup title="是否有客房隔間" dash>
         <SwitchInput
           slot="input"
-          id="compartment"
-          :value="data.part3.compartment"
-          @updateValue="(e) =>updateValue(e,'compartment')"
+          id="hasCompartment"
+          :value="data.part3.hasCompartment"
+          @updateValue="(e) =>updateValue(e,'hasCompartment')"
         />
       </InputGroup>
       <InputGroup title="客房隔間是否為防火材質" >
         <SwitchInput
           slot="input"
-          id="compartmentFireproofMaterial"
-          :value="data.part3.compartmentFireproofMaterial"
-          @updateValue="(e) =>updateValue(e,'compartmentFireproofMaterial')"
+          id="hasCompartmentFireproofMaterial"
+          :value="data.part3.hasCompartmentFireproofMaterial"
+          @updateValue="(e) =>updateValue(e,'hasCompartmentFireproofMaterial')"
         />
       </InputGroup>
     </div>
@@ -90,9 +90,9 @@
       <InputGroup title="是否使用推高機">
         <SwitchInput
           slot="input"
-          id="pusher"
-          :value="data.part3.pusher"
-          @updateValue="(e) =>updateValue(e,'pusher')"
+          id="hasPusher"
+          :value="data.part3.hasPusher"
+          @updateValue="(e) =>updateValue(e,'hasPusher')"
         />
       </InputGroup>
     </div>
@@ -101,25 +101,25 @@
       <InputGroup title="是否有特殊表演項目" dash>
         <SwitchInput
           slot="input"
-          id="performance"
-          :value="data.part3.performance"
-          @updateValue="(e) =>updateValue(e,'performance')"
+          id="hasSpacialShow"
+          :value="data.part3.hasSpacialShow"
+          @updateValue="(e) =>updateValue(e,'hasSpacialShow')"
         />
       </InputGroup>
       <InputGroup title="涉及用火或粉塵表演" dash>
         <SwitchInput
           slot="input"
-          id="fireOrDust"
-          :value="data.part3.fireOrDust"
-          @updateValue="(e) =>updateValue(e,'fireOrDust')"
+          id="hasFireOrDust"
+          :value="data.part3.hasFireOrDust"
+          @updateValue="(e) =>updateValue(e,'hasFireOrDust')"
         />
       </InputGroup>
       <InputGroup title="表演者是否為專業人士" >
         <SwitchInput
           slot="input"
-          id="professional"
-          :value="data.part3.professional"
-          @updateValue="(e) =>updateValue(e,'professional')"
+          id="isProfessional"
+          :value="data.part3.isProfessional"
+          @updateValue="(e) =>updateValue(e,'isProfessional')"
         />
       </InputGroup>
     </div>
@@ -128,17 +128,17 @@
       <InputGroup title="使用、存放煙火爆竹或化學品等危險物品">
         <SwitchInput
           slot="input"
-          id="dangerousItem"
-          :value="data.part3.dangerousItem"
-          @updateValue="(e) =>updateValue(e,'dangerousItem')"
+          id="hasDangerousItem"
+          :value="data.part3.hasDangerousItem"
+          @updateValue="(e) =>updateValue(e,'hasDangerousItem')"
         />
       </InputGroup>
       <InputGroup title="使用鍋爐" >
         <SwitchInput
           slot="input"
-          id="boiler"
-          :value="data.part3.boiler"
-          @updateValue="(e) =>updateValue(e,'boiler')"
+          id="hasBoiler"
+          :value="data.part3.hasBoiler"
+          @updateValue="(e) =>updateValue(e,'hasBoiler')"
         />
       </InputGroup>
     </div>

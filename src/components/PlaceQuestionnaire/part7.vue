@@ -1,15 +1,37 @@
 <template>
   <div>
     <FormTitle title="1.營業處所相關之消防和安全措施" class="my-3"/>
-    <div class="flex flex-row my-3">
+    <div class="column-6 my-1">
       <Checkbox
         id="消防栓"
         class="text-md"
         text="消防栓"
-        :checked="data.part7.fireHydrant"
-        :value="data.part7.fireHydrant"
-        @updateValue="(e) =>updateValue(e,'fireHydrant')"
+        :checked="data.part7.hasFireHydrant"
+        :value="data.part7.hasFireHydrant"
+        @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
+      <InputGroup noMt class="ml-0 sm:ml-8" :disable="!data.part7.hasFireHydrant">
+        <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+        <Input
+          slot="input"
+          placeholder="輸入數量"
+          :disable="!data.part7.hasFireHydrant"
+          :value="data.part7.hydrantIndoorAmount"
+          @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
+          numberOnly
+        />
+      </InputGroup>
+      <InputGroup noMt class="ml-0 sm:ml-8" :disable="!data.part7.hasFireHydrant">
+        <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+        <Input
+          slot="input"
+          placeholder="輸入數量"
+          :disable="!data.part7.hasFireHydrant"
+          :value="data.part7.hydrantOutdoorAmount"
+          @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
+          numberOnly
+        />
+      </InputGroup>
     </div>
     <div class="column-6 my-1">
       <Checkbox
@@ -124,14 +146,16 @@
         id="其他，請詳述之"
         class="text-md"
         text="其他，請詳述之"
-        :checked="data.part7.fireHydrant"
-        :value="data.part7.fireHydrant"
-        @updateValue="(e) =>updateValue(e,'fireHydrant')"
+        :checked="data.part7.hasOtherExtinguishing"
+        :value="data.part7.hasOtherExtinguishing"
+        @updateValue="(e) =>updateValue(e,'hasOtherExtinguishing')"
       />
       <InputGroup noMt class="ml-4 w70">
         <Input
           slot="input"
           placeholder="輸入內容"
+          :value="data.part7.otherExtinguishingRemark"
+          @updateValue="(e) => updateValue(e,'otherExtinguishingRemark')"
         />
       </InputGroup>
     </div>
@@ -183,7 +207,7 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3  dashed-border">
+    <div class="column-4 my-3">
       <InputGroup title="是否有水霧滅火系統" dash>
         <SwitchInput
           slot="input"
@@ -202,11 +226,11 @@
         />
       </InputGroup>
     </div>
-    <div class="w-full flex flex-col sm:flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+    <div class="w-full flex flex-col sm:flex-row mt-4" v-for="(item,index) in questionList" :key="item" :class="{'dashed-border': index == questionList.length -1}">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" :id="`${item}${index}1`"/>
-        <RadioInput text="否" :id="`${item}${index}2`"/>
+        <RadioInput text="是" :id="`${questionListID[index]}${index}1`" :value="data.part7[questionListID[index]] === true" @updateValue="(e) => updateValue(e, questionListID[index])"/>
+        <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="(e) => updateValue(e, questionListID[index])"/>
      </div>
     </div>
   </div>
@@ -243,6 +267,14 @@ export default {
         '5.受信總機是否正常使用並有專人開手',
         '6.是否隨時有清潔人員',
         '7.走道或逃生路線是否推放雜物'
+      ],
+      questionListID: [
+        'HasEquipmentTestAndTrain',
+        'hasNoSmokingControl',
+        'hasAlertSystem',
+        'hasSwitchboardNormalState',
+        'hasCleaner',
+        'hasClutterAtAisle'
       ]
     }
   },

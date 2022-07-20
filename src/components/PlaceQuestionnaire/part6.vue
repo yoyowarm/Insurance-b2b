@@ -4,25 +4,25 @@
       <InputGroup title="是否有出口規劃">
         <SwitchInput
           slot="input"
-          id="exit"
-          :value="data.part6.exit"
-          @updateValue="(e) =>updateValue(e,'exit')"
+          id="hasExit"
+          :value="data.part6.hasExit"
+          @updateValue="(e) =>updateValue(e,'hasExit')"
         />
       </InputGroup>
       <InputGroup title="是否有疏散標示">
         <SwitchInput
           slot="input"
-          id="evacuationSign"
-          :value="data.part6.evacuationSign"
-          @updateValue="(e) =>updateValue(e,'evacuationSign')"
+          id="hasEvacuationSign"
+          :value="data.part6.hasEvacuationSign"
+          @updateValue="(e) =>updateValue(e,'hasEvacuationSign')"
         />
       </InputGroup>
       <InputGroup title="是否有人員管制計畫">
         <SwitchInput
           slot="input"
-          id="personnelControl"
-          :value="data.part6.personnelControl"
-          @updateValue="(e) =>updateValue(e,'personnelControl')"
+          id="hasPersonnelControl"
+          :value="data.part6.hasPersonnelControl"
+          @updateValue="(e) =>updateValue(e,'hasPersonnelControl')"
         />
       </InputGroup>
     </div>
@@ -30,9 +30,9 @@
       <InputGroup title="是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)">
         <SwitchInput
           slot="input"
-          id="evacuationPlan"
-          :value="data.part6.evacuationPlan"
-          @updateValue="(e) =>updateValue(e,'evacuationPlan')"
+          id="hasEvacuationPlan"
+          :value="data.part6.hasEvacuationPlan"
+          @updateValue="(e) =>updateValue(e,'hasEvacuationPlan')"
         />
       </InputGroup>
     </div>

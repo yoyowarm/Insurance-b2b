@@ -11,7 +11,7 @@
         <Input slot="input" :value="data.part2.roofMaterial" @updateValue="(e) => updateValue(e,'roofMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
       <InputGroup title="距鄰近建築物">
-        <Input slot="input" :value="data.part2.distance" @updateValue="(e) => updateValue(e,'distance')" placeholder="輸入距離"/>
+        <Input slot="input" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離"/>
       </InputGroup>
     </div>
     <div class="column-5 my-3">
@@ -146,7 +146,7 @@
         />
       </InputGroup>
     </div>
-    <div class="column-5 mt-3">
+    <div class="column-5 mt-3 ml-8">
       <InputGroup title="營業性質之數量">
         <Input
           slot="input"
@@ -166,7 +166,7 @@
         <span slot="input-right" class="absolute -right-38 bottom-4">如係屬飯店、旅館者</span>
       </InputGroup>
     </div>
-    <div class="column-5 mb-3">
+    <div class="column-5 mb-3 ml-8">
       <InputGroup noMt>
         <Input
           slot="input"
@@ -194,14 +194,14 @@
         <Input slot="input" :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup title="使用樓層數">
-        <Input slot="input" :value="data.part2.floor" numberOnly @updateValue="(e) => updateValue(e,'floor')" placeholder="輸入層數"/>
+        <Input slot="input" :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup title="樓梯是否有止滑條">
         <SwitchInput
           slot="input"
-          id="antiSlip"
-          :value="data.part2.antiSlip"
-          @updateValue="(e) =>updateValue(e,'antiSlip')"
+          id="hasAntiSlip"
+          :value="data.part2.hasAntiSlip"
+          @updateValue="(e) =>updateValue(e,'hasAntiSlip')"
         />
       </InputGroup>
     </div>
@@ -210,18 +210,18 @@
         <SwitchInput
           slot="input"
           id="swimPool"
-          :value="data.part2.pool"
-          @updateValue="(e) =>updateValue(e,'pool')"
+          :value="data.part2.hasSwimmingPool"
+          @updateValue="(e) =>updateValue(e,'hasSwimmingPool')"
         />
       </InputGroup>
-      <InputGroup title="救生員人數" :disable="!data.part2.pool">
+      <InputGroup title="救生員人數" :disable="!data.part2.hasSwimmingPool">
         <Input
           slot="input"
-          :value="data.part2.lifeguard"
+          :value="data.part2.lifeguardAmount"
           numberOnly
-          @updateValue="(e) => updateValue(e,'lifeguard')"
+          @updateValue="(e) => updateValue(e,'lifeguardAmount')"
           placeholder="輸入人數"
-          :disable="!data.part2.pool"
+          :disable="!data.part2.hasSwimmingPool"
         />
       </InputGroup>
       <InputGroup title="地板為何種材質">
@@ -230,9 +230,9 @@
       <InputGroup title="是否鋪設地談">
         <SwitchInput
           slot="input"
-          id="carpet"
-          :value="data.part2.carpet"
-          @updateValue="(e) =>updateValue(e,'carpet')"
+          id="hasCarpet"
+          :value="data.part2.hasCarpet"
+          @updateValue="(e) =>updateValue(e,'hasCarpet')"
         />
       </InputGroup>
     </div>

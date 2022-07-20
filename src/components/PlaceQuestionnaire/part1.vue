@@ -2,38 +2,43 @@
   <div>
     <div class="column-4 my-3">
       <InputGroup title="經營業務種類">
-        <Select slot="input" :selected="data.part1.businessType.Value" defaultText="選擇種類"/>
+        <Select
+          slot="input"
+          :selected="data.part1.businessType.Value"
+          :options="typeList"
+          @emitItem="e=> updateValue(e, 'businessType')"
+          defaultText="選擇種類"/>
       </InputGroup>
       <div class="col-span-2">
         <div class="column-3 w-full">
           <InputGroup title="創立日期">
             <Select
               slot="input"
-              :selected="data.part1.create.year"
+              :selected="data.part1.createTime.year"
               :options="yearOptions"
-              @emitItem="(e) => emitSelectItem('create','year', e.Value)"
+              @emitItem="(e) => emitSelectItem('createTime','year', e.Value)"
               defaultText="選擇年"/>
           </InputGroup>
           <InputGroup >
             <Select
               slot="input"
-              :selected="data.part1.create.month"
+              :selected="data.part1.createTime.month"
               :options="monthOptions"
-              @emitItem="(e) => emitSelectItem('create','month', e.Value)"
+              @emitItem="(e) => emitSelectItem('createTime','month', e.Value)"
               defaultText="選擇月"/>
           </InputGroup>
           <InputGroup >
             <Select
               slot="input"
-              :selected="data.part1.create.day"
+              :selected="data.part1.createTime.day"
               :options="dayOptions"
-              @emitItem="(e) => emitSelectItem('create','day', e.Value)"
+              @emitItem="(e) => emitSelectItem('createTime','day', e.Value)"
               defaultText="選擇日"/>
           </InputGroup>
         </div>
       </div>
       <InputGroup title="員工人數">
-        <Input slot="input" numberOnly placeholder="輸入人數" @updateValue="(e) => updateValue(e,'staff')" :value="data.part1.staff"/>
+        <Input slot="input" numberOnly placeholder="輸入人數" @updateValue="(e) => updateValue(e,'staffAmount')" :value="data.part1.staffAmount"/>
       </InputGroup>
     </div>
     <div class="column-4 my-3">
@@ -41,28 +46,28 @@
         <InputGroup title="營業開始時間">
           <Select
             slot="input"
-            :selected="data.part1.startDate.hours"
+            :selected="data.part1.businessStartDate.hours"
             :options="hoursOptions"
             defaultText="- - 點"
-            @emitItem="(e) => emitSelectItem('startDate','hours', e.Value)"/>
+            @emitItem="(e) => emitSelectItem('businessStartDate','hours', e.Value)"/>
           />
         </InputGroup>
         <InputGroup >
           <Select
             slot="input"
-            :selected="data.part1.startDate.minutes"
+            :selected="data.part1.businessStartDate.minutes"
             defaultText="- - 分"
             :options="minutesOptions"
-            @emitItem="(e) => emitSelectItem('startDate','minutes', e.Value)"/>
+            @emitItem="(e) => emitSelectItem('businessStartDate','minutes', e.Value)"/>
           />
         </InputGroup>
         <InputGroup >
           <Select
             slot="input"
-            :selected="data.part1.startDate.AmPm"
+            :selected="data.part1.businessStartDate.AmPm"
             defaultText="AM"
             :options="AmPmOptions"
-            @emitItem="(e) => emitSelectItem('startDate','AmPm', e.Value)"/>
+            @emitItem="(e) => emitSelectItem('businessStartDate','AmPm', e.Value)"/>
           />
         </InputGroup>
       </div>
@@ -70,28 +75,28 @@
         <InputGroup title="營業結束時間">
           <Select
             slot="input"
-            :selected="data.part1.endDate.hours"
+            :selected="data.part1.businessEndDate.hours"
             defaultText="- - 點"
             :options="hoursOptions"
-            @emitItem="(e) => emitSelectItem('endDate','hours', e.Value)"/>
+            @emitItem="(e) => emitSelectItem('businessEndDate','hours', e.Value)"/>
           />
         </InputGroup>
         <InputGroup >
           <Select
             slot="input"
-            :selected="data.part1.endDate.minutes"
+            :selected="data.part1.businessEndDate.minutes"
             defaultText="- - 分"
             :options="minutesOptions"
-            @emitItem="(e) => emitSelectItem('endDate','minutes', e.Value)"/>
+            @emitItem="(e) => emitSelectItem('businessEndDate','minutes', e.Value)"/>
           />
         </InputGroup>
         <InputGroup >
           <Select
             slot="input"
-            :selected="data.part1.endDate.AmPm"
+            :selected="data.part1.businessEndDate.AmPm"
             defaultText="AM"
             :options="AmPmOptions"
-            @emitItem="(e) => emitSelectItem('endDate','AmPm', e.Value)"/>
+            @emitItem="(e) => emitSelectItem('businessEndDate','AmPm', e.Value)"/>
           />
         </InputGroup>
       </div>
@@ -104,10 +109,10 @@
     </div>
     <div class="column-4 my-3 dashed-border">
       <InputGroup title="每日平均出入人數">
-        <Input slot="input" :value="data.part1.dailyAverage" @updateValue="(e) => updateValue(e,'dailyAverage')" placeholder="輸入人數"/>
+        <Input slot="input" :value="data.part1.dailyAveragePersons" @updateValue="(e) => updateValue(e,'dailyAveragePersons')" placeholder="輸入人數"/>
       </InputGroup>
       <InputGroup title="單日最高出入人數">
-        <Input slot="input" :value="data.part1.singleDayHighest" @updateValue="(e) => updateValue(e,'singleDayHighest')" placeholder="輸入人數"/>
+        <Input slot="input" :value="data.part1.singleDayHighestPersons" @updateValue="(e) => updateValue(e,'singleDayHighestPersons')" placeholder="輸入人數"/>
       </InputGroup>
     </div>
   </div>
@@ -129,10 +134,15 @@ export default {
       default: () => ({})
     }
   },
+  data() {
+    return {
+      typeList: []
+    }
+  },
   computed: {
      yearOptions () {
         const arr = []
-      for (let i = 110; i <= 140; i++) {
+      for (let i = (new Date().getFullYear()-1911); i <= 140; i++) {
          arr.push({
            Text: i,
            Value: i
@@ -216,6 +226,15 @@ export default {
       }
       this.$emit('update:data',obj)
     }
+  },
+  async mounted() {
+    const type = await this.$store.dispatch('resource/PlaceTypes')
+    this.typeList = type.data.content.map(item => {
+      return {
+        Text: item,
+        Value: item
+      }
+    })
   }
 }
 </script>

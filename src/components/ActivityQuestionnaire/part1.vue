@@ -63,10 +63,10 @@
     </div>
     <div class="column-4 my-3">
       <InputGroup title="每日平均出入人數">
-        <Input slot="input" :value="data.part1.dailyAverage" @updateValue="(e) => updateValue(e,'dailyAverage')" placeholder="輸入人數"/>
+        <Input slot="input" :value="data.part1.dailyAveragePersons" @updateValue="(e) => updateValue(e,'dailyAveragePersons')" placeholder="輸入人數"/>
       </InputGroup>
       <InputGroup title="單日最高出入人數">
-        <Input slot="input" :value="data.part1.singleDayHighest" @updateValue="(e) => updateValue(e,'singleDayHighest')" placeholder="輸入人數"/>
+        <Input slot="input" :value="data.part1.singleDayHighestPersons" @updateValue="(e) => updateValue(e,'singleDayHighestPersons')" placeholder="輸入人數"/>
       </InputGroup>
     </div>
     <div class="column-4 my-3">

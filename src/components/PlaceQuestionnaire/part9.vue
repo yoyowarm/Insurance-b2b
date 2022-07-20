@@ -4,9 +4,9 @@
       <InputGroup title="被保險人過去五年是否有損失紀錄">
         <SwitchInput
           slot="input"
-          id="lossHistory"
-          :value="data.part9.lossHistory"
-          @updateValue="(e) =>updateValue(e,'lossHistory')"
+          id="hasLossHistoryBeforeFiveYear"
+          :value="data.part9.hasLossHistoryBeforeFiveYear"
+          @updateValue="(e) =>updateValue(e,'hasLossHistoryBeforeFiveYear')"
         />
       </InputGroup>
       <InputGroup class="col-span-3" title="填寫損失金額、次數、原因">
