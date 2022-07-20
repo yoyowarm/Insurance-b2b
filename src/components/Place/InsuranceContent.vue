@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column-6">
-      <InputGroup class=" w-full mb-2.5" title="是否續保" borderBtn :editModel="editModel">
+      <!-- <InputGroup class=" w-full mb-2.5" title="是否續保" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="是"/>
         <div v-else slot="input" class="w-full pr-24 relative">
           是
@@ -12,30 +12,30 @@
         <div v-else slot="input" class="w-full pr-24 relative">
           123456789
         </div>
-      </InputGroup>
+      </InputGroup> -->
       <div class="flex flex-row col-span-2">
         <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
           <div v-else slot="input">
-            111年
+            {{info.insuranceBegin.split('T')[0].split('-')[0]}}年
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="04月"/>
           <div v-else slot="input">
-            04月
+            {{info.insuranceBegin.split('T')[0].split('-')[1]}}月
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="15日"/>
           <div v-else slot="input">
-            15日
+            {{info.insuranceBegin.split('T')[0].split('-')[2]}}日
           </div>
         </InputGroup>
         <InputGroup class="w-full" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="12時"/>
           <div v-else slot="input">
-            12時
+            {{info.insuranceBegin.split('T')[1].split(':')[0]}}時
           </div>
         </InputGroup>
       </div>
@@ -43,25 +43,25 @@
         <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
           <div v-else slot="input">
-            111年
+            {{info.insuranceEnd.split('T')[0].split('-')[0]}}年
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="04月"/>
           <div v-else slot="input">
-            04月
+            {{info.insuranceEnd.split('T')[0].split('-')[1]}}月
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="15日"/>
           <div v-else slot="input">
-            15日
+            {{info.insuranceEnd.split('T')[0].split('-')[2]}}日
           </div>
         </InputGroup>
         <InputGroup class="w-full" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="12時"/>
           <div v-else slot="input">
-            12時
+            {{info.insuranceEnd.split('T')[1].split(':')[0]}}時
           </div>
         </InputGroup>
       </div>
@@ -70,7 +70,7 @@
       <InputGroup class="w-full col-span-6" title="投保行業" v-if="copyInfo.CorporateRequired || true" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="心理輔導與家庭諮詢機構"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          心理輔導與家庭諮詢機構
+          {{info.insureType}}
         </div>
       </InputGroup>
     </div>
@@ -112,30 +112,30 @@
         </div>
       </InputGroup>
     </div>
-    <template v-for="(item, index) in lists">
+    <template v-for="(item, index) in info.placeInfo">
       <FormTitle :key="`title${index}`" :title="`處所資料-處所${index+1}`" classList="text-xl" />
       <div :key="`row${index}`" class="column-6 pb-3 mb-4">
         <InputGroup class="w-full" :title="`處所${index+1}-持有狀態`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="自有"/>
           <div v-else slot="input" class="w-full pr-24 relative">
-            自有
+            {{item.holdState == 0 ? '承租' : '自有'}}
           </div>
       </InputGroup>
       <InputGroup class="w-full" :title="`處所${index+1}-坪數`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Input v-if="editModel" slot="input" class="w-full relative text-main" value="500"/>
           <div v-else slot="input" class="w-full relative">
-            500
+            {{item.squareFeet}}
           </div>
       </InputGroup>
       <InputGroup class="w-full" :title="`處所${index+1}-經營業務處所`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="台北市"/>
         <div v-else slot="input" class="w-full relative">
-          台北市
+          {{item.city}}
         </div>
       </InputGroup>
       </div>
     </template>
-    <TermConditionsFin :terms.sync="termsData" :termsLists="TermsSelect.lists"/>
+    <TermConditionsFin :terms.sync="termsData" :termsLists="info.additionTerms"/>
     <div class="column-6 pb-3 mb-4">
       <InputGroup class="w-full col-span-6" title="備註" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容"/>
@@ -195,10 +195,6 @@ export default {
     type: {
       type: String,
       default: () => ''
-    },
-    lists: {
-      type: Array,
-      default: () => []
     },
   },
   data () {

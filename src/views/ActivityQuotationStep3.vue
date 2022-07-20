@@ -9,7 +9,7 @@
     <CommonBoard class="w-full mb-7" title="投保資料">
       <InsuranceContent :lists="activityInfo"/>
     </CommonBoard>
-    <InsuranceAmountList :lists="activityInfo"/>
+    <InsuranceAmountListFin :lists="activityInfo"/>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
@@ -23,7 +23,7 @@
 import CommonBoard from '@/components/CommonBoard'
 import Button from '@/components/Button'
 import InsuranceInfoFin from '@/components/Common/InsuranceInfoFin'
-import InsuranceAmountList from '@/components/Common/InsuranceAmountList.vue'
+import InsuranceAmountListFin from '@/components/Common/InsuranceAmountListFin.vue'
 import InsuranceContent from '@/components/Activity/InsuranceContent'
 import ViewModelSticker from '@/components/viewModelSticker'
 import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
@@ -36,7 +36,7 @@ export default {
     CommonBoard,
     Button,
     InsuranceInfoFin,
-    InsuranceAmountList,
+    InsuranceAmountListFin,
     InsuranceContent,
     ViewModelSticker,
     QuoteHistory,

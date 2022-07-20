@@ -33,7 +33,7 @@
           slot="input"
           defaultText="選擇國籍"
           :options="nationalities"
-          :selected="copyInfo.Nationality.placeholder"
+          :selected="copyInfo.Nationality.Value"
           @emitItem="(item) => emitSelectItem('Nationality', item)"
           search
         />
@@ -58,7 +58,7 @@
           slot="input"
           defaultText="選擇縣市"
           :options="cityList"
-          :selected="copyInfo.City.id"
+          :selected="copyInfo.City.Value"
           @emitItem="(item) => emitSelectItem('City', item)"
         />
       </InputGroup>
@@ -67,12 +67,12 @@
           slot="input"
           defaultText="選擇區域"
           :options="areaList"
-          :selected="copyInfo.Area.id"
+          :selected="copyInfo.Area.Value"
           @emitItem="(item) => emitSelectItem('Area', item)"
         />
       </InputGroup>
       <InputGroup class="address" :noMt="marginTop(1180)">
-        <Input slot="input" placeholder="輸入後續地址" :value="copyInfo.Street" @updateValue="(e) => updateInfo('Street', e)"/>
+        <Input slot="input" placeholder="輸入後續地址" :value="copyInfo.subAddress" @updateValue="(e) => updateInfo('subAddress', e)"/>
       </InputGroup>
     </div>
     <div class="column-5 dashed-border pt-6 pb-3 mb-4">
@@ -91,7 +91,7 @@
           slot="input"
           defaultText="選擇國籍"
           :options="nationalities"
-          :selected="copyInfo.RegisterNationality.placeholder"
+          :selected="copyInfo.RegisterNationality.Value"
           @emitItem="(item) => emitSelectItem('RegisterNationality', item)"
           search
         />
@@ -110,11 +110,11 @@
       <InputGroup class="w-full" :noMt="marginTop(560)">
         <SwitchInput
           slot="input"
-          :id="`${type}IsOverseasOrDomestic`"
+          :id="`${type}overseasOrDomestic`"
           checkedText="外國"
           uncheckedText="本國"
-          :value="copyInfo.IsOverseasOrDomestic"
-          @updateValue="(e) =>updateInfo('IsOverseasOrDomestic', e)"
+          :value="copyInfo.overseasOrDomestic"
+          @updateValue="(e) =>updateInfo('overseasOrDomestic', e)"
         />
       </InputGroup>
     </div>
@@ -192,11 +192,7 @@ export default {
   },
   methods: {
     emitSelectItem(key, item) {
-      const select = {
-        placeholder: item.Text,
-        id: item.Value
-      }
-      this.updateInfo(key, select)
+      this.updateInfo(key, item)
     },
     updateInfo (key, value) {
       this.$emit('update:info', Object.assign(this.copyInfo, { [key]: value }))

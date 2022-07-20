@@ -1,12 +1,12 @@
 import axios from 'axios'
 import store from '../store/index'
 
-export const request = function () {
+export const request = function (config = {}) {
   const request = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
     timeout: 20000,
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': config['Content-Type'] ? config['Content-Type'] : 'application/json',
       'Accept': 'application/json'
     }
   })

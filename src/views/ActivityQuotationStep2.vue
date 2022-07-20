@@ -278,7 +278,7 @@ export default {
       //     IsForeignRegister: detailData.IsForeignRegister,
       //     Profession: detailData.Profession,
       //     IsPolitician: detailData.IsPolitician,
-      //     IsOverseasOrDomestic: detailData.IsOverseasOrDomestic,
+      //     overseasOrDomestic: detailData.overseasOrDomestic,
       //     IsProOrNot: detailData.IsProOrNot,
       //   })
       //   this[`${type}Data`] = copyData

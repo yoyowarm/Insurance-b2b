@@ -1,19 +1,10 @@
 import { Popup } from '@/utils/popups/index'
-import { mapState } from 'vuex'
 export default {
   data() {
     return {
       requestFile: [],
       verifyResult: []
     }
-  },
-  computed: {
-    ...mapState({
-      Insuraned: state => state.quotationStep2.Insuraned,
-      Relation: state => state.quotationStep2.Relation,
-      Applicant: state => state.quotationStep2.Applicant,
-      Paper: state => state.quotationStep2.Paper,
-    })
   },
   watch: {
     requestFile: function (val) {
@@ -47,8 +38,8 @@ export default {
       if (!ApplicantPhone.data.IsSuccess) this.verifyResult.push(ApplicantPhone.data)
     },
     async verifyIdOrRegisterNumberFormat() {
-      const InsuranedId = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', { input: this.Insuraned.ID, type: 1 })
-      const ApplicantId = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', { input: this.Applicant.ID, type: 1 })
+      const InsuranedId = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', { input: this.Insuraned.Value, type: 1 })
+      const ApplicantId = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', { input: this.Applicant.Value, type: 1 })
       InsuranedId.data.type = '被保人統編/身分證'
       ApplicantId.data.type = '要保人統編/身分證'
       if (!InsuranedId.data.IsSuccess) this.verifyResult.push(InsuranedId.data)
@@ -83,19 +74,19 @@ export default {
       if (!this.Insuraned.Mobile) {
         this.requestFile.push('未填寫被保險人電話')
       }
-      if (this.Insuraned.IsForeigner && !this.Insuraned.Nationality.id) {
+      if (this.Insuraned.IsForeigner && !this.Insuraned.Nationality.Value) {
         this.requestFile.push('未選擇被保險人國籍')
       }
       if (this.Insuraned.PrincipalRequired && !this.Insuraned.Principal) {
         this.requestFile.push('未選擇被保險人負責人')
       }
-      if (!this.Insuraned.City.id) {
+      if (!this.Insuraned.City.Value) {
         this.requestFile.push('被保險人未選擇縣市')
       }
-      if (!this.Insuraned.Area.id) {
+      if (!this.Insuraned.Area.Value) {
         this.requestFile.push('被保險人未選擇區域')
       }
-      if (!this.Insuraned.Street) {
+      if (!this.Insuraned.subAddress) {
         this.requestFile.push('被保險人未輸入地址')
       }
       if (this.Insuraned.IsForeignRegister && !this.Insuraned.RegisterNationality) {
@@ -111,45 +102,38 @@ export default {
       if (!this.Applicant.Mobile) {
         this.requestFile.push('未填寫要保險人電話')
       }
-      if (this.Applicant.IsForeigner && !this.Applicant.Nationality.id) {
+      if (this.Applicant.IsForeigner && !this.Applicant.Nationality.Value) {
         this.requestFile.push('未選擇要保險人國籍')
       }
       if (this.Applicant.PrincipalRequired && !this.Applicant.Principal) {
         this.requestFile.push('未選擇要保險人負責人')
       }
-      if (!this.Applicant.City.id) {
+      if (!this.Applicant.City.Value) {
         this.requestFile.push('要保險人未選擇縣市')
       }
-      if (!this.Applicant.Area.id) {
+      if (!this.Applicant.Area.Value) {
         this.requestFile.push('要保險人未選擇區域')
       }
-      if (!this.Applicant.Street) {
+      if (!this.Applicant.subAddress) {
         this.requestFile.push('要保險人未輸入地址')
       }
       if (this.Applicant.IsForeignRegister && !this.Applicant.RegisterNationality) {
         this.requestFile.push('要保險人未輸入登記/註冊地國籍')
       }
-      if (!this.Paper.OriginalNumber) {
-        this.requestFile.push('未填寫紙本保單正本份數')
-      }
-      if (!this.Paper.CopyNumber) {
-        this.requestFile.push('未填寫紙本保單副本份數')
-      }
-      if (!this.Paper.ReciecptNumber) {
-        this.requestFile.push('未填寫紙本保單收據份數')
-      }
       if (!this.Relation.Value) {
         this.requestFile.push('未選擇關係')
       }
-      if (this.Paper.IsRecieptChoseOther) {
-        this.Paper.InsuredReciepts.map(item => {
-          Object.keys(item).map(key => {
-            if (this.requestFile.includes('被要保人收據未填寫成完')) return
-            if (!item[key]) {
-              this.requestFile.push('被要保人收據未填寫完')
-            }
-          })
-        })
+      if (!this.internalControlData.businessSourceCode.Value) {
+        this.requestFile.push('未選擇業務來源')
+      }
+      if (!this.internalControlData.issuerNumber) {
+        this.requestFile.push('未填寫經手人代號')
+      }
+      if (!this.internalControlData.statisticsCode) {
+        this.requestFile.push('未填寫統計代號')
+      }
+      if (!this.internalControlData.loginIdNumber) {
+        this.requestFile.push('未填寫登入證字號')
       }
     }
   }

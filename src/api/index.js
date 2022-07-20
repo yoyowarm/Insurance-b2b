@@ -5,7 +5,7 @@ export default function (method, url, data = null, config) {
     case 'get':
       return request().get(url, { params: data })
     case 'post':
-      return request().post(url, data, config)
+      return request(config).post(url, data)
     case 'put':
       return request().put(url, data)
     case 'patch':

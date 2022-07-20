@@ -6,14 +6,14 @@
         :info.sync="InsuranedData"
         :nationalities="nationalities"
         :cityList="cityList"
-        :areaList="InsuranedAreaList.filter(item => item.cityCode == InsuranedData.City.id)"
+        :areaList="InsuranedAreaList.filter(item => item.cityId == InsuranedData.City.Value)"
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         @getDetail="() =>insuredOrApplicantDetail('Insuraned')"
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="經營處所地址">
-      <Address :lists="placeInfo"/>
+      <Address :lists.sync="placeInfoData" :cityList="cityList" :areaList="ApplicantAreaList"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
@@ -46,14 +46,14 @@
         :info.sync="ApplicantData"
         :nationalities="nationalities"
         :cityList="cityList"
-        :areaList="ApplicantAreaList.filter(item => item.cityCode == ApplicantData.City.id)"
+        :areaList="ApplicantAreaList.filter(item => item.cityId == ApplicantData.City.Value)"
          @checkID="() =>checkID('Applicant')"
          @getDetail="() =>insuredOrApplicantDetail('Applicant')"
          type="ApplicantData"
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="內控資料">
-      <BrokerInfo :brokerList="businessSource"/>
+      <BrokerInfo :brokerList="businessSource" :data.sync="internalControl"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <DynamicLink type="router" path="/place-quotation/step1" >
@@ -81,9 +81,8 @@ import Address from '@/components/Place/Address'
 import mixinVerify from '@/utils/mixins/verifyStep2'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
-import { formatDate } from '@/utils/dateFormat'
 // import { quotationStep2 } from '@/utils/dataTemp'
-// import { Popup } from '@/utils/popups/index'
+import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinVerify, routeChange, editCopyQuotation],
@@ -123,6 +122,8 @@ export default {
       'InsuranceActive': state => state.place.InsuranceActive,
       'step1Model': state => state.place.step1Model,
       placeInfo: state => state.place.placeInfo,
+      internalControlData: state => state.place.internalControlData,
+      placeQuotation: state => state.place.placeQuotation,
     }),
     InsuranedData: {
       get() {
@@ -140,42 +141,24 @@ export default {
         this.$store.dispatch('place/updatedApplicant', value)
       }
     },
+    internalControl: {
+      get() {
+        return this.internalControlData
+      },
+      set(value) {
+        this.$store.dispatch('place/updateInternalControlData', value)
+      }
+    },
+    placeInfoData: {
+      get() {
+        return this.placeInfo
+      },
+      set(value) {
+        this.$store.dispatch('place/updatedPlaceInfo', value)
+      }
+    },
   },
   watch: {
-    // 'Insuraned.City': async function(val, odlVal) {
-    //   if(val.id === odlVal.id) return
-    //   const areaList = await this.$store.dispatch('resource/areaByCityID', this.Insuraned.City.id)
-    //   this.InsuranedAreaList = areaList.data
-    //   if(this.InsuranceActive !== 0) {
-    //     this.step2InitAssignArea()
-    //   }
-    //   if(this.detailArea) {
-    //     const Area = this.InsuranedAreaList.find(item => item.Value == this.detailArea)
-    //     if (Area) {
-    //       Area.placeholder = Area.Text
-    //       Area.id = Area.Value
-    //       this.InsuranedData = Object.assign( {...this.InsuranedData}, {Area})
-    //     }
-    //     this.detailArea = ''
-    //   }
-    // },
-    // 'Applicant.City': async function(val, odlVal) {
-    //   if(val.id === odlVal.id) return
-    //   const areaList = await this.$store.dispatch('resource/areaByCityID', this.Applicant.City.id)
-    //   this.ApplicantAreaList = areaList.data
-    //   if(this.InsuranceActive !== 0) {
-    //     this.step2InitAssignArea()
-    //   }
-    //   if(this.detailArea) {
-    //     const Area = this.ApplicantAreaList.find(item => item.Value == this.detailArea)
-    //     if (Area) {
-    //       Area.placeholder = Area.Text
-    //       Area.id = Area.Value
-    //       this.ApplicantData = Object.assign( {...this.ApplicantData}, {Area})
-    //     }
-    //     this.detailArea = ''
-    //   }
-    // },
     Relation: {
       handler(value) {
         if(value.Value === 'RL00') {
@@ -280,7 +263,7 @@ export default {
       //     IsForeignRegister: detailData.IsForeignRegister,
       //     Profession: detailData.Profession,
       //     IsPolitician: detailData.IsPolitician,
-      //     IsOverseasOrDomestic: detailData.IsOverseasOrDomestic,
+      //     overseasOrDomestic: detailData.overseasOrDomestic,
       //     IsProOrNot: detailData.IsProOrNot,
       //   })
       //   this[`${type}Data`] = copyData
@@ -300,19 +283,21 @@ export default {
       districts.data.content.map(item => {
         this.cityList.push({
           ...item,
-          Value: item.cityCode,
+          Value: item.cityId,
           Text: item.cityName
         })
         item.countyDistricts.map(subItem => {
           this.InsuranedAreaList.push({
             ...subItem,
             cityCode: item.cityCode,
+            cityId: item.cityId,
             Value: subItem.zipCode,
             Text: subItem.areaName
           })
           this.ApplicantAreaList.push({
             ...subItem,
             cityCode: item.cityCode,
+            cityId: item.cityId,
             Value: subItem.zipCode,
             Text: subItem.areaName
           })
@@ -354,7 +339,15 @@ export default {
       // }
     },
     async nextStep() {
-      this.$router.push('/place-quotation/step3')
+      this.verifyResult = []
+      this.verifySalesInvadeResult = []
+      this.verifyRequired()
+      if(this.requestFile.length === 0) {
+        // await this.verifyIdOrRegisterNumberFormat()
+        // await this.verifyResultPopup()
+        await this.verifyFinal()
+      }
+      
       // this.verifyResult = []
       // this.verifyRequired()
       // if(this.requestFile.length === 0) {
@@ -380,58 +373,75 @@ export default {
       //   }
       // }
     },
-    async quotationMapping() {
-      const obj = {
-        step2ViewModel: {
-          Insuraned: {},
-          Relation: '',
-          Applicant: {},
-          Paper: {}
-        }
-      }
-      const model = {...this.step1Model}
-      if(this.InsuranceActive === 0) {
-        model.InsuranceActive = 0
-        delete model.OrderNo
-        delete model.SerialNo
-      }
-      model.CreateDate = formatDate(new Date())
-      Object.assign(obj, model)
-      Object.assign(obj.step2ViewModel.Insuraned, this.Insuraned)
-      Object.assign(obj.step2ViewModel, {Relation:this.Relation.Value})
-      Object.assign(obj.step2ViewModel.Applicant, this.Applicant)
-      Object.assign(obj.step2ViewModel.Paper, this.Paper)
-      Object.keys(obj.step2ViewModel.Insuraned).map(key => {
-        if(typeof obj.step2ViewModel.Insuraned[key] === 'object') {
-          if(obj.step2ViewModel.Insuraned[key] === null ) {
-            delete obj.step2ViewModel.Insuraned[key]
-          } else {
-          obj.step2ViewModel.Insuraned[key] = obj.step2ViewModel.Insuraned[key].id
-          }
-        }
-      })
-      Object.keys(obj.step2ViewModel.Applicant).map(key => {
-        if(typeof obj.step2ViewModel.Applicant[key] === 'object') {
-          if(obj.step2ViewModel.Applicant[key] === null) { 
-            delete obj.step2ViewModel.Insuraned[key]
-          } else {
-            obj.step2ViewModel.Applicant[key] = obj.step2ViewModel.Applicant[key].id
-          }
-        }
-      })
-      obj.step2ViewModel.Paper.InsuredReciepts.map(item => {
-        Object.assign(item, {
-          Title: item.Title,
-          Charge: item.Charge,
-          OriginalNumber: 1,
-          CopyNumber: item.CopyNumber,
+    async verifyFinal() {
+      if(this.verifyResult.length === 0 && this.verifySalesInvadeResult.length === 0) {
+        Popup.create({
+          hasHtml: true,
+          htmlText: '<p>檢核完成！</p>',
         })
+        const data = await this.quotationMapping()
+        this.$router.push('/place-quotation/step3')
+        this.$store.dispatch('common/updateOrderNo',data.data.content.orderNo)
+        // if(IsSuccess) {
+        //   this.$store.dispatch('quotationStep1/updatedInsuranceActive', 0)
+        //   this.$store.dispatch('quotationStep2/updatedSerailNo', SerailNo)
+        // } else {
+        //   Popup.create({
+        //   hasHtml: true,
+        //   htmlText: `<p>${SerailNo}，請洽承辦人員</p>`,
+        // })
+        // }
+      }
+    },
+    async quotationMapping() {
+      const obj = JSON.parse(JSON.stringify(this.placeQuotation))
+      Object.assign(obj, {placeInfo: [...this.placeInfo.map(item => {
+          return {
+            squareFeet: item.squareFeet,
+            holdState: item.holdState ? 1 : 0,
+            cityId: item.city.Value,
+            city: item.city.Text,
+            areaId: item.area.Value,
+            area: item.area.Text,
+            subAddress: item.address,
+            countyCode: this.cityList.find(i => i.Value == item.city.Value).cityCode,
+          }
+        })],})
+      Object.assign(obj, {insuraned:{
+        ...this.Insuraned,
+        cityId: this.Insuraned.City.Value,
+        city: this.Insuraned.City.Text,
+        areaId: this.ApplicantAreaList.find(item => item.Value == this.Insuraned.Area.Value).areaId,
+        area: this.Insuraned.Area.Text,
+        zipCode: this.Insuraned.Area.Value,
+        nationalityName: this.Insuraned.Nationality.Value,
+        overseasOrDomestic: Number(this.Insuraned.overseasOrDomestic)
+      }})
+      Object.assign(obj, {relationId:this.Relation.Value})
+      Object.assign(obj, {relationText:this.Relation.Text})
+      Object.assign(obj, {applicant:{
+        ...this.Applicant,
+        cityId: this.Applicant.City.Value,
+        city: this.Applicant.City.Text,
+        areaId: this.ApplicantAreaList.find(item => item.Value == this.Applicant.Area.Value).areaId,
+        area: this.Applicant.Area.Text,
+        zipCode: this.Applicant.Area.Value,
+        nationalityName: this.Applicant.Nationality.Value,
+        overseasOrDomestic: Number(this.Applicant.overseasOrDomestic)
+      }})
+      Object.assign(obj, {internalControlData: {
+        issuerNumber: this.internalControlData.issuerNumber,
+        businessSourceCode: this.internalControlData.businessSourceCode.Value,
+        statisticsCode: this.internalControlData.statisticsCode,
+        loginIdNumber: this.internalControlData.loginIdNumber,}
       })
-      obj.step2ViewModel.Paper.IsRecieptChoseOther = Boolean(obj.step2ViewModel.Paper.IsRecieptChoseOther)
-      obj.step2ViewModel.Insuraned.IsForeignRegister = Number(obj.step2ViewModel.Insuraned.IsForeignRegister)
-      obj.step2ViewModel.Applicant.IsForeignRegister = Number(obj.step2ViewModel.Applicant.IsForeignRegister)
-      const insert = await this.$store.dispatch('quotation/insertQuotation', obj)
-      return insert.data
+      delete obj.insuraned.City
+      delete obj.insuraned.Area
+      delete obj.applicant.City
+      delete obj.applicant.Area
+
+      const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
+      console.log(insert)
     }
   },
   async mounted() {

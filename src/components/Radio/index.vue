@@ -9,7 +9,7 @@
       :disabled="disabled"
     >
     <label :for="id">
-      <span class="icon"/>
+      <span class="icon" :class="{disabled}"/>
       <span class="ml-1">{{text}}</span>
       <slot/>
     </label>
@@ -60,12 +60,24 @@ export default {
         background: url('../../assets/images/radio_button.png') no-repeat;
         background-size: 18px;
         margin: auto 0;
-        @apply inline-block align-middle bg-no-repeat
+        @apply inline-block align-middle bg-no-repeat;
+        &.disabled {
+          background: url('../../assets/images/radio_disable.png') no-repeat;
+          background-size: 19px;
+          min-width: 19px;
+          min-height: 19px;
+        }
       }
     }
     &:checked + label {
       .icon {
         background: url('../../assets/images/radio_dot.png') no-repeat;
+        &.disabled {
+          background: url('../../assets/images/radio_checked_disable.png') no-repeat;
+          background-size: 19px;
+          min-width: 19px;
+          min-height: 19px;
+        }
       }
     }
   }

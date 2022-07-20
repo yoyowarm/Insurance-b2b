@@ -18,13 +18,14 @@
                 :text="list.itemName"
                 :value="selected.Text === list.itemName"
                 @updateValue="(e) => updateIndustry(e, list)"
+                :disabled="calculateModel"
               />
               <InputGroup v-if="list.dangerSeq == 106" class="ml-3 w-64" noMt :disable="!selected.Text.includes('其他')" :key="`Industry${list.dangerSeq}`">
                 <Input
                   slot="input"
                   placeholder="輸入行業名稱"
                   :value="industryText"
-                  :disable="!selected.Text.includes('其他')"
+                  :disable="!selected.Text.includes('其他') || calculateModel"
                   @updateValue="(e) =>$store.dispatch(`${type}/updatedIndustryText`, e)"
                 />
               </InputGroup>
@@ -44,6 +45,7 @@ import FormTitle from '@/components/FormTitle'
 import RadioInput from '@/components/Radio'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input'
+import { mapState } from 'vuex'
 export default {
   components: {
     FormTitle,
@@ -84,6 +86,11 @@ export default {
     return {
       switchList: []
     }
+  },
+  computed: {
+    ...mapState({
+      calculateModel: state => state.common.calculateModel,
+    }),
   },
   methods: {
     switchBtn(index) {

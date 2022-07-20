@@ -2,7 +2,7 @@
 <div class="w-full">
   <label class="switch">
     <input type="checkbox" :id="id" :value="value" @change="$emit('updateValue', !value)" :checked="value" :disabled="disabled">
-    <label class="slider" :for="id" :data-checkedText="checkedText" :data-uncheckedText="uncheckedText"/>
+    <label class="slider" :class="{disabled: disabled}" :for="id" :data-checkedText="checkedText" :data-uncheckedText="uncheckedText"/>
 </label>
 </div>
 </template>
@@ -57,6 +57,9 @@ export default {
     -webkit-transition: .4s;
     transition: .4s;
     @apply rounded-full bg-main;
+    &.disabled {
+      @apply cursor-not-allowed bg-gray-300 pointer-events-none;
+    }
     &:before {
       position: absolute;
       content: attr(data-uncheckedText);
@@ -84,6 +87,9 @@ export default {
       border-radius: 0px 40px 40px 0px;
       @apply flex items-center justify-center text-xl
     }
+    &.disabled:after {
+      color: #E0E0E0;
+    }
   }
 }
 
@@ -92,10 +98,16 @@ input:checked + .slider {
   &:before {
     color: #A4A4A4;
   }
+  &.disabled:before {
+    background-color: #FAFAFA;
+    color: #E0E0E0;
+  }
   &:after {
     color: #fff;
     @apply bg-main
-    
+  }
+  &.disabled:after {
+    @apply bg-gray-300 text-white
   }
 }
 

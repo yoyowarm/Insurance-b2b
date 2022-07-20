@@ -5,16 +5,16 @@
         v-for="(item, index) in state"
         :key="index"
         class="dashboard md:mr-5 lg:mr-7"
-        :class="{'fail' :item.type === '未核保', 'success': item.type === '已核保', 'warn': item.type === '十五天後生效', 'finish': item.type === '已出單'}">
+        :class="{'fail' :item.type === '報價中', 'success': item.type === '報價完成', 'warn': item.type === '十五天後生效', 'finish': item.type === '已出單'}">
         <div class="flex justify-start">
-          <img v-if="item.type === '未核保'" :src="failIcon" alt="">
-          <img v-if="item.type === '已核保'" :src="successIcon" alt="">
+          <img v-if="item.type === '報價中'" :src="failIcon" alt="">
+          <img v-if="item.type === '報價完成'" :src="successIcon" alt="">
           <img v-if="item.type === '十五天後生效'" :src="warnIcon" alt="">
           <img v-if="item.type === '已出單'" :src="finishIcon" alt="">
           <div class="flex flex-col justify-center">
             <span class="font-semibold text-base md:text-xl lg:text-xl text-gray-700">{{item.type}}</span>
             <span class="text-fail font-bold text-base md:text-xl lg:text-xl tracking-tighter"
-            :class="{'text-fail' :item.type === '未核保', 'text-success': item.type === '已核保', 'text-warn': item.type === '十五天後生效', 'text-finish': item.type === '已出單'}">
+            :class="{'text-fail' :item.type === '報價中', 'text-success': item.type === '報價完成', 'text-warn': item.type === '十五天後生效', 'text-finish': item.type === '已出單'}">
               單數
               <span>：{{item.text.replace(/\/[0-9]{0,}/g, '')}}</span>
               <span class="px-1 md:px-2 ">/</span>
@@ -135,11 +135,11 @@ export default {
       },
       state: [
         {
-          "type": "未核保",
+          "type": "報價中",
           "text": "1/0"
         },
         {
-          "type": "已核保",
+          "type": "報價完成",
           "text": "1/0"
         },
         {

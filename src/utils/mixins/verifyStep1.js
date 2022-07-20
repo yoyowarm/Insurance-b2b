@@ -108,80 +108,34 @@ export default {
     },
     verifyRequired() {
       this.requestFile = []
-      if (this.info.IsRenewal && !this.info.InsuranceNumber) {
+      if (this.renewal.IsRenewal && !this.renewal.InsuranceNumber) {
         this.requestFile.push('未輸入續保號碼')
       }
-      if (!this.info.startDate.year || !this.info.startDate.month || !this.info.startDate.day) {
+      if (!this.industry.Value) {
+        this.requestFile.push('未選擇投保行業')
+      }
+      if (!this.period.startDate.year || !this.period.startDate.month || !this.period.startDate.day) {
         this.requestFile.push('未選擇起保日')
       }
-      if (this.info.IsMortgageNeeded && !this.info.bank.id && !this.info.branch.id) {
-        this.requestFile.push('未選擇抵押銀行分行')
-      }
-      if (!this.info.IOfficer) {
-        this.requestFile.push('未輸入經手人代號')
-      }
-      if (!this.info.IBroker.id) {
-        this.requestFile.push('未選擇業務來源')
-      }
-      if (!this.selectedProgram.Value) {
-        this.requestFile.push('未選擇商火險方案')
-      }
-      if (!this.target.city.id) {
-        this.requestFile.push('未選擇縣市')
-      }
-      if (!this.target.area.id) {
-        this.requestFile.push('未選擇區域')
-      }
-      if (!this.target.address) {
-        this.requestFile.push('未輸入地址')
-      }
-      if (!this.target.Square) {
-        this.requestFile.push('未輸入坪數')
-      }
-      if (!this.target.structure.id) {
-        this.requestFile.push('未選擇建物構造')
-      }
-      if (!this.target.roof.id) {
-        this.requestFile.push('未選擇屋頂')
-      }
-      if (!this.target.TotalFloor) {
-        this.requestFile.push('未輸入總樓層數')
-      }
-      if (this.target.HasFactoryOrStoreInBuilding && !this.target.SpectificFloor) {
-        this.requestFile.push('未輸入投保標的物所在樓層')
-      }
-      if (!this.SchemeSetting.Usage.id) {
-        this.requestFile.push('未選擇使用性質')
-      }
-      if (!this.SchemeSetting.UsageDetail) {
-        this.requestFile.push('未輸入使用性質')
-      }
-      if (this.SchemeSetting.IsLossProgramChosen && !this.SchemeSetting.LossProgram.id) {
-        this.requestFile.push('未選擇停業損失方案')
-      }
-      Object.keys(this.AdditionInsurance).map(item => {
-        if (this.AdditionInsurance[item].selected && !this.AdditionInsurance[item].amount) {
-          this.requestFile.push(`${item}未選擇保額`)
+      this.placeInfo.map(item => {
+        if (!item.city.Value) {
+          this.requestFile.push('未選擇縣市')
+        }
+        if (item.squareFeet == 0) {
+          this.requestFile.push('未輸入處所坪數')
         }
       })
-      Object.keys(this.LiabilityInsurance).map((item, index) => {
-        if (this.liabilitySelect.selectLists[index].DisplayFor.length > 0 && this.liabilitySelect.selectLists[index].DisplayFor.includes(this.SchemeSetting.Usage.id)) {
-          if (!this.LiabilityInsurance[item].Value) {
-            this.requestFile.push(`${item}未選擇方案`)
-          }
+      this.insuranceAmountList.map(item => {
+        if (!item.selfInflictedAmount.Value) {
+          this.requestFile.push('未選擇自負額')
         }
-        if (this.LiabilityInsurance[item].choose) {
-          if (!this.LiabilityInsurance[item].insuredNumber) {
-            this.requestFile.push(`${item}未輸入保險人數`)
-          }
-          if (!this.LiabilityInsurance[item].Value) {
-            this.requestFile.push(`${item}未選擇保險方案`)
-          }
+        if (item.amountType.Value == 1 && !item.mergeSingleAmount) {
+          this.requestFile.push('未輸入單一限額')
+        }
+        if (item.amountType.Value == 2 && (!item.insuranceTotalAmount || !item.perAccidentBodyAmount || !item.perAccidentFinanceAmount || !item.perBodyAmount)) {
+          this.requestFile.push('未輸入保額')
         }
       })
-      if (!this.selectedCommission.Value) {
-        this.requestFile.push('未選擇佣金%數')
-      }
     }
   },
 }

@@ -67,7 +67,7 @@ export default {
       RegisterNationality: '',
       Profession: false,
       IsPolitician: false,
-      IsOverseasOrDomestic: false,
+      overseasOrDomestic: false,
       IsProOrNot: false,
     },
     Relation: {
@@ -99,7 +99,7 @@ export default {
       RegisterNationality: '',
       Profession: false,
       IsPolitician: false,
-      IsOverseasOrDomestic: false,
+      overseasOrDomestic: false,
       IsProOrNot: false,
     },
     SerailNo: '',
@@ -113,6 +113,7 @@ export default {
       text: '',
       fileList: []
     },
+    questionnaireFinished: false,
     questionnaire: {
       userId: '',
       part1: {
@@ -120,12 +121,12 @@ export default {
           Text: '選擇種類',
           Value: '',
         },
-        create: {
+        createTime: {
           year: '',
           month: '',
           day: '',
         },
-        staff: '',
+        staffAmount: '',
         startDate: {
           hours: '',
           minutes: '',
@@ -138,14 +139,14 @@ export default {
         },
         area: '',
         totalArea: '',
-        dailyAverage: '',
-        singleDayHighest: '',
+        dailyAveragePersons: '',
+        singleDayHighestPersons: '',
       },
       part2: {
         wallMaterial: '',
         floorMaterial: '',
         roofMaterial: '',
-        distance: '',
+        distanceOfBuilding: '',
         buildingNature: {
           Text: '選擇性質',
           Value: '',
@@ -168,10 +169,10 @@ export default {
         },
         floors: '',
         underground: '',
-        floor: '',
-        antiSlip: false,
-        pool: false,
-        lifeguard: '',
+        useFloors: '',
+        hasAntiSlip: false,
+        hasSwimmingPool: false,
+        lifeguardAmount: '',
         material: '',
         carpet: false,
       },
@@ -325,6 +326,9 @@ export default {
     UPDATED_QUESTIONNAIRE(state, data) {
       state.questionnaire = data
     },
+    UPDATED_QUESTIONNAIRE_FINISHED(state, data) {
+      state.questionnaireFinished = data
+    },
     UPDATED_INSURANCE_AMOUNT_LIST(state, data) {
       state.insuranceAmountList = data
     },
@@ -351,6 +355,7 @@ export default {
       commit('UPDATED_REMARK', quotation().remark)
       commit('UPDATED_QUESTIONNAIRE', quotation().questionnaire)
       commit('UPDATED_INSURANCE_AMOUNT_LIST', quotation().insuranceAmountList)
+      commit('UPDATED_QUESTIONNAIRE_FINISHED', false)
     },
     addActivityInfo({ commit }) {
       commit('ADD_ACTIVITY_INFO')
@@ -381,6 +386,9 @@ export default {
     },
     updatedQuestionnaire({ commit }, data) {
       commit('UPDATED_QUESTIONNAIRE', data)
+    },
+    updateQuestionnaireFinished({ commit }, data) {
+      commit('UPDATED_QUESTIONNAIRE_FINISHED', data)
     },
     updatedInsuranceAmountList({ commit }, data) {
       commit('UPDATED_INSURANCE_AMOUNT_LIST', data)

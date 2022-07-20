@@ -7,6 +7,7 @@
           :id="item.additionTermName"
           :checked="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
           :value="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
+          :disabled="disable"
           @updateValue="(e) =>updateTerms(item.additionTermName, e)"
         />
         <p class="ml-1 cursor-pointer" @click="setDialog(item.additionTermName,true, item.additionTermName)">{{item.additionTermName}}</p>
@@ -30,6 +31,10 @@ export default {
     terms: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data(){

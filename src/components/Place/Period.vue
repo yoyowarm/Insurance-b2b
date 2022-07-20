@@ -2,40 +2,44 @@
 	<div class="flex flex-row">
 		<div class="column-6 w-full">
 			<div class="col-span-3 flex flex-row">
-				<InputGroup class="mr-3" noMt>
+				<InputGroup class="mr-3" noMt :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇民國年"
 						:options="yearOptions"
 						:selected="`${copyPeriod.startDate.year}`"
 						@emitItem="(e) => emitSelectItem('startDate','year', e.Value)"
+            :disable="disable"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" noMt>
+				<InputGroup class="mr-3" noMt :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇月份"
 						:options="monthOptions"
 						:selected="`${copyPeriod.startDate.month}`"
 						@emitItem="(e) => emitSelectItem('startDate','month', e.Value)"
+            :disable="disable"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" noMt>
+				<InputGroup class="mr-3" noMt :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇日期"
 						:options="dayOptions"
 						:selected="`${copyPeriod.startDate.day}`"
 						@emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
+            :disable="disable"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-4" noMt>
+				<InputGroup class="mr-4" noMt :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇小時"
 						:options="hourOptions"
 						:selected="`${copyPeriod.startDate.hour}`"
 						@emitItem="(e) => emitSelectItem('startDate','hour', e.Value)"
+            :disable="disable"
 					/>
 				</InputGroup>
 			</div>
@@ -49,6 +53,7 @@
 					:selected="`${copyPeriod.endDate.year}`"
 					style="min-width: 50px;"
 					@emitItem="(e) => emitSelectItem('endDate','year', e.Value)"
+          :disable="disable"
 				/>
 				<Select
 					slot="input"
@@ -57,6 +62,7 @@
 					hiddenArrow
 					:selected="`${copyPeriod.endDate.month}`"
 					@emitItem="(e) => emitSelectItem('endDate','month', e.Value)"
+          :disable="disable"
 				/>
 				<Select
 					slot="input"
@@ -65,6 +71,7 @@
 					hiddenArrow
 					:selected="`${copyPeriod.endDate.day}`"
 					@emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
+          :disable="disable"
 				/>
 				<Select
 					slot="input"
@@ -73,6 +80,7 @@
 					hiddenArrow
 					:selected="`${copyPeriod.endDate.hour}`"
 					@emitItem="(e) => emitSelectItem('endDate','hour', e.Value)"
+          :disable="disable"
 				/>
 				<span>止</span>
 			</div>
@@ -93,6 +101,10 @@ export default {
 			type: Object,
 			default: () => ({})
 		},
+    disable: {
+      type: Boolean,
+      default: false
+    }
 	},
 	data () {
      return {
@@ -118,7 +130,7 @@ export default {
 	computed: {
 		yearOptions () {
 			const arr = []
-		for (let i = 110; i <= 140; i++) {
+		for (let i = (new Date().getFullYear()-1911); i <= 140; i++) {
 				arr.push({
 					Text: i + '年',
 					Value: i

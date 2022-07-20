@@ -9,7 +9,7 @@
     <CommonBoard class="w-full mb-7" title="投保資料">
       <InsuranceContent :lists="placeInfo"/>
     </CommonBoard>
-    <InsuranceAmountList :lists="placeInfo"/>
+    <InsuranceAmountListFin :lists="insuranceAmountListData"/>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button v-else @click.native="nextStep" class="my-8 w-40 md:w-64 ">完成報價</Button>
@@ -52,7 +52,7 @@ import Button from '@/components/Button'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input'
 import InsuranceInfoFin from '@/components/Common/InsuranceInfoFin'
-import InsuranceAmountList from '@/components/Common/InsuranceAmountList.vue'
+import InsuranceAmountListFin from '@/components/Common/InsuranceAmountListFin.vue'
 import InsuranceContent from '@/components/Place/InsuranceContent'
 import ViewModelSticker from '@/components/viewModelSticker'
 import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
@@ -66,7 +66,7 @@ export default {
     CommonBoard,
     Button,
     InsuranceInfoFin,
-    InsuranceAmountList,
+    InsuranceAmountListFin,
     InsuranceContent,
     ViewModelSticker,
     QuoteHistory,
@@ -90,6 +90,7 @@ export default {
       placeInfo: state => state.place.placeInfo,
       viewModel: state => state.common.viewModel,
       'loading': state => state.app.loading,
+      insuranceAmountList: state => state.place.insuranceAmountList,
     }),
     InsuranedData: {
       get() {
@@ -105,6 +106,14 @@ export default {
       },
       set(value) {
         this.$store.dispatch('place/updatedApplicant', value)
+      }
+    },
+    insuranceAmountListData: {
+      get() {
+        return this.insuranceAmountList
+      },
+      set(value) {
+        this.$store.dispatch('place/updatedInsuranceAmountList', value)
       }
     },
   }

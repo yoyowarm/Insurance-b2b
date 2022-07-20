@@ -14,77 +14,91 @@
       <div class="column-5" :class="{'dashed-border': !viewModel}">
         <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel" :disable="disable">
           <Select
+            v-if="!viewModel"
             slot="input"
             :options="amountList"
-            :selected="item.amountType.Value.toString()"
+            :selected="item.amountType.toString()"
             @emitItem="e=>updatedValue('amountType',e)"
             :disable="disable"
             defaultText="請選擇金額"/>
+            <div v-if="viewModel" slot="input">{{item.amountType ==0 ? '依各縣市規定' : (item.amountType ==1 ? '合併單一限額' : '自行輸入保額')}}</div>
         </InputGroup>
       </div>
       <div class="column-5 pt-5" :class="{'dashed-border': !viewModel}">
-        <InputGroup v-if="item.amountType.Value != 1" title="每一個人體傷責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType.Value == 0 || disable">
+        <InputGroup v-if="item.amountType != 1" title="每一個人體傷責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType.Value == 0 || disable">
           <Input
+            v-if="!viewModel"
             slot="input"
             :value="item.perBodyAmount.toString()"
             @updateValue="(e) => updatedValue('perBodyAmount',e)"
             placeholder="請輸入金額"
-            :disable="item.amountType.Value == 0 || disable"
+            :disable="item.amountType == 0 || disable"
             unit="萬元"/>
+            <div v-else slot="input">{{item.perBodyAmount}}</div>
         </InputGroup>
-        <InputGroup v-if="item.amountType.Value != 1" title="每一意外事故體傷責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType.Value == 0 || disable">
+        <InputGroup v-if="item.amountType != 1" title="每一意外事故體傷責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType.Value == 0 || disable">
           <Input
+            v-if="!viewModel"
             slot="input"
             :value="item.perAccidentBodyAmount.toString()"
             @updateValue="(e) => updatedValue('perAccidentBodyAmount',e)"
             placeholder="請輸入金額"
-            :disable="item.amountType.Value == 0 || disable"
+            :disable="item.amountType == 0 || disable"
             unit="萬元"/>
+            <div v-else slot="input">{{item.perAccidentBodyAmount}}</div>
         </InputGroup>
-        <InputGroup v-if="item.amountType.Value != 1" title="每一意外事故財物損失責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType.Value == 0 || disable">
+        <InputGroup v-if="item.amountType != 1" title="每一意外事故財物損失責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType.Value == 0 || disable">
           <Input
+            v-if="!viewModel"
             slot="input"
             :value="item.perAccidentFinanceAmount.toString()"
             @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
             placeholder="請輸入金額"
-            :disable="item.amountType.Value == 0 || disable"
+            :disable="item.amountType == 0 || disable"
             unit="萬元"/>
+            <div v-else slot="input">{{item.perAccidentFinanceAmount}}</div>
         </InputGroup>
-        <InputGroup v-if="item.amountType.Value != 1" title="本保險契約之最高賠償金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType.Value == 0 || disable">
+        <InputGroup v-if="item.amountType != 1" title="本保險契約之最高賠償金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType.Value == 0 || disable">
           <Input
+            v-if="!viewModel"
             slot="input"
             :value="item.insuranceTotalAmount.toString()"
             @updateValue="(e) => updatedValue('insuranceTotalAmount',e)"
             placeholder="請輸入金額"
-            :disable="item.amountType.Value == 0 || disable"
+            :disable="item.amountType == 0 || disable"
             unit="萬元"/>
+            <div v-else slot="input">{{item.insuranceTotalAmount}}</div>
         </InputGroup>
-        <InputGroup v-if="item.amountType.Value == 1" title="單一限額" :disable="disable">
+        <InputGroup v-if="item.amountType == 1" title="單一限額" :disable="disable">
         <Input
+          v-if="!viewModel"
           slot="input"
           :value="item.mergeSingleAmount"
           @updateValue="(e) => updatedValue('mergeSingleAmount',e)"
           placeholder="請輸入金額"
           :disable="disable"
           unit="萬元"/>
+          <div v-else slot="input">{{item.mergeSingleAmount}}</div>
       </InputGroup>
         <InputGroup title="自負額" :borderBtn="viewModel" :editModel="editModel" :disable="disable">
           <Select
+            v-if="!viewModel"
             slot="input"
             :options="selfPayList"
             :selected="item.selfInflictedAmount.Value"
             defaultText="請選擇金額"
             :disable="disable"
             @emitItem="(e) => updatedValue('selfInflictedAmount',e)"/>
+            <div v-else slot="input">{{item.selfInflictedAmount}}</div>
         </InputGroup>
       </div>
       <div class="flex flex-row justify-center mt-4">
         <PaymentItem keyName="保費共計" value="--" unit totalStyle/>
       </div>
       <div class="flex flex-row justify-center mt-8">
-        <Button class="mr-6" outline>預覽要保書</Button>
-        <Button class="mr-6" outline>預覽報價單</Button>
-        <Button v-if="viewModel">修改保費</Button>
+        <Button class="mr-6" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
+        <Button :class="{'mr-6': viewModel && editModel}" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
+        <Button v-if="viewModel && editModel">修改保費</Button>
       </div>
     </CommonBoard>
     <div v-if="!viewModel" class="flex flex-row justify-center mt-8">
@@ -121,6 +135,10 @@ export default {
       type: Boolean,
       default: false
     },
+    orderNo: {
+      type: String,
+      default: ''
+    },
   },
   data() {
     return {
@@ -145,6 +163,23 @@ export default {
       viewModel: state => state.common.viewModel
     })
   },
+  methods: {
+    async downloadFile(type, item) {
+      if (type === 'insurance') {
+        const URL = `${process.env.VUE_APP_API_URL}Document/GetInsuranceDocument?orderNo=${this.orderNo}&insuranceProjectId=${item.id}`
+        const link = document.createElement('a');
+              link.href = URL;
+              link.download= true;
+              link.click();
+      } else {
+        const URL = `${process.env.VUE_APP_API_URL}Document/GetPlaceQuotationDocument?orderNo=${this.orderNo}&insuranceProjectId=${item.id}`
+        const link = document.createElement('a');
+              link.href = URL;
+              link.download= true;
+              link.click();
+      }
+    },
+  }
 }
 </script>
 

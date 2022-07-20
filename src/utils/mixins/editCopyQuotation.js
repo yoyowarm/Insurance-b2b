@@ -198,7 +198,7 @@ export default {
 				RegisterNationality: InsuranedRegisterNationality,
 				Profession: step2Data.Insuraned.Profession,
 				IsPolitician: step2Data.Insuraned.IsPolitician,
-				IsOverseasOrDomestic: step2Data.Insuraned.IsOverseasOrDomestic,
+				overseasOrDomestic: step2Data.Insuraned.overseasOrDomestic,
 				IsProOrNot: step2Data.Insuraned.IsProOrNot,
 			})
 
@@ -216,7 +216,7 @@ export default {
 				RegisterNationality: ApplicantRegisterNationality,
 				Profession: step2Data.Applicant.Profession,
 				IsPolitician: step2Data.Applicant.IsPolitician,
-				IsOverseasOrDomestic: step2Data.Applicant.IsOverseasOrDomestic,
+				overseasOrDomestic: step2Data.Applicant.overseasOrDomestic,
 				IsProOrNot: step2Data.Applicant.IsProOrNot,
 			})
 			if (step2Data.Relation) {

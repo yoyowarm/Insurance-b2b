@@ -173,32 +173,32 @@ export const quotationListTable = () => {
     head: [
       {
         text: '報價日期',
-        value: 'time',
+        value: 'quotationDate',
         size: '2-6'
       },
       {
         text: '狀態',
-        value: 'State',
+        value: 'stateText',
         size: '2-6'
       },
       {
         text: '報價單編號',
-        value: 'numbers',
+        value: 'orderNo',
         size: '3-6'
       },
       {
         text: '保單編號',
-        value: 'InsuranceNumbers',
+        value: 'policyNo',
         size: '3-6'
       },
       {
         text: '類型',
-        value: 'type',
+        value: 'typeText',
         size: '1-6'
       },
       {
         text: '要保人',
-        value: 'guarantor',
+        value: 'insuredName',
         size: '1-6'
       },
       {
@@ -207,35 +207,7 @@ export const quotationListTable = () => {
         size: '3-6'
       },
     ],
-    rows: [
-      {
-        time: '2021.11.05',
-        State: '未核保',
-        numbers: '0000000001',
-        InsuranceNumbers: '0000000001',
-        guarantor: '王曉明',
-        type: '活動',
-        class: 'text-fail',
-      },
-      {
-        time: '2021.11.05',
-        State: '已核保',
-        numbers: '0000000001',
-        InsuranceNumbers: '0000000001',
-        guarantor: '王曉明',
-        type: '活動',
-        class: 'text-success',
-      },
-      {
-        time: '2021.11.05',
-        State: '15天後保單生效',
-        numbers: '0000000001',
-        InsuranceNumbers: '0000000001',
-        guarantor: '王曉明',
-        type: '場所',
-        class: 'text-warn',
-      },
-    ]
+    rows: []
   }
 }
 

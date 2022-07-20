@@ -12,15 +12,15 @@
       </div>
       <div class="body">
         <CommonBoard class="w-full mb-7" ref="1" title="被保險人資料">
-          <InsuranceInfoFin :info.sync="InsuranedData" type="InsuranedData"/>
+          <InsuranceInfoFin :info="data.insuraned" type="InsuranedData"/>
         </CommonBoard>
         <CommonBoard class="w-full mb-7" ref="2" title="要保險人資料">
-          <InsuranceInfoFin :info.sync="ApplicantData" type="ApplicantData"/>
+          <InsuranceInfoFin :info="data.applicant" type="ApplicantData"/>
         </CommonBoard>
         <CommonBoard class="w-full mb-7" ref="3" title="投保資料">
-          <InsuranceContent :lists="placeInfo"/>
+          <InsuranceContent :info="data.placeInsureInfo"/>
         </CommonBoard>
-        <InsuranceAmountList :lists="placeInfo" viewModel/>
+        <InsuranceAmountListFin :lists="data.insuranceAmounts" :orderNo="orderNo" viewModel/>
       </div>
       <div v-if="confirm" class="flex w-full justify-around py-4">
         <Button @click.native="$emit('update:open',false)">{{cancel}}</Button>
@@ -38,7 +38,7 @@ import Select from '@/components/Select'
 import InputGroup from '@/components/InputGroup'
 import InsuranceInfoFin from '@/components/Common/InsuranceInfoFin'
 import InsuranceContent from '@/components/Place/InsuranceContent'
-import InsuranceAmountList from '@/components/Common/InsuranceAmountList.vue'
+import InsuranceAmountListFin from '@/components/Common/InsuranceAmountListFin.vue'
 import { mapState } from 'vuex'
 export default {
   components: {
@@ -46,7 +46,7 @@ export default {
     CommonBoard,
     InsuranceInfoFin,
     InsuranceContent,
-    InsuranceAmountList,
+    InsuranceAmountListFin,
     Select,
     InputGroup
   },
@@ -75,9 +75,13 @@ export default {
       type: String,
       default: 'cancel'
     },
-    item: {
+    data: {
       type: Object,
       default: () => ({})
+    },
+    orderNo: {
+      type: String,
+      default: ''
     }
   },
    data () {
@@ -117,7 +121,6 @@ export default {
   },
   methods: {
     emitSelectItem(e) {
-      console.log(this.$refs,e)
       if(this.$refs[e.Value]) {
         this.$refs[e.Value].$el.scrollIntoView({behavior: "smooth"})
       }

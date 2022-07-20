@@ -7,11 +7,12 @@
     <label :for="id" class="text-gray-400 pl-4 text-lg w-full cursor-pointer">
       上傳檔案{{index}}
     </label>
-    <input :id="id" type="file" name="fileUpload"  accept="image/*" class="w-full" @change="newFile">
+    <input :id="id" type="file" name="fileUpload"  accept=".csv,.pdf,.xls,.txt,.doc" class="w-full" @change="newFile">
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   props: {
     id: {
@@ -28,10 +29,19 @@ export default {
       fileName: '',
     }
   },
+  computed: {
+    ...mapState({
+      uuid: state => state.app.uuid
+    })
+  },
   methods: {
-    newFile(e) {
-      console.log(e.target.files[0].name)
+    async newFile(e) {
+      // console.log(e.target.files[0].name, e.target.files[0])
       this.fileName = e.target.files[0].name
+      await this.$store.dispatch('common/UploadFile',{
+        policyAttachmentId: this.uuid,
+        file: e.target.files[0]
+      })
     }
   }
   

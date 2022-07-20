@@ -12,6 +12,7 @@ import resource from './resource'
 import permissionSetting from './permissionSetting'
 import parameterSetting from './parameterSetting'
 import additionTermSetting from './additionTermSetting'
+import quotation from './quotation'
 
 
 Vue.use(Vuex)
@@ -44,6 +45,9 @@ const vuexLocal = new VuexPersistence({
         questionnaire: state.place.questionnaire,
         insuranceAmountList: state.place.insuranceAmountList,
         additionTerms: state.place.additionTerms,
+        internalControlData: state.place.internalControlData,
+        placeQuotation: state.place.placeQuotation,
+        questionnaireFinished: state.place.questionnaireFinished,
       },
       activity: {
         terms: state.activity.terms,
@@ -58,10 +62,13 @@ const vuexLocal = new VuexPersistence({
         remark: state.activity.remark,
         questionnaire: state.activity.questionnaire,
         insuranceAmountList: state.activity.insuranceAmountList,
+        questionnaireFinished: state.activity.questionnaireFinished,
       },
       common: {
         viewModel: state.common.viewModel,
         editModel: state.common.editModel,
+        calculateModel: state.common.calculateModel,
+        orderNo: state.common.orderNo,
       }
     }
   }
@@ -77,7 +84,8 @@ export default new Vuex.Store({
     resource,
     permissionSetting,
     parameterSetting,
-    additionTermSetting
+    additionTermSetting,
+    quotation
   },
   plugins: [vuexLocal.plugin]
 })

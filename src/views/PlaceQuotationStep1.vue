@@ -5,18 +5,19 @@
         <Button class="text-base" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
       <div class="column-5">
-        <InputGroup class="item" title="是否續保" dash>
+        <InputGroup class="item" title="是否續保" dash :disabled="calculateModel">
           <SwitchInput
             slot="input"
             id="IsRenewal"
             :value="renewal.IsRenewal"
+            :disabled="calculateModel"
             @updateValue="(e) =>$store.dispatch('place/updatedRenewal', Object.assign(renewal, {IsRenewal: e}))"
           />
         </InputGroup>
-        <InputGroup class="w-full mb-2.5" :disable="!renewal.IsRenewal">
+        <InputGroup class="w-full mb-2.5" :disable="!renewal.IsRenewal || calculateModel">
         <div slot="input" class="w-full pr-24 relative">
-          <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal"/>
-          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" :disabled="!renewal.IsRenewal">查詢</Button>
+          <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal|| calculateModel"/>
+          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
         </div>
       </InputGroup>
       </div>
@@ -27,13 +28,13 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry type="place" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText"/>
+      <InsuranceIndustry type="place" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
-      <Period :period.sync="periodData"/>
+      <Period :period.sync="periodData" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="投保紀錄">
-      <InsuranceRecord :data.sync="InsuranceRecordTable"/>
+      <InsuranceRecord :data.sync="InsuranceRecordTable" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" :title="`處所資料 數量:${placeInfoList.length}`">
       <PlaceInfo
@@ -41,45 +42,48 @@
         @addItem="$store.dispatch('place/addPlaceInfo')"
         @removeItem="(index) => $store.dispatch('place/deletePlaceInfo',index)"
         :countyList="countyList"
+        :disable="calculateModel"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
-      <InsuranceAmount :data.sync="insuranceAmountListData" :countyAmount="countyAmount" :infoList="placeInfo"/>
+      <InsuranceAmount :data.sync="insuranceAmountListData" :countyAmount="countyAmount" :infoList="placeInfo" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest).length > 0">
       <TermsList
         :terms.sync="termsData"
         :termsLists="additionTermsList.filter(item => item.isSuggest)"
+        :disable="calculateModel"
       />
     </CommonBoard>
-    <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => item.isSuggest)" v-if="additionTermsList.filter(item => item.isSuggest).length > 0"/>
+    <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => item.isSuggest)" v-if="additionTermsList.filter(item => item.isSuggest).length > 0" :disable="calculateModel"/>
     <CommonBoard class="w-full mt-5" title="附加條款" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0">
       <TermsList
         :terms.sync="termsData"
         :termsLists="additionTermsList.filter(item => !item.isSuggest)"
+        :disable="calculateModel"
       />
     </CommonBoard>
-    <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest)" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0"/>
+    <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest)" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0" :disable="calculateModel"/>
     <CommonBoard class="w-full mt-5" title="備註">
       <TextBox :value.sync="remarkData"/>
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
-        <InputGroup noMt>
-          <FileUpload slot="input" :index="1" id="fileUpload1"/>
+        <InputGroup noMt :disable="calculateModel">
+          <FileUpload slot="input" :index="1" id="file" :disable="calculateModel"/>
         </InputGroup>
-        <InputGroup noMt>
-          <FileUpload slot="input" :index="2" id="fileUpload2"/>
+        <InputGroup noMt :disable="calculateModel">
+          <FileUpload slot="input" :index="2" id="fileUpload2" :disable="calculateModel"/>
         </InputGroup>
-        <InputGroup noMt>
-          <FileUpload slot="input" :index="3" id="fileUpload3"/>
+        <InputGroup noMt :disable="calculateModel">
+          <FileUpload slot="input" :index="3" id="fileUpload3" :disable="calculateModel"/>
         </InputGroup>
       </div>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
       <PaymentItem keyName="總保費試算共計" :value="`NT$ --`" unit totalStyle/>
       <div class="flex flex-col sm:flex-row">
-        <Button @click.native="nextStep" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
-        <Button @click.native="nextStep" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
+        <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
         <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-56 md:w-32 " outline>填寫問卷表</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
@@ -107,9 +111,14 @@ import Questionnaire from '@/components/PopupDialog/PlaceQuestionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import InsuranceRecord from '@/components/Place/InsuranceRecord.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import mixinVerify from '@/utils/mixins/verifyStep1'
+import routeChange from '@/utils/mixins/routeChange'
+import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
+import { Popup } from '@/utils/popups/index'
 export default {
+  mixins: [mixinVerify, routeChange, editCopyQuotation],
   components: {
     CommonBoard,
     InputGroup,
@@ -155,6 +164,10 @@ export default {
       remark: state => state.place.remark,
       questionnaire: state => state.place.questionnaire,
       insuranceAmountList: state => state.place.insuranceAmountList,
+      calculateModel: state => state.common.calculateModel,
+      uuid: state => state.app.uuid,
+      additionTerms: state => state.place.additionTerms,
+      questionnaireFinished: state => state.place.questionnaireFinished,
     }),
     placeInfoList: {
       get () {
@@ -225,11 +238,30 @@ export default {
     industry: async function(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
       this.additionTermsList = data.data.content.additionTermsDetails
-    },
+    }
   },
   methods: {
-    nextStep() {
+    async nextStep() {
+      this.verifyResult = []
+      this.verifyRequired()
+      // if(this.requestFile.length === 0) {
+      //   await this.verifyDate()
+      //   await this.verifyTargetAmount()
+      //   await this.verifyLiabilityMinAndMAX()
+      //   await this.verifyIOfficerIChannelIBroker()
+      //   this.verifyResultPopup()
+      // }
+      if(this.requestFile.length === 0 &&
+        this.verifyResult.length === 0) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: '<p>檢核完成！</p>',
+          })
+          await this.quotationMapping()
       this.$router.push({ name: 'place-quotation-step2' })
+      }
+
+      
     },
     async pageInit() {
       const places = await this.$store.dispatch('resource/PlacesSetting')
@@ -244,13 +276,13 @@ export default {
       districts.data.content.map(item => {
         this.countyList.push({
           ...item,
-          Value: item.cityCode,
+          Value: item.cityId,
           Text: item.cityName
         })
         item.countyDistricts.map(subItem => {
           this.areaList.push({
             ...subItem,
-            Value: subItem.zipCode,
+            Value: subItem.areaId,
             Text: subItem.areaName
           })
         })
@@ -261,14 +293,92 @@ export default {
         this.additionTermsList = data.data.content.additionTermsDetails
       }
     },
+    calculateAmount() {
+      this.$store.dispatch('common/updatedCalculateModel',true)
+    },
     clearAll() {
       this.$store.dispatch('place/clearAll')
       location.reload()
     },
+    quotationMapping() {
+      const data = {
+        policyAttachmentId: this.uuid,
+        renewal: {isRenewal: this.renewal.IsRenewal, insuranceNumber: this.renewal.InsuranceNumber},
+        insuranceRecord: {
+          lastYear: {
+            status: this.InsuranceRecord.lastYear.status,
+            averagePremium: this.InsuranceRecord.lastYear.averagePremium,
+            claimAmount: this.InsuranceRecord.lastYear.claimAmount,
+          },
+          previousYear: {
+            status: this.InsuranceRecord.previousYear.status,
+            averagePremium: this.InsuranceRecord.previousYear.averagePremium,
+            claimAmount: this.InsuranceRecord.previousYear.claimAmount,
+          }
+        },
+        insurancePeriod: {
+          startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day} ${this.period.startDate.hour}:00:00`,
+          endDate: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day} ${this.period.endDate.hour}:00:00`,
+        },
+        additionTerms: [...this.additionTermsList.filter(item => {
+          return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
+        }).map(item => {
+          if(this.additionTerms[item.additionTermId]) {
+            return {
+              additionTermId: item.additionTermId,
+              additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                return {
+                  itemId: key,
+                  itemValue: this.additionTerms[item.additionTermId][key]
+                }
+              })]
+            }
+          } else {
+            return {
+              additionTermId: item.additionTermId,
+            }
+          }
+          
+        })],
+        insureIndustrySeq: this.industry.Value,
+        insureIndustryOtherText: this.industry.Text,
+        remark: this.remark.text,
+        insuranceAmounts:[...this.insuranceAmountList.map(item => {
+          return {
+            ...item,
+            amountType: item.amountType.Value,
+            selfInflictedAmount: item.selfInflictedAmount.Value,
+          }
+        })],
+      }
+      if(this.questionnaireFinished) {
+        data.questionnaire = {
+          ...this.questionnaire,
+          part1: {
+            ...this.questionnaire.part1,
+            businessType: this.questionnaire.part1.businessType.Value,
+            createTime: '',
+            // createTime: `${this.questionnaire.part1.createTime.year}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`,
+            businessEndDate: '00:00',
+            businessStartDate: '00:00',
+          },
+          part2: {
+            ...this.questionnaire.part2,
+            buildingNature: this.questionnaire.part2.buildingNature.Value,
+            nearbyBuildingNature: this.questionnaire.part2.nearbyBuildingNature.Value,
+            securityCheck: this.questionnaire.part2.securityCheck.Value,
+          }
+        }
+      }
+      this.$store.dispatch('place/updatePlaceQuotation', data)
+      console.log(data)
+    }
   },
   async mounted() {
     await this.pageInit()
-    this.$store.dispatch('app/updatedUUID', uuidv4())
+    if(!this.uuid){
+      this.$store.dispatch('app/updatedUUID', uuidv4())
+    }
   }
 }
 </script>

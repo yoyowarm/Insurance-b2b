@@ -64,7 +64,7 @@ export default {
    computed: {
      yearOptions () {
         const arr = []
-      for (let i = 110; i <= 140; i++) {
+      for (let i = (new Date().getFullYear()-1911); i <= 140; i++) {
          arr.push({
            Text: i,
            Value: i

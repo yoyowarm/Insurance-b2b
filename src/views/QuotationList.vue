@@ -2,23 +2,22 @@
   <div class="flex flex-wrap">
     <div class="dashboardGroup">
       <CommonBoard
-        v-for="(item, index) in state"
+        v-for="(item, index) in Object.keys(quotationState)"
         :key="index"
         class="dashboard md:mr-5 lg:mr-7"
-        :class="{'fail' :item.type === '未核保', 'success': item.type === '已核保', 'warn': item.type === '十五天後生效', 'finish': item.type === '已出單'}">
+        :class="{'fail' :item === 'unFinishQuotationAmount', 'success': item === 'finishQuotationAmount', 'warn': item === 'fifteenDaysEffectiveAmount', 'finish': item === 'alreadyIssueAmount'}">
         <div class="flex justify-start">
-          <img v-if="item.type === '未核保'" :src="failIcon" alt="">
-          <img v-if="item.type === '已核保'" :src="successIcon" alt="">
-          <img v-if="item.type === '十五天後生效'" :src="warnIcon" alt="">
-          <img v-if="item.type === '已出單'" :src="finishIcon" alt="">
+          <img v-if="item === 'unFinishQuotationAmount'" :src="failIcon" alt="">
+          <img v-if="item === 'finishQuotationAmount'" :src="successIcon" alt="">
+          <img v-if="item === 'fifteenDaysEffectiveAmount'" :src="warnIcon" alt="">
+          <img v-if="item === 'alreadyIssueAmount'" :src="finishIcon" alt="">
           <div class="flex flex-col justify-center">
-            <span class="font-semibold text-base md:text-xl lg:text-xl text-gray-700">{{item.type}}</span>
+            <span class="font-semibold text-base md:text-xl lg:text-xl text-gray-700">{{stateText[item]}}</span>
             <span class="text-fail font-bold text-base md:text-xl lg:text-xl tracking-tighter"
-            :class="{'text-fail' :item.type === '未核保', 'text-success': item.type === '已核保', 'text-warn': item.type === '十五天後生效', 'text-finish': item.type === '已出單'}">
+            :class="{'text-fail' :item === 'unFinishQuotationAmount', 'text-success': item === 'finishQuotationAmount', 'text-warn': item === 'fifteenDaysEffectiveAmount', 'text-finish': item === 'alreadyIssueAmount'}">
               單數
-              <span>：{{item.text.replace(/\/[0-9]{0,}/g, '')}}</span>
-              <span class="px-1 md:px-2 ">/</span>
-              <span class="text-lg md:text-3xl lg:text-4xl pr-2">{{item.text.replace(/[0-9]{0,}\//g, '')}}</span>
+              <!-- <span>：{{item.text.replace(/\/[0-9]{0,}/g, '')}}</span> -->
+              <span class="text-lg md:text-3xl lg:text-4xl pr-2">{{quotationState[item]}}</span>
               <span>件</span>
             </span>
           </div>
@@ -37,44 +36,55 @@
           </div>
         </template>
         <div class="column-6 pb-6">
-          <InputGroup class="w-full" noMt>
+          <!-- <InputGroup class="w-full" noMt>
             <Select
               slot="input"
               defaultText="選擇狀態"
             />
-          </InputGroup>
+          </InputGroup> -->
           <InputGroup class="w-full" noMt>
             <Select
               slot="input"
               defaultText="選擇類型"
+              :options="typeList"
+              :selected="typeSelected.Value.toString()"
+              @emitItem="e => typeSelected = e"
             />
           </InputGroup>
           <InputGroup class="w-full" noMt>
-            <DatePicker slot="input" :dateObject="startDate" suffix="起"/>
+            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
           </InputGroup>
           <InputGroup class="w-full" noMt>
-            <DatePicker slot="input" :dateObject="endDate" suffix="迄" disabled/>
+            <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
           </InputGroup>
           <InputGroup class="w-full" noMt>
             <Input
               slot="input"
               placeholder="輸入要保人姓名"
+              :value="ApplicantName"
+              @updateValue="(e) => ApplicantName = e"
             />
           </InputGroup>
-          <Button class="copy-button">查詢</Button>
+          <Button @click.native="getQuotationList" class="copy-button">查詢</Button>
         </div>
         <TableGroup :data="quotationListTable" :slotName="slotArray" scrollX>
           <template v-for="(item,index) in quotationListTable.rows">
             <div :slot="`edit-${index}`" :key="`edit${index}`" class="flex flex-row">
-              <Button class="copy-button mr-2" outline>查看</Button>
+              <Button class="copy-button mr-2" outline @click.native="() =>{open = !open; orderNo= item.orderNo}">查看</Button>
               <Button class="copy-button" outline>複製</Button>
             </div>
           </template>
         </TableGroup>
-        <Pagination v-if="windowWidth > 770" :totalPage="10" :currentPage="1" @changePage="changePage"/>
+        <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
       </CommonBoard>
     </div>
     <WindowResizeListener @resize="handleResize"/>
+    <CheckInsurance
+      :open.sync="open"
+      :data="quotationData"
+      :headerText="`報價單編號 ${orderNo}`"
+      :orderNo="orderNo"
+    />
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
@@ -93,6 +103,7 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import CheckInsurance from '@/components/PopupDialog/CheckInsurance.vue'
 import { quotationListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import WindowResizeListener from '@/components/WindowResizeListener'
@@ -107,7 +118,8 @@ export default {
     Select,
     Button,
     DatePicker,
-    LoadingScreen
+    LoadingScreen,
+    CheckInsurance
   },
   data() {
     return {
@@ -116,6 +128,9 @@ export default {
       successIcon,
       warnIcon,
       finishIcon,
+      ApplicantName: '',
+      open: false,
+      orderNo: '',
       startDate: {
         year: '',
         month: '',
@@ -128,23 +143,54 @@ export default {
       },
       state: [
         {
-          "type": "未核保",
+          "type": "unFinishQuotationAmount",
           "text": "1/0"
         },
         {
-          "type": "已核保",
+          "type": "finishQuotationAmount",
           "text": "1/0"
         },
         {
-          "type": "十五天後生效",
+          "type": "fifteenDaysEffectiveAmount",
           "text": "15/26"
         },
         {
-          "type": "已出單",
+          "type": "alreadyIssueAmount",
           "text": "15/26"
         },
       ],
-      quotationListTable: quotationListTable(),
+      typeList: [
+        {
+          Text: '全部',
+          Value: '0'
+        },
+        {
+          Text: '處所',
+          Value: 1
+        },
+        {
+          Text: '活動',
+          Value: 2
+        }
+      ],
+      typeSelected: {
+        Text: '全部',
+        Value: '0'
+      },
+      quotationList: quotationListTable(),
+      quotationData: {},
+      quotationState: {
+        unFinishQuotationAmount: 0,
+        finishQuotationAmount: 0,
+        fifteenDaysEffectiveAmount: 0,
+        alreadyIssueAmount: 0,
+      },
+      stateText: {
+        unFinishQuotationAmount: '報價中',
+        finishQuotationAmount: '報價完成',
+        fifteenDaysEffectiveAmount: '15天有效',
+        alreadyIssueAmount: '已發行',
+      }
     }
   },
   computed: {
@@ -162,6 +208,34 @@ export default {
         })
       }
       return arr
+    },
+    quotationListTable: {
+      get() {
+        return this.quotationList
+      },
+      set(val) {
+        this.quotationList = val
+      }
+    }
+  },
+  watch: {
+    async currentPage() {
+      await this.getQuotationList()
+    },
+    quotationStatus() {
+      if(this.currentPage > 1) {
+        this.changePage(1)
+      } else {
+        this.getQuotationList()
+      }
+    },
+    async open() {
+      if(this.open) {
+        this.$store.dispatch('common/updatedViewModel', true)
+        await this.quotationDetail()
+      } else {
+        this.$store.dispatch('common/updatedViewModel', false)
+      }
     }
   },
   methods: {
@@ -172,6 +246,42 @@ export default {
       if(this.currentPage === page || page < 1) return
       this.$store.dispatch('app/updatedCurrentPage',page)
     },
+    async getQuotationList() {
+      const data = {
+        Skip: (this.currentPage-1)*10,
+        Take: 10,
+        State: '',
+        Type: this.typeSelected.Value == '0' ? '' : this.typeSelected.Value,
+        ApplicantName: this.ApplicantName,
+      }
+      if(this.startDate.year !== '' && this.startDate.month !== '' && this.startDate.day !== '') {
+        data.QuotationDateBegin = `${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`
+      }
+      if(this.endDate.year !== '' && this.endDate.month !== '' && this.endDate.day !== '') {
+        data.QuotationDateEnd = `${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`
+      }
+      const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
+      this.quotationListTable = { head: [...this.quotationListTable.head], rows:[...quotationList.data.content.quotations.map(item => {
+        return {
+          ...item,
+          quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
+          typeText: item === 1 ? '處所' : item === 2 ? '活動' : '',
+          stateText: item.state === 1 ? this.stateText['unFinishQuotationAmount'] : item.state === 2 ? this.stateText['finishQuotationAmount'] : item.state === 3 ? this.stateText['fifteenDaysEffectiveAmount'] : item.state === 4 ? this.stateText['alreadyIssueAmount'] : '',
+        }
+      })
+      ]}
+      this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+    },
+    async quotationDetail() {
+      const detail = await this.$store.dispatch('quotation/GetPlaceQuotationDetail', this.orderNo)
+      this.quotationData = detail.data.content
+    }
+  },
+  async mounted() {
+    this.$store.dispatch('app/updatedCurrentPage',1)
+    await this.getQuotationList()
+    const data = await this.$store.dispatch('quotation/GetQuotationState')
+    this.quotationState = data.data.content
   }
 }
 </script>

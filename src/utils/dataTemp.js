@@ -120,13 +120,13 @@ export const quotation = () => {
     InsuranceRecord: {
       lastYear: {
         status: false,
-        premium: '',
-        amount: '',
+        averagePremium: '',
+        claimAmount: '',
       },
       previousYear: {
         status: false,
-        premium: '',
-        amount: '',
+        averagePremium: '',
+        claimAmount: '',
       }
     },
     placeInfo: [{//處所資料
@@ -175,13 +175,13 @@ export const quotation = () => {
         Text: '選擇區域',
         Value: '',
       },
-      Street: '',
+      subAddress: '',
       Mobile: '',
       IsForeignRegister: false,
       RegisterNationality: '',
       Profession: false,
       IsPolitician: false,
-      IsOverseasOrDomestic: false,
+      overseasOrDomestic: false,
       IsProOrNot: false,
     },
     Relation: {
@@ -207,13 +207,13 @@ export const quotation = () => {
         Text: '選擇區域',
         Value: '',
       },
-      Street: '',
+      subAddress: '',
       Mobile: '',
       IsForeignRegister: false,
       RegisterNationality: '',
       Profession: false,
       IsPolitician: false,
-      IsOverseasOrDomestic: false,
+      overseasOrDomestic: false,
       IsProOrNot: false,
     },
     SerailNo: '',
@@ -233,133 +233,145 @@ export const quotation = () => {
           Text: '選擇種類',
           Value: '',
         },
-        create: {
+        createTime: {
           year: '',
           month: '',
           day: '',
         },
-        staff: '',
-        startDate: {
+        staffAmount: '',
+        businessStartDate: {
           hours: '',
           minutes: '',
           AmPm: '',
         },
-        endDate: {
+        businessEndDate: {
           hours: '',
           minutes: '',
           AmPm: '',
         },
         area: '',
         totalArea: '',
-        dailyAverage: '',
-        singleDayHighest: '',
+        dailyAveragePersons: '',
+        singleDayHighestPersons: '',
       },
       part2: {
-        wallMaterial: '',
-        floorMaterial: '',
-        roofMaterial: '',
-        distance: '',
-        buildingNature: {
+        wallMaterial: '',//外牆建築材質
+        floorMaterial: '',//樓地板建築材質
+        roofMaterial: '',//屋頂建築材質
+        distanceOfBuilding: '',//距鄰近建築物
+        buildingNature: {//建築性質
           Text: '選擇性質',
           Value: '',
         },
-        nearbyBuildingNature: {
+        nearbyBuildingNature: {//鄰近建築物性質
           Text: '選擇性質',
           Value: '',
         },
-        securityCheck: {
+        securityCheck: {//公共安全檢查(經當地主管建築機關查核)
           Text: '公共安全檢查',
           Value: '',
         },
-        room: {
+        room: {//營業性質之數量 如係屬飯店、旅館者
           selected: false,
           value: '',
         },
-        seat: {
+        seat: {//營業性質之數量 如係屬戲院、音樂廳者
           selected: false,
           value: '',
         },
-        floors: '',
-        underground: '',
-        floor: '',
-        antiSlip: false,
-        pool: false,
-        lifeguard: '',
-        material: '',
-        carpet: false,
+        floors: '',//地上樓層數
+        underground: '',//地下樓層數
+        useFloors: '',//使用樓層數
+        hasAntiSlip: false,//樓梯是否有止滑條
+        hasSwimmingPool: false,//是否有游泳池
+        lifeguardAmount: '',//救生員人數
+        material: '',//地板為何種材質
+        hasCarpet: false,//是否鋪設地談,
+        hasMechineParkingDevice: false,//是否有機車停車場
+        mechineParkingDeviceCategory: '',//機車停車場類別
       },
       part3: {
-        selfOperated: false,
-        NotSelfOperated: '',
-        balcony: false,
-        accessBalcony: false,
-        carpetsCurtains: false,
-        fireproofMaterial: false,
-        compartment: false,
-        compartmentFireproofMaterial: false,
-        facility: [],
-        pusher: false,
-        performance: false,
-        fireOrDust: false,
-        professional: false,
-        dangerousItem: false,
-        boiler: false,
+        selfOperated: false,//內部設施是否全數自行經營
+        NotSelfOperated: '',//填寫非自行經營之項目
+        hasBalcony: false,//是否有陽台
+        canAccessBalcony: false,//人員可否進入陽台
+        hasCarpetsCurtains: false,//是否有地毯、窗簾
+        hasFireproofMaterial: false,//地毯、窗簾是否為防火材質
+        hasCompartment: false,//是否有客房隔間
+        hasCompartmentFireproofMaterial: false,//客房隔間是否為防火材質
+        facility: [],//如有下列設施，請勾選
+        hasPusher: false,//是否使用推高機
+        hasSpacialShow: false,//是否有特殊表演項目
+        hasFireOrDust: false,//涉及用火或粉塵表演
+        isProfessional: false,//表演者是否為專業人士
+        hasDangerousItem: false,//使用、存放煙火爆竹或化學品等危險物品
+        hasBoiler: false,//使用鍋爐
       },
       part4: {
-        centralControl: false,
-        highVoltage: false,
-        bareWires: false,
-        automaticPowerOff: false,
-        wireInTube: false,
+        hasCentralControl: false,//是否設有中控中心以監控公用設備
+        hasHighVoltage: false,//是否使用高壓電設施(600V以上)
+        hasBareWires: false,//是否有裸露電線或導體
+        hasAutomaticPowerOff: false,//供電系統是否裝有自動斷電設備
+        hasWireInTube: false,//所有電線是否裝在管內(含踏板)以避免短路
       },
       part5: {
-        value1: false,
-        value2: false,
-        value3: false,
+        useRoadHasAccessByTransportation: false,//使用道路者，對附近交通之衝擊是否經交通主管機關認許
+        afterActivityHasAccessByTransportation: false,//未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許
+        hasSegmentWithInsurancePlaceAndLane: false,//保險處所與車道有無有效區隔(含車道與人員動線安排)
       },
       part6: {
-        exit: false,
-        evacuationSign: false,
-        personnelControl: false,
-        evacuationPlan: false,
-        facility: [],
+        hasExit: false,//是否有出口規劃
+        hasEvacuationSign: false,//是否有疏散標示
+        hasPersonnelControl: false,//是否有人員管制計畫
+        hasEvacuationPlan: false,//是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)
+        facility: [],//如有下列設施，請勾選
       },
       part7: {
-        fireHydrant: false,
-        fireExtinguisher: false,
-        foam: {
+        hasFireHydrant: false,//消防栓
+        hydrantIndoorAmount: '',//內部消防栓數量
+        hydrantOutdoorAmount: '',//外部消防栓數量
+        fireExtinguisher: false,//滅火器
+        foam: {//泡沫型
           indoor: '',
           outdoor: '',
         },
-        carbonDioxide: {
+        carbonDioxide: {//二氧化碳
           indoor: '',
           outdoor: '',
         },
-        abc: {
+        abc: {//ABC乾粉
           indoor: '',
           outdoor: '',
         },
-        halon: {
+        halon: {//海龍(halon)
           indoor: '',
           outdoor: '',
         },
-        sprinkler: false,
-        gasExtinguishing: false,
-        gasExtinguishingInstall: '',
-        foamExtinguishing: false,
-        foamExtinguishingInstall: '',
-        waterMistExtinguishing: false,
-        waterMistExtinguishingInstall: '',
+        hasSprinkler: false,//是否有自動灑水系統
+        hasGasExtinguishing: false,//是否有氣體滅火系統
+        gasExtinguishingInstall: '',//氣體滅火系統安裝於何處
+        hasFoamExtinguishing: false,//是否有泡沫滅火系統
+        foamExtinguishingInstall: '',//泡沫滅火系統安裝於何處
+        hasWaterMistExtinguishing: false,//是否有水霧滅火系統
+        waterMistExtinguishingInstall: '',//水霧滅火系統安裝於何處
+        hasOtherExtinguishing: false,//是否有其他滅火系統
+        otherExtinguishingRemark: '',//其他滅火系統備註
+        HasEquipmentTestAndTrain: false,//是否有設備測試及訓練,
+        hasNoSmokingControl: false,//是否有禁菸管制
+        hasAlertSystem: false,//是否有監視或預警系統
+        hasSwitchboardNormalState: false,//是否受信總機正常使用並有專人看守
+        hasCleaner: false,//是否有清潔工
+        hasClutterAtAisle: false,//是否有滋潤品放置於走廊
       },
       part8: {
-        value1: false,
-        value2: false,
-        value3: false,
-        value4: false,
+        hasMedicalSiteAndPersons: false,//是否設置醫療站並配置醫護人員
+        hasProtectDevice: false,//是否有防護或緊急設備
+        hasDisasterProtectPlan: false,//是否有災害防護計畫
+        hasEmergencyManagementPlan: false,//是否有緊急應變計畫(包含應變人員編組和指定職責，如關鍵設備留守人員、警戒人員、醫療救護編組、消防編組等)
       },
       part9: {
-        lossHistory: false,
-        lostAmountFrequencyReason: ''
+        hasLossHistoryBeforeFiveYear: false,//被保險人過去五年是否有損失紀錄
+        lostAmountFrequencyReason: ''//填寫損失金額、次數、原因
       },
     },
     insuranceAmountList: [
@@ -382,13 +394,10 @@ export const quotation = () => {
     internalControlData: {//內部管制資料
       issuerNumber: '',//經手人代號
       businessSourceCode: {//業務來源代號
-        placeholder: '個人',
-        id: 'F1'
+        Text: '個人',
+        Value: 'F1'
       },
-      statisticsCode: {//統計代號
-        placeholder: '選擇統計代碼',
-        id: ''
-      },
+      statisticsCode: '',//統計代號,
       loginIdNumber: '',//登入證字號
     },
     insuranceAmounts: '', //保險金額
