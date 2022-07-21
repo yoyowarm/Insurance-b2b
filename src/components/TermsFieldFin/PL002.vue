@@ -6,22 +6,22 @@
     <div class="column-6 ">
       <InputGroup title="停車場收費" borderBtn>
         <div slot="input" class="w-full pr-24 relative">
-          {{data.PL002.value1 ? '有': '無'}}
+          {{findTarget('value1').itemValue ? '有': '無'}}
         </div>
       </InputGroup>
       <InputGroup title="代客停車" borderBtn>
         <div slot="input" class="w-full pr-24 relative">
-          {{data.PL002.value2 ? '有': '無'}}
+          {{findTarget('value2').itemValue ? '有': '無'}}
         </div>
       </InputGroup>
       <InputGroup title="車位種類和數量" borderBtn>
-        <span slot="input">{{data.PL002.value3}}位，平面式車位</span>
+        <span slot="input">{{findTarget('value3').itemValue}}位，平面式車位</span>
       </InputGroup>
       <InputGroup title="車位種類和數量" borderBtn>
-        <span slot="input">{{data.PL002.value4}}位，室內機械式車位</span>
+        <span slot="input">{{findTarget('value4').itemValue}}位，室內機械式車位</span>
       </InputGroup>
       <InputGroup title="車位種類和數量" borderBtn>
-        <span slot="input">{{data.PL002.value5}}位，機械塔車位</span>
+        <span slot="input">{{findTarget('value5').itemValue}}位，機械塔車位</span>
       </InputGroup>
     </div>
 	</div>
@@ -52,6 +52,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

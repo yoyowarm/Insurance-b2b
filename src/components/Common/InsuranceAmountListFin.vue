@@ -93,7 +93,7 @@
         </InputGroup>
       </div>
       <div class="flex flex-row justify-center mt-4">
-        <PaymentItem keyName="保費共計" value="--" unit totalStyle/>
+        <PaymentItem keyName="保費共計" :value="item.insuranceAmount? item.insuranceAmount : '--'" unit totalStyle/>
       </div>
       <div class="flex flex-row justify-center mt-8">
         <Button class="mr-6" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>

@@ -6,7 +6,7 @@
     <FormTitle title="年度購提液化石油氣總數量" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-6">
       <InputGroup noMt borderBtn>
-        <span slot="input">{{data.PL058.value1}}公斤</span>
+        <span slot="input">{{findTarget('value1').itemValue}}公斤</span>
       </InputGroup>
     </div>
 	</div>
@@ -36,6 +36,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

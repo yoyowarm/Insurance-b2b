@@ -5,10 +5,10 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="學員" borderBtn>
-        <span slot="input">{{data.PL007.value1}}位</span>
+        <span slot="input">{{findTarget('value1').itemValue}}位</span>
       </InputGroup>
       <InputGroup title="幼兒" borderBtn>
-        <span slot="input">{{data.PL007.value2}}位</span>
+        <span slot="input">{{findTarget('value2').itemValue}}位</span>
       </InputGroup>
     </div>
 	</div>
@@ -38,6 +38,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

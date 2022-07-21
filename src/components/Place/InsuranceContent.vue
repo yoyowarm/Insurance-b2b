@@ -1,18 +1,18 @@
 <template>
   <div>
     <div class="column-6">
-      <!-- <InputGroup class=" w-full mb-2.5" title="是否續保" borderBtn :editModel="editModel">
+      <InputGroup class=" w-full mb-2.5" title="是否續保" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="是"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          是
+          {{info.renewal&&info.renewal.isRenewal ? '是' : '否'}}
         </div>
       </InputGroup>
       <InputGroup class=" w-full mb-2.5" title="保單編號" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="123456789"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          123456789
+          {{info.renewal&&info.renewal.insuranceNumber}}
         </div>
-      </InputGroup> -->
+      </InputGroup>
       <div class="flex flex-row col-span-2">
         <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
@@ -23,19 +23,19 @@
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="04月"/>
           <div v-else slot="input">
-            {{info.insuranceBegin.split('T')[0].split('-')[1]}}月
+            {{info.insuranceBegin?info.insuranceBegin.split('T')[0].split('-')[1] : ''}}月
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="15日"/>
           <div v-else slot="input">
-            {{info.insuranceBegin.split('T')[0].split('-')[2]}}日
+            {{info.insuranceBegin?info.insuranceBegin.split('T')[0].split('-')[2]: ''}}日
           </div>
         </InputGroup>
         <InputGroup class="w-full" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="12時"/>
           <div v-else slot="input">
-            {{info.insuranceBegin.split('T')[1].split(':')[0]}}時
+            {{info.insuranceBegin? info.insuranceBegin.split('T')[1].split(':')[0]: ''}}時
           </div>
         </InputGroup>
       </div>
@@ -43,25 +43,25 @@
         <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
           <div v-else slot="input">
-            {{info.insuranceEnd.split('T')[0].split('-')[0]}}年
+            {{info.insuranceBegin? info.insuranceEnd.split('T')[0].split('-')[0]: ''}}年
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="04月"/>
           <div v-else slot="input">
-            {{info.insuranceEnd.split('T')[0].split('-')[1]}}月
+            {{info.insuranceEnd?info.insuranceEnd.split('T')[0].split('-')[1]: ''}}月
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="15日"/>
           <div v-else slot="input">
-            {{info.insuranceEnd.split('T')[0].split('-')[2]}}日
+            {{info.insuranceEnd?info.insuranceEnd.split('T')[0].split('-')[2]:''}}日
           </div>
         </InputGroup>
         <InputGroup class="w-full" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="12時"/>
           <div v-else slot="input">
-            {{info.insuranceEnd.split('T')[1].split(':')[0]}}時
+            {{info.insuranceEnd?info.insuranceEnd.split('T')[1].split(':')[0]:''}}時
           </div>
         </InputGroup>
       </div>
@@ -78,37 +78,37 @@
       <InputGroup class="w-full " title="去年投保紀錄" :wrap="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="無"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          無
+          {{info.insuranceRecord && info.insuranceRecord.lastYear.status ? '有' : '無'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="去年平均保費" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="- -"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          - -
+          {{info.insuranceRecord && info.insuranceRecord.lastYear.averagePremium ? info.insuranceRecord.lastYear.averagePremium : '- -'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="去年平均理賠金額" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="- -"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          - -
+          {{info.insuranceRecord && info.insuranceRecord.lastYear.claimAmount ? info.insuranceRecord.lastYear.claimAmount : '- -'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full " title="前年投保紀錄" :wrap="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="無"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          無
+          {{info.insuranceRecord && info.insuranceRecord.previousYear.status ? '有' : '無'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="前年平均保費" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="- -"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          - -
+          {{info.insuranceRecord && info.insuranceRecord.previousYear.averagePremium ? info.insuranceRecord.previousYear.averagePremium : '- -'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="前年平均理賠金額" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="- -"/>
         <div v-else slot="input" class="w-full pr-24 relative">
-          - -
+          {{info.insuranceRecord && info.insuranceRecord.previousYear.claimAmount ? info.insuranceRecord.previousYear.claimAmount : '- -'}}
         </div>
       </InputGroup>
     </div>
@@ -140,14 +140,14 @@
       <InputGroup class="w-full col-span-6" title="備註" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容"/>
         <div v-else slot="input" class="w-full relative">
-          備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容
+          {{info.remark}}
         </div>
       </InputGroup>
     </div>
-    <div class="column-6 pb-3 mb-4">
+    <div class="column-6 pb-3 mb-4" v-if="info.placeInsureInfo">
       <InputGroup class="w-full col-span-6" title="上傳附件" borderBtn>
-        <div slot="input" class="w-full relative">
-          <p class="text-blue-500 px-4 pr-5 text-lg truncate relative">test.text</p>
+        <div slot="input" class="w-full relative" v-for="(item,index) in info.placeInsureInfo.fileAttachments" :key="index">
+          <p class="text-blue-500 px-4 pr-5 text-lg truncate relative">{{item.fileName}}</p>
         </div>
       </InputGroup>
     </div>

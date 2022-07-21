@@ -6,19 +6,19 @@
     <FormTitle title="每一保管箱財損責任之保險金額" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-6">
       <InputGroup title="新台幣" borderBtn>
-        <span slot="input">{{data.PL043.value1}}萬元</span>
+        <span slot="input">{{findTarget('value1').itemValue}}萬元</span>
       </InputGroup>
     </div>
     <FormTitle title="每一意外事故財損責任之保險金額" classList="text-lg text-gray-700 mt-3"/>
     <div class="column-6">
       <InputGroup title="新台幣" borderBtn>
-        <span slot="input">{{data.PL043.value2}}萬元</span>
+        <span slot="input">{{findTarget('value2').itemValue}}萬元</span>
       </InputGroup>
     </div>
     <FormTitle title="保險期間內之最高賠償金額" classList="text-lg text-gray-700 mt-3"/>
     <div class="column-6">
       <InputGroup title="新台幣" borderBtn>
-        <span slot="input">{{data.PL043.value3}}萬元</span>
+        <span slot="input">{{findTarget('value3').itemValue}}萬元</span>
       </InputGroup>
     </div>
 	</div>
@@ -48,6 +48,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

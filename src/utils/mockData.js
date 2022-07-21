@@ -197,7 +197,7 @@ export const quotationListTable = () => {
         size: '1-6'
       },
       {
-        text: '要保人',
+        text: '被保人',
         value: 'insuredName',
         size: '1-6'
       },

@@ -6,25 +6,25 @@
     <FormTitle title="住院慰問金費用保險金額" classList="text-lg text-gray-700 mt-3"/>
     <div class="column-6">
       <InputGroup title="每一個人" borderBtn>
-        <span slot="input">{{data.PL023.value1}}元</span>
+        <span slot="input">{{findTarget('value1').itemValue}}元</span>
       </InputGroup>
       <InputGroup title="每一意外事故" borderBtn>
-        <span slot="input">{{data.PL023.value2}}元</span>
+        <span slot="input">{{findTarget('value2').itemValue}}元</span>
       </InputGroup>
       <InputGroup title="保險期間內最高賠償金額" borderBtn>
-        <span slot="input">{{data.PL023.value3}}元</span>
+        <span slot="input">{{findTarget('value3').itemValue}}元</span>
       </InputGroup>
     </div>
      <FormTitle title="奠儀慰問金費用保險金額" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-6">
       <InputGroup title="每一個人" borderBtn>
-        <span slot="input">{{data.PL023.value4}}元</span>
+        <span slot="input">{{findTarget('value4').itemValue}}元</span>
       </InputGroup>
       <InputGroup title="每一意外事故" borderBtn>
-        <span slot="input">{{data.PL023.value5}}元</span>
+        <span slot="input">{{findTarget('value5').itemValue}}元</span>
       </InputGroup>
       <InputGroup title="保險期間內最高賠償金額" borderBtn>
-        <span slot="input">{{data.PL023.value6}}元</span>
+        <span slot="input">{{findTarget('value6').itemValue}}元</span>
       </InputGroup>
     </div>
 	</div>
@@ -54,6 +54,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

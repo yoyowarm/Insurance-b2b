@@ -8,7 +8,7 @@
         <FormTitle title="每一意外事故保險金額最高以新台幣" classList="text-lg text-gray-700 mt-3"/>
         <div class="w-full">
           <InputGroup title="新台幣" borderBtn>
-            <span slot="input">{{data.PL055.value1}}萬元為限</span>
+            <span slot="input">{{findTarget('value1').itemValue}}萬元為限</span>
           </InputGroup>
         </div>
       </div>
@@ -16,7 +16,7 @@
         <FormTitle title="保險期間累計保險金額最高以新台幣" classList="text-lg text-gray-700 mt-3"/>
         <div class="w-full">
           <InputGroup title="新台幣" borderBtn>
-            <span slot="input">{{data.PL055.value2}}萬元為限</span>
+            <span slot="input">{{findTarget('value2').itemValue}}萬元為限</span>
           </InputGroup>
         </div>
       </div>
@@ -48,6 +48,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

@@ -5,10 +5,10 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="保險金額:每一意外事故" borderBtn>
-        <span slot="input">{{data.PL009.value1}}萬元</span>
+        <span slot="input">{{findTarget('value1').itemValue}}萬元</span>
       </InputGroup>
       <InputGroup title="處所數量" borderBtn>
-        <span slot="input">{{data.PL009.value2}}處</span>
+        <span slot="input">{{findTarget('value2').itemValue}}處</span>
       </InputGroup>
     </div>
 	</div>
@@ -38,6 +38,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

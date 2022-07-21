@@ -6,20 +6,20 @@
     <div class="column-6">
       <InputGroup  title="簽訂檢查維護合約" borderBtn>
         <div slot="input" class="w-full pr-24 relative">
-          {{data.PL003.value1 ? '有': '無'}}
+          {{findTarget('value1').itemValue ? '有': '無'}}
         </div>
       </InputGroup>
       <InputGroup  title="電梯種類和數量" borderBtn>
-        <span slot="input">{{data.PL003.value2}}台，電扶梯</span>
+        <span slot="input">{{findTarget('value2').itemValue}}台，電扶梯</span>
       </InputGroup>
       <InputGroup title="電梯種類和數量" borderBtn>
-        <span slot="input">{{data.PL003.value3}}台，客/貨梯</span>
+        <span slot="input">{{findTarget('value3').itemValue}}台，客/貨梯</span>
       </InputGroup>
       <InputGroup title="電梯種類和數量" borderBtn>
-        <span slot="input">{{data.PL003.value4}}台，汽車升降梯</span>
+        <span slot="input">{{findTarget('value4').itemValue}}台，汽車升降梯</span>
       </InputGroup>
       <InputGroup title="電梯種類和數量" borderBtn>
-        <span slot="input">{{data.PL003.value5}}台，其他種類</span>
+        <span slot="input">{{findTarget('value5').itemValue}}台，其他種類</span>
       </InputGroup>
     </div>
 	</div>
@@ -50,6 +50,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

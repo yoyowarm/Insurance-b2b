@@ -5,7 +5,7 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="承攬工程合約金額少於" borderBtn>
-        <span slot="input">{{data.PL016.value1}}萬元者為限</span>
+        <span slot="input">{{findTarget('value1').itemValue}}萬元者為限</span>
       </InputGroup>
     </div>
 	</div>
@@ -35,6 +35,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

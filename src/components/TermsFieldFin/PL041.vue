@@ -5,10 +5,10 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="起訖地" borderBtn>
-        <span slot="input">{{data.PL041.value1}}</span>
+        <span slot="input">{{findTarget('value1').itemValue}}</span>
       </InputGroup>
       <InputGroup title="車牌號碼" borderBtn>
-        <span slot="input">{{data.PL041.value2}}</span>
+        <span slot="input">{{findTarget('value2').itemValue}}</span>
       </InputGroup>
     </div>
 	</div>
@@ -38,6 +38,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

@@ -5,10 +5,10 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="每一意外事故財損責任之保險金額" borderBtn>
-        <span slot="input">{{data.PL022.value1}}萬元</span>
+        <span slot="input">{{findTarget('value1').itemValue}}萬元</span>
       </InputGroup>
       <InputGroup title="保險期間內之最高賠償金額" borderBtn>
-        <span slot="input">{{data.PL022.value2}}萬元</span>
+        <span slot="input">{{findTarget('value2').itemValue}}萬元</span>
       </InputGroup>
     </div>
 	</div>
@@ -38,6 +38,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>

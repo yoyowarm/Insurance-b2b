@@ -1,24 +1,24 @@
 <template>
   <div class="w-full term mb-4">
-    <template v-for="item in termConditionsList">
-      <PL002 :key="item.TermName" v-if="item.TermName === '停車場責任附加條款'" :data.sync="additionTerms"/>
-      <PL003 :key="item.TermName" v-if="item.TermName === '電梯意外責任附加條款'" :data.sync="additionTerms"/>
-      <PL004 :key="item.TermName" v-if="item.TermName === '游泳池責任附加條款'" :data.sync="additionTerms"/>
-      <PL007 :key="item.TermName" v-if="item.TermName === '各級學校暨幼兒園責任附加條款'" :data.sync="additionTerms"/>
-      <PL009 :key="item.TermName" v-if="item.TermName === '廣告招牌附加條款A(含天災)'" :data.sync="additionTerms"/>
-      <PL016 :key="item.TermName" v-if="item.TermName === '獨立承攬人責任附加條款'" :data.sync="additionTerms"/>
-      <PL022 :key="item.TermName" v-if="item.TermName === '裝卸搬運責任附加條款'" :data.sync="additionTerms"/>
-      <PL023 :key="item.TermName" v-if="item.TermName === '慰問金費用附加條款'" :data.sync="additionTerms"/>
-      <PL028 :key="item.TermName" v-if="item.TermName === '安養事業責任附加條款'" :data.sync="additionTerms"/>
-      <PL035 :key="item.TermName" v-if="item.TermName === '小型營繕工程附加條款'" :data.sync="additionTerms"/>
-      <PL040 :key="item.TermName" v-if="item.TermName === '受託物責任附加條款'" :data.sync="additionTerms"/>
-      <PL041 :key="item.TermName" v-if="item.TermName === '接駁運送責任附加條款'" :data.sync="additionTerms"/>
-      <PL043 :key="item.TermName" v-if="item.TermName === '保管箱責任附加條款'" :data.sync="additionTerms"/>
-      <PL047 :key="item.TermName" v-if="item.TermName === '放棄代位求償權附加條款'" :data.sync="additionTerms"/>
-      <PL049 :key="item.TermName" v-if="item.TermName === '承租人借用人責任附加條款(保額外加)'" :data.sync="additionTerms"/>
-      <PL053 :key="item.TermName" v-if="item.TermName === '傷害醫療及身故慰問金費用附加條款'" :data.sync="additionTerms"/>
-      <PL055 :key="item.TermName" v-if="item.TermName === '營業中斷損失責任附加條款'" :data.sync="additionTerms"/>
-      <PL058 :key="item.TermName" v-if="item.TermName === '液化石油氣及容器附加條款'" :data.sync="additionTerms"/>
+    <template v-for="(item,index) in termsLists">
+      <PL002 :key="item.additionTermId" v-if="item.additionTermId === 'PL002'" :data.sync="copyTermsLists[index]"/>
+      <PL003 :key="item.additionTermId" v-if="item.additionTermId === 'PL003'" :data.sync="copyTermsLists[index]"/>
+      <PL004 :key="item.additionTermId" v-if="item.additionTermId === 'PL004'" :data.sync="copyTermsLists[index]"/>
+      <PL007 :key="item.additionTermId" v-if="item.additionTermId === 'PL007'" :data.sync="copyTermsLists[index]"/>
+      <PL009 :key="item.additionTermId" v-if="item.additionTermId === 'PL009'" :data.sync="copyTermsLists[index]"/>
+      <PL016 :key="item.additionTermId" v-if="item.additionTermId === 'PL016'" :data.sync="copyTermsLists[index]"/>
+      <PL022 :key="item.additionTermId" v-if="item.additionTermId === 'PL022'" :data.sync="copyTermsLists[index]"/>
+      <PL023 :key="item.additionTermId" v-if="item.additionTermId === 'PL023'" :data.sync="copyTermsLists[index]"/>
+      <PL028 :key="item.additionTermId" v-if="item.additionTermId === 'PL028'" :data.sync="copyTermsLists[index]"/>
+      <PL035 :key="item.additionTermId" v-if="item.additionTermId === 'PL035'" :data.sync="copyTermsLists[index]"/>
+      <PL040 :key="item.additionTermId" v-if="item.additionTermId === 'PL040'" :data.sync="copyTermsLists[index]"/>
+      <PL041 :key="item.additionTermId" v-if="item.additionTermId === 'PL041'" :data.sync="copyTermsLists[index]"/>
+      <PL043 :key="item.additionTermId" v-if="item.additionTermId === 'PL043'" :data.sync="copyTermsLists[index]"/>
+      <PL047 :key="item.additionTermId" v-if="item.additionTermId === 'PL047'" :data.sync="copyTermsLists[index]"/>
+      <PL049 :key="item.additionTermId" v-if="item.additionTermId === 'PL049'" :data.sync="copyTermsLists[index]"/>
+      <PL053 :key="item.additionTermId" v-if="item.additionTermId === 'PL053'" :data.sync="copyTermsLists[index]"/>
+      <PL055 :key="item.additionTermId" v-if="item.additionTermId === 'PL055'" :data.sync="copyTermsLists[index]"/>
+      <PL058 :key="item.additionTermId" v-if="item.additionTermId === 'PL058'" :data.sync="copyTermsLists[index]"/>
     </template>
   </div>
 </template>
@@ -67,6 +67,7 @@ export default {
   data() {
     return {
       copyTerms: {},
+      copyTermsLists:[],
       termConditions: ['PL002','PL003','PL004','PL009','PL007','PL016','PL022','PL023','PL028','PL035','PL040','PL041','PL043','PL047','PL049','PL053','PL055','PL058'],
     }
   },
@@ -93,16 +94,16 @@ export default {
         this.$store.dispatch(`${this.type}/updateAdditionTerms`, val)
       }
     },
-    termConditionsList() {
-      const arr = []
-      Object.keys(this.copyTerms).map(key => {
-        const target = this.termsLists.find(item => item.TermName === key)
-        if (this.copyTerms[key].selected && target && this.termConditions.indexOf(target.TermID) !== -1) {
-          arr.push(target)
-        }
-      })
-      return arr
-    }
+    // termConditionsList() {
+    //   const arr = []
+    //   Object.keys(this.copyTerms).map(key => {
+    //     const target = this.termsLists.find(item => item.additionTermId === key)
+    //     if (this.copyTerms[key].selected && target && this.termConditions.indexOf(target.TermID) !== -1) {
+    //       arr.push(target)
+    //     }
+    //   })
+    //   return arr
+    // }
   },
   watch: {
     terms: {
@@ -112,12 +113,19 @@ export default {
         }
       },
       deep: true
+    },
+    termsLists: {
+      handler (val) {
+        this.copyTermsLists = [...val]
+      },
+      deep: true
     }
   },
   mounted() {
     this.copyTerms = {
       ...this.terms
     }
+    this.copyTermsLists = [...this.termsLists]
   },
 }
 </script>

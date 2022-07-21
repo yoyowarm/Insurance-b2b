@@ -5,7 +5,7 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="對象" borderBtn>
-        <span slot="input">{{data.PL047.value1}}</span>
+        <span slot="input">{{findTarget('value1').itemValue}}</span>
       </InputGroup>
     </div>
 	</div>
@@ -35,6 +35,9 @@ export default {
         }
       })
     },
+    findTarget(key) {
+      return this.data.additionTermValue ? this.data.additionTermValue.find(item => item.itemId == key) : {itemId: '',itemValue: ''}
+    }
   }
 }
 </script>
