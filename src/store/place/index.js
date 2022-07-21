@@ -383,11 +383,11 @@ export default {
     },
     ADD_PLACE_INFO(state) {
       state.placeInfo.push({
-        state: false,
-        square: 0,
+        holdState: false,
+        squareFeet: 0,
         city: '',
         area: '',
-        address: ''
+        subAddress: ''
       })
     },
     UPDATED_PLACE_INFO(state, data) {
