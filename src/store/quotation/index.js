@@ -12,7 +12,9 @@ import {
   BeginUnderwriting,
   EditPlaceQuotation,
   TrialBalanceInsuranceProject,
-  ApprovedInsuranceAmount
+  ApprovedInsuranceAmount,
+  GetPlaceInsuranceProjectAmount,
+  EditInsuranceProject
 } from '@/api/Quotation'
 export default {
   namespaced: true,
@@ -46,6 +48,7 @@ export default {
       return await AddInsuranceProject(data)
     },
     async GetInsuranceProjectAmount(_, { data }) {
+      console.log(data)
       return await GetInsuranceProjectAmount(data)
     },
     async FinishQuotation(_, { data }) {
@@ -62,6 +65,13 @@ export default {
     },
     async ApprovedInsuranceAmount(_, { data }) {
       return await ApprovedInsuranceAmount(data)
+    },
+    async GetPlaceInsuranceProjectAmount(_, { data }) {
+      console.log(data)
+      return await GetPlaceInsuranceProjectAmount(data)
+    },
+    async EditInsuranceProject(_, { data }) {
+      return await EditInsuranceProject(data)
     }
   }
 }

@@ -1,18 +1,29 @@
 <template>
   <div>
     <CommonBoard class="w-full mb-7" title="被保險人資料">
-      <InsuranceInfoFin :info.sync="InsuranedData" type="InsuranedData"/>
+      <InsuranceInfoFin :info="quotationData.insuraned" type="InsuranedData"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="要保險人資料">
-      <InsuranceInfoFin :info.sync="ApplicantData" type="ApplicantData"/>
+      <InsuranceInfoFin :info="quotationData.applicant" type="ApplicantData"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="投保資料">
-      <InsuranceContent :lists="placeInfo"/>
+      <InsuranceContent :info="quotationData.placeInsureInfo"/>
     </CommonBoard>
-    <InsuranceAmountListFin :lists="insuranceAmountListData"/>
+    <InsuranceAmountListFin
+      :lists.sync="quotationData.insuranceAmounts"
+      :orderNo="orderNo"
+      @getQuotationDetail="quotationDetail"
+    />
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
-      <Button v-else @click.native="nextStep" class="my-8 w-40 md:w-64 ">完成報價</Button>
+      <Button
+        v-if="quotationData.insuranceAmounts.filter(item => item.selected && !item.insuranceAmount)"
+        @click.native="finishQuotation()"
+        class="my-8 w-40 md:w-64 "
+        style="background: #DB9F2C">
+        開始核保
+      </Button>
+      <Button v-else @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
@@ -79,6 +90,7 @@ export default {
     return {
       historyDialog: false,
       openDialog: false,
+      quotationData: {},
     }
   },
   computed: {
@@ -91,6 +103,7 @@ export default {
       viewModel: state => state.common.viewModel,
       'loading': state => state.app.loading,
       insuranceAmountList: state => state.place.insuranceAmountList,
+      orderNo: state => state.common.orderNo,
     }),
     InsuranedData: {
       get() {
@@ -116,7 +129,40 @@ export default {
         this.$store.dispatch('place/updatedInsuranceAmountList', value)
       }
     },
-  }
+  },
+  methods: {
+    async quotationDetail() {
+      const detail = await this.$store.dispatch('quotation/GetPlaceQuotationDetail', this.orderNo)
+      this.quotationData = {
+        ...detail.data.content,
+        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
+          return {
+            ...item,
+            selected: index == 0 ? true: false,
+            fixed: false,
+          }
+        })
+      }
+    },
+    async finishQuotation(key) {
+      const data = {
+        orderNo: this.orderNo,
+        insuranceProjectId: this.quotationData.insuranceAmounts.find(item => item.selected).id,
+      }
+      if(key) {
+        await this.$store.dispatch('quotation/FinishQuotation', {data})
+      } else {
+        await this.$store.dispatch('quotation/BeginUnderwriting',{data} )
+      }
+      this.$router.push('/')
+      this.$store.dispatch('place/clearAll')
+      this.$store.dispatch('app/updatedUUID', '')
+      this.$store.dispatch('common/updateOrderNo', '')
+    }
+  },
+  async mounted() {
+    await this.quotationDetail()
+  },
 }
 </script>
 

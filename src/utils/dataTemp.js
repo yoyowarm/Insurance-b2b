@@ -113,11 +113,11 @@ export const quotationStep1 = () => {
 export const quotation = () => {
   return {
     InsuranceActive: 0,
-    renewal: {
+    renewal: {//是否續保
       IsRenewal: false,
       InsuranceNumber: '',
     },
-    InsuranceRecord: {
+    InsuranceRecord: {//投保紀錄
       lastYear: {
         status: false,
         averagePremium: '',
@@ -156,8 +156,8 @@ export const quotation = () => {
         hour: ''
       },
     },
-    terms: {},
-    Insuraned: {
+    terms: {},//條款
+    Insuraned: {//被保險人資料
       ID: '',
       Name: '',
       IsForeigner: false,
@@ -184,12 +184,12 @@ export const quotation = () => {
       overseasOrDomestic: false,
       IsProOrNot: false,
     },
-    Relation: {
+    Relation: {//被保人與要保人之關係
       Text: '選擇關係',
       Value: '',
     },
     sameAsInsured: false,
-    Applicant: {
+    Applicant: {//要保險人資料
       ID: '',
       Name: '',
       IsForeigner: false,
@@ -216,20 +216,20 @@ export const quotation = () => {
       overseasOrDomestic: false,
       IsProOrNot: false,
     },
-    SerailNo: '',
-    industry: {
+    industry: {//行業別
       Text: '選擇行業',
       Value: '',
     },
     industryText: '',
-    remark: {
+    remark: {//備註
       text: '',
       fileList: []
     },
-    questionnaire: {
+    questionnaireFinished: false,
+    questionnaire: {//問卷
       userId: '',
       part1: {
-        businessType: {
+        businessType: {//經營業務種類
           Text: '選擇種類',
           Value: '',
         },
@@ -238,7 +238,7 @@ export const quotation = () => {
           month: '',
           day: '',
         },
-        staffAmount: '',
+        staffAmount: '',//員工人數
         businessStartDate: {
           hours: '',
           minutes: '',
@@ -249,10 +249,10 @@ export const quotation = () => {
           minutes: '',
           AmPm: '',
         },
-        area: '',
-        totalArea: '',
-        dailyAveragePersons: '',
-        singleDayHighestPersons: '',
+        area: '',//基地面積
+        totalArea: '',//總面積
+        dailyAveragePersons: '',//每日平均出入人數
+        singleDayHighestPersons: '',//單日最高出入人數
       },
       part2: {
         wallMaterial: '',//外牆建築材質
@@ -374,7 +374,7 @@ export const quotation = () => {
         lostAmountFrequencyReason: ''//填寫損失金額、次數、原因
       },
     },
-    insuranceAmountList: [
+    insuranceAmountList: [//保險金額/自負額
       {
         amountType: {
           Text: '依各縣市規定',
@@ -388,19 +388,10 @@ export const quotation = () => {
         selfInflictedAmount: {
           Text: '',
           Value: '',
-        }
+        },
+        amount: null
       }
     ],
-    internalControlData: {//內部管制資料
-      issuerNumber: '',//經手人代號
-      businessSourceCode: {//業務來源代號
-        Text: '個人',
-        Value: 'F1'
-      },
-      statisticsCode: '',//統計代號,
-      loginIdNumber: '',//登入證字號
-    },
-    insuranceAmounts: '', //保險金額
     additionTerms: {//附加條款
       PL002: {//停車場責任附加條款
         value1: false,//停車場是否收費
@@ -476,5 +467,16 @@ export const quotation = () => {
         value1: 0,
       }
     },
+    internalControlData: {//內部管制資料
+      issuerNumber: '',//經手人代號
+      businessSourceCode: {//業務來源代號
+        Text: '個人',
+        Value: 'F1'
+      },
+      statisticsCode: '',//統計代號
+      loginIdNumber: '',//登入證字號
+    },
+    insuranceAmounts: '', //保險金額
+    placeQuotation: {}//場次報價
   }
 }

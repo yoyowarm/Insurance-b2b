@@ -67,7 +67,6 @@ const vuexLocal = new VuexPersistence({
       common: {
         viewModel: state.common.viewModel,
         editModel: state.common.editModel,
-        calculateModel: state.common.calculateModel,
         orderNo: state.common.orderNo,
       }
     }

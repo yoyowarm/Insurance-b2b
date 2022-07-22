@@ -14,7 +14,7 @@ export const GetRenewInfo = (policyNo) => request('get', '/Quotation/GetRenewInf
 export const CheckProjectHasQuotation = (orderno, insuranceProjectId) => request('get', '/Quotation/CheckInsuanceProjectHasQuotation', { orderno, insuranceProjectId })
 //取得場所報價step3
 export const GetPlaceQuotationDetail = (orderno) => request('get', '/Quotation/GetPlaceQuotationDetail', { orderno })
-//新增投保方案
+//新增投保方案（前端保存時）
 export const AddInsuranceProject = (data) => request('post', '/Quotation/AddInsuranceProject', data)
 //試算
 export const GetInsuranceProjectAmount = (data) => request('post', '/Quotation/GetInsuranceProjectAmount', data)
@@ -28,3 +28,7 @@ export const EditPlaceQuotation = (data) => request('patch', '/Quotation/EditPla
 export const TrialBalanceInsuranceProject = (data) => request('post', '/Quotation/TrialBalanceInsuranceProject', data)
 //核壓保費
 export const ApprovedInsuranceAmount = (data) => request('patch', '/Quotation/ApprovedInsuranceAmount', data)
+//處所建單前保費試算
+export const GetPlaceInsuranceProjectAmount = (data) => request('post', '/Quotation/GetPlaceInsuranceProjectAmountWithoutOrder', data)
+//修改保存舊有保險方案
+export const EditInsuranceProject = (data) => request('put', '/Quotation/EditInsuranceProject', data)

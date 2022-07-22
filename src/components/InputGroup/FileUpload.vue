@@ -1,7 +1,7 @@
 <template>
   <p v-if="fileName !== ''" class="text-blue-500 px-4 pr-5 text-lg truncate relative">
     <span class="select-none">{{fileName}}</span>
-    <font-awesome-icon @click="fileName = ''" icon="times-circle" class="cursor-pointer text-lg text-main absolute right-2 top-1" />
+    <font-awesome-icon @click="deleteFile" icon="times-circle" class="cursor-pointer text-lg text-main absolute right-2 top-1" />
   </p>
   <div v-else class="w-full">
     <label :for="id" class="text-gray-400 pl-4 text-lg w-full cursor-pointer">
@@ -22,11 +22,25 @@ export default {
     index: {
       type: Number,
       default: 1
+    },
+    attachment: {
+      type: Object,
+      default: () => ({})
     }
   },
   data() {
     return {
       fileName: '',
+    }
+  },
+  watch: {
+    attachment: {
+      handler(val) {
+        if(val.fileName) {
+          this.fileName = val.fileName
+        }
+      },
+      deep: true
     }
   },
   computed: {
@@ -36,12 +50,25 @@ export default {
   },
   methods: {
     async newFile(e) {
-      // console.log(e.target.files[0].name, e.target.files[0])
       this.fileName = e.target.files[0].name
       await this.$store.dispatch('common/UploadFile',{
         policyAttachmentId: this.uuid,
         file: e.target.files[0]
       })
+      this.$emit('updatedFile')
+    },
+    async deleteFile() {
+      await this.$store.dispatch('common/DeleteFile',{
+        policyAttachmentId: this.attachment.policyAttachmentId,
+        fileAttachmentId: this.attachment.id
+      })
+      console.log(this.uuid, this.attachment.id)
+      this.$emit('updatedFile')
+    }
+  },
+  mounted() {
+    if(this.attachment.fileName) {
+      this.fileName = this.attachment.fileName
     }
   }
   

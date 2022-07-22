@@ -17,7 +17,7 @@
         <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
           <div v-else slot="input">
-            {{info.insuranceBegin.split('T')[0].split('-')[0]}}年
+            {{info.insuranceBegin? info.insuranceBegin.split('T')[0].split('-')[0]: ''}}年
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">

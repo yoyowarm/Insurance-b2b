@@ -68,19 +68,13 @@
       <TextBox :value.sync="remarkData"/>
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
-        <InputGroup noMt :disable="calculateModel">
-          <FileUpload slot="input" :index="1" id="file" :disable="calculateModel"/>
-        </InputGroup>
-        <InputGroup noMt :disable="calculateModel">
-          <FileUpload slot="input" :index="2" id="fileUpload2" :disable="calculateModel"/>
-        </InputGroup>
-        <InputGroup noMt :disable="calculateModel">
-          <FileUpload slot="input" :index="3" id="fileUpload3" :disable="calculateModel"/>
+        <InputGroup noMt :disable="calculateModel" v-for="(item,index) in 3" :key="item">
+          <FileUpload slot="input" :index="item" :id="`file${item}`" :attachment="attachmentList[index]" @updatedFile="getAttachmentList" :disable="calculateModel"/>
         </InputGroup>
       </div>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
-      <PaymentItem keyName="總保費試算共計" :value="`NT$ --`" unit totalStyle/>
+      <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" unit totalStyle/>
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
@@ -148,6 +142,7 @@ export default {
       areaList: [],
       countyAmount: [],
       additionTermsList: [],
+      attachmentList: [],
       openQuestionnaire: false,
     }
   },
@@ -267,6 +262,7 @@ export default {
       const places = await this.$store.dispatch('resource/PlacesSetting')
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
+      await this.getAttachmentList()
       places.data.content.map(item => {
         if(!this.industryType.includes(item.typeName)) {
           this.industryType.push(item.typeName)
@@ -293,8 +289,67 @@ export default {
         this.additionTermsList = data.data.content.additionTermsDetails
       }
     },
-    calculateAmount() {
-      this.$store.dispatch('common/updatedCalculateModel',true)
+    async calculateAmount() {
+      this.verifyRequired()
+      if(this.requestFile.length === 0 &&
+        this.verifyResult.length === 0) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: '<p>檢核完成！</p>',
+          })
+        const data = {
+          placeActivitySeq: this.industry.Value,
+          placeType: this.industryList.find(item => item.dangerSeq == this.industry.Value).placeActivityTypeId,
+          insuranceRecord: this.InsuranceRecordTable,
+          insuranceBeginTime: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day} ${this.period.startDate.hour}:00:00`,
+          insuranceEndTime: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day} ${this.period.endDate.hour}:00:00`,
+          additionTerms: [...this.additionTermsList.filter(item => {
+            return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
+          }).map(item => {
+            if(this.additionTerms[item.additionTermId]) {
+              return {
+                additionTermId: item.additionTermId,
+                additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                  return {
+                    itemId: key,
+                    itemValue: this.additionTerms[item.additionTermId][key]
+                  }
+                })]
+              }
+            } else {
+              return {
+                additionTermId: item.additionTermId,
+              }
+            }
+            
+          })],
+          placeInfo:[...this.placeInfo.map(item => {
+            return {
+              squareFeet: item.squareFeet,
+            }
+          })],
+          amountType: this.insuranceAmountList[0].amountType.Value,
+          perBodyAmount: this.insuranceAmountList[0].perBodyAmount,
+          perAccidentBodyAmount: this.insuranceAmountList[0].perAccidentBodyAmount,
+          perAccidentFinanceAmount: this.insuranceAmountList[0].perAccidentFinanceAmount,
+          insuranceTotalAmount: this.insuranceAmountList[0].insuranceTotalAmount,
+          mergeSingleAmount: this.insuranceAmountList[0].mergeSingleAmount,
+          selfInflictedAmount: this.insuranceAmountList[0].selfInflictedAmount.Value,
+          remark: this.remark.text,
+        }
+        this.$store.dispatch('common/updatedCalculateModel',true)
+        const res = await this.$store.dispatch('quotation/GetPlaceInsuranceProjectAmount',{data})
+        this.insuranceAmountListData = {
+          ...this.insuranceAmountListData,
+          amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
+        }
+      }
+      
+
+    },
+    async getAttachmentList() {
+      const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
+      this.attachmentList = AttachmentDetails.data.content
     },
     clearAll() {
       this.$store.dispatch('place/clearAll')
@@ -378,6 +433,22 @@ export default {
     await this.pageInit()
     if(!this.uuid){
       this.$store.dispatch('app/updatedUUID', uuidv4())
+    }
+    if(!this.period.startDate.year) {
+      this.period.startDate.year = new Date().getFullYear() -1911
+      this.period.endDate.year = new Date().getFullYear() -1910
+    }
+    if(!this.period.startDate.month) {
+      this.period.startDate.month = new Date().getMonth()+1
+      this.period.endDate.month = new Date().getMonth()+2
+    }
+    if(!this.period.startDate.day) {
+      this.period.startDate.day = new Date().getDate()
+      this.period.endDate.day = new Date().getDate()-1
+    }
+    if(!this.period.startDate.hour) {
+      this.period.startDate.hour = new Date().getHours()
+      this.period.endDate.hour = new Date().getHours()-1
     }
   }
 }

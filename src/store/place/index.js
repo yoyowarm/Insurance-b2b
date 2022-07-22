@@ -279,7 +279,8 @@ export default {
         selfInflictedAmount: {
           Text: '',
           Value: '',
-        }
+        },
+        amount: null
       }
     ],
     additionTerms: {//附加條款

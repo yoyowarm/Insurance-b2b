@@ -1,4 +1,4 @@
-import { DownloadFile, UploadFile, DeleteFile } from '@/api/File'
+import { DownloadFile, UploadFile, DeleteFile, AttachmentDetails } from '@/api/File'
 export default {
   namespaced: true,
   state: {
@@ -41,6 +41,9 @@ export default {
     },
     async DeleteFile(_, { fileAttachmentId, policyAttachmentId }) {
       return await DeleteFile(fileAttachmentId, policyAttachmentId)
+    },
+    async AttachmentDetails(_, { policyAttachmentId }) {
+      return await AttachmentDetails(policyAttachmentId)
     },
     updateOrderNo({ commit }, orderNo) {
       commit('UPDATED_ORDER_NO', orderNo)

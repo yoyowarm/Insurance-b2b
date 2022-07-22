@@ -379,9 +379,8 @@ export default {
           hasHtml: true,
           htmlText: '<p>檢核完成！</p>',
         })
-        const data = await this.quotationMapping()
+        await this.quotationMapping()
         this.$router.push('/place-quotation/step3')
-        this.$store.dispatch('common/updateOrderNo',data.data.content.orderNo)
         // if(IsSuccess) {
         //   this.$store.dispatch('quotationStep1/updatedInsuranceActive', 0)
         //   this.$store.dispatch('quotationStep2/updatedSerailNo', SerailNo)
@@ -441,7 +440,7 @@ export default {
       delete obj.applicant.Area
 
       const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
-      console.log(insert)
+      this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)
     }
   },
   async mounted() {
