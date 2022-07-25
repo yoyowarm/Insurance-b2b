@@ -23,7 +23,6 @@ export default {
   mutations: {},
   actions: {
     async AddPlaceQuotation(_, quotation) {
-      console.log(quotation)
       return await AddPlaceQuotation(quotation)
     },
     async AddActivityQuotation(_, { quotation }) {
@@ -66,7 +65,6 @@ export default {
       return await ApprovedInsuranceAmount(data)
     },
     async GetPlaceInsuranceProjectAmount(_, { data }) {
-      console.log(data)
       return await GetPlaceInsuranceProjectAmount(data)
     },
     async EditInsuranceProject(_, { data }) {

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store/index'
 
 Vue.use(VueRouter)
 
@@ -139,4 +140,17 @@ const router = new VueRouter({
   },
 })
 
+router.beforeEach((to, from, next) => {
+  if (to.path === '/place-quotation/step3' && !store.state.common.orderNo) {
+    next({ name: 'quotationList' })
+  }
+  if (to.path === '/place-quotation/step2' && from.path === '/place-quotation/step3') {
+    next({ name: 'place-quotation-step3' })
+  }
+  if (from.path === '/place-quotation/step3') {
+    store.dispatch('place/clearAll')
+    store.dispatch('activity/clearAll')
+  }
+  next()
+})
 export default router

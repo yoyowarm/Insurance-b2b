@@ -8,7 +8,7 @@
         <Input
           slot="input"
           placeholder="請輸入金額"
-          :value="data.PL009.value1.toString()"
+          :value="data.PL005.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
         />
@@ -20,7 +20,7 @@
         <Input
           slot="input"
           placeholder="請輸入數量"
-          :value="data.PL009.value2.toString()"
+          :value="data.PL005.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
         />
@@ -50,8 +50,8 @@ export default {
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,
-        PL009: {
-          ...this.data.PL009,
+        PL005: {
+          ...this.data.PL005,
           [type]: e
         }
       })

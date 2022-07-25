@@ -36,6 +36,7 @@
             @updateValue="(e) => updatedValue(index,'perBodyAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
+            numberOnly
             unit="萬元"/>
             <div v-else slot="input">{{item.perBodyAmount}}</div>
         </InputGroup>
@@ -47,6 +48,7 @@
             @updateValue="(e) => updatedValue(index,'perAccidentBodyAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
+            numberOnly
             unit="萬元"/>
             <div v-else slot="input">{{item.perAccidentBodyAmount}}</div>
         </InputGroup>
@@ -58,6 +60,7 @@
             @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
+            numberOnly
             unit="萬元"/>
             <div v-else slot="input">{{item.perAccidentFinanceAmount}}</div>
         </InputGroup>
@@ -69,6 +72,7 @@
             @updateValue="(e) => updatedValue(index,'insuranceTotalAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
+            numberOnly
             unit="萬元"/>
             <div v-else slot="input">{{item.insuranceTotalAmount}}</div>
         </InputGroup>
@@ -80,6 +84,7 @@
           @updateValue="(e) => updatedValue(index,'mergeSingleAmount',e)"
           placeholder="請輸入金額"
           :disable="disable || item.fixed"
+          numberOnly
           unit="萬元"/>
           <div v-else slot="input">{{item.mergeSingleAmount}}</div>
       </InputGroup>
@@ -167,7 +172,7 @@ export default {
     ...mapState({
       editModel: state => state.common.editModel,
       viewModel: state => state.common.viewModel
-    })
+    }),
   },
   methods: {
     async downloadFile(type, item) {
