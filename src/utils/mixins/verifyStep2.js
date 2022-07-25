@@ -135,6 +135,14 @@ export default {
       if (!this.internalControlData.loginIdNumber) {
         this.requestFile.push('未填寫登入證字號')
       }
+      this.placeInfo.map(item => {
+        if (item.area.Value == '選擇區域') {
+          this.requestFile.push('未選擇區域')
+        }
+        if (!item.subAddress) {
+          this.requestFile.push('未輸入處所地址')
+        }
+      })
     }
   }
 }
