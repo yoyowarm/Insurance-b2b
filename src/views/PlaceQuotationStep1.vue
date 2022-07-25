@@ -299,7 +299,7 @@ export default {
           })
         const data = {
           placeActivitySeq: this.industry.Value,
-          placeType: this.industryList.find(item => item.dangerSeq == this.industry.Value).placeActivityTypeId,
+          placeType: this.industryList.find(item => item.dangerSeq == this.industry.Value).typeName,
           insuranceRecord: this.InsuranceRecordTable,
           insuranceBeginTime: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day} ${this.period.startDate.hour}:00:00`,
           insuranceEndTime: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day} ${this.period.endDate.hour}:00:00`,
@@ -440,7 +440,7 @@ export default {
     }
     if(!this.period.startDate.month) {
       this.period.startDate.month = new Date().getMonth()+1
-      this.period.endDate.month = new Date().getMonth()+2
+      this.period.endDate.month = new Date().getMonth()+1
     }
     if(!this.period.startDate.day) {
       this.period.startDate.day = new Date().getDate()
