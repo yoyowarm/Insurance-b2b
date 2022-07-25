@@ -4,8 +4,8 @@
       <PL002 v-if="item.additionTermName === '停車場責任附加條款'" :data.sync="additionTerms"/>
       <PL003 v-if="item.additionTermName === '電梯意外責任附加條款'" :data.sync="additionTerms"/>
       <PL004 v-if="item.additionTermName === '游泳池責任附加條款'" :data.sync="additionTerms"/>
+      <PL005 v-if="item.additionTermName === '建築物承租人火災附加條款'" :data.sync="additionTerms"/>
       <PL007 v-if="item.additionTermName === '各級學校暨幼兒園責任附加條款'" :data.sync="additionTerms"/>
-      <PL009 v-if="item.additionTermName === '廣告招牌附加條款A(含天災)'" :data.sync="additionTerms"/>
       <PL016 v-if="item.additionTermName === '獨立承攬人責任附加條款'" :data.sync="additionTerms"/>
       <PL022 v-if="item.additionTermName === '裝卸搬運責任附加條款'" :data.sync="additionTerms"/>
       <PL023 v-if="item.additionTermName === '慰問金費用附加條款'" :data.sync="additionTerms"/>
@@ -28,7 +28,7 @@ import CommonBoard from '@/components/CommonBoard'
 import PL002 from '@/components/TermsField/PL002'
 import PL003 from '@/components/TermsField/PL003'
 import PL004 from '@/components/TermsField/PL004'
-import PL009 from '@/components/TermsField/PL009'
+import PL005 from '@/components/TermsField/PL005'
 import PL007 from '@/components/TermsField/PL007'
 import PL016 from '@/components/TermsField/PL016'
 import PL022 from '@/components/TermsField/PL022'
@@ -49,7 +49,7 @@ export default {
     PL002,
     PL003,
     PL004,
-    PL009,
+    PL005,
     PL007,
     PL016,
     PL022,
@@ -69,7 +69,7 @@ export default {
   data() {
     return {
       copyTerms: {},
-      termConditions: ['PL002','PL003','PL004','PL009','PL007','PL016','PL022','PL023','PL028','PL035','PL040','PL041','PL043','PL047','PL049','PL053','PL055','PL058'],
+      termConditions: ['PL002','PL003','PL004','PL005','PL007','PL016','PL022','PL023','PL028','PL035','PL040','PL041','PL043','PL047','PL049','PL053','PL055','PL058'],
     }
   },
   props: {

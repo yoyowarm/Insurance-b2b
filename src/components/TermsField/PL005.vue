@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<FormTitle title="廣告招牌附加條款A (含天災)" classList="text-xl text-gray-700">
+		<FormTitle title="建築物承租人火災附加條款" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>	
     <div class="column-5 mt-4">

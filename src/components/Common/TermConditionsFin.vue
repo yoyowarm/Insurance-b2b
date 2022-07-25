@@ -5,7 +5,7 @@
       <PL003 :key="item.additionTermId" v-if="item.additionTermId === 'PL003'" :data.sync="copyTermsLists[index]"/>
       <PL004 :key="item.additionTermId" v-if="item.additionTermId === 'PL004'" :data.sync="copyTermsLists[index]"/>
       <PL007 :key="item.additionTermId" v-if="item.additionTermId === 'PL007'" :data.sync="copyTermsLists[index]"/>
-      <PL009 :key="item.additionTermId" v-if="item.additionTermId === 'PL009'" :data.sync="copyTermsLists[index]"/>
+      <PL005 :key="item.additionTermId" v-if="item.additionTermId === 'PL005'" :data.sync="copyTermsLists[index]"/>
       <PL016 :key="item.additionTermId" v-if="item.additionTermId === 'PL016'" :data.sync="copyTermsLists[index]"/>
       <PL022 :key="item.additionTermId" v-if="item.additionTermId === 'PL022'" :data.sync="copyTermsLists[index]"/>
       <PL023 :key="item.additionTermId" v-if="item.additionTermId === 'PL023'" :data.sync="copyTermsLists[index]"/>
@@ -28,7 +28,7 @@ import PL002 from '@/components/TermsFieldFin/PL002'
 import PL003 from '@/components/TermsFieldFin/PL003'
 import PL004 from '@/components/TermsFieldFin/PL004'
 import PL007 from '@/components/TermsFieldFin/PL007'
-import PL009 from '@/components/TermsFieldFin/PL009'
+import PL005 from '@/components/TermsFieldFin/PL005'
 import PL016 from '@/components/TermsFieldFin/PL016'
 import PL022 from '@/components/TermsFieldFin/PL022'
 import PL023 from '@/components/TermsFieldFin/PL023'
@@ -47,7 +47,7 @@ export default {
     PL002,
     PL003,
     PL004,
-    PL009,
+    PL005,
     PL007,
     PL016,
     PL022,
@@ -68,7 +68,7 @@ export default {
     return {
       copyTerms: {},
       copyTermsLists:[],
-      termConditions: ['PL002','PL003','PL004','PL009','PL007','PL016','PL022','PL023','PL028','PL035','PL040','PL041','PL043','PL047','PL049','PL053','PL055','PL058'],
+      termConditions: ['PL002','PL003','PL004','PL005','PL007','PL016','PL022','PL023','PL028','PL035','PL040','PL041','PL043','PL047','PL049','PL053','PL055','PL058'],
     }
   },
   props: {

@@ -136,6 +136,19 @@ export default {
           this.requestFile.push('未輸入保額')
         }
       })
+      Object.keys(this.terms).map(key => {
+        if (this.terms[key].selected) {
+          const target = this.additionTermsList.find(item => item.additionTermName == key)
+          if (target && this.additionTerms[target.additionTermId]) {
+            if (['PL002', 'PL003', 'PL004', 'PL007', 'PL035'].includes(target.additionTermId)) return
+            Object.keys(this.additionTerms[target.additionTermId]).map(key => {
+              if (!this.additionTerms[target.additionTermId][key]) {
+                this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
+              }
+            })
+          }
+        }
+      })
     }
   },
 }
