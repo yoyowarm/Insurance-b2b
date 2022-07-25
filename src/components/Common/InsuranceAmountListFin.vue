@@ -96,7 +96,7 @@
         </InputGroup>
       </div>
       <div class="flex flex-row justify-center mt-4">
-        <PaymentItem keyName="保費共計" :value="item.insuranceAmount? item.insuranceAmount : '請洽核保'" :unit="Boolean(item.insuranceAmount)" totalStyle/>
+        <PaymentItem keyName="保費共計" :value="item.insuranceAmount? item.insuranceAmount.toString() : '請洽核保'" :unit="Boolean(item.insuranceAmount)" totalStyle/>
       </div>
       <div class="flex flex-row justify-center mt-8">
         <Button class="mr-6" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
@@ -186,7 +186,7 @@ export default {
       }
     },
     addAmount() {
-      this.$emit('update:lists', [...this.lists,{...this.lists[this.lists.length -1],selected:false,insuranceAmount: '- -',fixed :false }])
+      this.$emit('update:lists', [...this.lists,{...this.lists[this.lists.length -1],selected:false,insuranceAmount: '- -',fixed :false, id: '' }])
     },
     remoteAmount(index) {
       if(index==0) return
@@ -213,11 +213,11 @@ export default {
       const data = {
         orderNo: this.orderNo,
         amountType: lists[index].amountType,
-        perBodyAmount: lists[index].perBodyAmount,
-        perAccidentBodyAmount: lists[index].perAccidentBodyAmount,
-        perAccidentFinanceAmount: lists[index].perAccidentFinanceAmount,
-        insuranceTotalAmount: lists[index].insuranceTotalAmount,
-        mergeSingleAmount: lists[index].mergeSingleAmount,
+        perBodyAmount: lists[index].perBodyAmount * 10000,
+        perAccidentBodyAmount: lists[index].perAccidentBodyAmount * 10000,
+        perAccidentFinanceAmount: lists[index].perAccidentFinanceAmount * 10000,
+        insuranceTotalAmount: lists[index].insuranceTotalAmount * 10000,
+        mergeSingleAmount: lists[index].mergeSingleAmount * 10000,
         selfInflictedAmount: lists[index].selfInflictedAmount,
       }
       const amount = await this.$store.dispatch('quotation/GetInsuranceProjectAmount',{data})
@@ -229,11 +229,11 @@ export default {
       const data = {
         orderNo: this.orderNo,
         amountType: this.lists[index].amountType,
-        perBodyAmount: this.lists[index].perBodyAmount,
-        perAccidentBodyAmount: this.lists[index].perAccidentBodyAmount,
-        perAccidentFinanceAmount: this.lists[index].perAccidentFinanceAmount,
-        insuranceTotalAmount: this.lists[index].insuranceTotalAmount,
-        mergeSingleAmount: this.lists[index].mergeSingleAmount,
+        perBodyAmount: this.lists[index].perBodyAmount * 10000,
+        perAccidentBodyAmount: this.lists[index].perAccidentBodyAmount * 10000,
+        perAccidentFinanceAmount: this.lists[index].perAccidentFinanceAmount * 10000,
+        insuranceTotalAmount: this.lists[index].insuranceTotalAmount * 10000,
+        mergeSingleAmount: this.lists[index].mergeSingleAmount * 10000,
         selfInflictedAmount: this.lists[index].selfInflictedAmount,
       }
       if(this.lists[index].id) {

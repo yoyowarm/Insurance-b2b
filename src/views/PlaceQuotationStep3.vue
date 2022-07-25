@@ -17,7 +17,7 @@
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="quotationData.insuranceAmounts.filter(item => item.selected && !item.insuranceAmount)"
+        v-if="quotationData.insuranceAmounts && quotationData.insuranceAmounts.find(item => item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         class="my-8 w-40 md:w-64 "
         style="background: #DB9F2C">
@@ -140,6 +140,12 @@ export default {
             ...item,
             selected: index == 0 ? true: false,
             fixed: false,
+            insuranceTotalAmount: item.insuranceTotalAmount/10000,
+            mergeSingleAmount: item.mergeSingleAmount/10000,
+            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
+            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
+            perBodyAmount: item.perBodyAmount/10000,
+
           }
         })
       }
