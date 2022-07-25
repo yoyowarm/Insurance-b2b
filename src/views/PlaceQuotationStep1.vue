@@ -329,11 +329,11 @@ export default {
             }
           })],
           amountType: this.insuranceAmountList[0].amountType.Value,
-          perBodyAmount: this.insuranceAmountList[0].perBodyAmount,
-          perAccidentBodyAmount: this.insuranceAmountList[0].perAccidentBodyAmount,
-          perAccidentFinanceAmount: this.insuranceAmountList[0].perAccidentFinanceAmount,
-          insuranceTotalAmount: this.insuranceAmountList[0].insuranceTotalAmount,
-          mergeSingleAmount: this.insuranceAmountList[0].mergeSingleAmount,
+          perBodyAmount: this.insuranceAmountList[0].perBodyAmount * 10000,
+          perAccidentBodyAmount: this.insuranceAmountList[0].perAccidentBodyAmount * 10000,
+          perAccidentFinanceAmount: this.insuranceAmountList[0].perAccidentFinanceAmount * 10000,
+          insuranceTotalAmount: this.insuranceAmountList[0].insuranceTotalAmount * 10000,
+          mergeSingleAmount: this.insuranceAmountList[0].mergeSingleAmount * 10000,
           selfInflictedAmount: this.insuranceAmountList[0].selfInflictedAmount.Value,
           remark: this.remark.text,
         }
@@ -403,6 +403,11 @@ export default {
             ...item,
             amountType: item.amountType.Value,
             selfInflictedAmount: item.selfInflictedAmount.Value,
+            perBodyAmount: item.perBodyAmount * 10000,
+            perAccidentBodyAmount: item.perAccidentBodyAmount * 10000,
+            perAccidentFinanceAmount: item.perAccidentFinanceAmount * 10000,
+            insuranceTotalAmount: item.insuranceTotalAmount * 10000,
+            mergeSingleAmount: item.mergeSingleAmount * 10000,
           }
         })],
       }
