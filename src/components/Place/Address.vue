@@ -24,8 +24,8 @@
             slot="input"
             class="w-full"
             placeholder="輸入地址"
-            :value="item.address"
-            @updateValue="(e) => updateInfo('address', e, index)"/>
+            :value="item.subAddress"
+            @updateValue="(e) => updateInfo('subAddress', e, index)"/>
           />
         </InputGroup>
       </div>

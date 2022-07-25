@@ -28,12 +28,13 @@
           @updateValue="(e) =>updateInfo('IsForeigner', e)"
         />
       </InputGroup>
-      <InputGroup class="w-full" :noMt="marginTop(560)">
+      <InputGroup class="w-full" :noMt="marginTop(560)" :disable="!copyInfo.IsForeigner">
         <Select
           slot="input"
           defaultText="選擇國籍"
           :options="nationalities"
-          :selected="copyInfo.Nationality.Value"
+          :selected="copyInfo.Nationality.Text"
+          :disable="!copyInfo.IsForeigner"
           @emitItem="(item) => emitSelectItem('Nationality', item)"
           search
         />
@@ -86,12 +87,13 @@
           @updateValue="(e) =>updateInfo('IsForeignRegister', e)"
         />
       </InputGroup>
-      <InputGroup class="w-full" :noMt="marginTop(560)">
+      <InputGroup class="w-full" :noMt="marginTop(560)" :disable="!copyInfo.IsForeignRegister">
       <Select
           slot="input"
           defaultText="選擇國籍"
           :options="nationalities"
-          :selected="copyInfo.RegisterNationality.Value"
+          :selected="copyInfo.RegisterNationality.Text"
+          :disable="!copyInfo.IsForeignRegister"
           @emitItem="(item) => emitSelectItem('RegisterNationality', item)"
           search
         />
@@ -187,6 +189,22 @@ export default {
     info (val) {
       this.copyInfo = {
         ...val
+      }
+    },
+    'copyInfo.IsForeignRegister' (val) {
+      if(!val) {
+        this.emitSelectItem('RegisterNationality', {
+          Value: '',
+          Text: '選擇國籍'
+        })
+      }
+    },
+    'copyInfo.IsForeigner' (val) {
+      if(!val) {
+        this.emitSelectItem('Nationality', {
+          Value: '',
+          Text: '選擇國籍'
+        })
       }
     }
   },

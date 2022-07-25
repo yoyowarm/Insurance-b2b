@@ -13,7 +13,7 @@
               <RadioInput
                 v-if="searchText.length === 0 ||( searchText.length > 0 && list.itemName.includes(searchText))"
                 :key="list.dangerSeq"
-                :class="{'col-span-2': list.itemName.length >= 9}"
+                :class="{'col-span-2': list.itemName.length >= 10}"
                 :id="`list${list.dangerSeq}`"
                 :text="list.itemName"
                 :value="selected.Text === list.itemName"

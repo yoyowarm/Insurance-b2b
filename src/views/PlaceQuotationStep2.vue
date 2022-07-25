@@ -402,7 +402,7 @@ export default {
             city: item.city.Text,
             areaId: item.area.Value,
             area: item.area.Text,
-            subAddress: item.address,
+            subAddress: item.subAddress,
             countyCode: this.cityList.find(i => i.Value == item.city.Value).cityCode,
           }
         })],})
@@ -413,7 +413,8 @@ export default {
         areaId: this.ApplicantAreaList.find(item => item.Value == this.Insuraned.Area.Value).areaId,
         area: this.Insuraned.Area.Text,
         zipCode: this.Insuraned.Area.Value,
-        nationalityName: this.Insuraned.Nationality.Value,
+        nationalityName: this.Insuraned.Nationality.Text,
+        registerNationality: this.Insuraned.RegisterNationality.Text,
         overseasOrDomestic: Number(this.Insuraned.overseasOrDomestic)
       }})
       Object.assign(obj, {relationId:this.Relation.Value})
@@ -425,7 +426,8 @@ export default {
         areaId: this.ApplicantAreaList.find(item => item.Value == this.Applicant.Area.Value).areaId,
         area: this.Applicant.Area.Text,
         zipCode: this.Applicant.Area.Value,
-        nationalityName: this.Applicant.Nationality.Value,
+        nationalityName: this.Applicant.Nationality.Text,
+        registerNationality: this.Applicant.RegisterNationality.Text,
         overseasOrDomestic: Number(this.Applicant.overseasOrDomestic)
       }})
       Object.assign(obj, {internalControlData: {
@@ -436,8 +438,12 @@ export default {
       })
       delete obj.insuraned.City
       delete obj.insuraned.Area
+      delete obj.insuraned.Nationality
+      delete obj.insuraned.RegisterNationality
       delete obj.applicant.City
       delete obj.applicant.Area
+      delete obj.applicant.Nationality
+      delete obj.applicant.RegisterNationality
 
       const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
       this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)

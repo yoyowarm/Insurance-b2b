@@ -48,7 +48,6 @@ export default {
       return await AddInsuranceProject(data)
     },
     async GetInsuranceProjectAmount(_, { data }) {
-      console.log(data)
       return await GetInsuranceProjectAmount(data)
     },
     async FinishQuotation(_, { data }) {
