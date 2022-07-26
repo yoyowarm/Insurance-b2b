@@ -62,7 +62,7 @@ export default {
         })
       }
     },
-    verifyRequired() {
+    verifyRequired(type) {
       this.requestFile = []
       //被保險人
       if (!this.Insuraned.ID) {
@@ -129,20 +129,16 @@ export default {
       if (!this.internalControlData.issuerNumber) {
         this.requestFile.push('未填寫經手人代號')
       }
-      if (!this.internalControlData.statisticsCode) {
-        this.requestFile.push('未填寫統計代號')
+      if (type == 'place') {
+        this.placeInfo.map(item => {
+          if (item.area.Value == '選擇區域') {
+            this.requestFile.push('未選擇區域')
+          }
+          if (!item.subAddress) {
+            this.requestFile.push('未輸入處所地址')
+          }
+        })
       }
-      if (!this.internalControlData.loginIdNumber) {
-        this.requestFile.push('未填寫登入證字號')
-      }
-      this.placeInfo.map(item => {
-        if (item.area.Value == '選擇區域') {
-          this.requestFile.push('未選擇區域')
-        }
-        if (!item.subAddress) {
-          this.requestFile.push('未輸入處所地址')
-        }
-      })
     }
   }
 }

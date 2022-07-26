@@ -142,6 +142,31 @@ export const quotation = () => {
       },
       subAddress: ''
     }],
+    activityInfo: [{
+      number: '',
+      city: {
+        Text: '選擇縣市',
+        Value: '',
+      },
+      area: {
+        Text: '選擇區域',
+        Value: '',
+      },
+      address: '',
+      day: '',
+      startDate: {
+        year: '',
+        month: '',
+        day: '',
+        hour: ''
+      },
+      endDate: {
+        year: '',
+        month: '',
+        day: '',
+        hour: ''
+      },
+    }],
     period: {
       startDate: {
         year: '',

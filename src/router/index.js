@@ -144,10 +144,20 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/place-quotation/step3' && !store.state.common.orderNo) {
     next({ name: 'quotationList' })
   }
+  if (to.path === '/activity-quotation/step3' && !store.state.common.orderNo) {
+    next({ name: 'quotationList' })
+  }
   if (to.path === '/place-quotation/step2' && from.path === '/place-quotation/step3') {
     next({ name: 'place-quotation-step3' })
   }
+  if (to.path === '/activity-quotation/step2' && from.path === '/activity-quotation/step3') {
+    next({ name: 'activity-quotation-step3' })
+  }
   if (from.path === '/place-quotation/step3') {
+    store.dispatch('place/clearAll')
+    store.dispatch('activity/clearAll')
+  }
+  if (from.path === '/activity-quotation/step3') {
     store.dispatch('place/clearAll')
     store.dispatch('activity/clearAll')
   }

@@ -341,37 +341,10 @@ export default {
     async nextStep() {
       this.verifyResult = []
       this.verifySalesInvadeResult = []
-      this.verifyRequired()
+      this.verifyRequired('place')
       if(this.requestFile.length === 0) {
-        // await this.verifyIdOrRegisterNumberFormat()
-        // await this.verifyResultPopup()
         await this.verifyFinal()
       }
-      
-      // this.verifyResult = []
-      // this.verifyRequired()
-      // if(this.requestFile.length === 0) {
-      //   await this.verifySalesInvade()
-      //   await this.verifyIdOrRegisterNumberFormat()
-      //   this.verifyResultPopup()
-      //   if(this.verifyResult.length === 0) {
-      //     Popup.create({
-      //       hasHtml: true,
-      //       htmlText: '<p>檢核完成！</p>',
-      //     })
-      //     const {IsSuccess, SerailNo} = await this.quotationMapping()
-      //     if(IsSuccess) {
-      //       this.$store.dispatch('quotationStep1/updatedInsuranceActive', 0)
-      //       this.$store.dispatch('quotationStep2/updatedSerailNo', SerailNo)
-      //       this.$router.push('/quotation/step3')
-      //     } else {
-      //       Popup.create({
-      //       hasHtml: true,
-      //       htmlText: `<p>${SerailNo}，請洽承辦人員</p>`,
-      //     })
-      //     }
-      //   }
-      // }
     },
     async verifyFinal() {
       if(this.verifyResult.length === 0 && this.verifySalesInvadeResult.length === 0) {

@@ -6,6 +6,7 @@ import {
   GetRenewInfo,
   CheckProjectHasQuotation,
   GetPlaceQuotationDetail,
+  GetActivityQuotationDetail,
   AddInsuranceProject,
   GetInsuranceProjectAmount,
   FinishQuotation,
@@ -14,7 +15,8 @@ import {
   TrialBalanceInsuranceProject,
   ApprovedInsuranceAmount,
   GetPlaceInsuranceProjectAmount,
-  EditInsuranceProject
+  EditInsuranceProject,
+  GetActivityInsuranceProjectAmount
 } from '@/api/Quotation'
 export default {
   namespaced: true,
@@ -25,7 +27,7 @@ export default {
     async AddPlaceQuotation(_, quotation) {
       return await AddPlaceQuotation(quotation)
     },
-    async AddActivityQuotation(_, { quotation }) {
+    async AddActivityQuotation(_, quotation) {
       return await AddActivityQuotation(quotation)
     },
     async GetQuotationList(_, { Skip, Take, State, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName }) {
@@ -42,6 +44,9 @@ export default {
     },
     async GetPlaceQuotationDetail(_, orderno) {
       return await GetPlaceQuotationDetail(orderno)
+    },
+    async GetActivityQuotationDetail(_, orderno) {
+      return await GetActivityQuotationDetail(orderno)
     },
     async AddInsuranceProject(_, { data }) {
       return await AddInsuranceProject(data)
@@ -69,6 +74,9 @@ export default {
     },
     async EditInsuranceProject(_, { data }) {
       return await EditInsuranceProject(data)
+    },
+    async GetActivityInsuranceProjectAmount(_, { data }) {
+      return await GetActivityInsuranceProjectAmount(data)
     }
   }
 }

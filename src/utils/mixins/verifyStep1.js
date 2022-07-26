@@ -106,25 +106,55 @@ export default {
         })
       }
     },
-    verifyRequired() {
+    verifyRequired(type) {
       this.requestFile = []
-      if (this.renewal.IsRenewal && !this.renewal.InsuranceNumber) {
-        this.requestFile.push('未輸入續保號碼')
+      if (type == 'place') {
+        if (this.renewal.IsRenewal && !this.renewal.InsuranceNumber) {
+          this.requestFile.push('未輸入續保號碼')
+        }
+        this.placeInfo.map(item => {
+          if (!item.city.Value) {
+            this.requestFile.push('未選擇縣市')
+          }
+          if (item.squareFeet == 0) {
+            this.requestFile.push('未輸入處所坪數')
+          }
+        })
+      }
+      if (type == 'activity') {
+        if (!this.period.endDate.year || !this.period.endDate.month || !this.period.endDate.day || !this.period.endDate.hour) {
+          this.requestFile.push('未選擇結束日')
+        }
+        this.activityInfo.map(item => {
+          if (!item.number) {
+            this.requestFile.push('未輸入每日人數')
+          }
+          if (!item.startDate.year || !item.startDate.month || !item.startDate.day || !item.startDate.hour) {
+            this.requestFile.push('未選擇活動開始日')
+          }
+          if (!item.endDate.year || !item.endDate.month || !item.endDate.day || !item.endDate.hour) {
+            this.requestFile.push('未選擇活動結束日')
+          }
+          if (!item.city.Value) {
+            this.requestFile.push('未選擇縣市')
+          }
+          if (!item.area.Value) {
+            this.requestFile.push('未選區域')
+          }
+          if (!item.address) {
+            this.requestFile.push('未輸入活動處所地址')
+          }
+          if (!item.day) {
+            this.requestFile.push('未輸入活動計日')
+          }
+        })
       }
       if (!this.industry.Value) {
         this.requestFile.push('未選擇投保行業')
       }
-      if (!this.period.startDate.year || !this.period.startDate.month || !this.period.startDate.day) {
+      if (!this.period.startDate.year || !this.period.startDate.month || !this.period.startDate.day || !this.period.startDate.hour) {
         this.requestFile.push('未選擇起保日')
       }
-      this.placeInfo.map(item => {
-        if (!item.city.Value) {
-          this.requestFile.push('未選擇縣市')
-        }
-        if (item.squareFeet == 0) {
-          this.requestFile.push('未輸入處所坪數')
-        }
-      })
       this.insuranceAmountList.map(item => {
         if (!item.selfInflictedAmount.Value) {
           this.requestFile.push('未選擇自負額')

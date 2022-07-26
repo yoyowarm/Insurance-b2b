@@ -63,6 +63,9 @@ const vuexLocal = new VuexPersistence({
         questionnaire: state.activity.questionnaire,
         insuranceAmountList: state.activity.insuranceAmountList,
         questionnaireFinished: state.activity.questionnaireFinished,
+        activityQuotation: state.activity.activityQuotation,
+        additionTerms: state.activity.additionTerms,
+        internalControlData: state.activity.internalControlData,
       },
       common: {
         viewModel: state.common.viewModel,

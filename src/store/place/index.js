@@ -474,6 +474,7 @@ export default {
       commit('UPDATED_ADDITION_TERMS', quotation().additionTerms)
       commit('UPDATED_PLACE_QUOTATION', {})
       commit('UPDATED_QUESTIONNAIRE_FINISHED', false)
+      commit('UPDATED_INTERNAL_CONTROL_DATA', quotation().internalControlData)
     },
     addPlaceInfo({ commit }) {
       commit('ADD_PLACE_INFO')

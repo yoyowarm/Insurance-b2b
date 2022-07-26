@@ -3,16 +3,15 @@ import Vue from 'vue';
 export default {
   namespaced: true,
   state: {
-    token: '',
     activityInfo: [{
       number: '',
-      City: {
-        placeholder: '選擇縣市',
-        id: '',
+      city: {
+        Text: '選擇縣市',
+        Value: '',
       },
-      Area: {
-        placeholder: '選擇區域',
-        id: '',
+      area: {
+        Text: '選擇區域',
+        Value: '',
       },
       address: '',
       day: '',
@@ -85,11 +84,11 @@ export default {
       },
       Corporate: '',
       CorporateRequired: false,
-      City: {
+      city: {
         Text: '選擇縣市',
         Value: '',
       },
-      Area: {
+      area: {
         Text: '選擇區域',
         Value: '',
       },
@@ -109,11 +108,86 @@ export default {
       Value: '',
     },
     industryText: '',
-    remark: {
+    remark: {//備註
       text: '',
       fileList: []
     },
     questionnaireFinished: false,
+    additionTerms: {//附加條款
+      PL002: {//停車場責任附加條款
+        value1: false,//停車場是否收費
+        value2: false,//是否有代客停車
+        value3: 0,//平面式車位
+        value4: 0,//室內機械式車位
+        value5: 0,//機械塔車位
+      },
+      PL003: {//電梯意外責任附加條款
+        value1: false,//是否簽訂檢查維護合約
+        value2: 0,//電扶梯
+        value3: 0,//客/貨梯
+        value4: 0,//汽車升降梯
+        value5: 0,//其他種類
+      },
+      PL007: {//各級學校暨幼兒園責任附加條款
+        value1: 0,//學員
+        value2: 0,//幼兒
+      },
+      PL005: {//建築物承租人火災附加條款
+        value1: 0,//每一意外事故
+        value2: 0,//處所數量
+      },
+      PL016: {//獨立承攬人責任附加條款
+        value1: 0,//承攬工程合約金額少於
+      },
+      PL022: {//裝卸搬運責任附加條款
+        value1: 0,//每一意外事故財損責任之保險金額
+        value2: 0,//保險期間內之最高賠償金額
+      },
+      PL023: {//慰問金費用附加條款
+        value1: 0,
+        value2: 0,
+        value3: 0,
+        value4: 0,
+        value5: 0,
+        value6: 0,
+      },
+      PL028: {//安養事業責任附加條款
+        value1: 0,
+        value2: 0,
+      },
+      PL040: {//受託物責任附加條款
+        value1: 0,
+        value2: 0,
+      },
+      PL041: {//接駁運送責任附加條款
+        value1: 0,
+        value2: 0,
+      },
+      PL043: {//保管箱責任附加條款
+        value1: 0,
+        value2: 0,
+        value3: 0,
+      },
+      PL047: {//放棄代位求償權附加條款
+        value1: '',
+      },
+      PL049: {//承租人借用人責任附加條款(保額外加)
+        value1: 0,
+      },
+      PL053: {//傷害醫療及身故慰問金費用附加條款
+        value1: 0,
+        value2: 0,
+        value3: 0,
+        value4: 0,
+      },
+      PL055: {//營業中斷損失責任附加條款
+        value1: 0,
+        value2: 0,
+      },
+      PL058: {//液化石油氣及容器附加條款
+        value1: 0,
+      }
+    },
     questionnaire: {
       userId: '',
       part1: {
@@ -250,22 +324,35 @@ export default {
         lostAmountFrequencyReason: ''
       },
     },
-    insuranceAmountList: [
+    insuranceAmountList: [//保險金額/自負額
       {
-        amount: {
+        amountType: {
+          Text: '依各縣市規定',
+          Value: '0',
+        },
+        perBodyAmount: '',
+        perAccidentBodyAmount: '',
+        perAccidentFinanceAmount: '',
+        insuranceTotalAmount: '',
+        mergeSingleAmount: '',
+        selfInflictedAmount: {
           Text: '',
           Value: '',
         },
-        value1: '',
-        value2: '',
-        value3: '',
-        value4: '',
-        selfInflicted: {
-          Text: '',
-          Value: '',
-        }
+        amount: null
       }
-    ]
+    ],
+    internalControlData: {//內部管制資料
+      issuerNumber: '',//經手人代號
+      businessSourceCode: {//業務來源代號
+        Text: '個人',
+        Value: 'F1'
+      },
+      statisticsCode: '',//統計代號
+      loginIdNumber: '',//登入證字號
+    },
+    insuranceAmounts: '', //保險金額
+    activityQuotation: {}//活動報價
   },
   getters: {
   },
@@ -273,13 +360,13 @@ export default {
     ADD_ACTIVITY_INFO(state) {
       state.activityInfo.push({
         number: '',
-        City: {
-          placeholder: '選擇縣市',
-          id: '',
+        city: {
+          Text: '選擇縣市',
+          Value: '',
         },
-        Area: {
-          placeholder: '選擇區域',
-          id: '',
+        area: {
+          Text: '選擇區域',
+          Value: '',
         },
         address: '',
         day: '',
@@ -337,6 +424,27 @@ export default {
     },
     DELETE_INSURANCE_AMOUNT_LIST(state, index) {
       state.insuranceAmountList.splice(index, 1)
+    },
+    UPDATED_ACTIVITY_INFO(state, data) {
+      state.activityInfo = data
+    },
+    UPDATED_ADDITION_TERMS(state, data) {
+      state.additionTerms = data
+    },
+    UPDATED_INTERNAL_CONTROL_DATA(state, data) {
+      state.internalControlData = data
+    },
+    UPDATED_ACTIVITY_QUOTATION(state, data) {
+      state.activityQuotation = data
+    },
+    UPDATED_INSURANED(state, data) {
+      state.Insuraned = data
+    },
+    UPDATED_APPLICANT(state, data) {
+      state.Applicant = data
+    },
+    UPDATED_RELATION(state, data) {
+      state.Relation = data
     }
   },
   actions: {
@@ -344,10 +452,9 @@ export default {
       commit('UPDATED_INSURANED', quotation().Insuraned)
       commit('UPDATED_APPLICANT', quotation().Applicant)
       commit('UPDATED_RELATION', quotation().Relation)
-      commit('UPDATED_PLACE_INFO', quotation().placeInfo)
+      commit('UPDATED_ACTIVITY_INFO', quotation().activityInfo)
       commit('UPDATED_PERIOD', quotation().period)
       commit('UPDATED_TERMS', quotation().terms)
-      commit('UPDATED_RENEWAL', quotation().renewal)
       commit('SAME_AS_INSURED', quotation().sameAsInsured)
       commit('UPDATED_INSURANCE_RECORD', quotation().InsuranceRecord)
       commit('UPDATED_INDUSTRY', quotation().industry)
@@ -355,13 +462,19 @@ export default {
       commit('UPDATED_REMARK', quotation().remark)
       commit('UPDATED_QUESTIONNAIRE', quotation().questionnaire)
       commit('UPDATED_INSURANCE_AMOUNT_LIST', quotation().insuranceAmountList)
+      commit('UPDATED_ADDITION_TERMS', quotation().additionTerms)
       commit('UPDATED_QUESTIONNAIRE_FINISHED', false)
+      commit('UPDATED_ACTIVITY_QUOTATION', {})
+      commit('UPDATED_INTERNAL_CONTROL_DATA', quotation().internalControlData)
     },
     addActivityInfo({ commit }) {
       commit('ADD_ACTIVITY_INFO')
     },
     deleteActivityInfo({ commit }, index) {
       commit('DELETE_ACTIVITY_INFO', index)
+    },
+    updatedActivityInfo({ commit }, data) {
+      commit('UPDATED_ACTIVITY_INFO', data)
     },
     updatedPeriod({ commit }, period) {
       commit('UPDATED_PERIOD', period)
@@ -398,6 +511,21 @@ export default {
     },
     deleteInsuranceAmountList({ commit }, index) {
       commit('DELETE_INSURANCE_AMOUNT_LIST', index)
-    }
+    },
+    updateAdditionTerms({ commit }, data) {
+      commit('UPDATED_ADDITION_TERMS', data)
+    },
+    updateInternalControlData({ commit }, data) {
+      commit('UPDATED_INTERNAL_CONTROL_DATA', data)
+    },
+    updateActivityQuotation({ commit }, data) {
+      commit('UPDATED_ACTIVITY_QUOTATION', data)
+    },
+    updatedInsuraned({ commit }, data) {
+      commit('UPDATED_INSURANED', data)
+    },
+    updatedApplicant({ commit }, data) {
+      commit('UPDATED_APPLICANT', data)
+    },
   }
 }

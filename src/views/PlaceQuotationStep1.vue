@@ -46,7 +46,12 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
-      <InsuranceAmount :data.sync="insuranceAmountListData" :countyAmount="countyAmount" :infoList="placeInfo" :disable="calculateModel"/>
+      <InsuranceAmount
+        :data.sync="insuranceAmountListData"
+        :countyAmount="countyAmount"
+        :infoList="placeInfo"
+        :disable="calculateModel"
+      />
     </CommonBoard>
     <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest).length > 0">
       <TermsList
@@ -238,7 +243,7 @@ export default {
   methods: {
     async nextStep() {
       this.verifyResult = []
-      this.verifyRequired()
+      this.verifyRequired('place')
       // if(this.requestFile.length === 0) {
       //   await this.verifyDate()
       //   await this.verifyTargetAmount()
@@ -255,8 +260,6 @@ export default {
           await this.quotationMapping()
       this.$router.push({ name: 'place-quotation-step2' })
       }
-
-      
     },
     async pageInit() {
       const places = await this.$store.dispatch('resource/PlacesSetting')
@@ -290,7 +293,7 @@ export default {
       }
     },
     async calculateAmount() {
-      this.verifyRequired()
+      this.verifyRequired('place')
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
           Popup.create({
@@ -344,8 +347,6 @@ export default {
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
         }
       }
-      
-
     },
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
