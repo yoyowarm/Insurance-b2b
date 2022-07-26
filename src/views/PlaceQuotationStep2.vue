@@ -82,7 +82,6 @@ import mixinVerify from '@/utils/mixins/verifyStep2'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 // import { quotationStep2 } from '@/utils/dataTemp'
-import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinVerify, routeChange, editCopyQuotation],
@@ -348,10 +347,6 @@ export default {
     },
     async verifyFinal() {
       if(this.verifyResult.length === 0 && this.verifySalesInvadeResult.length === 0) {
-        Popup.create({
-          hasHtml: true,
-          htmlText: '<p>檢核完成！</p>',
-        })
         await this.quotationMapping()
         this.$router.push('/place-quotation/step3')
         // if(IsSuccess) {

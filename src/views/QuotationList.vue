@@ -70,7 +70,7 @@
         <TableGroup :data="quotationListTable" :slotName="slotArray" scrollX>
           <template v-for="(item,index) in quotationListTable.rows">
             <div :slot="`edit-${index}`" :key="`edit${index}`" class="flex flex-row">
-              <Button class="copy-button mr-2" outline @click.native="() =>{open = !open; orderNo= item.orderNo}">查看</Button>
+              <Button class="copy-button mr-2" outline @click.native="review(item.type,item.orderNo)">查看</Button>
               <Button class="copy-button" outline>複製</Button>
             </div>
           </template>
@@ -79,12 +79,6 @@
       </CommonBoard>
     </div>
     <WindowResizeListener @resize="handleResize"/>
-    <CheckInsurance
-      :open.sync="open"
-      :data="quotationData"
-      :headerText="`報價單編號 ${orderNo}`"
-      :orderNo="orderNo"
-    />
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
@@ -103,7 +97,6 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
-import CheckInsurance from '@/components/PopupDialog/CheckInsurance.vue'
 import { quotationListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import WindowResizeListener from '@/components/WindowResizeListener'
@@ -119,7 +112,6 @@ export default {
     Button,
     DatePicker,
     LoadingScreen,
-    CheckInsurance
   },
   data() {
     return {
@@ -129,7 +121,6 @@ export default {
       warnIcon,
       finishIcon,
       ApplicantName: '',
-      open: false,
       orderNo: '',
       startDate: {
         year: '',
@@ -178,7 +169,6 @@ export default {
         Value: '0'
       },
       quotationList: quotationListTable(),
-      quotationData: {},
       quotationState: {
         unFinishQuotationAmount: 0,
         finishQuotationAmount: 0,
@@ -229,14 +219,6 @@ export default {
         this.getQuotationList()
       }
     },
-    async open() {
-      if(this.open) {
-        this.$store.dispatch('common/updatedViewModel', true)
-        await this.quotationDetail()
-      } else {
-        this.$store.dispatch('common/updatedViewModel', false)
-      }
-    }
   },
   methods: {
     handleResize () {
@@ -265,16 +247,16 @@ export default {
         return {
           ...item,
           quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
-          typeText: item === 1 ? '處所' : item === 2 ? '活動' : '',
+          typeText: item.type === 1 ? '處所' : item.type === 2 ? '活動' : '',
           stateText: item.state === 1 ? this.stateText['unFinishQuotationAmount'] : item.state === 2 ? this.stateText['finishQuotationAmount'] : item.state === 3 ? this.stateText['fifteenDaysEffectiveAmount'] : item.state === 4 ? this.stateText['alreadyIssueAmount'] : '',
         }
       })
       ]}
       this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
     },
-    async quotationDetail() {
-      const detail = await this.$store.dispatch('quotation/GetPlaceQuotationDetail', this.orderNo)
-      this.quotationData = detail.data.content
+    review(type, orderNo) {
+      this.$store.dispatch('common/updateOrderNo', orderNo)
+      this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step3`)
     }
   },
   async mounted() {

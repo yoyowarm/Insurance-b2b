@@ -22,7 +22,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="活動保期">
-      <Period :period.sync="periodData" :disable="calculateModel"/>
+      <Period :period="periodData"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
       <InsuranceAmount
@@ -52,7 +52,7 @@
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
         <InputGroup noMt :disable="calculateModel" v-for="(item,index) in 3" :key="item">
-          <FileUpload slot="input" :index="item" :id="`file${item}`" :attachment="attachmentList[index]" @updatedFile="getAttachmentList" :disable="calculateModel"/>
+          <FileUpload slot="input" :index="item" :id="`activityFile${item}`" :attachment="attachmentList[index]" @updatedFile="getAttachmentList" :disable="calculateModel"/>
         </InputGroup>
       </div>
     </CommonBoard>
@@ -91,7 +91,6 @@ import LoadingScreen from '@/components/LoadingScreen.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
-import { Popup } from '@/utils/popups/index'
 export default {
   mixins: [mixinVerify, routeChange],
   components: {
@@ -157,6 +156,7 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedPeriod', value)
+        console.log(value)
       }
     },
     termsData: {
@@ -181,30 +181,31 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedInsuranceAmountList', [value])
+        this.updatePeriod()
       }
     },
   },
   watch:{
-    'period.startDate': function(val) {
-      for (const [key, value] of Object.entries(val)) {
-        if (val[key] !== '' && key === 'year') {
-          this.period.endDate[key] = Number(value) + 1
-        }
-      }
-      if (Object.values(val).every(item => item !== '')) {
-        const d1 = new Date(`${Number(val.year) + 1911}/${val.month}/${val.day}`)
-        const d2 = new Date(d1)
-        d2.setFullYear(d2.getFullYear() + 1)
-        d2.setDate(d2.getDate())
-        this.period.endDate.month = d2.getMonth() + 1
-        this.period.endDate.day = d2.getDate()
-        this.periodData = Object.assign(this.period, { endDate: { year: Number(this.period.startDate.year)+1,month: d2.getMonth() + 1, day: d2.getDate(), hour: val.hour} })
-      }
-    },
+    // 'period.startDate': function(val) {
+    //   for (const [key, value] of Object.entries(val)) {
+    //     if (val[key] !== '' && key === 'year') {
+    //       this.period.endDate[key] = Number(value) + 1
+    //     }
+    //   }
+    //   if (Object.values(val).every(item => item !== '')) {
+    //     const d1 = new Date(`${Number(val.year) + 1911}/${val.month}/${val.day}`)
+    //     const d2 = new Date(d1)
+    //     d2.setFullYear(d2.getFullYear() + 1)
+    //     d2.setDate(d2.getDate())
+    //     this.period.endDate.month = d2.getMonth() + 1
+    //     this.period.endDate.day = d2.getDate()
+    //     this.periodData = Object.assign(this.period, { endDate: { year: Number(this.period.startDate.year)+1,month: d2.getMonth() + 1, day: d2.getDate(), hour: val.hour} })
+    //   }
+    // },
     industry: async function(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
       this.additionTermsList = data.data.content.additionTermsDetails
-    }
+    },
   },
   methods: {
     async pageInit() {
@@ -244,10 +245,6 @@ export default {
       this.verifyRequired('activity')
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
-          Popup.create({
-            hasHtml: true,
-            htmlText: '<p>檢核完成！</p>',
-          })
         const data = {
           placeActivitySeq: this.industry.Value,
           activityType: this.industryList.find(item => item.dangerSeq == this.industry.Value).typeName,
@@ -314,10 +311,6 @@ export default {
 
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
-          Popup.create({
-            hasHtml: true,
-            htmlText: '<p>檢核完成！</p>',
-          })
           await this.quotationMapping()
       this.$router.push({ name: 'activity-quotation-step2' })
       }
@@ -325,6 +318,28 @@ export default {
     clearAll() {
       this.$store.dispatch('activity/clearAll')
       location.reload()
+    },
+    updatePeriod() {
+      const arr = []
+      this.activityInfoList.map(item => {
+        arr.push(new Date(`${Number(item.startDate.year)+1911}-${item.startDate.month}-${item.startDate.day} ${item.startDate.hour}:00`).getTime())
+        arr.push(new Date(`${Number(item.endDate.year)+1911}-${item.endDate.month}-${item.endDate.day} ${item.endDate.hour}:00`).getTime())
+      })
+      arr.sort((a,b) => a - b)
+      this.periodData = {
+        startDate: {
+          year: new Date(arr[0]).getFullYear()-1911,
+          month: new Date(arr[0]).getMonth() + 1,
+          day: new Date(arr[0]).getDate(),
+          hour: new Date(arr[0]).getHours()
+        },
+        endDate: {
+          year: new Date(arr[arr.length - 1]).getFullYear()-1911,
+          month: new Date(arr[arr.length - 1]).getMonth() + 1,
+          day: new Date(arr[arr.length - 1]).getDate(),
+          hour: new Date(arr[arr.length - 1]).getHours()
+        }
+      }
     },
     quotationMapping() {
       const data = {
@@ -357,6 +372,7 @@ export default {
         insureIndustryOtherText: this.industry.Text,
         remark: this.remark.text,
         insuranceAmounts:[...this.insuranceAmountList.map(item => {
+          delete item.amount
           return {
             ...item,
             amountType: item.amountType.Value,
@@ -411,22 +427,7 @@ export default {
     if(!this.uuid){
       this.$store.dispatch('app/updatedUUID', uuidv4())
     }
-    if(!this.period.startDate.year) {
-      this.period.startDate.year = new Date().getFullYear() -1911
-      this.period.endDate.year = new Date().getFullYear() -1910
-    }
-    if(!this.period.startDate.month) {
-      this.period.startDate.month = new Date().getMonth()+1
-      this.period.endDate.month = new Date().getMonth()+1
-    }
-    if(!this.period.startDate.day) {
-      this.period.startDate.day = new Date().getDate()
-      this.period.endDate.day = new Date().getDate()-1
-    }
-    if(!this.period.startDate.hour) {
-      this.period.startDate.hour = new Date().getHours()
-      this.period.endDate.hour = new Date().getHours()-1
-    }
+    this.updatePeriod()
   }
 }
 </script>

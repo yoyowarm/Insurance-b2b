@@ -1,9 +1,11 @@
 import { Popup } from '@/utils/popups/index'
+import { IDRegex } from '@/utils/regex'
 export default {
   data() {
     return {
       requestFile: [],
-      verifyResult: []
+      verifyResult: [],
+      IDRegex
     }
   },
   watch: {
@@ -68,6 +70,9 @@ export default {
       if (!this.Insuraned.ID) {
         this.requestFile.push('未填寫被保險人統編/身分證')
       }
+      if (this.IDRegex(this.Insuraned.ID).every(item => !item)) {
+        this.requestFile.push('被保險人統編/身分證格式錯誤')
+      }
       if (!this.Insuraned.Name) {
         this.requestFile.push('未填寫被保險人名稱')
       }
@@ -95,6 +100,9 @@ export default {
       //要保險人
       if (!this.Applicant.ID) {
         this.requestFile.push('未填寫要保險人統編/身分證')
+      }
+      if (this.IDRegex(this.Applicant.ID).every(item => !item)) {
+        this.requestFile.push('要保險人統編/身分證格式錯誤')
       }
       if (!this.Applicant.Name) {
         this.requestFile.push('未填寫要保險人名稱')

@@ -156,10 +156,12 @@ router.beforeEach((to, from, next) => {
   if (from.path === '/place-quotation/step3') {
     store.dispatch('place/clearAll')
     store.dispatch('activity/clearAll')
+    store.dispatch('common/updateOrderNo', '')
   }
   if (from.path === '/activity-quotation/step3') {
     store.dispatch('place/clearAll')
     store.dispatch('activity/clearAll')
+    store.dispatch('common/updateOrderNo', '')
   }
   next()
 })

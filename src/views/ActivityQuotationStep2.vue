@@ -6,7 +6,7 @@
         :info.sync="InsuranedData"
         :nationalities="nationalities"
         :cityList="cityList"
-        :areaList="InsuranedAreaList"
+        :areaList="InsuranedAreaList.filter(item => item.cityId == InsuranedData.City.Value)"
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         @getDetail="() =>insuredOrApplicantDetail('Insuraned')"
@@ -43,7 +43,7 @@
         :info.sync="ApplicantData"
         :nationalities="nationalities"
         :cityList="cityList"
-        :areaList="ApplicantAreaList"
+        :areaList="ApplicantAreaList.filter(item => item.cityId == ApplicantData.City.Value)"
          @checkID="() =>checkID('Applicant')"
          @getDetail="() =>insuredOrApplicantDetail('Applicant')"
          type="ApplicantData"
@@ -79,7 +79,6 @@ import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 // import { quotationStep2 } from '@/utils/dataTemp'
 // import { Popup } from '@/utils/popups/index'
-import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinVerify, routeChange, editCopyQuotation],
@@ -327,10 +326,6 @@ export default {
     },
     async verifyFinal() {
       if(this.verifyResult.length === 0 && this.verifySalesInvadeResult.length === 0) {
-        Popup.create({
-          hasHtml: true,
-          htmlText: '<p>檢核完成！</p>',
-        })
         await this.quotationMapping()
         this.$router.push('/activity-quotation/step3')
       }

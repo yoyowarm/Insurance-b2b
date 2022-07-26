@@ -57,7 +57,7 @@
               :options="yearOptions"
               :selected="`${info.startDate.year}`"
               :disable="disable"
-              @emitItem="(e) => emitSelectItem('startDate','year', e.Value,index)"
+              @emitItem="(e) => {emitSelectItem('startDate','year', e.Value,index);updateDay(index)}"
             />
           </InputGroup>
           <InputGroup :disable="disable">
@@ -67,7 +67,7 @@
               :options="monthOptions"
               :selected="`${info.startDate.month}`"
               :disable="disable"
-              @emitItem="(e) => emitSelectItem('startDate','month', e.Value,index)"
+              @emitItem="(e) => {emitSelectItem('startDate','month', e.Value,index);updateDay(index)}"
             />
           </InputGroup>
         </div>
@@ -79,7 +79,7 @@
               :options="dayOptions"
               :selected="`${info.startDate.day}`"
               :disable="disable"
-              @emitItem="(e) => emitSelectItem('startDate','day', e.Value,index)"
+              @emitItem="(e) => {emitSelectItem('startDate','day', e.Value,index);updateDay(index)}"
             />
           </InputGroup>
           <InputGroup :disable="disable">
@@ -89,7 +89,7 @@
               :options="hourOptions"
               :selected="`${info.startDate.hour}`"
               :disable="disable"
-              @emitItem="(e) => emitSelectItem('startDate','hour', e.Value,index)"
+              @emitItem="(e) => {emitSelectItem('startDate','hour', e.Value,index);updateDay(index)}"
             />
           </InputGroup>
         </div>
@@ -101,17 +101,17 @@
               :options="yearOptions"
               :selected="`${info.endDate.year}`"
               :disable="disable"
-              @emitItem="(e) => emitSelectItem('endDate','year', e.Value,index)"
+              @emitItem="(e) => {emitSelectItem('endDate','year', e.Value,index);updateDay(index)}"
             />
           </InputGroup>
           <InputGroup :disable="disable">
             <Select
               slot="input"
               defaultText="選擇月份"
-              :options="monthOptions"
+              :options="monthOptions.filter(item => item.Value >= info.startDate.month)"
               :selected="`${info.endDate.month}`"
               :disable="disable"
-              @emitItem="(e) => emitSelectItem('endDate','month', e.Value,index)"
+              @emitItem="(e) => {emitSelectItem('endDate','month', e.Value,index);updateDay(index)}"
             />
           </InputGroup>
         </div>
@@ -120,30 +120,30 @@
             <Select
               slot="input"
               defaultText="選擇日期"
-              :options="dayOptions"
+              :options="dayOptions.filter(item => item.Value >= info.startDate.day)"
               :selected="`${info.endDate.day}`"
               :disable="disable"
-              @emitItem="(e) => emitSelectItem('endDate','day', e.Value,index)"
+              @emitItem="(e) => {emitSelectItem('endDate','day', e.Value,index);updateDay(index)}"
             />
           </InputGroup>
           <InputGroup :disable="disable">
             <Select
               slot="input"
               defaultText="選擇小時"
-              :options="hourOptions"
+              :options="hourOptions.filter(item => item.Value >= info.startDate.hour)"
               :selected="`${info.endDate.hour}`"
               :disable="disable"
-              @emitItem="(e) => emitSelectItem('endDate','hour', e.Value,index)"
+              @emitItem="(e) => {emitSelectItem('endDate','hour', e.Value,index);updateDay(index)}"
             />
           </InputGroup>
         </div>
-        <InputGroup title="活動計日" :disable="disable">
+        <InputGroup title="活動計日" disable>
           <Input
             slot="input"
             placeholder="輸入天數"
             unit="天"
             :value="info.day"
-            :disable="disable"
+            disable
             @updateValue="(e) =>updateValue(e,'day',index)"
             numberOnly
           />
@@ -186,6 +186,22 @@ export default {
     disable: {
       type: Boolean,
       default: false
+    }
+  },
+  data() {
+    return {
+      copyInfoList: []
+    }
+  },
+  watch: {
+    infoList: {
+      handler(val) {
+        this.copyInfoList = val
+        val.map((_,index) => {
+          this.assignDate(index)
+        })
+      },
+      deep: true
     }
   },
   computed: {
@@ -238,15 +254,39 @@ export default {
     },
     emitSelectItem(type,key, value, index) {
       const copyInfoList = [...this.infoList]
-			if(type === 'endDate' && copyInfoList[index][type][key] > Number(value)) {
-				console.log(this.infoList[index].startDate[key])
-				copyInfoList[index].endDate[key] = Number(copyInfoList[index].startDate[key]) + 1
-				this.$emit('update:infoList', copyInfoList)
-			} else {
-				copyInfoList[index][type][key] = value
-				this.$emit('update:infoList', copyInfoList)
-			}
-		}
+			copyInfoList[index][type][key] = value
+			this.$emit('update:infoList', copyInfoList)
+		},
+    updateDay(index) {
+      const startTime = new Date(`${Number(this.copyInfoList[index].startDate.year)+1911}-${this.copyInfoList[index].startDate.month}-${this.copyInfoList[index].startDate.day} ${this.copyInfoList[index].startDate.hour}:00`).getTime()
+      const endTime = new Date(`${Number(this.copyInfoList[index].endDate.year)+1911}-${this.copyInfoList[index].endDate.month}-${this.copyInfoList[index].endDate.day} ${this.copyInfoList[index].endDate.hour}:00`).getTime()
+      const day = Math.ceil((endTime - startTime) / (24 * 3600 * 1000))
+      this.updateValue(day.toString(),'day',index)
+    },
+    assignDate(index) {
+      const today = new Date().getTime()
+      const yestDay = new Date().setDate(new Date().getDate() + 1)
+      if(!this.copyInfoList[index].startDate.year) {
+        this.copyInfoList[index].startDate.year = new Date(today).getFullYear() - 1911
+        this.copyInfoList[index].endDate.year = new Date(yestDay).getFullYear() - 1911
+      }
+      if(!this.copyInfoList[index].startDate.month) {
+        this.copyInfoList[index].startDate.month = new Date(today).getMonth() + 1
+        this.copyInfoList[index].endDate.month = new Date(yestDay).getMonth() + 1
+      }
+      if(!this.copyInfoList[index].startDate.day) {
+        this.copyInfoList[index].startDate.day = new Date(today).getDate()
+        this.copyInfoList[index].endDate.day = new Date(yestDay).getDate()
+      }
+      if(!this.copyInfoList[index].startDate.hour) {
+        this.copyInfoList[index].startDate.hour = new Date(today).getHours()
+        this.copyInfoList[index].endDate.hour = new Date(yestDay).getHours()
+      }
+      this.$emit('update:infoList', this.copyInfoList)
+    }
+  },
+  mounted() {
+    this.copyInfoList = [...this.infoList]
   }
 }
 </script>

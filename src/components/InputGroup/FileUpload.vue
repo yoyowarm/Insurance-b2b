@@ -58,12 +58,14 @@ export default {
       this.$emit('updatedFile')
     },
     async deleteFile() {
-      await this.$store.dispatch('common/DeleteFile',{
+      const res = await this.$store.dispatch('common/DeleteFile',{
         policyAttachmentId: this.attachment.policyAttachmentId,
         fileAttachmentId: this.attachment.id
       })
-      console.log(this.uuid, this.attachment.id)
-      this.$emit('updatedFile')
+      if(res.data.code == 1) {
+        this.fileName = ''
+        this.$emit('updatedFile')
+      }
     }
   },
   mounted() {

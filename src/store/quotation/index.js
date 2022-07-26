@@ -36,7 +36,7 @@ export default {
     async GetQuotationState() {
       return await GetQuotationState()
     },
-    async GetRenewInfo(_, { policyNo }) {
+    async GetRenewInfo(_, policyNo) {
       return await GetRenewInfo(policyNo)
     },
     async CheckProjectHasQuotation(_, { orderno, insuranceProjectId }) {

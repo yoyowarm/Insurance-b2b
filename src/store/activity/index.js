@@ -14,7 +14,7 @@ export default {
         Value: '',
       },
       address: '',
-      day: '',
+      day: '1',
       startDate: {
         year: '',
         month: '',
@@ -346,7 +346,7 @@ export default {
       issuerNumber: '',//經手人代號
       businessSourceCode: {//業務來源代號
         Text: '個人',
-        Value: 'F1'
+        Value: 'O1'
       },
       statisticsCode: '',//統計代號
       loginIdNumber: '',//登入證字號
@@ -369,7 +369,7 @@ export default {
           Value: '',
         },
         address: '',
-        day: '',
+        day: '1',
         startDate: {
           year: '',
           month: '',
@@ -445,7 +445,10 @@ export default {
     },
     UPDATED_RELATION(state, data) {
       state.Relation = data
-    }
+    },
+    UPDATED_REMARK(state, data) {
+      state.remark = data
+    },
   },
   actions: {
     clearAll({ commit }) {
@@ -456,7 +459,6 @@ export default {
       commit('UPDATED_PERIOD', quotation().period)
       commit('UPDATED_TERMS', quotation().terms)
       commit('SAME_AS_INSURED', quotation().sameAsInsured)
-      commit('UPDATED_INSURANCE_RECORD', quotation().InsuranceRecord)
       commit('UPDATED_INDUSTRY', quotation().industry)
       commit('UPDATED_INDUSTRY_TEXT', quotation().industryText)
       commit('UPDATED_REMARK', quotation().remark)

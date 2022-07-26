@@ -9,7 +9,7 @@
       </InputGroup>
       <InputGroup class=" w-full mb-2.5" title="統編/身分證">
         <div slot="input" class="w-full pr-24 relative">
-          <Input placeholder="輸入號碼" :value="copyInfo.ID" @updateValue="(e) => updateInfo('ID', e)" @blur.native="$emit('checkID')"/>
+          <Input placeholder="輸入號碼" :value="copyInfo.ID" @updateValue="(e) => updateInfo('ID', e)" @blurInput="idVerify"/>
           <Button class="absolute right-0 -top-1 w-10 md:w-16 h-full" style="height: 50px" @click.native="() => { if(copyInfo.ID) {$emit('getDetail')}}">查詢</Button>
         </div>
       </InputGroup>
@@ -143,7 +143,8 @@ import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Input from '@/components/InputGroup/Input'
 import SwitchInput from '@/components/Switch'
-
+import { IDRegex } from '@/utils/regex'
+import { Popup } from '@/utils/popups'
 export default {
   components: {
     InputGroup,
@@ -182,7 +183,8 @@ export default {
     return {
       copyInfo: {
         ...this.info
-      }
+      },
+      IDRegex
     }
   },
   watch: {
@@ -214,6 +216,14 @@ export default {
     },
     updateInfo (key, value) {
       this.$emit('update:info', Object.assign(this.copyInfo, { [key]: value }))
+    },
+    idVerify() {
+      if(this.IDRegex(this.copyInfo.ID).every(item => !item)) {
+        Popup.create({
+        hasHtml: true,
+        htmlText: '請輸入正確身分證字號或統一編號',
+      })
+      }
     }
   }
 }

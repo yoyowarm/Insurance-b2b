@@ -153,7 +153,7 @@ export const quotation = () => {
         Value: '',
       },
       address: '',
-      day: '',
+      day: '1',
       startDate: {
         year: '',
         month: '',
@@ -496,7 +496,7 @@ export const quotation = () => {
       issuerNumber: '',//經手人代號
       businessSourceCode: {//業務來源代號
         Text: '個人',
-        Value: 'F1'
+        Value: 'O1'
       },
       statisticsCode: '',//統計代號
       loginIdNumber: '',//登入證字號

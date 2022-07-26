@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <CommonBoard v-for="(item,index) in lists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.selected">
+    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.selected">
       <div v-if="!viewModel && index != 0" slot="icon" class="input-right mr-2" @click="remoteAmount(index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
@@ -21,7 +21,7 @@
             slot="input"
             :options="amountList"
             :selected="item.amountType.toString()"
-            @emitItem="e=>updatedValue(index,'amountType',e.Value)"
+            @emitItem="e=>{updatedValue(index,'amountType',e.Value);assignAmount(index)}"
             :disable="disable || item.fixed"
             defaultText="請選擇金額"/>
             <div v-if="viewModel" slot="input">{{item.amountType ==0 ? '依各縣市規定' : (item.amountType ==1 ? '合併單一限額' : '自行輸入保額')}}</div>
@@ -33,7 +33,7 @@
             v-if="!viewModel"
             slot="input"
             :value="item.perBodyAmount.toString()"
-            @updateValue="(e) => updatedValue(index,'perBodyAmount',e)"
+            @updateValue="(e) => {updatedValue(index,'perBodyAmount',e);assignAmount(index)}"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
             numberOnly
@@ -142,6 +142,10 @@ export default {
       type: Array,
       default: () => []
     },
+    infoList: {
+      type: Array,
+      default: () => []
+    },
     disable: {
       type: Boolean,
       default: false
@@ -150,6 +154,10 @@ export default {
       type: String,
       default: ''
     },
+    countyAmount: {
+      type: Array,
+      default: () => []
+    }
   },
   data() {
     return {
@@ -166,6 +174,7 @@ export default {
         {Value: 1, Text: '合併單一限額'},
         {Value: 2, Text: '自行輸入保額'}
       ],
+      copyLists: [...this.lists],
     }
   },
   computed: {
@@ -173,6 +182,34 @@ export default {
       editModel: state => state.common.editModel,
       viewModel: state => state.common.viewModel
     }),
+    amountMinimum() {
+      const arr = []
+      this.infoList.map(item => {
+        const target = this.countyAmount.find(i => i.countyName.includes(item.city.slice(0,3)))
+        if (target) {
+          arr.push(target)
+        }
+      })
+      arr.sort((a, b) => {
+        return a.perBodyAmount - b.perBodyAmount
+      })
+      return arr.length > 0 
+        ? {...arr[arr.length -1]}
+        : {
+          perBodyAmount: this.lists[0].perBodyAmount,
+          perAccidentBodyAmount: this.lists[0].perBodyAmount,
+          perAccidentFinanceAmount: this.lists[0].perAccidentFinanceAmount,
+          insuranceTotalAmount: this.lists[0].insuranceTotalAmount,
+          selfInflictedAmount: this.lists[0].selfInflictedAmount}
+    }
+  },
+  watch: {
+    lists: {
+      handler(val) {
+        this.copyLists = [...val]
+      },
+      deep: true
+    },
   },
   methods: {
     async downloadFile(type, item) {
@@ -194,8 +231,10 @@ export default {
       this.$emit('update:lists', [...this.lists,{...this.lists[this.lists.length -1],selected:false,insuranceAmount: '- -',fixed :false, id: '' }])
     },
     remoteAmount(index) {
+      const arr = [...this.lists]
       if(index==0) return
-      this.$emit('update:lists',[...this.lists].splice(index,1))
+      arr.splice(index,1)
+      this.$emit('update:lists', arr)
     },
     updatedValue(index,key,e) {
       const lists = [...this.lists]
@@ -223,7 +262,6 @@ export default {
         perAccidentFinanceAmount: lists[index].perAccidentFinanceAmount * 10000,
         insuranceTotalAmount: lists[index].insuranceTotalAmount * 10000,
         mergeSingleAmount: lists[index].mergeSingleAmount * 10000,
-        selfInflictedAmount: lists[index].selfInflictedAmount,
       }
       const amount = await this.$store.dispatch('quotation/GetInsuranceProjectAmount',{data})
       
@@ -249,6 +287,33 @@ export default {
       }
       this.$emit('getQuotationDetail')
     },
+    assignAmount(index) {
+      if(this.copyLists[index].amountType == 0) {
+        this.copyLists[index] = {
+          ...this.copyLists[index],
+          perBodyAmount: this.amountMinimum.perBodyAmount,
+          perAccidentBodyAmount: this.amountMinimum.perAccidentBodyAmount,
+          perAccidentFinanceAmount: this.amountMinimum.perAccidentFinanceAmount,
+          insuranceTotalAmount: this.amountMinimum.insuranceTotalAmount,
+          selfInflictedAmount: this.copyLists[index].selfInflictedAmount
+        }
+        this.$emit('update:lists',this.copyLists)
+      }
+      if(this.copyLists[index].amountType == 2) {
+        this.copyLists[index] = {
+          ...this.copyLists[index],
+          perBodyAmount: this.copyLists[index].perBodyAmount,
+          perAccidentBodyAmount: Number(this.copyLists[index].perBodyAmount) * 5,
+          perAccidentFinanceAmount: Number(this.copyLists[index].perBodyAmount) * 0.5,
+          insuranceTotalAmount: Number(this.copyLists[index].perBodyAmount) * 11,
+          selfInflictedAmount: this.copyLists[index].selfInflictedAmount
+        }
+        this.$emit('update:lists',this.copyLists)
+      }
+    }
+  },
+  mounted() {
+    this.copyLists = [...this.lists]
   }
 }
 </script>

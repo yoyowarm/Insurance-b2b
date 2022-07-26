@@ -14,7 +14,7 @@
         <Input
           slot="input"
           placeholder="輸入保單號碼"
-          :value="data.lastYear.averagePremium"
+          :value="data.lastYear.averagePremium ? data.lastYear.averagePremium.toString(): ''"
           :disable="!data.lastYear.status || disable"
           @updateValue="(e) => updateValue(e,'averagePremium', 'lastYear')"
         />
@@ -23,7 +23,7 @@
         <Input
           slot="input"
           placeholder="輸入保單號碼"
-          :value="data.lastYear.claimAmount"
+          :value="data.lastYear.claimAmount ? data.lastYear.claimAmount.toString(): ''"
           :disable="!data.lastYear.status || disable"
           @updateValue="(e) => updateValue(e,'claimAmount', 'lastYear')"
         />
@@ -43,7 +43,7 @@
         <Input
           slot="input"
           placeholder="輸入保單號碼"
-          :value="data.previousYear.premium"
+          :value="data.previousYear.averagePremium ?data.previousYear.averagePremium.toString() : ''"
           :disable="!data.previousYear.status || disable"
           @updateValue="(e) => updateValue(e,'averagePremium', 'previousYear')"
         />
@@ -52,7 +52,7 @@
         <Input
           slot="input"
           placeholder="輸入保單號碼"
-          :value="data.previousYear.claimAmount"
+          :value="data.previousYear.claimAmount ? data.previousYear.claimAmount.toString(): ''"
           :disable="!data.previousYear.status || disable"
           @updateValue="(e) => updateValue(e,'claimAmount', 'previousYear')"
         />

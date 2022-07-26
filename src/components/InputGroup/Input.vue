@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="text" class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2" :class="{'pr-9': slotIcon, disable, 'pr-14': unit.length > 0}" :placeholder="placeholder" :value="value" @input="updateValue">
+    <input type="text" class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2" :class="{'pr-9': slotIcon, disable, 'pr-14': unit.length > 0}" :placeholder="placeholder" :value="value" @input="updateValue" @blur="()=> $emit('blurInput')">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
   </div>

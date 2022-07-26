@@ -12,6 +12,8 @@
     <InsuranceAmountListFin
       :lists.sync="quotationData.insuranceAmounts"
       :orderNo="orderNo"
+      :infoList="quotationData.placeInsureInfo.placeInfo"
+      :countyAmount="countyAmount"
       @getQuotationDetail="quotationDetail"
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
@@ -23,7 +25,11 @@
         style="background: #DB9F2C">
         開始核保
       </Button>
-      <Button v-else :disabled="quotationData.insuranceAmounts.find(item => !item.selected)" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
+       <Button
+        v-else
+        :disabled="quotationData.insuranceAmounts.filter(item => !item.selected).length == quotationData.insuranceAmounts.length || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
+        @click.native="finishQuotation('FinishQuotation')"
+        class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
@@ -90,7 +96,13 @@ export default {
     return {
       historyDialog: false,
       openDialog: false,
-      quotationData: {},
+      quotationData: {
+        insuranceAmounts: [],
+        placeInsureInfo:{
+          placeInfo: [],
+        }
+      },
+      countyAmount: []
     }
   },
   computed: {
@@ -149,6 +161,7 @@ export default {
           }
         })
       }
+      console.log(this.quotationData)
     },
     async finishQuotation(key) {
       const data = {
@@ -168,6 +181,8 @@ export default {
   },
   async mounted() {
     await this.quotationDetail()
+    const county = await this.$store.dispatch('resource/CountyMinimumSettings')
+    this.countyAmount = county.data.content
   },
 }
 </script>

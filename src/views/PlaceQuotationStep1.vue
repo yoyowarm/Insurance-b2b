@@ -17,7 +17,7 @@
         <InputGroup class="w-full mb-2.5" :disable="!renewal.IsRenewal || calculateModel">
         <div slot="input" class="w-full pr-24 relative">
           <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal|| calculateModel"/>
-          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
+          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
         </div>
       </InputGroup>
       </div>
@@ -115,7 +115,6 @@ import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
-import { Popup } from '@/utils/popups/index'
 export default {
   mixins: [mixinVerify, routeChange, editCopyQuotation],
   components: {
@@ -232,7 +231,7 @@ export default {
         d2.setDate(d2.getDate())
         this.period.endDate.month = d2.getMonth() + 1
         this.period.endDate.day = d2.getDate()
-        this.periodData = Object.assign(this.period, { endDate: { year: Number(this.period.startDate.year)+1,month: d2.getMonth() + 1, day: d2.getDate(), hour: val.hour} })
+        this.periodData = Object.assign(this.period, { endDate: { year: Number(this.period.startDate.year),month: d2.getMonth() + 1, day: d2.getDate(), hour: val.hour} })
       }
     },
     industry: async function(val) {
@@ -253,12 +252,17 @@ export default {
       // }
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
-          Popup.create({
-            hasHtml: true,
-            htmlText: '<p>檢核完成！</p>',
-          })
           await this.quotationMapping()
       this.$router.push({ name: 'place-quotation-step2' })
+      }
+    },
+    async renewInfo() {
+      const res = await this.$store.dispatch('quotation/GetRenewInfo', this.renewal.InsuranceNumber)
+      if(res.data.code ==1) {
+        this.InsuranceRecordTable = {
+          lastYear: res.data.content.lastYear,
+          previousYear: res.data.content.previousYear,
+        }
       }
     },
     async pageInit() {
@@ -296,10 +300,6 @@ export default {
       this.verifyRequired('place')
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
-          Popup.create({
-            hasHtml: true,
-            htmlText: '<p>檢核完成！</p>',
-          })
         const data = {
           placeActivitySeq: this.industry.Value,
           placeType: this.industryList.find(item => item.dangerSeq == this.industry.Value).typeName,
@@ -400,6 +400,7 @@ export default {
         insureIndustryOtherText: this.industry.Text,
         remark: this.remark.text,
         insuranceAmounts:[...this.insuranceAmountList.map(item => {
+          delete item.amount
           return {
             ...item,
             amountType: item.amountType.Value,
