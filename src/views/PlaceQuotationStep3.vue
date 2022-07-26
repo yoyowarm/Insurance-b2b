@@ -23,7 +23,7 @@
         style="background: #DB9F2C">
         開始核保
       </Button>
-      <Button v-else @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
+      <Button v-else :disabled="quotationData.insuranceAmounts.find(item => !item.selected)" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
