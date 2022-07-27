@@ -22,14 +22,12 @@ const vuexLocal = new VuexPersistence({
   modules: ['app', 'home', 'place', 'activity', 'common'],
   reducer: (state) => {
     return {
-      app: {
-        uuid: state.app.uuid,
-      },
       home: {
         token: state.home.token,
         userInfo: state.home.userInfo,
       },
       place: {
+        uuid: state.place.uuid,
         terms: state.place.terms,
         period: state.place.period,
         renewal: state.place.renewal,
@@ -50,6 +48,7 @@ const vuexLocal = new VuexPersistence({
         questionnaireFinished: state.place.questionnaireFinished,
       },
       activity: {
+        uuid: state.activity.uuid,
         terms: state.activity.terms,
         period: state.activity.period,
         activityInfo: state.activity.activityInfo,

@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 export default {
   props: {
     id: {
@@ -26,7 +25,11 @@ export default {
     attachment: {
       type: Object,
       default: () => ({})
-    }
+    },
+    uuid: {
+      type: String,
+      default: ''
+    },
   },
   data() {
     return {
@@ -42,11 +45,6 @@ export default {
       },
       deep: true
     }
-  },
-  computed: {
-    ...mapState({
-      uuid: state => state.app.uuid
-    })
   },
   methods: {
     async newFile(e) {

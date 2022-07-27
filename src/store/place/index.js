@@ -3,6 +3,7 @@ import Vue from 'vue';
 export default {
   namespaced: true,
   state: {
+    uuid: '',
     InsuranceActive: 0,
     renewal: {//是否續保
       IsRenewal: false,
@@ -452,6 +453,9 @@ export default {
     },
     UPDATED_PLACE_QUOTATION(state, data) {
       state.placeQuotation = data
+    },
+    UPDATED_UUID(state, data) {
+      state.uuid = data
     }
   },
   actions: {
@@ -475,6 +479,7 @@ export default {
       commit('UPDATED_PLACE_QUOTATION', {})
       commit('UPDATED_QUESTIONNAIRE_FINISHED', false)
       commit('UPDATED_INTERNAL_CONTROL_DATA', quotation().internalControlData)
+      commit('UPDATED_UUID', '')
     },
     addPlaceInfo({ commit }) {
       commit('ADD_PLACE_INFO')
@@ -544,6 +549,9 @@ export default {
     },
     updatePlaceQuotation({ commit }, data) {
       commit('UPDATED_PLACE_QUOTATION', data)
+    },
+    updatedUUID({ commit }, uuid) {
+      commit('UPDATED_UUID', uuid)
     }
   }
 }

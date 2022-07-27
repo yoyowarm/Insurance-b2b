@@ -240,7 +240,7 @@ export default {
         data.QuotationDateBegin = `${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`
       }
       if(this.endDate.year !== '' && this.endDate.month !== '' && this.endDate.day !== '') {
-        data.QuotationDateEnd = `${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`
+        data.QuotationDateEnd = `${this.endDate.year}-${this.endDate.month}-${this.endDate.day}`
       }
       const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
       this.quotationListTable = { head: [...this.quotationListTable.head], rows:[...quotationList.data.content.quotations.map(item => {

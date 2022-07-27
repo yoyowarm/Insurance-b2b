@@ -3,6 +3,7 @@ import Vue from 'vue';
 export default {
   namespaced: true,
   state: {
+    uuid: '',
     activityInfo: [{
       number: '',
       city: {
@@ -449,6 +450,9 @@ export default {
     UPDATED_REMARK(state, data) {
       state.remark = data
     },
+    UPDATED_UUID(state, data) {
+      state.uuid = data
+    }
   },
   actions: {
     clearAll({ commit }) {
@@ -468,6 +472,7 @@ export default {
       commit('UPDATED_QUESTIONNAIRE_FINISHED', false)
       commit('UPDATED_ACTIVITY_QUOTATION', {})
       commit('UPDATED_INTERNAL_CONTROL_DATA', quotation().internalControlData)
+      commit('UPDATED_UUID', '')
     },
     addActivityInfo({ commit }) {
       commit('ADD_ACTIVITY_INFO')
@@ -529,5 +534,8 @@ export default {
     updatedApplicant({ commit }, data) {
       commit('UPDATED_APPLICANT', data)
     },
+    updatedUUID({ commit }, uuid) {
+      commit('UPDATED_UUID', uuid)
+    }
   }
 }

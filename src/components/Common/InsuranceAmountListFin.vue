@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.selected">
-      <div v-if="!viewModel && index != 0" slot="icon" class="input-right mr-2" @click="remoteAmount(index)">
+      <div v-if="!viewModel && !item.id" slot="icon" class="input-right mr-2" @click="remoteAmount(index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
       <Checkbox
@@ -127,6 +127,7 @@ import Select from '@/components/Select'
 import Button from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
 import { mapState } from 'vuex'
+import { Popup } from '@/utils/popups'
 export default {
   components: {
     CommonBoard,
@@ -251,9 +252,6 @@ export default {
     },
     async getAmount(index) {
       const lists = [...this.lists]
-      lists.map(item => item.fixed = false)
-      lists[index].fixed = true
-      this.$emit('update:lists',lists)
       const data = {
         orderNo: this.orderNo,
         amountType: lists[index].amountType,
@@ -262,11 +260,24 @@ export default {
         perAccidentFinanceAmount: lists[index].perAccidentFinanceAmount * 10000,
         insuranceTotalAmount: lists[index].insuranceTotalAmount * 10000,
         mergeSingleAmount: lists[index].mergeSingleAmount * 10000,
+        selfInflictedAmount: lists[index].selfInflictedAmount,
       }
-      const amount = await this.$store.dispatch('quotation/GetInsuranceProjectAmount',{data})
+      if(data.selfInflictedAmount == '請選擇金額' || data.amountType == '請選擇金額' || data.perBodyAmount === '' || data.perAccidentBodyAmount === '' || data.perAccidentFinanceAmount === '' || data.insuranceTotalAmount === '' || data.mergeSingleAmount === '') {
+        Popup.create({
+          hasHtml: true,
+          htmlText: '輸入資料不完整',
+        })
+      } else {
+        lists.map(item => item.fixed = false)
+        lists[index].fixed = true
+        this.$emit('update:lists',lists)
+        
+        const amount = await this.$store.dispatch('quotation/GetInsuranceProjectAmount',{data})
+        
+        lists[index].insuranceAmount = amount.data.content.amount
+        this.$emit('update:lists',lists)
+      }
       
-      lists[index].insuranceAmount = amount.data.content.amount
-      this.$emit('update:lists',lists)
     },
     async AddInsuranceProject(index) {
       const data = {
@@ -279,12 +290,20 @@ export default {
         mergeSingleAmount: this.lists[index].mergeSingleAmount * 10000,
         selfInflictedAmount: this.lists[index].selfInflictedAmount,
       }
+      let res
       if(this.lists[index].id) {
         data.InsuranceProjectId = this.lists[index].id
-         await this.$store.dispatch('quotation/EditInsuranceProject',{data})
+         res = await this.$store.dispatch('quotation/EditInsuranceProject',{data})
       } else {
-        await this.$store.dispatch('quotation/AddInsuranceProject',{data})
+        res = await this.$store.dispatch('quotation/AddInsuranceProject',{data})
+        
       }
+      if(res.data.code === 0) {
+          Popup.create({
+          hasHtml: true,
+          htmlText: res.data.message,
+        })
+        }
       this.$emit('getQuotationDetail')
     },
     assignAmount(index) {

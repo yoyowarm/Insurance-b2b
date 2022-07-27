@@ -154,7 +154,6 @@ export default {
             perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
             perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
             perBodyAmount: item.perBodyAmount/10000,
-
           }
         })
       }
@@ -171,7 +170,7 @@ export default {
       }
       this.$router.push('/')
       this.$store.dispatch('activity/clearAll')
-      this.$store.dispatch('app/updatedUUID', '')
+      this.$store.dispatch('activity/updatedUUID', '')
       this.$store.dispatch('common/updateOrderNo', '')
     }
   },

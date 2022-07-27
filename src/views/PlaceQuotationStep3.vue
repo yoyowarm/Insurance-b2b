@@ -175,7 +175,7 @@ export default {
       }
       this.$router.push('/')
       this.$store.dispatch('place/clearAll')
-      this.$store.dispatch('app/updatedUUID', '')
+      this.$store.dispatch('place/updatedUUID', '')
       this.$store.dispatch('common/updateOrderNo', '')
     }
   },

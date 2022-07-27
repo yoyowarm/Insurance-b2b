@@ -137,7 +137,7 @@ export default {
       industryText: state => state.activity.industryText,
       questionnaire: state => state.activity.questionnaire,
       calculateModel: state => state.common.calculateModel,
-      uuid: state => state.app.uuid,
+      uuid: state => state.activity.uuid,
       additionTerms: state => state.activity.additionTerms,
       questionnaireFinished: state => state.activity.questionnaireFinished,
       insuranceAmountList: state => state.activity.insuranceAmountList,
@@ -315,8 +315,12 @@ export default {
       this.$router.push({ name: 'activity-quotation-step2' })
       }
     },
-    clearAll() {
+    async clearAll() {
       this.$store.dispatch('activity/clearAll')
+      await Promise.all(this.attachmentList.map(item => {
+        return this.$store.dispatch('common/DeleteFile', {policyAttachmentId: item.policyAttachmentId, fileAttachmentId: item.id})
+      }))
+      this.$store.dispatch('activity/updatedUUID', '')
       location.reload()
     },
     updatePeriod() {
@@ -425,7 +429,7 @@ export default {
   async mounted() {
     await this.pageInit()
     if(!this.uuid){
-      this.$store.dispatch('app/updatedUUID', uuidv4())
+      this.$store.dispatch('activity/updatedUUID', uuidv4())
     }
     this.updatePeriod()
   }

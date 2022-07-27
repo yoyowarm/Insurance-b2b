@@ -164,7 +164,7 @@ export default {
       questionnaire: state => state.place.questionnaire,
       insuranceAmountList: state => state.place.insuranceAmountList,
       calculateModel: state => state.common.calculateModel,
-      uuid: state => state.app.uuid,
+      uuid: state => state.place.uuid,
       additionTerms: state => state.place.additionTerms,
       questionnaireFinished: state => state.place.questionnaireFinished,
     }),
@@ -352,8 +352,12 @@ export default {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
     },
-    clearAll() {
+    async clearAll() {
       this.$store.dispatch('place/clearAll')
+      await Promise.all(this.attachmentList.map(item => {
+        return this.$store.dispatch('common/DeleteFile', {policyAttachmentId: item.policyAttachmentId, fileAttachmentId: item.id})
+      }))
+      this.$store.dispatch('place/updatedUUID', '')
       location.reload()
     },
     quotationMapping() {
@@ -439,7 +443,7 @@ export default {
   async mounted() {
     await this.pageInit()
     if(!this.uuid){
-      this.$store.dispatch('app/updatedUUID', uuidv4())
+      this.$store.dispatch('place/updatedUUID', uuidv4())
     }
     if(!this.period.startDate.year) {
       this.period.startDate.year = new Date().getFullYear() -1911

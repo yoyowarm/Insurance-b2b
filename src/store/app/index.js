@@ -4,7 +4,6 @@ export default {
     loading: [],
     currentPage: 0,
     totalPage: 0,
-    uuid: '',
   },
   getters: {
   },
@@ -21,9 +20,6 @@ export default {
     UPDATED_CURRENT_PAGE(state, page) {
       state.currentPage = page
     },
-    UPDATED_UUID(state, uuid) {
-      state.uuid = uuid
-    }
   },
   actions: {
     updatedLoading({ commit }) {
@@ -38,8 +34,5 @@ export default {
     updatedCurrentPage({ commit }, currentPage) {
       commit('UPDATED_CURRENT_PAGE', currentPage)
     },
-    updatedUUID({ commit }, uuid) {
-      commit('UPDATED_UUID', uuid)
-    }
   },
 }
