@@ -74,7 +74,7 @@
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
         <InputGroup noMt :disable="calculateModel" v-for="(item,index) in 3" :key="item">
-          <FileUpload slot="input" :index="item" :id="`file${item}`" :attachment="attachmentList[index]" @updatedFile="getAttachmentList" :disable="calculateModel"/>
+          <FileUpload slot="input" :index="item" :id="`file${item}`" :attachment="attachmentList[index]" :uuid="uuid" @updatedFile="getAttachmentList" :disable="calculateModel"/>
         </InputGroup>
       </div>
     </CommonBoard>
