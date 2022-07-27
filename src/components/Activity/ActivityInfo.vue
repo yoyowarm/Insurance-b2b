@@ -98,7 +98,7 @@
             <Select
               slot="input"
               defaultText="選擇民國年"
-              :options="yearOptions"
+              :options="yearOptions.filter(item => item.Value >= info.startDate.year)"
               :selected="`${info.endDate.year}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','year', e.Value,index);updateDay(index)}"

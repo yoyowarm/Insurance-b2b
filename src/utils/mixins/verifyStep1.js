@@ -144,8 +144,8 @@ export default {
           if (!item.address) {
             this.requestFile.push('未輸入活動處所地址')
           }
-          if (!item.day) {
-            this.requestFile.push('未輸入活動計日')
+          if (item.day <= 0) {
+            this.requestFile.push('活動計日錯誤')
           }
         })
       }
