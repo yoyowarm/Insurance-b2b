@@ -151,7 +151,8 @@ export default {
         insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
           return {
             ...item,
-            selected: index == 0 ? true: false,
+            // eslint-disable-next-line no-prototype-builtins
+            selected: item.hasOwnProperty('isSelected') ? false : (index == 0 ? true : false),
             fixed: false,
             insuranceTotalAmount: item.insuranceTotalAmount/10000,
             mergeSingleAmount: item.mergeSingleAmount/10000,

@@ -1,11 +1,11 @@
 <template>
   <div class="w-full">
-    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.isSelected ? item.isSelected : item.selected">
+    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.selected ? item.selected :item.isSelected">
       <div v-if="!viewModel && !item.id" slot="icon" class="input-right mr-2" @click="remoteAmount(index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
       <Checkbox
-        v-if="!viewModel"
+        v-if="!viewModel && !copyLists.some(item => item.isSelected) || item.isSelected"
         :id="`${index}selected`"
         class="text-md"
         text="選擇此保險金額"
@@ -105,14 +105,14 @@
       </div>
       <div class="flex flex-row justify-center mt-8">
         <Button class="mr-6" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
-        <Button class="mr-6" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
-        <Button class="mr-6" @click.native="getAmount(index)" outline>試算</Button>
+        <Button :class="{'mr-6': !copyLists.some(item => item.isSelected)}" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
+        <Button v-if="!copyLists.some(item => item.isSelected)" class="mr-6" @click.native="getAmount(index)" outline>試算</Button>
         <Button v-if="item.fixed" class="mr-6" @click.native="updateFixed(index)" outline>修改</Button>
-        <Button @click.native="AddInsuranceProject(index)" outline>保存</Button>
+        <Button v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button>
         <Button v-if="viewModel && editModel">修改保費</Button>
       </div>
     </CommonBoard>
-    <div v-if="!viewModel" class="flex flex-row justify-center mt-8">
+    <div v-if="!viewModel && !copyLists.some(item => item.isSelected)" class="flex flex-row justify-center mt-8">
       <Button @click.native="addAmount" outline>新增保費額度</Button>
     </div>
   </div>
