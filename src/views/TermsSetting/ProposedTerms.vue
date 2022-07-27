@@ -10,10 +10,21 @@
       />
       <div class="column-5 mb-4">
         <InputGroup noMt>
-          <Select slot="input" :options="typeList" @emitItem="e=> currentType = e.Value" defaultText="選擇類別"/>
+          <Select
+            slot="input"
+            :options="typeList"
+            @emitItem="e=> currentType = e.Value"
+            :selected="currentType"
+            defaultText="選擇類別"/>
         </InputGroup>
         <InputGroup noMt>
-          <Select slot="input" :options="categoryList" @emitItem="e=> currentCategory = e.Value" :defaultText="currentTag === 0 ?'選擇場所' : '選擇活動'"/>
+          <Select
+            slot="input"
+            :options="categoryList"
+            :selected="currentCategory"
+            @emitItem="e=> currentCategory = e.Value"
+            :defaultText="currentTag === 0 ?'選擇場所' : '選擇活動'"
+          />
         </InputGroup>
       </div>
       <div class="flex w-full">
@@ -118,6 +129,7 @@ export default {
               Value: item.dangerSeq
             }
           })
+          this.currentCategory = this.categoryList[0].Value
         }
       },
       immediate: true
@@ -165,6 +177,7 @@ export default {
   },
   async mounted() {
     await this.getAllList(0)
+    this.currentType = this.typeList[0].Value
   }
 }
 </script>

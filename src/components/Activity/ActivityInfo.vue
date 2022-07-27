@@ -108,7 +108,7 @@
             <Select
               slot="input"
               defaultText="選擇月份"
-              :options="monthOptions.filter(item => item.Value >= info.startDate.month)"
+              :options="(info.endDate.year > info.startDate.year) ? monthOptions : monthOptions.filter(item => item.Value >= info.startDate.month)"
               :selected="`${info.endDate.month}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','month', e.Value,index);updateDay(index)}"
@@ -120,7 +120,7 @@
             <Select
               slot="input"
               defaultText="選擇日期"
-              :options="info.endDate.month > info.startDate.month ? dayOptions : dayOptions.filter(item => item.Value >= info.startDate.day)"
+              :options="(info.endDate.month > info.startDate.month) || (info.endDate.year > info.startDate.year)  ? dayOptions : dayOptions.filter(item => item.Value >= info.startDate.day)"
               :selected="`${info.endDate.day}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','day', e.Value,index);updateDay(index)}"
@@ -130,7 +130,7 @@
             <Select
               slot="input"
               defaultText="選擇小時"
-              :options="info.endDate.day == info.startDate.day ? hourOptions.filter(item => item.Value >= info.startDate.hour) : hourOptions"
+              :options="(info.endDate.year > info.startDate.year) || info.endDate.day != info.startDate.day ? hourOptions : hourOptions.filter(item => item.Value >= info.startDate.hour)"
               :selected="`${info.endDate.hour}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','hour', e.Value,index);updateDay(index)}"

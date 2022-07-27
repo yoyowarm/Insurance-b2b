@@ -22,10 +22,13 @@
         v-if="quotationData.insuranceAmounts && quotationData.insuranceAmounts.find(item => item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         class="my-8 w-40 md:w-64 "
+        :disabled="quotationData.insuranceAmounts.some(item => item.selected)"
         style="background: #DB9F2C">
         開始核保
       </Button>
-      <Button v-else :disabled="quotationData.insuranceAmounts.filter(item => !item.selected).length == quotationData.insuranceAmounts.length || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
+      <Button
+        v-else
+        :disabled="quotationData.insuranceAmounts.some(item => item.selected) || quotationData.insuranceAmounts.filter(item => !item.selected).length == quotationData.insuranceAmounts.length || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>

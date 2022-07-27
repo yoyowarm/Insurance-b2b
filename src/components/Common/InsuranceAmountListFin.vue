@@ -1,6 +1,6 @@
 <template>
   <div class="w-full">
-    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.selected">
+    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.isSelected ? item.isSelected : item.selected">
       <div v-if="!viewModel && !item.id" slot="icon" class="input-right mr-2" @click="remoteAmount(index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
@@ -10,7 +10,7 @@
         class="text-md"
         text="選擇此保險金額"
         slot="right"
-        :checked="item.selected"
+        :checked="item.isSelected ? item.isSelected : item.selected"
         :value="item.selected"
         @updateValue="(e) =>updatedValue(index,'selected', e)"
       />

@@ -299,6 +299,7 @@ export default {
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
         }
       }
+      this.updatePeriod()
     },
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
@@ -430,7 +431,6 @@ export default {
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
     }
-    this.updatePeriod()
   }
 }
 </script>

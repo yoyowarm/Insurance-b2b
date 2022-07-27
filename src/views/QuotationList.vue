@@ -36,12 +36,15 @@
           </div>
         </template>
         <div class="column-6 pb-6">
-          <!-- <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" noMt>
             <Select
               slot="input"
               defaultText="選擇狀態"
+              :options="stateList"
+              :selected="stateSelected.Value.toString()"
+              @emitItem="e => stateSelected = e"
             />
-          </InputGroup> -->
+          </InputGroup>
           <InputGroup class="w-full" noMt>
             <Select
               slot="input"
@@ -150,6 +153,32 @@ export default {
           "text": "15/26"
         },
       ],
+      stateList: [
+        {
+          Text: '選擇類型',
+          Value: 0
+        },
+        {
+          Text: '未完成報價',
+          Value: 1
+        },
+        {
+          Text: '報價完成',
+          Value: 2
+        },
+        {
+          Text: '在15天內保單生效',
+          Value: 3
+        },
+        {
+          Text: '已出單',
+          Value: 4
+        },
+      ],
+      stateSelected: {
+        Text: '選擇類型',
+        Value: 0
+      },
       typeList: [
         {
           Text: '全部',
@@ -232,15 +261,15 @@ export default {
       const data = {
         Skip: (this.currentPage-1)*10,
         Take: 10,
-        State: '',
+        State: this.stateSelected.Value == '0' ? '' : this.stateSelected.Value,
         Type: this.typeSelected.Value == '0' ? '' : this.typeSelected.Value,
         ApplicantName: this.ApplicantName,
       }
       if(this.startDate.year !== '' && this.startDate.month !== '' && this.startDate.day !== '') {
-        data.QuotationDateBegin = `${this.startDate.year}-${this.startDate.month}-${this.startDate.day}`
+        data.QuotationDateBegin = `${Number(this.startDate.year)+1911}-${this.startDate.month}-${this.startDate.day}`
       }
       if(this.endDate.year !== '' && this.endDate.month !== '' && this.endDate.day !== '') {
-        data.QuotationDateEnd = `${this.endDate.year}-${this.endDate.month}-${this.endDate.day}`
+        data.QuotationDateEnd = `${Number(this.endDate.year)+1911}-${this.endDate.month}-${this.endDate.day}`
       }
       const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
       this.quotationListTable = { head: [...this.quotationListTable.head], rows:[...quotationList.data.content.quotations.map(item => {

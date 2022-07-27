@@ -2,7 +2,7 @@
   <div class="">
     <template v-for="(category,index) in industryType">
       <div
-        v-if="searchText.length === 0 || (searchText.length > 0 && categoryFilter(category,index).filter(item => item.itemName.includes(searchText)).length > 0)"
+        v-if="(searchText.length === 0 || (searchText.length > 0 && categoryFilter(category,index).filter(item => item.itemName.includes(searchText)).length > 0)) && categoryFilter(category,index).length > 0"
         class="border-b-2 border-dashed mb-6"
         :key="category">
         <FormTitle :title="category" classList="text-xl text-gray-700" class="mb-6">
@@ -11,7 +11,7 @@
           <div class="column-6 mb-8" :class="{'packUp': categoryFilter(category,index).length > 18}">
             <template v-for="list in (categoryFilter(category,index).length > 18 && !switchList[index] && searchText.length === 0) ? categoryFilter(category,index).slice(0, 18) : categoryFilter(category,index)">
               <RadioInput
-                v-if="searchText.length === 0 ||( searchText.length > 0 && list.itemName.includes(searchText))"
+                v-if="(searchText.length === 0 ||( searchText.length > 0 && list.itemName.includes(searchText)))"
                 :key="list.dangerSeq"
                 :class="{'col-span-2': list.itemName.length >= 10}"
                 :id="`list${list.dangerSeq}`"
@@ -106,7 +106,7 @@ export default {
       }
     },
     categoryFilter(category) {
-      return this.industryList.filter(item => item.typeName === category)
+      return this.industryList.filter(item => item.typeName === category  && item.isEnable)
     },
   },
   mounted() {
