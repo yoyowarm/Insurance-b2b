@@ -72,13 +72,13 @@ import InsuranceAmountListFin from '@/components/Common/InsuranceAmountListFin.v
 import InsuranceContent from '@/components/Activity/InsuranceContent'
 import ViewModelSticker from '@/components/viewModelSticker'
 import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
-import routeChange from '@/utils/mixins/routeChange'
+// import routeChange from '@/utils/mixins/routeChange'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import { mapState } from 'vuex'
 // import { Popup } from '@/utils/mixins/popup'
 export default {
-  mixins: [routeChange],
+  // mixins: [routeChange],
   components: {
     CommonBoard,
     Button,

@@ -76,10 +76,10 @@ import ViewModelSticker from '@/components/viewModelSticker'
 import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
-import routeChange from '@/utils/mixins/routeChange'
+// import routeChange from '@/utils/mixins/routeChange'
 import { mapState } from 'vuex'
 export default {
-  mixins: [routeChange],
+  // mixins: [routeChange],
   components: {
     CommonBoard,
     Button,

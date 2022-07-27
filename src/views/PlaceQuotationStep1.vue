@@ -111,12 +111,12 @@ import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import InsuranceRecord from '@/components/Place/InsuranceRecord.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
-import routeChange from '@/utils/mixins/routeChange'
+// import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 export default {
-  mixins: [mixinVerify, routeChange, editCopyQuotation],
+  mixins: [mixinVerify, editCopyQuotation],
   components: {
     CommonBoard,
     InputGroup,

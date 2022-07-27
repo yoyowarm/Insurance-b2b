@@ -86,13 +86,13 @@ import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/ActivityQuestionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
-import routeChange from '@/utils/mixins/routeChange'
+// import routeChange from '@/utils/mixins/routeChange'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 export default {
-  mixins: [mixinVerify, routeChange],
+  mixins: [mixinVerify],
   components: {
     CommonBoard,
     InputGroup,

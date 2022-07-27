@@ -75,13 +75,13 @@ import WindowResizeListener from '@/components/WindowResizeListener'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import BrokerInfo from '@/components/Common/BrokerInfo.vue'
 import mixinVerify from '@/utils/mixins/verifyStep2'
-import routeChange from '@/utils/mixins/routeChange'
+// import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 // import { quotationStep2 } from '@/utils/dataTemp'
 // import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
-  mixins: [mixinVerify, routeChange, editCopyQuotation],
+  mixins: [mixinVerify, editCopyQuotation],
   components: {
     CommonBoard,
     Button,
