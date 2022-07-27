@@ -21,14 +21,14 @@
       <Button
         v-if="quotationData.insuranceAmounts && quotationData.insuranceAmounts.find(item => item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
-        :disabled="quotationData.insuranceAmounts.some(item => item.selected)"
+        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-8 w-40 md:w-64 "
         style="background: #DB9F2C">
         開始核保
       </Button>
        <Button
         v-else
-        :disabled="quotationData.insuranceAmounts.some(item => item.selected) || quotationData.insuranceAmounts.filter(item => !item.selected).length == quotationData.insuranceAmounts.length || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
+        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => !item.selected).length == quotationData.insuranceAmounts.length || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
         class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
