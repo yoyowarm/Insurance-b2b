@@ -176,7 +176,7 @@ export default {
         },
       ],
       stateSelected: {
-        Text: '選擇類型',
+        Text: '選擇狀態',
         Value: 0
       },
       typeList: [
