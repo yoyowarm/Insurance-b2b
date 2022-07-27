@@ -156,7 +156,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedPeriod', value)
-        console.log(value)
       }
     },
     termsData: {

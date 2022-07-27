@@ -177,6 +177,7 @@ export default {
       this.$store.dispatch('place/clearAll')
       this.$store.dispatch('place/updatedUUID', '')
       this.$store.dispatch('common/updateOrderNo', '')
+      this.$store.dispatch('common/updatedCalculateModel', false)
     }
   },
   async mounted() {
