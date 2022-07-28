@@ -281,7 +281,20 @@ export default {
           Text: '',
           Value: '',
         },
-        amount: null
+        amount: null,
+        parameter: {
+          basicFee: '',
+          finalHC: '',
+          sizeParameter: '',
+          selfInflictedParameter: '',
+          shortPeriodParameter: '',
+          additionalCostParameter: '',
+          mutiSizeParameter: '',
+          periodParameter: '',
+          additionTermCoefficientParameter: '',
+          aggAOACoefficient: '',
+          amount: '',
+        }
       }
     ],
     additionTerms: {//附加條款

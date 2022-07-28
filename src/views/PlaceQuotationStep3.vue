@@ -98,7 +98,20 @@ export default {
       historyDialog: false,
       openDialog: false,
       quotationData: {
-        insuranceAmounts: [],
+        insuranceAmounts: [{
+          parameter: {
+            basicFee: '',
+            finalHC: '',
+            sizeParameter: '',
+            selfInflictedParameter: '',
+            shortPeriodParameter: '',
+            additionalCostParameter: '',
+            mutiSizeParameter: '',
+            additionTermCoefficientParameter: '',
+            aggAOACoefficient: '',
+            amount: '',
+          }
+        }],
         placeInsureInfo:{
           placeInfo: [],
         }
@@ -159,7 +172,18 @@ export default {
             perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
             perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
             perBodyAmount: item.perBodyAmount/10000,
-
+            parameter: {
+              basicFee: '',
+              finalHC: '',
+              sizeParameter: '',
+              selfInflictedParameter: '',
+              shortPeriodParameter: '',
+              additionalCostParameter: '',
+              mutiSizeParameter: '',
+              additionTermCoefficientParameter: '',
+              aggAOACoefficient: '',
+              amount: '',
+            }
           }
         })
       }
