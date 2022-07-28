@@ -57,7 +57,12 @@
       </div>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
-      <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" unit totalStyle/>
+      <InputGroup noMt border0>
+        <div slot="right" class="cursor-pointer absolute top-7" @click="openFormula = true" v-if="insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
+          <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
+        </div>
+        <PaymentItem slot="input" keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
+      </InputGroup>
       <div class="flex flex-row">
         <Button @click.native="calculateAmount" class="my-8 w-40 md:w-32 mr-10" outline>試算</Button>
         <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-8 w-40 md:w-32 mr-10" outline>更正</Button>
@@ -67,6 +72,23 @@
     </div>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :questionnaire="questionnaire"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
+    <PopupDialog
+      :open.sync="openFormula"
+    >
+      <ul>
+        <li>處所基本費率:{{insuranceAmountListData.parameter.basicFee}}</li>
+        <li>高保額係數:{{insuranceAmountListData.parameter.finalHC}}</li>
+        <li>規模係數:{{insuranceAmountListData.parameter.sizeParameter}}</li>
+        <li>自負額係數:{{insuranceAmountListData.parameter.selfInflictedParameter}}</li>
+        <li>短期費率:{{insuranceAmountListData.parameter.shortPeriodParameter}}</li>
+        <li>附加費用率:{{insuranceAmountListData.parameter.additionalCostParameter}}</li>
+        <li>期間係數:{{insuranceAmountListData.parameter.periodParameter}}</li>
+        <li>附加險條款費用係數:{{insuranceAmountListData.parameter.additionTermCoefficientParameter}}</li>
+        <li>AGG > AOA *2係數:{{insuranceAmountListData.parameter.aggAOACoefficient}}</li>
+        <li>總保費:{{insuranceAmountListData.parameter.amount}}</li>
+      </ul>
+      <p>{{`(處所基本費率(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模係數(${insuranceAmountListData.parameter.sizeParameter})*期間係數(${insuranceAmountListData.parameter.periodParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
+    </PopupDialog>
   </div>
 </template>
 
@@ -87,6 +109,7 @@ import Questionnaire from '@/components/PopupDialog/ActivityQuestionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
 // import routeChange from '@/utils/mixins/routeChange'
+import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
@@ -108,7 +131,8 @@ export default {
     TermConditions,
     Questionnaire,
     FileUpload,
-    LoadingScreen
+    LoadingScreen,
+    PopupDialog
   },
   data () {
     return {
@@ -124,6 +148,7 @@ export default {
       additionTermsList: [],
       attachmentList: [],
       openQuestionnaire: false,
+      openFormula: false
     }
   },
   computed: {
@@ -204,6 +229,7 @@ export default {
     industry: async function(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
       this.additionTermsList = data.data.content.additionTermsDetails
+      this.termsInit()
     },
   },
   methods: {
@@ -238,7 +264,24 @@ export default {
       if(this.industry.Value) {
         const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
         this.additionTermsList = data.data.content.additionTermsDetails
+        this.termsInit()
       }
+    },
+    termsInit() {
+      const terms = {}
+        this.additionTermsList.map(item => {
+          // eslint-disable-next-line no-prototype-builtins
+          if(!this.termsData.hasOwnProperty(item.additionTermName)) {
+            terms[item.additionTermName] = {
+              selected: false
+            }
+          } else {
+            terms[item.additionTermName] = {
+              selected: this.termsData[item.additionTermName].selected
+            }
+          }
+        })
+      this.termsData = terms
     },
     async calculateAmount() {
       this.verifyRequired('activity')
@@ -297,6 +340,7 @@ export default {
         this.insuranceAmountListData = {
           ...this.insuranceAmountListData,
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
+          parameter: res.data.content.parameter,
         }
       }
       this.updatePeriod()
@@ -431,6 +475,9 @@ export default {
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
     }
+  },
+  beforeDestroy() {
+    this.$store.dispatch('common/updatedCalculateModel',false)
   }
 }
 </script>

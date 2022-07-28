@@ -340,7 +340,19 @@ export default {
           Text: '',
           Value: '',
         },
-        amount: null
+        amount: null,
+        parameter: {
+          basicFee: '',
+          finalHC: '',
+          sizeParameter: '',
+          selfInflictedParameter: '',
+          shortPeriodParameter: '',
+          additionalCostParameter: '',
+          mutiSizeParameter: '',
+          additionTermCoefficientParameter: '',
+          aggAOACoefficient: '',
+          amount: '',
+        }
       }
     ],
     internalControlData: {//內部管制資料
