@@ -10,6 +10,7 @@
           :disable="disable"
           defaultText="請選擇金額"/>
       </InputGroup>
+      <div v-if="amountMinimum.countyName && data.amountType.Value == 0" class="mt-10 col-span-2">處所行跨多縣市時，將採用最高縣市保額，目前採用 {{amountMinimum.countyName}} 費率</div>
     </div>
     <div class="column-5 pt-5">
       <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disable="data.amountType.Value == 0 || disable">
@@ -57,6 +58,8 @@
           :disable="disable"
           unit="萬元"/>
       </InputGroup>
+    </div>
+    <div class="column-5 pt-5">
       <InputGroup title="自負額" :disable="disable">
         <Select
           slot="input"
@@ -164,6 +167,7 @@ export default {
       return arr.length > 0 
         ? {...arr[arr.length -1], selfInflictedAmount: this.data.selfInflictedAmount}
         : {
+          countyName: '',
           perBodyAmount: this.data.perBodyAmount,
           perAccidentBodyAmount: this.data.perBodyAmount,
           perAccidentFinanceAmount: this.data.perAccidentFinanceAmount,

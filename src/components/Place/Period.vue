@@ -172,9 +172,7 @@ export default {
 	methods: {
 		emitSelectItem(type,key, value) {
 			if(type === 'endDate' && this.copyPeriod[type][key] > Number(value)) {
-				console.log(this.copyPeriod.startDate[key])
 				this.copyPeriod.endDate[key] = Number(this.copyPeriod.startDate[key]) + 1
-				console.log(this.copyPeriod.endDate[key])
 				this.$emit('update:period', this.copyPeriod)
 			} else {
 				this.copyPeriod[type][key] = value
