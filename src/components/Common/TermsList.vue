@@ -69,25 +69,7 @@ export default {
     updateTerms(additionTermName, e) {
       this.copyTerms[additionTermName].selected = e
        this.$emit('update:terms', this.copyTerms)
-    },
-    componentInit() {
-      this.termsLists.map(item => {
-        // eslint-disable-next-line no-prototype-builtins
-        if(!this.terms.hasOwnProperty(item.additionTermName)) {
-          this.copyTerms[item.additionTermName] = {
-            selected: false
-          }
-        } else {
-          this.copyTerms[item.additionTermName] = {
-            selected: this.terms[item.additionTermName].selected
-          }
-        }
-      })
-      this.$emit('update:terms', this.copyTerms)
     }
-  },
-  mounted() {
-    this.componentInit()
   }
 }
 </script>
