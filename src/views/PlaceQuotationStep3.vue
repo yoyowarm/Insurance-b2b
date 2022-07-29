@@ -165,7 +165,7 @@ export default {
           return {
             ...item,
             // eslint-disable-next-line no-prototype-builtins
-            selected: item.hasOwnProperty('isSelected') ? false : (index == 0 ? true : false),
+            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
             fixed: false,
             insuranceTotalAmount: item.insuranceTotalAmount/10000,
             mergeSingleAmount: item.mergeSingleAmount/10000,

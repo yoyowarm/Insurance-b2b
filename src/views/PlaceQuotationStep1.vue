@@ -79,12 +79,12 @@
       </div>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
-      <InputGroup noMt border0>
-        <div slot="right" class="cursor-pointer absolute top-7" @click="openFormula = true" v-if="insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
-          <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
+        <div class="flex flex-row justify-center items-center relative">
+          <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
+            <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
+          </div>
+          <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
         </div>
-        <PaymentItem slot="input" keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
-      </InputGroup>
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
@@ -97,7 +97,7 @@
     <PopupDialog
       :open.sync="openFormula"
     >
-    <ul>
+    <ul v-if="insuranceAmountListData.parameter.amount">
       <li>處所基本費率:{{insuranceAmountListData.parameter.basicFee}}</li>
       <li>高保額係數:{{insuranceAmountListData.parameter.finalHC}}</li>
       <li>規模係數:{{insuranceAmountListData.parameter.sizeParameter}}</li>
@@ -109,7 +109,8 @@
       <li>AGG > AOA *2係數:{{insuranceAmountListData.parameter.aggAOACoefficient}}</li>
       <li>總保費:{{insuranceAmountListData.parameter.amount}}</li>
     </ul>
-    <p>{{`(處所基本費率(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模細數(${insuranceAmountListData.parameter.sizeParameter})*多處所係數(${insuranceAmountListData.parameter.mutiSizeParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))*短期費率(${insuranceAmountListData.parameter.shortPeriodParameter})/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
+    <p v-if="insuranceAmountListData.parameter.amount">{{`(處所基本費率(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模細數(${insuranceAmountListData.parameter.sizeParameter})*多處所係數(${insuranceAmountListData.parameter.mutiSizeParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))*短期費率(${insuranceAmountListData.parameter.shortPeriodParameter})/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
+    <div v-else>尚未試算保費</div>
     </PopupDialog>
   </div>
 </template>
