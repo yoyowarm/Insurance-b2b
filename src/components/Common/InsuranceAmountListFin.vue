@@ -104,7 +104,7 @@
         </InputGroup>
       </div>
       <div class="flex flex-row justify-center relative mt-4">
-          <PaymentItem slot="input" keyName="保費共計" :value="item.insuranceAmount? item.insuranceAmount.toString() : '請洽核保'" :unit="Boolean(item.insuranceAmount)" totalStyle/>
+          <PaymentItem slot="input" keyName="保費共計" :value="item.insuranceAmount? item.insuranceAmount.toString() : '請洽核保'" :unit="Boolean(item.insuranceAmount&&item.insuranceAmount!== '請洽核保')" totalStyle/>
           <div class="cursor-pointer absolute top-2 ml-48" @click="() =>{openFormula = true;selectedIndex = index}" v-if="item.insuranceAmount && item.insuranceAmount!== '請洽核保'">
             <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
           </div>
@@ -121,7 +121,7 @@
     <PopupDialog
       :open.sync="openFormula"
     >
-    <ul v-if="lists[selectedIndex] && lists[selectedIndex].amount">
+    <ul v-if="lists[selectedIndex] && lists[selectedIndex].parameter.amount">
       <li>處所基本費率:{{lists[selectedIndex] ?lists[selectedIndex].parameter.basicFee: ''}}</li>
       <li>高保額係數:{{lists[selectedIndex]? lists[selectedIndex].parameter.finalHC: ''}}</li>
       <li>規模細數:{{lists[selectedIndex]?lists[selectedIndex].parameter.sizeParameter: ''}}</li>
