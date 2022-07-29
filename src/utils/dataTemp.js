@@ -414,7 +414,19 @@ export const quotation = () => {
           Text: '',
           Value: '',
         },
-        amount: null
+        amount: null,
+        parameter: {
+          basicFee: '',
+          finalHC: '',
+          sizeParameter: '',
+          selfInflictedParameter: '',
+          shortPeriodParameter: '',
+          additionalCostParameter: '',
+          mutiSizeParameter: '',
+          additionTermCoefficientParameter: '',
+          aggAOACoefficient: '',
+          amount: '',
+        }
       }
     ],
     additionTerms: {//附加條款

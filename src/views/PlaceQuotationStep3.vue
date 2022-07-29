@@ -98,7 +98,20 @@ export default {
       historyDialog: false,
       openDialog: false,
       quotationData: {
-        insuranceAmounts: [],
+        insuranceAmounts: [{
+          parameter: {
+            basicFee: '',
+            finalHC: '',
+            sizeParameter: '',
+            selfInflictedParameter: '',
+            shortPeriodParameter: '',
+            additionalCostParameter: '',
+            mutiSizeParameter: '',
+            additionTermCoefficientParameter: '',
+            aggAOACoefficient: '',
+            amount: '',
+          }
+        }],
         placeInsureInfo:{
           placeInfo: [],
         }
@@ -152,14 +165,25 @@ export default {
           return {
             ...item,
             // eslint-disable-next-line no-prototype-builtins
-            selected: item.hasOwnProperty('isSelected') ? false : (index == 0 ? true : false),
+            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
             fixed: false,
             insuranceTotalAmount: item.insuranceTotalAmount/10000,
             mergeSingleAmount: item.mergeSingleAmount/10000,
             perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
             perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
             perBodyAmount: item.perBodyAmount/10000,
-
+            parameter: {
+              basicFee: '',
+              finalHC: '',
+              sizeParameter: '',
+              selfInflictedParameter: '',
+              shortPeriodParameter: '',
+              additionalCostParameter: '',
+              mutiSizeParameter: '',
+              additionTermCoefficientParameter: '',
+              aggAOACoefficient: '',
+              amount: '',
+            }
           }
         })
       }

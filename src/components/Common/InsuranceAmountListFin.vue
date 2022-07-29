@@ -103,18 +103,42 @@
             <div v-else slot="input">{{item.selfInflictedAmount}}</div>
         </InputGroup>
       </div>
-      <div class="flex flex-row justify-center mt-4">
-        <PaymentItem keyName="保費共計" :value="item.insuranceAmount? item.insuranceAmount.toString() : '請洽核保'" :unit="Boolean(item.insuranceAmount)" totalStyle/>
+      <div class="flex flex-row justify-center relative mt-4">
+          <PaymentItem slot="input" keyName="保費共計" :value="item.insuranceAmount? item.insuranceAmount.toString() : '請洽核保'" :unit="Boolean(item.insuranceAmount&&item.insuranceAmount!== '請洽核保')" totalStyle/>
+          <div class="cursor-pointer absolute top-2 ml-48" @click="() =>{openFormula = true;selectedIndex = index}" v-if="item.insuranceAmount && item.insuranceAmount!== '請洽核保'">
+            <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
+          </div>
       </div>
       <div class="flex flex-row justify-center mt-8">
         <Button class="mr-6" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
-        <Button :class="{'mr-6': !copyLists.some(item => item.isSelected)}" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
-        <Button v-if="!copyLists.some(item => item.isSelected)" class="mr-6" @click.native="getAmount(index)" outline>試算</Button>
-        <Button v-if="item.fixed" class="mr-6" @click.native="updateFixed(index)" outline>修改</Button>
+        <Button class="mr-6" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
+        <Button class="mr-6" @click.native="getAmount(index)" outline>試算</Button>
+        <Button v-if="item.fixed && !copyLists.some(item => item.isSelected)" class="mr-6" @click.native="updateFixed(index)" outline>修改</Button>
         <Button v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button>
         <Button v-if="viewModel && editModel">修改保費</Button>
       </div>
     </CommonBoard>
+    <PopupDialog
+      :open.sync="openFormula"
+    >
+    <ul v-if="lists[selectedIndex] && lists[selectedIndex].parameter.amount">
+      <li>處所基本費率:{{lists[selectedIndex] ?lists[selectedIndex].parameter.basicFee: ''}}</li>
+      <li>高保額係數:{{lists[selectedIndex]? lists[selectedIndex].parameter.finalHC: ''}}</li>
+      <li>規模細數:{{lists[selectedIndex]?lists[selectedIndex].parameter.sizeParameter: ''}}</li>
+      <li>自負額係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.selfInflictedParameter:''}}</li>
+      <li>短期費率:{{lists[selectedIndex]?lists[selectedIndex].parameter.shortPeriodParameter:''}}</li>
+      <li>附加費用率:{{lists[selectedIndex]?lists[selectedIndex].parameter.additionalCostParameter:''}}</li>
+      <li>多處所係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.mutiSizeParameter: ''}}</li>
+      <li>期間係數:{{lists[selectedIndex]?lists[selectedIndex].periodParameter : ''}}</li>
+      <li>附加險條款費用係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.additionTermCoefficientParameter: ''}}</li>
+      <li>AGG > AOA *2係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.aggAOACoefficient: ''}}</li>
+      <li>總保費:{{lists[selectedIndex]?lists[selectedIndex].parameter.amount: ''}}</li>
+    </ul>
+    <div v-else>尚未試算保費</div>
+    <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.mutiSizeParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模細數(${lists[selectedIndex].parameter.sizeParameter})*多處所係數(${lists[selectedIndex].parameter.mutiSizeParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))*短期費率(${lists[selectedIndex].parameter.shortPeriodParameter})/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
+
+    <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.periodParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模係數(${lists[selectedIndex].parameter.sizeParameter})*期間係數(${lists[selectedIndex].parameter.periodParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
+    </PopupDialog>
     <div v-if="!viewModel && !copyLists.some(item => item.isSelected)" class="flex flex-row justify-center mt-8">
       <Button @click.native="addAmount" outline>新增保費額度</Button>
     </div>
@@ -129,8 +153,10 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
 import Button from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
+import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
+
 export default {
   components: {
     CommonBoard,
@@ -139,7 +165,8 @@ export default {
     Select,
     Button,
     PaymentItem,
-    Checkbox
+    Checkbox,
+    PopupDialog
   },
   props: {
     lists: {
@@ -179,6 +206,8 @@ export default {
         {Value: 2, Text: '自行輸入保額'}
       ],
       copyLists: [...this.lists],
+      openFormula: false,
+      selectedIndex: 0
     }
   },
   computed: {
@@ -189,7 +218,7 @@ export default {
     amountMinimum() {
       const arr = []
       this.infoList.map(item => {
-        const target = this.countyAmount.find(i => i.countyName.includes(item.city.slice(0,3)))
+        const target = this.countyAmount.find(i => i.countyName.includes(item.city? item.city.slice(0,3): ''))
         if (target) {
           arr.push(target)
         }
@@ -277,8 +306,11 @@ export default {
         this.$emit('update:lists',lists)
         
         const amount = await this.$store.dispatch('quotation/GetInsuranceProjectAmount',{data})
-        
-        lists[index].insuranceAmount = amount.data.content.amount
+
+        lists[index].insuranceAmount = amount.data.content.amount? amount.data.content.amount: '請洽核保'
+        if(amount.data.content.amount) {
+          lists[index].parameter = amount.data.content.parameter
+        }
         this.$emit('update:lists',lists)
       }
       
