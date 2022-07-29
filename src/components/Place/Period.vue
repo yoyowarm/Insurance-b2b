@@ -160,10 +160,10 @@ export default {
 		},
 		hourOptions () {
 			const arr = []
-			for (let i = 0; i <= 23; i++) {
+			for (let i = 0; i <= 24; i++) {
 				arr.push({
 					Text: i + '時',
-					Value: i+1
+					Value: i
 				})
 			}
 			return arr 
@@ -171,13 +171,8 @@ export default {
 	},
 	methods: {
 		emitSelectItem(type,key, value) {
-			if(type === 'endDate' && this.copyPeriod[type][key] > Number(value)) {
-				this.copyPeriod.endDate[key] = Number(this.copyPeriod.startDate[key]) + 1
-				this.$emit('update:period', this.copyPeriod)
-			} else {
-				this.copyPeriod[type][key] = value
-				this.$emit('update:period', this.copyPeriod)
-			}
+			this.copyPeriod[type][key] = value
+			this.$emit('update:period', this.copyPeriod)
 		}
    }
 }

@@ -97,7 +97,7 @@
     <PopupDialog
       :open.sync="openFormula"
     >
-    <ul v-if="insuranceAmountListData.parameter.amount">
+    <ul v-if="insuranceAmountListData.parameter && insuranceAmountListData.parameter.amount">
       <li>處所基本費率:{{insuranceAmountListData.parameter.basicFee}}</li>
       <li>高保額係數:{{insuranceAmountListData.parameter.finalHC}}</li>
       <li>規模係數:{{insuranceAmountListData.parameter.sizeParameter}}</li>
@@ -244,26 +244,16 @@ export default {
     },
   },
   watch:{
-    'period.startDate': function(val) {
-      for (const [key, value] of Object.entries(val)) {
-        if (val[key] !== '' && key === 'year') {
-          this.period.endDate[key] = Number(value) + 1
-        }
-      }
-      if (Object.values(val).every(item => item !== '')) {
-        this.periodData = Object.assign(this.period, 
-        { endDate: 
-          { year: Number(this.period.startDate.year) + 1,
-            month: val.month,
-            day: val.day,
-            hour: val.hour}
-        })
-      }
-    },
     industry: async function(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
       this.additionTermsList = data.data.content.additionTermsDetails
       this.termsInit()
+    },
+    periodData: {
+      handler(val) {
+        console.log(val)
+      },
+      deep: true
     }
   },
   methods: {
@@ -389,7 +379,7 @@ export default {
         this.insuranceAmountListData = {
           ...this.insuranceAmountListData,
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
-          parameter: res.data.content.parameter,
+          parameter: res.data.content.parameter? res.data.content.parameter : this.insuranceAmountListData.parameter,
         }
       }
     },
@@ -490,21 +480,62 @@ export default {
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())
     }
-    if(!this.period.startDate.year) {
-      this.period.startDate.year = new Date().getFullYear() -1911
-      this.period.endDate.year = new Date().getFullYear() -1910
-    }
-    if(!this.period.startDate.month) {
-      this.period.startDate.month = new Date().getMonth()+1
-      this.period.endDate.month = new Date().getMonth()+1
-    }
-    if(!this.period.startDate.day) {
-      this.period.startDate.day = new Date().getDate()
-      this.period.endDate.day = new Date().getDate()
-    }
-    if(!this.period.startDate.hour) {
-      this.period.startDate.hour = new Date().getHours()
-      this.period.endDate.hour = new Date().getHours()
+    if(!this.period.startDate.year && !this.period.startDate.month && !this.period.startDate.day && !this.period.startDate.hour) {
+      let date = {
+        startDate: {
+          year: new Date().getFullYear()-1911,
+          month: new Date().getMonth() + 1,
+          day: new Date().getDate(),
+          hour: new Date().getHours(),
+        }
+      }
+      if((new Date().getFullYear()%4) == 0) {
+          const leapYear = new Date(`${new Date().getFullYear()}-02-29`).getTime()
+          const startDate = new Date(`${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`).getTime()
+          if(new Date().getMonth()+1 !== 2 && new Date().getDate()!==29) {
+            date = {
+              ...date,
+              endDate: {
+                year: new Date().getFullYear()-1911,
+                month: new Date().getMonth() + 1,
+                day:28,
+                hour: new Date().getHours(),
+              }
+            }
+          } else if(leapYear > startDate) {
+            const newYear = new Date(startDate).getTime()+(1000*60*60*24*366)
+            date = {
+              ...date,
+              endDate: 
+                { year: new Date(newYear).getFullYear()-1911,
+                  month: new Date(newYear).getMonth()+1,
+                  day: new Date(newYear).getDate(),
+                  hour: new Date().getHours(),
+                }
+              }
+          } else {
+            date = {
+            ...date,
+            endDate: {
+                year: (new Date().getFullYear() + 1)-1911,
+                month: new Date().getMonth()+1,
+                day: new Date().getDate(),
+                hour: new Date().getHours()
+              }
+            }
+          }
+        } else {
+          date = {
+            ...date,
+            endDate: {
+                year: (new Date().getFullYear() + 1)-1911,
+                month: new Date().getMonth()+1,
+                day: new Date().getDate(),
+                hour: new Date().getHours()
+              }
+          }
+        }
+        this.periodData = date
     }
   },
   beforeDestroy() {

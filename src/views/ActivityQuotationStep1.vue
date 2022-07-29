@@ -22,7 +22,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="活動保期">
-      <Period :period="periodData"/>
+      <Period :period="periodData" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
       <InsuranceAmount
@@ -115,6 +115,7 @@ import LoadingScreen from '@/components/LoadingScreen.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
+import { Popup } from '@/utils/popups'
 export default {
   mixins: [mixinVerify],
   components: {
@@ -211,22 +212,30 @@ export default {
     },
   },
   watch:{
-    // 'period.startDate': function(val) {
-    //   for (const [key, value] of Object.entries(val)) {
-    //     if (val[key] !== '' && key === 'year') {
-    //       this.period.endDate[key] = Number(value) + 1
-    //     }
-    //   }
-    //   if (Object.values(val).every(item => item !== '')) {
-    //     const d1 = new Date(`${Number(val.year) + 1911}/${val.month}/${val.day}`)
-    //     const d2 = new Date(d1)
-    //     d2.setFullYear(d2.getFullYear() + 1)
-    //     d2.setDate(d2.getDate())
-    //     this.period.endDate.month = d2.getMonth() + 1
-    //     this.period.endDate.day = d2.getDate()
-    //     this.periodData = Object.assign(this.period, { endDate: { year: Number(this.period.startDate.year)+1,month: d2.getMonth() + 1, day: d2.getDate(), hour: val.hour} })
-    //   }
-    // },
+    periodData: {
+      handler(val) {
+        let millisecond = 0
+        val.startDate.year%4 == 0 ? millisecond = 366*24*60*60*1000 : millisecond = 365*24*60*60*1000
+        const startTime = new Date(`${Number(val.startDate.year)+1911}-${val.startDate.month}-${val.startDate.day} ${val.startDate.hour}:00`).getTime()
+        const endTime = new Date(`${Number(val.endDate.year)+1911}-${val.endDate.month}-${val.endDate.day} ${val.endDate.hour}:00`).getTime()
+        if(endTime - startTime > millisecond) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: '活動保期超過一年，請重新選擇',
+          })
+          this.periodData = {
+            ...this.periodData,
+            endDate: {
+              year: '',
+              month: '',
+              day: '',
+              hour: '',
+            }
+          }
+        }
+      },
+      deep: true
+    },
     industry: async function(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
       this.additionTermsList = data.data.content.additionTermsDetails
@@ -341,7 +350,7 @@ export default {
         this.insuranceAmountListData = {
           ...this.insuranceAmountListData,
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
-          parameter: res.data.content.parameter,
+          parameter:  res.data.content.parameter? res.data.content.parameter : this.insuranceAmountListData.parameter
         }
       }
       this.updatePeriod()

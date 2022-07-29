@@ -2,85 +2,85 @@
 	<div class="flex flex-row">
 		<div class="column-6 w-full">
 			<div class="col-span-3 flex flex-row">
-				<InputGroup class="mr-3" title="活動開始日期" disable>
+				<InputGroup class="mr-3" title="活動開始日期" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇民國年"
 						:options="yearOptions"
 						:selected="`${copyPeriod.startDate.year}`"
-            disable
+            :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','year', e.Value)"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" disable>
+				<InputGroup class="mr-3" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇月份"
 						:options="monthOptions"
 						:selected="`${copyPeriod.startDate.month}`"
-            disable
+            :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','month', e.Value)"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" disable>
+				<InputGroup class="mr-3" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇日期"
 						:options="dayOptions"
 						:selected="`${copyPeriod.startDate.day}`"
-            disable
+            :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-4" disable>
+				<InputGroup class="mr-4" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇小時"
 						:options="hourOptions"
 						:selected="`${copyPeriod.startDate.hour}`"
-            disable
+            :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','hour', e.Value)"
 					/>
 				</InputGroup>
 			</div>
 			<div class="col-span-3 flex flex-row">
-				<InputGroup class="mr-3" title="活動結束日期" disable>
+				<InputGroup class="mr-3" title="活動結束日期" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇民國年"
 						:options="yearOptions"
 						:selected="`${copyPeriod.endDate.year}`"
-            disable
+            :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','year', e.Value)"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" disable>
+				<InputGroup class="mr-3" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇月份"
 						:options="monthOptions"
 						:selected="`${copyPeriod.endDate.month}`"
-            disable
+            :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','month', e.Value)"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" disable>
+				<InputGroup class="mr-3" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇日期"
 						:options="dayOptions"
 						:selected="`${copyPeriod.endDate.day}`"
-            disable
+            :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-4" disable>
+				<InputGroup class="mr-4" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇小時"
 						:options="hourOptions"
 						:selected="`${copyPeriod.endDate.hour}`"
-            disable
+            :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','hour', e.Value)"
 					/>
 				</InputGroup>
@@ -161,10 +161,10 @@ export default {
 		},
 		hourOptions () {
 			const arr = []
-			for (let i = 0; i <= 23; i++) {
+			for (let i = 0; i <= 24; i++) {
 				arr.push({
 					Text: i + '時',
-					Value: i+1
+					Value: i
 				})
 			}
 			return arr 
@@ -172,13 +172,8 @@ export default {
 	},
 	methods: {
 		emitSelectItem(type,key, value) {
-			if(type === 'endDate' && this.copyPeriod[type][key] > Number(value)) {
-				this.copyPeriod.endDate[key] = Number(this.copyPeriod.startDate[key]) + 1
-				this.$emit('update:period', this.copyPeriod)
-			} else {
-				this.copyPeriod[type][key] = value
-				this.$emit('update:period', this.copyPeriod)
-			}
+			this.copyPeriod[type][key] = value
+			this.$emit('update:period', this.copyPeriod)
 		}
    }
 }

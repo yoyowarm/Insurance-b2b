@@ -122,17 +122,17 @@ export default {
         })
       }
       if (type == 'activity') {
-        if (!this.period.endDate.year || !this.period.endDate.month || !this.period.endDate.day || !this.period.endDate.hour) {
+        if (!this.period.endDate.year || !this.period.endDate.month || !this.period.endDate.day || isNaN(this.period.endDate.hour)) {
           this.requestFile.push('未選擇結束日')
         }
         this.activityInfo.map(item => {
           if (!item.number) {
             this.requestFile.push('未輸入每日人數')
           }
-          if (!item.startDate.year || !item.startDate.month || !item.startDate.day || !item.startDate.hour) {
+          if (!item.startDate.year || !item.startDate.month || !item.startDate.day || isNaN(item.startDate.hour)) {
             this.requestFile.push('未選擇活動開始日')
           }
-          if (!item.endDate.year || !item.endDate.month || !item.endDate.day || !item.endDate.hour) {
+          if (!item.endDate.year || !item.endDate.month || !item.endDate.day || isNaN(item.endDate.hour)) {
             this.requestFile.push('未選擇活動結束日')
           }
           if (!item.city.Value) {
@@ -152,7 +152,8 @@ export default {
       if (!this.industry.Value) {
         this.requestFile.push('未選擇投保行業')
       }
-      if (!this.period.startDate.year || !this.period.startDate.month || !this.period.startDate.day || !this.period.startDate.hour) {
+      console.log(this.period)
+      if (!this.period.startDate.year || !this.period.startDate.month || !this.period.startDate.day || isNaN(this.period.startDate.hour)) {
         this.requestFile.push('未選擇起保日')
       }
       this.insuranceAmountList.map(item => {

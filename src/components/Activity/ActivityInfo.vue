@@ -237,10 +237,10 @@ export default {
 		},
 		hourOptions () {
 			const arr = []
-			for (let i = 0; i <= 23; i++) {
+			for (let i = 0; i <= 24; i++) {
 				arr.push({
 					Text: i + '時',
-					Value: i+1
+					Value: i
 				})
 			}
 			return arr 
@@ -276,11 +276,11 @@ export default {
       }
       if(!this.copyInfoList[index].startDate.day) {
         this.copyInfoList[index].startDate.day = new Date(today).getDate()
-        this.copyInfoList[index].endDate.day = new Date(yestDay).getDate()
+        this.copyInfoList[index].endDate.day = new Date(today).getDate()
       }
       if(!this.copyInfoList[index].startDate.hour) {
-        this.copyInfoList[index].startDate.hour = new Date(today).getHours()
-        this.copyInfoList[index].endDate.hour = new Date(yestDay).getHours()
+        this.copyInfoList[index].startDate.hour = 0
+        this.copyInfoList[index].endDate.hour = 24
       }
       this.$emit('update:infoList', this.copyInfoList)
     }
