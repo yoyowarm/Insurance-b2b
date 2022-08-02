@@ -178,85 +178,27 @@ export default {
       // }
     },
     async insuredOrApplicantDetail (type) {
-      console.log(type)
-      // const data = {
-      //   identity: 1,
-      //   ID: ''
-      // }
-      // const TypeKey = type === 'Insuraned' ? '被保人' : '要保人'
-      // if(type === 'Insuraned') {
-      //   data.ID = this.Insuraned.ID
-      // } else {
-      //   data.ID = this.Applicant.ID
-      //   data.identity = 0
-      // }
       const detail = await this.$store.dispatch(`quotation/Get${type}`, {name: this[type].Name, id: this[type].ID})
-      console.log(detail)
-      // if(detail.data.Msg) {
-      //   return Popup.create({
-      //     hasHtml: true,
-      //     htmlText: detail.data.Msg,
-      //   })
-      // }
-      // const detailData = detail.data[TypeKey]
-      // const copyData = quotation().Insuraned
-      // if(detailData) {
-      //   let Nationality = {}
-      //   let RegisterNationality = {}
-      //   let City = {}
-      //   let Area = {}
-      //   if(detailData.Nationality) {
-      //     Nationality = this.nationalities.find(item => item.Value === detailData.Nationality)
-      //     if(Nationality) {
-      //      Nationality.activityholder = Nationality.Text
-      //      Nationality.id = Nationality.Value
-      //     }
-      //   }
-      //   if(detailData.RegisterNationality) {
-      //     RegisterNationality = this.nationalities.find(item => item.Value === detailData.RegisterNationality)
-      //     if(RegisterNationality) {
-      //      RegisterNationality.activityholder = RegisterNationality.Text
-      //      RegisterNationality.id = RegisterNationality.Value
-      //     }
-      //   }
-      //   if(detailData.City) {
-      //     City = this.cityList.find(item => item.Value === detailData.City)
-      //     if(City) {
-      //       City.activityholder = City.Text
-      //       City.id = City.Value
-            
-      //     }
-      //   }
-      //   if(detailData.Area) {
-      //     this.detailArea = detailData.Area
-      //     Area = this[`${type}AreaList`].find(item => item.Value == detailData.Area)
-      //     if (Area) {
-      //       Area.activityholder = Area.Text
-      //       Area.id = Area.Value
-      //     } else {
-      //       this.detailArea = detailData.Area
-      //     }
-      //   }
-      //   Object.assign(copyData, {
-      //     ID: detailData.ID,
-      //     Name: detailData.Name,
-      //     IsForeigner: detailData.IsForeigner,
-      //     Nationality,
-      //     RegisterNationality,
-      //     Corporate: detailData.Corporate,
-      //     CorporateRequired: detailData.Corporate ? true : false,
-      //     City: City? City: { activityholder: '選擇縣市', id: ''},
-      //     Area: Area? Area: {activityholder: '選擇區域',id: '',},
-      //     Street: detailData.Street,
-      //     Mobile: detailData.Mobile,
-      //     IsForeignRegister: detailData.IsForeignRegister,
-      //     Profession: detailData.Profession,
-      //     IsPolitician: detailData.IsPolitician,
-      //     overseasOrDomestic: detailData.overseasOrDomestic,
-      //     IsProOrNot: detailData.IsProOrNot,
-      //   })
-      //   this[`${type}Data`] = copyData
-      // }
+      const detailData = detail.data.content
+      const data = {}
+      Object.assign(data, {
+        ID: detailData.id,
+        Name: detailData.name,
+        IsForeigner: detailData.isForeigner,
+        Nationality: detailData.nationalityName ? this.nationalities.find(i => i.Text == detailData.nationalityName) : { Text: '', Value: '' },
+        Corporate: detailData.corporateName,
+        City: this.cityList.find(i => i.Value == detailData.cityId),
+        Area: this.ApplicantAreaList.find(i => i.areaId == detailData.areaId),
+        subAddress: detailData.subAddress,
+        Mobile: detailData.mobile,
+        IsForeignRegister: detailData.isForeignRegister,
+        RegisterNationality: detailData.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == detailData.registerNationality) : { Text: '', Value: '' },
+        Profession: detailData.isProfession,
+        IsPolitician: detailData.isPolitician,
+        overseasOrDomestic: Boolean(detailData.overseasOrDomestic),
+        IsProOrNot: detailData.isProOrNot,
+      })
+      this.$store.dispatch(`activity/updated${type}`, data)
     },
     async step2Init() {
       const result = await Promise.all([
