@@ -74,7 +74,7 @@
           <template v-for="(item,index) in quotationListTable.rows">
             <div :slot="`edit-${index}`" :key="`edit${index}`" class="flex flex-row">
               <Button class="copy-button mr-2" outline @click.native="review(item.type,item.orderNo)">查看</Button>
-              <Button class="copy-button" outline>複製</Button>
+              <Button class="copy-button" @click.native="copyQuotation(item.type,item.orderNo)" outline>複製</Button>
             </div>
           </template>
         </TableGroup>
@@ -286,7 +286,11 @@ export default {
     review(type, orderNo) {
       this.$store.dispatch('common/updateOrderNo', orderNo)
       this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step3`)
-    }
+    },
+    copyQuotation(type,orderNo) {
+      this.$store.dispatch('common/updateOrderNo', orderNo)
+      this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step1`)
+    },
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)

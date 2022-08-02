@@ -269,7 +269,7 @@ export default {
         }
       })
 
-      if(this.InsuranceActive !== 0) {
+      if(this.InsuranceActive !== 0 || this.orderNo) {
         this.step2InitAssignValue('place')
       }
     },

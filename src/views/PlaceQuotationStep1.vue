@@ -332,7 +332,7 @@ export default {
         this.additionTermsList = data.data.content.additionTermsDetails
         this.termsInit()
       }
-      if(this.InsuranceActive !== 0) {//報價明細更正、複製時塞資料
+      if(this.InsuranceActive !== 0 || this.orderNo) {//報價明細更正、複製時塞資料
         await this.quotationDetail()
         this.step1InitAssignValue('place')
       }
