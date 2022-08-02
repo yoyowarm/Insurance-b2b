@@ -114,7 +114,8 @@
         <Button class="mr-6" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
         <Button class="mr-6" @click.native="getAmount(index)" outline>試算</Button>
         <Button v-if="item.fixed && !copyLists.some(item => item.isSelected)" class="mr-6" @click.native="updateFixed(index)" outline>修改</Button>
-        <Button v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button>
+        <Button class="mr-6" v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button>
+        <Button v-if="!copyLists.some(item => item.isSelected)" @click.native="updateInsuranceProject(index)" outline>編輯投保資料</Button>
         <Button v-if="viewModel && editModel">修改保費</Button>
       </div>
     </CommonBoard>
@@ -188,6 +189,10 @@ export default {
     countyAmount: {
       type: Array,
       default: () => []
+    },
+    type: {
+      type: String,
+      default: ''
     }
   },
   data() {
@@ -314,6 +319,10 @@ export default {
         this.$emit('update:lists',lists)
       }
       
+    },
+    updateInsuranceProject() {
+      this.$store.dispatch(`${this.type}/updatedInsuranceActive`,1)
+      this.$router.push({name: `${this.type}-quotation-step1`})
     },
     async AddInsuranceProject(index) {
       const data = {

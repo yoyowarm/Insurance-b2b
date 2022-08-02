@@ -74,7 +74,7 @@ export default {
       default: false
     },
     selected: {
-      type: String,
+      type: [Number, String],
       default: ''
     },
     valueName: {

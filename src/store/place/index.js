@@ -5,6 +5,7 @@ export default {
   state: {
     uuid: '',
     InsuranceActive: 0,
+    quotationData: {},
     renewal: {//是否續保
       IsRenewal: false,
       InsuranceNumber: '',
@@ -469,6 +470,12 @@ export default {
     },
     UPDATED_UUID(state, data) {
       state.uuid = data
+    },
+    UPDATED_INSURANCE_ACTIVE(state, data) {
+      state.InsuranceActive = data
+    },
+    UPDATED_QUOTATION_DATA(state, data) {
+      state.quotationData = data
     }
   },
   actions: {
@@ -493,6 +500,8 @@ export default {
       commit('UPDATED_QUESTIONNAIRE_FINISHED', false)
       commit('UPDATED_INTERNAL_CONTROL_DATA', quotation().internalControlData)
       commit('UPDATED_UUID', '')
+      commit('UPDATED_INSURANCE_ACTIVE', 0),
+        commit('UPDATED_QUOTATION_DATA', {})
     },
     addPlaceInfo({ commit }) {
       commit('ADD_PLACE_INFO')
@@ -565,6 +574,12 @@ export default {
     },
     updatedUUID({ commit }, uuid) {
       commit('UPDATED_UUID', uuid)
+    },
+    updatedInsuranceActive({ commit }, type) {
+      commit('UPDATED_INSURANCE_ACTIVE', type)
+    },
+    updatedQuotationData({ commit }, data) {
+      commit('UPDATED_QUOTATION_DATA', data)
     }
   }
 }

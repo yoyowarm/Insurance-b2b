@@ -4,6 +4,8 @@ export default {
   namespaced: true,
   state: {
     uuid: '',
+    InsuranceActive: 0,
+    quotationData: {},
     activityInfo: [{
       number: '',
       city: {
@@ -61,7 +63,7 @@ export default {
         Text: '選擇區域',
         Value: '',
       },
-      Street: '',
+      subAddress: '',
       Mobile: '',
       IsForeignRegister: false,
       RegisterNationality: '',
@@ -93,7 +95,7 @@ export default {
         Text: '選擇區域',
         Value: '',
       },
-      Street: '',
+      subAddress: '',
       Mobile: '',
       IsForeignRegister: false,
       RegisterNationality: '',
@@ -464,6 +466,12 @@ export default {
     },
     UPDATED_UUID(state, data) {
       state.uuid = data
+    },
+    UPDATED_INSURANCE_ACTIVE(state, data) {
+      state.InsuranceActive = data
+    },
+    UPDATED_QUOTATION_DATA(state, data) {
+      state.quotationData = data
     }
   },
   actions: {
@@ -485,6 +493,8 @@ export default {
       commit('UPDATED_ACTIVITY_QUOTATION', {})
       commit('UPDATED_INTERNAL_CONTROL_DATA', quotation().internalControlData)
       commit('UPDATED_UUID', '')
+      commit('UPDATED_INSURANCE_ACTIVE', 0),
+        commit('UPDATED_QUOTATION_DATA', {})
     },
     addActivityInfo({ commit }) {
       commit('ADD_ACTIVITY_INFO')
@@ -548,6 +558,12 @@ export default {
     },
     updatedUUID({ commit }, uuid) {
       commit('UPDATED_UUID', uuid)
+    },
+    updatedInsuranceActive({ commit }, type) {
+      commit('UPDATED_INSURANCE_ACTIVE', type)
+    },
+    updatedQuotationData({ commit }, data) {
+      commit('UPDATED_QUOTATION_DATA', data)
     }
   }
 }

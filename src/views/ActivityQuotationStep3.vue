@@ -15,6 +15,7 @@
       :infoList="quotationData.activityInsureInfo.activityInfo"
       :countyAmount="countyAmount"
       @getQuotationDetail="quotationDetail"
+      type="activity"
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>

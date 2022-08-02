@@ -7,17 +7,42 @@ export default {
 		})
 	},
 	beforeRouteLeave(to, from, next) {
-		if (this.viewModel) {
+		// if (this.viewModel) {
+		// 	Popup.create({
+		// 		hasHtml: true,
+		// 		maskClose: false,
+		// 		confirm: true,
+		// 		ok: '確定',
+		// 		cancel: '取消',
+		// 		htmlText: `<p>尚未核保完成，確定離開頁面嗎？</p>`,
+		// 	}).then(() => {
+		// 		this.$store.dispatch('common/updatedViewModel', false)
+		// 		this.$store.dispatch('common/updatedEditModel', false)
+		// 		next()
+		// 	}).catch(() => {
+		// 		next(false)
+		// 	})
+		// } else {
+		// 	next()
+		// }
+		if (this.InsuranceActive !== 0 && !(to.path.includes('-quotation/step2') || (to.path.includes('-quotation/step1')) || (to.path.includes('-quotation/step3'))) ||
+			(this.InsuranceActive !== 0 && from.path.includes('/place-quotation/') && to.path.includes('/activity-quotation')) ||
+			(this.InsuranceActive !== 0 && from.path.includes('/activity-quotation/') && to.path.includes('/place-quotation'))
+		) {
 			Popup.create({
 				hasHtml: true,
 				maskClose: false,
 				confirm: true,
 				ok: '確定',
 				cancel: '取消',
-				htmlText: `<p>尚未核保完成，確定離開頁面嗎？</p>`,
+				htmlText: `<p>目前更正尚未報價完成，確定離開頁面嗎？</p>`,
 			}).then(() => {
-				this.$store.dispatch('common/updatedViewModel', false)
-				this.$store.dispatch('common/updatedEditModel', false)
+				this.$store.dispatch('place/clearAll')
+				this.$store.dispatch('activity/clearAll')
+				this.$store.dispatch('common/updateOrderNo', '')
+				this.$store.dispatch('common/updatedCalculateModel', false)
+				this.$store.dispatch('place/updatedInsuranceActive', 0)
+				this.$store.dispatch('activity/updatedInsuranceActive', 0)
 				next()
 			}).catch(() => {
 				next(false)

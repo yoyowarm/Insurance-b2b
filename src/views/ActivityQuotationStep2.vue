@@ -56,7 +56,7 @@
       <DynamicLink type="router" path="/activity-quotation/step1" >
         <Button class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
       </DynamicLink>
-      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">產生報價單</Button>
+      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActive == 0 ? '產生報價單' : '修改報價單' }}</Button>
     </div>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -75,13 +75,13 @@ import WindowResizeListener from '@/components/WindowResizeListener'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import BrokerInfo from '@/components/Common/BrokerInfo.vue'
 import mixinVerify from '@/utils/mixins/verifyStep2'
-// import routeChange from '@/utils/mixins/routeChange'
+import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 // import { quotationStep2 } from '@/utils/dataTemp'
 // import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
-  mixins: [mixinVerify, editCopyQuotation],
+  mixins: [mixinVerify, editCopyQuotation,routeChange],
   components: {
     CommonBoard,
     Button,
@@ -118,6 +118,8 @@ export default {
       activityInfo: state => state.activity.activityInfo,
       internalControlData: state => state.activity.internalControlData,
       activityQuotation: state => state.activity.activityQuotation,
+      orderNo: state => state.common.orderNo,
+      quotationData: state => state.activity.quotationData,
     }),
     InsuranedData: {
       get() {
@@ -310,10 +312,9 @@ export default {
           Text: item.name
         }
       })
-      // if(this.InsuranceActive !== 0) {
-      //   this.step2InitAssignValue()
-      //   this.step2InitAssignArea()
-      // }
+      if(this.InsuranceActive !== 0) {
+        this.step2InitAssignValue('activity')
+      }
     },
     async nextStep() {
       this.verifyResult = []
@@ -372,8 +373,13 @@ export default {
       delete obj.applicant.Nationality
       delete obj.applicant.RegisterNationality
 
-      const insert = await this.$store.dispatch('quotation/AddActivityQuotation', obj)
-      this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)
+      if(this.InsuranceActive !== 0) {
+        Object.assign(obj, {orderNo:this.orderNo})
+        await this.$store.dispatch('quotation/UpdateActivityQuotation', obj)
+      } else {
+        const insert = await this.$store.dispatch('quotation/AddActivityQuotation', obj)
+        this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)
+      }
     }
   },
   async mounted() {

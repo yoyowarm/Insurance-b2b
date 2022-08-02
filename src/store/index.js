@@ -46,6 +46,8 @@ const vuexLocal = new VuexPersistence({
         internalControlData: state.place.internalControlData,
         placeQuotation: state.place.placeQuotation,
         questionnaireFinished: state.place.questionnaireFinished,
+        InsuranceActive: state.place.InsuranceActive,
+        quotationData: state.place.quotationData,
       },
       activity: {
         uuid: state.activity.uuid,
@@ -65,6 +67,8 @@ const vuexLocal = new VuexPersistence({
         activityQuotation: state.activity.activityQuotation,
         additionTerms: state.activity.additionTerms,
         internalControlData: state.activity.internalControlData,
+        InsuranceActive: state.activity.InsuranceActive,
+        quotationData: state.activity.quotationData,
       },
       common: {
         viewModel: state.common.viewModel,

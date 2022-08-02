@@ -24,8 +24,14 @@ export const GetInsuranceProjectAmount = (data) => request('post', '/Quotation/G
 export const FinishQuotation = (data) => request('post', '/Quotation/FinishQuotation', data)
 //開始核保
 export const BeginUnderwriting = (data) => request('post', '/Quotation/BeginUnderwriting', data)
-//修改處所報價
+//修改處所報價 核保
 export const EditPlaceQuotation = (data) => request('patch', '/Quotation/EditPlaceQuotation', data)
+//修改活動報價 核保
+export const EditActivityQuotation = (data) => request('patch', '/Quotation/EditActivityQuotation', data)
+//更新場所報價單
+export const UpdatePlaceQuotation = (data) => request('patch', '/Quotation/UpdatePlaceQuotation', data)
+//更新活動報價單
+export const UpdateActivityQuotation = (data) => request('patch', '/Quotation/UpdateActivityQuotation', data)
 //保險方案試算
 export const TrialBalanceInsuranceProject = (data) => request('post', '/Quotation/TrialBalanceInsuranceProject', data)
 //核壓保費

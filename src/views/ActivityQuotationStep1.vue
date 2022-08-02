@@ -109,7 +109,8 @@ import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/ActivityQuestionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
-// import routeChange from '@/utils/mixins/routeChange'
+import routeChange from '@/utils/mixins/routeChange'
+import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
@@ -117,7 +118,7 @@ import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
 export default {
-  mixins: [mixinVerify],
+  mixins: [mixinVerify,editCopyQuotation,routeChange],
   components: {
     CommonBoard,
     InputGroup,
@@ -150,7 +151,7 @@ export default {
       additionTermsList: [],
       attachmentList: [],
       openQuestionnaire: false,
-      openFormula: false
+      openFormula: false,
     }
   },
   computed: {
@@ -168,6 +169,9 @@ export default {
       additionTerms: state => state.activity.additionTerms,
       questionnaireFinished: state => state.activity.questionnaireFinished,
       insuranceAmountList: state => state.activity.insuranceAmountList,
+      InsuranceActive: state => state.activity.InsuranceActive,
+      orderNo: state => state.common.orderNo,
+      quotationData: state => state.activity.quotationData,
     }),
     activityInfoList: {
       get () {
@@ -276,6 +280,10 @@ export default {
         this.additionTermsList = data.data.content.additionTermsDetails
         this.termsInit()
       }
+      if(this.InsuranceActive !== 0) {//報價明細更正、複製時塞資料
+        await this.quotationDetail()
+        this.step1InitAssignValue('activity')
+      }
     },
     termsInit() {
       const terms = {}
@@ -332,8 +340,10 @@ export default {
               countyCode: this.countyList.find(i => i.Value == item.city.Value).cityCode,
               subAddress: item.address,
               activityDays: item.day,
-              activityBegin: `${Number(item.startDate.year) + 1911}-${item.startDate.month}-${item.startDate.day} ${item.startDate.hour}:00:00`,
-              activityEnd: `${Number(item.endDate.year) + 1911}-${item.endDate.month}-${item.endDate.day} ${item.endDate.hour}:00:00`,
+              activityBegin: `${Number(item.startDate.year) + 1911}-${item.startDate.month}-${item.startDate.day}`,
+              activityBeginHour: item.startDate.hour,
+              activityEnd: `${Number(item.endDate.year) + 1911}-${item.endDate.month}-${item.endDate.day}`,
+              activityEndHour: item.endDate.hour,
             }
           })],
           amountType: this.insuranceAmountList[0].amountType.Value,
@@ -354,6 +364,38 @@ export default {
         }
       }
       this.updatePeriod()
+    },
+    async quotationDetail() {
+      const detail = await this.$store.dispatch('quotation/GetActivityQuotationDetail', this.orderNo)
+      const data = {
+        ...detail.data.content,
+        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
+          return {
+            ...item,
+            // eslint-disable-next-line no-prototype-builtins
+            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
+            fixed: false,
+            insuranceTotalAmount: item.insuranceTotalAmount/10000,
+            mergeSingleAmount: item.mergeSingleAmount/10000,
+            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
+            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
+            perBodyAmount: item.perBodyAmount/10000,
+            parameter: {
+              basicFee: '',
+              finalHC: '',
+              sizeParameter: '',
+              selfInflictedParameter: '',
+              shortPeriodParameter: '',
+              additionalCostParameter: '',
+              mutiSizeParameter: '',
+              additionTermCoefficientParameter: '',
+              aggAOACoefficient: '',
+              amount: '',
+            }
+          }
+        })
+      }
+      this.$store.dispatch('activity/updatedQuotationData',data)
     },
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
@@ -403,8 +445,10 @@ export default {
       const data = {
         policyAttachmentId: this.uuid,
         insurancePeriod: {
-          startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day} ${this.period.startDate.hour}:00:00`,
-          endDate: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day} ${this.period.endDate.hour}:00:00`,
+          startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
+          startHour: this.period.startDate.hour,
+          endDate: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}`,
+          endHour: this.period.endDate.hour,
         },
         additionTerms: [...this.additionTermsList.filter(item => {
           return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected

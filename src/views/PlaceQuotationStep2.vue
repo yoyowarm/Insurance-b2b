@@ -59,7 +59,7 @@
       <DynamicLink type="router" path="/place-quotation/step1" >
         <Button class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
       </DynamicLink>
-      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">產生報價單</Button>
+      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActive == 0 ? '產生報價單' : '修改報價單' }}</Button>
     </div>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -79,12 +79,12 @@ import LoadingScreen from '@/components/LoadingScreen.vue'
 import BrokerInfo from '@/components/Common/BrokerInfo.vue'
 import Address from '@/components/Place/Address'
 import mixinVerify from '@/utils/mixins/verifyStep2'
-// import routeChange from '@/utils/mixins/routeChange'
+import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { mapState } from 'vuex'
 export default {
-  mixins: [mixinVerify, editCopyQuotation],
+  mixins: [mixinVerify, editCopyQuotation,routeChange],
   components: {
     CommonBoard,
     Button,
@@ -123,6 +123,8 @@ export default {
       placeInfo: state => state.place.placeInfo,
       internalControlData: state => state.place.internalControlData,
       placeQuotation: state => state.place.placeQuotation,
+      orderNo: state => state.common.orderNo,
+      quotationData: state => state.place.quotationData,
     }),
     InsuranedData: {
       get() {
@@ -323,19 +325,10 @@ export default {
           Text: item.name
         }
       })
-      // this.cityList = cityList.data
-      // if(this.Applicant.City.id) {
-      //   const areaList = await this.$store.dispatch('resource/areaByCityID', this.Applicant.City.id)
-      //   this.ApplicantAreaList = areaList.data
-      // }
-      // if(this.Insuraned.City.id) {
-      //   const areaList = await this.$store.dispatch('resource/areaByCityID', this.Insuraned.City.id)
-      //   this.InsuranedAreaList = areaList.data
-      // }
-      // if(this.InsuranceActive !== 0) {
-      //   this.step2InitAssignValue()
-      //   this.step2InitAssignArea()
-      // }
+
+      if(this.InsuranceActive !== 0) {
+        this.step2InitAssignValue('place')
+      }
     },
     async nextStep() {
       this.verifyResult = []
@@ -349,15 +342,6 @@ export default {
       if(this.verifyResult.length === 0 && this.verifySalesInvadeResult.length === 0) {
         await this.quotationMapping()
         this.$router.push('/place-quotation/step3')
-        // if(IsSuccess) {
-        //   this.$store.dispatch('quotationStep1/updatedInsuranceActive', 0)
-        //   this.$store.dispatch('quotationStep2/updatedSerailNo', SerailNo)
-        // } else {
-        //   Popup.create({
-        //   hasHtml: true,
-        //   htmlText: `<p>${SerailNo}，請洽承辦人員</p>`,
-        // })
-        // }
       }
     },
     async quotationMapping() {
@@ -413,8 +397,13 @@ export default {
       delete obj.applicant.Nationality
       delete obj.applicant.RegisterNationality
 
-      const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
-      this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)
+      if(this.InsuranceActive !== 0) {
+        Object.assign(obj, {orderNo:this.orderNo})
+        await this.$store.dispatch('quotation/UpdatePlaceQuotation', obj)
+      } else {
+        const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
+        this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)
+      }
     }
   },
   async mounted() {

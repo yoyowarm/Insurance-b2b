@@ -134,13 +134,13 @@ import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import InsuranceRecord from '@/components/Place/InsuranceRecord.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
-// import routeChange from '@/utils/mixins/routeChange'
+import routeChange from '@/utils/mixins/routeChange'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 export default {
-  mixins: [mixinVerify, editCopyQuotation],
+  mixins: [mixinVerify, editCopyQuotation,routeChange],
   components: {
     CommonBoard,
     InputGroup,
@@ -193,6 +193,9 @@ export default {
       uuid: state => state.place.uuid,
       additionTerms: state => state.place.additionTerms,
       questionnaireFinished: state => state.place.questionnaireFinished,
+      InsuranceActive: state => state.place.InsuranceActive,
+      orderNo: state => state.common.orderNo,
+      quotationData: state => state.place.quotationData,
     }),
     placeInfoList: {
       get () {
@@ -329,6 +332,10 @@ export default {
         this.additionTermsList = data.data.content.additionTermsDetails
         this.termsInit()
       }
+      if(this.InsuranceActive !== 0) {//報價明細更正、複製時塞資料
+        await this.quotationDetail()
+        this.step1InitAssignValue('place')
+      }
     },
     async calculateAmount() {
       this.verifyRequired('place')
@@ -383,6 +390,38 @@ export default {
         }
       }
     },
+    async quotationDetail() {
+      const detail = await this.$store.dispatch('quotation/GetPlaceQuotationDetail', this.orderNo)
+      const data = {
+        ...detail.data.content,
+        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
+          return {
+            ...item,
+            // eslint-disable-next-line no-prototype-builtins
+            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
+            fixed: false,
+            insuranceTotalAmount: item.insuranceTotalAmount/10000,
+            mergeSingleAmount: item.mergeSingleAmount/10000,
+            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
+            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
+            perBodyAmount: item.perBodyAmount/10000,
+            parameter: {
+              basicFee: '',
+              finalHC: '',
+              sizeParameter: '',
+              selfInflictedParameter: '',
+              shortPeriodParameter: '',
+              additionalCostParameter: '',
+              mutiSizeParameter: '',
+              additionTermCoefficientParameter: '',
+              aggAOACoefficient: '',
+              amount: '',
+            }
+          }
+        })
+      }
+      this.$store.dispatch('place/updatedQuotationData',data)
+    },
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
@@ -412,8 +451,10 @@ export default {
           }
         },
         insurancePeriod: {
-          startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day} ${this.period.startDate.hour}:00:00`,
-          endDate: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day} ${this.period.endDate.hour}:00:00`,
+          startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
+          startHour: this.period.startDate.hour,
+          endDate: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}`,
+          endHour: this.period.endDate.hour,
         },
         additionTerms: [...this.additionTermsList.filter(item => {
           return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected

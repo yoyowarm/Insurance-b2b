@@ -17,25 +17,25 @@
         <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
           <div v-else slot="input">
-            {{info.insuranceBegin? info.insuranceBegin.split('T')[0].split('-')[0]: ''}}年
+            {{info.insuranceBeginDate? info.insuranceBeginDate.split('T')[0].split('-')[0]: ''}}年
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="04月"/>
           <div v-else slot="input">
-            {{info.insuranceBegin?info.insuranceBegin.split('T')[0].split('-')[1] : ''}}月
+            {{info.insuranceBeginDate?info.insuranceBeginDate.split('T')[0].split('-')[1] : ''}}月
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="15日"/>
           <div v-else slot="input">
-            {{info.insuranceBegin?info.insuranceBegin.split('T')[0].split('-')[2]: ''}}日
+            {{info.insuranceBeginDate?info.insuranceBeginDate.split('T')[0].split('-')[2]: ''}}日
           </div>
         </InputGroup>
         <InputGroup class="w-full" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="12時"/>
           <div v-else slot="input">
-            {{info.insuranceBegin? info.insuranceBegin.split('T')[1].split(':')[0]: ''}}時
+            {{info.insuranceBeginHour}}時
           </div>
         </InputGroup>
       </div>
@@ -43,25 +43,25 @@
         <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
           <div v-else slot="input">
-            {{info.insuranceBegin? info.insuranceEnd.split('T')[0].split('-')[0]: ''}}年
+            {{info.insuranceEndDate? info.insuranceEndDate.split('T')[0].split('-')[0]: ''}}年
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="04月"/>
           <div v-else slot="input">
-            {{info.insuranceEnd?info.insuranceEnd.split('T')[0].split('-')[1]: ''}}月
+            {{info.insuranceEndDate?info.insuranceEndDate.split('T')[0].split('-')[1]: ''}}月
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="15日"/>
           <div v-else slot="input">
-            {{info.insuranceEnd?info.insuranceEnd.split('T')[0].split('-')[2]:''}}日
+            {{info.insuranceEndDate?info.insuranceEndDate.split('T')[0].split('-')[2]:''}}日
           </div>
         </InputGroup>
         <InputGroup class="w-full" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="12時"/>
           <div v-else slot="input">
-            {{info.insuranceEnd?info.insuranceEnd.split('T')[1].split(':')[0]:''}}時
+            {{info.insuranceEndHour}}時
           </div>
         </InputGroup>
       </div>

@@ -12,6 +12,9 @@ import {
   FinishQuotation,
   BeginUnderwriting,
   EditPlaceQuotation,
+  EditActivityQuotation,
+  UpdatePlaceQuotation,
+  UpdateActivityQuotation,
   TrialBalanceInsuranceProject,
   ApprovedInsuranceAmount,
   GetPlaceInsuranceProjectAmount,
@@ -62,6 +65,15 @@ export default {
     },
     async EditPlaceQuotation(_, { data }) {
       return await EditPlaceQuotation(data)
+    },
+    async EditActivityQuotation(_, { data }) {
+      return await EditActivityQuotation(data)
+    },
+    async UpdatePlaceQuotation(_, data) {
+      return await UpdatePlaceQuotation(data)
+    },
+    async UpdateActivityQuotation(_, data) {
+      return await UpdateActivityQuotation(data)
     },
     async TrialBalanceInsuranceProject(_, { data }) {
       return await TrialBalanceInsuranceProject(data)

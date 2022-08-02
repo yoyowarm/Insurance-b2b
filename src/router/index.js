@@ -153,13 +153,13 @@ router.beforeEach((to, from, next) => {
   if (to.path === '/activity-quotation/step2' && from.path === '/activity-quotation/step3') {
     next({ name: 'activity-quotation-step3' })
   }
-  if (from.path === '/place-quotation/step3') {
+  if (from.path === '/place-quotation/step3' && store.state.place.InsuranceActive == 0) {
     store.dispatch('place/clearAll')
     store.dispatch('activity/clearAll')
     store.dispatch('common/updateOrderNo', '')
     store.dispatch('common/updatedCalculateModel', false)
   }
-  if (from.path === '/activity-quotation/step3') {
+  if (from.path === '/activity-quotation/step3' && store.state.activity.InsuranceActive == 0) {
     store.dispatch('place/clearAll')
     store.dispatch('activity/clearAll')
     store.dispatch('common/updateOrderNo', '')
