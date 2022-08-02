@@ -202,7 +202,7 @@ export default {
         return this.remark.text
       },
       set(value) {
-        this.$store.dispatch('activity/updatedRemark',{...this.remark, text: value.target.value})
+        this.$store.dispatch('activity/updatedRemark',value)
       }
     },
     insuranceAmountListData: {

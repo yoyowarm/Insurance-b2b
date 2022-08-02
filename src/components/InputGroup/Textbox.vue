@@ -1,5 +1,5 @@
 <template>
-	<textarea class="textbox" name="textbox" rows="2" placeholder="輸入文字內容" :value="value" @input="(e)=> $emit('update:value', e)" required/>
+	<textarea class="textbox" name="textbox" rows="2" placeholder="輸入文字內容" :value="value" @input="(e)=> updateValue(e)" required/>
 </template>
 
 <script>
@@ -8,6 +8,11 @@ export default {
 		value: {
 			type: String,
 			default: ''
+		}
+	},
+	methods: {
+		updateValue(e) {
+			this.$emit('update:value', e.target.value)
 		}
 	}
 }

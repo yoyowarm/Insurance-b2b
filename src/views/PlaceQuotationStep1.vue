@@ -234,7 +234,7 @@ export default {
         return this.remark.text
       },
       set(value) {
-        this.$store.dispatch('place/updatedRemark',{...this.remark, text: value.target.value})
+        this.$store.dispatch('place/updatedRemark',value)
       }
     },
     insuranceAmountListData: {
