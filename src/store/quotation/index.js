@@ -19,7 +19,9 @@ import {
   ApprovedInsuranceAmount,
   GetPlaceInsuranceProjectAmount,
   EditInsuranceProject,
-  GetActivityInsuranceProjectAmount
+  GetActivityInsuranceProjectAmount,
+  GetInsuraned,
+  GetApplicant
 } from '@/api/Quotation'
 export default {
   namespaced: true,
@@ -89,6 +91,12 @@ export default {
     },
     async GetActivityInsuranceProjectAmount(_, { data }) {
       return await GetActivityInsuranceProjectAmount(data)
+    },
+    async GetInsuraned(_, { name, id }) {
+      return await GetInsuraned(name, id)
+    },
+    async GetApplicant(_, { name, id }) {
+      return await GetApplicant(name, id)
     }
   }
 }

@@ -190,7 +190,8 @@ export default {
       //   data.ID = this.Applicant.ID
       //   data.identity = 0
       // }
-      // const detail = await this.$store.dispatch('resource/insuredOrApplicantDetail', data)
+      const detail = await this.$store.dispatch(`quotation/Get${type}`, {name: this[type].Name, id: this[type].ID})
+      console.log(detail)
       // if(detail.data.Msg) {
       //   return Popup.create({
       //     hasHtml: true,
@@ -279,14 +280,14 @@ export default {
             ...subItem,
             cityCode: item.cityCode,
             cityId: item.cityId,
-            Value: subItem.zipCode,
+            Value: subItem.areaId,
             Text: subItem.areaName
           })
           this.ApplicantAreaList.push({
             ...subItem,
             cityCode: item.cityCode,
             cityId: item.cityId,
-            Value: subItem.zipCode,
+            Value: subItem.areaId,
             Text: subItem.areaName
           })
         })
@@ -338,9 +339,9 @@ export default {
         ...this.Insuraned,
         cityId: this.Insuraned.City.Value,
         city: this.Insuraned.City.Text,
-        areaId: this.ApplicantAreaList.find(item => item.Value == this.Insuraned.Area.Value).areaId,
+        areaId: this.Insuraned.Area.Value,
         area: this.Insuraned.Area.Text,
-        zipCode: this.Insuraned.Area.Value,
+        zipCode: this.ApplicantAreaList.find(item => item.Value == this.Insuraned.Area.Value).zipCode,
         nationalityName: this.Insuraned.Nationality.Text,
         registerNationality: this.Insuraned.RegisterNationality.Text,
         overseasOrDomestic: Number(this.Insuraned.overseasOrDomestic)
@@ -351,9 +352,9 @@ export default {
         ...this.Applicant,
         cityId: this.Applicant.City.Value,
         city: this.Applicant.City.Text,
-        areaId: this.ApplicantAreaList.find(item => item.Value == this.Applicant.Area.Value).areaId,
+        areaId:this.Applicant.Area.Value ,
         area: this.Applicant.Area.Text,
-        zipCode: this.Applicant.Area.Value,
+        zipCode: this.ApplicantAreaList.find(item => item.Value == this.Applicant.Area.Value).zipCode,
         nationalityName: this.Applicant.Nationality.Text,
         registerNationality: this.Applicant.RegisterNationality.Text,
         overseasOrDomestic: Number(this.Applicant.overseasOrDomestic)

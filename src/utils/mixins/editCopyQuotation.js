@@ -203,7 +203,7 @@ export default {
               ...item,
               holdState: item.holdState == 0 ? false : true,
               city: this.countyList.find(i => i.Value == item.cityId),
-              area: this.areaList.find(i => i.Value == item.areaId),
+              area: this.areaList.find(i => i.Value == item.areaId) ? this.areaList.find(i => i.Value == item.areaId) : { Value: '選擇區域', Text: '選擇區域' },
             }
           })
         }
@@ -215,7 +215,7 @@ export default {
               address: item.subAddress.toString(),
               day: item.activityDays.toString(),
               city: this.countyList.find(i => i.Value == item.cityId),
-              area: this.areaList.find(i => i.Value == item.areaId),
+              area: this.areaList.find(i => i.Value == item.areaId) ? this.areaList.find(i => i.Value == item.areaId) : { Value: '選擇區域', Text: '選擇區域' },
               startDate: {
                 year: `${Number(item.activityBeginDate.split('T')[0].split('-')[0]) - 1911}`,
                 month: `${item.activityBeginDate.split('T')[0].split('-')[1]}`,

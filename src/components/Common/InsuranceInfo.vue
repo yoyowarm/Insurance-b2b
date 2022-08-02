@@ -4,7 +4,7 @@
       <InputGroup class=" w-full mb-2.5" title="姓名">
         <div slot="input" class="w-full pr-24 relative">
           <Input slot="input" placeholder="輸入名稱" :value="copyInfo.Name" @updateValue="(e) => updateInfo('Name', e)"/>
-          <Button class="absolute right-0 -top-1 w-10 md:w-16 h-full" style="height: 50px" @click.native="() => { if(copyInfo.ID) {$emit('getDetail')}}">查詢</Button>
+          <Button class="absolute right-0 -top-1 w-10 md:w-16 h-full" style="height: 50px" @click.native="() => { if(copyInfo.Name) {$emit('getDetail')}}">查詢</Button>
         </div>
       </InputGroup>
       <InputGroup class=" w-full mb-2.5" title="統編/身分證">

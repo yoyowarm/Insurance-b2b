@@ -42,3 +42,7 @@ export const GetPlaceInsuranceProjectAmount = (data) => request('post', '/Quotat
 export const EditInsuranceProject = (data) => request('put', '/Quotation/EditInsuranceProject', data)
 //活動建單前保費試算
 export const GetActivityInsuranceProjectAmount = (data) => request('post', '/Quotation/GetActivityInsuranceProjectAmountWithoutOrder', data)
+//取得被保人資料
+export const GetInsuraned = (name, id) => request('get', '/Quotation/GetInsuraned', { name, id })
+//取得要保人資料
+export const GetApplicant = (name, id) => request('get', '/Quotation/GetApplicant', { name, id })
