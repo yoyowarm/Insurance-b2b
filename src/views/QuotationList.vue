@@ -155,10 +155,6 @@ export default {
       ],
       stateList: [
         {
-          Text: '選擇類型',
-          Value: 0
-        },
-        {
           Text: '未完成報價',
           Value: 1
         },
