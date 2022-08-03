@@ -39,6 +39,7 @@
         }"
       />
       <InsuranceInfo
+        :disable="sameAsInsured || Relation.Value =='RL00'"
         :marginTop="marginTop"
         :info.sync="ApplicantData"
         :nationalities="nationalities"
@@ -127,6 +128,9 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedInsuraned', value)
+        if(this.Relation.Value === 'RL00') {
+          this.ApplicantData = value
+        }
       }
     },
     ApplicantData: {
