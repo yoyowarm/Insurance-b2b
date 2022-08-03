@@ -171,18 +171,6 @@ export default {
           })
         }
         return arr 
-      },
-      AmPmOptions () {
-        const arr = []
-        arr.push({
-          Text: 'AM',
-          Value: 'AM'
-        })
-        arr.push({
-          Text: 'PM',
-          Value: 'PM'
-        })
-        return arr 
       }
    },
   methods: {

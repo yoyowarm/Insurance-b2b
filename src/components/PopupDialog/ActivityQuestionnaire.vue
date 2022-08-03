@@ -2,7 +2,7 @@
   <div class="popup" ref="modal" :class="{'open':open }">
     <div class="dialog">
       <div class="header">
-        <span>公共意外責任保險場所詢問表</span>
+        <span>公共意外責任保險活動詢問表</span>
         <div class="icon" @click="$emit('update:open' ,false)">
           <font-awesome-icon icon="times-circle" />
         </div>

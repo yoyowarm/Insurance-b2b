@@ -6,9 +6,9 @@
         id="消防栓"
         class="text-md"
         text="消防栓"
-        :checked="data.part7.fireHydrant"
-        :value="data.part7.fireHydrant"
-        @updateValue="(e) =>updateValue(e,'fireHydrant')"
+        :checked="data.sheet1.part5.hasFireHydrant"
+        :value="data.sheet1.part5.hasFireHydrant"
+        @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
     </div>
     <div class="column-6 my-1">
@@ -16,104 +16,104 @@
         id="滅火器：泡沫型"
         class="text-md"
         text="滅火器：泡沫型"
-        :checked="data.part7.fireExtinguisher"
-        :value="data.part7.fireExtinguisher"
+        :checked="data.sheet1.part5.fireExtinguisher"
+        :value="data.sheet1.part5.fireExtinguisher"
         @updateValue="(e) =>updateValue(e,'fireExtinguisher')"
       />
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8" :disable="!data.sheet1.part5.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
           placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.foam.indoor"
-          @updateValue="(e) => updateValue(e,'foam.indoor')"
+          :disable="!data.sheet1.part5.fireExtinguisher"
+          :value="data.sheet1.part5.foam.indoor"
+          @updateValue="(e) => emitSelectItem('foam','indoor',e)"
           numberOnly
         />
       </InputGroup>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8" :disable="!data.sheet1.part5.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
           placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.foam.outdoor"
-          @updateValue="(e) => updateValue(e,'foam.outdoor')"
+          :disable="!data.sheet1.part5.fireExtinguisher"
+          :value="data.sheet1.part5.foam.outdoor"
+          @updateValue="(e) => emitSelectItem('foam','outdoor',e)"
           numberOnly
         />
       </InputGroup>
     </div>
     <div class="column-6 my-1">
       <span class="h-full pl-24 mt-4">二氧化碳</span>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8" :disable="!data.sheet1.part5.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
           placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.carbonDioxide.indoor"
-          @updateValue="(e) => updateValue(e,'carbonDioxide.indoor')"
+          :disable="!data.sheet1.part5.fireExtinguisher"
+          :value="data.sheet1.part5.carbonDioxide.indoor"
+          @updateValue="(e) => emitSelectItem('carbonDioxide','indoor',e)"
           numberOnly
         />
       </InputGroup>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8" :disable="!data.sheet1.part5.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
           placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.carbonDioxide.outdoor"
-          @updateValue="(e) => updateValue(e,'carbonDioxide.outdoor')"
+          :disable="!data.sheet1.part5.fireExtinguisher"
+          :value="data.sheet1.part5.carbonDioxide.outdoor"
+          @updateValue="(e) => emitSelectItem('carbonDioxide','outdoor',e)"
           numberOnly
         />
       </InputGroup>
     </div>
     <div class="column-6 my-1">
       <span class="h-full pl-24 mt-4">ABC乾粉</span>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8" :disable="!data.sheet1.part5.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
           placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.abc.indoor"
-          @updateValue="(e) => updateValue(e,'abc.indoor')"
+          :disable="!data.sheet1.part5.fireExtinguisher"
+          :value="data.sheet1.part5.abc.indoor"
+          @updateValue="(e) => emitSelectItem('abc','indoor',e)"
           numberOnly
         />
       </InputGroup>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8" :disable="!data.sheet1.part5.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
           placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.abc.outdoor"
-          @updateValue="(e) => updateValue(e,'abc.outdoor')"
+          :disable="!data.sheet1.part5.fireExtinguisher"
+          :value="data.sheet1.part5.abc.outdoor"
+          @updateValue="(e) => emitSelectItem('abc','outdoor',e)"
           numberOnly
         />
       </InputGroup>
     </div>
     <div class="column-6 my-1">
       <span class="h-full pl-24 mt-4">海龍(halon)</span>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8" :disable="!data.sheet1.part5.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
           placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.halon.indoor"
-          @updateValue="(e) => updateValue(e,'halon.indoor')"
+          :disable="!data.sheet1.part5.fireExtinguisher"
+          :value="data.sheet1.part5.halon.indoor"
+          @updateValue="(e) => emitSelectItem('halon','indoor',e)"
           numberOnly
         />
       </InputGroup>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8" :disable="!data.sheet1.part5.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
           placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.halon.outdoor"
-          @updateValue="(e) => updateValue(e,'halon.outdoor')"
+          :disable="!data.sheet1.part5.fireExtinguisher"
+          :value="data.sheet1.part5.halon.outdoor"
+          @updateValue="(e) => emitSelectItem('halon','outdoor',e)"
           numberOnly
         />
       </InputGroup>
@@ -124,81 +124,64 @@
         id="其他，請詳述之"
         class="text-md"
         text="其他，請詳述之"
-        :checked="data.part7.fireHydrant"
-        :value="data.part7.fireHydrant"
-        @updateValue="(e) =>updateValue(e,'fireHydrant')"
+        :checked="data.sheet1.part5.hasOtherExtinguishing"
+        :value="data.sheet1.part5.hasOtherExtinguishing"
+        @updateValue="(e) =>updateValue(e,'hasOtherExtinguishing')"
       />
-      <InputGroup noMt class="ml-4 w70">
+      <InputGroup noMt class="ml-4 w70" :disable="!data.sheet1.part5.hasOtherExtinguishing">
         <Input
           slot="input"
           placeholder="輸入內容"
+          :disable="!data.sheet1.part5.hasOtherExtinguishing"
+          :value="data.sheet1.part5.otherExtinguishingRemark"
+          @updateValue="(e) => updateValue(e,'otherExtinguishingRemark')"
         />
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="是否有自動灑水系統">
+      <InputGroup title="活動處所消防安全措施是否有編組並實施消防設備性能測試與訓練">
         <SwitchInput
           slot="input"
           id="sprinkler"
-          :value="data.part7.sprinkler"
-          @updateValue="(e) => updateValue(e,'sprinkler')"
+          :value="data.sheet1.part5.hasDeviceTestAndTraining"
+          @updateValue="(e) => updateValue(e,'hasDeviceTestAndTraining')"
         />
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="是否有氣體滅火系統" dash>
+      <InputGroup title="是否已架設消防設備">
         <SwitchInput
           slot="input"
           id="gasExtinguishing"
-          :value="data.part7.gasExtinguishing"
-          @updateValue="(e) => updateValue(e,'gasExtinguishing')"
+          :value="data.sheet1.part5.hasErectFireDevice"
+          @updateValue="(e) => updateValue(e,'hasErectFireDevice')"
         />
       </InputGroup>
-      <InputGroup title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.gasExtinguishing">
-        <Input
+      <InputGroup title="是否有禁菸管制">
+        <SwitchInput
           slot="input"
-          placeholder="輸入安裝地點"
-          :disable="!data.part7.gasExtinguishing"
-          :value="data.part7.gasExtinguishingInstall"
-          @updateValue="(e) => updateValue(e,'gasExtinguishingInstall')"
+          id="hasNoSmokingControl"
+          :value="data.sheet1.part5.hasNoSmokingControl"
+          @updateValue="(e) => updateValue(e,'hasNoSmokingControl')"
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3">
-      <InputGroup title="是否有泡沫滅火系統" dash>
+    <div class="column-4 my-3 dashed-border">
+      <InputGroup title="是否有監視或預警系統" dash>
         <SwitchInput
           slot="input"
-          id="foamExtinguishing"
-          :value="data.part7.foamExtinguishing"
-          @updateValue="(e) => updateValue(e,'foamExtinguishing')"
+          id="hasAlertSystem"
+          :value="data.sheet1.part5.hasAlertSystem"
+          @updateValue="(e) => updateValue(e,'hasAlertSystem')"
         />
       </InputGroup>
-      <InputGroup title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.foamExtinguishing">
+      <InputGroup title="是否有監視或預警系統" class="col-span-3" :disable="!data.sheet1.part5.hasAlertSystem">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.part7.foamExtinguishing"
-          :value="data.part7.foamExtinguishingInstall"
-          @updateValue="(e) => updateValue(e,'foamExtinguishingInstall')"
-        />
-      </InputGroup>
-    </div>
-    <div class="column-4 my-3  dashed-border">
-      <InputGroup title="是否有水霧滅火系統" dash>
-        <SwitchInput
-          slot="input"
-          id="waterMistExtinguishing"
-          :value="data.part7.waterMistExtinguishing"
-          @updateValue="(e) => updateValue(e,'waterMistExtinguishing')"
-        />
-      </InputGroup>
-      <InputGroup title="水霧滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.waterMistExtinguishing">
-        <Input
-          slot="input"
-          placeholder="輸入安裝地點"
-          :disable="!data.part7.waterMistExtinguishing"
-          :value="data.part7.waterMistExtinguishingInstall"
-          @updateValue="(e) => updateValue(e,'waterMistExtinguishingInstall')"
+          :disable="!data.sheet1.part5.hasAlertSystem"
+          :value="data.sheet1.part5.otherSafeMeasure"
+          @updateValue="(e) => updateValue(e,'otherSafeMeasure')"
         />
       </InputGroup>
     </div>
@@ -227,22 +210,34 @@ export default {
   },
   methods: {
     updateValue(e,type) {
-      if(type.includes('.')) {
-        let arr = type.split('.')
-        const obj = Object.assign({}, {[arr[1]]: e})
-        const obj2 = {...this.data.part7[arr[0]], ...obj}
-        const part7 = {...this.data.part7, [arr[0]]: obj2}
-        this.$emit('update:data',{...this.data, part7})
-      } else {
-        this.$emit('update:data',{
+      this.$emit('update:data',{
         ...this.data,
-        part7: {
-          ...this.data.part7,
-          [type]: e
+        sheet1: {
+          ...this.data.sheet1,
+          part5: {
+            ...this.data.sheet1.part5,
+            [type]: e
+          }
         }
       })
-      }
     },
+    emitSelectItem(key,childKey, value) {
+      const obj = {
+        ...this.data,
+        sheet1: {
+          ...this.data.sheet1,
+          part5: {
+            ...this.data.sheet1.part5,
+            [key]: {
+              ...this.data.sheet1.part5[key],
+              [childKey]: value
+            }
+          }
+          
+        }
+      }
+      this.$emit('update:data',obj)
+    }
   }
 }
 </script>

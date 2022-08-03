@@ -4,27 +4,29 @@
       <InputGroup title="是否有氣體滅火系統" dash>
         <SwitchInput
           slot="input"
-          id="gasExtinguishing"
-          :value="data.part7.gasExtinguishing"
-          @updateValue="(e) => updateValue(e,'gasExtinguishing')"
+          id="hasLossHistoryBeforeFiveYear"
+          :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear"
+          @updateValue="(e) => updateValue(e,'hasLossHistoryBeforeFiveYear')"
         />
       </InputGroup>
-      <InputGroup title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.gasExtinguishing">
+      <InputGroup title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.part7.gasExtinguishing"
-          :value="data.part7.gasExtinguishingInstall"
-          @updateValue="(e) => updateValue(e,'gasExtinguishingInstall')"
+          :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear"
+          :value="data.sheet1.part7.lostAmountFrequencyReason"
+          @updateValue="(e) => updateValue(e,'lostAmountFrequencyReason')"
         />
       </InputGroup>
     </div>
     <div class="ml-2 mt-2 text-red-500 text-sm">*不論有無投保</div>
     <div class="column-4 my-3 border-solid border-b-2 pb-10">
-      <InputGroup title="其他(未載於上述者請自行填寫)" class="col-span-4" :disable="!data.part7.gasExtinguishing">
+      <InputGroup title="其他(未載於上述者請自行填寫)" class="col-span-4">
         <Input
           slot="input"
           placeholder="輸入內容"
+          :value="data.sheet1.part7.otherRemark"
+          @updateValue="(e) => updateValue(e,'otherRemark')"
         />
       </InputGroup>
     </div>
@@ -49,21 +51,16 @@ export default {
   },
   methods: {
     updateValue(e,type) {
-      if(type.includes('.')) {
-        let arr = type.split('.')
-        const obj = Object.assign({}, {[arr[1]]: e})
-        const obj2 = {...this.data.part7[arr[0]], ...obj}
-        const part7 = {...this.data.part7, [arr[0]]: obj2}
-        this.$emit('update:data',{...this.data, part7})
-      } else {
-        this.$emit('update:data',{
+      this.$emit('update:data',{
         ...this.data,
-        part7: {
-          ...this.data.part7,
-          [type]: e
+        sheet1: {
+          ...this.data.sheet1,
+          part7: {
+            ...this.data.sheet1.part7,
+            [type]: e
+          }
         }
       })
-      }
     },
   }
 }

@@ -3,16 +3,16 @@
     <div class="w-full flex flex-row mt-4" :class="{'dashed-border mb-6': index === questionList.length-1}" v-for="(item,index) in questionList" :key="item">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" :id="`${item}${index}1`"/>
-        <RadioInput text="否" :id="`${item}${index}2`"/>
+        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part2[questionListID[index]] === true" @updateValue="(e) => updatePart2Value(e, questionListID[index])"/>
+        <RadioInput text="否" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part2[questionListID[index]] === false" @updateValue="(e) => updatePart2Value(e, questionListID[index])"/>
      </div>
     </div>
     <FormTitle title="(三)交通控管"/>
     <div class="w-full flex flex-row mt-4 dashed-border mb-6">
       <div class="w90">保險處所與車道有無有效區隔(含車道與人員動線安排)</div>
       <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" id="ffvrr"/>
-        <RadioInput text="否" id="por"/>
+        <RadioInput text="是" id="eeee" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === true" @updateValue="(e) => updatePart3Value(e, 'hasSegmentWithInsurancePlaceAndLane')"/>
+        <RadioInput text="否" id="por" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === false" @updateValue="(e) => updatePart3Value(e, 'hasSegmentWithInsurancePlaceAndLane')"/>
      </div>
     </div>
     <FormTitle title="(四)安全防護"/>
@@ -21,6 +21,8 @@
         <Input
           slot="input"
           placeholder="輸入內容"
+          :value="data.sheet2.part4.potentialOtherSafePlan"
+          @updateValue="(e) => updatePart4Value(e,'potentialOtherSafePlan')"
         />
       </InputGroup>
     </div>
@@ -64,19 +66,63 @@ export default {
         '是否可能汙染土壤或溝渠/河流/海洋環境(如：未處理即排放)',
         '是否可能發生垃圾及廢棄物等環境汙染',
         '是否可能發生超過法定標準的噪音汙染(如：高分貝音量表演、設備或動物)'
+      ],
+      questionListID:[
+          'hasUseOpenFire',//是否使用開火
+          'hasOrganicSolvents',//是否有有機溶劑
+          'hasDustEnviroment',//是否有粉塵環境
+          'hasChemicalReaction',//是否有化學反應
+          'hasDynamicDevice',//是否有動力設備
+          'hasPressureDevice',//是否有壓力設備
+          'hasSuspensionItem',//是否有懸掛物
+          'hasRadiationDevice',//是否有放射設備
+          'hasPoisonFood',//是否有毒品食物
+          'hasVolatileSolventOrDust',//是否有溶劑或粉塵
+          'hasLiquor',//是否有酒類
+          'hasAirOrDustPollution',//是否有空氣或粉塵汙染
+          'hasPoluutionSoil',//是否有污染土壤
+          'hasTrashEnviromentPollution',//是否有垃圾污染環境
+          'hasNoisePollution',//是否有噪音污染
       ]
     }
   },
   methods: {
-    updateValue(e,type) {
+    updatePart2Value(e,type) {
       this.$emit('update:data',{
         ...this.data,
-        part9: {
-          ...this.data.part9,
-          [type]: e
+        sheet2: {
+          ...this.data.sheet2,
+          part2: {
+            ...this.data.sheet2.part2,
+            [type]: e
+          }
         }
       })
     },
+    updatePart3Value(e,type) {
+      this.$emit('update:data',{
+        ...this.data,
+        sheet2: {
+          ...this.data.sheet2,
+          part3: {
+            ...this.data.sheet2.part3,
+            [type]: e
+          }
+        }
+      })
+    },
+    updatePart4Value(e,type) {
+      this.$emit('update:data',{
+        ...this.data,
+        sheet2: {
+          ...this.data.sheet2,
+          part4: {
+            ...this.data.sheet2.part4,
+            [type]: e
+          }
+        }
+      })
+    }
   }
 }
 </script>

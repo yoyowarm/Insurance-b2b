@@ -193,138 +193,124 @@ export default {
     },
     questionnaire: {
       userId: '',
-      part1: {
-        businessType: {
-          Text: '選擇種類',
-          Value: '',
+      sheet1: {
+        part1: {
+          name: '',//活動名稱
+          joinPersonAmount: '',//參加活動人數
+          ruleCapacity: '',//規定容留人數
+          beginDateTime: {//活動開始時間
+            year: '',
+            month: '',
+            day: '',
+            hours: '',
+            minutes: '',
+          },
+          activityDays: '',//活動天數
+          hasActivityIndoor: false,//是否有室內活動
+          indoorActivityContent: '',//室內活動內容
+          hasActivityOutdoor: false,//是否有室外活動
+          outdoorActivityContent: '',//室外活動內容
+          activityTypeRemark: '',//活動類型備註
+          isWaterArea: false,//是否為水域
+          lifeguardDeploy: '',//救生員配置
+          hasStage: false,//是否有舞台
+          hasWaterPool: false,//是否有水池
         },
-        createTime: {
-          year: '',
-          month: '',
-          day: '',
+        part2: {
+          hasUseOpenFire: false,//是否使用開火
+          hasVolatileSolventOrDust: false,//是否有揮發性溶劑或粉塵
+          hasMechineOrGasFilledDevice: false,//是否有機械式或充氣式遊樂設備
+          hasHighVoltage: false,//是否使用高壓電設施(600v)
+          hasBareWires: false,//是否有裸露電線或導體
+          hasAutomaticPowerOff: false,//供電系統是否裝有自動斷電
+          hasWireInTube: false,//所有電線是否裝在館內避免短路
         },
-        staffAmount: '',
-        startDate: {
-          hours: '',
-          minutes: '',
-          AmPm: '',
+        part3: {
+          useRoadHasAccessByTransportation: false,//使用道路者 是否經交通主管認許
+          afterActivityHasAccessByTransportation: false,//未使用道路者 活動結束後散場動線是否經交通主管認許
+          hasSegmentWithInsurancePlaceAndLane: false,//保險處所與車道有無有效區隔
         },
-        endDate: {
-          hours: '',
-          minutes: '',
-          AmPm: '',
+        part4: {
+          hasActivityRoutePlan: false,//是否有活動路線規劃
+          hasExit: false,//是否有出口
+          hasEvacuationSign: false,//是否有疏散標示
+          hasPersonnelControl: false,//是否有人員管制計畫
+          hasEvacuationPlan: false,//是否有疏散計畫
+          facility: [],//設施
         },
-        area: '',
-        totalArea: '',
-        dailyAveragePersons: '',
-        singleDayHighestPersons: '',
+        part5: {
+          hasFireHydrant: false,//是否有消防栓
+          hydrantIndoorAmount: '',//消防栓室內數量
+          hydrantOutdoorAmount: '',//消防栓室外數量
+          fireExtinguisher: false,//是否有滅火器
+          foam: {
+            indoor: '',//室內消防藥水
+            outdoor: '',//室外消防藥水
+          },
+          carbonDioxide: {
+            indoor: '',//室內碳氣源
+            outdoor: '',//室外碳氣源
+          },
+          abc: {
+            indoor: '',//室內ABC源
+            outdoor: '',//室外ABC源
+          },
+          halon: {
+            indoor: '',//室內瓦斯源
+            outdoor: '',//室外瓦斯源
+          },
+          hasOtherExtinguishing: false,//是否有其他滅火器
+          otherExtinguishingRemark: '',//其他滅火器備註
+          hasDeviceTestAndTraining: false,//活動處所消防安全措施是否有編組並實施消防設備性能測試與訓練
+          hasErectFireDevice: false,//是否已架設消防設備
+          hasNoSmokingControl: false,//是否有禁菸管制
+          hasAlertSystem: false,//是否有監視或預警系統
+          otherSafeMeasure: '',//其他安全措施備註
+        },
+        part6: {
+          hasMedicalSiteAndPersons: false,//是否有醫療設施及人員
+          hasProtectDevice: false,//是否有防災設備
+          hasDisasterProtectPlan: false,//是否有災害防護計畫
+          hasEmergencyManagementPlan: false,//是否有緊急管理計畫
+        },
+        part7: {
+          hasLossHistoryBeforeFiveYear: false,//是否有五年內損失紀錄
+          lostAmountFrequencyReason: '',//損失紀錄發生頻率及原因
+          otherRemark: '',//其他備註
+        },
       },
-      part2: {
-        wallMaterial: '',
-        floorMaterial: '',
-        roofMaterial: '',
-        distanceOfBuilding: '',
-        buildingNature: {
-          Text: '選擇性質',
-          Value: '',
+      sheet2: {
+        part1: {
+          isFloorSmooth: false,//地反是否平整
+          isFloorSlippery: false,//地面是否濕滑
+          isHighPlace: false,//是否高架處所
+          isDesignByLegal: false,//臨時或永久設施是否依法規設計
+          isDeviceMalfunction: false,//設備是否有故障
+          isNotVentilationPlace: false,//是否非通風處所
         },
-        nearbyBuildingNature: {
-          Text: '選擇性質',
-          Value: '',
+        part2: {
+          hasUseOpenFire: false,//是否使用開火
+          hasOrganicSolvents: false,//是否有有機溶劑
+          hasDustEnviroment: false,//是否有粉塵環境
+          hasChemicalReaction: false,//是否有化學反應
+          hasDynamicDevice: false,//是否有動力設備
+          hasPressureDevice: false,//是否有壓力設備
+          hasSuspensionItem: false,//是否有懸掛物
+          hasRadiationDevice: false,//是否有放射設備
+          hasPoisonFood: false,//是否有毒品食物
+          hasVolatileSolventOrDust: false,//是否有溶劑或粉塵
+          hasLiquor: false,//是否有酒類
+          hasAirOrDustPollution: false,//是否有空氣或粉塵汙染
+          hasPoluutionSoil: false,//是否有污染土壤
+          hasTrashEnviromentPollution: false,//是否有垃圾污染環境
+          hasNoisePollution: false,//是否有噪音污染
         },
-        securityCheck: {
-          Text: '公共安全檢查',
-          Value: '',
+        part3: {
+          hasSegmentWithInsurancePlaceAndLane: false,//保險處所與車道有無有效區隔
         },
-        room: {
-          selected: false,
-          value: '',
+        part4: {
+          potentialOtherSafePlan: '',//潛在的風險防護與消防措施
         },
-        seat: {
-          selected: false,
-          value: '',
-        },
-        floors: '',
-        underground: '',
-        useFloors: '',
-        hasAntiSlip: false,
-        hasSwimmingPool: false,
-        lifeguardAmount: '',
-        material: '',
-        carpet: false,
-      },
-      part3: {
-        selfOperated: false,
-        NotSelfOperated: '',
-        balcony: false,
-        accessBalcony: false,
-        carpetsCurtains: false,
-        fireproofMaterial: false,
-        compartment: false,
-        compartmentFireproofMaterial: false,
-        facility: [],
-        pusher: false,
-        performance: false,
-        fireOrDust: false,
-        professional: false,
-        dangerousItem: false,
-        boiler: false,
-      },
-      part4: {
-        centralControl: false,
-        highVoltage: false,
-        bareWires: false,
-        automaticPowerOff: false,
-        wireInTube: false,
-      },
-      part5: {
-        value1: false,
-        value2: false,
-        value3: false,
-      },
-      part6: {
-        exit: false,
-        evacuationSign: false,
-        personnelControl: false,
-        evacuationPlan: false,
-        facility: [],
-      },
-      part7: {
-        fireHydrant: false,
-        fireExtinguisher: false,
-        foam: {
-          indoor: '',
-          outdoor: '',
-        },
-        carbonDioxide: {
-          indoor: '',
-          outdoor: '',
-        },
-        abc: {
-          indoor: '',
-          outdoor: '',
-        },
-        halon: {
-          indoor: '',
-          outdoor: '',
-        },
-        sprinkler: false,
-        gasExtinguishing: false,
-        gasExtinguishingInstall: '',
-        foamExtinguishing: false,
-        foamExtinguishingInstall: '',
-        waterMistExtinguishing: false,
-        waterMistExtinguishingInstall: '',
-      },
-      part8: {
-        value1: false,
-        value2: false,
-        value3: false,
-        value4: false,
-      },
-      part9: {
-        lossHistory: false,
-        lostAmountFrequencyReason: ''
       },
     },
     insuranceAmountList: [//保險金額/自負額
@@ -486,7 +472,7 @@ export default {
       commit('UPDATED_INDUSTRY', quotation().industry)
       commit('UPDATED_INDUSTRY_TEXT', quotation().industryText)
       commit('UPDATED_REMARK', quotation().remark)
-      commit('UPDATED_QUESTIONNAIRE', quotation().questionnaire)
+      commit('UPDATED_QUESTIONNAIRE', quotation().activityQuestionnaire)
       commit('UPDATED_INSURANCE_AMOUNT_LIST', quotation().insuranceAmountList)
       commit('UPDATED_ADDITION_TERMS', quotation().additionTerms)
       commit('UPDATED_QUESTIONNAIRE_FINISHED', false)

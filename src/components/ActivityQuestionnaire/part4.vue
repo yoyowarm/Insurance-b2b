@@ -1,22 +1,36 @@
 <template>
   <div class="w-full my-4">
     <div class="column-4">
+      <InputGroup title="是否有活動動線規劃說明">
+        <SwitchInput
+          slot="input"
+          id="hasActivityRoutePlan"
+          :value="data.sheet1.part4.hasActivityRoutePlan"
+          @updateValue="(e) => updateValue(e,'hasActivityRoutePlan')"
+        />
+      </InputGroup>
       <InputGroup title="是否有出口規劃">
         <SwitchInput
           slot="input"
-          id="centralControl1"
+          id="hasExit"
+          :value="data.sheet1.part4.hasExit"
+          @updateValue="(e) => updateValue(e,'hasExit')"
         />
       </InputGroup>
       <InputGroup title="是否有疏散標示">
         <SwitchInput
           slot="input"
-          id="highVoltage1"
+          id="hasEvacuationSign"
+          :value="data.sheet1.part4.hasEvacuationSign"
+          @updateValue="(e) => updateValue(e,'hasEvacuationSign')"
         />
       </InputGroup>
       <InputGroup title="是否有人員管制計畫">
         <SwitchInput
           slot="input"
-          id="bareWires1"
+          id="hasPersonnelControl"
+          :value="data.sheet1.part4.hasPersonnelControl"
+          @updateValue="(e) => updateValue(e,'hasPersonnelControl')"
         />
       </InputGroup>
     </div>
@@ -24,7 +38,9 @@
       <InputGroup title="是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)">
         <SwitchInput
           slot="input"
-          id="wireInTube"
+          id="hasEvacuationPlan"
+          :value="data.sheet1.part4.hasEvacuationPlan"
+          @updateValue="(e) => updateValue(e,'hasEvacuationPlan')"
         />
       </InputGroup>
     </div>
@@ -35,8 +51,8 @@
           :id="list"
           :text="list"
           slot="input"
-          :checked="data.part6.facility.includes(list)"
-          :value="data.part6.facility.includes(list)"
+          :checked="data.sheet1.part4.facility.includes(list)"
+          :value="data.sheet1.part4.facility.includes(list)"
           @updateValue="(e) =>updateFacility(e,list)"
         />
       </InputGroup>
@@ -76,14 +92,38 @@ export default {
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,
-        part4: {
-          ...this.data.part4,
-          [type]: e
+        sheet1: {
+          ...this.data.sheet1,
+          part4: {
+            ...this.data.sheet1.part4,
+            [type]: e
+          }
         }
       })
     },
+    updateFacility(e,list) {
+      let arr = []
+      if(e && !this.data.sheet1.part4.facility.includes(list)) {
+        arr.push(list)
+      }
+      if(!e && this.data.sheet1.part4.facility.includes(list)) {
+        arr = [...this.data.sheet1.part4.facility]
+        const index = arr.findIndex(item => item === list)
+        arr.splice(index,1)
+      }
+      this.$emit('update:data',{
+        ...this.data,
+        sheet1: {
+          ...this.data.sheet1,
+            part4: {
+              ...this.data.sheet1.part4,
+              facility: e ? [...this.data.sheet1.part4.facility,...arr] : arr
+            }
+          }
+        })
+      }
+    }
   }
-}
 </script>
 
 <style scoped lang="scss">

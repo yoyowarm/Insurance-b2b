@@ -4,19 +4,25 @@
       <InputGroup title="是否設置醫療站並配置醫護人員">
         <SwitchInput
           slot="input"
-          id="exit"
+          id="hasMedicalSiteAndPersons"
+          :value="data.sheet1.part6.hasMedicalSiteAndPersons"
+          @updateValue="(e) => updateValue(e,'hasMedicalSiteAndPersons')"
         />
       </InputGroup>
       <InputGroup title="是否有防護或緊急設備">
         <SwitchInput
           slot="input"
-          id="evacuationSign"
+          id="hasProtectDevice"
+          :value="data.sheet1.part6.hasProtectDevice"
+          @updateValue="(e) => updateValue(e,'hasProtectDevice')"
         />
       </InputGroup>
       <InputGroup title="是否有災害防護計畫">
         <SwitchInput
           slot="input"
-          id="personnelControl"
+          id="hasDisasterProtectPlan"
+          :value="data.sheet1.part6.hasDisasterProtectPlan"
+          @updateValue="(e) => updateValue(e,'hasDisasterProtectPlan')"
         />
       </InputGroup>
     </div>
@@ -24,7 +30,9 @@
       <InputGroup title="是否有緊急應變計畫(包含應變人員編組和指定職責，如關鍵設備留守人員、警戒人員、醫療救護編組、消防編組等)">
         <SwitchInput
           slot="input"
-          id="evacuationPlan"
+          id="hasEmergencyManagementPlan"
+          :value="data.sheet1.part6.hasEmergencyManagementPlan"
+          @updateValue="(e) => updateValue(e,'hasEmergencyManagementPlan')"
         />
       </InputGroup>
     </div>
@@ -49,9 +57,12 @@ export default {
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,
-        part6: {
-          ...this.data.part6,
-          [type]: e
+        sheet1: {
+          ...this.data.sheet1,
+          part6: {
+            ...this.data.sheet1.part6,
+            [type]: e
+          }
         }
       })
     },

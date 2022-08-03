@@ -1,10 +1,12 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup title="使用道路者，對附近交通之衝擊是否經交通主管機關認許" dash>
+      <InputGroup title="使用道路者，對附近交通之衝擊是否經交通主管機關認許">
         <SwitchInput
           slot="input"
-          id="selfOperated1"
+          id="useRoadHasAccessByTransportation"
+          :value="data.sheet1.part3.useRoadHasAccessByTransportation"
+          @updateValue="(e) => updateValue(e,'useRoadHasAccessByTransportation')"
         />
       </InputGroup>
     </div>
@@ -12,7 +14,9 @@
       <InputGroup title="未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許">
         <SwitchInput
           slot="input"
-          id="dangerousItem1"
+          id="afterActivityHasAccessByTransportation"
+          :value="data.sheet1.part3.afterActivityHasAccessByTransportation"
+          @updateValue="(e) => updateValue(e,'afterActivityHasAccessByTransportation')"
         />
       </InputGroup>
     </div>
@@ -20,7 +24,9 @@
       <InputGroup title="保險處所與車道有無有效區隔(含車道與人員動線安排)">
         <SwitchInput
           slot="input"
-          id="dangerousItem1"
+          id="hasSegmentWithInsurancePlaceAndLane"
+          :value="data.sheet1.part3.hasSegmentWithInsurancePlaceAndLane"
+          @updateValue="(e) => updateValue(e,'hasSegmentWithInsurancePlaceAndLane')"
         />
       </InputGroup>
     </div>
@@ -56,30 +62,15 @@ export default {
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,
-        part3: {
-          ...this.data.part3,
-          [type]: e
+        sheet1: {
+          ...this.data.sheet1,
+          part3: {
+            ...this.data.sheet1.part3,
+            [type]: e
+          }
         }
       })
     },
-    updateFacility(e,list) {
-      let arr = []
-      if(e && !this.data.part3.facility.includes(list)) {
-        arr.push(list)
-      }
-      if(!e && this.data.part3.facility.includes(list)) {
-        arr = [...this.data.part3.facility]
-        const index = arr.findIndex(item => item === list)
-        arr.splice(index,1)
-      }
-      this.$emit('update:data',{
-        ...this.data,
-        part3: {
-          ...this.data.part3,
-          facility: e ? [...this.data.part3.facility,...arr] : arr
-        }
-      })
-    }
   }
 }
 </script>

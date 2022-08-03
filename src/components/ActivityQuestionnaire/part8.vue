@@ -4,8 +4,8 @@
     <div class="w-full flex flex-col sm:flex-row mt-4" v-for="(item,index) in questionList" :key="item">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" :id="`${item}${index}1`"/>
-        <RadioInput text="否" :id="`${item}${index}2`"/>
+        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part1[questionListID[index]] === true" @updateValue="(e) => updateValue(e, questionListID[index])"/>
+        <RadioInput text="否" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part1[questionListID[index]] === false" @updateValue="(e) => updateValue(e, questionListID[index])"/>
      </div>
     </div>
   </div>
@@ -34,6 +34,14 @@ export default {
         '臨時或永久設施是否依法規設計、施工、簽證並定期檢查',
         '設施是否故障(如：圍籬不足或失效)',
         '是否為通風不足空間(如：地下室、過小的區域)'
+      ],
+      questionListID: [
+        'isFloorSmooth',
+        'isFloorSlippery',
+        'isHighPlace',
+        'isDesignByLegal',
+        'isDeviceMalfunction',
+        'isNotVentilationPlace'
       ]
     }
   },
@@ -41,9 +49,12 @@ export default {
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,
-        part8: {
-          ...this.data.part8,
-          [type]: e
+        sheet2: {
+          ...this.data.sheet2,
+          part1: {
+            ...this.data.sheet2.part1,
+            [type]: e
+          }
         }
       })
     },

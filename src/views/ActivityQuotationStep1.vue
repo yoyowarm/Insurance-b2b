@@ -504,23 +504,16 @@ export default {
           })]
       }
       if(this.questionnaireFinished) {
-        // data.questionnaire = {
-        //   ...this.questionnaire,
-        //   part1: {
-        //     ...this.questionnaire.part1,
-        //     businessType: this.questionnaire.part1.businessType.Value,
-        //     createTime: '',
-        //     // createTime: `${this.questionnaire.part1.createTime.year}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`,
-        //     businessEndDate: '00:00',
-        //     businessStartDate: '00:00',
-        //   },
-        //   part2: {
-        //     ...this.questionnaire.part2,
-        //     buildingNature: this.questionnaire.part2.buildingNature.Value,
-        //     nearbyBuildingNature: this.questionnaire.part2.nearbyBuildingNature.Value,
-        //     securityCheck: this.questionnaire.part2.securityCheck.Value,
-        //   }
-        // }
+        data.questionnaire = {
+          ...this.questionnaire,
+        sheet1: {
+          ...this.questionnaire.sheet1,
+          part1: {
+            ...this.questionnaire.sheet1.part1,
+            beginDateTime: `${this.questionnaire.sheet1.part1.beginDateTime.year}-${this.questionnaire.sheet1.part1.beginDateTime.month}-${this.questionnaire.sheet1.part1.beginDateTime.day} ${this.questionnaire.sheet1.part1.beginDateTime.hours}:${this.questionnaire.sheet1.part1.beginDateTime.minutes}`,
+          },
+        }
+        }
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
       console.log(data)
