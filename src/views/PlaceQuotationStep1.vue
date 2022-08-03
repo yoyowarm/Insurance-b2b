@@ -452,7 +452,17 @@ export default {
         additionTerms: [...this.additionTermsList.filter(item => {
           return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
         }).map(item => {
-          if(['受託物責任附加條款','承租人借用人責任附加條款(保額外加)', '建築物承租人火災附加條款'].includes(item.additionTermName)) {
+          if (item.additionTermName === '建築物承租人火災附加條款') {//PL005
+            return {
+              additionTermId: item.additionTermId,
+              additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                return {
+                  itemId: key,
+                  itemValue: key =='value1' ? Number(this.additionTerms[item.additionTermId][key])*10000 : this.additionTerms[item.additionTermId][key]
+                }
+              })]
+            }
+          } else if(['受託物責任附加條款','承租人借用人責任附加條款(保額外加)',].includes(item.additionTermName)) {
             return {
               additionTermId: item.additionTermId,
               additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {

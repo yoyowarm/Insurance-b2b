@@ -140,7 +140,12 @@ export default {
           if (item.additionTermValue) {//建議條款細項
             const additionTerms = { ...this.$store.state[type].additionTerms }
             const data = { ...additionTerms[item.additionTermId] }
-            if (['PL005', 'PL040', 'PL049'].includes(item.additionTermId)) {
+            if (item.additionTermId == 'PL005') {//建築物承租人火災附加條款
+              item.additionTermValue.map(value => {
+                data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : (value == 'value1' ? Number(value.itemValue) / 10000 : value.itemValue))
+              })
+              this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
+            } else if (['PL040', 'PL049'].includes(item.additionTermId)) {
               item.additionTermValue.map(value => {
                 data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : Number(value.itemValue) / 10000)
               })
@@ -244,6 +249,9 @@ export default {
     },
     step2InitAssignValue(type) {
       console.log(this.quotationData)
+      //被保人與要保人之關係
+      const relation = this.relationShips.find(i => i.nane == this.quotationData.relationText)
+      this.$store.dispatch(`${type}/updatedRelation`, relation)
       const Insuraned = {}//要保人
       Object.assign(Insuraned, {
         ID: this.quotationData.insuraned.id,
@@ -283,9 +291,6 @@ export default {
         IsProOrNot: this.quotationData.applicant.isProOrNot,
       })
       this.$store.dispatch(`${type}/updatedApplicant`, Applicant)
-      //被保人與要保人之關係
-      const relation = this.relationShips.find(i => i.nane == this.quotationData.relationText)
-      this.$store.dispatch(`${type}/updatedRelation`, relation)
 
       this.internalControl = {
         issuerNumber: this.quotationData.internalControlData.issuerNumber.trim(),

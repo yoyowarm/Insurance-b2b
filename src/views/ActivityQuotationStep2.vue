@@ -9,7 +9,7 @@
         :areaList="InsuranedAreaList.filter(item => item.cityId == InsuranedData.City.Value)"
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
-        @getDetail="() =>insuredOrApplicantDetail('Insuraned')"
+        @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
@@ -45,7 +45,7 @@
         :cityList="cityList"
         :areaList="ApplicantAreaList.filter(item => item.cityId == ApplicantData.City.Value)"
          @checkID="() =>checkID('Applicant')"
-         @getDetail="() =>insuredOrApplicantDetail('Applicant')"
+         @getDetail="(type) =>insuredOrApplicantDetail('Applicant',type)"
          type="ApplicantData"
       />
     </CommonBoard>
@@ -177,8 +177,8 @@ export default {
       //   this.$store.dispatch(`quotationStep2/updated${type}`, {...this[`${type}Data`], ...{ CorporateRequired: checkID.data.Contain.IsRegister }})
       // }
     },
-    async insuredOrApplicantDetail (type) {
-      const detail = await this.$store.dispatch(`quotation/Get${type}`, {name: this[type].Name, id: this[type].ID})
+    async insuredOrApplicantDetail (type,params) {
+      const detail = await this.$store.dispatch(`quotation/Get${type}`, {[params== 'Name' ? 'name': 'id']: this[type][params]})
       const detailData = detail.data.content
       const data = {}
       Object.assign(data, {
