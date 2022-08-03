@@ -140,10 +140,17 @@ export default {
           if (item.additionTermValue) {//建議條款細項
             const additionTerms = { ...this.$store.state[type].additionTerms }
             const data = { ...additionTerms[item.additionTermId] }
-            item.additionTermValue.map(value => {
-              data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : value.itemValue)
-            })
-            this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
+            if (['PL005', 'PL040', 'PL049'].includes(item.additionTermId)) {
+              item.additionTermValue.map(value => {
+                data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : Number(value.itemValue) / 10000)
+              })
+              this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
+            } else {
+              item.additionTermValue.map(value => {
+                data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : value.itemValue)
+              })
+              this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
+            }
           }
         })
       }
