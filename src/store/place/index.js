@@ -424,7 +424,7 @@ export default {
       if (sameAsInsured) {
         Vue.set(state, 'Applicant', state.Insuraned)
       } else {
-        Vue.set(state, 'Applicant', quotation().Applicant)
+        // Vue.set(state, 'Applicant', quotation().Applicant)
       }
     },
     UPDATED_INSURANCE_RECORD(state, data) {
