@@ -174,15 +174,15 @@
         <SwitchInput
           slot="input"
           id="gasExtinguishing"
-          :value="data.part7.gasExtinguishing"
-          @updateValue="(e) => updateValue(e,'gasExtinguishing')"
+          :value="data.part7.hasGasExtinguishing"
+          @updateValue="(e) => updateValue(e,'hasGasExtinguishing')"
         />
       </InputGroup>
-      <InputGroup title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.gasExtinguishing">
+      <InputGroup title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasGasExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.part7.gasExtinguishing"
+          :disable="!data.part7.hasGasExtinguishing"
           :value="data.part7.gasExtinguishingInstall"
           @updateValue="(e) => updateValue(e,'gasExtinguishingInstall')"
         />
@@ -193,15 +193,15 @@
         <SwitchInput
           slot="input"
           id="foamExtinguishing"
-          :value="data.part7.foamExtinguishing"
-          @updateValue="(e) => updateValue(e,'foamExtinguishing')"
+          :value="data.part7.hasFoamExtinguishing"
+          @updateValue="(e) => updateValue(e,'hasFoamExtinguishing')"
         />
       </InputGroup>
-      <InputGroup title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.foamExtinguishing">
+      <InputGroup title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasFoamExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.part7.foamExtinguishing"
+          :disable="!data.part7.hasFoamExtinguishing"
           :value="data.part7.foamExtinguishingInstall"
           @updateValue="(e) => updateValue(e,'foamExtinguishingInstall')"
         />
@@ -212,15 +212,15 @@
         <SwitchInput
           slot="input"
           id="waterMistExtinguishing"
-          :value="data.part7.waterMistExtinguishing"
-          @updateValue="(e) => updateValue(e,'waterMistExtinguishing')"
+          :value="data.part7.hasWaterMistExtinguishing"
+          @updateValue="(e) => updateValue(e,'hasWaterMistExtinguishing')"
         />
       </InputGroup>
-      <InputGroup title="水霧滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.waterMistExtinguishing">
+      <InputGroup title="水霧滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasWaterMistExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.part7.waterMistExtinguishing"
+          :disable="!data.part7.hasWaterMistExtinguishing"
           :value="data.part7.waterMistExtinguishingInstall"
           @updateValue="(e) => updateValue(e,'waterMistExtinguishingInstall')"
         />
@@ -229,8 +229,8 @@
     <div class="w-full flex flex-col sm:flex-row mt-4" v-for="(item,index) in questionList" :key="item" :class="{'dashed-border': index == questionList.length -1}">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" :id="`${questionListID[index]}${index}1`" :value="data.part7[questionListID[index]] === true" @updateValue="(e) => updateValue(e, questionListID[index])"/>
-        <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="(e) => updateValue(e, questionListID[index])"/>
+        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === true" @updateValue="(e) => updateValue(e, questionListID[index])"/>
+        <RadioInput text="否" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === false" @updateValue="(e) => updateValue(e, questionListID[index])"/>
      </div>
     </div>
   </div>

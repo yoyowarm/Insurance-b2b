@@ -240,11 +240,20 @@
       <InputGroup title="營業處所是否有機械性停車設備" dash>
         <SwitchInput
           slot="input"
-          id="swimPoolw"
+          id="hasMechineParkingDevice"
+          :value="data.part2.hasMechineParkingDevice"
+          @updateValue="(e) =>updateValue(e,'hasMechineParkingDevice')"
         />
       </InputGroup>
-      <InputGroup title="停車設備種類">
-        <Select slot="input"/>
+      <InputGroup title="停車設備種類" :disable="!data.part2.hasMechineParkingDevice">
+        <Select
+          slot="input"
+          :options="parkingList"
+          defaultText="選擇種類"
+          :selected="data.part2.parkingDevice"
+          :disable="!data.part2.hasMechineParkingDevice"
+          @emitItem="e=>updateValue(e.Value,'mechineParkingDeviceCategory')"
+        />
       </InputGroup>
     </div>
   </div>
@@ -270,6 +279,24 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    }
+  },
+  data() {
+    return {
+      parkingList: [
+        {
+          Value: '自有停車場',
+          Text: '自有停車場'
+        },
+        {
+          Value: '專屬停車場',
+          Text: '專屬停車場'
+        },
+        {
+          Value: '其他',
+          Text: '其他'
+        }
+      ]
     }
   },
   methods: {

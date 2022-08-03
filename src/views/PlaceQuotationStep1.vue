@@ -263,13 +263,6 @@ export default {
     async nextStep() {
       this.verifyResult = []
       this.verifyRequired('place')
-      // if(this.requestFile.length === 0) {
-      //   await this.verifyDate()
-      //   await this.verifyTargetAmount()
-      //   await this.verifyLiabilityMinAndMAX()
-      //   await this.verifyIOfficerIChannelIBroker()
-      //   this.verifyResultPopup()
-      // }
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
           await this.quotationMapping()
@@ -499,16 +492,17 @@ export default {
           part1: {
             ...this.questionnaire.part1,
             businessType: this.questionnaire.part1.businessType.Value,
-            createTime: '',
-            // createTime: `${this.questionnaire.part1.createTime.year}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`,
-            businessEndDate: '00:00',
-            businessStartDate: '00:00',
+            createTime: `${this.questionnaire.part1.createTime.year}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`,
+            businessEndDate: `${this.questionnaire.part1.businessStartDate.hours}:${this.questionnaire.part1.businessStartDate.minutes}`,
+            businessStartDate: `${this.questionnaire.part1.businessEndDate.hours}:${this.questionnaire.part1.businessEndDate.minutes}`,
           },
           part2: {
             ...this.questionnaire.part2,
             buildingNature: this.questionnaire.part2.buildingNature.Value,
             nearbyBuildingNature: this.questionnaire.part2.nearbyBuildingNature.Value,
             securityCheck: this.questionnaire.part2.securityCheck.Value,
+            room: {...this.questionnaire.part2.room,roomAmount: this.questionnaire.part2.room.Value},
+            seat: {...this.questionnaire.part2.seat,seatAmount: this.questionnaire.part2.seat.Value},
           }
         }
       }

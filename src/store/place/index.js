@@ -133,14 +133,12 @@ export default {
         },
         staffAmount: '',//員工人數
         businessStartDate: {
-          hours: '',
-          minutes: '',
-          AmPm: '',
+          hours: '00',
+          minutes: '00',
         },
         businessEndDate: {
-          hours: '',
-          minutes: '',
-          AmPm: '',
+          hours: '00',
+          minutes: '00',
         },
         area: '',//基地面積
         totalArea: '',//總面積

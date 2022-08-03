@@ -42,7 +42,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <div class="column-3">
+      <div class="column-2">
         <InputGroup title="營業開始時間">
           <Select
             slot="input"
@@ -61,17 +61,8 @@
             @emitItem="(e) => emitSelectItem('businessStartDate','minutes', e.Value)"/>
           />
         </InputGroup>
-        <InputGroup >
-          <Select
-            slot="input"
-            :selected="data.part1.businessStartDate.AmPm"
-            defaultText="AM"
-            :options="AmPmOptions"
-            @emitItem="(e) => emitSelectItem('businessStartDate','AmPm', e.Value)"/>
-          />
-        </InputGroup>
       </div>
-      <div class="column-3">
+      <div class="column-2">
         <InputGroup title="營業結束時間">
           <Select
             slot="input"
@@ -88,15 +79,6 @@
             defaultText="- - 分"
             :options="minutesOptions"
             @emitItem="(e) => emitSelectItem('businessEndDate','minutes', e.Value)"/>
-          />
-        </InputGroup>
-        <InputGroup >
-          <Select
-            slot="input"
-            :selected="data.part1.businessEndDate.AmPm"
-            defaultText="AM"
-            :options="AmPmOptions"
-            @emitItem="(e) => emitSelectItem('businessEndDate','AmPm', e.Value)"/>
           />
         </InputGroup>
       </div>
@@ -154,7 +136,7 @@ export default {
        const arr = []
       for (let i = 1; i <= 12; i++) {
          arr.push({
-           Text: i,
+           Text: `${i}月`,
            Value: i
          })
        }
@@ -164,7 +146,7 @@ export default {
         const arr = []
         for (let i = 1; i <= 31; i++) {
           arr.push({
-            Text: i,
+            Text: `${i}日`,
             Value: i
           })
         }
@@ -172,9 +154,9 @@ export default {
       },
       hoursOptions () {
         const arr = []
-        for (let i = 1; i <= 12; i++) {
+        for (let i = 0; i <= 24; i++) {
           arr.push({
-            Text: i,
+            Text: `${i}點`,
             Value: i
           })
         }
@@ -184,7 +166,7 @@ export default {
         const arr = []
         for (let i = 0; i <= 59; i++) {
           arr.push({
-            Text: i,
+            Text: `${i}分`,
             Value: i
           })
         }
