@@ -233,9 +233,13 @@ export default {
     idVerify() {
       if(this.IDRegex(this.copyInfo.ID).every(item => !item)) {
         Popup.create({
-        hasHtml: true,
-        htmlText: '請輸入正確身分證字號或統一編號',
-      })
+          hasHtml: true,
+          htmlText: '請輸入正確身分證字號或統一編號',
+        })
+      } else if(this.IDRegex(this.copyInfo.ID)[1]) {
+        this.updateInfo('CorporateRequired', true)
+      } else {
+        this.updateInfo('CorporateRequired', false)
       }
     }
   }
