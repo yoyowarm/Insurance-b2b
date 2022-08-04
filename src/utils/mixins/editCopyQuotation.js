@@ -141,8 +141,9 @@ export default {
             const additionTerms = { ...this.$store.state[type].additionTerms }
             const data = { ...additionTerms[item.additionTermId] }
             if (item.additionTermId == 'PL005') {//建築物承租人火災附加條款
+
               item.additionTermValue.map(value => {
-                data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : (value == 'value1' ? Number(value.itemValue) / 10000 : value.itemValue))
+                data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : (value.itemId == 'value1' ? Number(value.itemValue) / 10000 : value.itemValue))
               })
               this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
             } else if (['PL040', 'PL049'].includes(item.additionTermId)) {
