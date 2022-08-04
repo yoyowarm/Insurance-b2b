@@ -7,7 +7,12 @@
       <InsuranceInfoFin :info="quotationData.applicant" type="ApplicantData"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="投保資料">
-      <InsuranceContent :lists="activityInfo" :info="quotationData.activityInsureInfo"/>
+      <InsuranceContent
+        :lists="activityInfo"
+        :info="quotationData.activityInsureInfo"
+        :cityList="cityList"
+        :areaList="areaList"
+      />
     </CommonBoard>
     <InsuranceAmountListFin
       :lists.sync="quotationData.insuranceAmounts"
@@ -103,7 +108,9 @@ export default {
           activityInfo: []
         }
       },
-      countyAmount: []
+      countyAmount: [],
+      cityList: [],
+      areaList:[]
     }
   },
   computed: {
@@ -190,12 +197,30 @@ export default {
       this.$store.dispatch('activity/updatedUUID', '')
       this.$store.dispatch('common/updateOrderNo', '')
       this.$store.dispatch('common/updatedCalculateModel', false)
+    },
+    async pageInit() {
+      const districts = await this.$store.dispatch('resource/Districts')
+      const county = await this.$store.dispatch('resource/CountyMinimumSettings')
+      this.countyAmount = county.data.content
+      districts.data.content.map(item => {
+        this.cityList.push({
+          ...item,
+          Value: item.cityId,
+          Text: item.cityName
+        })
+        item.countyDistricts.map(subItem => {
+          this.areaList.push({
+            ...subItem,
+            Value: subItem.areaId,
+            Text: subItem.areaName
+          })
+        })
+      })
     }
   },
   async mounted() {
     await this.quotationDetail()
-    const county = await this.$store.dispatch('resource/CountyMinimumSettings')
-    this.countyAmount = county.data.content
+    await this.pageInit()
   },
 }
 </script>

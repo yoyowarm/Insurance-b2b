@@ -11,51 +11,51 @@
         <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
           <div v-else slot="input">
-            {{info.insuranceBegin? info.insuranceBegin.split('T')[0].split('-')[0]: ''}}年
+            {{info.insuranceBeginDate? info.insuranceBeginDate.split('T')[0].split('-')[0]: ''}}年
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="04月"/>
           <div v-else slot="input">
-            {{info.insuranceBegin?info.insuranceBegin.split('T')[0].split('-')[1] : ''}}月
+            {{info.insuranceBeginDate?info.insuranceBeginDate.split('T')[0].split('-')[1] : ''}}月
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="15日"/>
           <div v-else slot="input">
-            {{info.insuranceBegin?info.insuranceBegin.split('T')[0].split('-')[2]: ''}}日
+            {{info.insuranceBeginDate?info.insuranceBeginDate.split('T')[0].split('-')[2]: ''}}日
           </div>
         </InputGroup>
         <InputGroup class="w-full" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="12時"/>
           <div v-else slot="input">
-            {{info.insuranceBegin? info.insuranceBegin.split('T')[1].split(':')[0]: ''}}時
+            {{info.insuranceBeginHour}}時
           </div>
         </InputGroup>
       </div>
       <div class="flex flex-row col-span-2">
-        <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
+        <InputGroup class="w-full pr-1" title="保險結束時間" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="111年"/>
           <div v-else slot="input">
-            {{info.insuranceBegin? info.insuranceEnd.split('T')[0].split('-')[0]: ''}}年
+            {{info.insuranceEndDate? info.insuranceEndDate.split('T')[0].split('-')[0]: ''}}年
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="04月"/>
           <div v-else slot="input">
-            {{info.insuranceEnd?info.insuranceEnd.split('T')[0].split('-')[1]: ''}}月
+            {{info.insuranceEndDate?info.insuranceEndDate.split('T')[0].split('-')[1]: ''}}月
           </div>
         </InputGroup>
         <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="15日"/>
           <div v-else slot="input">
-            {{info.insuranceEnd?info.insuranceEnd.split('T')[0].split('-')[2]:''}}日
+            {{info.insuranceEndDate?info.insuranceEndDate.split('T')[0].split('-')[2]:''}}日
           </div>
         </InputGroup>
         <InputGroup class="w-full" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="12時"/>
           <div v-else slot="input">
-            {{info.insuranceEnd?info.insuranceEnd.split('T')[1].split(':')[0]:''}}時
+            {{info.insuranceEndHour}}時
           </div>
         </InputGroup>
       </div>
@@ -72,13 +72,13 @@
       <InputGroup class="w-full" title="居住地址" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="台北市"/>
           <div v-else slot="input" class="w-full pr-24 relative">
-            {{item.city}}
+            {{getCityArea('city', item.cityId)}}
           </div>
       </InputGroup>
       <InputGroup class="w-full" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="大安區"/>
           <div v-else slot="input" class="w-full pr-24 relative">
-            {{item.area}}
+            {{getCityArea('area', item.areaId)}}
           </div>
       </InputGroup>
       <InputGroup class="w-full col-span-3" :noMt="marginTop(560)" borderBtn :editModel="editModel">
@@ -90,54 +90,54 @@
       </div>
       <div :key="`row2${index}`" class="column-6 pb-3 mb-2">
         <div class="flex flex-row col-span-2">
-          <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
+          <InputGroup class="w-full pr-1" title="活動開始時間" borderBtn :editModel="editModel">
             <Select v-if="editModel" slot="input" defaultText="111年"/>
             <div v-else slot="input">
-              {{item.activityBegin? item.activityBegin.split('T')[0].split('-')[0]: ''}}年
+              {{item.activityBeginDate? item.activityBeginDate.split('T')[0].split('-')[0]: ''}}年
             </div>
           </InputGroup>
           <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
             <Select v-if="editModel" slot="input" defaultText="04月"/>
             <div v-else slot="input">
-              {{item.activityBegin?item.activityBegin.split('T')[0].split('-')[1] : ''}}月
+              {{item.activityBeginDate?item.activityBeginDate.split('T')[0].split('-')[1] : ''}}月
             </div>
           </InputGroup>
           <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
             <Select v-if="editModel" slot="input" defaultText="15日"/>
             <div v-else slot="input">
-              {{item.activityBegin?item.activityBegin.split('T')[0].split('-')[2]: ''}}日
+              {{item.activityBeginDate?item.activityBeginDate.split('T')[0].split('-')[2]: ''}}日
             </div>
           </InputGroup>
           <InputGroup class="w-full" borderBtn :editModel="editModel">
             <Select v-if="editModel" slot="input" defaultText="12時"/>
             <div v-else slot="input">
-              {{item.activityBegin? item.activityBegin.split('T')[1].split(':')[0]: ''}}時
+              {{item.activityBeginHour}}時
             </div>
           </InputGroup>
         </div>
         <div class="flex flex-row col-span-2">
-          <InputGroup class="w-full pr-1" title="保險開始時間" borderBtn :editModel="editModel">
+          <InputGroup class="w-full pr-1" title="活動開始時間" borderBtn :editModel="editModel">
             <Select v-if="editModel" slot="input" defaultText="111年"/>
             <div v-else slot="input">
-              {{item.activityEnd? item.activityEnd.split('T')[0].split('-')[0]: ''}}年
+              {{item.activityEndDate? item.activityEndDate.split('T')[0].split('-')[0]: ''}}年
             </div>
           </InputGroup>
           <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
             <Select v-if="editModel" slot="input" defaultText="04月"/>
             <div v-else slot="input">
-              {{item.activityEnd?item.activityEnd.split('T')[0].split('-')[1] : ''}}月
+              {{item.activityEndDate?item.activityEndDate.split('T')[0].split('-')[1] : ''}}月
             </div>
           </InputGroup>
           <InputGroup class="w-full pr-1" borderBtn :editModel="editModel">
             <Select v-if="editModel" slot="input" defaultText="15日"/>
             <div v-else slot="input">
-              {{item.activityEnd?item.activityEnd.split('T')[0].split('-')[2]: ''}}日
+              {{item.activityEndDate?item.activityEndDate.split('T')[0].split('-')[2]: ''}}日
             </div>
           </InputGroup>
           <InputGroup class="w-full" borderBtn :editModel="editModel">
             <Select v-if="editModel" slot="input" defaultText="12時"/>
             <div v-else slot="input">
-              {{item.activityEnd? item.activityEnd.split('T')[1].split(':')[0]: ''}}時
+              {{item.activityEndHour}}時
             </div>
           </InputGroup>
         </div>
@@ -242,6 +242,13 @@ export default {
         id: item.Value
       }
       this.updateInfo(key, select)
+    },
+    getCityArea(type, id) {
+      if(type == 'city') {
+        return this.cityList.find(item => item.cityId == id) ? this.cityList.find(item => item.cityId == id).cityName : ''
+      } else {
+        return this.areaList.find(item => item.areaId == id)? this.areaList.find(item => item.areaId == id).Text : ''
+      }
     },
     updateInfo (key, value) {
       this.$emit('update:info', Object.assign(this.copyInfo, { [key]: value }))
