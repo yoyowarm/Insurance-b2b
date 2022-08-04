@@ -16,29 +16,21 @@
      </div>
     </div>
     <FormTitle title="(四)安全防護"/>
-    <div class="column-4 my-4">
-      <InputGroup class="col-span-4" title="請說明潛在風險的防護與消防措施，包含並不限於上述風險項目">
-        <Input
-          slot="input"
-          placeholder="輸入內容"
-          :value="data.sheet2.part4.potentialOtherSafePlan"
-          @updateValue="(e) => updatePart4Value(e,'potentialOtherSafePlan')"
-        />
-      </InputGroup>
-    </div>
-    
+      <div class="w-full flex flex-row mt-4 dashed-border mb-6">
+        <div class="w90">請說明潛在風險的防護與消防措施，包含並不限於上述風險項目</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="eeee" :value="data.sheet2.part4.potentialOtherSafePlan === true" @updateValue="(e) => updatePart4Value(e, 'potentialOtherSafePlan')"/>
+          <RadioInput text="否" id="por" :value="data.sheet2.part4.potentialOtherSafePlan === false" @updateValue="(e) => updatePart4Value(e, 'potentialOtherSafePlan')"/>
+      </div>
+      </div>
   </div>
 </template>
 
 <script>
-import InputGroup from '@/components/InputGroup'
-import Input from '@/components/InputGroup/Input.vue'
 import FormTitle from '@/components/FormTitle'
 import RadioInput from '@/components/Radio'
 export default {
   components: {
-    InputGroup,
-    Input,
     FormTitle,
     RadioInput
   },

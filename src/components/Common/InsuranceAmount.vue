@@ -169,7 +169,7 @@ export default {
         : {
           countyName: '',
           perBodyAmount: this.data.perBodyAmount,
-          perAccidentBodyAmount: this.data.perBodyAmount,
+          perAccidentBodyAmount: this.data.perAccidentBodyAmount,
           perAccidentFinanceAmount: this.data.perAccidentFinanceAmount,
           insuranceTotalAmount: this.data.insuranceTotalAmount,
           selfInflictedAmount: this.data.selfInflictedAmount}

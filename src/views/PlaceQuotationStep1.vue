@@ -344,14 +344,36 @@ export default {
             return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
           }).map(item => {
             if(this.additionTerms[item.additionTermId]) {
-              return {
-                additionTermId: item.additionTermId,
-                additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
-                  return {
-                    itemId: key,
-                    itemValue: this.additionTerms[item.additionTermId][key]
-                  }
-                })]
+              if (item.additionTermName === '建築物承租人火災附加條款') {//PL005
+                return {
+                  additionTermId: item.additionTermId,
+                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                    return {
+                      itemId: key,
+                      itemValue: key =='value1' ? Number(this.additionTerms[item.additionTermId][key])*10000 : this.additionTerms[item.additionTermId][key]
+                    }
+                  })]
+                }
+              } else if (['受託物責任附加條款','承租人借用人責任附加條款(保額外加)',].includes(item.additionTermName)) {
+                return {
+                  additionTermId: item.additionTermId,
+                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                    return {
+                      itemId: key,
+                      itemValue: Number(this.additionTerms[item.additionTermId][key])*10000
+                    }
+                  })]
+                }
+              } else {
+                return {
+                  additionTermId: item.additionTermId,
+                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                    return {
+                      itemId: key,
+                      itemValue: this.additionTerms[item.additionTermId][key]
+                    }
+                  })]
+                }
               }
             } else {
               return {
@@ -505,14 +527,13 @@ export default {
           }
         })],
       }
+      
       if(this.questionnaireFinished) {
         data.questionnaire = {
           ...this.questionnaire,
           part1: {
             ...this.questionnaire.part1,
             businessType: this.questionnaire.part1.businessType.Value,
-            createTime: `${this.questionnaire.part1.createTime.year}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`,
-            businessEndDate: `${this.questionnaire.part1.businessStartDate.hours}:${this.questionnaire.part1.businessStartDate.minutes}`,
             businessStartDate: `${this.questionnaire.part1.businessEndDate.hours}:${this.questionnaire.part1.businessEndDate.minutes}`,
           },
           part2: {
@@ -523,6 +544,15 @@ export default {
             room: {...this.questionnaire.part2.room,roomAmount: this.questionnaire.part2.room.Value},
             seat: {...this.questionnaire.part2.seat,seatAmount: this.questionnaire.part2.seat.Value},
           }
+        }
+        if(Object.keys(this.questionnaire.part1.createTime).every(key => this.questionnaire.part1.createTime[key])) {
+          data.questionnaire.part1.createTime = `${this.questionnaire.part1.createTime.year}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`
+        }
+        if(Object.keys(this.questionnaire.part1.businessStartDate).every(key => this.questionnaire.part1.businessStartDate[key])) {
+          data.questionnaire.part1.businessStartDate = `${this.questionnaire.part1.businessStartDate.hours}:${this.questionnaire.part1.businessStartDate.minutes}`
+        }
+        if(Object.keys(this.questionnaire.part1.businessEndDate).every(key => this.questionnaire.part1.businessEndDate[key])) {
+          data.questionnaire.part1.businessEndDate = `${this.questionnaire.part1.businessEndDate.hours}:${this.questionnaire.part1.businessEndDate.minutes}`
         }
       }
       this.$store.dispatch('place/updatePlaceQuotation', data)

@@ -314,14 +314,36 @@ export default {
             return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
           }).map(item => {
             if(this.additionTerms[item.additionTermId]) {
-              return {
-                additionTermId: item.additionTermId,
-                additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
-                  return {
-                    itemId: key,
-                    itemValue: this.additionTerms[item.additionTermId][key]
-                  }
-                })]
+              if (item.additionTermName === '建築物承租人火災附加條款') {//PL005
+                return {
+                  additionTermId: item.additionTermId,
+                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                    return {
+                      itemId: key,
+                      itemValue: key =='value1' ? Number(this.additionTerms[item.additionTermId][key])*10000 : this.additionTerms[item.additionTermId][key]
+                    }
+                  })]
+                }
+              } else if (['受託物責任附加條款','承租人借用人責任附加條款(保額外加)',].includes(item.additionTermName)) {
+                return {
+                  additionTermId: item.additionTermId,
+                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                    return {
+                      itemId: key,
+                      itemValue: Number(this.additionTerms[item.additionTermId][key])*10000
+                    }
+                  })]
+                }
+              } else {
+                return {
+                  additionTermId: item.additionTermId,
+                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
+                    return {
+                      itemId: key,
+                      itemValue: this.additionTerms[item.additionTermId][key]
+                    }
+                  })]
+                }
               }
             } else {
               return {
@@ -525,13 +547,9 @@ export default {
       if(this.questionnaireFinished) {
         data.questionnaire = {
           ...this.questionnaire,
-        sheet1: {
-          ...this.questionnaire.sheet1,
-          part1: {
-            ...this.questionnaire.sheet1.part1,
-            beginDateTime: `${this.questionnaire.sheet1.part1.beginDateTime.year}-${this.questionnaire.sheet1.part1.beginDateTime.month}-${this.questionnaire.sheet1.part1.beginDateTime.day} ${this.questionnaire.sheet1.part1.beginDateTime.hours}:${this.questionnaire.sheet1.part1.beginDateTime.minutes}`,
-          },
         }
+        if(Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key])) {
+          data.questionnaire.sheet1.part1.beginDateTime = `${data.questionnaire.sheet1.part1.beginDateTime.year}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:${data.questionnaire.sheet1.part1.beginDateTime.minutes}`
         }
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)

@@ -152,7 +152,6 @@ export default {
       if (!this.industry.Value) {
         this.requestFile.push('未選擇投保行業')
       }
-      console.log(this.period)
       if (!this.period.startDate.year || !this.period.startDate.month || !this.period.startDate.day || isNaN(this.period.startDate.hour)) {
         this.requestFile.push('未選擇起保日')
       }

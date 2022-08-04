@@ -262,8 +262,8 @@ export const quotation = () => {
             year: '',
             month: '',
             day: '',
-            hours: '',
-            minutes: '',
+            hours: '00',
+            minutes: '00',
           },
           activityDays: '',//活動天數
           hasActivityIndoor: false,//是否有室內活動
@@ -369,7 +369,7 @@ export const quotation = () => {
           hasSegmentWithInsurancePlaceAndLane: false,//保險處所與車道有無有效區隔
         },
         part4: {
-          potentialOtherSafePlan: '',//潛在的風險防護與消防措施
+          potentialOtherSafePlan: false,//潛在的風險防護與消防措施
         },
       },
     },

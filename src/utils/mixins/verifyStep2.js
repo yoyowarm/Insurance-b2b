@@ -139,7 +139,7 @@ export default {
       }
       if (type == 'place') {
         this.placeInfo.map(item => {
-          if (item.area.Value == '選擇區域') {
+          if (item.area.Value == '選擇區域' || item.area.Text == '選擇區域') {
             this.requestFile.push('未選擇區域')
           }
           if (!item.subAddress) {

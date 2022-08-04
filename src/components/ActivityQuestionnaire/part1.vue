@@ -153,7 +153,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3  dashed-border">
-      <InputGroup title="是否有舞台搭建" dash>
+      <InputGroup title="是否有舞台搭建">
         <SwitchInput
           slot="input"
           id="hasStage"
@@ -161,7 +161,7 @@
           @updateValue="(e) => updateValue(e,'hasStage')"
         />
       </InputGroup>
-      <InputGroup title="是否有水池(如:游泳池、噴泉)" dash>
+      <InputGroup title="是否有水池(如:游泳池、噴泉)">
         <SwitchInput
           slot="input"
           id="hasWaterPool"

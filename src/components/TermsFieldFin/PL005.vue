@@ -5,7 +5,7 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="保險金額:每一意外事故" borderBtn>
-        <span slot="input">{{findTarget('value1').itemValue}}萬元</span>
+        <span slot="input">{{findTarget('value1').itemValue/10000}}萬元</span>
       </InputGroup>
       <InputGroup title="處所數量" borderBtn>
         <span slot="input">{{findTarget('value2').itemValue}}處</span>
