@@ -54,9 +54,7 @@
       <BrokerInfo :brokerList="businessSource" :data.sync="internalControl"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <DynamicLink type="router" path="/activity-quotation/step1" >
-        <Button class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
-      </DynamicLink>
+      <Button @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
       <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActive == 0 ? '產生報價單' : '修改報價單' }}</Button>
     </div>
     <WindowResizeListener @resize="handleResize"/>
@@ -68,7 +66,6 @@
 import CommonBoard from '@/components/CommonBoard'
 import InputGroup from '@/components/InputGroup'
 import Button from '@/components/Button'
-import DynamicLink from '@/components/DynamicLink'
 import Checkbox from '@/components/Checkbox'
 import Select from '@/components/Select'
 import InsuranceInfo from '@/components/Common/InsuranceInfo'
@@ -86,7 +83,6 @@ export default {
   components: {
     CommonBoard,
     Button,
-    DynamicLink,
     Checkbox,
     InputGroup,
     Select,
@@ -271,6 +267,19 @@ export default {
       if(this.requestFile.length === 0) {
         await this.verifyFinal()
       }
+    },
+    prevStep() {
+      if(this.InsuranceActive !== 0 || this.orderNo) {
+        const data = {
+          ...this.quotationData,
+            applicant: {},
+            insuraned: {},
+            internalControlData: {},
+            relationText: '',
+          }
+        this.$store.dispatch('activity/updatedQuotationData', data)
+      }
+      this.$router.push('/activity-quotation/step1')
     },
     async verifyFinal() {
       if(this.verifyResult.length === 0 && this.verifySalesInvadeResult.length === 0) {

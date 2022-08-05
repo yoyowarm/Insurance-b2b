@@ -281,7 +281,6 @@ export default {
         this.termsInit()
       }
       if(this.InsuranceActive !== 0 || this.orderNo) {//報價明細更正、複製時塞資料
-        await this.quotationDetail()
         this.step1InitAssignValue('activity')
       }
     },
@@ -387,38 +386,6 @@ export default {
       }
       this.updatePeriod()
     },
-    async quotationDetail() {
-      const detail = await this.$store.dispatch('quotation/GetActivityQuotationDetail', this.orderNo)
-      const data = {
-        ...detail.data.content,
-        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
-          return {
-            ...item,
-            // eslint-disable-next-line no-prototype-builtins
-            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
-            fixed: false,
-            insuranceTotalAmount: item.insuranceTotalAmount/10000,
-            mergeSingleAmount: item.mergeSingleAmount/10000,
-            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
-            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
-            perBodyAmount: item.perBodyAmount/10000,
-            parameter: {
-              basicFee: '',
-              finalHC: '',
-              sizeParameter: '',
-              selfInflictedParameter: '',
-              shortPeriodParameter: '',
-              additionalCostParameter: '',
-              mutiSizeParameter: '',
-              additionTermCoefficientParameter: '',
-              aggAOACoefficient: '',
-              amount: '',
-            }
-          }
-        })
-      }
-      this.$store.dispatch('activity/updatedQuotationData',data)
-    },
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
@@ -427,10 +394,31 @@ export default {
       this.verifyResult = []
       this.verifyRequired('activity')
 
-      if(this.requestFile.length === 0 &&
-        this.verifyResult.length === 0) {
+      if(this.requestFile.length === 0 && this.verifyResult.length === 0) {
           await this.quotationMapping()
-      this.$router.push({ name: 'activity-quotation-step2' })
+          if(this.InsuranceActive !== 0 || this.orderNo) {
+            const data = {
+              ...this.quotationData,
+              activityInsureInfo: {
+                additionTerms: [],
+                fileAttachments: [],
+                insuranceBeginDate: '',
+                insuranceEndDate: '',
+                insuranceRecord: {
+                  lastYear:{status:false},
+                  previousYear:{status:false},
+                },
+                insureType: '',
+                otherIndustryName: '',
+                activityInfo: [],
+                remark: '',
+                renewal: {isRenewal: false},
+                insuranceAmounts: [],
+              }
+            }
+            this.$store.dispatch('activity/updatedQuotationData',data)
+          }
+          this.$router.push({ name: 'activity-quotation-step2' })
       }
     },
     async clearAll() {

@@ -263,10 +263,31 @@ export default {
     async nextStep() {
       this.verifyResult = []
       this.verifyRequired('place')
-      if(this.requestFile.length === 0 &&
-        this.verifyResult.length === 0) {
+      if(this.requestFile.length === 0 && this.verifyResult.length === 0) {
           await this.quotationMapping()
-      this.$router.push({ name: 'place-quotation-step2' })
+          if(this.InsuranceActive !== 0 || this.orderNo) {
+            const data = {
+              ...this.quotationData,
+              placeInsureInfo: {
+                additionTerms: [],
+                fileAttachments: [],
+                insuranceBeginDate: '',
+                insuranceEndDate: '',
+                insuranceRecord: {
+                  lastYear:{status:false},
+                  previousYear:{status:false},
+                },
+                insureType: '',
+                otherIndustryName: '',
+                placeInfo: [],
+                remark: '',
+                renewal: {isRenewal: false},
+                insuranceAmounts: [],
+              }
+            }
+            this.$store.dispatch('place/updatedQuotationData',data)
+          }
+          this.$router.push({ name: 'place-quotation-step2' })
       }
     },
     async renewInfo() {
@@ -325,8 +346,7 @@ export default {
         this.additionTermsList = data.data.content.additionTermsDetails
         this.termsInit()
       }
-      if(this.InsuranceActive !== 0 || this.orderNo) {//報價明細更正、複製時塞資料
-        await this.quotationDetail()
+      if(this.InsuranceActive !== 0 || this.orderNo ) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('place')
       }
     },
@@ -404,38 +424,6 @@ export default {
           parameter: res.data.content.parameter? res.data.content.parameter : this.insuranceAmountListData.parameter,
         }
       }
-    },
-    async quotationDetail() {
-      const detail = await this.$store.dispatch('quotation/GetPlaceQuotationDetail', this.orderNo)
-      const data = {
-        ...detail.data.content,
-        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
-          return {
-            ...item,
-            // eslint-disable-next-line no-prototype-builtins
-            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
-            fixed: false,
-            insuranceTotalAmount: item.insuranceTotalAmount/10000,
-            mergeSingleAmount: item.mergeSingleAmount/10000,
-            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
-            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
-            perBodyAmount: item.perBodyAmount/10000,
-            parameter: {
-              basicFee: '',
-              finalHC: '',
-              sizeParameter: '',
-              selfInflictedParameter: '',
-              shortPeriodParameter: '',
-              additionalCostParameter: '',
-              mutiSizeParameter: '',
-              additionTermCoefficientParameter: '',
-              aggAOACoefficient: '',
-              amount: '',
-            }
-          }
-        })
-      }
-      this.$store.dispatch('place/updatedQuotationData',data)
     },
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})

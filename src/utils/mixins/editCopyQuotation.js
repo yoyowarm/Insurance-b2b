@@ -251,53 +251,60 @@ export default {
     step2InitAssignValue(type) {
       console.log(this.quotationData)
       //被保人與要保人之關係
-      const relation = this.relationShips.find(i => i.nane == this.quotationData.relationText)
-      this.$store.dispatch(`${type}/updatedRelation`, relation)
+      if (this.quotationData.relationText) {
+        const relation = this.relationShips.find(i => i.nane == this.quotationData.relationText)
+        this.$store.dispatch(`${type}/updatedRelation`, relation)
+      }
       const Insuraned = {}//要保人
-      Object.assign(Insuraned, {
-        ID: this.quotationData.insuraned.id,
-        Name: this.quotationData.insuraned.name,
-        IsForeigner: this.quotationData.insuraned.isForeigner,
-        Nationality: this.quotationData.insuraned.nationalityName ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.nationalityName) : { Text: '', Value: '' },
-        Corporate: this.quotationData.insuraned.corporateName,
-        City: this.cityList.find(i => i.Value == this.quotationData.insuraned.cityId),
-        Area: this.InsuranedAreaList.find(i => i.areaId == this.quotationData.insuraned.areaId),
-        subAddress: this.quotationData.insuraned.subAddress,
-        Mobile: this.quotationData.insuraned.mobile,
-        IsForeignRegister: this.quotationData.insuraned.isForeignRegister,
-        RegisterNationality: this.quotationData.insuraned.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) : { Text: '', Value: '' },
-        Profession: this.quotationData.insuraned.isProfession,
-        IsPolitician: this.quotationData.insuraned.isPolitician,
-        overseasOrDomestic: Boolean(this.quotationData.insuraned.overseasOrDomestic),
-        IsProOrNot: this.quotationData.insuraned.isProOrNot,
-      })
-      this.$store.dispatch(`${type}/updatedInsuraned`, Insuraned)
+      if (Object.keys(this.quotationData.insuraned).length > 0) {
+        Object.assign(Insuraned, {
+          ID: this.quotationData.insuraned.id,
+          Name: this.quotationData.insuraned.name,
+          IsForeigner: this.quotationData.insuraned.isForeigner,
+          Nationality: this.quotationData.insuraned.nationalityName ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.nationalityName) : { Text: '', Value: '' },
+          Corporate: this.quotationData.insuraned.corporateName,
+          City: this.cityList.find(i => i.Value == this.quotationData.insuraned.cityId),
+          Area: this.InsuranedAreaList.find(i => i.areaId == this.quotationData.insuraned.areaId),
+          subAddress: this.quotationData.insuraned.subAddress,
+          Mobile: this.quotationData.insuraned.mobile,
+          IsForeignRegister: this.quotationData.insuraned.isForeignRegister,
+          RegisterNationality: this.quotationData.insuraned.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) : { Text: '', Value: '' },
+          Profession: this.quotationData.insuraned.isProfession,
+          IsPolitician: this.quotationData.insuraned.isPolitician,
+          overseasOrDomestic: Boolean(this.quotationData.insuraned.overseasOrDomestic),
+          IsProOrNot: this.quotationData.insuraned.isProOrNot,
+        })
+        this.$store.dispatch(`${type}/updatedInsuraned`, Insuraned)
+      }
 
       const Applicant = {}//被保人
-      Object.assign(Applicant, {
-        ID: this.quotationData.applicant.id,
-        Name: this.quotationData.applicant.name,
-        IsForeigner: this.quotationData.applicant.isForeigner,
-        Nationality: this.quotationData.applicant.nationalityName ? this.nationalities.find(i => i.Text == this.quotationData.applicant.nationalityName) : { Text: '', Value: '' },
-        Corporate: this.quotationData.applicant.corporateName,
-        City: this.cityList.find(i => i.Value == this.quotationData.applicant.cityId),
-        Area: this.ApplicantAreaList.find(i => i.areaId == this.quotationData.applicant.areaId),
-        subAddress: this.quotationData.applicant.subAddress,
-        Mobile: this.quotationData.applicant.mobile,
-        IsForeignRegister: this.quotationData.applicant.isForeignRegister,
-        RegisterNationality: this.quotationData.applicant.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) : { Text: '', Value: '' },
-        Profession: this.quotationData.applicant.isProfession,
-        IsPolitician: this.quotationData.applicant.isPolitician,
-        overseasOrDomestic: Boolean(this.quotationData.applicant.overseasOrDomestic),
-        IsProOrNot: this.quotationData.applicant.isProOrNot,
-      })
-      this.$store.dispatch(`${type}/updatedApplicant`, Applicant)
-
-      this.internalControl = {
-        issuerNumber: this.quotationData.internalControlData.issuerNumber.trim(),
-        loginIdNumber: this.quotationData.internalControlData.loginIdNumber.trim(),
-        statisticsCode: this.quotationData.internalControlData.statisticsCode.trim(),
-        businessSourceCode: this.businessSource.find(i => i.Value == this.quotationData.internalControlData.businessSourceCode),
+      if (Object.keys(this.quotationData.applicant).length > 0) {
+        Object.assign(Applicant, {
+          ID: this.quotationData.applicant.id,
+          Name: this.quotationData.applicant.name,
+          IsForeigner: this.quotationData.applicant.isForeigner,
+          Nationality: this.quotationData.applicant.nationalityName ? this.nationalities.find(i => i.Text == this.quotationData.applicant.nationalityName) : { Text: '', Value: '' },
+          Corporate: this.quotationData.applicant.corporateName,
+          City: this.cityList.find(i => i.Value == this.quotationData.applicant.cityId),
+          Area: this.ApplicantAreaList.find(i => i.areaId == this.quotationData.applicant.areaId),
+          subAddress: this.quotationData.applicant.subAddress,
+          Mobile: this.quotationData.applicant.mobile,
+          IsForeignRegister: this.quotationData.applicant.isForeignRegister,
+          RegisterNationality: this.quotationData.applicant.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) : { Text: '', Value: '' },
+          Profession: this.quotationData.applicant.isProfession,
+          IsPolitician: this.quotationData.applicant.isPolitician,
+          overseasOrDomestic: Boolean(this.quotationData.applicant.overseasOrDomestic),
+          IsProOrNot: this.quotationData.applicant.isProOrNot,
+        })
+        this.$store.dispatch(`${type}/updatedApplicant`, Applicant)
+      }
+      if (Object.keys(this.quotationData.internalControlData).length > 0) {
+        this.internalControl = {
+          issuerNumber: this.quotationData.internalControlData.issuerNumber.trim(),
+          loginIdNumber: this.quotationData.internalControlData.loginIdNumber.trim(),
+          statisticsCode: this.quotationData.internalControlData.statisticsCode.trim(),
+          businessSourceCode: this.businessSource.find(i => i.Value == this.quotationData.internalControlData.businessSourceCode),
+        }
       }
     },
   }

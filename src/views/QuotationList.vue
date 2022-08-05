@@ -100,10 +100,12 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import { quotationListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
+  mixins: [editCopyQuotation],
   components: {
     CommonBoard,
     TableGroup,
@@ -283,9 +285,42 @@ export default {
       this.$store.dispatch('common/updateOrderNo', orderNo)
       this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step3`)
     },
-    copyQuotation(type,orderNo) {
+    async copyQuotation(type,orderNo) {
       this.$store.dispatch('common/updateOrderNo', orderNo)
+      await this.quotationDetail(type,orderNo)
       this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step1`)
+    },
+    async quotationDetail(type,orderNo) {
+      const detail = await this.$store.dispatch(`quotation/Get${type == 1?'Place': 'Activity'}QuotationDetail`, orderNo)
+      const data = {
+        ...detail.data.content,
+        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
+          return {
+            ...item,
+            // eslint-disable-next-line no-prototype-builtins
+            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
+            fixed: false,
+            insuranceTotalAmount: item.insuranceTotalAmount/10000,
+            mergeSingleAmount: item.mergeSingleAmount/10000,
+            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
+            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
+            perBodyAmount: item.perBodyAmount/10000,
+            parameter: {
+              basicFee: '',
+              finalHC: '',
+              sizeParameter: '',
+              selfInflictedParameter: '',
+              shortPeriodParameter: '',
+              additionalCostParameter: '',
+              mutiSizeParameter: '',
+              additionTermCoefficientParameter: '',
+              aggAOACoefficient: '',
+              amount: '',
+            }
+          }
+        })
+      }
+      this.$store.dispatch(`${type == 1?'place' : 'activity'}/updatedQuotationData`,data)
     },
   },
   async mounted() {

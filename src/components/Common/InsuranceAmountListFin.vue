@@ -320,9 +320,42 @@ export default {
       }
       
     },
-    updateInsuranceProject() {
+    async updateInsuranceProject() {
+      await this.quotationDetail(this.type)
       this.$store.dispatch(`${this.type}/updatedInsuranceActive`,1)
       this.$router.push({name: `${this.type}-quotation-step1`})
+    },
+    async quotationDetail(type) {
+      const detail = await this.$store.dispatch(`quotation/Get${type == 'place'? 'Place': 'Activity'}QuotationDetail`, this.orderNo)
+      const data = {
+        ...detail.data.content,
+        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
+          return {
+            ...item,
+            // eslint-disable-next-line no-prototype-builtins
+            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
+            fixed: false,
+            insuranceTotalAmount: item.insuranceTotalAmount/10000,
+            mergeSingleAmount: item.mergeSingleAmount/10000,
+            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
+            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
+            perBodyAmount: item.perBodyAmount/10000,
+            parameter: {
+              basicFee: '',
+              finalHC: '',
+              sizeParameter: '',
+              selfInflictedParameter: '',
+              shortPeriodParameter: '',
+              additionalCostParameter: '',
+              mutiSizeParameter: '',
+              additionTermCoefficientParameter: '',
+              aggAOACoefficient: '',
+              amount: '',
+            }
+          }
+        })
+      }
+      this.$store.dispatch(`${type}/updatedQuotationData`,data)
     },
     async AddInsuranceProject(index) {
       const data = {
