@@ -540,6 +540,7 @@ export const quotation = () => {
           additionTermCoefficientParameter: '',
           aggAOACoefficient: '',
           amount: '',
+          underwriteCoefficient: '',
         }
       }
     ],

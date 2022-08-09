@@ -88,7 +88,7 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-48 md:w-32 " outline>填寫問卷表</Button>
+        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-48 md:w-42 " outline>填寫問卷表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
@@ -356,6 +356,7 @@ export default {
         this.verifyResult.length === 0) {
         const data = {
           placeActivitySeq: this.industry.Value,
+          questionnaire: null,
           placeType: this.industryList.find(item => item.dangerSeq == this.industry.Value).typeName,
           insuranceRecord: this.InsuranceRecordTable,
           insuranceBeginTime: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day} ${this.period.startDate.hour}:00:00`,
@@ -416,6 +417,9 @@ export default {
           selfInflictedAmount: this.insuranceAmountList[0].selfInflictedAmount.Value,
           remark: this.remark.text,
         }
+        if(this.questionnaireFinished) {
+          this.questionnaireMapping(data)
+        }
         this.$store.dispatch('common/updatedCalculateModel',true)
         const res = await this.$store.dispatch('quotation/GetPlaceInsuranceProjectAmount',{data})
         this.insuranceAmountListData = {
@@ -441,6 +445,7 @@ export default {
     quotationMapping() {
       const data = {
         policyAttachmentId: this.uuid,
+        questionnaire: null,
         renewal: {isRenewal: this.renewal.IsRenewal, insuranceNumber: this.renewal.InsuranceNumber},
         insuranceRecord: {
           lastYear: {
@@ -518,7 +523,13 @@ export default {
       }
       
       if(this.questionnaireFinished) {
-        data.questionnaire = {
+        this.questionnaireMapping(data)
+      }
+      this.$store.dispatch('place/updatePlaceQuotation', data)
+      console.log(data)
+    },
+    questionnaireMapping(data) {
+      data.questionnaire = {
           ...this.questionnaire,
           part1: {
             ...this.questionnaire.part1,
@@ -545,10 +556,8 @@ export default {
         if(Object.keys(this.questionnaire.part1.businessEndDate).every(key => this.questionnaire.part1.businessEndDate[key])) {
           data.questionnaire.part1.businessEndDate = `${this.questionnaire.part1.businessEndDate.hours}:${this.questionnaire.part1.businessEndDate.minutes}`
         } else data.questionnaire.part1.businessEndDate = null
-      }
-      this.$store.dispatch('place/updatePlaceQuotation', data)
-      console.log(data)
-    }
+        return data
+    },
   },
   async mounted() {
     await this.pageInit()

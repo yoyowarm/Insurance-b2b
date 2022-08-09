@@ -66,7 +66,7 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-56 md:w-32 " outline>填寫問卷表</Button>
+        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫問卷表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
@@ -376,6 +376,9 @@ export default {
           selfInflictedAmount: this.insuranceAmountList[0].selfInflictedAmount.Value,
           remark: this.remark.text,
         }
+        if(this.questionnaireFinished) {
+          this.questionnaireMapping(data)
+        }
         this.$store.dispatch('common/updatedCalculateModel',true)
         const res = await this.$store.dispatch('quotation/GetActivityInsuranceProjectAmount',{data})
         this.insuranceAmountListData = {
@@ -455,6 +458,7 @@ export default {
     quotationMapping() {
       const data = {
         policyAttachmentId: this.uuid,
+        questionnaire: null,
         insurancePeriod: {
           startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
           startHour: this.period.startDate.hour,
@@ -534,17 +538,20 @@ export default {
           })]
       }
       if(this.questionnaireFinished) {
-        data.questionnaire = {
-          ...this.questionnaire,
-        }
-        if(Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key])) {
-          data.questionnaire.sheet1.part1.beginDateTime = `${Number(data.questionnaire.sheet1.part1.beginDateTime.year)+1911}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:${data.questionnaire.sheet1.part1.beginDateTime.minutes}`
-        } else {
-          data.questionnaire.sheet1.part1.beginDateTime = null
-        }
+        this.questionnaireMapping(data)
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
       console.log(data)
+    },
+    questionnaireMapping(data) {
+      data.questionnaire = {
+        ...this.questionnaire,
+      }
+      if(Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key])) {
+        data.questionnaire.sheet1.part1.beginDateTime = `${Number(data.questionnaire.sheet1.part1.beginDateTime.year)+1911}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:${data.questionnaire.sheet1.part1.beginDateTime.minutes}`
+      } else {
+        data.questionnaire.sheet1.part1.beginDateTime = null
+      }
     }
   },
   async mounted() {

@@ -18,7 +18,7 @@
           text="獨棟"
           id="part2-buildingType-1"
           :value="data.part2.buildingNature.Text === '獨棟'"
-          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '獨棟',Value: '1'})"
+          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '獨棟',Value: '獨棟'})"
         />
       </InputGroup>
       <InputGroup border0 min :noMt="marginTop(560)">
@@ -27,7 +27,7 @@
           text="公寓"
           id="part2-buildingType-2"
           :value="data.part2.buildingNature.Text === '公寓'"
-          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '公寓',Value: '2'})"
+          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '公寓',Value: '公寓'})"
         />
       </InputGroup>
       <InputGroup border0 min :noMt="marginTop(560)">
@@ -36,7 +36,7 @@
           text="辦公大樓"
           id="part2-buildingType-3"
           :value="data.part2.buildingNature.Text === '辦公大樓'"
-          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '辦公大樓',Value: '3'})"
+          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '辦公大樓',Value: '辦公大樓'})"
         />
       </InputGroup>
       <InputGroup border0 min :noMt="marginTop(560)">
@@ -45,7 +45,7 @@
           text="綜合大樓"
           id="part2-buildingType-4"
           :value="data.part2.buildingNature.Text === '綜合大樓'"
-          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '綜合大樓',Value: '4'})"
+          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '綜合大樓',Value: '綜合大樓'})"
         />
       </InputGroup>
       <InputGroup border0 min noMt>
@@ -54,7 +54,7 @@
           text="其他"
           id="part2-buildingType-5"
           :value="data.part2.buildingNature.Text === '其他'"
-          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '其他',Value: '5'})"
+          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '其他',Value: '其他'})"
         />
       </InputGroup>
     </div>
@@ -70,7 +70,7 @@
           text="獨棟"
           id="part2-nearBuildingType-1"
           :value="data.part2.nearbyBuildingNature.Text === '獨棟'"
-          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '獨棟',Value: '1'})"
+          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '獨棟',Value: '獨棟'})"
         />
       </InputGroup>
       <InputGroup border0 min :noMt="marginTop(560)">
@@ -79,7 +79,7 @@
           text="公寓"
           id="part2-nearBuildingType-2"
           :value="data.part2.nearbyBuildingNature.Text === '公寓'"
-          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '公寓',Value: '2'})"
+          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '公寓',Value: '公寓'})"
         />
       </InputGroup>
       <InputGroup border0 min :noMt="marginTop(560)">
@@ -88,7 +88,7 @@
           text="辦公大樓"
           id="part2-nearBuildingType-3"
           :value="data.part2.nearbyBuildingNature.Text === '辦公大樓'"
-          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '辦公大樓',Value: '3'})"
+          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '辦公大樓',Value: '辦公大樓'})"
         />
       </InputGroup>
       <InputGroup border0 min :noMt="marginTop(560)">
@@ -97,7 +97,7 @@
           text="綜合大樓"
           id="part2-nearBuildingType-4"
           :value="data.part2.nearbyBuildingNature.Text === '綜合大樓'"
-          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '綜合大樓',Value: '4'})"
+          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '綜合大樓',Value: '綜合大樓'})"
         />
       </InputGroup>
       <InputGroup border0 min noMt>
@@ -106,7 +106,7 @@
           text="其他"
           id="part2-nearBuildingType-5"
           :value="data.part2.nearbyBuildingNature.Text === '其他'"
-          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '其他',Value: '5'})"
+          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '其他',Value: '其他'})"
         />
       </InputGroup>
     </div>
@@ -117,7 +117,7 @@
           text="免公安檢查"
           id="part2-publicSafety-1"
           :value="data.part2.securityCheck.Text === '免公安檢查'"
-          @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '免公安檢查',Value: '1'})"
+          @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '免公安檢查',Value: '免公安檢查'})"
         />
       </InputGroup>
       <InputGroup border0 min :noMt="marginTop(560)">
@@ -126,7 +126,7 @@
           text="合格"
           id="part2-publicSafety-2"
           :value="data.part2.securityCheck.Text === '合格'"
-          @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '合格',Value: '2'})"
+          @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '合格',Value: '合格'})"
         />
       </InputGroup>
       <InputGroup border0 min :noMt="marginTop(560)">
@@ -144,7 +144,7 @@
           text="不合格"
           id="part2-publicSafety-4"
           :value="data.part2.securityCheck.Text === '不合格'"
-          @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '不合格',Value: '4'})"
+          @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '不合格',Value: '不合格'})"
         />
       </InputGroup>
     </div>

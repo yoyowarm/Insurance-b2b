@@ -340,6 +340,7 @@ export default {
           additionTermCoefficientParameter: '',
           aggAOACoefficient: '',
           amount: '',
+          underwriteCoefficient: '',
         }
       }
     ],
