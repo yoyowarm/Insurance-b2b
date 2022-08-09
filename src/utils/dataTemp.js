@@ -525,8 +525,8 @@ export const quotation = () => {
         insuranceTotalAmount: '',
         mergeSingleAmount: '',
         selfInflictedAmount: {
-          Text: '',
-          Value: '',
+          Text: '0元',
+          Value: '0',
         },
         amount: null,
         parameter: {
