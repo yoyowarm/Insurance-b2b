@@ -1,91 +1,96 @@
 <template>
-	<div class="flex flex-row">
-		<div class="column-6 w-full">
-			<div class="col-span-3 flex flex-row">
-				<InputGroup class="mr-3" noMt :disable="disable">
-					<Select
-						slot="input"
-						defaultText="選擇民國年"
-						:options="yearOptions"
-						:selected="`${copyPeriod.startDate.year}`"
-						@emitItem="(e) => emitSelectItem('startDate','year', e.Value)"
+  <div class="column-2 w-full">
+    <div class="flex flex-row">
+      <div class="flex flex-col">
+        <InputGroup class="mr-3" noMt :disable="disable">
+          <Select
+            slot="input"
+            defaultText="選擇民國年"
+            :options="yearOptions"
+            :selected="`${copyPeriod.startDate.year}`"
+            @emitItem="(e) => emitSelectItem('startDate','year', e.Value)"
             :disable="disable"
-					/>
-				</InputGroup>
-				<InputGroup class="mr-3" noMt :disable="disable">
-					<Select
-						slot="input"
-						defaultText="選擇月份"
-						:options="monthOptions"
-						:selected="`${copyPeriod.startDate.month}`"
-						@emitItem="(e) => emitSelectItem('startDate','month', e.Value)"
+          />
+        </InputGroup>
+        <InputGroup class="mr-3" noMt :disable="disable">
+          <Select
+            slot="input"
+            defaultText="選擇月份"
+            :options="monthOptions"
+            :selected="`${copyPeriod.startDate.month}`"
+            @emitItem="(e) => emitSelectItem('startDate','month', e.Value)"
             :disable="disable"
-					/>
-				</InputGroup>
-				<InputGroup class="mr-3" noMt :disable="disable">
-					<Select
-						slot="input"
-						defaultText="選擇日期"
-						:options="dayOptions"
-						:selected="`${copyPeriod.startDate.day}`"
-						@emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
+          />
+        </InputGroup>
+      </div>
+      <div class="flex flex-col">
+        <InputGroup class="mr-3" noMt :disable="disable">
+          <Select
+            slot="input"
+            defaultText="選擇日期"
+            :options="dayOptions"
+            :selected="`${copyPeriod.startDate.day}`"
+            @emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
             :disable="disable"
-					/>
-				</InputGroup>
-				<InputGroup class="mr-4" noMt :disable="disable">
-					<Select
-						slot="input"
-						defaultText="選擇小時"
-						:options="hourOptions"
-						:selected="`${copyPeriod.startDate.hour}`"
-						@emitItem="(e) => emitSelectItem('startDate','hour', e.Value)"
+          />
+        </InputGroup>
+        <InputGroup class="mr-4" noMt :disable="disable">
+          <Select
+            slot="input"
+            defaultText="選擇小時"
+            :options="hourOptions"
+            :selected="`${copyPeriod.startDate.hour}`"
+            @emitItem="(e) => emitSelectItem('startDate','hour', e.Value)"
             :disable="disable"
-					/>
-				</InputGroup>
-			</div>
-			<div class="col-span-3 flex flex-row justify-start items-center dateLine mt-2">
-				<span>至</span>
-				<Select
-					slot="input"
-					defaultText="民國年"
-					:options="yearOptions"
-					hiddenArrow
-					:selected="`${copyPeriod.endDate.year}`"
-					style="min-width: 50px;"
-					@emitItem="(e) => emitSelectItem('endDate','year', e.Value)"
-          :disable="disable"
-				/>
-				<Select
-					slot="input"
-					defaultText="月份"
-					:options="monthOptions"
-					hiddenArrow
-					:selected="`${copyPeriod.endDate.month}`"
-					@emitItem="(e) => emitSelectItem('endDate','month', e.Value)"
-          :disable="disable"
-				/>
-				<Select
-					slot="input"
-					defaultText="日期"
-					:options="dayOptions"
-					hiddenArrow
-					:selected="`${copyPeriod.endDate.day}`"
-					@emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
-          :disable="disable"
-				/>
-				<Select
-					slot="input"
-					defaultText="時"
-					:options="hourOptions"
-					hiddenArrow
-					:selected="`${copyPeriod.endDate.hour}`"
-					@emitItem="(e) => emitSelectItem('endDate','hour', e.Value)"
-          :disable="disable"
-				/>
-				<span>止</span>
-			</div>
-		</div>
-	</div>
+          />
+        </InputGroup>
+      </div>
+    </div>
+    <div class=" flex flex-row justify-start items-center dateLine mt-2">
+      <span>至</span>
+      <Select
+        slot="input"
+        defaultText="民國年"
+        :options="yearOptions"
+        hiddenArrow
+        :selected="`${copyPeriod.endDate.year}`"
+        style="min-width: 50px;"
+        @emitItem="(e) => emitSelectItem('endDate','year', e.Value)"
+        :disable="disable"
+      />
+      <Select
+        slot="input"
+        defaultText="月份"
+        :options="monthOptions"
+        hiddenArrow
+        style="min-width: 30px;"
+        :selected="`${copyPeriod.endDate.month}`"
+        @emitItem="(e) => emitSelectItem('endDate','month', e.Value)"
+        :disable="disable"
+      />
+      <Select
+        slot="input"
+        defaultText="日期"
+        :options="dayOptions"
+        hiddenArrow
+        :selected="`${copyPeriod.endDate.day}`"
+        style="min-width: 30px;"
+        @emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
+        :disable="disable"
+      />
+      <Select
+        slot="input"
+        defaultText="時"
+        :options="hourOptions"
+        hiddenArrow
+        :selected="`${copyPeriod.endDate.hour}`"
+        style="min-width: 30px;"
+        @emitItem="(e) => emitSelectItem('endDate','hour', e.Value)"
+        :disable="disable"
+      />
+      <span>止</span>
+    </div>
+  </div>
 </template>
 
 <script>
