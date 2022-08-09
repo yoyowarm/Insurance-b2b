@@ -427,6 +427,7 @@ export default {
         return this.$store.dispatch('common/DeleteFile', {policyAttachmentId: item.policyAttachmentId, fileAttachmentId: item.id})
       }))
       this.$store.dispatch('activity/updatedUUID', '')
+      this.$$store.dispatch('common/updateOrderNo' ,'')
       location.reload()
     },
     updatePeriod() {

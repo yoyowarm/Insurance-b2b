@@ -1,7 +1,7 @@
 <template>
   <div class="column-2 w-full">
     <div class="flex flex-row">
-      <div class="flex flex-col">
+      <div class="flex flex-col sm:flex-row">
         <InputGroup class="mr-3" noMt :disable="disable">
           <Select
             slot="input"
@@ -23,7 +23,7 @@
           />
         </InputGroup>
       </div>
-      <div class="flex flex-col">
+      <div class="flex flex-col sm:flex-row">
         <InputGroup class="mr-3" noMt :disable="disable">
           <Select
             slot="input"

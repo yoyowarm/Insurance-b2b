@@ -435,6 +435,7 @@ export default {
         return this.$store.dispatch('common/DeleteFile', {policyAttachmentId: item.policyAttachmentId, fileAttachmentId: item.id})
       }))
       this.$store.dispatch('place/updatedUUID', '')
+      this.$$store.dispatch('common/updateOrderNo' ,'')
       location.reload()
     },
     quotationMapping() {
