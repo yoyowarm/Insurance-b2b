@@ -198,6 +198,7 @@ export default {
   data() {
     return {
       selfPayList: [
+        {Value: 0, Text: '0元'},
         {Value: 2500, Text: '2,500元'},
         {Value: 5000, Text: '5,000元'},
         {Value: 10000, Text: '10,000元'},
