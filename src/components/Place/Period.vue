@@ -115,6 +115,11 @@ export default {
       year: '年',
       month: '月',
       day: '日',
+      hourOptions: [
+        { Text: '00時', Value: 0},
+        { Text: '12時', Value: 12},
+        { Text: '24時', Value: 24}
+      ]
      }
    },
 	watch: {
@@ -153,16 +158,6 @@ export default {
 			for (let i = 1; i <= 31; i++) {
 				arr.push({
 					Text: i + '日',
-					Value: i
-				})
-			}
-			return arr 
-		},
-		hourOptions () {
-			const arr = []
-			for (let i = 0; i <= 24; i++) {
-				arr.push({
-					Text: i + '時',
 					Value: i
 				})
 			}

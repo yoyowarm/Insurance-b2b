@@ -1,8 +1,8 @@
 <template>
   <div>
-    <CommonBoard class="w-full mt-12" title="投保行業">
+    <CommonBoard class="w-full mt-16 sm:mt-8" title="投保行業">
       <template slot="right">
-        <Button class="text-base" @click.native="clearAll" outline>清除全部資料</Button>
+        <Button class="text-base absolute right-5 top-16 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
       <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" :value="searchText" @updateValue="(e) => searchText = e" placeholder="輸入行業關鍵字" slotIcon>
@@ -68,7 +68,7 @@
         <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
         <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-56 md:w-32 " outline>填寫問卷表</Button>
       </div>
-      <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
+      <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :questionnaire="questionnaire"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -537,7 +537,9 @@ export default {
           ...this.questionnaire,
         }
         if(Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key])) {
-          data.questionnaire.sheet1.part1.beginDateTime = `${data.questionnaire.sheet1.part1.beginDateTime.year}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:${data.questionnaire.sheet1.part1.beginDateTime.minutes}`
+          data.questionnaire.sheet1.part1.beginDateTime = `${Number(data.questionnaire.sheet1.part1.beginDateTime.year)+1911}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:${data.questionnaire.sheet1.part1.beginDateTime.minutes}`
+        } else {
+          data.questionnaire.sheet1.part1.beginDateTime = null
         }
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)

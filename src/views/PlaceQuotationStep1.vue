@@ -86,11 +86,11 @@
           <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
         </div>
       <div class="flex flex-col sm:flex-row">
-        <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
-        <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-56 md:w-32 " outline>填寫問卷表</Button>
+        <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
+        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-48 md:w-32 " outline>填寫問卷表</Button>
       </div>
-      <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
+      <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
     <Questionnaire type="place" :open.sync="openQuestionnaire" :questionnaire="questionnaire"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -534,14 +534,16 @@ export default {
           }
         }
         if(Object.keys(this.questionnaire.part1.createTime).every(key => this.questionnaire.part1.createTime[key])) {
-          data.questionnaire.part1.createTime = `${this.questionnaire.part1.createTime.year}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`
-        }
+          data.questionnaire.part1.createTime = `${Number(this.questionnaire.part1.createTime.year)+1911}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`
+        } else data.questionnaire.part1.createTime = null
+
         if(Object.keys(this.questionnaire.part1.businessStartDate).every(key => this.questionnaire.part1.businessStartDate[key])) {
           data.questionnaire.part1.businessStartDate = `${this.questionnaire.part1.businessStartDate.hours}:${this.questionnaire.part1.businessStartDate.minutes}`
-        }
+        } else data.questionnaire.part1.businessStartDate = null
+
         if(Object.keys(this.questionnaire.part1.businessEndDate).every(key => this.questionnaire.part1.businessEndDate[key])) {
           data.questionnaire.part1.businessEndDate = `${this.questionnaire.part1.businessEndDate.hours}:${this.questionnaire.part1.businessEndDate.minutes}`
-        }
+        } else data.questionnaire.part1.businessEndDate = null
       }
       this.$store.dispatch('place/updatePlaceQuotation', data)
       console.log(data)
@@ -558,7 +560,7 @@ export default {
           year: new Date().getFullYear()-1911,
           month: new Date().getMonth() + 1,
           day: new Date().getDate(),
-          hour: new Date().getHours(),
+          hour: 12,
         }
       }
       if((new Date().getFullYear()%4) == 0) {
@@ -571,7 +573,7 @@ export default {
                 year: new Date().getFullYear()-1911,
                 month: new Date().getMonth() + 1,
                 day:28,
-                hour: new Date().getHours(),
+                hour: 12,
               }
             }
           } else if(leapYear > startDate) {
@@ -582,7 +584,7 @@ export default {
                 { year: new Date(newYear).getFullYear()-1911,
                   month: new Date(newYear).getMonth()+1,
                   day: new Date(newYear).getDate(),
-                  hour: new Date().getHours(),
+                  hour: 12,
                 }
               }
           } else {
@@ -592,7 +594,7 @@ export default {
                 year: (new Date().getFullYear() + 1)-1911,
                 month: new Date().getMonth()+1,
                 day: new Date().getDate(),
-                hour: new Date().getHours()
+                hour: 12
               }
             }
           }
@@ -603,7 +605,7 @@ export default {
                 year: (new Date().getFullYear() + 1)-1911,
                 month: new Date().getMonth()+1,
                 day: new Date().getDate(),
-                hour: new Date().getHours()
+                hour: 12
               }
           }
         }
