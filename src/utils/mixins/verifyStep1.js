@@ -156,7 +156,7 @@ export default {
         this.requestFile.push('未選擇起保日')
       }
       this.insuranceAmountList.map(item => {
-        if (!item.selfInflictedAmount.Value) {
+        if (!item.selfInflictedAmount.Value == '請選擇金額') {
           this.requestFile.push('未選擇自負額')
         }
         if (item.amountType.Value == 1 && !item.mergeSingleAmount) {

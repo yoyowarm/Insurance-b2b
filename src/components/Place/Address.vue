@@ -3,11 +3,12 @@
     <template v-for="(item,index) in lists">
       <FormTitle :title="`處所${index+1}`" :key="`title${index}`" class="mb-2"/>
       <div class="column-5 mb-6" :key="`body${index}`">
-        <InputGroup dash noMt>
+        <InputGroup dash noMt disable>
           <Select
             slot="input"
             :options="cityList"
             :selected="item.city.Value"
+            disable
             @emitItem="(item) => updateInfo('city', item, index)"
             defaultText="選擇縣市"/>
         </InputGroup>
