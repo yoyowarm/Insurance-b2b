@@ -1,6 +1,6 @@
 <template>
   <div class="w-full my-4 dashed-border">
-    <FormTitle title="(一)場地選定"/>
+    <FormTitle lgTitle title="(一)場地選定"/>
     <div class="w-full flex flex-col sm:flex-row mt-4" v-for="(item,index) in questionList" :key="item">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
@@ -68,5 +68,13 @@ export default {
   }
   .w10{
     width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
   }
 </style>

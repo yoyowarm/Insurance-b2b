@@ -17,45 +17,46 @@
             <Input slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
-        <Part1 :data.sync="questionnaireData"/>
+        <Part1 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="2">
           <FormTitle title="(二)營業處所-建築物資訊"/>
         </div>
-        <Part2 :data.sync="questionnaireData"/>
+        <Part2 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="3">
           <FormTitle title="(三)營業處所-特殊風險項目"/>
         </div>
-        <Part3 :data.sync="questionnaireData"/>
+        <Part3 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="4">
           <FormTitle title="(四)營業處所-器材使用"/>
         </div>
-        <Part4 :data.sync="questionnaireData"/>
+        <Part4 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="5">
           <FormTitle title="(五)營業處所-交通控管"/>
         </div>
-        <Part5 :data.sync="questionnaireData"/>
+        <Part5 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="6">
           <FormTitle title="(六)營業處所-人員動線及管控"/>
         </div>
-        <Part6 :data.sync="questionnaireData"/>
+        <Part6 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="7">
           <FormTitle title="(七)營業處所-安全防護"/>
         </div>
-        <Part7 :data.sync="questionnaireData"/>
+        <Part7 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="8">
           <FormTitle title="(八)營業處所-緊急救護措施"/>
         </div>
-        <Part8 :data.sync="questionnaireData"/>
+        <Part8 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="9">
           <FormTitle title="(九)營業處所-其他考量"/>
         </div>
-        <Part9 :data.sync="questionnaireData"/>
+        <Part9 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="flex flex-row justify-center">
           <Button @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
         </div>
       </div>
     </div>
     <div class="mask-bg" @click="$emit('ok')"/>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -74,6 +75,7 @@ import Part6 from '@/components/PlaceQuestionnaire/part6'
 import Part7 from '@/components/PlaceQuestionnaire/part7'
 import Part8 from '@/components/PlaceQuestionnaire/part8'
 import Part9 from '@/components/PlaceQuestionnaire/part9'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
     FormTitle,
@@ -89,7 +91,8 @@ export default {
     Part7,
     Part8,
     Part9,
-    Select
+    Select,
+    WindowResizeListener
   },
   props: {
     open: {
@@ -128,6 +131,7 @@ export default {
    data () {
     return {
       value: false,
+      windowWidth: window.innerWidth,
       formList: [
         { Value: '1', Text: '(一)營業處所-基本資料'},
         { Value: '2', Text: '(二)營業處所-建築物資訊'},
@@ -156,7 +160,13 @@ export default {
       if(this.$refs[e.Value]) {
         this.$refs[e.Value].scrollIntoView({behavior: "smooth"})
       }
-    }
+    },
+    marginTop (width = 1180) {
+      return this.windowWidth <= width
+    },
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
   }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="input-group" :class="{'w70': $slots.suffix}">
-      <div class="input-title mt" :class="{'justify-between': $slots.right, 'h0': noMt, 'wrap':wrap}">
+      <div class="input-title mt" :class="{'justify-between': $slots.right, 'h0': noMt, 'wrap':wrap, 'h-auto': autoHeight}">
         <div class="text-gray-800" :class="{'text-lg': lgTitle}">{{title}}<slot name="title"/></div>
         <div class="slot" v-if="$slots.right">
           <slot name="right"/>
@@ -32,6 +32,10 @@ export default {
       default: false
     },
     noMt: {
+      type: Boolean,
+      default: false
+    },
+    autoHeight: {
       type: Boolean,
       default: false
     },
@@ -156,11 +160,19 @@ export default {
         @apply whitespace-normal ;
       }
     }
+    &.h-auto {
+      @apply h-auto;
+    }
   }
   
   @media screen and (max-width: 560px) {
     .input.dash::after {
       @apply hidden;
+    }
+  }
+  @media screen and (max-width: 1130px) {
+    .input-title {
+      @apply whitespace-normal;
     }
   }
   @media (max-width: 1126px) {

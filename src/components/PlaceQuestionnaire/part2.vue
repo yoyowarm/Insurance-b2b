@@ -21,7 +21,7 @@
           @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '獨棟',Value: '1'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="公寓"
@@ -30,7 +30,7 @@
           @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '公寓',Value: '2'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="辦公大樓"
@@ -39,7 +39,7 @@
           @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '辦公大樓',Value: '3'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="綜合大樓"
@@ -48,7 +48,7 @@
           @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '綜合大樓',Value: '4'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min noMt>
         <RadioInput
           slot="input"
           text="其他"
@@ -73,7 +73,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '獨棟',Value: '1'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="公寓"
@@ -82,7 +82,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '公寓',Value: '2'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="辦公大樓"
@@ -91,7 +91,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '辦公大樓',Value: '3'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="綜合大樓"
@@ -100,7 +100,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '綜合大樓',Value: '4'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min noMt>
         <RadioInput
           slot="input"
           text="其他"
@@ -120,7 +120,7 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '免公安檢查',Value: '1'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="合格"
@@ -129,7 +129,7 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '合格',Value: '2'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="提具體改善計畫書"
@@ -138,7 +138,7 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '提具體改善計畫書',Value: '3'})"
         />
       </InputGroup>
-      <InputGroup border0 min>
+      <InputGroup border0 min :noMt="marginTop(560)">
         <RadioInput
           slot="input"
           text="不合格"
@@ -149,7 +149,7 @@
       </InputGroup>
     </div>
     <div class="column-5 mt-3 ml-8">
-      <InputGroup lgTitle title="營業性質之數量">
+      <InputGroup lgTitle title="營業性質之數量" class="mb-8 sm:mb-0">
         <Input
           slot="input"
           :value="data.part2.room.value"
@@ -165,11 +165,11 @@
           :value="data.part2.room.selected"
           @updateValue="(e) =>updateValue(e,'room.selected')"
         />
-        <span slot="input-right" class="absolute -right-38 bottom-4">如係屬飯店、旅館者</span>
+        <span slot="input-right" class="absolute sm:-right-38 -bottom-8 sm:bottom-4">如係屬飯店、旅館者</span>
       </InputGroup>
     </div>
     <div class="column-5 mb-3 ml-8">
-      <InputGroup noMt>
+      <InputGroup noMt class="mb-8 sm:mb-0">
         <Input
           slot="input"
           :value="data.part2.seat.value"
@@ -185,7 +185,7 @@
           :value="data.part2.seat.selected"
           @updateValue="(e) =>updateValue(e,'seat.selected')"
         />
-        <span slot="input-right" class="absolute -right-42 bottom-4">如係屬戲院、音樂廳者</span>
+        <span slot="input-right" class="absolute sm:-right-42 -bottom-8 sm:bottom-4">如係屬戲院、音樂廳者</span>
       </InputGroup>
     </div>
     <div class="column-4 my-3">
@@ -275,13 +275,17 @@ export default {
     RadioInput,
     Checkbox,
     SwitchInput,
-    Select
+    Select,
   },
   props:{
     data: {
       type: Object,
       default: () => ({})
-    }
+    },
+    marginTop: {
+      type: Function,
+      default: () => {}
+    },
   },
   data() {
     return {
@@ -330,7 +334,7 @@ export default {
       })
       }
       
-    }
+    },
   }
 }
 </script>

@@ -20,7 +20,7 @@
                 @updateValue="(e) => updateIndustry(e, list)"
                 :disabled="calculateModel"
               />
-              <InputGroup v-if="list.dangerSeq == 106" class="ml-3 w-64" noMt :disable="!selected.Text.includes('其他')" :key="`Industry${list.dangerSeq}`">
+              <InputGroup v-if="list.dangerSeq == 106" class="ml-3 sm:w-64" noMt :disable="!selected.Text.includes('其他')" :key="`Industry${list.dangerSeq}`">
                 <Input
                   slot="input"
                   placeholder="輸入行業名稱"

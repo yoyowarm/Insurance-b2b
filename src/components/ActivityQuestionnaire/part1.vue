@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup class="col-span-2" title="活動名稱">
+      <InputGroup class="col-span-2" lgTitle title="活動名稱">
         <Input
           slot="input"
           placeholder="輸入活動名稱"
@@ -9,7 +9,7 @@
           @updateValue="(e) => updateValue(e,'name')"
         />
       </InputGroup>
-      <InputGroup title="參加活動人數">
+      <InputGroup lgTitle title="參加活動人數">
         <Input
           slot="input"
           numberOnly
@@ -18,7 +18,7 @@
           @updateValue="(e) => updateValue(e,'joinPersonAmount')"
         />
       </InputGroup>
-      <InputGroup title="活動處所規定容留人數">
+      <InputGroup lgTitle title="活動處所規定容留人數">
         <Input
           slot="input"
           numberOnly
@@ -31,7 +31,7 @@
     <div class="column-4 my-3">
       <div class="col-span-2">
         <div class="column-3 w-full">
-          <InputGroup title="活動開始日期">
+          <InputGroup lgTitle title="活動開始日期">
             <Select
               slot="input"
               :options="yearOptions"
@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="column-3">
-        <InputGroup title="活動開始時間">
+        <InputGroup lgTitle title="活動開始時間">
           <Select
             slot="input"
             :options="hoursOptions"
@@ -77,7 +77,7 @@
           />
         </InputGroup>
       </div>
-      <InputGroup title="活動天數">
+      <InputGroup lgTitle title="活動天數">
         <Input
           slot="input"
           placeholder="輸入天數"
@@ -86,8 +86,8 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3">
-      <InputGroup title="活動型態" class="col-span-3" inputLeftClass="ml-20">
+    <div class="flex my-3">
+      <InputGroup lgTitle title="活動型態" class="col-span-3" inputLeftClass="ml-20">
         <Checkbox
           slot="input-left"
           class="absolute -left-20 bottom-4"
@@ -100,12 +100,13 @@
         <Input
           slot="input"
           placeholder="輸入內容"
+          class="w-auto sm:w-80"
           :value="data.sheet1.part1.indoorActivityContent"
           @updateValue="(e) => updateValue(e,'indoorActivityContent')"
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3">
+    <div class="flex my-3">
       <InputGroup noMt class="col-span-3" inputLeftClass="ml-20">
         <Checkbox
           slot="input-left"
@@ -119,13 +120,14 @@
         <Input
           slot="input"
           placeholder="輸入內容"
+          class="w-auto sm:w-80"
           :value="data.sheet1.part1.outdoorActivityContent"
           @updateValue="(e) => updateValue(e,'outdoorActivityContent')"
         />
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="活動處所及鄰近使用性質說明" class="col-span-4">
+      <InputGroup lgTitle title="活動處所及鄰近使用性質說明" class="col-span-4">
         <Input
           slot="input"
           placeholder="輸入內容"
@@ -135,7 +137,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="是否為水域活動" dash>
+      <InputGroup lgTitle title="是否為水域活動" dash>
         <SwitchInput
           slot="input"
           id="isWaterArea"
@@ -143,7 +145,7 @@
           @updateValue="(e) => updateValue(e,'isWaterArea')"
         />
       </InputGroup>
-      <InputGroup title="說明救生人員配置" class="col-span-3" :disable="!data.sheet1.part1.isWaterArea">
+      <InputGroup lgTitle title="說明救生人員配置" class="col-span-3" :disable="!data.sheet1.part1.isWaterArea">
         <Input
           slot="input"
           :disable="!data.sheet1.part1.isWaterArea"
@@ -153,7 +155,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3  dashed-border">
-      <InputGroup title="是否有舞台搭建">
+      <InputGroup lgTitle title="是否有舞台搭建">
         <SwitchInput
           slot="input"
           id="hasStage"
@@ -161,7 +163,7 @@
           @updateValue="(e) => updateValue(e,'hasStage')"
         />
       </InputGroup>
-      <InputGroup title="是否有水池(如:游泳池、噴泉)">
+      <InputGroup lgTitle title="是否有水池(如:游泳池、噴泉)">
         <SwitchInput
           slot="input"
           id="hasWaterPool"
