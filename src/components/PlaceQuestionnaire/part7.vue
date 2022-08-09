@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="1.營業處所相關之消防和安全措施" class="my-3"/>
+    <FormTitle lgTitle title="1.營業處所相關之消防和安全措施" class="my-3"/>
     <div class="column-6 my-1">
       <Checkbox
         id="消防栓"
@@ -10,7 +10,7 @@
         :value="data.part7.hasFireHydrant"
         @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
-      <InputGroup noMt class="ml-0 sm:ml-8" :disable="!data.part7.hasFireHydrant">
+      <InputGroup noMt class="ml-0 sm:ml-8 w-40" :disable="!data.part7.hasFireHydrant">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
@@ -19,9 +19,10 @@
           :value="data.part7.hydrantIndoorAmount"
           @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
-      <InputGroup noMt class="ml-0 sm:ml-8" :disable="!data.part7.hasFireHydrant">
+      <InputGroup noMt class="ml-0 sm:ml-12 w-40" :disable="!data.part7.hasFireHydrant">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
@@ -30,6 +31,7 @@
           :value="data.part7.hydrantOutdoorAmount"
           @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
     </div>
@@ -42,7 +44,7 @@
         :value="data.part7.fireExtinguisher"
         @updateValue="(e) =>updateValue(e,'fireExtinguisher')"
       />
-      <InputGroup noMt class="ml-0 sm:ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-0 sm:ml-8 w-40" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
@@ -51,9 +53,10 @@
           :value="data.part7.foam.indoor"
           @updateValue="(e) => updateValue(e,'foam.indoor')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
-      <InputGroup noMt class="ml-0 sm:ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-0 sm:ml-12 w-40" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
@@ -62,12 +65,13 @@
           :value="data.part7.foam.outdoor"
           @updateValue="(e) => updateValue(e,'foam.outdoor')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
     </div>
     <div class="column-6 my-1">
       <span class="h-full pl-24 mt-4">二氧化碳</span>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8 w-40" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
@@ -76,9 +80,10 @@
           :value="data.part7.carbonDioxide.indoor"
           @updateValue="(e) => updateValue(e,'carbonDioxide.indoor')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
@@ -87,12 +92,13 @@
           :value="data.part7.carbonDioxide.outdoor"
           @updateValue="(e) => updateValue(e,'carbonDioxide.outdoor')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
     </div>
     <div class="column-6 my-1">
       <span class="h-full pl-24 mt-4">ABC乾粉</span>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8 w-40" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
@@ -101,9 +107,10 @@
           :value="data.part7.abc.indoor"
           @updateValue="(e) => updateValue(e,'abc.indoor')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
@@ -112,12 +119,13 @@
           :value="data.part7.abc.outdoor"
           @updateValue="(e) => updateValue(e,'abc.outdoor')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
     </div>
     <div class="column-6 my-1">
       <span class="h-full pl-24 mt-4">海龍(halon)</span>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-8 w-40" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
         <Input
           slot="input"
@@ -126,9 +134,10 @@
           :value="data.part7.halon.indoor"
           @updateValue="(e) => updateValue(e,'halon.indoor')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
-      <InputGroup noMt class="ml-8" :disable="!data.part7.fireExtinguisher">
+      <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
         <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
         <Input
           slot="input"
@@ -137,6 +146,7 @@
           :value="data.part7.halon.outdoor"
           @updateValue="(e) => updateValue(e,'halon.outdoor')"
           numberOnly
+          unit="支"
         />
       </InputGroup>
     </div>
@@ -160,7 +170,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="是否有自動灑水系統">
+      <InputGroup lgTitle title="是否有自動灑水系統">
         <SwitchInput
           slot="input"
           id="sprinkler"
@@ -170,7 +180,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="是否有氣體滅火系統" dash>
+      <InputGroup lgTitle title="是否有氣體滅火系統" dash>
         <SwitchInput
           slot="input"
           id="gasExtinguishing"
@@ -178,7 +188,7 @@
           @updateValue="(e) => updateValue(e,'hasGasExtinguishing')"
         />
       </InputGroup>
-      <InputGroup title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasGasExtinguishing">
+      <InputGroup lgTitle title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasGasExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
@@ -189,7 +199,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="是否有泡沫滅火系統" dash>
+      <InputGroup lgTitle title="是否有泡沫滅火系統" dash>
         <SwitchInput
           slot="input"
           id="foamExtinguishing"
@@ -197,7 +207,7 @@
           @updateValue="(e) => updateValue(e,'hasFoamExtinguishing')"
         />
       </InputGroup>
-      <InputGroup title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasFoamExtinguishing">
+      <InputGroup lgTitle title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasFoamExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
@@ -208,7 +218,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="是否有水霧滅火系統" dash>
+      <InputGroup lgTitle title="是否有水霧滅火系統" dash>
         <SwitchInput
           slot="input"
           id="waterMistExtinguishing"
@@ -216,7 +226,7 @@
           @updateValue="(e) => updateValue(e,'hasWaterMistExtinguishing')"
         />
       </InputGroup>
-      <InputGroup title="水霧滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasWaterMistExtinguishing">
+      <InputGroup lgTitle title="水霧滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasWaterMistExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
@@ -226,12 +236,25 @@
         />
       </InputGroup>
     </div>
-    <div class="w-full flex flex-col sm:flex-row mt-4" v-for="(item,index) in questionList" :key="item" :class="{'dashed-border': index == questionList.length -1}">
-      <div class="w90">{{item}}</div>
-      <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === true" @updateValue="(e) => updateValue(e, questionListID[index])"/>
-        <RadioInput text="否" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === false" @updateValue="(e) => updateValue(e, questionListID[index])"/>
-     </div>
+    <div class="column-4 my-4">
+      <InputGroup lgTitle title="2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練">
+        <SwitchInput
+          slot="input"
+          id="HasEquipmentTestAndTrain"
+          :value="data.part7.HasEquipmentTestAndTrain"
+          @updateValue="(e) => updateValue(e, 'HasEquipmentTestAndTrain')"
+        />
+      </InputGroup>
+    </div>
+    <div class="column-4 my-4 dashed-border">
+      <InputGroup :title="item" v-for="(item,index) in questionList" :key="item">
+        <SwitchInput
+          slot="input"
+          :id="item"
+          :value="data.part7[questionListID[index]]"
+          @updateValue="(e) => updateValue(e, questionListID[index])"
+        />
+      </InputGroup>
     </div>
   </div>
 </template>
@@ -242,7 +265,6 @@ import FormTitle from '@/components/FormTitle.vue'
 import SwitchInput from '@/components/Switch'
 import Checkbox from '@/components/Checkbox'
 import Input from '@/components/InputGroup/Input'
-import RadioInput from '@/components/Radio'
 export default {
   components: {
     FormTitle,
@@ -250,7 +272,6 @@ export default {
     SwitchInput,
     Checkbox,
     Input,
-    RadioInput
   },
   props:{
     data: {
@@ -261,7 +282,6 @@ export default {
   data() {
     return {
       questionList: [
-        '2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練',
         '3.是否有禁菸管制',
         '4.是否有監視或預警系統',
         '5.受信總機是否正常使用並有專人開手',
@@ -269,7 +289,6 @@ export default {
         '7.走道或逃生路線是否推放雜物'
       ],
       questionListID: [
-        'HasEquipmentTestAndTrain',
         'hasNoSmokingControl',
         'hasAlertSystem',
         'hasSwitchboardNormalState',

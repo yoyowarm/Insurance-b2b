@@ -1,21 +1,18 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup title="外牆建築材質">
+      <InputGroup lgTitle title="外牆建築材質">
         <Input slot="input" :value="data.part2.wallMaterial" @updateValue="(e) => updateValue(e,'wallMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
-      <InputGroup title="樓地板建築材質">
+      <InputGroup lgTitle title="樓地板建築材質">
         <Input slot="input" :value="data.part2.floorMaterial" @updateValue="(e) => updateValue(e,'floorMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
-      <InputGroup title="屋頂建築材質">
+      <InputGroup lgTitle title="屋頂建築材質">
         <Input slot="input" :value="data.part2.roofMaterial" @updateValue="(e) => updateValue(e,'roofMaterial')" placeholder="輸入材質名稱"/>
-      </InputGroup>
-      <InputGroup title="距鄰近建築物">
-        <Input slot="input" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離"/>
       </InputGroup>
     </div>
     <div class="column-5 my-3">
-      <InputGroup title="建築性質" border0 min>
+      <InputGroup lgTitle title="建築性質" border0 min>
         <RadioInput
           slot="input"
           text="獨棟"
@@ -61,8 +58,13 @@
         />
       </InputGroup>
     </div>
+    <div class="column-5 my-3">
+      <InputGroup lgTitle title="距鄰近建築物">
+        <Input slot="input" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離"/>
+      </InputGroup>
+    </div>
      <div class="column-5 my-3">
-      <InputGroup title="鄰近建築物性質" border0 min>
+      <InputGroup lgTitle title="鄰近建築物性質" border0 min>
         <RadioInput
           slot="input"
           text="獨棟"
@@ -109,7 +111,7 @@
       </InputGroup>
     </div>
     <div class="column-5 my-3">
-      <InputGroup title="公共安全檢查(經當地主管建築機關查核)" border0 min>
+      <InputGroup lgTitle title="公共安全檢查(經當地主管建築機關查核)" border0 min>
         <RadioInput
           slot="input"
           text="免公安檢查"
@@ -147,7 +149,7 @@
       </InputGroup>
     </div>
     <div class="column-5 mt-3 ml-8">
-      <InputGroup title="營業性質之數量">
+      <InputGroup lgTitle title="營業性質之數量">
         <Input
           slot="input"
           :value="data.part2.room.value"
@@ -187,16 +189,16 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="地上樓層數">
+      <InputGroup lgTitle title="地上樓層數">
         <Input slot="input" :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
       </InputGroup>
-      <InputGroup title="地下樓層數" dash>
+      <InputGroup lgTitle title="地下樓層數" dash>
         <Input slot="input" :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
       </InputGroup>
-      <InputGroup title="使用樓層數">
+      <InputGroup lgTitle title="使用樓層數">
         <Input slot="input" :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
       </InputGroup>
-      <InputGroup title="樓梯是否有止滑條">
+      <InputGroup lgTitle title="樓梯是否有止滑條">
         <SwitchInput
           slot="input"
           id="hasAntiSlip"
@@ -206,7 +208,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="是否有游泳池" dash>
+      <InputGroup lgTitle title="是否有游泳池" dash>
         <SwitchInput
           slot="input"
           id="swimPool"
@@ -214,7 +216,7 @@
           @updateValue="(e) =>updateValue(e,'hasSwimmingPool')"
         />
       </InputGroup>
-      <InputGroup title="救生員人數" :disable="!data.part2.hasSwimmingPool">
+      <InputGroup lgTitle title="救生員人數" :disable="!data.part2.hasSwimmingPool">
         <Input
           slot="input"
           :value="data.part2.lifeguardAmount"
@@ -224,10 +226,10 @@
           :disable="!data.part2.hasSwimmingPool"
         />
       </InputGroup>
-      <InputGroup title="地板為何種材質">
+      <InputGroup lgTitle title="地板為何種材質">
         <Input slot="input" :value="data.part2.material"  @updateValue="(e) => updateValue(e,'material')" placeholder="輸入材質名稱"/>
       </InputGroup>
-      <InputGroup title="是否鋪設地談">
+      <InputGroup lgTitle title="是否鋪設地談">
         <SwitchInput
           slot="input"
           id="hasCarpet"
@@ -237,7 +239,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup title="營業處所是否有機械性停車設備" dash>
+      <InputGroup lgTitle title="營業處所是否有機械性停車設備" dash>
         <SwitchInput
           slot="input"
           id="hasMechineParkingDevice"
@@ -245,7 +247,7 @@
           @updateValue="(e) =>updateValue(e,'hasMechineParkingDevice')"
         />
       </InputGroup>
-      <InputGroup title="停車設備種類" :disable="!data.part2.hasMechineParkingDevice">
+      <InputGroup lgTitle title="停車設備種類" :disable="!data.part2.hasMechineParkingDevice">
         <Select
           slot="input"
           :options="parkingList"

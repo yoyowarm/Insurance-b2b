@@ -122,10 +122,7 @@ export default {
     questionnaire: {//問卷
       userId: '',
       part1: {
-        businessType: {//經營業務種類
-          Text: '選擇種類',
-          Value: '',
-        },
+        businessType: '',//經營業務種類,
         createTime: {
           year: '',
           month: '',
@@ -173,55 +170,52 @@ export default {
         floors: '',//地上樓層數
         underground: '',//地下樓層數
         useFloors: '',//使用樓層數
-        hasAntiSlip: false,//樓梯是否有止滑條
-        hasSwimmingPool: false,//是否有游泳池
+        hasAntiSlip: null,//樓梯是否有止滑條
+        hasSwimmingPool: null,//是否有游泳池
         lifeguardAmount: '',//救生員人數
         material: '',//地板為何種材質
-        hasCarpet: false,//是否鋪設地談,
-        hasMechineParkingDevice: false,//是否有機車停車場
+        hasCarpet: null,//是否鋪設地談,
+        hasMechineParkingDevice: null,//是否有機車停車場
         mechineParkingDeviceCategory: '',//機車停車場類別
       },
       part3: {
-        selfOperated: false,//內部設施是否全數自行經營
-        NotSelfOperated: '',//填寫非自行經營之項目
-        hasBalcony: false,//是否有陽台
-        canAccessBalcony: false,//人員可否進入陽台
-        hasCarpetsCurtains: false,//是否有地毯、窗簾
-        hasFireproofMaterial: false,//地毯、窗簾是否為防火材質
-        hasCompartment: false,//是否有客房隔間
-        hasCompartmentFireproofMaterial: false,//客房隔間是否為防火材質
+        selfOperated: null,//內部設施是否全數自行經營
+        notSelfOperated: '',//填寫非自行經營之項目
+        hasBalcony: null,//是否有陽台
+        canAccessBalcony: null,//人員可否進入陽台
+        hasFireproofMaterial: null,//地毯、窗簾是否為防火材質
+        hasCompartmentFireproofMaterial: null,//客房隔間是否為防火材質
         facility: [],//如有下列設施，請勾選
-        hasPusher: false,//是否使用推高機
-        hasSpacialShow: false,//是否有特殊表演項目
-        hasFireOrDust: false,//涉及用火或粉塵表演
-        isProfessional: false,//表演者是否為專業人士
-        hasDangerousItem: false,//使用、存放煙火爆竹或化學品等危險物品
-        hasBoiler: false,//使用鍋爐
+        hasPusher: null,//是否使用推高機
+        hasFireOrDust: null,//涉及用火或粉塵表演
+        isProfessional: null,//表演者是否為專業人士
+        hasDangerousItem: null,//使用、存放煙火爆竹或化學品等危險物品
+        hasBoiler: null,//使用鍋爐
       },
       part4: {
-        hasCentralControl: false,//是否設有中控中心以監控公用設備
-        hasHighVoltage: false,//是否使用高壓電設施(600V以上)
-        hasBareWires: false,//是否有裸露電線或導體
-        hasAutomaticPowerOff: false,//供電系統是否裝有自動斷電設備
-        hasWireInTube: false,//所有電線是否裝在管內(含踏板)以避免短路
+        hasCentralControl: null,//是否設有中控中心以監控公用設備
+        hasHighVoltage: null,//是否使用高壓電設施(600V以上)
+        hasBareWires: null,//是否有裸露電線或導體
+        hasAutomaticPowerOff: null,//供電系統是否裝有自動斷電設備
+        hasWireInTube: null,//所有電線是否裝在管內(含踏板)以避免短路
       },
       part5: {
-        useRoadHasAccessByTransportation: false,//使用道路者，對附近交通之衝擊是否經交通主管機關認許
-        afterActivityHasAccessByTransportation: false,//未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許
-        hasSegmentWithInsurancePlaceAndLane: false,//保險處所與車道有無有效區隔(含車道與人員動線安排)
+        useRoadHasAccessByTransportation: null,//使用道路者，對附近交通之衝擊是否經交通主管機關認許
+        afterActivityHasAccessByTransportation: null,//未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許
+        hasSegmentWithInsurancePlaceAndLane: null,//保險處所與車道有無有效區隔(含車道與人員動線安排)
       },
       part6: {
-        hasExit: false,//是否有出口規劃
-        hasEvacuationSign: false,//是否有疏散標示
-        hasPersonnelControl: false,//是否有人員管制計畫
-        hasEvacuationPlan: false,//是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)
+        hasExit: null,//是否有出口規劃
+        hasEvacuationSign: null,//是否有疏散標示
+        hasPersonnelControl: null,//是否有人員管制計畫
+        hasEvacuationPlan: null,//是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)
         facility: [],//如有下列設施，請勾選
       },
       part7: {
-        hasFireHydrant: false,//消防栓
+        hasFireHydrant: null,//消防栓
         hydrantIndoorAmount: '',//內部消防栓數量
         hydrantOutdoorAmount: '',//外部消防栓數量
-        fireExtinguisher: false,//滅火器
+        fireExtinguisher: null,//滅火器
         foam: {//泡沫型
           indoor: '',
           outdoor: '',
@@ -238,30 +232,30 @@ export default {
           indoor: '',
           outdoor: '',
         },
-        hasSprinkler: false,//是否有自動灑水系統
-        hasGasExtinguishing: false,//是否有氣體滅火系統
+        hasSprinkler: null,//是否有自動灑水系統
+        hasGasExtinguishing: null,//是否有氣體滅火系統
         gasExtinguishingInstall: '',//氣體滅火系統安裝於何處
-        hasFoamExtinguishing: false,//是否有泡沫滅火系統
+        hasFoamExtinguishing: null,//是否有泡沫滅火系統
         foamExtinguishingInstall: '',//泡沫滅火系統安裝於何處
-        hasWaterMistExtinguishing: false,//是否有水霧滅火系統
+        hasWaterMistExtinguishing: null,//是否有水霧滅火系統
         waterMistExtinguishingInstall: '',//水霧滅火系統安裝於何處
-        hasOtherExtinguishing: false,//是否有其他滅火系統
+        hasOtherExtinguishing: null,//是否有其他滅火系統
         otherExtinguishingRemark: '',//其他滅火系統備註
-        HasEquipmentTestAndTrain: false,//是否有設備測試及訓練,
-        hasNoSmokingControl: false,//是否有禁菸管制
-        hasAlertSystem: false,//是否有監視或預警系統
-        hasSwitchboardNormalState: false,//是否受信總機正常使用並有專人看守
-        hasCleaner: false,//是否有清潔工
-        hasClutterAtAisle: false,//是否有滋潤品放置於走廊
+        HasEquipmentTestAndTrain: null,//是否有設備測試及訓練,
+        hasNoSmokingControl: null,//是否有禁菸管制
+        hasAlertSystem: null,//是否有監視或預警系統
+        hasSwitchboardNormalState: null,//是否受信總機正常使用並有專人看守
+        hasCleaner: null,//是否有清潔工
+        hasClutterAtAisle: null,//是否有滋潤品放置於走廊
       },
       part8: {
-        hasMedicalSiteAndPersons: false,//是否設置醫療站並配置醫護人員
-        hasProtectDevice: false,//是否有防護或緊急設備
-        hasDisasterProtectPlan: false,//是否有災害防護計畫
-        hasEmergencyManagementPlan: false,//是否有緊急應變計畫(包含應變人員編組和指定職責，如關鍵設備留守人員、警戒人員、醫療救護編組、消防編組等)
+        hasMedicalSiteAndPersons: null,//是否設置醫療站並配置醫護人員
+        hasProtectDevice: null,//是否有防護或緊急設備
+        hasDisasterProtectPlan: null,//是否有災害防護計畫
+        hasEmergencyManagementPlan: null,//是否有緊急應變計畫(包含應變人員編組和指定職責，如關鍵設備留守人員、警戒人員、醫療救護編組、消防編組等)
       },
       part9: {
-        hasLossHistoryBeforeFiveYear: false,//被保險人過去五年是否有損失紀錄
+        hasLossHistoryBeforeFiveYear: null,//被保險人過去五年是否有損失紀錄
         lostAmountFrequencyReason: ''//填寫損失金額、次數、原因
       },
     },

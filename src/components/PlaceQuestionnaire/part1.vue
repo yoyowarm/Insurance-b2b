@@ -1,17 +1,12 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup title="經營業務種類">
-        <Select
-          slot="input"
-          :selected="data.part1.businessType.Value"
-          :options="typeList"
-          @emitItem="e=> updateValue(e, 'businessType')"
-          defaultText="選擇種類"/>
+      <InputGroup lgTitle title="經營業務種類">
+        <Input slot="input" :value="data.part1.businessType" @updateValue="(e) => updateValue(e,'businessType')"  placeholder="輸入種類"/>
       </InputGroup>
       <div class="col-span-2">
         <div class="column-3 w-full">
-          <InputGroup title="創立日期">
+          <InputGroup lgTitle title="創立日期">
             <Select
               slot="input"
               :selected="data.part1.createTime.year"
@@ -37,13 +32,13 @@
           </InputGroup>
         </div>
       </div>
-      <InputGroup title="員工人數">
+      <InputGroup lgTitle title="員工人數">
         <Input slot="input" numberOnly placeholder="輸入人數" @updateValue="(e) => updateValue(e,'staffAmount')" :value="data.part1.staffAmount"/>
       </InputGroup>
     </div>
     <div class="column-4 my-3">
       <div class="column-2">
-        <InputGroup title="營業開始時間">
+        <InputGroup lgTitle title="營業開始時間">
           <Select
             slot="input"
             :selected="data.part1.businessStartDate.hours"
@@ -63,7 +58,7 @@
         </InputGroup>
       </div>
       <div class="column-2">
-        <InputGroup title="營業結束時間">
+        <InputGroup lgTitle title="營業結束時間">
           <Select
             slot="input"
             :selected="data.part1.businessEndDate.hours"
@@ -82,18 +77,18 @@
           />
         </InputGroup>
       </div>
-      <InputGroup title="基地面積">
+      <InputGroup lgTitle title="基地面積">
         <Input slot="input" :value="data.part1.area" @updateValue="(e) => updateValue(e,'area')"  placeholder="輸入面積"/>
       </InputGroup>
-      <InputGroup title="總面積">
+      <InputGroup lgTitle title="總面積">
         <Input slot="input" :value="data.part1.totalArea" @updateValue="(e) => updateValue(e,'totalArea')" placeholder="輸入面積"/>
       </InputGroup>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup title="每日平均出入人數">
+      <InputGroup lgTitle title="每日平均出入人數">
         <Input slot="input" :value="data.part1.dailyAveragePersons" @updateValue="(e) => updateValue(e,'dailyAveragePersons')" placeholder="輸入人數"/>
       </InputGroup>
-      <InputGroup title="單日最高出入人數">
+      <InputGroup lgTitle title="單日最高出入人數">
         <Input slot="input" :value="data.part1.singleDayHighestPersons" @updateValue="(e) => updateValue(e,'singleDayHighestPersons')" placeholder="輸入人數"/>
       </InputGroup>
     </div>
@@ -116,17 +111,12 @@ export default {
       default: () => ({})
     }
   },
-  data() {
-    return {
-      typeList: []
-    }
-  },
   computed: {
      yearOptions () {
         const arr = []
-      for (let i = (new Date().getFullYear()-1911); i <= 140; i++) {
+      for (let i = 20; i <= 140; i++) {
          arr.push({
-           Text: i,
+           Text: `民國${i}年`,
            Value: i
          })
        }
@@ -196,15 +186,6 @@ export default {
       }
       this.$emit('update:data',obj)
     }
-  },
-  async mounted() {
-    const type = await this.$store.dispatch('resource/PlaceTypes')
-    this.typeList = type.data.content.map(item => {
-      return {
-        Text: item,
-        Value: item
-      }
-    })
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <div class="w-full my-4  dashed-border">
     <div class="column-4">
-      <InputGroup title="被保險人過去五年是否有損失紀錄">
+      <InputGroup lgTitle title="被保險人過去五年是否有損失紀錄">
         <SwitchInput
           slot="input"
           id="hasLossHistoryBeforeFiveYear"
@@ -9,11 +9,12 @@
           @updateValue="(e) =>updateValue(e,'hasLossHistoryBeforeFiveYear')"
         />
       </InputGroup>
-      <InputGroup class="col-span-3" title="填寫損失金額、次數、原因">
+      <InputGroup class="col-span-3" lgTitle title="填寫損失金額、次數、原因" :disable="!data.part9.hasLossHistoryBeforeFiveYear">
         <Input
           slot="input"
           :value="data.part9.lostAmountFrequencyReason"
           @updateValue="(e) =>updateValue(e,'lostAmountFrequencyReason')"
+          :disable="!data.part9.hasLossHistoryBeforeFiveYear"
         />
       </InputGroup>
     </div>

@@ -2,7 +2,7 @@
 <div class="w-full">
   <label class="switch">
     <input type="checkbox" :id="id" :value="value" @change="$emit('updateValue', !value)" :checked="value" :disabled="disabled">
-    <label class="slider" :class="{disabled: disabled}" :for="id" :data-checkedText="checkedText" :data-uncheckedText="uncheckedText"/>
+    <label class="slider" :class="{disabled: disabled, selected: value === true,unselected: value === false  }" :for="id" :data-checkedText="checkedText" :data-uncheckedText="uncheckedText"/>
 </label>
 </div>
 </template>
@@ -19,8 +19,8 @@ export default {
       default: '否'
     },
     value: {
-      type: Boolean,
-      default: true
+      type: [Boolean,null],
+      default: null
     },
     id: {
       type: String,
@@ -56,7 +56,9 @@ export default {
     bottom: 0;
     -webkit-transition: .4s;
     transition: .4s;
-    @apply rounded-full bg-main;
+    color: #A4A4A4;
+    background-color: #FAFAFA;
+    @apply rounded-full;
     &.disabled {
       @apply cursor-not-allowed bg-gray-300 pointer-events-none;
     }
@@ -67,7 +69,7 @@ export default {
       width: 50%;
       left: -1px;
       bottom: 0px;
-      color: #fff;
+      color: #A4A4A4;
       -webkit-transition: .4s;
       transition: .4s;
       border-radius: 40px 0px 0px 40px;
@@ -93,21 +95,24 @@ export default {
   }
 }
 
-input:checked + .slider {
-  background-color: #FAFAFA;
+.slider.unselected {
   &:before {
+    color: #fff;
+    @apply bg-main
+  }
+  &:after {
+    background-color: #FAFAFA;
     color: #A4A4A4;
   }
-  &.disabled:before {
+}
+.slider.selected {
+  &:before {
     background-color: #FAFAFA;
-    color: #E0E0E0;
+    color: #A4A4A4;
   }
   &:after {
     color: #fff;
     @apply bg-main
-  }
-  &.disabled:after {
-    @apply bg-gray-300 text-white
   }
 }
 

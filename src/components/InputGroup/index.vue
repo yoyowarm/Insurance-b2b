@@ -1,7 +1,7 @@
 <template>
   <div class="input-group" :class="{'w70': $slots.suffix}">
       <div class="input-title mt" :class="{'justify-between': $slots.right, 'h0': noMt, 'wrap':wrap}">
-        <div class="text-gray-800">{{title}}<slot name="title"/></div>
+        <div class="text-gray-800" :class="{'text-lg': lgTitle}">{{title}}<slot name="title"/></div>
         <div class="slot" v-if="$slots.right">
           <slot name="right"/>
         </div>
@@ -26,6 +26,10 @@ export default {
     title: {
       type: String,
       default: ''
+    },
+    lgTitle: {
+      type: Boolean,
+      default: false
     },
     noMt: {
       type: Boolean,
