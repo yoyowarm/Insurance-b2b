@@ -1,7 +1,7 @@
 <template>
   <div class="w-full my-4 dashed-border">
-    <FormTitle title="(一)場地選定"/>
-    <div class="w-full flex flex-col sm:flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+    <FormTitle lgTitle title="(一)場地選定"/>
+    <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
         <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part1[questionListID[index]] === true" @updateValue="(e) => updateValue(e, questionListID[index])"/>
@@ -68,5 +68,13 @@ export default {
   }
   .w10{
     width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
   }
 </style>

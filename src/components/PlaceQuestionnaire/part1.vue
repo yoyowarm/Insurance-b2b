@@ -14,7 +14,7 @@
               @emitItem="(e) => emitSelectItem('createTime','year', e.Value)"
               defaultText="選擇年"/>
           </InputGroup>
-          <InputGroup >
+          <InputGroup :noMt="marginTop(560)">
             <Select
               slot="input"
               :selected="data.part1.createTime.month"
@@ -22,7 +22,7 @@
               @emitItem="(e) => emitSelectItem('createTime','month', e.Value)"
               defaultText="選擇月"/>
           </InputGroup>
-          <InputGroup >
+          <InputGroup :noMt="marginTop(560)">
             <Select
               slot="input"
               :selected="data.part1.createTime.day"
@@ -47,7 +47,7 @@
             @emitItem="(e) => emitSelectItem('businessStartDate','hours', e.Value)"/>
           />
         </InputGroup>
-        <InputGroup >
+        <InputGroup :noMt="marginTop(560)">
           <Select
             slot="input"
             :selected="data.part1.businessStartDate.minutes"
@@ -67,7 +67,7 @@
             @emitItem="(e) => emitSelectItem('businessEndDate','hours', e.Value)"/>
           />
         </InputGroup>
-        <InputGroup >
+        <InputGroup :noMt="marginTop(560)">
           <Select
             slot="input"
             :selected="data.part1.businessEndDate.minutes"
@@ -109,7 +109,11 @@ export default {
     data: {
       type: Object,
       default: () => ({})
-    }
+    },
+    marginTop: {
+      type: Function,
+      default: () => {}
+    },
   },
   computed: {
      yearOptions () {

@@ -37,7 +37,7 @@
           @updateValue="(e) =>updateValue(e,'canAccessBalcony')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="是否有地毯、窗簾，是否為防火材質" >
+      <InputGroup lgTitle autoHeight title="是否有地毯、窗簾，是否為防火材質" >
         <SwitchInput
           slot="input"
           id="hasFireproofMaterial"
@@ -45,7 +45,7 @@
           @updateValue="(e) =>updateValue(e,'hasFireproofMaterial')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="是否有客房隔間，客房隔間是否為防火材質" >
+      <InputGroup lgTitle autoHeight title="是否有客房隔間，客房隔間是否為防火材質" >
         <SwitchInput
           slot="input"
           id="hasCompartmentFireproofMaterial"
@@ -55,7 +55,7 @@
       </InputGroup>
     </div>
     <div class="column-5 my-3">
-      <InputGroup v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" border0 >
+      <InputGroup v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" border0 :noMt="index!== 0?marginTop(560): false" >
         <Checkbox
           class="text-md"
           :id="list"
@@ -80,7 +80,7 @@
     </div>
     <FormTitle lgTitle title="戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3"/>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有特殊表演項目，涉及用火或粉塵表演">
+      <InputGroup lgTitle autoHeight title="是否有特殊表演項目，涉及用火或粉塵表演">
         <SwitchInput
           slot="input"
           id="hasFireOrDust"
@@ -99,7 +99,7 @@
     </div>
     <FormTitle lgTitle title="營業處所" class="my-3"/>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle title="使用、存放煙火爆竹或化學品等危險物品">
+      <InputGroup lgTitle autoHeight title="使用、存放煙火爆竹或化學品等危險物品">
         <SwitchInput
           slot="input"
           id="hasDangerousItem"
@@ -137,7 +137,11 @@ export default {
     data: {
       type: Object,
       default: () => ({})
-    }
+    },
+    marginTop: {
+      type: Function,
+      default: () => {}
+    },
   },
   data() {
     return {

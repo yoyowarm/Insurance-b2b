@@ -1,7 +1,7 @@
 <template>
   <div class="w-full my-4  dashed-border">
     <div class="column-4">
-      <InputGroup lgTitle title="被保險人過去五年是否有損失紀錄">
+      <InputGroup lgTitle autoHeight title="被保險人過去五年是否有損失紀錄">
         <SwitchInput
           slot="input"
           id="hasLossHistoryBeforeFiveYear"

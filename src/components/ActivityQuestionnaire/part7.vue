@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup title="是否有氣體滅火系統" dash>
+      <InputGroup lgTitle title="是否有氣體滅火系統" dash>
         <SwitchInput
           slot="input"
           id="hasLossHistoryBeforeFiveYear"
@@ -9,7 +9,7 @@
           @updateValue="(e) => updateValue(e,'hasLossHistoryBeforeFiveYear')"
         />
       </InputGroup>
-      <InputGroup title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear">
+      <InputGroup lgTitle title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
@@ -21,7 +21,7 @@
     </div>
     <div class="ml-2 mt-2 text-red-500 text-sm">*不論有無投保</div>
     <div class="column-4 my-3 border-solid border-b-2 pb-10">
-      <InputGroup title="其他(未載於上述者請自行填寫)" class="col-span-4">
+      <InputGroup lgTitle title="其他(未載於上述者請自行填寫)" class="col-span-4">
         <Input
           slot="input"
           placeholder="輸入內容"

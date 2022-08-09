@@ -1,7 +1,7 @@
 <template>
   <div class="w-full my-4">
     <div class="column-4">
-      <InputGroup lgTitle title="是否設有中控中心以監控公用設備">
+      <InputGroup lgTitle autoHeight title="是否設有中控中心以監控公用設備">
         <SwitchInput
           slot="input"
           id="hasCentralControl"
@@ -9,7 +9,7 @@
           @updateValue="(e) =>updateValue(e,'hasCentralControl')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="是否使用高壓電設施(600V以上)">
+      <InputGroup lgTitle autoHeight title="是否使用高壓電設施(600V以上)">
         <SwitchInput
           slot="input"
           id="hasHighVoltage"
@@ -25,7 +25,7 @@
           @updateValue="(e) =>updateValue(e,'hasBareWires')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="供電系統是否裝有自動斷電設備">
+      <InputGroup lgTitle autoHeight title="供電系統是否裝有自動斷電設備">
         <SwitchInput
           slot="input"
           id="hasAutomaticPowerOff"
@@ -35,7 +35,7 @@
       </InputGroup>
     </div>
     <div class="column-4 mt-4 dashed-border">
-      <InputGroup lgTitle title="所有電線是否裝在管內(含踏板)以避免短路">
+      <InputGroup lgTitle autoHeight title="所有電線是否裝在管內(含踏板)以避免短路">
         <SwitchInput
           slot="input"
           id="hasWireInTube"

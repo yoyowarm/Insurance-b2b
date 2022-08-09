@@ -64,9 +64,9 @@
         <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
       </div>
       <div class="flex flex-col sm:flex-row">
-        <Button @click.native="calculateAmount" class="my-8 w-40 md:w-32 mr-10" outline>試算</Button>
-        <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-8 w-40 md:w-32 mr-10" outline>更正</Button>
-        <Button @click.native="openQuestionnaire = true" class="my-8 w-40 md:w-32 " outline>填寫問卷表</Button>
+        <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
+        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-56 md:w-32 " outline>填寫問卷表</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-56 md:w-64 ">下一步</Button>
     </div>

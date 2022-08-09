@@ -9,7 +9,7 @@
           @updateValue="(e) =>updateValue(e,'hasExit')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)">
+      <InputGroup lgTitle autoHeight title="是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)">
         <SwitchInput
           slot="input"
           id="hasEvacuationPlan"

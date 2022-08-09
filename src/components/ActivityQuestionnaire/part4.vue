@@ -1,7 +1,7 @@
 <template>
   <div class="w-full my-4">
     <div class="column-4">
-      <InputGroup title="是否有活動動線規劃說明">
+      <InputGroup lgTitle title="是否有活動動線規劃說明">
         <SwitchInput
           slot="input"
           id="hasActivityRoutePlan"
@@ -9,7 +9,7 @@
           @updateValue="(e) => updateValue(e,'hasActivityRoutePlan')"
         />
       </InputGroup>
-      <InputGroup title="是否有出口規劃">
+      <InputGroup lgTitle title="是否有出口規劃">
         <SwitchInput
           slot="input"
           id="hasExit"
@@ -17,7 +17,7 @@
           @updateValue="(e) => updateValue(e,'hasExit')"
         />
       </InputGroup>
-      <InputGroup title="是否有疏散標示">
+      <InputGroup lgTitle title="是否有疏散標示">
         <SwitchInput
           slot="input"
           id="hasEvacuationSign"
@@ -25,7 +25,7 @@
           @updateValue="(e) => updateValue(e,'hasEvacuationSign')"
         />
       </InputGroup>
-      <InputGroup title="是否有人員管制計畫">
+      <InputGroup lgTitle title="是否有人員管制計畫">
         <SwitchInput
           slot="input"
           id="hasPersonnelControl"
@@ -35,7 +35,7 @@
       </InputGroup>
     </div>
     <div class="column-4 mt-4">
-      <InputGroup title="是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)">
+      <InputGroup lgTitle autoHeight title="是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)">
         <SwitchInput
           slot="input"
           id="hasEvacuationPlan"

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup title="使用道路者，對附近交通之衝擊是否經交通主管機關認許">
+      <InputGroup lgTitle autoHeight title="使用道路者，對附近交通之衝擊是否經交通主管機關認許">
         <SwitchInput
           slot="input"
           id="useRoadHasAccessByTransportation"
@@ -11,7 +11,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup title="未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許">
+      <InputGroup lgTitle autoHeight title="未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許">
         <SwitchInput
           slot="input"
           id="afterActivityHasAccessByTransportation"
@@ -21,7 +21,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup title="保險處所與車道有無有效區隔(含車道與人員動線安排)">
+      <InputGroup lgTitle autoHeight title="保險處所與車道有無有效區隔(含車道與人員動線安排)">
         <SwitchInput
           slot="input"
           id="hasSegmentWithInsurancePlaceAndLane"

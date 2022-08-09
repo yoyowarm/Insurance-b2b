@@ -1,7 +1,7 @@
 <template>
   <div>
     <FormTitle lgTitle title="1.營業處所相關之消防和安全措施" class="my-3"/>
-    <div class="column-6 my-1">
+    <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
         id="消防栓"
         class="text-md"
@@ -10,32 +10,34 @@
         :value="data.part7.hasFireHydrant"
         @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
-      <InputGroup noMt class="ml-0 sm:ml-8 w-40" :disable="!data.part7.hasFireHydrant">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.hasFireHydrant"
-          :value="data.part7.hydrantIndoorAmount"
-          @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
-      <InputGroup noMt class="ml-0 sm:ml-12 w-40" :disable="!data.part7.hasFireHydrant">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.hasFireHydrant"
-          :value="data.part7.hydrantOutdoorAmount"
-          @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
+      <div class="flex">
+        <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="!data.part7.hasFireHydrant">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.hasFireHydrant"
+            :value="data.part7.hydrantIndoorAmount"
+            @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.hasFireHydrant">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.hasFireHydrant"
+            :value="data.part7.hydrantOutdoorAmount"
+            @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+      </div>
     </div>
-    <div class="column-6 my-1">
+    <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
         id="滅火器：泡沫型"
         class="text-md"
@@ -44,114 +46,122 @@
         :value="data.part7.fireExtinguisher"
         @updateValue="(e) =>updateValue(e,'fireExtinguisher')"
       />
-      <InputGroup noMt class="ml-0 sm:ml-8 w-40" :disable="!data.part7.fireExtinguisher">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.foam.indoor"
-          @updateValue="(e) => updateValue(e,'foam.indoor')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
-      <InputGroup noMt class="ml-0 sm:ml-12 w-40" :disable="!data.part7.fireExtinguisher">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.foam.outdoor"
-          @updateValue="(e) => updateValue(e,'foam.outdoor')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
+      <div class="flex">
+        <InputGroup noMt class="ml-12 sm:ml-16 w-40" :disable="!data.part7.fireExtinguisher">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.fireExtinguisher"
+            :value="data.part7.foam.indoor"
+            @updateValue="(e) => updateValue(e,'foam.indoor')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.fireExtinguisher"
+            :value="data.part7.foam.outdoor"
+            @updateValue="(e) => updateValue(e,'foam.outdoor')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+      </div>
     </div>
-    <div class="column-6 my-1">
-      <span class="h-full pl-24 mt-4">二氧化碳</span>
-      <InputGroup noMt class="ml-8 w-40" :disable="!data.part7.fireExtinguisher">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.carbonDioxide.indoor"
-          @updateValue="(e) => updateValue(e,'carbonDioxide.indoor')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
-      <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.carbonDioxide.outdoor"
-          @updateValue="(e) => updateValue(e,'carbonDioxide.outdoor')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
+    <div class="flex flex-col sm:flex-row my-1">
+      <span class="h-full sm:pl-24 mt-4">二氧化碳</span>
+      <div class="flex">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.fireExtinguisher"
+            :value="data.part7.carbonDioxide.indoor"
+            @updateValue="(e) => updateValue(e,'carbonDioxide.indoor')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.fireExtinguisher"
+            :value="data.part7.carbonDioxide.outdoor"
+            @updateValue="(e) => updateValue(e,'carbonDioxide.outdoor')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+      </div>
     </div>
-    <div class="column-6 my-1">
-      <span class="h-full pl-24 mt-4">ABC乾粉</span>
-      <InputGroup noMt class="ml-8 w-40" :disable="!data.part7.fireExtinguisher">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.abc.indoor"
-          @updateValue="(e) => updateValue(e,'abc.indoor')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
-      <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.abc.outdoor"
-          @updateValue="(e) => updateValue(e,'abc.outdoor')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
+    <div class="flex flex-col sm:flex-row my-1">
+      <span class="h-full sm:pl-24 mt-4">ABC乾粉</span>
+      <div class="flex">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.fireExtinguisher"
+            :value="data.part7.abc.indoor"
+            @updateValue="(e) => updateValue(e,'abc.indoor')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.fireExtinguisher"
+            :value="data.part7.abc.outdoor"
+            @updateValue="(e) => updateValue(e,'abc.outdoor')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+      </div>
     </div>
-    <div class="column-6 my-1">
-      <span class="h-full pl-24 mt-4">海龍(halon)</span>
-      <InputGroup noMt class="ml-8 w-40" :disable="!data.part7.fireExtinguisher">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.halon.indoor"
-          @updateValue="(e) => updateValue(e,'halon.indoor')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
-      <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
-        <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
-        <Input
-          slot="input"
-          placeholder="輸入數量"
-          :disable="!data.part7.fireExtinguisher"
-          :value="data.part7.halon.outdoor"
-          @updateValue="(e) => updateValue(e,'halon.outdoor')"
-          numberOnly
-          unit="支"
-        />
-      </InputGroup>
+    <div class="flex flex-col sm:flex-row my-1">
+      <span class="h-full w-40 sm:pl-24 mt-4">海龍(halon)</span>
+      <div class="flex">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.fireExtinguisher"
+            :value="data.part7.halon.indoor"
+            @updateValue="(e) => updateValue(e,'halon.indoor')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.part7.fireExtinguisher"
+            :value="data.part7.halon.outdoor"
+            @updateValue="(e) => updateValue(e,'halon.outdoor')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+      </div>
     </div>
-    <div class="ml-24 text-red-500 text-sm">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>
-    <div class="flex flex-row my-3">
+    <div class="ml-12 sm:ml-24 text-red-500 text-sm">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>
+    <div class="flex flex-col sm:flex-row my-3">
       <Checkbox
         id="其他，請詳述之"
         class="text-md"
@@ -160,7 +170,7 @@
         :value="data.part7.hasOtherExtinguishing"
         @updateValue="(e) =>updateValue(e,'hasOtherExtinguishing')"
       />
-      <InputGroup noMt class="ml-4 w70">
+      <InputGroup noMt class="ml-0 sm:ml-4 w-full sm:w-9/12">
         <Input
           slot="input"
           placeholder="輸入內容"
@@ -237,7 +247,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-4">
-      <InputGroup lgTitle title="2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練">
+      <InputGroup lgTitle autoHeight title="2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練">
         <SwitchInput
           slot="input"
           id="HasEquipmentTestAndTrain"
@@ -247,7 +257,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-4 dashed-border">
-      <InputGroup :title="item" v-for="(item,index) in questionList" :key="item">
+      <InputGroup :title="item" lgTitle autoHeight v-for="(item,index) in questionList" :key="item">
         <SwitchInput
           slot="input"
           :id="item"

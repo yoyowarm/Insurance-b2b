@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full my-4  dashed-border">
+  <div class="w-full my-4">
     <div class="w-full flex flex-row mt-4" :class="{'dashed-border mb-6': index === questionList.length-1}" v-for="(item,index) in questionList" :key="item">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
@@ -7,7 +7,7 @@
         <RadioInput text="否" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part2[questionListID[index]] === false" @updateValue="(e) => updatePart2Value(e, questionListID[index])"/>
      </div>
     </div>
-    <FormTitle title="(三)交通控管"/>
+    <FormTitle lgTitle title="(三)交通控管"/>
     <div class="w-full flex flex-row mt-4 dashed-border mb-6">
       <div class="w90">保險處所與車道有無有效區隔(含車道與人員動線安排)</div>
       <div class="w10 flex flex-row justify-between">
@@ -15,7 +15,7 @@
         <RadioInput text="否" id="por" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === false" @updateValue="(e) => updatePart3Value(e, 'hasSegmentWithInsurancePlaceAndLane')"/>
      </div>
     </div>
-    <FormTitle title="(四)安全防護"/>
+    <FormTitle lgTitle title="(四)安全防護"/>
       <div class="w-full flex flex-row mt-4 dashed-border mb-6">
         <div class="w90">請說明潛在風險的防護與消防措施，包含並不限於上述風險項目</div>
         <div class="w10 flex flex-row justify-between">
@@ -125,5 +125,13 @@ export default {
   }
   .w10{
     width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
   }
 </style>
