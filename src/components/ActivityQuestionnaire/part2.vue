@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有使用明火(瓦斯槍、火把)、爆炸性物質(如：爆竹、煙火)或高溫物質(高溫加熱固體/液體/氣體)">
+      <InputGroup lgTitle autoHeight title="是否有使用明火(瓦斯槍、火把)、爆炸性物質(如：爆竹、煙火)或高溫物質(高溫加熱固體/液體/氣體)">
         <SwitchInput
           slot="input"
           id="hasUseOpenFire"
@@ -11,7 +11,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有揮發性溶劑或粉塵(造成人員吸入性中毒或窒息)">
+      <InputGroup lgTitle autoHeight title="是否有揮發性溶劑或粉塵(造成人員吸入性中毒或窒息)">
         <SwitchInput
           slot="input"
           id="hasVolatileSolventOrDust"
@@ -21,7 +21,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有機械式或充氣式遊樂設備">
+      <InputGroup lgTitle autoHeight title="是否有機械式或充氣式遊樂設備">
         <SwitchInput
           slot="input"
           id="hasMechineOrGasFilledDevice"
@@ -29,7 +29,7 @@
           @updateValue="(e) => updateValue(e,'hasMechineOrGasFilledDevice')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="是否使用高壓電設施(600V以上)">
+      <InputGroup lgTitle autoHeight title="是否使用高壓電設施(600V以上)">
         <SwitchInput
           slot="input"
           id="hasHighVoltage"
@@ -45,7 +45,7 @@
           @updateValue="(e) => updateValue(e,'hasBareWires')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="供電系統是否裝有自動斷電設備">
+      <InputGroup lgTitle autoHeight title="供電系統是否裝有自動斷電設備">
         <SwitchInput
           slot="input"
           id="hasAutomaticPowerOff"
@@ -55,7 +55,7 @@
       </InputGroup>
     </div>
      <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle title="所有電線是否裝在管內(含踏板)以避免短路">
+      <InputGroup lgTitle autoHeight title="所有電線是否裝在管內(含踏板)以避免短路">
         <SwitchInput
           slot="input"
           id="hasWireInTube"

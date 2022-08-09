@@ -135,7 +135,7 @@
       </div>
     </div>
     <div class="ml-12 sm:ml-24 text-red-500 text-sm">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>
-    <div class="flex flex-row my-3">
+    <div class="flex flex-col sm:flex-row my-3">
       <Checkbox
         id="其他，請詳述之"
         class="text-md"
@@ -144,7 +144,7 @@
         :value="data.sheet1.part5.hasOtherExtinguishing"
         @updateValue="(e) =>updateValue(e,'hasOtherExtinguishing')"
       />
-      <InputGroup noMt class="ml-4 w70" :disable="!data.sheet1.part5.hasOtherExtinguishing">
+      <InputGroup noMt class="ml-4 w-full sm:w-9/12" :disable="!data.sheet1.part5.hasOtherExtinguishing">
         <Input
           slot="input"
           placeholder="輸入內容"
