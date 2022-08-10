@@ -65,7 +65,7 @@
       </div>
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
-        <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
+        <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
         <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫問卷表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
@@ -112,6 +112,7 @@ import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
+import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
@@ -119,7 +120,7 @@ import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
 export default {
-  mixins: [mixinVerify,editCopyQuotation,routeChange],
+  mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire],
   components: {
     CommonBoard,
     InputGroup,
@@ -246,6 +247,23 @@ export default {
       this.additionTermsList = data.data.content.additionTermsDetails
       this.termsInit()
     },
+    openQuestionnaire: async function(val) {
+      if(!val && this.questionnaireFinished) {
+        let data = {questionnaire: null,}
+        const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
+        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
+          this.correctAmount()//如果核保加減費系數不同更正保費
+        }
+        this.insuranceAmountListData = {
+          ...this.insuranceAmountListData,
+          parameter: {
+            ...this.insuranceAmountListData.parameter,
+            underwriteCoefficient: coefficient.data.content.questionnaireCoefficient
+          }
+        }
+        
+      }
+    }
   },
   methods: {
     async pageInit() {
@@ -283,6 +301,7 @@ export default {
       }
       if(this.InsuranceActive !== 0 || this.orderNo) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('activity')
+        this.AssignQuestionnaire('activity')
       }
     },
     termsInit() {
@@ -290,8 +309,15 @@ export default {
         this.additionTermsList.map(item => {
           // eslint-disable-next-line no-prototype-builtins
           if(!this.termsData.hasOwnProperty(item.additionTermName)) {
-            terms[item.additionTermName] = {
-              selected: false
+            if(['758A','911','Pl013'].includes(item.additionTermId)) {
+              item.disable = true
+              terms[item.additionTermName] = {
+                selected: true,
+              }
+            } else {
+              terms[item.additionTermName] = {
+                selected: false
+              }
             }
           } else {
             terms[item.additionTermName] = {
@@ -301,8 +327,15 @@ export default {
         })
       this.termsData = terms
     },
+    correctAmount() {
+      this.insuranceAmountListData = {
+        ...this.insuranceAmountListData,
+        amount: '',
+      }
+      this.$store.dispatch('common/updatedCalculateModel',false)
+    },
     async calculateAmount() {
-      this.verifyRequired('activity')
+      this.verifyRequired('activity', true)
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
         const data = {
@@ -545,14 +578,13 @@ export default {
       console.log(data)
     },
     questionnaireMapping(data) {
-      data.questionnaire = {
-        ...this.questionnaire,
-      }
-      if(Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key])) {
+      data.questionnaire = JSON.parse(JSON.stringify(this.questionnaire))
+      if(Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key] !== '')) {
         data.questionnaire.sheet1.part1.beginDateTime = `${Number(data.questionnaire.sheet1.part1.beginDateTime.year)+1911}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:${data.questionnaire.sheet1.part1.beginDateTime.minutes}`
       } else {
         data.questionnaire.sheet1.part1.beginDateTime = null
       }
+      return data
     }
   },
   async mounted() {

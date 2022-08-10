@@ -106,7 +106,7 @@ export default {
         })
       }
     },
-    verifyRequired(type) {
+    verifyRequired(type, calculate) {
       this.requestFile = []
       if (type == 'place') {
         if (this.renewal.IsRenewal && !this.renewal.InsuranceNumber) {
@@ -165,6 +165,9 @@ export default {
         if (item.amountType.Value == 2 && (!item.insuranceTotalAmount || !item.perAccidentBodyAmount || !item.perAccidentFinanceAmount || !item.perBodyAmount)) {
           this.requestFile.push('未輸入保額')
         }
+        if (item.amountType.Value == 2 && (Number(item.insuranceTotalAmount) < Number(item.perAccidentBodyAmount) + Number(item.perAccidentFinanceAmount))) {
+          this.requestFile.push('AGG不得小於AOA加總')
+        }
       })
       Object.keys(this.terms).map(key => {
         if (this.terms[key].selected) {
@@ -179,6 +182,9 @@ export default {
           }
         }
       })
+      if (!calculate && !this.insuranceAmountListData.amount) {
+        this.requestFile.push('未試算保費')
+      }
     }
   },
 }

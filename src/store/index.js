@@ -13,6 +13,7 @@ import permissionSetting from './permissionSetting'
 import parameterSetting from './parameterSetting'
 import additionTermSetting from './additionTermSetting'
 import quotation from './quotation'
+import questionnaire from './questionnaire'
 
 
 Vue.use(Vuex)
@@ -90,7 +91,8 @@ export default new Vuex.Store({
     permissionSetting,
     parameterSetting,
     additionTermSetting,
-    quotation
+    quotation,
+    questionnaire
   },
   plugins: [vuexLocal.plugin]
 })

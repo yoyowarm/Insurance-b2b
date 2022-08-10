@@ -87,7 +87,7 @@
         </div>
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
-        <Button @click.native="() => $store.dispatch('common/updatedCalculateModel',false)" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
+        <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
         <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-48 md:w-42 " outline>填寫問卷表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
@@ -138,10 +138,11 @@ import mixinVerify from '@/utils/mixins/verifyStep1'
 import routeChange from '@/utils/mixins/routeChange'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
+import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 export default {
-  mixins: [mixinVerify, editCopyQuotation,routeChange],
+  mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire],
   components: {
     CommonBoard,
     InputGroup,
@@ -253,11 +254,22 @@ export default {
       this.additionTermsList = data.data.content.additionTermsDetails
       this.termsInit()
     },
-    periodData: {
-      handler(val) {
-        console.log(val)
-      },
-      deep: true
+    openQuestionnaire: async function(val) {
+      if(!val && this.questionnaireFinished) {
+        let data = {questionnaire: null,}
+        const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
+        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
+          this.correctAmount()//如果核保加減費系數不同更正保費
+        }
+        this.insuranceAmountListData = {
+          ...this.insuranceAmountListData,
+          parameter: {
+            ...this.insuranceAmountListData.parameter,
+            underwriteCoefficient: coefficient.data.content.questionnaireCoefficient
+          }
+        }
+        
+      }
     }
   },
   methods: {
@@ -305,8 +317,15 @@ export default {
         this.additionTermsList.map(item => {
           // eslint-disable-next-line no-prototype-builtins
           if(!this.termsData.hasOwnProperty(item.additionTermName)) {
-            terms[item.additionTermName] = {
-              selected: false
+            if(['758A','911','Pl013'].includes(item.additionTermId)) {
+              item.disable = true
+              terms[item.additionTermName] = {
+                selected: true,
+              }
+            } else {
+              terms[item.additionTermName] = {
+                selected: false
+              }
             }
           } else {
             terms[item.additionTermName] = {
@@ -349,10 +368,18 @@ export default {
       }
       if(this.InsuranceActive !== 0 || this.orderNo ) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('place')
+        this.AssignQuestionnaire('place')
       }
     },
+    correctAmount() {
+      this.insuranceAmountListData = {
+        ...this.insuranceAmountListData,
+        amount: '',
+      }
+      this.$store.dispatch('common/updatedCalculateModel',false)
+    },
     async calculateAmount() {
-      this.verifyRequired('place')
+      this.verifyRequired('place', true)
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
         const data = {
@@ -530,13 +557,9 @@ export default {
       console.log(data)
     },
     questionnaireMapping(data) {
+      data.questionnaire = JSON.parse(JSON.stringify(this.questionnaire))
       data.questionnaire = {
-          ...this.questionnaire,
-          part1: {
-            ...this.questionnaire.part1,
-            businessType: this.questionnaire.part1.businessType.Value,
-            businessStartDate: `${this.questionnaire.part1.businessEndDate.hours}:${this.questionnaire.part1.businessEndDate.minutes}`,
-          },
+          ...data.questionnaire,
           part2: {
             ...this.questionnaire.part2,
             buildingNature: this.questionnaire.part2.buildingNature.Value,
@@ -546,7 +569,7 @@ export default {
             seat: {...this.questionnaire.part2.seat,seatAmount: this.questionnaire.part2.seat.Value},
           }
         }
-        if(Object.keys(this.questionnaire.part1.createTime).every(key => this.questionnaire.part1.createTime[key])) {
+        if(Object.keys(this.questionnaire.part1.createTime).every(key => this.questionnaire.part1.createTime[key] !== '')) {
           data.questionnaire.part1.createTime = `${Number(this.questionnaire.part1.createTime.year)+1911}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`
         } else data.questionnaire.part1.createTime = null
 
