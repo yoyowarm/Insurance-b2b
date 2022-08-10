@@ -262,8 +262,8 @@ export const quotation = () => {
             year: '',
             month: '',
             day: '',
-            hours: '00',
-            minutes: '00',
+            hours: '0',
+            minutes: '0',
           },
           activityDays: '',//活動天數
           hasActivityIndoor: null,//是否有室內活動
@@ -540,7 +540,7 @@ export const quotation = () => {
           additionTermCoefficientParameter: '',
           aggAOACoefficient: '',
           amount: '',
-          underwriteCoefficient: '',
+          underwriteCoefficient: '0',
         }
       }
     ],
@@ -575,12 +575,12 @@ export const quotation = () => {
         value2: 0,//保險期間內之最高賠償金額
       },
       PL023: {//慰問金費用附加條款
-        value1: 0,
-        value2: 0,
-        value3: 0,
-        value4: 0,
-        value5: 0,
-        value6: 0,
+        value1: 1000,
+        value2: 5000,
+        value3: 10000,
+        value4: 10000,
+        value5: 50000,
+        value6: 100000,
       },
       PL028: {//安養事業責任附加條款
         value1: 0,

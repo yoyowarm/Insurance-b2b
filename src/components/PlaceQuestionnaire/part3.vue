@@ -88,7 +88,9 @@
           @updateValue="(e) =>updateValue(e,'hasFireOrDust')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="表演者是否為專業人士" >
+    </div>
+    <div class="column-4 my-3">
+      <InputGroup lgTitle title="表演者是否為專業人士">
         <SwitchInput
           slot="input"
           id="isProfessional"
@@ -98,7 +100,7 @@
       </InputGroup>
     </div>
     <FormTitle lgTitle title="營業處所" class="my-3"/>
-    <div class="column-4 my-3 dashed-border">
+    <div class="column-4 my-3">
       <InputGroup lgTitle autoHeight title="使用、存放煙火爆竹或化學品等危險物品">
         <SwitchInput
           slot="input"
@@ -107,7 +109,9 @@
           @updateValue="(e) =>updateValue(e,'hasDangerousItem')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="使用鍋爐" >
+    </div>
+    <div class="column-4 my-3 dashed-border">
+      <InputGroup lgTitle title="使用鍋爐">
         <SwitchInput
           slot="input"
           id="hasBoiler"

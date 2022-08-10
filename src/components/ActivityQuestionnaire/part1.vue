@@ -35,7 +35,7 @@
             <Select
               slot="input"
               :options="yearOptions"
-              :selected="data.sheet1.part1.beginDateTime.year"
+              :selected="`${data.sheet1.part1.beginDateTime.year}`"
               @emitItem="(e) => emitSelectItem('beginDateTime','year', e.Value)"
               defaultText="選擇年"/>
           </InputGroup>
@@ -43,7 +43,7 @@
             <Select
               slot="input"
               :options="monthOptions"
-              :selected="data.sheet1.part1.beginDateTime.month"
+              :selected="`${data.sheet1.part1.beginDateTime.month}`"
               @emitItem="(e) => emitSelectItem('beginDateTime','month', e.Value)"
               defaultText="選擇月"/>
           </InputGroup>
@@ -51,7 +51,7 @@
             <Select
               slot="input"
               :options="dayOptions"
-              :selected="data.sheet1.part1.beginDateTime.day"
+              :selected="`${data.sheet1.part1.beginDateTime.day}`"
               @emitItem="(e) => emitSelectItem('beginDateTime','day', e.Value)"
               defaultText="選擇日"/>
           </InputGroup>

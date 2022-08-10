@@ -7,10 +7,10 @@
           :id="item.additionTermName"
           :checked="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
           :value="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
-          :disabled="disable"
+          :disabled="disable || item.disable"
           @updateValue="(e) =>updateTerms(item.additionTermName, e)"
         />
-        <p class="ml-1 cursor-pointer" @click="setDialog(item.additionTermName,true, item.additionTermName)">{{item.additionTermName}}</p>
+        <p class="ml-1 cursor-pointer" @click="setDialog(item.additionTermName,true, item.additionTermName)">{{item.additionTermId}} {{item.additionTermName}}</p>
       </div>
     </template>
   </div>
