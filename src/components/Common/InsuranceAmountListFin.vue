@@ -403,8 +403,8 @@ export default {
           ...this.copyLists[index],
           perBodyAmount: this.copyLists[index].perBodyAmount,
           perAccidentBodyAmount: Number(this.copyLists[index].perBodyAmount) * 5,
-          perAccidentFinanceAmount: Number(this.copyLists[index].perBodyAmount) * 0.5,
-          insuranceTotalAmount: Number(this.copyLists[index].perBodyAmount) * 11,
+          perAccidentFinanceAmount: Number(this.copyLists[index].perBodyAmount),
+          insuranceTotalAmount: Number(this.copyLists[index].perBodyAmount) * 12,
           selfInflictedAmount: this.copyLists[index].selfInflictedAmount
         }
         this.$emit('update:lists',this.copyLists)

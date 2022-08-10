@@ -20,6 +20,7 @@
           @updateValue="(e) => updatedValue('perBodyAmount',e)"
           placeholder="請輸入金額"
           :disable="data.amountType.Value == 0 || disable"
+          numberOnly
           unit="萬元"/>
       </InputGroup>
       <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故體傷責任金額" :disable="data.amountType.Value == 0 || disable">
@@ -29,6 +30,7 @@
           @updateValue="(e) => updatedValue('perAccidentBodyAmount',e)"
           placeholder="請輸入金額"
           :disable="data.amountType.Value == 0 || disable"
+          numberOnly
           unit="萬元"/>
       </InputGroup>
       <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故財物損失責任金額" :disable="data.amountType.Value == 0 || disable">
@@ -38,6 +40,7 @@
           @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
           placeholder="請輸入金額"
           :disable="data.amountType.Value == 0 || disable"
+          numberOnly
           unit="萬元"/>
       </InputGroup>
       <InputGroup v-if="data.amountType.Value != 1" title="本保險契約之最高賠償金額" :disable="data.amountType.Value == 0 || disable">
@@ -47,6 +50,7 @@
           @updateValue="(e) => updatedValue('insuranceTotalAmount',e)"
           placeholder="請輸入金額"
           :disable="data.amountType.Value == 0 || disable"
+          numberOnly
           unit="萬元"/>
       </InputGroup>
       <InputGroup v-if="data.amountType.Value == 1" title="單一限額" :disable="disable">
@@ -151,7 +155,33 @@ export default {
         }
       },
       immediate: true
-    }
+    },
+    'data.perAccidentBodyAmount': {
+      handler(val, odlVal) {
+        if (!odlVal || val.toString() !== odlVal.toString()) {
+          this.updatedValue('insuranceTotalAmount',((Number(val)+Number(this.data.perAccidentFinanceAmount))*2).toString())
+        }
+      },
+      immediate: true
+    },
+    'data.perAccidentFinanceAmount': {
+      handler(val, odlVal) {
+        if (!odlVal || val.toString() !== odlVal.toString()) {
+          this.updatedValue('insuranceTotalAmount',((Number(this.data.perAccidentBodyAmount)+Number(val))*2).toString())
+        }
+      },
+      immediate: true
+    },
+    'data.insuranceTotalAmount': {
+      handler(val, odlVal) {
+        if (!odlVal || val.toString() !== odlVal.toString()) {
+          if(val < Number(this.data.perAccidentFinanceAmount) + Number(this.data.perAccidentBodyAmount)) {
+            this.updatedValue('insuranceTotalAmount','')
+          }
+        }
+      },
+      immediate: true
+    },
   },
   computed: {
     amountMinimum() {
@@ -199,13 +229,13 @@ export default {
           ...this.data,
           perBodyAmount: this.data.perBodyAmount,
           perAccidentBodyAmount: this.data.perBodyAmount * 5,
-          perAccidentFinanceAmount: this.data.perBodyAmount * 0.5,
-          insuranceTotalAmount: this.data.perBodyAmount * 11,
+          perAccidentFinanceAmount: this.data.perBodyAmount,
+          insuranceTotalAmount: this.data.perBodyAmount * 12,
           selfInflictedAmount: this.data.selfInflictedAmount
         })
       }
     }
-  },
+  }
 }
 </script>
 
