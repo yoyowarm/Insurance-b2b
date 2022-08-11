@@ -131,7 +131,7 @@ export default {
       if (!this.Relation.Value) {
         this.requestFile.push('未選擇關係')
       }
-      if (!this.internalControlData.businessSourceCode.Value) {
+      if (this.internalControlData.businessSourceCode.Value == '請選擇業務來源') {
         this.requestFile.push('未選擇業務來源')
       }
       if (!this.internalControlData.issuerNumber) {

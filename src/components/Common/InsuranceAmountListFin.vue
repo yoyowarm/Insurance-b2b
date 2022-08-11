@@ -318,6 +318,13 @@ export default {
         if(amount.data.content.amount) {
           lists[index].parameter = amount.data.content.parameter
         }
+        if(amount.data.content.quotationReason.length > 0) {
+          Popup.create({
+            headerText: '請洽核保原因',
+            hasHtml: true,
+            htmlText: amount.data.content.quotationReason.join('<br>'),
+          })
+        }
         this.$emit('update:lists',lists)
       }
       

@@ -139,6 +139,7 @@ import routeChange from '@/utils/mixins/routeChange'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
+import { Popup } from '@/utils/popups'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 export default {
@@ -457,6 +458,13 @@ export default {
           ...this.insuranceAmountListData,
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
           parameter: res.data.content.parameter? res.data.content.parameter : this.insuranceAmountListData.parameter,
+        }
+        if(res.data.content.quotationReason.length > 0) {
+          Popup.create({
+            headerText: '請洽核保原因',
+            hasHtml: true,
+            htmlText: res.data.content.quotationReason.join('<br>'),
+          })
         }
       }
     },

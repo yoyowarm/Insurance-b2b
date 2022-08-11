@@ -423,6 +423,13 @@ export default {
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
           parameter:  res.data.content.parameter? res.data.content.parameter : this.insuranceAmountListData.parameter
         }
+        if(res.data.content.quotationReason.length > 0) {
+          Popup.create({
+            headerText: '請洽核保原因',
+            hasHtml: true,
+            htmlText: res.data.content.quotationReason.join('<br>'),
+          })
+        }
       }
       this.updatePeriod()
     },
