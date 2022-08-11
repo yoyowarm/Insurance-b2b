@@ -348,7 +348,7 @@ export default {
       issuerNumber: '',//經手人代號
       businessSourceCode: {//業務來源代號
         Text: '個人',
-        Value: 'O1'
+        Value: 'F1'
       },
       statisticsCode: '',//統計代號
       loginIdNumber: '',//登入證字號
