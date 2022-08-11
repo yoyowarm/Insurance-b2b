@@ -120,18 +120,6 @@
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.sheet1.part5.fireExtinguisher">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
-          <Input
-            slot="input"
-            placeholder="輸入數量"
-            :disable="!data.sheet1.part5.fireExtinguisher"
-            :value="data.sheet1.part5.halon.outdoor"
-            @updateValue="(e) => emitSelectItem('halon','outdoor',e)"
-            numberOnly
-            unit="支"
-          />
-        </InputGroup>
       </div>
     </div>
     <div class="ml-12 sm:ml-24 text-red-500 text-sm">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>

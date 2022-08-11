@@ -299,10 +299,10 @@ export const quotation = () => {
           facility: [],//設施
         },
         part5: {
-          hasFireHydrant: null,//是否有消防栓
+          hasFireHydrant: false,//是否有消防栓
           hydrantIndoorAmount: '',//消防栓室內數量
           hydrantOutdoorAmount: '',//消防栓室外數量
-          fireExtinguisher: null,//是否有滅火器
+          fireExtinguisher: false,//是否有滅火器
           foam: {
             indoor: '',//室內消防藥水
             outdoor: '',//室外消防藥水
@@ -319,7 +319,7 @@ export const quotation = () => {
             indoor: '',//室內瓦斯源
             outdoor: '',//室外瓦斯源
           },
-          hasOtherExtinguishing: null,//是否有其他滅火器
+          hasOtherExtinguishing: false,//是否有其他滅火器
           otherExtinguishingRemark: '',//其他滅火器備註
           hasDeviceTestAndTraining: null,//活動處所消防安全措施是否有編組並實施消防設備性能測試與訓練
           hasErectFireDevice: null,//是否已架設消防設備
@@ -466,10 +466,10 @@ export const quotation = () => {
         facility: [],//如有下列設施，請勾選
       },
       part7: {
-        hasFireHydrant: null,//消防栓
+        hasFireHydrant: false,//消防栓
         hydrantIndoorAmount: '',//內部消防栓數量
         hydrantOutdoorAmount: '',//外部消防栓數量
-        fireExtinguisher: null,//滅火器
+        fireExtinguisher: false,//滅火器
         foam: {//泡沫型
           indoor: '',
           outdoor: '',
@@ -484,7 +484,6 @@ export const quotation = () => {
         },
         halon: {//海龍(halon)
           indoor: '',
-          outdoor: '',
         },
         hasSprinkler: null,//是否有自動灑水系統
         hasGasExtinguishing: null,//是否有氣體滅火系統
@@ -493,7 +492,7 @@ export const quotation = () => {
         foamExtinguishingInstall: '',//泡沫滅火系統安裝於何處
         hasWaterMistExtinguishing: null,//是否有水霧滅火系統
         waterMistExtinguishingInstall: '',//水霧滅火系統安裝於何處
-        hasOtherExtinguishing: null,//是否有其他滅火系統
+        hasOtherExtinguishing: false,//是否有其他滅火系統
         otherExtinguishingRemark: '',//其他滅火系統備註
         HasEquipmentTestAndTrain: null,//是否有設備測試及訓練,
         hasNoSmokingControl: null,//是否有禁菸管制

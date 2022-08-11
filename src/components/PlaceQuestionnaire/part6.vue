@@ -36,7 +36,7 @@
         />
       </InputGroup>
     </div>
-    <div class="column-5 mt-4">
+    <div class="column-5 mt-4 dashed-border">
       <InputGroup v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" min border0 >
         <Checkbox
           class="text-md"

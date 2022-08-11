@@ -212,10 +212,10 @@ export default {
         facility: [],//如有下列設施，請勾選
       },
       part7: {
-        hasFireHydrant: null,//消防栓
+        hasFireHydrant: false,//消防栓
         hydrantIndoorAmount: '',//內部消防栓數量
         hydrantOutdoorAmount: '',//外部消防栓數量
-        fireExtinguisher: null,//滅火器
+        fireExtinguisher: false,//滅火器
         foam: {//泡沫型
           indoor: '',
           outdoor: '',
@@ -239,7 +239,7 @@ export default {
         foamExtinguishingInstall: '',//泡沫滅火系統安裝於何處
         hasWaterMistExtinguishing: null,//是否有水霧滅火系統
         waterMistExtinguishingInstall: '',//水霧滅火系統安裝於何處
-        hasOtherExtinguishing: null,//是否有其他滅火系統
+        hasOtherExtinguishing: false,//是否有其他滅火系統
         otherExtinguishingRemark: '',//其他滅火系統備註
         HasEquipmentTestAndTrain: null,//是否有設備測試及訓練,
         hasNoSmokingControl: null,//是否有禁菸管制

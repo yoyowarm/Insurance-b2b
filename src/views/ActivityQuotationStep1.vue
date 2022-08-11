@@ -309,7 +309,7 @@ export default {
         this.additionTermsList.map(item => {
           // eslint-disable-next-line no-prototype-builtins
           if(!this.termsData.hasOwnProperty(item.additionTermName)) {
-            if(['758A','911','Pl013'].includes(item.additionTermId)) {
+            if(['758A','911','PL013'].includes(item.additionTermId)) {
               item.disable = true
               terms[item.additionTermName] = {
                 selected: true,
@@ -320,6 +320,9 @@ export default {
               }
             }
           } else {
+            if(['758A','911','PL013'].includes(item.additionTermId)) {
+              item.disable = true
+            }
             terms[item.additionTermName] = {
               selected: this.termsData[item.additionTermName].selected
             }
@@ -410,7 +413,7 @@ export default {
           selfInflictedAmount: this.insuranceAmountList[0].selfInflictedAmount.Value,
           remark: this.remark.text,
         }
-        if(this.questionnaireFinished) {
+        if(this.questionnaireFinished || this.quotationData.questionnaire) {
           this.questionnaireMapping(data)
         }
         this.$store.dispatch('common/updatedCalculateModel',true)
