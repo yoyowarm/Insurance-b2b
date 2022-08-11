@@ -398,9 +398,9 @@ export default {
               countyCode: this.countyList.find(i => i.Value == item.city.Value).cityCode,
               subAddress: item.address,
               activityDays: item.day,
-              activityBegin: `${Number(item.startDate.year) + 1911}-${item.startDate.month}-${item.startDate.day}`,
+              activityBeginDate: `${Number(item.startDate.year) + 1911}-${item.startDate.month}-${item.startDate.day}`,
               activityBeginHour: item.startDate.hour,
-              activityEnd: `${Number(item.endDate.year) + 1911}-${item.endDate.month}-${item.endDate.day}`,
+              activityEndDate: `${Number(item.endDate.year) + 1911}-${item.endDate.month}-${item.endDate.day}`,
               activityEndHour: item.endDate.hour,
             }
           })],
