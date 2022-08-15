@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.selected ? item.selected :item.isSelected">
-      <div v-if="!viewModel && !item.id" slot="icon" class="input-right mr-2" @click="remoteAmount(index)">
+      <div v-if="!viewModel && copyLists.length > 1" slot="icon" class="input-right mr-2" @click="remoteAmount(index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
       <Checkbox
@@ -273,7 +273,9 @@ export default {
     },
     remoteAmount(index) {
       const arr = [...this.lists]
-      if(index==0) return
+      if(arr[index].id) {
+        this.$store.dispatch('quotation/DeleteInusranceProject', {insuranceProjectId: arr[index].id, orderNo: this.orderNo})
+      }
       arr.splice(index,1)
       this.$emit('update:lists', arr)
     },

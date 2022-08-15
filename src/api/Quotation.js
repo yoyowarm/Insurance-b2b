@@ -46,3 +46,5 @@ export const GetActivityInsuranceProjectAmount = (data) => request('post', '/Quo
 export const GetInsuraned = (name, id) => request('get', '/Quotation/GetInsuraned', { name, id })
 //取得要保人資料
 export const GetApplicant = (name, id) => request('get', '/Quotation/GetApplicant', { name, id })
+//刪除保險方案
+export const DeleteInusranceProject = (data) => request('delete', '/Quotation/DeleteInusranceProject', data)
