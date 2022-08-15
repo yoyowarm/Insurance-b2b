@@ -10,7 +10,7 @@
           :disabled="disable || item.disable"
           @updateValue="(e) =>updateTerms(item.additionTermName, e)"
         />
-        <p class="ml-1 cursor-pointer" @click="setDialog(item.additionTermName,true, item.additionTermName)">{{item.additionTermId}} {{item.additionTermName}}</p>
+        <p class="ml-1 cursor-pointer" @click="setDialog(item,true)">{{item.additionTermId}} {{item.additionTermName}}</p>
       </div>
     </template>
   </div>
@@ -59,12 +59,16 @@ export default {
     }
   },
   methods: {
-    setDialog(headerText, hasHtml, htmlText) {
-      Popup.create({
-        headerText,
-        hasHtml,
-        htmlText
-      })
+    async setDialog(item, hasHtml) {
+      const Descriptions = await this.$store.dispatch('resource/AdditionTermDescriptions',{additionTermId: item.additionTermId})
+      if(Descriptions.data.content.descriptions.length >0) {
+        Popup.create({
+          headerText: item.additionTermName,
+          hasHtml,
+          htmlText: Descriptions.data.content.descriptions.map(i => i.replace(' ','　')).join('<br>'),
+        })
+      }
+      
     },
     updateTerms(additionTermName, e) {
       this.copyTerms[additionTermName].selected = e

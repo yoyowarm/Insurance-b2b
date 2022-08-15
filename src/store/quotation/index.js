@@ -21,7 +21,8 @@ import {
   EditInsuranceProject,
   GetActivityInsuranceProjectAmount,
   GetInsuraned,
-  GetApplicant
+  GetApplicant,
+  DeleteInusranceProject
 } from '@/api/Quotation'
 export default {
   namespaced: true,
@@ -97,6 +98,9 @@ export default {
     },
     async GetApplicant(_, { name, id }) {
       return await GetApplicant(name, id)
+    },
+    async DeleteInusranceProject(_, { orderNo, insuranceProjectId }) {
+      return await DeleteInusranceProject({ orderNo, insuranceProjectId })
     }
   }
 }

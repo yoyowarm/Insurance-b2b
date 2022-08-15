@@ -10,3 +10,5 @@ export const EditAdditionTerm = (data) => request('patch', '/AdditionTermSetting
 
 export const AdditionTermQuotations = () => request('get', '/AdditionTermSetting/GetAdditionTermQuotations')
 export const EditAdditionTermQuotation = (data) => request('patch', '/AdditionTermSetting/EditAdditionTermQuotation', data)
+//取得條款說明
+export const AdditionTermDescriptions = (additionTermId) => request('get', `/AdditionTermSetting/GetAdditionTermDescriptions?additionTermId=${additionTermId}`)
