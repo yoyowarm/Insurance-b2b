@@ -409,6 +409,9 @@ export default {
     UPDATED_INDUSTRY_TEXT(state, text) {
       state.industryText = text
     },
+    UPDATED_REMARK(state, data) {
+      state.remark = data
+    },
     UPDATED_REMARK_TEXT(state, data) {
       state.remark.text = data
     },
@@ -447,9 +450,6 @@ export default {
     },
     UPDATED_RELATION(state, data) {
       state.Relation = data
-    },
-    UPDATED_REMARK(state, data) {
-      state.remark = data
     },
     UPDATED_UUID(state, data) {
       state.uuid = data

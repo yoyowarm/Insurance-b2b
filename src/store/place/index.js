@@ -431,6 +431,9 @@ export default {
     UPDATED_INDUSTRY_TEXT(state, data) {
       state.industryText = data
     },
+    UPDATED_REMARK(state, data) {
+      state.remark = data
+    },
     UPDATED_REMARK_TEXT(state, data) {
       state.remark.text = data
     },
@@ -484,7 +487,7 @@ export default {
       commit('UPDATED_INSURANCE_RECORD', quotation().InsuranceRecord)
       commit('UPDATED_INDUSTRY', quotation().industry)
       commit('UPDATED_INDUSTRY_TEXT', quotation().industryText)
-      commit('UPDATED_REMARK_TEXT', quotation().remark)
+      commit('UPDATED_REMARK', quotation().remark)
       commit('UPDATED_QUESTIONNAIRE', quotation().questionnaire)
       commit('UPDATED_INSURANCE_AMOUNT_LIST', quotation().insuranceAmountList)
       commit('UPDATED_INSURANCE_AMOUNT', quotation().insuranceAmounts)
