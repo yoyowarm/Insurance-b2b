@@ -20,7 +20,7 @@
             v-if="!viewModel"
             slot="input"
             :options="amountList"
-            :selected="item.amountType.toString()"
+            :selected="item.amountType?item.amountType.toString():''"
             @emitItem="e=>{updatedValue(index,'amountType',e.Value);assignAmount(index)}"
             :disable="disable || item.fixed"
             defaultText="請選擇金額"/>
@@ -33,7 +33,7 @@
           <Input
             v-if="!viewModel"
             slot="input"
-            :value="item.perBodyAmount.toString()"
+            :value="item.perBodyAmount? item.perBodyAmount.toString(): ''"
             @updateValue="(e) => {updatedValue(index,'perBodyAmount',e);assignAmount(index)}"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
@@ -45,7 +45,7 @@
           <Input
             v-if="!viewModel"
             slot="input"
-            :value="item.perAccidentBodyAmount.toString()"
+            :value="item.perAccidentBodyAmount?item.perAccidentBodyAmount.toString(): ''"
             @updateValue="(e) => updatedValue(index,'perAccidentBodyAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
@@ -57,7 +57,7 @@
           <Input
             v-if="!viewModel"
             slot="input"
-            :value="item.perAccidentFinanceAmount.toString()"
+            :value="item.perAccidentBodyAmount?item.perAccidentFinanceAmount.toString(): ''"
             @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
@@ -69,7 +69,7 @@
           <Input
             v-if="!viewModel"
             slot="input"
-            :value="item.insuranceTotalAmount.toString()"
+            :value="item.insuranceTotalAmount?item.insuranceTotalAmount.toString(): ''"
             @updateValue="(e) => updatedValue(index,'insuranceTotalAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
@@ -96,7 +96,7 @@
             v-if="!viewModel"
             slot="input"
             :options="selfPayList"
-            :selected="item.selfInflictedAmount.toString()"
+            :selected="item.selfInflictedAmount?item.selfInflictedAmount.toString():''"
             defaultText="請選擇金額"
             :disable="disable || item.fixed"
             @emitItem="(e) => updatedValue(index,'selfInflictedAmount',e.Value)"/>
@@ -131,15 +131,15 @@
       <li>附加費用率:{{lists[selectedIndex]?lists[selectedIndex].parameter.additionalCostParameter:''}}</li>
       <li>多處所係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.mutiSizeParameter: ''}}</li>
       <li>期間係數:{{lists[selectedIndex]?lists[selectedIndex].periodParameter : ''}}</li>
-      <li v-if="insuranceAmountListData.parameter.underwriteCoefficient">核保加減費系數:{{insuranceAmountListData.parameter.underwriteCoefficient}}</li>
+      <li v-if="lists[selectedIndex] && lists[selectedIndex].parameter.underwriteCoefficient">核保加減費系數:{{lists[selectedIndex].parameter.underwriteCoefficient}}</li>
       <li>附加險條款費用係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.additionTermCoefficientParameter: ''}}</li>
       <li>AGG > AOA *2係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.aggAOACoefficient: ''}}</li>
       <li>總保費:{{lists[selectedIndex]?lists[selectedIndex].parameter.amount: ''}}</li>
     </ul>
     <div v-else>尚未試算保費</div>
-    <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.mutiSizeParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模細數(${lists[selectedIndex].parameter.sizeParameter})*多處所係數(${lists[selectedIndex].parameter.mutiSizeParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${insuranceAmountListData.parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))*短期費率(${lists[selectedIndex].parameter.shortPeriodParameter})/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
+    <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.mutiSizeParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模細數(${lists[selectedIndex].parameter.sizeParameter})*多處所係數(${lists[selectedIndex].parameter.mutiSizeParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${lists[selectedIndex].parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))*短期費率(${lists[selectedIndex].parameter.shortPeriodParameter})/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
 
-    <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.periodParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模係數(${lists[selectedIndex].parameter.sizeParameter})*期間係數(${lists[selectedIndex].parameter.periodParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${insuranceAmountListData.parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
+    <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.periodParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模係數(${lists[selectedIndex].parameter.sizeParameter})*期間係數(${lists[selectedIndex].parameter.periodParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${lists[selectedIndex].parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
     </PopupDialog>
     <div v-if="!viewModel && !copyLists.some(item => item.isSelected)" class="flex flex-row justify-center mt-8">
       <Button @click.native="addAmount" outline>新增保費額度</Button>
@@ -313,14 +313,13 @@ export default {
         lists.map(item => item.fixed = false)
         lists[index].fixed = true
         this.$emit('update:lists',lists)
-        
         const amount = await this.$store.dispatch('quotation/GetInsuranceProjectAmount',{data})
 
         lists[index].insuranceAmount = amount.data.content.amount? amount.data.content.amount: '請洽核保'
         if(amount.data.content.amount) {
           lists[index].parameter = amount.data.content.parameter
         }
-        if(amount.data.content.quotationReason.length > 0) {
+        if(amount.data.content.quotationReason && amount.data.content.quotationReason.length > 0) {
           Popup.create({
             headerText: '請洽核保原因',
             hasHtml: true,
