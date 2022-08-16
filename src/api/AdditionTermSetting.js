@@ -12,3 +12,7 @@ export const AdditionTermQuotations = () => request('get', '/AdditionTermSetting
 export const EditAdditionTermQuotation = (data) => request('patch', '/AdditionTermSetting/EditAdditionTermQuotation', data)
 //取得條款說明
 export const AdditionTermDescriptions = (additionTermId) => request('get', `/AdditionTermSetting/GetAdditionTermDescriptions?additionTermId=${additionTermId}`)
+//取得附加條款加費設定
+export const AdditionTermExtraRates = (placeActivityType) => request('get', `/AdditionTermSetting/GetAdditionTermExtraRates?placeActivityType=${placeActivityType}`)
+//編輯附加條款加費
+export const EditAdditionTermExtraRates = (data) => request('patch', '/AdditionTermSetting/EditAdditionTermExtraRates', data)

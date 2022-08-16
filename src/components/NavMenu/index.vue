@@ -1,11 +1,13 @@
 <template>
-  <div class="nav-menu">
+  <div class="nav-menu" :class="{rotate}">
     <Item
       v-for="(item,index) in itemLists"
       :key="index"
       :text="item.text"
       :active="item.value === currentTag"
       :disabled="item.disabled"
+      :rotate="rotate"
+      :bigItem="bigItem"
       @click.native="()=>{if(!item.disabled)$emit('updatedMenu', item.value)}"/>
   </div>
 </template>
@@ -24,6 +26,14 @@ export default {
     currentTag: {
       type: Number,
       default: 0
+    },
+    rotate: {
+      type: Boolean,
+      default: false
+    },
+    bigItem: {
+      type: Boolean,
+      default: false
     },
   },
 }

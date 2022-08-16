@@ -1,12 +1,14 @@
 <template>
   <div>
-    <FormTitle title="建議條款 條款設定" class="text-lg mb-14"/>
+    <FormTitle title="建議條款 條款設定" class="text-lg sm:mb-14"/>
     <CommonBoard class="category rotate">
       <NavMenu
-        class="menu"
+        class="menu rotate"
         :itemLists="itemLists"
         :currentTag="currentTag"
         @updatedMenu="(e) => currentTag = e"
+        rotate
+        bigItem
       />
       <div class="column-5 mb-4" v-if="currentTag==0 || currentTag==1">
         <InputGroup noMt>
@@ -29,16 +31,16 @@
       </div>
       <div class="flex w-full" v-if="currentTag==0 || currentTag==1">
         <TableGroup class="w-full" :data="termsListTable" :slotName="slotArray" scrollX>
-        <template v-for="(item,index) in termsListTable.rows">
-          <div :slot="`isSuggest-${index}`" :key="`isSuggest${index}`" class="flex whitespace-no-wrap">
-            <span @click="updateTerm(!item.isSuggest,item.id)" class="pr-3" :class="{'cursor-pointer text-main': item.isSuggest, 'cursor-pointer text-gray-300': !item.isSuggest}">是</span>
-            <span class="text-gray-300 pr-3">/</span>
-            <span @click="updateTerm(!item.isSuggest,item.id)" :class="{'text-main': !item.isSuggest, 'cursor-pointer text-gray-300': item.isSuggest}">否</span>
-          </div>
-        </template>
-      </TableGroup>
+          <template v-for="(item,index) in termsListTable.rows">
+            <div :slot="`isSuggest-${index}`" :key="`isSuggest${index}`" class="flex whitespace-no-wrap">
+              <span @click="updateTerm(!item.isSuggest,item.id)" class="pr-3" :class="{'cursor-pointer text-main': item.isSuggest, 'cursor-pointer text-gray-300': !item.isSuggest}">是</span>
+              <span class="text-gray-300 pr-3">/</span>
+              <span @click="updateTerm(!item.isSuggest,item.id)" :class="{'text-main': !item.isSuggest, 'cursor-pointer text-gray-300': item.isSuggest}">否</span>
+            </div>
+          </template>
+        </TableGroup>
       </div>
-      <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
+      <AdditionTermExtraRates v-else :type="currentTag" :ratesList="ratesList" @updateRates="getTermsRates(currentTag)"/>
       <WindowResizeListener @resize="handleResize"/>
       <LoadingScreen :isLoading="loading.length > 0"/>
     </CommonBoard>
@@ -52,9 +54,9 @@ import InputGroup from '@/components/InputGroup'
 import TableGroup from '@/components/TableGroup'
 import NavMenu from '@/components/NavMenu'
 import Select from '@/components/Select'
-import Pagination from '@/components/pagination'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import AdditionTermExtraRates from '@/components/Common/AdditionTermExtraRates.vue'
 import { termsListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
@@ -62,12 +64,12 @@ export default {
     FormTitle,
     CommonBoard,
     NavMenu,
-    Pagination,
     WindowResizeListener,
     TableGroup,
     Select,
     InputGroup,
-    LoadingScreen
+    LoadingScreen,
+    AdditionTermExtraRates
   },
   data() {
     return {
@@ -84,6 +86,7 @@ export default {
       currentCategory: '',
       categoryList:[],
       typeList:[],
+      ratesList:[],
       itemLists:[
         { text: '處所', value: 0 },
         { text: '活動', value: 1 },
@@ -114,7 +117,10 @@ export default {
       async handler(val) {
         if(val === 0 || val === 1) {
           await this.getAllList(val)
-        } else {}
+          this.currentType = this.typeList[0].Value
+        } else {
+          await this.getTermsRates(val)
+        }
       },
       immediate: true
     },
@@ -148,10 +154,19 @@ export default {
     handleResize () {
       this.windowWidth = window.innerWidth
     },
-    async changePage(page) {
-      if(this.currentPage === page || page < 1) return
-      console.log(page)
-      // this.$store.dispatch('app/updatedCurrentPage',page)
+    async getTermsRates(val) {
+      const data = await this.$store.dispatch('resource/AdditionTermExtraRates',{placeActivityType: val-1})
+      this.ratesList = data.data.content.map(item => {
+        const data = {
+          ...item,
+          edit: false,
+          additionTermName:`${item.additionTermId}${item.additionTermName}`
+        }
+        item.extraRateDetails.map(i => {
+          data[`${i.typeName}1`] = {rate: i.rate*100, id: i.id}
+        })
+        return data
+      })
     },
     async getAllList(val) {
       const type = await this.$store.dispatch(`resource/${val === 0 ? 'PlaceTypes' :'ActivityTypes'}`)
@@ -181,6 +196,7 @@ export default {
   },
   async mounted() {
     await this.getAllList(0)
+    await this.getTermsRates(2)
     this.currentType = this.typeList[0].Value
   }
 }
@@ -195,4 +211,18 @@ export default {
     top: -39px;
     @apply absolute
   }
+  @media screen and (max-width: 600px) {
+  .category.rotate {
+    margin-top: 0;
+    padding-left: 50px;
+  }
+  .menu.rotate{
+    top: 20px;
+    left: -5px;
+    @apply absolute
+  }
+  >>> .board {
+    min-height: 400px;
+  }
+}
 </style>

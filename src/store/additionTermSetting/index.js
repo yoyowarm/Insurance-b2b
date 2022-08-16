@@ -1,4 +1,4 @@
-import { EditAdditionTermDetail, EditAdditionTerm, EditAdditionTermQuotation } from '@/api/AdditionTermSetting'
+import { EditAdditionTermDetail, EditAdditionTerm, EditAdditionTermQuotation, EditAdditionTermExtraRates } from '@/api/AdditionTermSetting'
 export default {
   namespaced: true,
   state: {
@@ -17,6 +17,9 @@ export default {
     },
     async editAdditionTermQuotation(_, data) {
       return await EditAdditionTermQuotation(data)
+    },
+    async editAdditionTermExtraRates(_, data) {
+      return await EditAdditionTermExtraRates(data)
     }
   }
 }

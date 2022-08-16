@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-item" :class="{active, disabled, rotate}">
+  <div class="menu-item" :class="{active, disabled, rotate, bigItem}">
     {{text}}
   </div>
 </template>
@@ -22,7 +22,11 @@ export default {
     rotate: {
       type: Boolean,
       default: false
-    }
+    },
+    bigItem: {
+      type: Boolean,
+      default: false
+    },
   }
 }
 </script>
@@ -38,6 +42,10 @@ export default {
     &.disabled {
       @apply text-gray-200 cursor-not-allowed;
     }
+    &.bigItem {
+      width: auto;
+      min-width: 107px
+    }
   }
   @media (min-width: 601px) and (max-width:950px) {
     .menu-item {
@@ -48,17 +56,22 @@ export default {
   @media screen and (max-width: 600px) {
   .menu-item.rotate{
     width: 55px;
-    height: 55px;
+    height: 85px;
     margin-top: 0;
     padding: 5px;
     padding-left: 10px;
     text-align: center;
     margin-bottom: 7px;
-    border-radius: 55px 0px 0px 55px;
+    border-radius: 10px 0px 0px 10px;
     border-right: 0px;
     @apply border-b-2;
     &.active {
-      border-radius: 55px 0px 0px 55px;
+      border-radius: 10px 0px 0px 10px;
+    }
+    &.bigItem {
+      width: 55px;
+      height: 85px;
+      min-width:auto
     }
   }
 }

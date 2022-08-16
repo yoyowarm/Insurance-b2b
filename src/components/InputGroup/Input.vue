@@ -37,6 +37,10 @@ export default {
       type: Boolean,
       default: false
     },
+    isNumber: {
+      type: Boolean,
+      default: false
+    }
   },
   methods: {
     updateValue (e) {
@@ -50,6 +54,14 @@ export default {
         } else {
           e.target.value = e.target.value.slice(0, e.target.value.length -2)
           this.$emit('updateValue', e.target.value.slice(0, e.target.value.length -2))
+        }
+      }
+      if(this.isNumber) {
+        if(isNaN(e.target.value)) {
+          e.target.value = e.target.value.replace(/[^0-9]/g, '')
+          this.$emit('updateValue', e.target.value.replace(/[^0-9]/g, ''))
+        } else {
+          this.$emit('updateValue', e.target.value)
         }
       }
       this.$emit('updateValue', e.target.value)
