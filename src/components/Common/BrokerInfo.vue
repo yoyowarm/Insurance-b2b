@@ -1,7 +1,12 @@
 <template>
   <div class="column-5">
     <InputGroup title="經手人代號">
-      <Input  slot="input" placeholder="輸入代號" :value="data.issuerNumber" @updateValue="(e) => updateValue(e,'issuerNumber')"/>
+      <Input
+        slot="input"
+        placeholder="輸入代號"
+        :value="data.issuerNumber"
+        @updateValue="(e) => updateValue(e,'issuerNumber')"
+        @blurInput="checkUser"/>
     </InputGroup>
     <InputGroup title="業務來源">
       <Select
@@ -25,6 +30,7 @@
 import InputGroup from '@/components/InputGroup'
 import Select from '@/components/Select'
 import Input from '@/components/InputGroup/Input.vue'
+import { Popup } from '@/utils/popups'
 export default {
   components: {
     InputGroup,
@@ -47,6 +53,21 @@ export default {
         ...this.data,
         [key]: e
       })
+    },
+    async checkUser() {
+      const checkUser = await this.$store.dispatch('resource/CheckTaianUserExist', {
+        employeeId: this.data.issuerNumber
+      })
+      if(!checkUser.data.content) {
+        Popup.create({
+          headerText: '經手人代號錯誤',
+          htmlText: '請確認經手人代號是否正確',
+          hasHtml: true
+        })
+        this.updateValue('','issuerNumber')
+      } else {
+        this.$emit('getBusinessSource')
+      }
     }
   },
 }

@@ -8,7 +8,7 @@
         :currentTag="currentTag"
         @updatedMenu="(e) => currentTag = e"
       />
-      <div class="column-5 mb-4">
+      <div class="column-5 mb-4" v-if="currentTag==0 || currentTag==1">
         <InputGroup noMt>
           <Select
             slot="input"
@@ -27,7 +27,7 @@
           />
         </InputGroup>
       </div>
-      <div class="flex w-full">
+      <div class="flex w-full" v-if="currentTag==0 || currentTag==1">
         <TableGroup class="w-full" :data="termsListTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in termsListTable.rows">
           <div :slot="`isSuggest-${index}`" :key="`isSuggest${index}`" class="flex whitespace-no-wrap">
@@ -86,7 +86,9 @@ export default {
       typeList:[],
       itemLists:[
         { text: '處所', value: 0 },
-        { text: '活動', value: 1 }
+        { text: '活動', value: 1 },
+        { text: '處所費率設定', value: 2 },
+        { text: '活動費率設定', value: 3 },
       ],
     }
   },
@@ -110,7 +112,9 @@ export default {
   watch: {
     currentTag: {
       async handler(val) {
+        if(val === 0 || val === 1) {
           await this.getAllList(val)
+        } else {}
       },
       immediate: true
     },

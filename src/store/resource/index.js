@@ -1,11 +1,11 @@
 import { CountyMinimumSettings } from '@/api/CountyMinimumSetting'
-import { AdditionTermsType, AdditionTermQuotation, AdditionTerms, AdditionTermQuotations, AdditionTermDescriptions } from '@/api/AdditionTermSetting'
+import { AdditionTermsType, AdditionTermQuotation, AdditionTerms, AdditionTermQuotations, AdditionTermDescriptions, AdditionTermExtraRates } from '@/api/AdditionTermSetting'
 import { Users, UserDetail, Groups, GroupDetail, GroupsDetail, GroupPermissions } from '@/api/PermissionSetting'
 import { Places, Activities, PlaceTypes, ActivityTypes, PlaceActivities } from '@/api/PlaceActivitySetting'
-import { TaianUsers } from '@/api/User'
+import { TaianUsers, CheckTaianUserExist } from '@/api/User'
 import { Districts } from '@/api/CountySetting'
 import { Nationality } from '@/api/NationalitySetting'
-import { BusinessSource } from '@/api/BusinessSourceSetting'
+import { BusinessSource, BusinessSourceByTaianUser } from '@/api/BusinessSourceSetting'
 import { Relationships } from '@/api/CommonSetting'
 export default {
   namespaced: true,
@@ -34,6 +34,9 @@ export default {
     },
     async AdditionTermDescriptions(_, { additionTermId }) {
       return await AdditionTermDescriptions(additionTermId)
+    },
+    async AdditionTermExtraRates(_, { placeActivityType }) {
+      return await AdditionTermExtraRates(placeActivityType)
     },
     async PermissionSettingUsers(_, skip) {
       return await Users({ skip })
@@ -68,6 +71,9 @@ export default {
     async TaianUsers() {
       return await TaianUsers()
     },
+    async CheckTaianUserExist(_, { employeeId }) {
+      return await CheckTaianUserExist(employeeId)
+    },
     async Districts() {
       return await Districts()
     },
@@ -76,6 +82,10 @@ export default {
     },
     async BusinessSource() {
       return await BusinessSource()
+    },
+    async BusinessSourceByTaianUser(_, employeeId) {
+
+      return await BusinessSourceByTaianUser(employeeId)
     },
     async Relationships() {
       return await Relationships()

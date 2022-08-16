@@ -147,6 +147,14 @@ export default {
           }
         })
       }
+    },
+    async verifyUser() {
+      const checkUser = await this.$store.dispatch('resource/CheckTaianUserExist', {
+        employeeId: this.internalControl.issuerNumber
+      })
+      if (!checkUser.data.content) {
+        this.requestFile.push('請確認經手人代號是否正確')
+      }
     }
   }
 }

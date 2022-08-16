@@ -54,7 +54,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="內控資料">
-      <BrokerInfo :brokerList="businessSource" :data.sync="internalControl"/>
+      <BrokerInfo :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
@@ -273,10 +273,23 @@ export default {
         this.step2InitAssignValue('place')
       }
     },
+    async getBusinessSource() {
+      const businessSource = await this.$store.dispatch('resource/BusinessSourceByTaianUser', { employeeId: this.internalControl.issuerNumber })
+      if(businessSource.data.content.length > 0) {
+        this.businessSource = businessSource.data.content.map(item => {
+        return {
+          ...item,
+          Value: item.code,
+          Text: item.name
+        }
+      })
+      }
+    },
     async nextStep() {
       this.verifyResult = []
       this.verifySalesInvadeResult = []
       this.verifyRequired('place')
+      await this.verifyUser()
       if(this.requestFile.length === 0) {
         await this.verifyFinal()
       }
