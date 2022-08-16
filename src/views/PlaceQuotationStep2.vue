@@ -367,6 +367,9 @@ export default {
       delete obj.applicant.RegisterNationality
 
       if(this.InsuranceActive !== 0) {
+        if(this.quotationData.questionnaire) {
+          obj.questionnaire = this.quotationData.questionnaire
+        }
         Object.assign(obj, {orderNo:this.orderNo})
         await this.$store.dispatch('quotation/UpdatePlaceQuotation', obj)
       } else {
