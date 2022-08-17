@@ -10,7 +10,7 @@
           :disabled="disable || item.disable"
           @updateValue="(e) =>updateTerms(item.additionTermName, e)"
         />
-        <p class="ml-1 cursor-pointer" @click="setDialog(item,true)">{{item.additionTermId}} {{item.additionTermName}}</p>
+        <p class="ml-1 cursor-pointer" @click="setDialog(item,true)">{{item.additionTermName}}</p>
       </div>
     </template>
   </div>
