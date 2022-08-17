@@ -160,7 +160,7 @@ export default {
         const data = {
           ...item,
           edit: false,
-          additionTermName:`${item.additionTermId}${item.additionTermName}`
+          additionTermName: item.additionTermName
         }
         item.extraRateDetails.map(i => {
           data[`${i.typeName}1`] = {rate: i.rate*100, id: i.id}
@@ -186,12 +186,7 @@ export default {
     },
     async AdditionTermsType(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val)
-      this.termsListTable.rows = data.data.content.additionTermsDetails.map(item => {
-        return {
-          ...item,
-          additionTermName: `${item.additionTermId}${item.additionTermName}`,
-        }
-      })
+      this.termsListTable.rows = data.data.content.additionTermsDetails
     },
   },
   async mounted() {
