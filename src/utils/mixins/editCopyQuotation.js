@@ -263,7 +263,7 @@ export default {
           Name: this.quotationData.insuraned.name,
           IsForeigner: this.quotationData.insuraned.isForeigner,
           Nationality: this.quotationData.insuraned.nationalityName ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.nationalityName) : { Text: '', Value: '' },
-          Corporate: this.quotationData.insuraned.corporateName,
+          CorporateName: this.quotationData.insuraned.corporateName,
           City: this.cityList.find(i => i.Value == this.quotationData.insuraned.cityId),
           Area: this.InsuranedAreaList.find(i => i.areaId == this.quotationData.insuraned.areaId),
           subAddress: this.quotationData.insuraned.subAddress,

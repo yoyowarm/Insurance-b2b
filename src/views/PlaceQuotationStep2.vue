@@ -199,7 +199,7 @@ export default {
         Name: detailData.name,
         IsForeigner: detailData.isForeigner,
         Nationality: detailData.nationalityName ? this.nationalities.find(i => i.Text == detailData.nationalityName) : { Text: '', Value: '' },
-        Corporate: detailData.corporateName,
+        CorporateName: detailData.corporateName,
         City: this.cityList.find(i => i.Value == detailData.cityId),
         Area: this.ApplicantAreaList.find(i => i.areaId == detailData.areaId),
         subAddress: detailData.subAddress,
