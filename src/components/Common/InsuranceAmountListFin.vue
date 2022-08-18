@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.selected ? item.selected :item.isSelected">
-      <div v-if="!viewModel && copyLists.length > 1" slot="icon" class="input-right mr-2" @click="remoteAmount(index)">
+      <div v-if="!viewModel && copyLists.length > 1" slot="icon" class="input-right cursor-pointer mr-2" @click="remoteAmount(index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
       <Checkbox
@@ -109,13 +109,13 @@
             <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
           </div>
       </div>
-      <div class="flex flex-row justify-center mt-8">
-        <Button class="mr-6" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
-        <Button class="mr-6" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
-        <Button class="mr-6" @click.native="getAmount(index)" outline>試算</Button>
-        <Button v-if="item.fixed && !copyLists.some(item => item.isSelected)" class="mr-6" @click.native="updateFixed(index)" outline>修改</Button>
-        <Button class="mr-6" v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button>
-        <Button v-if="!copyLists.some(item => item.isSelected)" @click.native="updateInsuranceProject(index)" outline>編輯投保資料</Button>
+      <div class="button-group">
+        <Button :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
+        <Button :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
+        <Button :class="{'mr-6': windowWidth > 750}" @click.native="getAmount(index)" outline>試算</Button>
+        <Button v-if="item.fixed && !copyLists.some(item => item.isSelected)" :class="{'mr-6': windowWidth > 750}" @click.native="updateFixed(index)" outline>修改</Button>
+        <Button :class="{'mr-6': windowWidth > 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button>
+        <Button :class="{'col-span-2': windowWidth < 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="updateInsuranceProject(index)" outline>編輯投保資料</Button>
         <Button v-if="viewModel && editModel">修改保費</Button>
       </div>
     </CommonBoard>
@@ -144,6 +144,7 @@
     <div v-if="!viewModel && !copyLists.some(item => item.isSelected)" class="flex flex-row justify-center mt-8">
       <Button @click.native="addAmount" outline>新增保費額度</Button>
     </div>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -156,6 +157,7 @@ import Select from '@/components/Select'
 import Button from '@/components/Button'
 import Checkbox from '@/components/Checkbox'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
+import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
 
@@ -168,7 +170,8 @@ export default {
     Button,
     PaymentItem,
     Checkbox,
-    PopupDialog
+    PopupDialog,
+    WindowResizeListener
   },
   props: {
     lists: {
@@ -198,6 +201,7 @@ export default {
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       selfPayList: [
         {Value: 0, Text: '0元'},
         {Value: 2500, Text: '2,500元'},
@@ -253,6 +257,9 @@ export default {
     },
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     async downloadFile(type, item) {
       if (type === 'insurance') {
         const URL = `${process.env.VUE_APP_API_URL}Document/GetInsuranceDocument?orderNo=${this.orderNo}&insuranceProjectId=${item.id}`
@@ -426,5 +433,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .button-group {
+    @apply flex flex-row justify-center mt-8
+  }
+  @media screen and (max-width: 750px) {
+    .button-group {
+      @apply grid grid-cols-2 gap-6
+    }
+  }
 </style>
