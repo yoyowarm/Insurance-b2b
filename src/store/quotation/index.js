@@ -100,7 +100,7 @@ export default {
       return await GetApplicant(name, id)
     },
     async DeleteInusranceProject(_, { orderNo, insuranceProjectId }) {
-      return await DeleteInusranceProject({ orderNo, insuranceProjectId })
+      return await DeleteInusranceProject(orderNo, insuranceProjectId)
     }
   }
 }
