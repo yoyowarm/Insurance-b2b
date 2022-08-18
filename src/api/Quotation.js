@@ -47,4 +47,4 @@ export const GetInsuraned = (name, id) => request('get', '/Quotation/GetInsurane
 //取得要保人資料
 export const GetApplicant = (name, id) => request('get', '/Quotation/GetApplicant', { name, id })
 //刪除保險方案
-export const DeleteInusranceProject = (data) => request('delete', '/Quotation/DeleteInusranceProject', data)
+export const DeleteInusranceProject = (orderNo, insuranceProjectId) => request('delete', `/Quotation/DeleteInusranceProject?OrderNo=${orderNo}&InsuranceProjectId=${insuranceProjectId}`)
