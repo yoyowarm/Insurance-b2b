@@ -3,7 +3,7 @@
     <div class="column-6">
       <InputGroup class="w-full col-span-2" title="投保行業" v-if="copyInfo.CorporateRequired || true" borderBtn :editModel="editModel">
          <Select v-if="editModel" slot="input" defaultText="心理輔導與家庭諮詢機構"/>
-          <div v-else slot="input" class="w-full pr-24 relative">
+          <div v-else slot="input" class="w-full relative">
             {{info.insureType}}
           </div>
       </InputGroup>
@@ -71,19 +71,19 @@
       </InputGroup>
       <InputGroup class="w-full" title="居住地址" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="台北市"/>
-          <div v-else slot="input" class="w-full pr-24 relative">
+          <div v-else slot="input" class="w-full relative">
             {{getCityArea('city', item.cityId)}}
           </div>
       </InputGroup>
       <InputGroup class="w-full" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="大安區"/>
-          <div v-else slot="input" class="w-full pr-24 relative">
+          <div v-else slot="input" class="w-full relative">
             {{getCityArea('area', item.areaId)}}
           </div>
       </InputGroup>
       <InputGroup class="w-full col-span-3" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Input v-if="editModel" slot="input" class="w-full relative text-main" value="敦化南路1段183號5樓"/>
-          <div v-else slot="input" class=" pr-24 relative">
+          <div v-else slot="input" class=" relative">
             {{item.subAddress}}
           </div>
       </InputGroup>
@@ -143,7 +143,7 @@
         </div>
         <InputGroup class="w-full" title="活動計日" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="4"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{item.activityDays}}
         </div>
       </InputGroup>
@@ -153,7 +153,7 @@
     <div class="column-6 pb-3 mb-4">
       <InputGroup class="w-full col-span-6" title="備註" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容備註文字內容"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.remark}}
         </div>
       </InputGroup>

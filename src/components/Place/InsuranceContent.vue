@@ -3,13 +3,13 @@
     <div class="column-6">
       <InputGroup class=" w-full mb-2.5" title="是否續保" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="是"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.renewal&&info.renewal.isRenewal ? '是' : '否'}}
         </div>
       </InputGroup>
       <InputGroup class=" w-full mb-2.5" title="保單編號" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="123456789"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.renewal&&info.renewal.insuranceNumber}}
         </div>
       </InputGroup>
@@ -66,10 +66,10 @@
         </InputGroup>
       </div>
     </div>
-    <div class="column-6 pb-3 mb-4">
+    <div class="column-6 pb-3 my-4">
       <InputGroup class="w-full col-span-6" title="投保行業" v-if="copyInfo.CorporateRequired || true" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="心理輔導與家庭諮詢機構"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.insureType}}
         </div>
       </InputGroup>
@@ -77,37 +77,37 @@
     <div class="column-6 pb-3 mb-4">
       <InputGroup class="w-full " title="去年投保紀錄" :wrap="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="無"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.insuranceRecord && info.insuranceRecord.lastYear.status ? '有' : '無'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="去年平均保費" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="- -"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.insuranceRecord && info.insuranceRecord.lastYear.averagePremium ? info.insuranceRecord.lastYear.averagePremium : '- -'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="去年平均理賠金額" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="- -"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.insuranceRecord && info.insuranceRecord.lastYear.claimAmount ? info.insuranceRecord.lastYear.claimAmount : '- -'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full " title="前年投保紀錄" :wrap="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="無"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.insuranceRecord && info.insuranceRecord.previousYear.status ? '有' : '無'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="前年平均保費" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="- -"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.insuranceRecord && info.insuranceRecord.previousYear.averagePremium ? info.insuranceRecord.previousYear.averagePremium : '- -'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="前年平均理賠金額" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="- -"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.insuranceRecord && info.insuranceRecord.previousYear.claimAmount ? info.insuranceRecord.previousYear.claimAmount : '- -'}}
         </div>
       </InputGroup>

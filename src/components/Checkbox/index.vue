@@ -46,8 +46,8 @@ export default {
       display: inline-block;
       background: url('../../assets/images/input_checkbox_bg.png') no-repeat;
       background-size: 20px;
-      width: 20px;
-      height: 20px;
+      min-width: 20px;
+      min-height: 20px;
       border-radius: 2px;
       margin: auto 0;
       margin-right: 10px;

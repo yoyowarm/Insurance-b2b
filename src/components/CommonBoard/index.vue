@@ -3,7 +3,7 @@
     <div v-if="title" class="title" :class="{'inline-flex w-full items-end justify-between': $slots.right}">
       <div class="flex">
         <slot name="icon"/>
-        <span class="h-8">{{title}}</span>
+        <span class="h-auto sm:h-8">{{title}}</span>
       </div>
       <slot name="right"/>
     </div>
@@ -40,5 +40,10 @@ export default {
   }
   .mt-0 {
     margin-top: 0!important;
+  }
+  @media screen and (max-width: 600px) {
+    .title {
+      font-size: 18px;
+    }
   }
 </style>
