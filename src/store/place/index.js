@@ -58,7 +58,7 @@ export default {
         Text: '',
         Value: ''
       },
-      Corporate: '',
+      CorporateName: '',
       CorporateRequired: false,
       City: {
         Text: '選擇縣市',
@@ -90,7 +90,7 @@ export default {
         Text: '',
         Value: ''
       },
-      Corporate: '',
+      CorporateName: '',
       CorporateRequired: false,
       City: {
         Text: '選擇縣市',

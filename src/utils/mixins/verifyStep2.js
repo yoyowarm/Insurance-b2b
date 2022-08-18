@@ -82,7 +82,7 @@ export default {
       if (this.Insuraned.IsForeigner && !this.Insuraned.Nationality.Value) {
         this.requestFile.push('未選擇被保險人國籍')
       }
-      if (this.Insuraned.CorporateRequired && !this.Insuraned.Corporate) {
+      if (this.Insuraned.CorporateRequired && !this.Insuraned.CorporateName) {
         this.requestFile.push('未填寫被保險負責人')
       }
       if (!this.Insuraned.City.Value) {
@@ -125,7 +125,7 @@ export default {
       if (this.Applicant.IsForeignRegister && !this.Applicant.RegisterNationality) {
         this.requestFile.push('要保險人未輸入登記/註冊地國籍')
       }
-      if (this.Applicant.CorporateRequired && !this.Applicant.Corporate) {
+      if (this.Applicant.CorporateRequired && !this.Applicant.CorporateName) {
         this.requestFile.push('未填寫要保險負責人')
       }
       if (!this.Relation.Value) {

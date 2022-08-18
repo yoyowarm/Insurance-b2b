@@ -3,13 +3,13 @@
     <div class="column-6">
       <InputGroup class=" w-full mb-2.5" title="姓名" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full pr-24 relative text-main" value="陳曉明"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.name}}
         </div>
       </InputGroup>
       <InputGroup class=" w-full mb-2.5" title="統編/身分證" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="A123456789"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.id}}
         </div>
       </InputGroup>
@@ -19,19 +19,19 @@
       </InputGroup>
       <InputGroup class="w-full" title="國籍" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="本國"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.isForeigner ? '外國' : '本國'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="- -"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.nationalityName ? info.nationalityName : '- -'}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="職業/行業別" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="一般"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.isProfession ? '專業' : '一般'}}
         </div>
       </InputGroup>
@@ -39,31 +39,31 @@
     <div class="column-6 pt-6 pb-3 mb-4">
       <InputGroup class="w-full" title="負責(代表)人" v-if="copyInfo.corporateName" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full pr-24 relative text-main" value="陳曉明"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.corporateName}}
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="登記/註冊地" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="本國"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.isForeignRegister ? '外國' : '本國'}}
         </div>
       </InputGroup>
       <InputGroup class="item" title="居住地址(選填)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="台北市"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.city}}
         </div>
       </InputGroup>
       <InputGroup class="item" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="大安區"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.area}}
         </div>
       </InputGroup>
       <InputGroup class="col-span-2" :noMt="marginTop(1180)" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="敦化南路1段183號5樓"/>
-        <div v-else slot="input" class=" pr-24 relative">
+        <div v-else slot="input" class=" relative">
           {{info.subAddress}}
         </div>
       </InputGroup>
@@ -85,7 +85,7 @@
     <div class="column-6 pt-6 pb-3 mb-4">
       <InputGroup class="w-full col-span-6" title="客戶屬性" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="非專業"/>
-        <div v-else slot="input" class="w-full pr-24 relative">
+        <div v-else slot="input" class="w-full relative">
           {{info.isProOrNot ? '專業' : '非專業'}}
         </div>
         <div class="customer-attr" slot="right">

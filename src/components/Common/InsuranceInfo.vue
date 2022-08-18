@@ -52,7 +52,7 @@
         />
       </InputGroup>
       <InputGroup class="w-full" title="負責(代表)人" v-if="copyInfo.CorporateRequired" :disable="disable">
-        <Input slot="input" placeholder="輸入姓名" :value="copyInfo.Corporate" @updateValue="(e) => updateInfo('Corporate', e)" :disable="disable"/>
+        <Input slot="input" placeholder="輸入姓名" :value="copyInfo.CorporateName" @updateValue="(e) => updateInfo('CorporateName', e)" :disable="disable"/>
       </InputGroup>
     </div>
     <div class="column-5">

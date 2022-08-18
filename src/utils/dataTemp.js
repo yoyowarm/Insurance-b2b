@@ -190,7 +190,7 @@ export const quotation = () => {
         Text: '',
         Value: ''
       },
-      Corporate: '',
+      CorporateName: '',
       CorporateRequired: false,
       City: {
         Text: '選擇縣市',
@@ -222,7 +222,7 @@ export const quotation = () => {
         Text: '',
         Value: ''
       },
-      Corporate: '',
+      CorporateName: '',
       CorporateRequired: false,
       City: {
         Text: '選擇縣市',

@@ -310,7 +310,7 @@ export default {
         area: this.Insuraned.Area.Text,
         zipCode: this.ApplicantAreaList.find(item => item.Value == this.Insuraned.Area.Value).zipCode,
         nationalityName: this.Insuraned.Nationality.Text,
-        corporateName: this.Insuraned.Corporate,
+        corporateName: this.Insuraned.CorporateName,
         registerNationality: this.Insuraned.RegisterNationality.Text,
         overseasOrDomestic: Number(this.Insuraned.overseasOrDomestic)
       }})
@@ -324,7 +324,7 @@ export default {
         area: this.Applicant.Area.Text,
         zipCode: this.ApplicantAreaList.find(item => item.Value == this.Applicant.Area.Value).zipCode,
         nationalityName: this.Applicant.Nationality.Text,
-        corporateName: this.ApplicantAreaList.Corporate,
+        corporateName: this.ApplicantAreaList.CorporateName,
         registerNationality: this.Applicant.RegisterNationality.Text,
         overseasOrDomestic: Number(this.Applicant.overseasOrDomestic)
       }})

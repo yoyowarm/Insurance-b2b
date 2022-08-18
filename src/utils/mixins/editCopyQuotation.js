@@ -1,6 +1,7 @@
 import { mapState } from 'vuex'
 import { quotationStep1 } from '@/utils/dataTemp'
 import { formatDate } from '@/utils/dateFormat'
+import { IDRegex } from '@/utils/regex'
 export default {
   data() {
     return {
@@ -17,7 +18,8 @@ export default {
         { Value: 0, Text: '依各縣市規定' },
         { Value: 1, Text: '合併單一限額' },
         { Value: 2, Text: '自行輸入保額' },
-      ]
+      ],
+      IDRegex
     }
   },
   computed: {
@@ -275,6 +277,9 @@ export default {
           overseasOrDomestic: Boolean(this.quotationData.insuraned.overseasOrDomestic),
           IsProOrNot: this.quotationData.insuraned.isProOrNot,
         })
+        if (this.IDRegex(Insuraned.ID)[1]) {
+          Insuraned.CorporateRequired = true
+        }
         this.$store.dispatch(`${type}/updatedInsuraned`, Insuraned)
       }
 
@@ -285,7 +290,7 @@ export default {
           Name: this.quotationData.applicant.name,
           IsForeigner: this.quotationData.applicant.isForeigner,
           Nationality: this.quotationData.applicant.nationalityName ? this.nationalities.find(i => i.Text == this.quotationData.applicant.nationalityName) : { Text: '', Value: '' },
-          Corporate: this.quotationData.applicant.corporateName,
+          CorporateName: this.quotationData.applicant.corporateName,
           City: this.cityList.find(i => i.Value == this.quotationData.applicant.cityId),
           Area: this.ApplicantAreaList.find(i => i.areaId == this.quotationData.applicant.areaId),
           subAddress: this.quotationData.applicant.subAddress,
@@ -297,6 +302,9 @@ export default {
           overseasOrDomestic: Boolean(this.quotationData.applicant.overseasOrDomestic),
           IsProOrNot: this.quotationData.applicant.isProOrNot,
         })
+        if (this.IDRegex(Applicant.ID)[1]) {
+          Applicant.CorporateRequired = true
+        }
         this.$store.dispatch(`${type}/updatedApplicant`, Applicant)
       }
       if (Object.keys(this.quotationData.internalControlData).length > 0) {
