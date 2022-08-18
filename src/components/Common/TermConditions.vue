@@ -1,24 +1,24 @@
 <template>
   <div class="column-2 term">
     <CommonBoard class="w-full h-full" v-for="item in termConditionsList" :key="item.additionTermName">
-      <PL002 v-if="item.additionTermName === '停車場責任附加條款'" :data.sync="additionTerms"/>
-      <PL003 v-if="item.additionTermName === '電梯意外責任附加條款'" :data.sync="additionTerms"/>
-      <PL004 v-if="item.additionTermName === '游泳池責任附加條款'" :data.sync="additionTerms"/>
-      <PL005 v-if="item.additionTermName === '建築物承租人火災附加條款'" :data.sync="additionTerms"/>
-      <PL007 v-if="item.additionTermName === '各級學校暨幼兒園責任附加條款'" :data.sync="additionTerms"/>
-      <PL016 v-if="item.additionTermName === '獨立承攬人責任附加條款'" :data.sync="additionTerms"/>
-      <PL022 v-if="item.additionTermName === '裝卸搬運責任附加條款'" :data.sync="additionTerms"/>
-      <PL023 v-if="item.additionTermName === '慰問金費用附加條款'" :data.sync="additionTerms"/>
-      <PL028 v-if="item.additionTermName === '安養事業責任附加條款'" :data.sync="additionTerms"/>
-      <PL035 v-if="item.additionTermName === '小型營繕工程附加條款'" :data.sync="additionTerms"/>
-      <PL040 v-if="item.additionTermName === '受託物責任附加條款'" :data.sync="additionTerms"/>
-      <PL041 v-if="item.additionTermName === '接駁運送責任附加條款'" :data.sync="additionTerms"/>
-      <PL043 v-if="item.additionTermName === '保管箱責任附加條款'" :data.sync="additionTerms"/>
-      <PL047 v-if="item.additionTermName === '放棄代位求償權附加條款'" :data.sync="additionTerms"/>
-      <PL049 v-if="item.additionTermName === '承租人借用人責任附加條款(保額外加)'" :data.sync="additionTerms"/>
-      <PL053 v-if="item.additionTermName === '傷害醫療及身故慰問金費用附加條款'" :data.sync="additionTerms"/>
-      <PL055 v-if="item.additionTermName === '營業中斷損失責任附加條款'" :data.sync="additionTerms"/>
-      <PL058 v-if="item.additionTermName === '液化石油氣及容器附加條款'" :data.sync="additionTerms"/>
+      <PL002 v-if="item.additionTermId === 'PL002'" :data.sync="additionTerms"/>
+      <PL003 v-if="item.additionTermId === 'PL003'" :data.sync="additionTerms"/>
+      <PL004 v-if="item.additionTermId === 'PL004'" :data.sync="additionTerms"/>
+      <PL005 v-if="item.additionTermId === 'PL005'" :data.sync="additionTerms"/>
+      <PL007 v-if="item.additionTermId === 'PL007'" :data.sync="additionTerms"/>
+      <PL016 v-if="item.additionTermId === 'PL016'" :data.sync="additionTerms"/>
+      <PL022 v-if="item.additionTermId === 'PL022'" :data.sync="additionTerms"/>
+      <PL023 v-if="item.additionTermId === 'PL023'" :data.sync="additionTerms"/>
+      <PL028 v-if="item.additionTermId === 'PL028'" :data.sync="additionTerms"/>
+      <PL035 v-if="item.additionTermId === 'PL035'" :data.sync="additionTerms"/>
+      <PL040 v-if="item.additionTermId === 'PL040'" :data.sync="additionTerms"/>
+      <PL041 v-if="item.additionTermId === 'PL041'" :data.sync="additionTerms"/>
+      <PL043 v-if="item.additionTermId === 'PL043'" :data.sync="additionTerms"/>
+      <PL047 v-if="item.additionTermId === 'PL047'" :data.sync="additionTerms"/>
+      <PL049 v-if="item.additionTermId === 'PL049'" :data.sync="additionTerms"/>
+      <PL053 v-if="item.additionTermId === 'PL053'" :data.sync="additionTerms"/>
+      <PL055 v-if="item.additionTermId === 'PL055'" :data.sync="additionTerms"/>
+      <PL058 v-if="item.additionTermId === 'PL058'" :data.sync="additionTerms"/>
     </CommonBoard>
   </div>
 </template>
