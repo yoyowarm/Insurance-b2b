@@ -72,15 +72,17 @@
         </div>
         <TableGroup :data="quotationListTable" :slotName="slotArray" scrollX>
           <template v-for="(item,index) in quotationListTable.rows">
-            <div :slot="`edit-${index}`" :key="`edit${index}`" class="flex flex-row">
-              <Button class="copy-button mr-2" outline @click.native="review(item.type,item.orderNo)">查看</Button>
-              <Button class="copy-button" @click.native="copyQuotation(item.type,item.orderNo)" outline>複製</Button>
+            <div :slot="`edit-${index}`" :key="`edit${index}`" class="flex flex-col justify-center items-center">
+              <span class="download" @click="popup(item)">列印</span>
+              <span class="download" @click="review(item.type,item.orderNo)">查看</span>
+              <span class="download" @click="copyQuotation(item.type,item.orderNo)">複製</span>
             </div>
           </template>
         </TableGroup>
         <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
       </CommonBoard>
     </div>
+    <DownloadFile :open.sync="open" :orderNo="orderNo" :item="downloadQuotation" headerText="列印文件"/>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
@@ -101,6 +103,7 @@ import Select from '@/components/Select/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
+import DownloadFile from '@/components/PopupDialog/DownloadFile.vue'
 import { quotationListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import WindowResizeListener from '@/components/WindowResizeListener'
@@ -117,16 +120,18 @@ export default {
     Button,
     DatePicker,
     LoadingScreen,
+    DownloadFile
   },
   data() {
     return {
       windowWidth: window.innerWidth,
+      open: false,
+      downloadQuotation: {},
       failIcon,
       successIcon,
       warnIcon,
       finishIcon,
       ApplicantName: '',
-      orderNo: '',
       startDate: {
         year: '',
         month: '',
@@ -215,6 +220,7 @@ export default {
       'loading': state => state.app.loading,
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
+      'orderNo': state => state.common.orderNo,
     }),
     slotArray () {
       const arr = []
@@ -245,7 +251,7 @@ export default {
       } else {
         this.getQuotationList()
       }
-    },
+    }
   },
   methods: {
     handleResize () {
@@ -284,6 +290,12 @@ export default {
     review(type, orderNo) {
       this.$store.dispatch('common/updateOrderNo', orderNo)
       this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step3`)
+    },
+    popup(item) {
+      console.log(item)
+      this.downloadQuotation = item
+      this.open = true
+      this.$store.dispatch('common/updateOrderNo', item.orderNo)
     },
     async copyQuotation(type,orderNo) {
       this.$store.dispatch('common/updateOrderNo', orderNo)

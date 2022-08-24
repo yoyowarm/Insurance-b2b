@@ -172,8 +172,28 @@ export const quotationListTable = () => {
   return {
     head: [
       {
-        text: '報價日期',
-        value: 'quotationDate',
+        text: '關聯號',
+        value: 'SerialNo',
+        size: '3-6'
+      },
+      {
+        text: '保單號碼',
+        value: 'orderNo',
+        size: '3-6'
+      },
+      {
+        text: '要保人',
+        value: 'ApplicantName',
+        size: '2-6'
+      },
+      {
+        text: '被保人',
+        value: 'insuredName',
+        size: '2-6'
+      },
+      {
+        text: '保費',
+        value: 'Premiums',
         size: '2-6'
       },
       {
@@ -182,9 +202,39 @@ export const quotationListTable = () => {
         size: '2-6'
       },
       {
-        text: '報價單編號',
-        value: 'orderNo',
+        text: '報價單操作',
+        value: 'edit',
+        size: '2-6'
+      },
+      {
+        text: '出單保費',
+        value: 'InsurancePremiums',
+        size: '2-6'
+      },
+      {
+        text: '日結日期',
+        value: 'DayPaymentDate',
         size: '3-6'
+      },
+      {
+        text: '保險期間',
+        value: 'ConvergeStartDate',
+        size: '4-6'
+      },
+      {
+        text: '報價日期',
+        value: 'quotationDate',
+        size: '2-6'
+      },
+      {
+        text: '經手人',
+        value: 'IOfficer',
+        size: '2-6'
+      },
+      {
+        text: '總分公司單位',
+        value: 'Unit',
+        size: '2-6'
       },
       {
         text: '保單編號',
@@ -195,16 +245,6 @@ export const quotationListTable = () => {
         text: '類型',
         value: 'typeText',
         size: '1-6'
-      },
-      {
-        text: '被保人',
-        value: 'insuredName',
-        size: '1-6'
-      },
-      {
-        text: '報價單操作',
-        value: 'edit',
-        size: '3-6'
       },
     ],
     rows: []
