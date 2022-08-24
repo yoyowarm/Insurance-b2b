@@ -1,18 +1,17 @@
 <template>
   <div class="w-full">
-    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.selected ? item.selected :item.isSelected">
+    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" selected>
       <div v-if="!viewModel && copyLists.length > 1" slot="icon" class="input-right cursor-pointer mr-2" @click="remoteAmount(index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
       <Checkbox
-        v-if="!viewModel && !copyLists.some(item => item.isSelected) || item.isSelected"
         :id="`${index}selected`"
         class="text-md"
         text="選擇此保險金額"
         slot="right"
-        :checked="item.isSelected ? item.isSelected : item.selected"
-        :value="item.selected"
-        @updateValue="(e) =>updatedValue(index,'selected', e)"
+        :checked="true"
+        :value="true"
+        :disabled="true"
       />
       <div class="column-5" :class="{'dashed-border': !viewModel}">
         <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel" :disable="disable || item.fixed">
@@ -142,7 +141,7 @@
     <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.periodParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模係數(${lists[selectedIndex].parameter.sizeParameter})*期間係數(${lists[selectedIndex].parameter.periodParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${lists[selectedIndex].parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
     </PopupDialog>
     <div v-if="!viewModel && !copyLists.some(item => item.isSelected)" class="flex flex-row justify-center mt-8">
-      <Button @click.native="addAmount" outline>新增保費額度</Button>
+      <!-- <Button @click.native="addAmount" outline>新增保費額度</Button> -->
     </div>
     <WindowResizeListener @resize="handleResize"/>
   </div>

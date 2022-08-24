@@ -58,14 +58,14 @@ export default {
       background: url('../../assets/images/input_checkbox_bg_checked.png') no-repeat;
       background-size: 20px;
     }
-    &[disabled] + label:before {
-      background: url('../../assets/images/input_checkbox_bg_disabled.png') no-repeat;
-      background-size: 20px;
-    }
-    &[disabled]:checked + label:before {
-      background: url('../../assets/images/input_checkbox_bg_disabled_checked.png') no-repeat;
-      background-size: 20px;
-    }
+    // &[disabled] + label:before {
+    //   background: url('../../assets/images/input_checkbox_bg_disabled.png') no-repeat;
+    //   background-size: 20px;
+    // }
+    // &[disabled]:checked + label:before {
+    //   background: url('../../assets/images/input_checkbox_bg_disabled_checked.png') no-repeat;
+    //   background-size: 20px;
+    // }
   }
   
 </style>
