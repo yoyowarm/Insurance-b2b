@@ -193,7 +193,7 @@ export default {
         }
       })
       arr.sort((a, b) => {
-        return a.perBodyAmount - b.perBodyAmount
+        return a.insuranceTotalAmount - b.insuranceTotalAmount
       })
       return arr.length > 0 
         ? {...arr[arr.length -1], selfInflictedAmount: this.data.selfInflictedAmount}

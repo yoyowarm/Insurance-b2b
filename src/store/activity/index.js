@@ -70,7 +70,7 @@ export default {
       Profession: false,
       IsPolitician: false,
       overseasOrDomestic: false,
-      IsProOrNot: false,
+      IsProOrNot: true,
     },
     Relation: {
       Text: '選擇關係',
@@ -102,7 +102,7 @@ export default {
       Profession: false,
       IsPolitician: false,
       overseasOrDomestic: false,
-      IsProOrNot: false,
+      IsProOrNot: true,
     },
     SerailNo: '',
     terms: {},
@@ -325,8 +325,8 @@ export default {
         insuranceTotalAmount: '',
         mergeSingleAmount: '',
         selfInflictedAmount: {
-          Text: '0元',
-          Value: '0',
+          Text: '2,500元',
+          Value: '2500',
         },
         amount: null,
         parameter: {

@@ -9,7 +9,7 @@
       :disabled="disabled"
     >
     <label :for="id">
-      <span class="icon" :class="{disabled}"/>
+      <span class="icon"/>
       <span class="ml-1">{{text}}</span>
       <slot/>
     </label>

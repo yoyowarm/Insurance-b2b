@@ -130,7 +130,7 @@ export const quotation = () => {
       }
     },
     placeInfo: [{//處所資料
-      holdState: false,
+      holdState: true,
       squareFeet: 0,
       city: {
         Text: '選擇縣市',
@@ -207,7 +207,7 @@ export const quotation = () => {
       Profession: false,
       IsPolitician: false,
       overseasOrDomestic: false,
-      IsProOrNot: false,
+      IsProOrNot: true,
     },
     Relation: {//被保人與要保人之關係
       Text: '選擇關係',
@@ -239,7 +239,7 @@ export const quotation = () => {
       Profession: false,
       IsPolitician: false,
       overseasOrDomestic: false,
-      IsProOrNot: false,
+      IsProOrNot: true,
     },
     industry: {//行業別
       Text: '選擇行業',
@@ -524,8 +524,8 @@ export const quotation = () => {
         insuranceTotalAmount: '',
         mergeSingleAmount: '',
         selfInflictedAmount: {
-          Text: '0元',
-          Value: '0',
+          Text: '2,500元',
+          Value: '2500',
         },
         amount: null,
         parameter: {
