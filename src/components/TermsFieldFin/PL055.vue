@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<FormTitle title="t55營業中斷損失責任附加條款" classList="text-xl text-gray-700">
+	<div class="mb-3">
+		<FormTitle title="PL055營業中斷損失責任附加條款" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>
     <div class="column-6">

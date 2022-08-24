@@ -1,6 +1,6 @@
 <template>
-	<div>
-		<FormTitle title="慰問金費用附加條款" classList="text-xl text-gray-700">
+	<div class="mb-3">
+		<FormTitle title="PL023慰問金費用附加條款" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>
     <FormTitle title="住院慰問金費用保險金額" classList="text-lg text-gray-700 mt-3"/>
