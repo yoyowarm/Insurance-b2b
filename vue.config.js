@@ -20,7 +20,7 @@ module.exports = {
       })
   },
   publicPath: process.env.NODE_ENV === 'production'
-    ? '/PLB2B/'
+    ? '/PLIB2B/'
     : '/'
 
 }
