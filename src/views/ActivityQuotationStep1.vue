@@ -21,7 +21,7 @@
         :disable="calculateModel"
       />
     </CommonBoard>
-    <CommonBoard class="w-full" title="活動保期">
+    <CommonBoard class="w-full" title="保險期間">
       <Period :period="periodData" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
@@ -350,7 +350,7 @@ export default {
             return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
           }).map(item => {
             if(this.additionTerms[item.additionTermId]) {
-              if (item.additionTermName === '建築物承租人火災附加條款') {//PL005
+              if (item.additionTermId === 'PL005') {//建築物承租人火災附加條款
                 return {
                   additionTermId: item.additionTermId,
                   additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
@@ -480,22 +480,23 @@ export default {
     updatePeriod() {
       const arr = []
       this.activityInfoList.map(item => {
-        arr.push(new Date(`${Number(item.startDate.year)+1911}-${item.startDate.month}-${item.startDate.day} ${item.startDate.hour}:00`).getTime())
-        arr.push(new Date(`${Number(item.endDate.year)+1911}-${item.endDate.month}-${item.endDate.day} ${item.endDate.hour}:00`).getTime())
+        const i = JSON.parse(JSON.stringify(item))
+        arr.push({...i,timeSpace: new Date(`${Number(item.startDate.year)+1911}-${item.startDate.month}-${item.startDate.day} ${item.startDate.hour}:00`).getTime()})
+        arr.push({...i,timeSpace: new Date(`${Number(item.endDate.year)+1911}-${item.endDate.month}-${item.endDate.day} ${item.endDate.hour}:00`).getTime()})
       })
-      arr.sort((a,b) => a - b)
+      arr.sort((a,b) => a.timeSpace - b.timeSpace)
       this.periodData = {
         startDate: {
-          year: new Date(arr[0]).getFullYear()-1911,
-          month: new Date(arr[0]).getMonth() + 1,
-          day: new Date(arr[0]).getDate(),
-          hour: new Date(arr[0]).getHours()
+          year: arr[0].startDate.year,
+          month: arr[0].startDate.month,
+          day: arr[0].startDate.day,
+          hour: arr[0].startDate.hour
         },
         endDate: {
-          year: new Date(arr[arr.length - 1]).getFullYear()-1911,
-          month: new Date(arr[arr.length - 1]).getMonth() + 1,
-          day: new Date(arr[arr.length - 1]).getDate(),
-          hour: new Date(arr[arr.length - 1]).getHours()
+          year: arr[arr.length - 1].endDate.year,
+          month: arr[arr.length - 1].endDate.month,
+          day: arr[arr.length - 1].endDate.day,
+          hour: arr[arr.length - 1].endDate.hour
         }
       }
     },
@@ -512,7 +513,7 @@ export default {
         additionTerms: [...this.additionTermsList.filter(item => {
           return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
         }).map(item => {
-          if (item.additionTermName === '建築物承租人火災附加條款') {//PL005
+          if (item.additionTermId === 'PL005') {//建築物承租人火災附加條款
             return {
               additionTermId: item.additionTermId,
               additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {

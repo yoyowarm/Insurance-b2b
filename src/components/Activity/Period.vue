@@ -1,8 +1,8 @@
 <template>
-	<div class="flex flex-row">
+	<div class="flex">
 		<div class="column-6 w-full">
 			<div class="col-span-3 flex flex-row">
-				<InputGroup class="mr-3" title="活動開始日期" :disable="disable">
+				<InputGroup class="mr-3" title="保險開始日期" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇民國年"
@@ -10,6 +10,7 @@
 						:selected="`${copyPeriod.startDate.year}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','year', e.Value)"
+            ref="startDate-year"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-3" :disable="disable">
@@ -20,6 +21,7 @@
 						:selected="`${copyPeriod.startDate.month}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','month', e.Value)"
+            ref="startDate-month"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-3" :disable="disable">
@@ -30,6 +32,7 @@
 						:selected="`${copyPeriod.startDate.day}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
+            ref="startDate-day"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-4" :disable="disable">
@@ -40,11 +43,12 @@
 						:selected="`${copyPeriod.startDate.hour}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','hour', e.Value)"
+            ref="startDate-hour"
 					/>
 				</InputGroup>
 			</div>
 			<div class="col-span-3 flex flex-row">
-				<InputGroup class="mr-3" title="活動結束日期" :disable="disable">
+				<InputGroup class="mr-3" title="保險結束日期" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇民國年"
@@ -52,6 +56,7 @@
 						:selected="`${copyPeriod.endDate.year}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','year', e.Value)"
+            ref="endDate-year"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-3" :disable="disable">
@@ -62,6 +67,7 @@
 						:selected="`${copyPeriod.endDate.month}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','month', e.Value)"
+            ref="endDate-month"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-3" :disable="disable">
@@ -72,6 +78,7 @@
 						:selected="`${copyPeriod.endDate.day}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
+            ref="endDate-day"
 					/>
 				</InputGroup>
 				<InputGroup class="mr-4" :disable="disable">
@@ -82,6 +89,7 @@
 						:selected="`${copyPeriod.endDate.hour}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','hour', e.Value)"
+            ref="endDate-hour"
 					/>
 				</InputGroup>
 			</div>
@@ -92,6 +100,7 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import Select from '@/components/Select'
+import { Popup } from '@/utils/popups'
 export default {
 	components: {
 		InputGroup,
@@ -172,7 +181,23 @@ export default {
 	},
 	methods: {
 		emitSelectItem(type,key, value) {
+      const CHKey = {
+        year: '選擇民國年',
+        month: '選擇月份',
+        day: '選擇日期',
+        hour: '選擇小時'
+      }
 			this.copyPeriod[type][key] = value
+      if(new Date().getTime() > new Date(`${Number(this.copyPeriod[type].year)+1911}/${this.copyPeriod[type].month}/${this.copyPeriod[type].day} ${this.copyPeriod[type].hour}:00`).getTime()) {
+        Popup.create({
+          hasHtml: true,
+          htmlText: '保險期間不能小於當前時間',
+        })
+        this.copyPeriod[type][key] = ''
+        if(this.$refs[`${type}-${key}`]) {
+          this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
+        }
+      }
 			this.$emit('update:period', this.copyPeriod)
 		}
    }

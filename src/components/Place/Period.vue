@@ -10,7 +10,7 @@
             :selected="`${copyPeriod.startDate.year}`"
             @emitItem="(e) => emitSelectItem('startDate','year', e.Value)"
             :disable="disable"
-          />
+            ref="startDate-year"/>
         </InputGroup>
         <InputGroup class="mr-3" noMt :disable="disable">
           <Select
@@ -20,7 +20,7 @@
             :selected="`${copyPeriod.startDate.month}`"
             @emitItem="(e) => emitSelectItem('startDate','month', e.Value)"
             :disable="disable"
-          />
+            ref="startDate-month"/>
         </InputGroup>
       </div>
       <div class="flex flex-col sm:flex-row">
@@ -32,7 +32,7 @@
             :selected="`${copyPeriod.startDate.day}`"
             @emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
             :disable="disable"
-          />
+            ref="startDate-day"/>
         </InputGroup>
         <InputGroup class="mr-4" noMt :disable="disable">
           <Select
@@ -42,7 +42,7 @@
             :selected="`${copyPeriod.startDate.hour}`"
             @emitItem="(e) => emitSelectItem('startDate','hour', e.Value)"
             :disable="disable"
-          />
+            ref="startDate-hour"/>
         </InputGroup>
       </div>
     </div>
@@ -57,7 +57,7 @@
         style="min-width: 50px;"
         @emitItem="(e) => emitSelectItem('endDate','year', e.Value)"
         :disable="disable"
-      />
+        ref="endDate-year"/>
       <Select
         slot="input"
         defaultText="月份"
@@ -67,7 +67,7 @@
         :selected="`${copyPeriod.endDate.month}`"
         @emitItem="(e) => emitSelectItem('endDate','month', e.Value)"
         :disable="disable"
-      />
+        ref="endDate-month"/>
       <Select
         slot="input"
         defaultText="日期"
@@ -77,7 +77,7 @@
         style="min-width: 30px;"
         @emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
         :disable="disable"
-      />
+        ref="endDate-day"/>
       <Select
         slot="input"
         defaultText="時"
@@ -87,8 +87,11 @@
         style="min-width: 30px;"
         @emitItem="(e) => emitSelectItem('endDate','hour', e.Value)"
         :disable="disable"
-      />
+        ref="endDate-hour"/>
       <span>止</span>
+    </div>
+    <div class="text-red-500" v-if="overTime">
+      保期起始日期不能小於現在日期
     </div>
   </div>
 </template>
@@ -124,7 +127,8 @@ export default {
         { Text: '00時', Value: 0},
         { Text: '12時', Value: 12},
         { Text: '24時', Value: 24}
-      ]
+      ],
+      overTime: false,
      }
    },
 	watch: {
@@ -171,8 +175,23 @@ export default {
 	},
 	methods: {
 		emitSelectItem(type,key, value) {
-			this.copyPeriod[type][key] = value
-			this.$emit('update:period', this.copyPeriod)
+      const CHKey = {
+        year: '選擇民國年',
+        month: '選擇月份',
+        day: '選擇日期',
+        hour: '選擇小時'
+      }
+      this.copyPeriod[type][key] = value
+      if(new Date().getTime() > new Date(`${Number(this.copyPeriod[type].year)+1911}/${this.copyPeriod[type].month}/${this.copyPeriod[type].day} ${this.copyPeriod[type].hour}:00`).getTime()) {
+        this.overTime = true
+        this.copyPeriod[type][key] = ''
+        if(this.$refs[`${type}-${key}`]) {
+          this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
+        }
+      } else {
+        this.overTime = false
+      }
+      this.$emit('update:period', this.copyPeriod)
 		}
    }
 }

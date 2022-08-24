@@ -271,7 +271,15 @@ export default {
         }
         
       }
-    }
+    },
+    'periodData.startDate': {
+      handler(val) {
+        if (Object.values(val).every(item => item !== '')) {
+          this.periodData = Object.assign(this.periodData, { endDate: { year: Number(val.year)+1,month: val.month, day: val.day, hour: val.hour} })
+        }
+      },
+      deep: true
+    },
   },
   methods: {
     async nextStep() {
@@ -397,7 +405,7 @@ export default {
             return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
           }).map(item => {
             if(this.additionTerms[item.additionTermId]) {
-              if (item.additionTermName === '建築物承租人火災附加條款') {//PL005
+              if (item.additionTermId === 'PL005') {//建築物承租人火災附加條款
                 return {
                   additionTermId: item.additionTermId,
                   additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
@@ -507,7 +515,7 @@ export default {
         additionTerms: [...this.additionTermsList.filter(item => {
           return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
         }).map(item => {
-          if (item.additionTermName === '建築物承租人火災附加條款') {//PL005
+          if (item.additionTermId === 'PL005') {//建築物承租人火災附加條款
             return {
               additionTermId: item.additionTermId,
               additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {

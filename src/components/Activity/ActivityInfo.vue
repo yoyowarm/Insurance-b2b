@@ -58,6 +58,7 @@
               :selected="`${info.startDate.year}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('startDate','year', e.Value,index);updateDay(index)}"
+              :ref="`startDate-year-${index}`"
             />
           </InputGroup>
           <InputGroup :disable="disable">
@@ -68,6 +69,7 @@
               :selected="`${info.startDate.month}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('startDate','month', e.Value,index);updateDay(index)}"
+              :ref="`startDate-month-${index}`"
             />
           </InputGroup>
         </div>
@@ -80,6 +82,7 @@
               :selected="`${info.startDate.day}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('startDate','day', e.Value,index);updateDay(index)}"
+              :ref="`startDate-day-${index}`"
             />
           </InputGroup>
           <InputGroup :disable="disable">
@@ -90,6 +93,7 @@
               :selected="`${info.startDate.hour}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('startDate','hour', e.Value,index);updateDay(index)}"
+              :ref="`startDate-hour-${index}`"
             />
           </InputGroup>
         </div>
@@ -102,6 +106,7 @@
               :selected="`${info.endDate.year}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','year', e.Value,index);updateDay(index)}"
+              :ref="`endDate-year-${index}`"
             />
           </InputGroup>
           <InputGroup :disable="disable">
@@ -112,6 +117,7 @@
               :selected="`${info.endDate.month}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','month', e.Value,index);updateDay(index)}"
+              :ref="`endDate-month-${index}`"
             />
           </InputGroup>
         </div>
@@ -124,6 +130,7 @@
               :selected="`${info.endDate.day}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','day', e.Value,index);updateDay(index)}"
+              :ref="`endDate-day-${index}`"
             />
           </InputGroup>
           <InputGroup :disable="disable">
@@ -134,6 +141,7 @@
               :selected="`${info.endDate.hour}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','hour', e.Value,index);updateDay(index)}"
+              :ref="`endDate-hour-${index}`"
             />
           </InputGroup>
         </div>
@@ -162,6 +170,7 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
 import FormTitle from '@/components/FormTitle'
 import Button from '@/components/Button/index.vue'
+import { Popup } from '@/utils/popups'
 export default {
   components: {
     InputGroup,
@@ -255,6 +264,22 @@ export default {
     emitSelectItem(type,key, value, index) {
       const copyInfoList = [...this.infoList]
 			copyInfoList[index][type][key] = value
+      const CHKey = {
+        year: '選擇民國年',
+        month: '選擇月份',
+        day: '選擇日期',
+        hour: '選擇小時'
+      }
+      if(new Date().getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${copyInfoList[index][type].hour}:00`).getTime()) {
+        Popup.create({
+          hasHtml: true,
+          htmlText: '活動時間不能小於當前時間',
+        })
+        copyInfoList[index][type][key] = ''
+        if(this.$refs[`${type}-${key}-${index}`]) {
+          this.$refs[`${type}-${key}-${index}`][0].$el.lastChild.value = CHKey[key]
+        }
+      }
 			this.$emit('update:infoList', copyInfoList)
 		},
     updateDay(index) {
@@ -275,8 +300,8 @@ export default {
         this.copyInfoList[index].endDate.month = new Date(yestDay).getMonth() + 1
       }
       if(!this.copyInfoList[index].startDate.day) {
-        this.copyInfoList[index].startDate.day = new Date(today).getDate()
-        this.copyInfoList[index].endDate.day = new Date(today).getDate()
+        this.copyInfoList[index].startDate.day = new Date(today).getDate()+1
+        this.copyInfoList[index].endDate.day = new Date(today).getDate()+1
       }
       if(!this.copyInfoList[index].startDate.hour) {
         this.copyInfoList[index].startDate.hour = 0
