@@ -24,11 +24,12 @@ import {
   faMagnifyingGlass,
   faBriefcase,
   faEye,
-  faEyeSlash
+  faEyeSlash,
+  faPrint,
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-library.add(faInfoCircle, faClipboard, faExclamationCircle, faCalendarAlt, faTimesCircle, faPlusCircle, faAngleDown, faAngleUp, faAngleLeft, faAngleRight, faExternalLinkAlt, faArrowUp, faTrashAlt, faMagnifyingGlass, faBriefcase, faEye, faEyeSlash)
+library.add(faInfoCircle, faClipboard, faExclamationCircle, faCalendarAlt, faTimesCircle, faPlusCircle, faAngleDown, faAngleUp, faAngleLeft, faAngleRight, faExternalLinkAlt, faArrowUp, faTrashAlt, faMagnifyingGlass, faBriefcase, faEye, faEyeSlash, faPrint)
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 

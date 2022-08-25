@@ -36,6 +36,52 @@
           </div>
         </template>
         <div class="column-6 pb-6">
+          <InputGroup class="w-full" title="被保險人姓名">
+            <Input
+              slot="input"
+              placeholder="輸入被保人姓名"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="要保險人姓名">
+            <Input
+              slot="input"
+              placeholder="輸入要保人姓名"
+              :value="ApplicantName"
+              @updateValue="(e) => ApplicantName = e"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="關聯號">
+            <Input
+              slot="input"
+              placeholder="輸入關聯號"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="經手人代號">
+            <Input
+              slot="input"
+              placeholder="輸入經手人代號"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="類型">
+            <Select
+              slot="input"
+              defaultText="選擇類型"
+              :options="typeList"
+              :selected="typeSelected.Value.toString()"
+              @emitItem="e => typeSelected = e"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="報價日期">
+            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
+          </InputGroup>
+          <!-- <InputGroup class="w-full" noMt>
+            <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
+          </InputGroup> -->
+        </div>
+        <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
+          <Button @click.native="getQuotationList" class="absolute -top-5 w-32">查詢</Button>
+        </div>
+        <div class="column-6 pb-6">
           <InputGroup class="w-full" noMt>
             <Select
               slot="input"
@@ -45,42 +91,20 @@
               @emitItem="e => stateSelected = e"
             />
           </InputGroup>
-          <InputGroup class="w-full" noMt>
-            <Select
-              slot="input"
-              defaultText="選擇類型"
-              :options="typeList"
-              :selected="typeSelected.Value.toString()"
-              @emitItem="e => typeSelected = e"
-            />
-          </InputGroup>
-          <InputGroup class="w-full" noMt>
-            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
-          </InputGroup>
-          <InputGroup class="w-full" noMt>
-            <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
-          </InputGroup>
-          <InputGroup class="w-full" noMt>
-            <Input
-              slot="input"
-              placeholder="輸入要保人姓名"
-              :value="ApplicantName"
-              @updateValue="(e) => ApplicantName = e"
-            />
-          </InputGroup>
-          <Button @click.native="getQuotationList" class="copy-button">查詢</Button>
         </div>
         <TableGroup :data="quotationListTable" :slotName="slotArray" scrollX>
           <template v-for="(item,index) in quotationListTable.rows">
-            <div :slot="`edit-${index}`" :key="`edit${index}`" class="flex flex-row">
-              <Button class="copy-button mr-2" outline @click.native="review(item.type,item.orderNo)">查看</Button>
-              <Button class="copy-button" @click.native="copyQuotation(item.type,item.orderNo)" outline>複製</Button>
+            <div :slot="`edit-${index}`" :key="`edit${index}`" class="flex flex-col justify-center items-center">
+              <span class="download" @click="popup(item)">列印</span>
+              <span class="download" @click="review(item.type,item.orderNo)">查看</span>
+              <span class="download" @click="copyQuotation(item.type,item.orderNo)">複製</span>
             </div>
           </template>
         </TableGroup>
         <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
       </CommonBoard>
     </div>
+    <DownloadFile :open.sync="open" :orderNo="orderNo" :item="downloadQuotation" headerText="列印文件"/>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
@@ -101,6 +125,7 @@ import Select from '@/components/Select/index.vue'
 import DatePicker from '@/components/DatePicker/index.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
+import DownloadFile from '@/components/PopupDialog/DownloadFile.vue'
 import { quotationListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import WindowResizeListener from '@/components/WindowResizeListener'
@@ -117,16 +142,18 @@ export default {
     Button,
     DatePicker,
     LoadingScreen,
+    DownloadFile
   },
   data() {
     return {
       windowWidth: window.innerWidth,
+      open: false,
+      downloadQuotation: {},
       failIcon,
       successIcon,
       warnIcon,
       finishIcon,
       ApplicantName: '',
-      orderNo: '',
       startDate: {
         year: '',
         month: '',
@@ -215,6 +242,7 @@ export default {
       'loading': state => state.app.loading,
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
+      'orderNo': state => state.common.orderNo,
     }),
     slotArray () {
       const arr = []
@@ -245,7 +273,7 @@ export default {
       } else {
         this.getQuotationList()
       }
-    },
+    }
   },
   methods: {
     handleResize () {
@@ -284,6 +312,12 @@ export default {
     review(type, orderNo) {
       this.$store.dispatch('common/updateOrderNo', orderNo)
       this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step3`)
+    },
+    popup(item) {
+      console.log(item)
+      this.downloadQuotation = item
+      this.open = true
+      this.$store.dispatch('common/updateOrderNo', item.orderNo)
     },
     async copyQuotation(type,orderNo) {
       this.$store.dispatch('common/updateOrderNo', orderNo)
