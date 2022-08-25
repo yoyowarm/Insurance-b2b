@@ -344,9 +344,9 @@ export default {
         const data = {
           placeActivitySeq: this.industry.Value,
           activityType: this.industryList.find(item => item.dangerSeq == this.industry.Value).typeName,
-          insuranceBeginTime: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
+          insuranceBeginDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
           insuranceBeginHour: this.period.startDate.hour,
-          insuranceEndTime: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}`,
+          insuranceEndDate: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}`,
           insuranceEndHour: this.period.endDate.hour,
           additionTerms: [...this.additionTermsList.filter(item => {
             return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
