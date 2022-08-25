@@ -1,16 +1,13 @@
 <template>
   <div class="w-full">
-    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" selected>
-      <div v-if="!viewModel && copyLists.length > 1" slot="icon" class="input-right cursor-pointer mr-2" @click="remoteAmount(index)">
-        <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
-      </div>
+    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.isSelected || copyLists.length == 1">
       <Checkbox
         :id="`${index}selected`"
         class="text-md"
         text="選擇此保險金額"
         slot="right"
-        :checked="true"
-        :value="true"
+        :checked="item.isSelected || copyLists.length == 1"
+        :value="item.isSelected || copyLists.length == 1"
         :disabled="true"
       />
       <div class="column-5" :class="{'dashed-border': !viewModel}">
