@@ -88,7 +88,7 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-48 md:w-42 " outline>填寫問卷表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
+        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-48 md:w-42 " outline>填寫問卷表({{insuranceAmountListData.parameter.underwriteCoefficient ? Number(insuranceAmountListData.parameter.underwriteCoefficient)*100 : '0'}}%)</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>

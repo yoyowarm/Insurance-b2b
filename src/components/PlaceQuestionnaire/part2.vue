@@ -332,6 +332,14 @@ export default {
           [type]: value
         }
       })
+      } else {
+        this.$emit('update:data',{
+          ...this.data,
+          part2: {
+            ...this.data.part2,
+            [type]: ''
+          }
+        })
       }
       
     },
