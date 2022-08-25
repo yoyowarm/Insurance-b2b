@@ -268,7 +268,7 @@ export default {
             ...this.insuranceAmountListData.parameter,
             underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
             ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
-            : (coefficient.data.content.questionnaireCoefficient < 0 ? `-${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : 0)
+            : (coefficient.data.content.questionnaireCoefficient < 0 ? `-${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
           }
         }
         
