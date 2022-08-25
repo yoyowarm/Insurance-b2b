@@ -189,6 +189,13 @@ export default {
           this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
         }
       } else {
+        if(type == 'startDate') {
+          if(key == 'year') {
+            this.copyPeriod.endDate[key] = Number(value) + 1
+          } else {
+            this.copyPeriod.endDate[key] = value
+          }
+        }
         this.overTime = false
       }
       this.$emit('update:period', this.copyPeriod)

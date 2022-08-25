@@ -272,14 +272,6 @@ export default {
         
       }
     },
-    'periodData.startDate': {
-      handler(val) {
-        if (Object.values(val).every(item => item !== '')) {
-          this.periodData = Object.assign(this.periodData, { endDate: { year: Number(val.year)+1,month: val.month, day: val.day, hour: val.hour} })
-        }
-      },
-      deep: true
-    },
   },
   methods: {
     async nextStep() {
