@@ -36,6 +36,52 @@
           </div>
         </template>
         <div class="column-6 pb-6">
+          <InputGroup class="w-full" title="被保險人姓名">
+            <Input
+              slot="input"
+              placeholder="輸入被保人姓名"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="要保險人姓名">
+            <Input
+              slot="input"
+              placeholder="輸入要保人姓名"
+              :value="ApplicantName"
+              @updateValue="(e) => ApplicantName = e"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="關聯號">
+            <Input
+              slot="input"
+              placeholder="輸入關聯號"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="經手人代號">
+            <Input
+              slot="input"
+              placeholder="輸入經手人代號"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="類型">
+            <Select
+              slot="input"
+              defaultText="選擇類型"
+              :options="typeList"
+              :selected="typeSelected.Value.toString()"
+              @emitItem="e => typeSelected = e"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="報價日期">
+            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
+          </InputGroup>
+          <!-- <InputGroup class="w-full" noMt>
+            <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
+          </InputGroup> -->
+        </div>
+        <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
+          <Button @click.native="getQuotationList" class="absolute -top-5 w-32">查詢</Button>
+        </div>
+        <div class="column-6 pb-6">
           <InputGroup class="w-full" noMt>
             <Select
               slot="input"
@@ -45,30 +91,6 @@
               @emitItem="e => stateSelected = e"
             />
           </InputGroup>
-          <InputGroup class="w-full" noMt>
-            <Select
-              slot="input"
-              defaultText="選擇類型"
-              :options="typeList"
-              :selected="typeSelected.Value.toString()"
-              @emitItem="e => typeSelected = e"
-            />
-          </InputGroup>
-          <InputGroup class="w-full" noMt>
-            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
-          </InputGroup>
-          <InputGroup class="w-full" noMt>
-            <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
-          </InputGroup>
-          <InputGroup class="w-full" noMt>
-            <Input
-              slot="input"
-              placeholder="輸入要保人姓名"
-              :value="ApplicantName"
-              @updateValue="(e) => ApplicantName = e"
-            />
-          </InputGroup>
-          <Button @click.native="getQuotationList" class="copy-button">查詢</Button>
         </div>
         <TableGroup :data="quotationListTable" :slotName="slotArray" scrollX>
           <template v-for="(item,index) in quotationListTable.rows">
