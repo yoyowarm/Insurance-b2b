@@ -399,8 +399,10 @@ export default {
           questionnaire: null,
           placeType: this.industryList.find(item => item.dangerSeq == this.industry.Value).typeName,
           insuranceRecord: this.InsuranceRecordTable,
-          insuranceBeginTime: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day} ${this.period.startDate.hour}:00:00`,
-          insuranceEndTime: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day} ${this.period.endDate.hour}:00:00`,
+          insuranceBeginTime: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
+          insuranceBeginHour: this.period.startDate.hour,
+          insuranceEndTime: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}`,
+          insuranceEndHour: this.period.endDate.hour,
           additionTerms: [...this.additionTermsList.filter(item => {
             return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
           }).map(item => {
