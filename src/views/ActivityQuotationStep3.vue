@@ -25,7 +25,7 @@
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => item.selected && !item.insuranceAmount)"
+        v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         class="my-8 w-40 md:w-64 "
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
@@ -34,7 +34,7 @@
       </Button>
       <Button
         v-else
-        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => !item.selected).length == quotationData.insuranceAmounts.length || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
+        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
