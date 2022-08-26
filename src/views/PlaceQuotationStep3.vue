@@ -193,7 +193,7 @@ export default {
     async finishQuotation(key) {
       const data = {
         orderNo: this.orderNo,
-        insuranceProjectId: this.quotationData.insuranceAmounts.find(item => item.selected).id,
+        insuranceProjectId: this.quotationData.insuranceAmounts[0].id,
       }
       if(key) {
         await this.$store.dispatch('quotation/FinishQuotation', {data})

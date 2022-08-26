@@ -264,7 +264,7 @@ export default {
               link.download= true;
               link.click();
       } else {
-        const URL = `${process.env.VUE_APP_API_URL}Document/GetPlaceQuotationDocument?orderNo=${this.orderNo}&insuranceProjectId=${item.id}`
+        const URL = `${process.env.VUE_APP_API_URL}Document/Get${this.type =='place'? 'Place': 'Activity'}QuotationDocument?orderNo=${this.orderNo}&insuranceProjectId=${item.id}`
         const link = document.createElement('a');
               link.href = URL;
               link.download= true;

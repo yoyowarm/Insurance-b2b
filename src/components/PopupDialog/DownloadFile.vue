@@ -24,7 +24,7 @@
             </li>
             <li>
               <span>報價明細</span>
-              <a v-if="loading.length === 0" class="print cursor-pointer" :href="`${apiURL}Document/GetPlaceQuotationDocument?orderNo=${orderNo}&insuranceProjectId=${item.id}`" download><font-awesome-icon :icon="['fa','print']" /></a>
+              <a v-if="loading.length === 0" class="print cursor-pointer" :href="`${apiURL}Document/Get${item.type == 1 ? 'Place': 'Activity'}QuotationDocument?orderNo=${orderNo}&insuranceProjectId=${item.id}`" download><font-awesome-icon :icon="['fa','print']" /></a>
             </li>
           </ul>
         </div>
