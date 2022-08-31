@@ -75,6 +75,10 @@ export default {
       type: Boolean,
       default: false
     },
+    mid: {
+      type: Boolean,
+      default: false
+    },
     editModel: {
       type: Boolean,
       default: false
@@ -105,6 +109,9 @@ export default {
       if (this.min) {
         childClass += ' min '
       }
+      if (this.mid) {
+        childClass += ' mid '
+      }
       if (this.inputLeftClass) {
         childClass += this.inputLeftClass
       }
@@ -117,7 +124,7 @@ export default {
 
 <style scoped lang="scss">
   .input-group {
-    @apply flex flex-col relative;
+    @apply flex flex-col relative justify-end;
     .input {
       border: 1px solid #BFBFBF;
       // max-height: 50px;
@@ -143,6 +150,10 @@ export default {
       }
       &.min {
         height: 20px;
+      }
+      &.mid {
+        min-height: 45px;
+        height: 45px;
       }
     }
   }
