@@ -61,12 +61,12 @@
         <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
           <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
         </div>
-        <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
+        <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
       </div>
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="openQuestionnaire = true" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫問卷表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
+        <Button @click.native="() => { if(!calculateModel) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫問卷表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
@@ -119,6 +119,7 @@ import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
+import { numFormat } from '@/utils/regex'
 export default {
   mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire],
   components: {
@@ -141,6 +142,7 @@ export default {
   },
   data () {
     return {
+      numFormat,
       industryList: IndustryList(),
       searchText: '',
       TermsSelect: {
@@ -259,7 +261,7 @@ export default {
           parameter: {
             ...this.insuranceAmountListData.parameter,
             underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
-            ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
+            ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
             : (coefficient.data.content.questionnaireCoefficient < 0 ? `-${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
           }
         }
@@ -364,7 +366,7 @@ export default {
                     }
                   })]
                 }
-              } else if (['受託物責任附加條款','承租人借用人責任附加條款(保額外加)',].includes(item.additionTermName)) {
+              } else if (['PL040','PL049'].includes(item.additionTermId)) {
                 return {
                   additionTermId: item.additionTermId,
                   additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
@@ -425,7 +427,11 @@ export default {
         this.insuranceAmountListData = {
           ...this.insuranceAmountListData,
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
-          parameter:  res.data.content.parameter? res.data.content.parameter : this.insuranceAmountListData.parameter
+          parameter: res.data.content.parameter
+            ? {...res.data.content.parameter,underwriteCoefficient: res.data.content.questionnaireCoefficient > 0 
+              ? `+${Number(res.data.content.questionnaireCoefficient)*100}%`
+              : (res.data.content.questionnaireCoefficient < 0 ? `-${Number(res.data.content.questionnaireCoefficient)*100}%` : `0%`)}
+            : this.insuranceAmountListData.parameter,
         }
         if(res.data.content.quotationReason.length > 0) {
           Popup.create({
@@ -527,7 +533,7 @@ export default {
                 }
               })]
             }
-          } else if(['受託物責任附加條款','承租人借用人責任附加條款(保額外加)',].includes(item.additionTermName)) {
+          } else if(['PL040','PL049'].includes(item.additionTermId)) {
             return {
               additionTermId: item.additionTermId,
               additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {

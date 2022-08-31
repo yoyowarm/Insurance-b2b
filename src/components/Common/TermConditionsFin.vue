@@ -19,6 +19,11 @@
       <PL053 :key="item.additionTermId" v-if="item.additionTermId === 'PL053'" :data.sync="copyTermsLists[index]"/>
       <PL055 :key="item.additionTermId" v-if="item.additionTermId === 'PL055'" :data.sync="copyTermsLists[index]"/>
       <PL058 :key="item.additionTermId" v-if="item.additionTermId === 'PL058'" :data.sync="copyTermsLists[index]"/>
+      <div v-if="!['PL002','PL003','PL004','PL007','PL005','PL016','PL022','PL023','PL028','PL035','PL040','PL041','PL043','PL047','PL049','PL053','PL055','PL058'].includes(item.additionTermId)" :key="item.additionTermId" class="my-4">
+        <FormTitle :title="item.additionTermName" classList="text-xl text-gray-700">
+          <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
+        </FormTitle>
+      </div>
     </template>
   </div>
 </template>
@@ -42,6 +47,7 @@ import PL049 from '@/components/TermsFieldFin/PL049'
 import PL053 from '@/components/TermsFieldFin/PL053'
 import PL055 from '@/components/TermsFieldFin/PL055'
 import PL058 from '@/components/TermsFieldFin/PL058'
+import FormTitle from '@/components/FormTitle'
 export default {
   components: {
     PL002,
@@ -61,7 +67,8 @@ export default {
     PL049,
     PL053,
     PL055,
-    PL058
+    PL058,
+    FormTitle
 
   },
   data() {

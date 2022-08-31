@@ -1,6 +1,6 @@
 <template>
 	<div class="mb-3">
-		<FormTitle title="PL043保管箱責任附加條款" classList="text-xl text-gray-700">
+		<FormTitle :title="data.additionTermName" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>	
     <FormTitle title="每一保管箱財損責任之保險金額" classList="text-lg text-gray-700 mt-3"/>

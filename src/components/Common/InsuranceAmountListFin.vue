@@ -100,7 +100,7 @@
         </InputGroup>
       </div>
       <div class="flex flex-row justify-center relative mt-4">
-          <PaymentItem slot="input" keyName="保費共計" :value="item.insuranceAmount? item.insuranceAmount.toString() : '請洽核保'" :unit="Boolean(item.insuranceAmount&&item.insuranceAmount!== '請洽核保')" totalStyle/>
+          <PaymentItem slot="input" keyName="保費共計" :value="item.insuranceAmount? numFormat(item.insuranceAmount.toString()) : '請洽核保'" :unit="Boolean(item.insuranceAmount&&item.insuranceAmount!== '請洽核保')" totalStyle/>
           <div class="cursor-pointer absolute top-2 ml-48" @click="() =>{openFormula = true;selectedIndex = index}" v-if="item.insuranceAmount && item.insuranceAmount!== '請洽核保'">
             <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
           </div>

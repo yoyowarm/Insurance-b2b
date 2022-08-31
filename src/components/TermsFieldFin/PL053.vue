@@ -1,6 +1,6 @@
 <template>
 	<div class="mb-3">
-		<FormTitle title="PL053傷害醫療及身故慰問金費用附加條款" classList="text-xl text-gray-700">
+		<FormTitle :title="data.additionTermName" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>
     <div class="column-6">
