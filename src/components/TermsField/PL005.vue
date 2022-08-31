@@ -11,6 +11,7 @@
           :value="data.PL005.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-12 bottom-3" slot="suffix">萬元</span>
       </InputGroup>
@@ -23,6 +24,7 @@
           :value="data.PL005.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
+          numberFormat
           :disable="type == 'place'"
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">處</span>

@@ -8,7 +8,7 @@
         <FormTitle title="每一個人傷害醫療慰問金費用保險金額" classList="text-lg text-gray-700 mt-3"/>
         <div class="w-full">
           <InputGroup title="新台幣" borderBtn>
-            <span slot="input">{{findTarget('value1').itemValue}}元</span>
+            <span slot="input">{{numFormat(findTarget('value1').itemValue)}}元</span>
           </InputGroup>
         </div>
       </div>	
@@ -16,7 +16,7 @@
         <FormTitle title="每一個人身故慰問金費用保險金額" classList="text-lg text-gray-700 mt-3"/>
         <div class="w-full">
           <InputGroup title="新台幣" borderBtn>
-            <span slot="input">{{findTarget('value2').itemValue}}元</span>
+            <span slot="input">{{numFormat(findTarget('value2').itemValue)}}元</span>
           </InputGroup>
         </div>
       </div>
@@ -24,7 +24,7 @@
         <FormTitle title="每一意外事故慰問金費用保險金額" classList="text-lg text-gray-700 mt-3"/>
         <div class="w-full">
           <InputGroup title="新台幣" borderBtn>
-            <span slot="input">{{findTarget('value3').itemValue}}元</span>
+            <span slot="input">{{numFormat(findTarget('value3').itemValue)}}元</span>
           </InputGroup>
         </div>
       </div>
@@ -32,7 +32,7 @@
         <FormTitle title="保險期間內慰問金費用最高賠償金額" classList="text-lg text-gray-700 mt-3"/>
         <div class="w-full">
           <InputGroup title="新台幣" borderBtn>
-            <span slot="input">{{findTarget('value4').itemValue}}元</span>
+            <span slot="input">{{numFormat(findTarget('value4').itemValue)}}元</span>
           </InputGroup>
         </div>
       </div>
@@ -43,6 +43,7 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+import { numFormat } from '@/utils/regex'
 export default {
 	components: {
     InputGroup,
@@ -55,6 +56,7 @@ export default {
     }
   },
   methods: {
+    numFormat,
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,

@@ -21,6 +21,7 @@
           :value="data.PL003.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
+          numberFormat
           unit="台"/>
         <span class="absolute -right-16 bottom-3" slot="suffix">電扶梯</span>
       </InputGroup>
@@ -33,6 +34,7 @@
           :value="data.PL003.value3.toString()"
           @updateValue="(e) =>updateValue(e,'value3')"
           numberOnly
+          numberFormat
           unit="台"/>
         <span class="absolute -right-17 bottom-3" slot="suffix">客/貨梯</span>
       </InputGroup>
@@ -45,6 +47,7 @@
           :value="data.PL003.value4.toString()"
           @updateValue="(e) =>updateValue(e,'value4')"
           numberOnly
+          numberFormat
           unit="台"/>
         <span class="absolute -right-24 bottom-3" slot="suffix">汽車升降梯</span>
       </InputGroup>
@@ -57,6 +60,7 @@
           :value="data.PL003.value5.toString()"
           @updateValue="(e) =>updateValue(e,'value5')"
           numberOnly
+          numberFormat
           unit="台"/>
         <span class="absolute -right-19 bottom-3" slot="suffix">其他種類</span>
       </InputGroup>

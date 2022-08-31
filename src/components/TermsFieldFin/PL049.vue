@@ -6,7 +6,7 @@
     <FormTitle title="本附加條款之每一意外事故及保險期間累計保險金額最高以新台幣" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-6">
       <InputGroup class="col-span-2" noMt borderBtn>
-        <span slot="input">{{findTarget('value1').itemValue/10000}}萬元</span>
+        <span slot="input">{{numFormat(findTarget('value1').itemValue/10000)}}萬元</span>
       </InputGroup>
     </div>
 	</div>
@@ -15,6 +15,7 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+import { numFormat } from '@/utils/regex'
 export default {
 	components: {
     InputGroup,
@@ -27,6 +28,7 @@ export default {
     }
   },
   methods: {
+    numFormat,
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,

@@ -29,7 +29,7 @@
           <Input
             v-if="!viewModel"
             slot="input"
-            :value="item.perBodyAmount? item.perBodyAmount.toString(): ''"
+            :value="item.perBodyAmount? numFormat(item.perBodyAmount.toString()): ''"
             @updateValue="(e) => {updatedValue(index,'perBodyAmount',e);assignAmount(index)}"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
@@ -41,7 +41,7 @@
           <Input
             v-if="!viewModel"
             slot="input"
-            :value="item.perAccidentBodyAmount?item.perAccidentBodyAmount.toString(): ''"
+            :value="item.perAccidentBodyAmount? numFormat(item.perAccidentBodyAmount.toString()): ''"
             @updateValue="(e) => updatedValue(index,'perAccidentBodyAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
@@ -53,7 +53,7 @@
           <Input
             v-if="!viewModel"
             slot="input"
-            :value="item.perAccidentBodyAmount?item.perAccidentFinanceAmount.toString(): ''"
+            :value="item.perAccidentBodyAmount? numFormat(item.perAccidentFinanceAmount.toString()): ''"
             @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
@@ -65,7 +65,7 @@
           <Input
             v-if="!viewModel"
             slot="input"
-            :value="item.insuranceTotalAmount?item.insuranceTotalAmount.toString(): ''"
+            :value="item.insuranceTotalAmount? numFormat(item.insuranceTotalAmount.toString()): ''"
             @updateValue="(e) => updatedValue(index,'insuranceTotalAmount',e)"
             placeholder="請輸入金額"
             :disable="item.amountType == 0 || disable || item.fixed"
@@ -77,7 +77,7 @@
         <Input
           v-if="!viewModel"
           slot="input"
-          :value="item.mergeSingleAmount"
+          :value="numFormat(item.mergeSingleAmount)"
           @updateValue="(e) => updatedValue(index,'mergeSingleAmount',e)"
           placeholder="請輸入金額"
           :disable="disable || item.fixed"
@@ -156,6 +156,7 @@ import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
+import { numFormat } from '@/utils/regex'
 
 export default {
   components: {
@@ -197,6 +198,7 @@ export default {
   },
   data() {
     return {
+      numFormat,
       windowWidth: window.innerWidth,
       selfPayList: [
         {Value: 0, Text: '0元'},

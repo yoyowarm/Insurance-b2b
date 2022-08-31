@@ -1,12 +1,20 @@
 <template>
   <div>
-    <input type="text" class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2" :class="{'pr-9': slotIcon, disable, 'pr-8': unit.length > 0}" :placeholder="placeholder" :value="value" @input="updateValue" @blur="()=> $emit('blurInput')">
+    <input
+      type="text"
+      class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2"
+      :class="{'pr-9': slotIcon, disable, 'pr-8': unit.length > 0}"
+      :placeholder="placeholder"
+      :value="numberFormat ? numFormat(value) : value"
+      @input="updateValue"
+      @blur="()=> $emit('blurInput')">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
   </div>
 </template>
 
 <script>
+import { numFormat } from '@/utils/regex'
 export default {
   props: {
     placeholder: {
@@ -40,9 +48,14 @@ export default {
     isNumber: {
       type: Boolean,
       default: false
+    },
+    numberFormat: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
+    numFormat,
     updateValue (e) {
       if(this.numberOnly) {
         e.target.value = e.target.value.replace(/[^0-9]/g, '')

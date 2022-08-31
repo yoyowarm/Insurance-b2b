@@ -6,13 +6,13 @@
     <FormTitle title="每一意外事故身體傷亡" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-6">
       <InputGroup title="新台幣" borderBtn>
-        <span slot="input">{{findTarget('value1').itemValue}}萬元</span>
+        <span slot="input">{{numFormat(findTarget('value1').itemValue)}}萬元</span>
       </InputGroup>
     </div>
     <FormTitle title="保險期間內之最高賠償金額" classList="text-lg text-gray-700 mt-3"/>
     <div class="column-5 mt-2">
       <InputGroup title="新台幣" borderBtn>
-        <span slot="input">{{findTarget('value2').itemValue }}萬元</span>
+        <span slot="input">{{numFormat(findTarget('value2').itemValue)}}萬元</span>
       </InputGroup>
     </div>
 	</div>
@@ -21,6 +21,7 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+import { numFormat } from '@/utils/regex'
 export default {
 	components: {
     InputGroup,
@@ -33,6 +34,7 @@ export default {
     }
   },
   methods: {
+    numFormat,
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,

@@ -11,6 +11,7 @@
           :value="data.PL007.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">位</span>
       </InputGroup>
@@ -23,6 +24,7 @@
           :value="data.PL007.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">位</span>
       </InputGroup>

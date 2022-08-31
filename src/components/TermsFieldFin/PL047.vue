@@ -14,6 +14,7 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+
 export default {
 	components: {
     InputGroup,

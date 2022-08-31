@@ -25,6 +25,7 @@
           :value="data.PL043.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-12 bottom-3" slot="suffix">萬元</span>
       </InputGroup>
@@ -38,6 +39,7 @@
           :value="data.PL043.value3.toString()"
           @updateValue="(e) =>updateValue(e,'value3')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-12 bottom-3" slot="suffix">萬元</span>
       </InputGroup>

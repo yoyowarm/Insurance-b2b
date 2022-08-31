@@ -21,6 +21,7 @@
           placeholder="請輸入金額"
           :disable="data.amountType.Value == 0 || disable"
           numberOnly
+          numberFormat
           unit="萬元"/>
       </InputGroup>
       <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故體傷責任金額" :disable="data.amountType.Value == 0 || disable">
@@ -31,6 +32,7 @@
           placeholder="請輸入金額"
           :disable="data.amountType.Value == 0 || disable"
           numberOnly
+          numberFormat
           unit="萬元"/>
       </InputGroup>
       <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故財物損失責任金額" :disable="data.amountType.Value == 0 || disable">
@@ -41,6 +43,7 @@
           placeholder="請輸入金額"
           :disable="data.amountType.Value == 0 || disable"
           numberOnly
+          numberFormat
           unit="萬元"/>
       </InputGroup>
       <InputGroup v-if="data.amountType.Value != 1" title="本保險契約之最高賠償金額" :disable="data.amountType.Value == 0 || disable">
@@ -51,15 +54,17 @@
           placeholder="請輸入金額"
           :disable="data.amountType.Value == 0 || disable"
           numberOnly
+          numberFormat
           unit="萬元"/>
       </InputGroup>
       <InputGroup v-if="data.amountType.Value == 1" title="單一限額" :disable="disable">
         <Input
           slot="input"
-          :value="data.mergeSingleAmount"
+          :value="numFormat(data.mergeSingleAmount)"
           @updateValue="(e) => updatedValue('mergeSingleAmount',e)"
           placeholder="請輸入金額"
           :disable="disable"
+          numberFormat
           unit="萬元"/>
       </InputGroup>
     </div>

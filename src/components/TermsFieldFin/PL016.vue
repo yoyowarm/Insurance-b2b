@@ -5,7 +5,7 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="承攬工程合約金額少於" borderBtn>
-        <span slot="input">{{findTarget('value1').itemValue}}萬元者為限</span>
+        <span slot="input">{{numFormat(findTarget('value1').itemValue)}}萬元者為限</span>
       </InputGroup>
     </div>
 	</div>
@@ -14,6 +14,7 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+import { numFormat } from '@/utils/regex'
 export default {
 	components: {
     InputGroup,
@@ -26,6 +27,7 @@ export default {
     }
   },
   methods: {
+    numFormat,
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,

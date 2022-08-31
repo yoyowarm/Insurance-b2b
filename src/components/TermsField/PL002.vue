@@ -28,6 +28,7 @@
           :value="data.PL002.value3.toString()"
           @updateValue="(e) =>updateValue(e,'value3')"
           numberOnly
+          numberFormat
           unit="位"/>
         <span class="absolute -right-22 bottom-3" slot="suffix">平面式車位</span>
       </InputGroup>
@@ -40,6 +41,7 @@
           :value="data.PL002.value4.toString()"
           @updateValue="(e) =>updateValue(e,'value4')"
           numberOnly
+          numberFormat
           unit="位"/>
         <span class="absolute -right-30 bottom-3" slot="suffix">室內機械式車位</span>
       </InputGroup>
@@ -52,6 +54,7 @@
           :value="data.PL002.value5.toString()"
           @updateValue="(e) =>updateValue(e,'value5')"
           numberOnly
+          numberFormat
           unit="位"/>
         <span class="absolute -right-22 bottom-3" slot="suffix">機械塔車位</span>
       </InputGroup>

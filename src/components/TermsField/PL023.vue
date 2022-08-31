@@ -12,6 +12,7 @@
           :value="data.PL023.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">元</span>
       </InputGroup>
@@ -24,6 +25,7 @@
           :value="data.PL023.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">元</span>
       </InputGroup>
@@ -36,6 +38,7 @@
           :value="data.PL023.value3.toString()"
           @updateValue="(e) =>updateValue(e,'value3')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">元</span>
       </InputGroup>
@@ -49,6 +52,7 @@
           :value="data.PL023.value4.toString()"
           @updateValue="(e) =>updateValue(e,'value4')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">元</span>
       </InputGroup>
@@ -61,6 +65,7 @@
           :value="data.PL023.value5.toString()"
           @updateValue="(e) =>updateValue(e,'value5')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">元</span>
       </InputGroup>
@@ -73,6 +78,7 @@
           :value="data.PL023.value6.toString()"
           @updateValue="(e) =>updateValue(e,'value6')"
           numberOnly
+          numberFormat
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">元</span>
       </InputGroup>

@@ -5,10 +5,10 @@
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="每一意外事故財損責任之保險金額" borderBtn>
-        <span slot="input">{{findTarget('value1').itemValue}}萬元</span>
+        <span slot="input">{{numFormat(findTarget('value1').itemValue)}}萬元</span>
       </InputGroup>
       <InputGroup title="保險期間內之最高賠償金額" borderBtn>
-        <span slot="input">{{findTarget('value2').itemValue}}萬元</span>
+        <span slot="input">{{numFormat(findTarget('value2').itemValue)}}萬元</span>
       </InputGroup>
     </div>
 	</div>
@@ -17,6 +17,7 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+import { numFormat } from '@/utils/regex'
 export default {
 	components: {
     InputGroup,
@@ -29,6 +30,7 @@ export default {
     }
   },
   methods: {
+    numFormat,
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,

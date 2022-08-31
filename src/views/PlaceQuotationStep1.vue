@@ -83,7 +83,7 @@
           <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
             <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
           </div>
-          <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? insuranceAmountListData.amount : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
+          <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
         </div>
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
@@ -142,6 +142,7 @@ import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import { Popup } from '@/utils/popups'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
+import { numFormat } from '@/utils/regex'
 export default {
   mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire],
   components: {
@@ -166,6 +167,7 @@ export default {
   },
   data () {
     return {
+      numFormat,
       IsRenewal: false,
       searchText: '',
       industryList:[],

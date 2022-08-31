@@ -10,16 +10,16 @@
         </div>
       </InputGroup>
       <InputGroup  title="電梯種類和數量" borderBtn>
-        <span slot="input">{{findTarget('value2').itemValue}}台，電扶梯</span>
+        <span slot="input">{{numFormat(findTarget('value2').itemValue)}}台，電扶梯</span>
       </InputGroup>
       <InputGroup title="電梯種類和數量" borderBtn>
-        <span slot="input">{{findTarget('value3').itemValue}}台，客/貨梯</span>
+        <span slot="input">{{numFormat(findTarget('value3').itemValue)}}台，客/貨梯</span>
       </InputGroup>
       <InputGroup title="電梯種類和數量" borderBtn>
-        <span slot="input">{{findTarget('value4').itemValue}}台，汽車升降梯</span>
+        <span slot="input">{{numFormat(findTarget('value4').itemValue)}}台，汽車升降梯</span>
       </InputGroup>
       <InputGroup title="電梯種類和數量" borderBtn>
-        <span slot="input">{{findTarget('value5').itemValue}}台，其他種類</span>
+        <span slot="input">{{numFormat(findTarget('value5').itemValue)}}台，其他種類</span>
       </InputGroup>
     </div>
 	</div>
@@ -28,6 +28,7 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle'
+import { numFormat } from '@/utils/regex'
 
 export default {
 	components: {
@@ -41,6 +42,7 @@ export default {
     }
   },
   methods: {
+    numFormat,
     updateValue(e,type) {
       this.$emit('update:data',{
         ...this.data,
