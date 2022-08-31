@@ -70,7 +70,7 @@ export default {
       Profession: false,
       IsPolitician: false,
       overseasOrDomestic: false,
-      IsProOrNot: true,
+      IsProOrNot: false,
     },
     Relation: {
       Text: '選擇關係',
@@ -102,7 +102,7 @@ export default {
       Profession: false,
       IsPolitician: false,
       overseasOrDomestic: false,
-      IsProOrNot: true,
+      IsProOrNot: false,
     },
     SerailNo: '',
     terms: {},
@@ -340,7 +340,7 @@ export default {
           additionTermCoefficientParameter: '',
           aggAOACoefficient: '',
           amount: '',
-          underwriteCoefficient: '0',
+          underwriteCoefficient: '0%',
         }
       }
     ],

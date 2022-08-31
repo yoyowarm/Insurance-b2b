@@ -289,19 +289,20 @@ export default {
       this.updateValue(day.toString(),'day',index)
     },
     assignDate(index) {
-      const today = new Date().getTime()
-      const yestDay = new Date().setDate(new Date().getDate() + 1)
+      const today = new Date().getHours() > 0 ? new Date().setDate(new Date().getDate() + 1) : new Date().getTime()
+      const tomorrow = new Date().getHours() > 0 ?new Date().setDate(new Date().getDate() + 2) : new Date().setDate(new Date().getDate() + 1)
+      
       if(!this.copyInfoList[index].startDate.year) {
         this.copyInfoList[index].startDate.year = new Date(today).getFullYear() - 1911
-        this.copyInfoList[index].endDate.year = new Date(yestDay).getFullYear() - 1911
+        this.copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear() - 1911
       }
       if(!this.copyInfoList[index].startDate.month) {
         this.copyInfoList[index].startDate.month = new Date(today).getMonth() + 1
-        this.copyInfoList[index].endDate.month = new Date(yestDay).getMonth() + 1
+        this.copyInfoList[index].endDate.month = new Date(tomorrow).getMonth() + 1
       }
       if(!this.copyInfoList[index].startDate.day) {
-        this.copyInfoList[index].startDate.day = new Date(today).getDate()+1
-        this.copyInfoList[index].endDate.day = new Date(today).getDate()+1
+        this.copyInfoList[index].startDate.day = new Date(today).getDate()
+        this.copyInfoList[index].endDate.day = new Date(today).getDate()
       }
       if(!this.copyInfoList[index].startDate.hour) {
         this.copyInfoList[index].startDate.hour = 0

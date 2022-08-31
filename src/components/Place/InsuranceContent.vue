@@ -133,6 +133,11 @@
           {{item.city}}
         </div>
       </InputGroup>
+      <InputGroup class="w-full col-span-3" :noMt="marginTop(560)" borderBtn :editModel="editModel">
+        <div slot="input" class="w-full relative">
+          {{item.subAddress}}
+        </div>
+      </InputGroup>
       </div>
     </template>
     <TermConditionsFin :terms.sync="termsData" :termsLists="info.additionTerms"/>

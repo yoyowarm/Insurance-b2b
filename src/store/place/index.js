@@ -75,7 +75,7 @@ export default {
       Profession: false,
       IsPolitician: false,
       overseasOrDomestic: false,
-      IsProOrNot: true,
+      IsProOrNot: false,
     },
     Relation: {//被保人與要保人之關係
       Text: '選擇關係',
@@ -107,7 +107,7 @@ export default {
       Profession: false,
       IsPolitician: false,
       overseasOrDomestic: false,
-      IsProOrNot: true,
+      IsProOrNot: false,
     },
     industry: {//行業別
       Text: '選擇行業',
@@ -287,7 +287,7 @@ export default {
           additionTermCoefficientParameter: '',
           aggAOACoefficient: '',
           amount: '',
-          underwriteCoefficient: '0',
+          underwriteCoefficient: '0%',
         }
       }
     ],

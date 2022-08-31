@@ -162,7 +162,7 @@ export default {
   watch: {
     Relation: {
       handler(value) {
-        if(value.Value === 'RL00') {
+        if(value && value.Value === 'RL00') {
           this.$store.dispatch('place/sameAsInsured', true)
         } else {
           this.$store.dispatch('place/sameAsInsured', false)

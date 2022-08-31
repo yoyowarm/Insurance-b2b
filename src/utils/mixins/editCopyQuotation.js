@@ -256,7 +256,9 @@ export default {
       //被保人與要保人之關係
       if (this.quotationData.relationText) {
         const relation = this.relationShips.find(i => i.nane == this.quotationData.relationText)
-        this.$store.dispatch(`${type}/updatedRelation`, relation)
+        if (relation) {
+          this.$store.dispatch(`${type}/updatedRelation`, relation)
+        }
       }
       const Insuraned = {}//要保人
       if (Object.keys(this.quotationData.insuraned).length > 0) {
@@ -271,7 +273,7 @@ export default {
           subAddress: this.quotationData.insuraned.subAddress,
           Mobile: this.quotationData.insuraned.mobile,
           IsForeignRegister: this.quotationData.insuraned.isForeignRegister,
-          RegisterNationality: this.quotationData.insuraned.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) : { Text: '', Value: '' },
+          RegisterNationality: this.quotationData.insuraned.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) : { Text: '', Value: '' }) : { Text: '', Value: '' },
           Profession: this.quotationData.insuraned.isProfession,
           IsPolitician: this.quotationData.insuraned.isPolitician,
           overseasOrDomestic: Boolean(this.quotationData.insuraned.overseasOrDomestic),
@@ -296,7 +298,7 @@ export default {
           subAddress: this.quotationData.applicant.subAddress,
           Mobile: this.quotationData.applicant.mobile,
           IsForeignRegister: this.quotationData.applicant.isForeignRegister,
-          RegisterNationality: this.quotationData.applicant.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) : { Text: '', Value: '' },
+          RegisterNationality: this.quotationData.applicant.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) ? this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) : { Text: '', Value: '' }) : { Text: '', Value: '' },
           Profession: this.quotationData.applicant.isProfession,
           IsPolitician: this.quotationData.applicant.isPolitician,
           overseasOrDomestic: Boolean(this.quotationData.applicant.overseasOrDomestic),
