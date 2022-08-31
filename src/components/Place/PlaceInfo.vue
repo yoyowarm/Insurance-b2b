@@ -5,8 +5,8 @@
       <div :key="index" class="column-5 dashed-border relative">
         <InputGroup title="持有狀態" :disable="disable">
           <SwitchInput
-            checkedText="自有"
-            uncheckedText="承租"
+            checkedText="承租"
+            uncheckedText="自有"
             slot="input"
             :value="info.holdState"
             :id="`IsHold-${index}`"

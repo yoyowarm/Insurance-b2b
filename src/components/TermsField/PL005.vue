@@ -16,13 +16,14 @@
       </InputGroup>
     </div>
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="處所數量">
+      <InputGroup class="col-span-2" title="處所數量" :disable="type == 'place'">
         <Input
           slot="input"
           placeholder="請輸入數量"
           :value="data.PL005.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
+          :disable="type == 'place'"
         />
         <span class="absolute -right-8 bottom-3" slot="suffix">處</span>
       </InputGroup>
@@ -44,6 +45,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    type: {
+      type: String,
+      default: ''
     }
   },
   methods: {

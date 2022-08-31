@@ -274,6 +274,24 @@ export default {
         
       }
     },
+    placeInfoList: {
+      handler(val) {
+        let num = 0
+        val.map(item => {
+          if (item.holdState) {
+            num++
+          }
+        })
+        this.$store.dispatch('place/updateAdditionTerms', {
+          ...this.additionTerms,
+          PL005: {
+            ...this.additionTerms.PL005,
+            value2: num
+          }
+        })
+      },
+      deep: true
+    },
   },
   methods: {
     async nextStep() {
@@ -411,7 +429,7 @@ export default {
                     }
                   })]
                 }
-              } else if (['受託物責任附加條款','承租人借用人責任附加條款(保額外加)',].includes(item.additionTermName)) {
+              } else if (['PL040','PL049',].includes(item.additionTermId)) {
                 return {
                   additionTermId: item.additionTermId,
                   additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {

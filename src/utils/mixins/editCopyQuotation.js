@@ -217,7 +217,7 @@ export default {
           this.placeInfoList = this.quotationData[quotationType][`${type}Info`].map(item => {
             return {
               ...item,
-              holdState: item.holdState == 0 ? false : true,
+              holdState: item.holdState == 0 ? true : false,
               city: this.countyList.find(i => i.Value == item.cityId),
               area: this.areaList.find(i => i.Value == item.areaId) ? this.areaList.find(i => i.Value == item.areaId) : { Value: '選擇區域', Text: '選擇區域' },
             }

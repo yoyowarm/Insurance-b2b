@@ -192,7 +192,7 @@ export default {
         subAddress: detailData.subAddress,
         Mobile: detailData.mobile,
         IsForeignRegister: detailData.isForeignRegister,
-        RegisterNationality: detailData.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == detailData.registerNationality) : { Text: '', Value: '' },
+        RegisterNationality: detailData.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == detailData.registerNationality)?this.nationalities.find(i => i.Text == detailData.registerNationality):{Text: '', Value: ''}) : { Text: '', Value: '' },
         Profession: detailData.isProfession,
         IsPolitician: detailData.isPolitician,
         overseasOrDomestic: Boolean(detailData.overseasOrDomestic),

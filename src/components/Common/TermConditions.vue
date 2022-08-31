@@ -4,7 +4,7 @@
       <PL002 v-if="item.additionTermId === 'PL002'" :data.sync="additionTerms"/>
       <PL003 v-if="item.additionTermId === 'PL003'" :data.sync="additionTerms"/>
       <PL004 v-if="item.additionTermId === 'PL004'" :data.sync="additionTerms"/>
-      <PL005 v-if="item.additionTermId === 'PL005'" :data.sync="additionTerms"/>
+      <PL005 v-if="item.additionTermId === 'PL005'" :data.sync="additionTerms" :type="type"/>
       <PL007 v-if="item.additionTermId === 'PL007'" :data.sync="additionTerms"/>
       <PL016 v-if="item.additionTermId === 'PL016'" :data.sync="additionTerms"/>
       <PL022 v-if="item.additionTermId === 'PL022'" :data.sync="additionTerms"/>

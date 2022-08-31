@@ -90,15 +90,13 @@
         ref="endDate-hour"/>
       <span>止</span>
     </div>
-    <div class="text-red-500" v-if="overTime">
-      保期起始日期不能小於現在日期
-    </div>
   </div>
 </template>
 
 <script>
 import InputGroup from '@/components/InputGroup'
 import Select from '@/components/Select'
+import { Popup } from '@/utils/popups'
 export default {
 	components: {
 		InputGroup,
@@ -128,7 +126,6 @@ export default {
         { Text: '12時', Value: 12},
         { Text: '24時', Value: 24}
       ],
-      overTime: false,
      }
    },
 	watch: {
@@ -183,7 +180,10 @@ export default {
       }
       this.copyPeriod[type][key] = value
       if(new Date().getTime() > new Date(`${Number(this.copyPeriod[type].year)+1911}/${this.copyPeriod[type].month}/${this.copyPeriod[type].day} ${this.copyPeriod[type].hour}:00`).getTime()) {
-        this.overTime = true
+        Popup.create({
+          hasHtml: true,
+          htmlText: '保險期間不能小於當前時間',
+        })
         this.copyPeriod[type][key] = ''
         if(this.$refs[`${type}-${key}`]) {
           this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
@@ -196,7 +196,6 @@ export default {
             this.copyPeriod.endDate[key] = value
           }
         }
-        this.overTime = false
       }
       this.$emit('update:period', this.copyPeriod)
 		}

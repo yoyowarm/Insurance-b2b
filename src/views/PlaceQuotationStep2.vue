@@ -205,7 +205,7 @@ export default {
         subAddress: detailData.subAddress,
         Mobile: detailData.mobile,
         IsForeignRegister: detailData.isForeignRegister,
-        RegisterNationality: detailData.registerNationality !== '本國' ? this.nationalities.find(i => i.Text == detailData.registerNationality) : { Text: '', Value: '' },
+        RegisterNationality: detailData.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == detailData.registerNationality)?this.nationalities.find(i => i.Text == detailData.registerNationality):{Text: '', Value: ''}) : { Text: '', Value: '' },
         Profession: detailData.isProfession,
         IsPolitician: detailData.isPolitician,
         overseasOrDomestic: Boolean(detailData.overseasOrDomestic),
@@ -318,7 +318,7 @@ export default {
       Object.assign(obj, {placeInfo: [...this.placeInfo.map(item => {
           return {
             squareFeet: item.squareFeet,
-            holdState: item.holdState ? 1 : 0,
+            holdState: item.holdState ? 0 : 1,
             cityId: item.city.Value,
             city: item.city.Text,
             areaId: item.area.Value,

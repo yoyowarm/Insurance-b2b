@@ -186,24 +186,39 @@ export default {
   computed: {
     amountMinimum() {
       const arr = []
+      const data = {
+          countyName: '',
+          perBodyAmount: '',
+          perAccidentBodyAmount: '',
+          perAccidentFinanceAmount: '',
+          insuranceTotalAmount: '',
+          selfInflictedAmount: ''
+        }
       this.infoList.map(item => {
-        const target = this.countyAmount.find(i => i.countyName.includes(item.city.Text))
+        let target
+        if(item.city.Text == '嘉義市') {
+          target = this.countyAmount.find(i => i.countyName.includes('嘉義'))
+        } else {
+          target = this.countyAmount.find(i => i.countyName.includes(item.city.Text))
+        }
         if (target) {
           arr.push(target)
         }
       })
-      arr.sort((a, b) => {
-        return a.insuranceTotalAmount - b.insuranceTotalAmount
-      })
-      return arr.length > 0 
-        ? {...arr[arr.length -1], selfInflictedAmount: this.data.selfInflictedAmount}
-        : {
-          countyName: '',
-          perBodyAmount: this.data.perBodyAmount,
-          perAccidentBodyAmount: this.data.perAccidentBodyAmount,
-          perAccidentFinanceAmount: this.data.perAccidentFinanceAmount,
-          insuranceTotalAmount: this.data.insuranceTotalAmount,
-          selfInflictedAmount: this.data.selfInflictedAmount}
+      arr.sort((a, b) => a.perBodyAmount - b.perBodyAmount)
+      data.perBodyAmount = arr[arr.length -1] ? arr[arr.length -1].perBodyAmount : ''
+
+      arr.sort((a, b) =>  a.perAccidentBodyAmount - b.perAccidentBodyAmount)
+      data.perAccidentBodyAmount = arr[arr.length -1] ? arr[arr.length -1].perAccidentBodyAmount : ''
+
+      arr.sort((a, b) =>  a.perAccidentFinanceAmount - b.perAccidentFinanceAmount)
+      data.perAccidentFinanceAmount = arr[arr.length -1] ? arr[arr.length -1].perAccidentFinanceAmount : ''
+
+      arr.sort((a, b) =>  a.insuranceTotalAmount - b.insuranceTotalAmount)
+      data.insuranceTotalAmount = arr[arr.length -1] ? arr[arr.length -1].insuranceTotalAmount : ''
+      data.selfInflictedAmount = this.data.selfInflictedAmount
+      data.countyName = arr[arr.length -1] ? arr[arr.length -1].countyName : ''
+      return data
     }
   },
   methods: {
