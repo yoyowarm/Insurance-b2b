@@ -136,15 +136,14 @@
         />
       </InputGroup>
     </div>
+    <div class="w-full flex flex-row mt-4 mb-6">
+        <div class="w90 text-lg">是否為水域活動</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="isWaterArea" :value="data.sheet1.part1.isWaterArea === true" @updateValue="updateValue(true, 'isWaterArea')"/>
+          <RadioInput text="否" id="isWaterArea2" :value="data.sheet1.part1.isWaterArea === false" @updateValue="updateValue(false, 'isWaterArea')"/>
+      </div>
+    </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否為水域活動" dash>
-        <SwitchInput
-          slot="input"
-          id="isWaterArea"
-          :value="data.sheet1.part1.isWaterArea"
-          @updateValue="(e) => updateValue(e,'isWaterArea')"
-        />
-      </InputGroup>
       <InputGroup lgTitle title="說明救生人員配置" class="col-span-3" :disable="!data.sheet1.part1.isWaterArea">
         <Input
           slot="input"
@@ -154,23 +153,19 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3  dashed-border">
-      <InputGroup lgTitle title="是否有舞台搭建">
-        <SwitchInput
-          slot="input"
-          id="hasStage"
-          :value="data.sheet1.part1.hasStage"
-          @updateValue="(e) => updateValue(e,'hasStage')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle title="是否有水池(如:游泳池、噴泉)">
-        <SwitchInput
-          slot="input"
-          id="hasWaterPool"
-          :value="data.sheet1.part1.hasWaterPool"
-          @updateValue="(e) => updateValue(e,'hasWaterPool')"
-        />
-      </InputGroup>
+    <div class="w-full flex flex-row mt-4 mb-6">
+        <div class="w90 text-lg">是否有舞台搭建</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasStage" :value="data.sheet1.part1.hasStage === true" @updateValue="updateValue(true, 'hasStage')"/>
+          <RadioInput text="否" id="hasStage2" :value="data.sheet1.part1.hasStage === false" @updateValue="updateValue(false, 'hasStage')"/>
+      </div>
+    </div>
+    <div class="w-full flex flex-row mt-4 mb-6">
+        <div class="w90 text-lg">是否有水池(如:游泳池、噴泉)</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasWaterPool" :value="data.sheet1.part1.hasWaterPool === true" @updateValue="updateValue(true, 'hasWaterPool')"/>
+          <RadioInput text="否" id="hasWaterPool2" :value="data.sheet1.part1.hasWaterPool === false" @updateValue="updateValue(false, 'hasWaterPool')"/>
+      </div>
     </div>
   </div>
 </template>
@@ -179,15 +174,15 @@
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input'
 import Select from '@/components/Select/index.vue'
-import SwitchInput from '@/components/Switch'
 import Checkbox from '@/components/Checkbox'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
     InputGroup,
     Input,
     Select,
-    SwitchInput,
-    Checkbox
+    Checkbox,
+    RadioInput
   },
   props:{
     data: {
@@ -249,13 +244,14 @@ export default {
    },
   methods: {
     updateValue(e,type) {
+      const arr = ['isWaterArea','hasStage','hasWaterPool']
       this.$emit('update:data',{
         ...this.data,
         sheet1: {
           ...this.data.sheet1,
           part1: {
             ...this.data.sheet1.part1,
-            [type]: e
+            [type]: arr.includes(type) && e === this.data.sheet1.part1[type] ? null : e
           }
         }
       })
@@ -282,5 +278,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
+  }
 </style>

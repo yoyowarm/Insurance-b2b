@@ -3,24 +3,24 @@
     <div class="w-full flex flex-row mt-4" :class="{'dashed-border mb-6': index === questionList.length-1}" v-for="(item,index) in questionList" :key="item">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part2[questionListID[index]] === true" @updateValue="(e) => updatePart2Value(e, questionListID[index])"/>
-        <RadioInput text="否" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part2[questionListID[index]] === false" @updateValue="(e) => updatePart2Value(e, questionListID[index])"/>
+        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part2[questionListID[index]] === true" @updateValue="updatePart2Value(true, questionListID[index])"/>
+        <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet2.part2[questionListID[index]] === false" @updateValue="updatePart2Value(false, questionListID[index])"/>
      </div>
     </div>
     <FormTitle lgTitle title="(三)交通控管"/>
     <div class="w-full flex flex-row mt-4 dashed-border mb-6">
       <div class="w90">保險處所與車道有無有效區隔(含車道與人員動線安排)</div>
       <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" id="eeee" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === true" @updateValue="(e) => updatePart3Value(e, 'hasSegmentWithInsurancePlaceAndLane')"/>
-        <RadioInput text="否" id="por" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === false" @updateValue="(e) => updatePart3Value(e, 'hasSegmentWithInsurancePlaceAndLane')"/>
+        <RadioInput text="是" id="eeee" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === true" @updateValue="updatePart3Value(true, 'hasSegmentWithInsurancePlaceAndLane')"/>
+        <RadioInput text="否" id="por" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === false" @updateValue="updatePart3Value(false, 'hasSegmentWithInsurancePlaceAndLane')"/>
      </div>
     </div>
     <FormTitle lgTitle title="(四)安全防護"/>
       <div class="w-full flex flex-row mt-4 dashed-border mb-6">
         <div class="w90">請說明潛在風險的防護與消防措施，包含並不限於上述風險項目</div>
         <div class="w10 flex flex-row justify-between">
-          <RadioInput text="是" id="eeee" :value="data.sheet2.part4.potentialOtherSafePlan === true" @updateValue="(e) => updatePart4Value(e, 'potentialOtherSafePlan')"/>
-          <RadioInput text="否" id="por" :value="data.sheet2.part4.potentialOtherSafePlan === false" @updateValue="(e) => updatePart4Value(e, 'potentialOtherSafePlan')"/>
+          <RadioInput text="是" id="eeeee" :value="data.sheet2.part4.potentialOtherSafePlan === true" @updateValue="updatePart4Value(true, 'potentialOtherSafePlan')"/>
+          <RadioInput text="否" id="porr" :value="data.sheet2.part4.potentialOtherSafePlan === false" @updateValue="updatePart4Value(false, 'potentialOtherSafePlan')"/>
       </div>
       </div>
   </div>
@@ -86,7 +86,7 @@ export default {
           ...this.data.sheet2,
           part2: {
             ...this.data.sheet2.part2,
-            [type]: e
+            [type]: e === this.data.sheet2.part2[type] ? null : e
           }
         }
       })
@@ -98,7 +98,7 @@ export default {
           ...this.data.sheet2,
           part3: {
             ...this.data.sheet2.part3,
-            [type]: e
+            [type]: e === this.data.sheet2.part3[type] ? null : e
           }
         }
       })
@@ -110,7 +110,7 @@ export default {
           ...this.data.sheet2,
           part4: {
             ...this.data.sheet2.part4,
-            [type]: e
+            [type]: e === this.data.sheet2.part4[type] ? null : e
           }
         }
       })
@@ -120,7 +120,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-   .w90{
+  .w90{
     width: 90%;
   }
   .w10{

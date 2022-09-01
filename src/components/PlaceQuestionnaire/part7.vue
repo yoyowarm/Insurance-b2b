@@ -167,25 +167,21 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有自動灑水系統">
-        <SwitchInput
-          slot="input"
-          id="sprinkler"
-          :value="data.part7.sprinkler"
-          @updateValue="(e) => updateValue(e,'sprinkler')"
-        />
-      </InputGroup>
+    <div class="w-full flex flex-row mt-4">
+      <div class="w90 text-lg">是否有自動灑水系統</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="sprinkler" :value="data.part7.sprinkler === true" @updateValue="updateValue(true, 'sprinkler')"/>
+          <RadioInput text="否" id="sprinkle2" :value="data.part7.sprinkler === false" @updateValue="updateValue(false, 'sprinkler')"/>
+      </div>
+    </div>
+    <div class="w-full flex flex-row mt-4">
+      <div class="w90 text-lg">是否有氣體滅火系統</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasGasExtinguishing" :value="data.part7.hasGasExtinguishing === true" @updateValue="updateValue(true, 'hasGasExtinguishing')"/>
+          <RadioInput text="否" id="hasGasExtinguishin2" :value="data.part7.hasGasExtinguishing === false" @updateValue="updateValue(false, 'hasGasExtinguishing')"/>
+      </div>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有氣體滅火系統" dash>
-        <SwitchInput
-          slot="input"
-          id="gasExtinguishing"
-          :value="data.part7.hasGasExtinguishing"
-          @updateValue="(e) => updateValue(e,'hasGasExtinguishing')"
-        />
-      </InputGroup>
       <InputGroup lgTitle title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasGasExtinguishing">
         <Input
           slot="input"
@@ -196,15 +192,14 @@
         />
       </InputGroup>
     </div>
+    <div class="w-full flex flex-row mt-4">
+      <div class="w90 text-lg">是否有泡沫滅火系統</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasFoamExtinguishing" :value="data.part7.hasFoamExtinguishing === true" @updateValue="updateValue(true, 'hasFoamExtinguishing')"/>
+          <RadioInput text="否" id="hasFoamExtinguishing2" :value="data.part7.hasFoamExtinguishing === false" @updateValue="updateValue(false, 'hasFoamExtinguishing')"/>
+      </div>
+    </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有泡沫滅火系統" dash>
-        <SwitchInput
-          slot="input"
-          id="foamExtinguishing"
-          :value="data.part7.hasFoamExtinguishing"
-          @updateValue="(e) => updateValue(e,'hasFoamExtinguishing')"
-        />
-      </InputGroup>
       <InputGroup lgTitle title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasFoamExtinguishing">
         <Input
           slot="input"
@@ -215,15 +210,14 @@
         />
       </InputGroup>
     </div>
+    <div class="w-full flex flex-row mt-4">
+      <div class="w90 text-lg">是否有水霧滅火系統</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasWaterMistExtinguishing" :value="data.part7.hasWaterMistExtinguishing === true" @updateValue="updateValue(true, 'hasWaterMistExtinguishing')"/>
+          <RadioInput text="否" id="hasWaterMistExtinguishing2" :value="data.part7.hasWaterMistExtinguishing === false" @updateValue="updateValue(false, 'hasWaterMistExtinguishing')"/>
+      </div>
+    </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有水霧滅火系統" dash>
-        <SwitchInput
-          slot="input"
-          id="waterMistExtinguishing"
-          :value="data.part7.hasWaterMistExtinguishing"
-          @updateValue="(e) => updateValue(e,'hasWaterMistExtinguishing')"
-        />
-      </InputGroup>
       <InputGroup lgTitle title="水霧滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasWaterMistExtinguishing">
         <Input
           slot="input"
@@ -234,25 +228,12 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-4">
-      <InputGroup lgTitle autoHeight title="2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練">
-        <SwitchInput
-          slot="input"
-          id="HasEquipmentTestAndTrain"
-          :value="data.part7.HasEquipmentTestAndTrain"
-          @updateValue="(e) => updateValue(e, 'HasEquipmentTestAndTrain')"
-        />
-      </InputGroup>
-    </div>
-    <div class="column-4 my-4 dashed-border">
-      <InputGroup :title="item" lgTitle autoHeight v-for="(item,index) in questionList" :key="item">
-        <SwitchInput
-          slot="input"
-          :id="item"
-          :value="data.part7[questionListID[index]]"
-          @updateValue="(e) => updateValue(e, questionListID[index])"
-        />
-      </InputGroup>
+    <div class="w-full flex flex-row mt-4" :class="{'dashed-border': index == questionList.length-1}" v-for="(item,index) in questionList" :key="item">
+        <div class="w90 text-lg">{{item}}</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+          <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+      </div>
     </div>
   </div>
 </template>
@@ -260,16 +241,16 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle.vue'
-import SwitchInput from '@/components/Switch'
 import Checkbox from '@/components/Checkbox'
 import Input from '@/components/InputGroup/Input'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
     FormTitle,
     InputGroup,
-    SwitchInput,
     Checkbox,
     Input,
+    RadioInput
   },
   props:{
     data: {
@@ -280,6 +261,7 @@ export default {
   data() {
     return {
       questionList: [
+        '2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練',
         '3.是否有禁菸管制',
         '4.是否有監視或預警系統',
         '5.受信總機是否正常使用並有專人開手',
@@ -287,6 +269,7 @@ export default {
         '7.走道或逃生路線是否推放雜物'
       ],
       questionListID: [
+        'HasEquipmentTestAndTrain',
         'hasNoSmokingControl',
         'hasAlertSystem',
         'hasSwitchboardNormalState',
@@ -297,6 +280,18 @@ export default {
   },
   methods: {
     updateValue(e,type) {
+      const arr = [
+        'hasPusher',
+        'hasGasExtinguishing',
+        'hasFoamExtinguishing',
+        'hasWaterMistExtinguishing',
+        'HasEquipmentTestAndTrain',
+        'hasNoSmokingControl',
+        'hasAlertSystem',
+        'hasSwitchboardNormalState',
+        'hasCleaner',
+        'hasClutterAtAisle'
+      ]
       if(type.includes('.')) {
         let arr = type.split('.')
         const obj = Object.assign({}, {[arr[1]]: e})
@@ -308,7 +303,7 @@ export default {
         ...this.data,
         part7: {
           ...this.data.part7,
-          [type]: e
+          [type]: arr.includes(type) && e === this.data.part7[type] ? null : e
         }
       })
       }

@@ -1,45 +1,20 @@
 <template>
-  <div>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle autoHeight title="使用道路者，對附近交通之衝擊是否經交通主管機關認許">
-        <SwitchInput
-          slot="input"
-          id="useRoadHasAccessByTransportation"
-          :value="data.sheet1.part3.useRoadHasAccessByTransportation"
-          @updateValue="(e) => updateValue(e,'useRoadHasAccessByTransportation')"
-        />
-      </InputGroup>
+  <div class="w-full my-4">
+    <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+      <div class="w90 text-lg">{{item}}</div>
+      <div class="w10 flex flex-row justify-between">
+        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part3[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+        <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part3[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
     </div>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle autoHeight title="未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許">
-        <SwitchInput
-          slot="input"
-          id="afterActivityHasAccessByTransportation"
-          :value="data.sheet1.part3.afterActivityHasAccessByTransportation"
-          @updateValue="(e) => updateValue(e,'afterActivityHasAccessByTransportation')"
-        />
-      </InputGroup>
-    </div>
-    <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle autoHeight title="保險處所與車道有無有效區隔(含車道與人員動線安排)">
-        <SwitchInput
-          slot="input"
-          id="hasSegmentWithInsurancePlaceAndLane"
-          :value="data.sheet1.part3.hasSegmentWithInsurancePlaceAndLane"
-          @updateValue="(e) => updateValue(e,'hasSegmentWithInsurancePlaceAndLane')"
-        />
-      </InputGroup>
     </div>
   </div>
 </template>
 
 <script>
-import InputGroup from '@/components/InputGroup'
-import SwitchInput from '@/components/Switch'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
-    InputGroup,
-    SwitchInput,
+    RadioInput
   },
   props:{
     data: {
@@ -49,13 +24,16 @@ export default {
   },
   data() {
     return {
-      facilityList: [
-        '游泳池',
-        '健身房',
-        '沙灘',
-        '兒童遊樂場',
-        '餐廳',
+      questionList: [
+        '使用道路者，對附近交通之衝擊是否經交通主管機關認許',
+        '未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許',
+        '保險處所與車道有無有效區隔(含車道與人員動線安排)'
       ],
+      questionListID: [
+        'useRoadHasAccessByTransportation',
+        'afterActivityHasAccessByTransportation',
+        'hasSegmentWithInsurancePlaceAndLane',
+      ]
     }
   },
   methods: {
@@ -66,7 +44,7 @@ export default {
           ...this.data.sheet1,
           part3: {
             ...this.data.sheet1.part3,
-            [type]: e
+            [type]: e === this.data.sheet1.part3[type] ? null : e
           }
         }
       })
@@ -76,5 +54,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
+  }
 </style>

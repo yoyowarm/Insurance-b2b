@@ -1,50 +1,39 @@
 <template>
-  <div class="w-full my-4">
-    <div class="column-4">
-      <InputGroup lgTitle autoHeight title="使用道路者，對附近交通之衝擊是否經交通主管機關認許">
-        <SwitchInput
-          slot="input"
-          id="useRoadHasAccessByTransportation"
-          :value="data.part5.useRoadHasAccessByTransportation"
-          @updateValue="(e) =>updateValue(e,'useRoadHasAccessByTransportation')"
-        />
-      </InputGroup>
-    </div>
-    <div class="column-4 mt-4">
-      <InputGroup lgTitle autoHeight title="未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許">
-        <SwitchInput
-          slot="input"
-          id="afterActivityHasAccessByTransportation"
-          :value="data.part5.afterActivityHasAccessByTransportation"
-          @updateValue="(e) =>updateValue(e,'afterActivityHasAccessByTransportation')"
-        />
-      </InputGroup>
-    </div>
-    <div class="column-4 mt-4 dashed-border">
-      <InputGroup lgTitle autoHeight title="保險處所與車道有無有效區隔(含車道與人員動線安排)">
-        <SwitchInput
-          slot="input"
-          id="hasSegmentWithInsurancePlaceAndLane"
-          :value="data.part5.hasSegmentWithInsurancePlaceAndLane"
-          @updateValue="(e) =>updateValue(e,'hasSegmentWithInsurancePlaceAndLane')"
-        />
-      </InputGroup>
+  <div class="w-full my-4 dashed-border">
+      <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+        <div class="w90 text-lg">{{item}}</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part5[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+          <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.part5[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import InputGroup from '@/components/InputGroup'
-import SwitchInput from '@/components/Switch/index.vue'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
-    InputGroup,
-    SwitchInput
+    RadioInput
   },
   props:{
     data: {
       type: Object,
       default: () => ({})
+    }
+  },
+  data() {
+    return {
+      questionList: [
+        '使用道路者，對附近交通之衝擊是否經交通主管機關認許',
+        '未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許',
+        '保險處所與車道有無有效區隔(含車道與人員動線安排)',
+      ],
+      questionListID: [
+        'useRoadHasAccessByTransportation',
+        'afterActivityHasAccessByTransportation',
+        'hasSegmentWithInsurancePlaceAndLane',
+      ]
     }
   },
   methods: {
@@ -53,7 +42,7 @@ export default {
         ...this.data,
         part5: {
           ...this.data.part5,
-          [type]: e
+          [type]: e === this.data.part5[type] ? null : e
         }
       })
     },
@@ -62,5 +51,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
+  }
 </style>

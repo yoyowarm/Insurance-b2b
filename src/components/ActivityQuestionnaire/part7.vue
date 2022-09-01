@@ -1,14 +1,15 @@
 <template>
   <div>
+    <div class="w-full my-4">
+      <div class="w-full flex flex-row mt-4">
+        <div class="w90 text-lg">是否有氣體滅火系統</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasLossHistoryBeforeFiveYear" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === true" @updateValue="updateValue(true, 'hasLossHistoryBeforeFiveYear')"/>
+          <RadioInput text="否" id="hasLossHistoryBeforeFiveYear2" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
+      </div>
+    </div>
+  </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有氣體滅火系統" dash>
-        <SwitchInput
-          slot="input"
-          id="hasLossHistoryBeforeFiveYear"
-          :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear"
-          @updateValue="(e) => updateValue(e,'hasLossHistoryBeforeFiveYear')"
-        />
-      </InputGroup>
       <InputGroup lgTitle title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear">
         <Input
           slot="input"
@@ -35,13 +36,13 @@
 
 <script>
 import InputGroup from '@/components/InputGroup'
-import SwitchInput from '@/components/Switch'
 import Input from '@/components/InputGroup/Input'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
     InputGroup,
-    SwitchInput,
-    Input
+    Input,
+    RadioInput
   },
   props:{
     data: {
@@ -57,7 +58,7 @@ export default {
           ...this.data.sheet1,
           part7: {
             ...this.data.sheet1.part7,
-            [type]: e
+            [type]: type === 'hasLossHistoryBeforeFiveYear' && e === this.data.sheet1.part7.hasLossHistoryBeforeFiveYear ? null : e
           }
         }
       })
@@ -67,5 +68,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
+  }
 </style>

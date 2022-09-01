@@ -10,6 +10,32 @@
         :value="data.sheet1.part5.hasFireHydrant"
         @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
+      <div class="flex">
+        <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="!data.sheet1.part5.hasFireHydrant">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.sheet1.part5.hasFireHydrant"
+            :value="data.sheet1.part5.hydrantIndoorAmount"
+            @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+        <InputGroup noMt class="ml-12 w-40" :disable="!data.sheet1.part5.hasFireHydrant">
+          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <Input
+            slot="input"
+            placeholder="輸入數量"
+            :disable="!data.sheet1.part5.hasFireHydrant"
+            :value="data.sheet1.part5.hydrantOutdoorAmount"
+            @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
+            numberOnly
+            unit="支"
+          />
+        </InputGroup>
+      </div>
     </div>
     <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
@@ -142,44 +168,15 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle autoHeight title="活動處所消防安全措施是否有編組並實施消防設備性能測試與訓練">
-        <SwitchInput
-          slot="input"
-          id="sprinkler"
-          :value="data.sheet1.part5.hasDeviceTestAndTraining"
-          @updateValue="(e) => updateValue(e,'hasDeviceTestAndTraining')"
-        />
-      </InputGroup>
-    </div>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否已架設消防設備">
-        <SwitchInput
-          slot="input"
-          id="gasExtinguishing"
-          :value="data.sheet1.part5.hasErectFireDevice"
-          @updateValue="(e) => updateValue(e,'hasErectFireDevice')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle title="是否有禁菸管制">
-        <SwitchInput
-          slot="input"
-          id="hasNoSmokingControl"
-          :value="data.sheet1.part5.hasNoSmokingControl"
-          @updateValue="(e) => updateValue(e,'hasNoSmokingControl')"
-        />
-      </InputGroup>
+    <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+      <div class="w90 text-lg">{{item}}</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part5[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+          <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part5[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+      </div>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle title="是否有監視或預警系統" dash>
-        <SwitchInput
-          slot="input"
-          id="hasAlertSystem"
-          :value="data.sheet1.part5.hasAlertSystem"
-          @updateValue="(e) => updateValue(e,'hasAlertSystem')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle title="是否有監視或預警系統" class="col-span-3" :disable="!data.sheet1.part5.hasAlertSystem">
+      <InputGroup lgTitle noMt mid class="col-span-3" :disable="!data.sheet1.part5.hasAlertSystem">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
@@ -195,16 +192,16 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle.vue'
-import SwitchInput from '@/components/Switch'
 import Checkbox from '@/components/Checkbox'
 import Input from '@/components/InputGroup/Input'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
     FormTitle,
     InputGroup,
-    SwitchInput,
     Checkbox,
-    Input
+    Input,
+    RadioInput
   },
   props:{
     data: {
@@ -212,15 +209,35 @@ export default {
       default: () => ({})
     }
   },
+  data() {
+    return {
+      questionList: [
+        '活動處所消防安全措施是否有編組並實施消防設備性能測試與訓練',
+        '是否已架設消防設備',
+        '是否有禁菸管制',
+        '是否有監視或預警系統'
+      ],
+      questionListID: [
+        'hasDeviceTestAndTraining',
+        'hasErectFireDevice',
+        'hasNoSmokingControl',
+        'hasAlertSystem'
+      ]
+    }
+  },
   methods: {
     updateValue(e,type) {
+      const arr = ['hasDeviceTestAndTraining',
+        'hasErectFireDevice',
+        'hasNoSmokingControl',
+        'hasAlertSystem']
       this.$emit('update:data',{
         ...this.data,
         sheet1: {
           ...this.data.sheet1,
           part5: {
             ...this.data.sheet1.part5,
-            [type]: e
+            [type]: arr.includes(type) && e === this.data.sheet1.part5[type] ? null : e
           }
         }
       })
@@ -247,5 +264,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
+  }
 </style>

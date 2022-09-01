@@ -2,11 +2,11 @@
   <div class="popup" ref="modal" :class="{'open':open }">
     <div class="dialog">
       <div class="header">
-        <span>公共意外責任保險場所詢問表</span>
+        <span class="mb-4">公共意外責任保險場所詢問表</span>
         <div class="icon" @click="$emit('update:open' ,false)">
           <font-awesome-icon icon="times-circle" />
         </div>
-        <InputGroup bgColor="#fff" class="md:ml-4 h-8 w-full md:w-auto md:-mt-9" noMt>
+        <InputGroup bgColor="#fff" class="md:ml-4 h-8 w-full md:w-auto md:-mt-9 mb-1" noMt>
           <Select :options="formList" slot="input" defaultText="選擇表單區塊"  @emitItem="e=> emitSelectItem(e)" />
         </InputGroup>
       </div>
@@ -190,7 +190,7 @@ export default {
     @apply bg-white rounded-2xl;
     .header {
       height: 60px;
-      @apply flex flex-row items-center pl-6 relative bg-main w-full rounded-t-2xl text-white text-lg;
+      @apply flex flex-row items-end pl-6 relative bg-main w-full rounded-t-2xl text-white text-lg;
     }
     .icon {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;

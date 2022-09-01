@@ -11,8 +11,8 @@
         <Input slot="input" :value="data.part2.roofMaterial" @updateValue="(e) => updateValue(e,'roofMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
     </div>
-    <div class="column-5 my-3">
-      <InputGroup lgTitle title="建築性質" border0 min>
+    <div class="flex flex-col my-3">
+      <InputGroup lgTitle title="建築性質" border0 mid min>
         <RadioInput
           slot="input"
           text="獨棟"
@@ -21,7 +21,7 @@
           @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '獨棟',Value: '獨棟'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="公寓"
@@ -30,7 +30,7 @@
           @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '公寓',Value: '公寓'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="辦公大樓"
@@ -39,7 +39,7 @@
           @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '辦公大樓',Value: '辦公大樓'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="綜合大樓"
@@ -48,7 +48,7 @@
           @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '綜合大樓',Value: '綜合大樓'})"
         />
       </InputGroup>
-      <InputGroup border0 min noMt>
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="其他"
@@ -59,12 +59,12 @@
       </InputGroup>
     </div>
     <div class="column-5 my-3">
-      <InputGroup lgTitle title="距鄰近建築物">
+      <InputGroup lgTitle title="距鄰近建築物" mid>
         <Input slot="input" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離"/>
       </InputGroup>
     </div>
-     <div class="column-5 my-3">
-      <InputGroup lgTitle title="鄰近建築物性質" border0 min>
+     <div class="flex flex-col my-3">
+      <InputGroup lgTitle title="鄰近建築物性質" border0 mid min>
         <RadioInput
           slot="input"
           text="獨棟"
@@ -73,7 +73,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '獨棟',Value: '獨棟'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="公寓"
@@ -82,7 +82,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '公寓',Value: '公寓'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="辦公大樓"
@@ -91,7 +91,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '辦公大樓',Value: '辦公大樓'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="綜合大樓"
@@ -100,7 +100,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '綜合大樓',Value: '綜合大樓'})"
         />
       </InputGroup>
-      <InputGroup border0 min noMt>
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="其他"
@@ -110,8 +110,8 @@
         />
       </InputGroup>
     </div>
-    <div class="column-5 my-3">
-      <InputGroup lgTitle title="公共安全檢查(經當地主管建築機關查核)" border0 min>
+    <div class="flex flex-col my-3">
+      <InputGroup lgTitle title="公共安全檢查(經當地主管建築機關查核)" border0 mid min>
         <RadioInput
           slot="input"
           text="免公安檢查"
@@ -120,7 +120,7 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '免公安檢查',Value: '免公安檢查'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="合格"
@@ -129,7 +129,7 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '合格',Value: '合格'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="提具體改善計畫書"
@@ -138,7 +138,7 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '提具體改善計畫書',Value: '3'})"
         />
       </InputGroup>
-      <InputGroup border0 min :noMt="marginTop(560)">
+      <InputGroup border0 min mid noMt>
         <RadioInput
           slot="input"
           text="不合格"
@@ -149,7 +149,7 @@
       </InputGroup>
     </div>
     <div class="column-5 mt-3 ml-8">
-      <InputGroup lgTitle title="營業性質之數量" class="mb-8 sm:mb-0">
+      <InputGroup lgTitle title="營業性質之數量" mid class="mb-8 sm:mb-0">
         <Input
           slot="input"
           :value="data.part2.room.value"
@@ -169,7 +169,7 @@
       </InputGroup>
     </div>
     <div class="column-5 mb-3 ml-8">
-      <InputGroup noMt class="mb-8 sm:mb-0">
+      <InputGroup noMt mid class="mb-8 sm:mb-0">
         <Input
           slot="input"
           :value="data.part2.seat.value"
@@ -189,34 +189,36 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="地上樓層數">
+      <InputGroup lgTitle mid title="地上樓層數">
         <Input slot="input" :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
       </InputGroup>
-      <InputGroup lgTitle title="地下樓層數" dash>
+      <InputGroup lgTitle mid title="地下樓層數" dash>
         <Input slot="input" :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
       </InputGroup>
-      <InputGroup lgTitle title="使用樓層數">
+      <InputGroup lgTitle mid title="使用樓層數">
         <Input slot="input" :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
       </InputGroup>
-      <InputGroup lgTitle title="樓梯是否有止滑條">
-        <SwitchInput
-          slot="input"
-          id="hasAntiSlip"
-          :value="data.part2.hasAntiSlip"
-          @updateValue="(e) =>updateValue(e,'hasAntiSlip')"
-        />
-      </InputGroup>
     </div>
+    <div class="w-full my-4">
+      <div class="w-full flex flex-row mt-4">
+        <div class="w90 text-lg">樓梯是否有止滑條</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasAntiSlip" :value="data.part2.hasAntiSlip === true" @updateValue="updateValue(true, 'hasAntiSlip')"/>
+          <RadioInput text="否" id="hasAntiSlip2" :value="data.part2.hasAntiSlip === false" @updateValue="updateValue(false, 'hasAntiSlip')"/>
+      </div>
+    </div>
+  </div>
+  <div class="w-full my-4">
+      <div class="w-full flex flex-row mt-4">
+        <div class="w90 text-lg">是否有游泳池</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasSwimmingPool" :value="data.part2.hasSwimmingPool === true" @updateValue="updateValue(true, 'hasSwimmingPool')"/>
+          <RadioInput text="否" id="hasSwimmingPool2" :value="data.part2.hasSwimmingPool === false" @updateValue="updateValue(false, 'hasSwimmingPool')"/>
+      </div>
+    </div>
+  </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有游泳池" dash>
-        <SwitchInput
-          slot="input"
-          id="swimPool"
-          :value="data.part2.hasSwimmingPool"
-          @updateValue="(e) =>updateValue(e,'hasSwimmingPool')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle title="救生員人數" :disable="!data.part2.hasSwimmingPool">
+      <InputGroup lgTitle mid title="救生員人數" :disable="!data.part2.hasSwimmingPool">
         <Input
           slot="input"
           :value="data.part2.lifeguardAmount"
@@ -226,28 +228,30 @@
           :disable="!data.part2.hasSwimmingPool"
         />
       </InputGroup>
-      <InputGroup lgTitle title="地板為何種材質">
+      <InputGroup lgTitle mid title="地板為何種材質">
         <Input slot="input" :value="data.part2.material"  @updateValue="(e) => updateValue(e,'material')" placeholder="輸入材質名稱"/>
       </InputGroup>
-      <InputGroup lgTitle title="是否鋪設地談">
-        <SwitchInput
-          slot="input"
-          id="hasCarpet"
-          :value="data.part2.hasCarpet"
-          @updateValue="(e) =>updateValue(e,'hasCarpet')"
-        />
-      </InputGroup>
     </div>
+    <div class="w-full my-4">
+      <div class="w-full flex flex-row mt-4">
+        <div class="w90 text-lg">是否鋪設地談</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasCarpet" :value="data.part2.hasCarpet === true" @updateValue="updateValue(true, 'hasCarpet')"/>
+          <RadioInput text="否" id="hasCarpet2" :value="data.part2.hasCarpet === false" @updateValue="updateValue(false, 'hasCarpet')"/>
+      </div>
+    </div>
+  </div>
+  <div class="w-full my-4">
+      <div class="w-full flex flex-row mt-4">
+        <div class="w90 text-lg">營業處所是否有機械性停車設備</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasMechineParkingDevice" :value="data.part2.hasMechineParkingDevice === true" @updateValue="updateValue(true, 'hasMechineParkingDevice')"/>
+          <RadioInput text="否" id="hasMechineParkingDevice2" :value="data.part2.hasMechineParkingDevice === false" @updateValue="updateValue(false, 'hasMechineParkingDevice')"/>
+      </div>
+    </div>
+  </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle title="營業處所是否有機械性停車設備" dash>
-        <SwitchInput
-          slot="input"
-          id="hasMechineParkingDevice"
-          :value="data.part2.hasMechineParkingDevice"
-          @updateValue="(e) =>updateValue(e,'hasMechineParkingDevice')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle title="停車設備種類" :disable="!data.part2.hasMechineParkingDevice">
+      <InputGroup lgTitle mid title="停車設備種類" :disable="!data.part2.hasMechineParkingDevice">
         <Select
           slot="input"
           :options="parkingList"
@@ -266,15 +270,14 @@ import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input'
 import RadioInput from '@/components/Radio'
 import Checkbox from '@/components/Checkbox'
-import SwitchInput from '@/components/Switch'
 import Select from '@/components/Select'
+
 export default {
   components: {
     InputGroup,
     Input,
     RadioInput,
     Checkbox,
-    SwitchInput,
     Select,
   },
   props:{
@@ -307,6 +310,7 @@ export default {
   },
   methods: {
     updateValue(e,type) {
+      const arr = ['hasAntiSlip', 'hasSwimmingPool', 'hasCarpet', 'hasMechineParkingDevice']
       if(type.includes('.')) {
         let arr = type.split('.')
         const obj = Object.assign({}, {[arr[1]]: e})
@@ -318,7 +322,7 @@ export default {
           ...this.data,
           part2: {
             ...this.data.part2,
-            [type]: e
+            [type]: arr.includes(type) && e === this.data.part2[type] ? null : e
           }
         })
       }
@@ -348,5 +352,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
+  }
 </style>

@@ -1,64 +1,43 @@
 <template>
-  <div class="w-full my-4">
-    <div class="column-4">
-      <InputGroup lgTitle autoHeight title="是否設有中控中心以監控公用設備">
-        <SwitchInput
-          slot="input"
-          id="hasCentralControl"
-          :value="data.part4.hasCentralControl"
-          @updateValue="(e) =>updateValue(e,'hasCentralControl')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle autoHeight title="是否使用高壓電設施(600V以上)">
-        <SwitchInput
-          slot="input"
-          id="hasHighVoltage"
-          :value="data.part4.hasHighVoltage"
-          @updateValue="(e) =>updateValue(e,'hasHighVoltage')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle title="是否有裸露電線或導體">
-        <SwitchInput
-          slot="input"
-          id="hasBareWires"
-          :value="data.part4.hasBareWires"
-          @updateValue="(e) =>updateValue(e,'hasBareWires')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle autoHeight title="供電系統是否裝有自動斷電設備">
-        <SwitchInput
-          slot="input"
-          id="hasAutomaticPowerOff"
-          :value="data.part4.hasAutomaticPowerOff"
-          @updateValue="(e) =>updateValue(e,'hasAutomaticPowerOff')"
-        />
-      </InputGroup>
-    </div>
-    <div class="column-4 mt-4 dashed-border">
-      <InputGroup lgTitle autoHeight title="所有電線是否裝在管內(含踏板)以避免短路">
-        <SwitchInput
-          slot="input"
-          id="hasWireInTube"
-          :value="data.part4.hasWireInTube"
-          @updateValue="(e) =>updateValue(e,'hasWireInTube')"
-        />
-      </InputGroup>
+  <div class="w-full my-4 dashed-border">
+      <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+        <div class="w90 text-lg">{{item}}</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part4[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+          <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.part4[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import InputGroup from '@/components/InputGroup'
-import SwitchInput from '@/components/Switch/index.vue'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
-    InputGroup,
-    SwitchInput
+    RadioInput
   },
   props:{
     data: {
       type: Object,
       default: () => ({})
+    }
+  },
+  data() {
+    return {
+      questionList: [
+        '是否設有中控中心以監控公用設備',
+        '是否使用高壓電設施(600V以上)',
+        '是否有裸露電線或導體',
+        '供電系統是否裝有自動斷電設備',
+        '所有電線是否裝在管內(含踏板)以避免短路'
+      ],
+      questionListID: [
+        'hasCentralControl',
+        'hasHighVoltage',
+        'hasBareWires',
+        'hasAutomaticPowerOff',
+        'hasWireInTube'
+      ]
     }
   },
   methods: {
@@ -67,7 +46,7 @@ export default {
         ...this.data,
         part4: {
           ...this.data.part4,
-          [type]: e
+          [type]: e === this.data.part4[type] ? null : e
         }
       })
     },
@@ -76,5 +55,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
+  }
 </style>

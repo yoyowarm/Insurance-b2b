@@ -1,15 +1,16 @@
 <template>
   <div>
     <FormTitle lgTitle title="飯店、旅館、汽車旅館、招待所" class="my-3"/>
+    <div class="w-full my-4">
+      <div class="w-full flex flex-row mt-4">
+        <div class="w90 text-lg">內部設施是否全數自行經營</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="selfOperated" :value="data.part3.selfOperated === true" @updateValue="updateValue(true, 'selfOperated')"/>
+          <RadioInput text="否" id="selfOperated2" :value="data.part3.selfOperated === false" @updateValue="updateValue(false, 'selfOperated')"/>
+      </div>
+    </div>
+  </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="內部設施是否全數自行經營" dash>
-        <SwitchInput
-          slot="input"
-          id="selfOperated"
-          :value="data.part3.selfOperated"
-          @updateValue="(e) =>updateValue(e,'selfOperated')"
-        />
-      </InputGroup>
       <InputGroup lgTitle title="填寫非自行經營之項目" class="col-span-3" :disable="!data.part3.selfOperated">
         <Input
           slot="input"
@@ -20,42 +21,15 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle title="是否有陽台" dash>
-        <SwitchInput
-          slot="input"
-          id="hasBalcony"
-          :value="data.part3.hasBalcony"
-          @updateValue="(e) =>updateValue(e,'hasBalcony')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle title="人員可否進入陽台" >
-        <SwitchInput
-          slot="input"
-          id="canAccessBalcony"
-          :value="data.part3.canAccessBalcony"
-          @updateValue="(e) =>updateValue(e,'canAccessBalcony')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle autoHeight title="是否有地毯、窗簾，是否為防火材質" >
-        <SwitchInput
-          slot="input"
-          id="hasFireproofMaterial"
-          :value="data.part3.hasFireproofMaterial"
-          @updateValue="(e) =>updateValue(e,'hasFireproofMaterial')"
-        />
-      </InputGroup>
-      <InputGroup lgTitle autoHeight title="是否有客房隔間，客房隔間是否為防火材質" >
-        <SwitchInput
-          slot="input"
-          id="hasCompartmentFireproofMaterial"
-          :value="data.part3.hasCompartmentFireproofMaterial"
-          @updateValue="(e) =>updateValue(e,'hasCompartmentFireproofMaterial')"
-        />
-      </InputGroup>
+    <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+      <div class="w90 text-lg">{{item}}</div>
+      <div class="w10 flex flex-row justify-between">
+        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part3[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+        <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.part3[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
     </div>
-    <div class="column-5 my-3">
-      <InputGroup v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" border0 :noMt="index!== 0?marginTop(560): false" >
+    </div>
+    <div class="flex flex-col my-3">
+      <InputGroup v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" border0 :noMt="index!== 0" >
         <Checkbox
           class="text-md"
           :id="list"
@@ -67,58 +41,43 @@
         />
       </InputGroup>
     </div>
-    <FormTitle lgTitle title="商場、百貨公司、超級市場" class="my-3"/>
-    <div class="column-5 my-3">
-      <InputGroup lgTitle title="是否使用堆高機">
-        <SwitchInput
-          slot="input"
-          id="hasPusher"
-          :value="data.part3.hasPusher"
-          @updateValue="(e) =>updateValue(e,'hasPusher')"
-        />
-      </InputGroup>
+    <FormTitle lgTitle title="商場、百貨公司、超級市場" class="my-3 text-lg"/>
+    <div class="w-full flex flex-row mt-4">
+      <div class="w90 text-lg">是否使用堆高機</div>
+      <div class="w10 flex flex-row justify-between">
+        <RadioInput text="是" id="hasPusher" :value="data.part3.hasPusher === true" @updateValue="updateValue(true, 'hasPusher')"/>
+        <RadioInput text="否" id="hasPusher2" :value="data.part3.hasPusher === false" @updateValue="updateValue(false, 'hasPusher')"/>
     </div>
-    <FormTitle lgTitle title="戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3"/>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle autoHeight title="是否有特殊表演項目，涉及用火或粉塵表演">
-        <SwitchInput
-          slot="input"
-          id="hasFireOrDust"
-          :value="data.part3.hasFireOrDust"
-          @updateValue="(e) =>updateValue(e,'hasFireOrDust')"
-        />
-      </InputGroup>
     </div>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle title="表演者是否為專業人士">
-        <SwitchInput
-          slot="input"
-          id="isProfessional"
-          :value="data.part3.isProfessional"
-          @updateValue="(e) =>updateValue(e,'isProfessional')"
-        />
-      </InputGroup>
+    <FormTitle lgTitle title="戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3 text-lg"/>
+    <div class="w-full flex flex-row mt-4">
+      <div class="w90 text-lg">是否有特殊表演項目，涉及用火或粉塵表演</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasFireOrDust" :value="data.part3.hasFireOrDust === true" @updateValue="updateValue(true, 'hasFireOrDust')"/>
+          <RadioInput text="否" id="hasFireOrDust2" :value="data.part3.hasFireOrDust === false" @updateValue="updateValue(false, 'hasFireOrDust')"/>
+      </div>
     </div>
-    <FormTitle lgTitle title="營業處所" class="my-3"/>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle autoHeight title="使用、存放煙火爆竹或化學品等危險物品">
-        <SwitchInput
-          slot="input"
-          id="hasDangerousItem"
-          :value="data.part3.hasDangerousItem"
-          @updateValue="(e) =>updateValue(e,'hasDangerousItem')"
-        />
-      </InputGroup>
+    <div class="w-full flex flex-row mt-4">
+      <div class="w90 text-lg">表演者是否為專業人士</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="isProfessional" :value="data.part3.isProfessional === true" @updateValue="updateValue(true, 'isProfessional')"/>
+          <RadioInput text="否" id="isProfessional2" :value="data.part3.isProfessional === false" @updateValue="updateValue(false, 'isProfessional')"/>
+      </div>
     </div>
-    <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle title="使用鍋爐">
-        <SwitchInput
-          slot="input"
-          id="hasBoiler"
-          :value="data.part3.hasBoiler"
-          @updateValue="(e) =>updateValue(e,'hasBoiler')"
-        />
-      </InputGroup>
+    <FormTitle lgTitle title="營業處所" class="my-3 text-lg"/>
+    <div class="w-full flex flex-row mt-4">
+      <div class="w90 text-lg">使用、存放煙火爆竹或化學品等危險物品</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasDangerousItem" :value="data.part3.hasDangerousItem === true" @updateValue="updateValue(true, 'hasDangerousItem')"/>
+          <RadioInput text="否" id="hasDangerousItem2" :value="data.part3.hasDangerousItem === false" @updateValue="updateValue(false, 'hasDangerousItem')"/>
+      </div>
+    </div>
+    <div class="w-full flex flex-row mt-4 dashed-border">
+      <div class="w90 text-lg">使用鍋爐</div>
+        <div class="w10 flex flex-row justify-between">
+          <RadioInput text="是" id="hasBoiler" :value="data.part3.hasBoiler === true" @updateValue="updateValue(true, 'hasBoiler')"/>
+          <RadioInput text="否" id="hasBoiler2" :value="data.part3.hasBoiler === false" @updateValue="updateValue(false, 'hasBoiler')"/>
+      </div>
     </div>
   </div>
 </template>
@@ -126,16 +85,16 @@
 <script>
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle.vue'
-import SwitchInput from '@/components/Switch'
 import Input from '@/components/InputGroup/Input'
 import Checkbox from '@/components/Checkbox'
+import RadioInput from '@/components/Radio'
 export default {
   components: {
     InputGroup,
     FormTitle,
-    SwitchInput,
     Input,
-    Checkbox
+    Checkbox,
+    RadioInput
   },
   props:{
     data: {
@@ -156,15 +115,38 @@ export default {
         '兒童遊樂場',
         '餐廳',
       ],
+      questionList: [
+        '是否有陽台',
+        '人員可否進入陽台',
+        '是否有地毯、窗簾，是否為防火材質',
+        '是否有客房隔間，客房隔間是否為防火材質',
+      ],
+      questionListID: [
+        'hasBalcony',
+        'canAccessBalcony',
+        'hasFireproofMaterial',
+        'hasCompartmentFireproofMaterial',
+      ]
     }
   },
   methods: {
     updateValue(e,type) {
+      const arr = [
+        'hasBalcony',
+        'canAccessBalcony',
+        'hasFireproofMaterial',
+        'hasCompartmentFireproofMaterial',
+        'hasPusher',
+        'hasFireOrDust',
+        'isProfessional',
+        'hasDangerousItem',
+        'hasBoiler'
+      ]
       this.$emit('update:data',{
         ...this.data,
         part3: {
           ...this.data.part3,
-          [type]: e
+          [type]: arr.includes(type) && e === this.data.part3[type] ? null : e
         }
       })
     },
@@ -191,5 +173,18 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .w90{
+    width: 90%;
+  }
+  .w10{
+    width: 10%;
+  }
+  @media screen and (max-width: 768px) {
+    .w90{
+      width: 80%;
+    }
+    .w10{
+      width: 20%;
+    }
+  }
 </style>

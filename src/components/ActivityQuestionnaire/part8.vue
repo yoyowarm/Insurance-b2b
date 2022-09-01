@@ -4,8 +4,8 @@
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
       <div class="w90">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
-        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part1[questionListID[index]] === true" @updateValue="(e) => updateValue(e, questionListID[index])"/>
-        <RadioInput text="否" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part1[questionListID[index]] === false" @updateValue="(e) => updateValue(e, questionListID[index])"/>
+        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part1[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+        <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet2.part1[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
      </div>
     </div>
   </div>
@@ -47,16 +47,16 @@ export default {
   },
   methods: {
     updateValue(e,type) {
-      this.$emit('update:data',{
-        ...this.data,
-        sheet2: {
-          ...this.data.sheet2,
-          part1: {
-            ...this.data.sheet2.part1,
-            [type]: e
+        this.$emit('update:data',{
+          ...this.data,
+          sheet2: {
+            ...this.data.sheet2,
+            part1: {
+              ...this.data.sheet2.part1,
+              [type]: e === this.data.sheet2.part1[type] ? null : e
+            }
           }
-        }
-      })
+        })
     },
   }
 }
