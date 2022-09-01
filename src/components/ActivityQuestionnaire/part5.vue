@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle lgTitle title="營業處所相關之消防和安全措施" class="my-3"/>
+    <FormTitle lgTitle title="活動處所有關之消防及安全措施" class="my-3"/>
     <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
         id="消防栓"
@@ -176,11 +176,10 @@
       </div>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle noMt mid class="col-span-3" :disable="!data.sheet1.part5.hasAlertSystem">
+      <InputGroup lgTitle  mid title="其他安全防護措施" class="col-span-3" >
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.sheet1.part5.hasAlertSystem"
           :value="data.sheet1.part5.otherSafeMeasure"
           @updateValue="(e) => updateValue(e,'otherSafeMeasure')"
         />

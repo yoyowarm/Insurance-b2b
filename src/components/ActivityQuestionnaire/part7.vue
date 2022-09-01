@@ -2,7 +2,7 @@
   <div>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
-        <div class="w90 text-lg">是否有氣體滅火系統</div>
+        <div class="w90 text-lg">被保險人過去五年是否有損失紀錄</div>
         <div class="w10 flex flex-row justify-between">
           <RadioInput text="是" id="hasLossHistoryBeforeFiveYear" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === true" @updateValue="updateValue(true, 'hasLossHistoryBeforeFiveYear')"/>
           <RadioInput text="否" id="hasLossHistoryBeforeFiveYear2" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
@@ -10,7 +10,7 @@
     </div>
   </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear">
+      <InputGroup lgTitle title="請說明損失金額、次數及原因" class="col-span-3" :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear">
         <Input
           slot="input"
           placeholder="輸入安裝地點"

@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full my-4">
+  <div class="w-full my-4 dashed-border">
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
       <div class="w90 text-lg">{{item}}</div>
       <div class="w10 flex flex-row justify-between">
@@ -26,13 +26,11 @@ export default {
     return {
       questionList: [
         '使用道路者，對附近交通之衝擊是否經交通主管機關認許',
-        '未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許',
-        '保險處所與車道有無有效區隔(含車道與人員動線安排)'
+        '如未使用道路者，對附近交通之衝擊(如停車事宜、行人及活動結束後之散場動線)經交通主管機關認許',
       ],
       questionListID: [
         'useRoadHasAccessByTransportation',
         'afterActivityHasAccessByTransportation',
-        'hasSegmentWithInsurancePlaceAndLane',
       ]
     }
   },

@@ -26,15 +26,15 @@ export default {
     return {
       questionList: [
         '是否設置醫療站並配置醫護人員',
+        '是否有緊急應變計劃（包含應變人員編組和指定職責，如關鍵設備留守操作人員、警戒人員、醫療救護編組、消防編組等）',
         '是否有防護或緊急設備',
         '是否有災害防護計畫',
-        '是否有緊急應變計畫(包含應變人員編組和指定職責，如關鍵設備留守人員、警戒人員、醫療救護編組、消防編組等)',
       ],
       questionListID: [
         'hasMedicalSiteAndPersons',
+        'hasEmergencyManagementPlan',
         'hasProtectDevice',
         'hasDisasterProtectPlan',
-        'hasEmergencyManagementPlan',
       ]
     }
   },

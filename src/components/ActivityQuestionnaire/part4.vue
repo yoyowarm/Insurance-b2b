@@ -54,16 +54,16 @@ export default {
       questionList: [
         '是否有活動動線規劃說明',
         '是否有出口規劃',
+        '是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)',
         '是否有疏散標示',
         '是否有人員管制計畫',
-        '是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)'
       ],
       questionListID: [
         'hasActivityRoutePlan',
         'hasExit',
+        'hasEvacuationPlan',
         'hasEvacuationSign',
         'hasPersonnelControl',
-        'hasEvacuationPlan'
       ]
     }
   },

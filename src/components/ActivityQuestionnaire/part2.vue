@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full my-4">
+  <div class="w-full my-4 dashed-border">
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
       <div class="w90 text-lg">{{item}}</div>
       <div class="w10 flex flex-row justify-between">

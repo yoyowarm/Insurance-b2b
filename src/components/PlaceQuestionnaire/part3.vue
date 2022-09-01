@@ -64,7 +64,6 @@
           <RadioInput text="否" id="isProfessional2" :value="data.part3.isProfessional === false" @updateValue="updateValue(false, 'isProfessional')"/>
       </div>
     </div>
-    <FormTitle lgTitle title="營業處所" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
       <div class="w90 text-lg">使用、存放煙火爆竹或化學品等危險物品</div>
         <div class="w10 flex flex-row justify-between">
@@ -73,7 +72,7 @@
       </div>
     </div>
     <div class="w-full flex flex-row mt-4 dashed-border">
-      <div class="w90 text-lg">使用鍋爐</div>
+      <div class="w90 text-lg">營業處所使用鍋爐</div>
         <div class="w10 flex flex-row justify-between">
           <RadioInput text="是" id="hasBoiler" :value="data.part3.hasBoiler === true" @updateValue="updateValue(true, 'hasBoiler')"/>
           <RadioInput text="否" id="hasBoiler2" :value="data.part3.hasBoiler === false" @updateValue="updateValue(false, 'hasBoiler')"/>
