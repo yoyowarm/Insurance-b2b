@@ -163,7 +163,7 @@ export default {
     },
     'data.perAccidentBodyAmount': {
       handler(val, odlVal) {
-        if (!odlVal || val.toString() !== odlVal.toString()) {
+        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
           this.updatedValue('insuranceTotalAmount',((Number(val)+Number(this.data.perAccidentFinanceAmount))*2).toString())
         }
       },
@@ -171,7 +171,7 @@ export default {
     },
     'data.perAccidentFinanceAmount': {
       handler(val, odlVal) {
-        if (!odlVal || val.toString() !== odlVal.toString()) {
+        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
           this.updatedValue('insuranceTotalAmount',((Number(this.data.perAccidentBodyAmount)+Number(val))*2).toString())
         }
       },
@@ -179,7 +179,7 @@ export default {
     },
     'data.insuranceTotalAmount': {
       handler(val, odlVal) {
-        if (!odlVal || val.toString() !== odlVal.toString()) {
+        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
           if(val < Number(this.data.perAccidentFinanceAmount) + Number(this.data.perAccidentBodyAmount)) {
             this.updatedValue('insuranceTotalAmount','')
           }
@@ -191,7 +191,7 @@ export default {
   computed: {
     amountMinimum() {
       const arr = []
-      const data = {
+      let data = {
           countyName: '',
           perBodyAmount: '',
           perAccidentBodyAmount: '',
@@ -210,19 +210,30 @@ export default {
           arr.push(target)
         }
       })
-      arr.sort((a, b) => a.perBodyAmount - b.perBodyAmount)
-      data.perBodyAmount = arr[arr.length -1] ? arr[arr.length -1].perBodyAmount : ''
+      if(arr.length > 1) {
+        arr.sort((a, b) => a.perBodyAmount - b.perBodyAmount)
+        data.perBodyAmount = arr[arr.length -1] ? arr[arr.length -1].perBodyAmount : ''
 
-      arr.sort((a, b) =>  a.perAccidentBodyAmount - b.perAccidentBodyAmount)
-      data.perAccidentBodyAmount = arr[arr.length -1] ? arr[arr.length -1].perAccidentBodyAmount : ''
+        arr.sort((a, b) =>  a.perAccidentBodyAmount - b.perAccidentBodyAmount)
+        data.perAccidentBodyAmount = arr[arr.length -1] ? arr[arr.length -1].perAccidentBodyAmount : ''
 
-      arr.sort((a, b) =>  a.perAccidentFinanceAmount - b.perAccidentFinanceAmount)
-      data.perAccidentFinanceAmount = arr[arr.length -1] ? arr[arr.length -1].perAccidentFinanceAmount : ''
+        arr.sort((a, b) =>  a.perAccidentFinanceAmount - b.perAccidentFinanceAmount)
+        data.perAccidentFinanceAmount = arr[arr.length -1] ? arr[arr.length -1].perAccidentFinanceAmount : ''
 
-      arr.sort((a, b) =>  a.insuranceTotalAmount - b.insuranceTotalAmount)
-      data.insuranceTotalAmount = arr[arr.length -1] ? arr[arr.length -1].insuranceTotalAmount : ''
-      data.selfInflictedAmount = this.data.selfInflictedAmount
-      data.countyName = arr[arr.length -1] ? arr[arr.length -1].countyName : ''
+        arr.sort((a, b) =>  a.insuranceTotalAmount - b.insuranceTotalAmount)
+        data.insuranceTotalAmount = arr[arr.length -1] ? arr[arr.length -1].insuranceTotalAmount : ''
+        data.selfInflictedAmount = this.data.selfInflictedAmount
+        data.countyName = arr[arr.length -1] ? arr[arr.length -1].countyName : ''
+      } else {
+        data = {
+          countyName: arr[0] ? arr[0].countyName : '',
+          perBodyAmount: arr[0] ? arr[0].perBodyAmount : '',
+          perAccidentBodyAmount: arr[0] ? arr[0].perAccidentBodyAmount : '',
+          perAccidentFinanceAmount: arr[0] ? arr[0].perAccidentFinanceAmount : '',
+          insuranceTotalAmount: arr[0] ? arr[0].insuranceTotalAmount : '',
+          selfInflictedAmount: this.data.selfInflictedAmount
+        }
+      }
       return data
     }
   },

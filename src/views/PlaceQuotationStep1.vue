@@ -414,9 +414,9 @@ export default {
           placeType: this.industryList.find(item => item.dangerSeq == this.industry.Value).typeName,
           insuranceRecord: this.InsuranceRecordTable,
           insuranceBeginDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
-          insuranceBeginHour: this.period.startDate.hour,
+          insuranceBeginHour: this.period.startDate.hour?this.period.startDate.hour:'0',
           insuranceEndDate: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}`,
-          insuranceEndHour: this.period.endDate.hour,
+          insuranceEndHour: this.period.endDate.hour? this.period.endDate.hour.toString() : '0',
           additionTerms: [...this.additionTermsList.filter(item => {
             return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
           }).map(item => {
@@ -528,9 +528,9 @@ export default {
         },
         insurancePeriod: {
           startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
-          startHour: this.period.startDate.hour,
+          startHour: this.period.startDate.hour ? this.period.startDate.hour.toString() : '0',
           endDate: `${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}`,
-          endHour: this.period.endDate.hour,
+          endHour: this.period.endDate.hour? this.period.endDate.hour.toString() : '0',
         },
         additionTerms: [...this.additionTermsList.filter(item => {
           return this.termsData[item.additionTermName] && this.termsData[item.additionTermName].selected
