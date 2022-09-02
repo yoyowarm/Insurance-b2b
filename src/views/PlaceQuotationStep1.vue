@@ -270,7 +270,7 @@ export default {
             ...this.insuranceAmountListData.parameter,
             underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
             ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
-            : (coefficient.data.content.questionnaireCoefficient < 0 ? `-${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+            : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
           }
         }
         
@@ -482,9 +482,9 @@ export default {
           ...this.insuranceAmountListData,
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
           parameter: res.data.content.parameter
-            ? {...res.data.content.parameter,underwriteCoefficient: res.data.content.questionnaireCoefficient > 0 
-              ? `+${Number(res.data.content.questionnaireCoefficient)*100}%`
-              : (res.data.content.questionnaireCoefficient < 0 ? `-${Number(res.data.content.questionnaireCoefficient)*100}%` : `0%`)}
+            ? {...res.data.content.parameter,underwriteCoefficient: res.data.content.parameter.underwriteCoefficient > 0 
+              ? `+${Number(res.data.content.parameter.underwriteCoefficient)*100}%`
+              : (res.data.content.parameter.underwriteCoefficient < 0 ? `${Number(res.data.content.parameter.underwriteCoefficient)*100}%` : `0%`)}
             : this.insuranceAmountListData.parameter,
         }
         if(res.data.content.quotationReason.length > 0) {
