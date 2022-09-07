@@ -12,7 +12,7 @@
           <img v-if="item === 'fifteenDaysEffectiveAmount'" :src="warnIcon" alt="">
           <img v-if="item === 'alreadyIssueAmount'" :src="finishIcon" alt="">
           <div class="flex flex-col justify-center">
-            <span class="font-semibold text-base md:text-xl lg:text-xl text-gray-700">{{stateText[item]}}</span>
+            <span class="font-semibold text-base md:text-xl lg:text-xl text-gray-700">{{quotationStateText[item]}}</span>
             <span class="text-fail font-bold text-base md:text-xl lg:text-xl tracking-tighter"
             :class="{'text-fail' :item === 'waitUnderwriting', 'text-success': item === 'finishUnderwriting', 'text-warn': item === 'fifteenDaysEffectiveAmount', 'text-finish': item === 'alreadyIssueAmount'}">
               單數
@@ -236,7 +236,13 @@ export default {
         8: '15天有效',
         9: '已出單',
         99: '取消'
-      }
+      },
+      quotationStateText: {
+        waitUnderwriting: '待核保',
+        finishUnderwriting: '已核保',
+        fifteenDaysEffectiveAmount: '15天有效',
+        alreadyIssueAmount: '已出單',
+      },
     }
   },
   computed: {
