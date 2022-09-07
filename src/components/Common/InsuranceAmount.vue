@@ -86,6 +86,7 @@
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
+import { numFormat } from '@/utils/regex'
 export default {
   components: {
     InputGroup,
@@ -112,6 +113,7 @@ export default {
   },
   data() {
     return {
+      numFormat,
       selfPayList: [
         {Value: 0, Text: '0元'},
         {Value: 2500, Text: '2,500元'},

@@ -175,6 +175,7 @@ export default {
       insuranceAmountList: state => state.activity.insuranceAmountList,
       InsuranceActive: state => state.activity.InsuranceActive,
       orderNo: state => state.common.orderNo,
+      mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.activity.quotationData,
     }),
     activityInfoList: {
@@ -303,7 +304,7 @@ export default {
         this.additionTermsList = data.data.content.additionTermsDetails
         this.termsInit()
       }
-      if(this.InsuranceActive !== 0 || this.orderNo) {//報價明細更正、複製時塞資料
+      if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('activity')
         this.AssignQuestionnaire('activity')
       }
@@ -453,7 +454,7 @@ export default {
 
       if(this.requestFile.length === 0 && this.verifyResult.length === 0) {
           await this.quotationMapping()
-          if(this.InsuranceActive !== 0 || this.orderNo) {
+          if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
               ...this.quotationData,
               activityInsureInfo: {
@@ -484,7 +485,7 @@ export default {
         return this.$store.dispatch('common/DeleteFile', {policyAttachmentId: item.policyAttachmentId, fileAttachmentId: item.id})
       }))
       this.$store.dispatch('activity/updatedUUID', '')
-      this.$store.dispatch('common/updateOrderNo' ,'')
+      this.$store.dispatch('common/updateOrderNo' ,{orderNo:'',mainOrderNo:''})
       location.reload()
     },
     updatePeriod() {

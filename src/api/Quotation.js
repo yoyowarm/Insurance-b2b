@@ -4,8 +4,8 @@ export const AddPlaceQuotation = (data) => request('post', '/Quotation/AddPlaceQ
 //新增活動報價
 export const AddActivityQuotation = (data) => request('post', '/Quotation/AddActivityQuotation', data)
 //取得報價明細
-export const GetQuotationList = ({ Skip, Take, State, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName
-}) => request('get', '/Quotation/GetQuotationList', { Skip, Take, State, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName })
+export const GetQuotationList = ({ Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName
+}) => request('get', '/Quotation/GetQuotationList', { Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName })
 //取得所有報價狀態
 export const GetQuotationState = () => request('get', '/Quotation/GetQuotationsState')
 //取得續保資訊
@@ -13,9 +13,9 @@ export const GetRenewInfo = (policyNo) => request('get', '/Quotation/GetRenewInf
 //檢查是否另行報價
 export const CheckProjectHasQuotation = (orderno, insuranceProjectId) => request('get', '/Quotation/CheckInsuanceProjectHasQuotation', { orderno, insuranceProjectId })
 //取得場所報價step3
-export const GetPlaceQuotationDetail = (orderno) => request('get', '/Quotation/GetPlaceQuotationDetail', { orderno })
+export const GetPlaceQuotationDetail = (orderno, mainOrderNo) => request('get', '/Quotation/GetPlaceQuotationDetail', { orderno, mainOrderNo })
 //取得活動報價step3
-export const GetActivityQuotationDetail = (orderno) => request('get', '/Quotation/GetActivityQuotationDetail', { orderno })
+export const GetActivityQuotationDetail = (orderno, mainOrderNo) => request('get', '/Quotation/GetActivityQuotationDetail', { orderno, mainOrderNo })
 //新增投保方案（前端保存時）
 export const AddInsuranceProject = (data) => request('post', '/Quotation/AddInsuranceProject', data)
 //試算
@@ -48,3 +48,6 @@ export const GetInsuraned = (name, id) => request('get', '/Quotation/GetInsurane
 export const GetApplicant = (name, id) => request('get', '/Quotation/GetApplicant', { name, id })
 //刪除保險方案
 export const DeleteInusranceProject = (orderNo, insuranceProjectId) => request('delete', `/Quotation/DeleteInusranceProject?OrderNo=${orderNo}&InsuranceProjectId=${insuranceProjectId}`)
+//修改關聯報價單要被保人
+export const EditQuotationApplicantInsured = (data) => request('patch', '/Quotation/EditQuotationApplicantInsured', data)
+

@@ -112,7 +112,7 @@ export const quotationStep1 = () => {
 
 export const quotation = () => {
   return {
-    InsuranceActive: 0,
+    InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人
     renewal: {//是否續保
       IsRenewal: false,
       InsuranceNumber: '',

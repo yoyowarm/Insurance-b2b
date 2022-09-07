@@ -172,9 +172,9 @@ export const quotationListTable = () => {
   return {
     head: [
       {
-        text: '關聯號',
-        value: 'SerialNo',
-        size: '3-6'
+        text: '序號',
+        value: 'serialNo',
+        size: '1-6'
       },
       {
         text: '保單號碼',
@@ -183,7 +183,7 @@ export const quotationListTable = () => {
       },
       {
         text: '要保人',
-        value: 'ApplicantName',
+        value: 'applicantName',
         size: '2-6'
       },
       {
@@ -204,7 +204,7 @@ export const quotationListTable = () => {
       {
         text: '報價單操作',
         value: 'edit',
-        size: '2-6'
+        size: '3-6'
       },
       {
         text: '出單保費',
@@ -213,7 +213,7 @@ export const quotationListTable = () => {
       },
       {
         text: '日結日期',
-        value: 'DayPaymentDate',
+        value: 'daySettleDate',
         size: '3-6'
       },
       {
@@ -228,12 +228,12 @@ export const quotationListTable = () => {
       },
       {
         text: '經手人',
-        value: 'IOfficer',
+        value: 'iOfficerName',
         size: '2-6'
       },
       {
         text: '總分公司單位',
-        value: 'Unit',
+        value: 'companyDepartment',
         size: '2-6'
       },
       {

@@ -64,7 +64,7 @@ export default {
         })
       }
     },
-    verifyRequired(type) {
+    verifyRequired(type, InsuranceActive) {
       this.requestFile = []
       //被保險人
       if (!this.Insuraned.ID) {
@@ -137,7 +137,7 @@ export default {
       if (!this.internalControlData.issuerNumber) {
         this.requestFile.push('未填寫經手人代號')
       }
-      if (type == 'place') {
+      if (type == 'place' && InsuranceActive !== 2) {
         this.placeInfo.map(item => {
           if (item.area.Value == '選擇區域' || item.area.Text == '選擇區域') {
             this.requestFile.push('未選擇區域')

@@ -6,6 +6,7 @@ export default {
     editModel: false,
     calculateModel: false,
     orderNo: '',
+    mainOrderNo: '',
   },
   getters: {
   },
@@ -19,8 +20,9 @@ export default {
     UPDATED_CALCULATE_MODEL(state, calculateModel) {
       state.calculateModel = calculateModel
     },
-    UPDATED_ORDER_NO(state, orderNo) {
+    UPDATED_ORDER_NO(state, { orderNo, mainOrderNo }) {
       state.orderNo = orderNo
+      state.mainOrderNo = mainOrderNo
     }
   },
   actions: {
@@ -45,8 +47,8 @@ export default {
     async AttachmentDetails(_, { policyAttachmentId }) {
       return await AttachmentDetails(policyAttachmentId)
     },
-    updateOrderNo({ commit }, orderNo) {
-      commit('UPDATED_ORDER_NO', orderNo)
+    updateOrderNo({ commit }, { orderNo, mainOrderNo }) {
+      commit('UPDATED_ORDER_NO', { orderNo, mainOrderNo })
     }
   }
 }

@@ -124,6 +124,8 @@ export default {
       insuranceAmountList: state => state.activity.insuranceAmountList,
       'loading': state => state.app.loading,
       orderNo: state => state.common.orderNo,
+      mainOrderNo: state => state.common.mainOrderNo,
+
     }),
     InsuranedData: {
       get() {
@@ -152,7 +154,7 @@ export default {
   },
   methods: {
     async quotationDetail() {
-      const detail = await this.$store.dispatch('quotation/GetActivityQuotationDetail', this.orderNo)
+      const detail = await this.$store.dispatch('quotation/GetActivityQuotationDetail', {orderno: this.orderNo,mainOrderNo: this.mainOrderNo})
       this.quotationData = {
         ...detail.data.content,
         insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
@@ -185,7 +187,7 @@ export default {
     async finishQuotation(key) {
       const data = {
         orderNo: this.orderNo,
-        insuranceProjectId: this.quotationData.insuranceAmounts[0].id,
+        mainOrderNo: this.mainOrderNo
       }
       if(key) {
         await this.$store.dispatch('quotation/FinishQuotation', {data})

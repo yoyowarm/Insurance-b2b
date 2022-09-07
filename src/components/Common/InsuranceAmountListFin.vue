@@ -222,7 +222,8 @@ export default {
   computed: {
     ...mapState({
       editModel: state => state.common.editModel,
-      viewModel: state => state.common.viewModel
+      viewModel: state => state.common.viewModel,
+      mainOrderNo: state => state.common.mainOrderNo
     }),
     amountMinimum() {
       const arr = []
@@ -258,15 +259,15 @@ export default {
     handleResize () {
       this.windowWidth = window.innerWidth
     },
-    async downloadFile(type, item) {
+    async downloadFile(type) {
       if (type === 'insurance') {
-        const URL = `${process.env.VUE_APP_API_URL}Document/GetInsuranceDocument?orderNo=${this.orderNo}&insuranceProjectId=${item.id}`
+        const URL = `${process.env.VUE_APP_API_URL}Document/GetInsuranceDocument?orderNo=${this.orderNo}`
         const link = document.createElement('a');
               link.href = URL;
               link.download= true;
               link.click();
       } else {
-        const URL = `${process.env.VUE_APP_API_URL}Document/Get${this.type =='place'? 'Place': 'Activity'}QuotationDocument?orderNo=${this.orderNo}&insuranceProjectId=${item.id}`
+        const URL = `${process.env.VUE_APP_API_URL}Document/Get${this.type =='place'? 'Place': 'Activity'}QuotationDocument?orderNo=${this.orderNo}`
         const link = document.createElement('a');
               link.href = URL;
               link.download= true;
@@ -275,14 +276,6 @@ export default {
     },
     addAmount() {
       this.$emit('update:lists', [...this.lists,{...this.lists[this.lists.length -1],selected:false,insuranceAmount: '- -',fixed :false, id: '' }])
-    },
-    remoteAmount(index) {
-      const arr = [...this.lists]
-      if(arr[index].id) {
-        this.$store.dispatch('quotation/DeleteInusranceProject', {insuranceProjectId: arr[index].id, orderNo: this.orderNo})
-      }
-      arr.splice(index,1)
-      this.$emit('update:lists', arr)
     },
     updatedValue(index,key,e) {
       const lists = [...this.lists]
@@ -341,7 +334,7 @@ export default {
       this.$router.push({name: `${this.type}-quotation-step1`})
     },
     async quotationDetail(type) {
-      const detail = await this.$store.dispatch(`quotation/Get${type == 'place'? 'Place': 'Activity'}QuotationDetail`, this.orderNo)
+      const detail = await this.$store.dispatch(`quotation/Get${type == 'place'? 'Place': 'Activity'}QuotationDetail`, {orderno:this.orderNo, mainOrderNo: this.mainOrderNo})
       const data = {
         ...detail.data.content,
         insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {

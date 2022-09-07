@@ -22,7 +22,8 @@ import {
   GetActivityInsuranceProjectAmount,
   GetInsuraned,
   GetApplicant,
-  DeleteInusranceProject
+  DeleteInusranceProject,
+  EditQuotationApplicantInsured
 } from '@/api/Quotation'
 export default {
   namespaced: true,
@@ -36,8 +37,8 @@ export default {
     async AddActivityQuotation(_, quotation) {
       return await AddActivityQuotation(quotation)
     },
-    async GetQuotationList(_, { Skip, Take, State, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName }) {
-      return await GetQuotationList({ Skip, Take, State, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName })
+    async GetQuotationList(_, { Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName }) {
+      return await GetQuotationList({ Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName })
     },
     async GetQuotationState() {
       return await GetQuotationState()
@@ -48,11 +49,11 @@ export default {
     async CheckProjectHasQuotation(_, { orderno, insuranceProjectId }) {
       return await CheckProjectHasQuotation(orderno, insuranceProjectId)
     },
-    async GetPlaceQuotationDetail(_, orderno) {
-      return await GetPlaceQuotationDetail(orderno)
+    async GetPlaceQuotationDetail(_, { orderno, mainOrderNo }) {
+      return await GetPlaceQuotationDetail(orderno, mainOrderNo)
     },
-    async GetActivityQuotationDetail(_, orderno) {
-      return await GetActivityQuotationDetail(orderno)
+    async GetActivityQuotationDetail(_, { orderno, mainOrderNo }) {
+      return await GetActivityQuotationDetail(orderno, mainOrderNo)
     },
     async AddInsuranceProject(_, { data }) {
       return await AddInsuranceProject(data)
@@ -60,8 +61,8 @@ export default {
     async GetInsuranceProjectAmount(_, { data }) {
       return await GetInsuranceProjectAmount(data)
     },
-    async FinishQuotation(_, { data }) {
-      return await FinishQuotation(data)
+    async FinishQuotation(_, { orderNo }) {
+      return await FinishQuotation({ orderNo })
     },
     async BeginUnderwriting(_, { data }) {
       return await BeginUnderwriting(data)
@@ -101,6 +102,9 @@ export default {
     },
     async DeleteInusranceProject(_, { orderNo, insuranceProjectId }) {
       return await DeleteInusranceProject(orderNo, insuranceProjectId)
+    },
+    async EditQuotationApplicantInsured(_, data) {
+      return await EditQuotationApplicantInsured(data)
     }
   }
 }

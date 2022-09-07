@@ -141,10 +141,10 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.path === '/place-quotation/step3' && !store.state.common.orderNo) {
+  if (to.path === '/place-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
     next({ name: 'quotationList' })
   }
-  if (to.path === '/activity-quotation/step3' && !store.state.common.orderNo) {
+  if (to.path === '/activity-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
     next({ name: 'quotationList' })
   }
   if (to.path === '/place-quotation/step2' && from.path === '/place-quotation/step3') {

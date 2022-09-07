@@ -4,7 +4,7 @@ export default {
   namespaced: true,
   state: {
     uuid: '',
-    InsuranceActive: 0,
+    InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人
     quotationData: {},
     activityInfo: [{
       number: '',

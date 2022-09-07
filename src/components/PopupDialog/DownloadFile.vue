@@ -8,9 +8,9 @@
       </div>
       <div class="body">
         <div class="flex flex-row">
-          <span class="mr-4">關聯號:{{item.SerialNo}}</span>
-          <span class="mr-4">要保人:{{item.InsuredName}}</span>
-          <span>被保人:{{item.ApplicantName}}</span>
+          <span class="mr-4">關聯號:{{item.mainOrderNo}}</span>
+          <span class="mr-4">要保人:{{item.insuredName}}</span>
+          <span>被保人:{{item.applicantName}}</span>
         </div>
         <div class="downloadList">
           <div class="head">
@@ -20,11 +20,11 @@
           <ul class="body">
             <li>
               <span>要保書</span>
-              <a v-if="loading.length === 0" class="print cursor-pointer" :href="`${apiURL}Document/GetInsuranceDocument?orderNo=${orderNo}&insuranceProjectId=${item.id}`" download><font-awesome-icon :icon="['fa','print']" /></a>
+              <a v-if="loading.length === 0" class="print cursor-pointer" :href="`${apiURL}Document/GetInsuranceDocument?orderNo=${orderNo}`" download><font-awesome-icon :icon="['fa','print']" /></a>
             </li>
             <li>
               <span>報價明細</span>
-              <a v-if="loading.length === 0" class="print cursor-pointer" :href="`${apiURL}Document/Get${item.type == 1 ? 'Place': 'Activity'}QuotationDocument?orderNo=${orderNo}&insuranceProjectId=${item.id}`" download><font-awesome-icon :icon="['fa','print']" /></a>
+              <a v-if="loading.length === 0" class="print cursor-pointer" :href="`${apiURL}Document/Get${item.type == 1 ? 'Place': 'Activity'}QuotationDocument?orderNo=${orderNo}`" download><font-awesome-icon :icon="['fa','print']" /></a>
             </li>
           </ul>
         </div>

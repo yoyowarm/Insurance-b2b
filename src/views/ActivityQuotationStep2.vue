@@ -50,12 +50,12 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="內控資料">
+    <CommonBoard class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2">
       <BrokerInfo :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
-      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActive == 0 ? '產生報價單' : '修改報價單' }}</Button>
+      <Button v-if="InsuranceActive!==2" @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
+      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActive == 0 ? '產生報價單' : (InsuranceActive == 1 ? '更正報價單' :'修改要被保人') }}</Button>
     </div>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -116,6 +116,7 @@ export default {
       internalControlData: state => state.activity.internalControlData,
       activityQuotation: state => state.activity.activityQuotation,
       orderNo: state => state.common.orderNo,
+      mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.activity.quotationData,
     }),
     InsuranedData: {
@@ -255,7 +256,7 @@ export default {
           Text: item.name
         }
       })
-      if(this.InsuranceActive !== 0 || this.orderNo) {
+      if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
         this.step2InitAssignValue('activity')
       }
     },
@@ -274,7 +275,7 @@ export default {
     async nextStep() {
       this.verifyResult = []
       this.verifySalesInvadeResult = []
-      this.verifyRequired('activity')
+      this.verifyRequired('activity', this.InsuranceActive)
       await this.verifyUser()
       if(this.requestFile.length === 0) {
         await this.verifyFinal()
@@ -343,12 +344,15 @@ export default {
       delete obj.applicant.Nationality
       delete obj.applicant.RegisterNationality
 
-      if(this.InsuranceActive !== 0) {
+      if(this.InsuranceActive == 1) {
         if(this.quotationData.questionnaire) {
           obj.questionnaire = this.quotationData.questionnaire
         }
         Object.assign(obj, {orderNo:this.orderNo})
         await this.$store.dispatch('quotation/UpdateActivityQuotation', obj)
+      } else if (this.InsuranceActive == 2) {
+        obj.mainOrderNo = this.mainOrderNo
+        await this.$store.dispatch('quotation/EditQuotationApplicantInsured', obj)
       } else {
         const insert = await this.$store.dispatch('quotation/AddActivityQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)

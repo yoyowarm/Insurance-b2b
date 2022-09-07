@@ -12,7 +12,7 @@
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
       />
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="經營處所地址">
+    <CommonBoard class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
       <Address :lists.sync="placeInfoData" :cityList="cityList" :areaList="ApplicantAreaList"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
@@ -53,12 +53,12 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="內控資料">
+    <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2">
       <BrokerInfo :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
-      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActive == 0 ? '產生報價單' : '修改報價單' }}</Button>
+      <Button v-if="InsuranceActive!==2" @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
+      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActive == 0 ? '產生報價單' : (InsuranceActive == 1 ? '更正報價單' :'修改要被保人') }}</Button>
     </div>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -121,6 +121,7 @@ export default {
       internalControlData: state => state.place.internalControlData,
       placeQuotation: state => state.place.placeQuotation,
       orderNo: state => state.common.orderNo,
+      mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.place.quotationData,
     }),
     InsuranedData: {
@@ -269,7 +270,7 @@ export default {
         }
       })
 
-      if(this.InsuranceActive !== 0 || this.orderNo) {
+      if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
         this.step2InitAssignValue('place')
       }
     },
@@ -288,7 +289,7 @@ export default {
     async nextStep() {
       this.verifyResult = []
       this.verifySalesInvadeResult = []
-      this.verifyRequired('place')
+      this.verifyRequired('place', this.InsuranceActive)
       await this.verifyUser()
       if(this.requestFile.length === 0) {
         await this.verifyFinal()
@@ -315,7 +316,8 @@ export default {
     },
     async quotationMapping() {
       const obj = JSON.parse(JSON.stringify(this.placeQuotation))
-      Object.assign(obj, {placeInfo: [...this.placeInfo.map(item => {
+      if(this.InsuranceActive !==2) {
+        Object.assign(obj, {placeInfo: [...this.placeInfo.map(item => {
           return {
             squareFeet: item.squareFeet,
             holdState: item.holdState ? 0 : 1,
@@ -327,6 +329,7 @@ export default {
             countyCode: this.cityList.find(i => i.Value == item.city.Value).cityCode,
           }
         })],})
+      }
       Object.assign(obj, {insuraned:{
         ...this.Insuraned,
         cityId: this.Insuraned.City.Value,
@@ -366,12 +369,15 @@ export default {
       delete obj.applicant.Nationality
       delete obj.applicant.RegisterNationality
 
-      if(this.InsuranceActive !== 0) {
+      if(this.InsuranceActive == 1) {
         if(this.quotationData.questionnaire) {
           obj.questionnaire = this.quotationData.questionnaire
         }
         Object.assign(obj, {orderNo:this.orderNo})
         await this.$store.dispatch('quotation/UpdatePlaceQuotation', obj)
+      } else if (this.InsuranceActive == 2) {
+        obj.mainOrderNo = this.mainOrderNo
+        await this.$store.dispatch('quotation/EditQuotationApplicantInsured', obj)
       } else {
         const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)
