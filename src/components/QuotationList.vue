@@ -23,7 +23,7 @@
             <div v-else class="flex flex-col items-center mr-7 mt-1" >
               <span class="download mb-3" @click="popup(item)">列印</span>
               <span class="download mb-3" v-if="!tableData.rows[0].isFinishQuotation" @click="copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')">更正</span>
-              <span class="download" :class="{'disable': tableData.rows[0].isFinishQuotation}" @click="() => {if(!tableData.rows[0].isFinishQuotation){copyQuotation(item.type,item.orderNo,item.mainOrderNo)}}">複製</span>
+              <span class="download" @click="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
             </div>
             <div class="flex flex-col">
               <Button class="minButton" disabled outline>查看歷程</Button>
