@@ -367,7 +367,7 @@ export default {
         await this.$store.dispatch('quotation/AddActivityQuotationSerialNo', obj)
       } else {
         const insert = await this.$store.dispatch('quotation/AddActivityQuotation', obj)
-        this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)
+        this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: ''})
       }
     }
   },

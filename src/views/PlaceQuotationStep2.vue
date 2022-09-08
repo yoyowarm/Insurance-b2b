@@ -304,7 +304,7 @@ export default {
       }
     },
     prevStep() {
-      if(this.InsuranceActive !== 0 || this.orderNo) {
+      if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
         const data = {
           ...this.quotationData,
             applicant: {},
@@ -392,7 +392,7 @@ export default {
         await this.$store.dispatch('quotation/AddPlaceQuotionSerialNo', obj)
       } else {
         const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
-        this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)
+        this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: ''})
       }
     }
   },

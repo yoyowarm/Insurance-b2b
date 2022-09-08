@@ -144,6 +144,7 @@ export default {
         if (!oldVal || val.length !== oldVal.length || val.map((item,index) => {item.city.Text !== oldVal[index].city.Text})) {
           this.assignAmount()
         }
+        this.assignAmount()
       },
       immediate: true
     },
@@ -212,6 +213,7 @@ export default {
           arr.push(target)
         }
       })
+      
       if(arr.length > 1) {
         arr.sort((a, b) => a.perBodyAmount - b.perBodyAmount)
         data.perBodyAmount = arr[arr.length -1] ? arr[arr.length -1].perBodyAmount : ''
@@ -226,13 +228,13 @@ export default {
         data.insuranceTotalAmount = arr[arr.length -1] ? arr[arr.length -1].insuranceTotalAmount : ''
         data.selfInflictedAmount = this.data.selfInflictedAmount
         data.countyName = arr[arr.length -1] ? arr[arr.length -1].countyName : ''
-      } else {
+      } else if(arr.length == 1){
         data = {
-          countyName: arr[0] ? arr[0].countyName : '',
-          perBodyAmount: arr[0] ? arr[0].perBodyAmount : '',
-          perAccidentBodyAmount: arr[0] ? arr[0].perAccidentBodyAmount : '',
-          perAccidentFinanceAmount: arr[0] ? arr[0].perAccidentFinanceAmount : '',
-          insuranceTotalAmount: arr[0] ? arr[0].insuranceTotalAmount : '',
+          countyName: arr[0].countyName,
+          perBodyAmount: arr[0].perBodyAmount,
+          perAccidentBodyAmount: arr[0].perAccidentBodyAmount,
+          perAccidentFinanceAmount: arr[0].perAccidentFinanceAmount,
+          insuranceTotalAmount: arr[0].insuranceTotalAmount,
           selfInflictedAmount: this.data.selfInflictedAmount
         }
       }
@@ -268,7 +270,7 @@ export default {
         })
       }
     }
-  }
+  },
 }
 </script>
 
