@@ -28,7 +28,7 @@
 					<Select
 						slot="input"
 						defaultText="選擇日期"
-						:options="dayOptions"
+						:options="startDayOptions"
 						:selected="`${copyPeriod.startDate.day}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
@@ -74,7 +74,7 @@
 					<Select
 						slot="input"
 						defaultText="選擇日期"
-						:options="dayOptions"
+						:options="endDayOptions"
 						:selected="`${copyPeriod.endDate.day}`"
             :disable="disable"
 						@emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
@@ -158,9 +158,33 @@ export default {
 			}
 			return arr 
 		},
-		dayOptions () {
+		startDay() {
+      return this.copyPeriod.startDate.year && this.copyPeriod.startDate.month
+        ? new Date(Number(this.copyPeriod.startDate.year) + 1911, this.copyPeriod.startDate.month, 0).getDate()
+        : (this.copyPeriod.startDate.month
+          ? new Date(new Date().getFullYear(), this.copyPeriod.startDate.month, 0).getDate()
+          : 31)
+    },
+    endDay() {
+      return this.copyPeriod.endDate.year && this.copyPeriod.endDate.month
+        ? new Date(Number(this.copyPeriod.endDate.year) + 1911, this.copyPeriod.endDate.month, 0).getDate()
+        : (this.copyPeriod.endDate.month
+          ? new Date(new Date().getFullYear(), this.copyPeriod.endDate.month, 0).getDate()
+          : 31)
+    },
+    startDayOptions () {
 			const arr = []
-			for (let i = 1; i <= 31; i++) {
+			for (let i = 1; i <= this.startDay; i++) {
+				arr.push({
+					Text: i + '日',
+					Value: i
+				})
+			}
+			return arr 
+		},
+		endDayOptions () {
+			const arr = []
+			for (let i = 1; i <= this.endDay; i++) {
 				arr.push({
 					Text: i + '日',
 					Value: i
