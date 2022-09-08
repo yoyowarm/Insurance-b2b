@@ -10,6 +10,7 @@
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
+        :disable="InsuranceActive == 1 || InsuranceActive == 3"
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
@@ -17,9 +18,10 @@
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
-        <InputGroup class="col-span-2 w-full mb-2.5" noMt>
+        <InputGroup class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3">
           <Select
             slot="input"
+            :disable="InsuranceActive == 1 || InsuranceActive == 3"
             defaultText="選擇關係"
             :options="relationShips"
             :selected="Relation.Value"
@@ -42,7 +44,7 @@
         }"
       />
       <InsuranceInfo
-        :disable="sameAsInsured || Relation.Value =='RL00'"
+        :disable="sameAsInsured || Relation.Value =='RL00' || InsuranceActive == 1 || InsuranceActive == 3"
         :marginTop="marginTop"
         :info.sync="ApplicantData"
         :nationalities="nationalities"
@@ -53,8 +55,8 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2">
-      <BrokerInfo :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
+    <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3">
+      <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="InsuranceActive!==2" @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
