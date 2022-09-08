@@ -177,11 +177,6 @@ export const quotationListTable = () => {
         size: '1-6'
       },
       {
-        text: '保單號碼',
-        value: 'orderNo',
-        size: '3-6'
-      },
-      {
         text: '要保人',
         value: 'applicantName',
         size: '2-6'

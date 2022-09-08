@@ -23,7 +23,9 @@ import {
   GetInsuraned,
   GetApplicant,
   DeleteInusranceProject,
-  EditQuotationApplicantInsured
+  EditQuotationApplicantInsured,
+  AddPlaceQuotionSerialNo,
+  AddActivityQuotationSerialNo
 } from '@/api/Quotation'
 export default {
   namespaced: true,
@@ -105,6 +107,12 @@ export default {
     },
     async EditQuotationApplicantInsured(_, data) {
       return await EditQuotationApplicantInsured(data)
+    },
+    async AddPlaceQuotionSerialNo(_, data) {
+      return await AddPlaceQuotionSerialNo(data)
+    },
+    async AddActivityQuotationSerialNo(_, data) {
+      return await AddActivityQuotationSerialNo(data)
     }
   }
 }

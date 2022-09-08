@@ -2,9 +2,9 @@
   <div>
     <template v-for="(tableData,index) in listData">
       <div class="flex flex-row mb-2" :key="index+'tableOderNo'">
-        <div @click="copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo)">
-          <font-awesome-icon :icon="['fas','plus-circle']"  class="download"/>
-          <span class="download ml-1">新增序號</span>
+        <div @click="() => {if(!tableData.rows[0].isFinishQuotation) {copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'addSerialNo')}}">
+          <font-awesome-icon :icon="['fas','plus-circle']"  class="download" :class="{'disable': tableData.rows[0].isFinishQuotation}"/>
+          <span class="download ml-1" :class="{'disable': tableData.rows[0].isFinishQuotation}">新增序號</span>
         </div>
         <span @click="copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'updateQuotation')" class="download text-base ml-4"><font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span></span>
         <span class="ml-4">關聯號{{tableData.rows[0].mainOrderNo}}-<span :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>
@@ -12,19 +12,23 @@
       </div>
       <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX>
         <template v-for="(item,index) in tableData.rows">
-          <div class="download mb-3" @click="review(item.type,item.orderNo, item.mainOrderNo)" :slot="`serialNo-${index}`" :key="`serialNo-${index}`">
+          <div
+            class="mb-3"
+            :class="{'download': item.policyStatus == 8 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1}"
+            @click="() => { if(item.policyStatus == 8 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1) {review(item.type,item.orderNo, item.mainOrderNo)}}" :slot="`serialNo-${index}`" :key="`serialNo-${index}`">
             <span>{{item.serialNo}}</span>
           </div>
           <div :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row">
-            <div class="flex flex-col items-center mr-3 mt-1">
+            <div v-if="item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1" class="mr-9 mt-5 ml-1">- -</div>
+            <div v-else class="flex flex-col items-center mr-7 mt-1" >
               <span class="download mb-3" @click="popup(item)">列印</span>
-              <span class="download mb-3" @click="review(item.type,item.orderNo, item.mainOrderNo,'correct')">更正</span>
-              <span class="download" @click="copyQuotation(item.type,item.orderNo,item.mainOrderNo)">複製</span>
+              <span class="download mb-3" v-if="!tableData.rows[0].isFinishQuotation" @click="copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')">更正</span>
+              <span class="download" :class="{'disable': tableData.rows[0].isFinishQuotation}" @click="() => {if(!tableData.rows[0].isFinishQuotation){copyQuotation(item.type,item.orderNo,item.mainOrderNo)}}">複製</span>
             </div>
             <div class="flex flex-col">
               <Button class="minButton" disabled outline>查看歷程</Button>
               <Button class="minButton" disabled outline>異動比對</Button>
-              <Button class="minButton" @click.native="() => finishQuotation(item.orderNo)" :disabled="item.stateText == '報價完成'" outline>確認報價</Button>
+              <Button class="minButton" @click.native="() => finishQuotation(item.orderNo)" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
           </div>
           <div :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`" class="flex flex-col">
@@ -83,12 +87,9 @@ export default {
     },
   },
   methods: {
-    review(type, orderNo,mainOrderNo,correct) {
+    review(type, orderNo,mainOrderNo) {
       this.$store.dispatch('common/updateOrderNo', {orderNo,mainOrderNo})
-      this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/${correct ? 'step1' : 'step3'}`)
-      if(correct) {
-        this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,1)
-      }
+      this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step3`)
     },
     popup(item) {
       console.log(item)
@@ -99,10 +100,12 @@ export default {
     async copyQuotation(type,orderNo,mainOrderNo,update) {
       this.$store.dispatch('common/updateOrderNo', {orderNo,mainOrderNo})
       await this.quotationDetail(type,orderNo,mainOrderNo)
-      if(update) {
+      if(update == 'updateQuotation') {
         this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step2`)
         this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,2)
       } else {
+        if(update == 'addSerialNo') { this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,3) }
+        if(update == 'correct') { this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,1)}
         this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step1`)
       }
     },
@@ -161,8 +164,16 @@ export default {
 <style scoped lang="scss">
   .download {
     color: #1076EE;
-    @apply cursor-pointer
+    @apply cursor-pointer;
+    &.disable {
+      color: #C4C4C4;
+      @apply cursor-not-allowed
+    }
   }
+  .disable {
+      color: #C4C4C4;
+      @apply cursor-not-allowed
+    }
   .minButton {
     @apply text-sm p-1 px-2 mb-1
   }

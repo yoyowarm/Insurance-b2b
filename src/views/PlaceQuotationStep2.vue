@@ -58,7 +58,7 @@
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="InsuranceActive!==2" @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
-      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActive == 0 ? '產生報價單' : (InsuranceActive == 1 ? '更正報價單' :'修改要被保人') }}</Button>
+      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActiveText[InsuranceActive] }}</Button>
     </div>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -105,7 +105,13 @@ export default {
       businessSource: [],
       InsuranedAreaList: [],
       ApplicantAreaList: [],
-      detailArea: ''
+      detailArea: '',
+      InsuranceActiveText: {
+        0:'產生報價單',
+        1:'更正報價單',
+        2:'修改要被保人',
+        3: '新增序號'
+      }
     }
   },
   computed: {
@@ -378,6 +384,9 @@ export default {
       } else if (this.InsuranceActive == 2) {
         obj.mainOrderNo = this.mainOrderNo
         await this.$store.dispatch('quotation/EditQuotationApplicantInsured', obj)
+      } else if (this.InsuranceActive == 3) {
+        obj.mainOrderNo = this.mainOrderNo
+        await this.$store.dispatch('quotation/AddPlaceQuotionSerialNo', obj)
       } else {
         const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',insert.data.content.orderNo)

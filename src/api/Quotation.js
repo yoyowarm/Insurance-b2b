@@ -50,4 +50,11 @@ export const GetApplicant = (name, id) => request('get', '/Quotation/GetApplican
 export const DeleteInusranceProject = (orderNo, insuranceProjectId) => request('delete', `/Quotation/DeleteInusranceProject?OrderNo=${orderNo}&InsuranceProjectId=${insuranceProjectId}`)
 //修改關聯報價單要被保人
 export const EditQuotationApplicantInsured = (data) => request('patch', '/Quotation/EditQuotationApplicantInsured', data)
+//新增場所報價單序號
+export const AddPlaceQuotionSerialNo = (data) => request('post', '/Quotation/AddPlaceQuotionSerialNo', data)
+//新增活動報價單序號
+export const AddActivityQuotationSerialNo = (data) => request('post', '/Quotation/AddActivityQuotationSerialNo', data)
+
+
+
 

@@ -27,7 +27,7 @@
         <span class="text-white text-lg font-bold">活動報價</span>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/Office-audit" @click.native="$emit('update:openMenu', false)">
+    <!-- <DynamicLink type="router" path="/Office-audit" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/Office-audit'}">
         <div class="icon branchAudit"/>
         <span class="text-white text-lg font-bold">總公司核保</span>
@@ -38,7 +38,7 @@
         <div class="icon officeAudit"/>
         <span class="text-white text-lg font-bold">分公司核保</span>
       </div>
-    </DynamicLink>
+    </DynamicLink> -->
     <DynamicLink type="router" path="/permissionSetting" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/permissionSetting'}">
         <div class="icon permissionSetting"/>
