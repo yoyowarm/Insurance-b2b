@@ -107,9 +107,8 @@
       </div>
       <div class="button-group">
         <Button :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
-        <Button :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
-        <Button :class="{'mr-6': windowWidth > 750}" @click.native="getAmount(index)" outline>試算</Button>
-        <Button v-if="item.fixed && !copyLists.some(item => item.isSelected)" :class="{'mr-6': windowWidth > 750}" @click.native="updateFixed(index)" outline>修改</Button>
+        <Button @click.native="downloadFile('', item)" outline>預覽報價單</Button>
+        <Button v-if="item.fixed && !copyLists.some(item => item.isSelected)" @click.native="updateFixed(index)" outline>修改</Button>
         <!-- <Button :class="{'mr-6': windowWidth > 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button> -->
         <!-- <Button :class="{'col-span-2': windowWidth < 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="updateInsuranceProject(index)" outline>編輯投保資料</Button> -->
         <Button v-if="viewModel && editModel">修改保費</Button>
@@ -132,7 +131,6 @@
       <li>AGG > AOA *2係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.aggAOACoefficient: ''}}</li>
       <li>總保費:{{lists[selectedIndex]?lists[selectedIndex].parameter.amount: ''}}</li>
     </ul>
-    <div v-else>尚未試算保費</div>
     <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.mutiSizeParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模細數(${lists[selectedIndex].parameter.sizeParameter})*多處所係數(${lists[selectedIndex].parameter.mutiSizeParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${lists[selectedIndex].parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))*短期費率(${lists[selectedIndex].parameter.shortPeriodParameter})/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
 
     <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.periodParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模係數(${lists[selectedIndex].parameter.sizeParameter})*期間係數(${lists[selectedIndex].parameter.periodParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${lists[selectedIndex].parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
@@ -254,6 +252,11 @@ export default {
       },
       deep: true
     },
+    openFormula: {
+      async handler() {
+        await this.getAmount(0)
+      }
+    }
   },
   methods: {
     handleResize () {
@@ -312,7 +315,7 @@ export default {
         lists[index].fixed = true
         this.$emit('update:lists',lists)
         const amount = await this.$store.dispatch('quotation/GetInsuranceProjectAmount',{data})
-
+        console.log(amount)
         lists[index].insuranceAmount = amount.data.content.amount? amount.data.content.amount: '請洽核保'
         if(amount.data.content.amount) {
           lists[index].parameter = amount.data.content.parameter
