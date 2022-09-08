@@ -634,7 +634,7 @@ export default {
           year: new Date().getFullYear()-1911,
           month: new Date().getMonth() + 1,
           day: new Date().getDate(),
-          hour: 12,
+          hour: new Date().getHours() > 12 ? 24 : 12,
         }
       }
       if((new Date().getFullYear()%4) == 0) {
@@ -647,7 +647,7 @@ export default {
                 year: new Date().getFullYear()-1911,
                 month: new Date().getMonth() + 1,
                 day:28,
-                hour: 12,
+                hour: new Date().getHours() > 12 ? 24 : 12,
               }
             }
           } else if(leapYear > startDate) {
@@ -658,7 +658,7 @@ export default {
                 { year: new Date(newYear).getFullYear()-1911,
                   month: new Date(newYear).getMonth()+1,
                   day: new Date(newYear).getDate(),
-                  hour: 12,
+                  hour: new Date().getHours() > 12 ? 24 : 12,
                 }
               }
           } else {
@@ -668,7 +668,7 @@ export default {
                 year: (new Date().getFullYear() + 1)-1911,
                 month: new Date().getMonth()+1,
                 day: new Date().getDate(),
-                hour: 12
+                hour: new Date().getHours() > 12 ? 24 : 12
               }
             }
           }
@@ -679,7 +679,7 @@ export default {
                 year: (new Date().getFullYear() + 1)-1911,
                 month: new Date().getMonth()+1,
                 day: new Date().getDate(),
-                hour: 12
+                hour: new Date().getHours() > 12 ? 24 : 12
               }
           }
         }
