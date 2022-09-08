@@ -356,7 +356,8 @@ export default {
         if(this.quotationData.questionnaire) {
           obj.questionnaire = this.quotationData.questionnaire
         }
-        Object.assign(obj, {orderNo:this.orderNo})
+        obj.orderNo = this.orderNo
+        obj.mainOrderNo = this.mainOrderNo
         await this.$store.dispatch('quotation/UpdateActivityQuotation', obj)
       } else if (this.InsuranceActive == 2) {
         obj.mainOrderNo = this.mainOrderNo

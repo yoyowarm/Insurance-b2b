@@ -7,25 +7,25 @@
           <span class="download ml-1" :class="{'disable': tableData.rows[0].isFinishQuotation}">新增序號</span>
         </div>
         <span @click="copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'updateQuotation')" class="download text-base ml-4"><font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span></span>
-        <span class="ml-4">關聯號{{tableData.rows[0].mainOrderNo}}-<span :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>
+        <span class="ml-4 mr-4">關聯號{{tableData.rows[0].mainOrderNo}}-<span :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>
+        <span>保單編號{{tableData.rows[0].policyNo}}</span>
         <!-- <span class="ml-4">保單號碼070FQ013601</span> -->
       </div>
       <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX>
         <template v-for="(item,index) in tableData.rows">
           <div
-            class="mb-3"
-            :class="{'download': item.policyStatus == 8 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1}"
-            @click="() => { if(item.policyStatus == 8 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1) {review(item.type,item.orderNo, item.mainOrderNo)}}" :slot="`serialNo-${index}`" :key="`serialNo-${index}`">
+            class="mb-3 download"
+            @click="() => review(item.type,item.orderNo, item.mainOrderNo)" :slot="`serialNo-${index}`" :key="`serialNo-${index}`">
             <span>{{item.serialNo}}</span>
           </div>
           <div :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row">
-            <div v-if="item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1" class="mr-9 mt-5 ml-1">- -</div>
+            <div v-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1) || item.policyStatus == 99" class="mr-9 mt-5 ml-1">- -</div>
             <div v-else class="flex flex-col items-center mr-7 mt-1" >
               <span class="download mb-3" @click="popup(item)">列印</span>
               <span class="download mb-3" v-if="!tableData.rows[0].isFinishQuotation" @click="copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')">更正</span>
               <span class="download" @click="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
             </div>
-            <div class="flex flex-col">
+            <div class="flex flex-col" v-if="item.policyStatus !== 99">
               <Button class="minButton" disabled outline>查看歷程</Button>
               <Button class="minButton" disabled outline>異動比對</Button>
               <Button class="minButton" @click.native="() => finishQuotation(item.orderNo)" v-if="!item.isFinishQuotation" outline>確認報價</Button>

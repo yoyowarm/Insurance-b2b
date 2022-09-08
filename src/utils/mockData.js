@@ -188,7 +188,7 @@ export const quotationListTable = () => {
       },
       {
         text: '保費',
-        value: 'Premiums',
+        value: 'insuranceAmount',
         size: '2-6'
       },
       {
@@ -230,11 +230,6 @@ export const quotationListTable = () => {
         text: '總分公司單位',
         value: 'companyDepartment',
         size: '2-6'
-      },
-      {
-        text: '保單編號',
-        value: 'policyNo',
-        size: '3-6'
       },
       {
         text: '類型',
