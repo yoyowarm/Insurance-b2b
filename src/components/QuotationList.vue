@@ -19,7 +19,8 @@
             <span>{{item.serialNo}}</span>
           </div>
           <div :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row">
-            <div v-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1) || item.policyStatus == 99" class="mr-9 mt-5 ml-1">- -</div>
+            <div v-if="item.policyStatus == 99">序號改為:{{item.newSerialNo}}</div>
+            <div v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))" class="mr-9 mt-5 ml-1">- -</div>
             <div v-else class="flex flex-col items-center mr-7 mt-1" >
               <span class="download mb-3" @click="popup(item)">列印</span>
               <span class="download mb-3" v-if="!tableData.rows[0].isFinishQuotation" @click="copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')">更正</span>
