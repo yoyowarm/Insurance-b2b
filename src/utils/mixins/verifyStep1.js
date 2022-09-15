@@ -127,6 +127,9 @@ export default {
             this.requestFile.push('必填詢問表')
           }
         }
+        if (Object.keys(this.period.startDate).some(key => isNaN(this.period.startDate[key])) || Object.keys(this.period.endDate).some(key => isNaN(this.period.endDate[key]))) {
+          this.requestFile.push('保期起迄日不可為空')
+        }
       }
       if (type == 'activity') {
         if (!this.period.endDate.year || !this.period.endDate.month || !this.period.endDate.day || isNaN(this.period.endDate.hour)) {

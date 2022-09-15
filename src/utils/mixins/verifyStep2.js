@@ -94,6 +94,9 @@ export default {
       if (!this.Insuraned.subAddress) {
         this.requestFile.push('被保險人未輸入地址')
       }
+      if (this.Insuraned.subAddress.length > 50) {
+        this.requestFile.push('被保險人地址長度不可超過50字')
+      }
       if (this.Insuraned.IsForeignRegister && !this.Insuraned.RegisterNationality) {
         this.requestFile.push('被保險人未輸入登記/註冊地國籍')
       }
@@ -122,6 +125,9 @@ export default {
       if (!this.Applicant.subAddress) {
         this.requestFile.push('要保險人未輸入地址')
       }
+      if (this.Applicant.subAddress.length > 50) {
+        this.requestFile.push('要保險人地址長度不可超過50字')
+      }
       if (this.Applicant.IsForeignRegister && !this.Applicant.RegisterNationality) {
         this.requestFile.push('要保險人未輸入登記/註冊地國籍')
       }
@@ -144,6 +150,9 @@ export default {
           }
           if (!item.subAddress) {
             this.requestFile.push('未輸入處所地址')
+          }
+          if (item.subAddress.length > 50) {
+            this.requestFile.push('處所地址長度不可超過50字')
           }
         })
       }
