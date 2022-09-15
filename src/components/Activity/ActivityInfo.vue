@@ -78,7 +78,7 @@
             <Select
               slot="input"
               defaultText="選擇日期"
-              :options="dayOptions"
+              :options="startDayOptions(index)"
               :selected="`${info.startDate.day}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('startDate','day', e.Value,index);updateDay(index)}"
@@ -126,7 +126,7 @@
             <Select
               slot="input"
               defaultText="選擇日期"
-              :options="(info.endDate.month > info.startDate.month) || (info.endDate.year > info.startDate.year)  ? dayOptions : dayOptions.filter(item => item.Value >= info.startDate.day)"
+              :options="endDayOptions(index)"
               :selected="`${info.endDate.day}`"
               :disable="disable"
               @emitItem="(e) => {emitSelectItem('endDate','day', e.Value,index);updateDay(index)}"
@@ -256,6 +256,42 @@ export default {
 		},
 	},
   methods: {
+    startDay(index) {
+      if(!this.copyInfoList[index]) return
+      return this.copyInfoList[index].startDate.year && this.copyInfoList[index].startDate.month && this.copyInfoList[index].startDate.month !== '選擇月份'
+        ? new Date(Number(this.copyInfoList[index].startDate.year) + 1911, this.copyInfoList[index].startDate.month, 0).getDate()
+        : (this.copyInfoList[index].startDate.month !== '選擇月份'
+          ? new Date(new Date().getFullYear(), this.copyInfoList[index].startDate.month, 0).getDate()
+          : 31)
+    },
+    endDay(index) {
+      if(!this.copyInfoList[index]) return
+      return this.copyInfoList[index].endDate.year && this.copyInfoList[index].endDate.month && this.copyInfoList[index].endDate.month !== '選擇月份'
+        ? new Date(Number(this.copyInfoList[index].endDate.year) + 1911, this.copyInfoList[index].endDate.month, 0).getDate()
+        : (this.copyInfoList[index].endDate.month !== '選擇月份'
+          ? new Date(new Date().getFullYear(), this.copyInfoList[index].endDate.month, 0).getDate()
+          : 31)
+    },
+    startDayOptions (index) {
+			const arr = []
+			for (let i = 1; i <= this.startDay(index); i++) {
+				arr.push({
+					Text: i + '日',
+					Value: i
+				})
+			}
+			return arr 
+		},
+    endDayOptions (index) {
+			const arr = []
+			for (let i = 1; i <= this.endDay(index); i++) {
+				arr.push({
+					Text: i + '日',
+					Value: i
+				})
+			}
+			return arr 
+		},
     updateValue(e,type,index) {
       const copyInfoList = [...this.infoList]
       copyInfoList[index][type] = e
@@ -264,33 +300,52 @@ export default {
     emitSelectItem(type,key, value, index) {
       const copyInfoList = [...this.infoList]
 			copyInfoList[index][type][key] = value
+      const hour = copyInfoList[index].startDate.hour == 24 ? '11:59' : `${copyInfoList[index].startDate.hour}:00`
+      const tomorrow = new Date(`${Number(copyInfoList[index].startDate.year)+1911}/${copyInfoList[index].startDate.month}/${copyInfoList[index].startDate.day} ${hour}`).getTime() + (1000 *60 *60 *24)
       const CHKey = {
         year: '選擇民國年',
         month: '選擇月份',
         day: '選擇日期',
         hour: '選擇小時'
       }
-      if(new Date().getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${copyInfoList[index][type].hour}:00`).getTime()) {
+        console.log(copyInfoList[index][type])
+      if(new Date(`${Number(copyInfoList[index][type].year)+1911}`,`${copyInfoList[index][type].month}`,0).getDate() < Number(copyInfoList[index][type].day)) {
+        Popup.create({
+          hasHtml: true,
+          htmlText: '無此日期',
+        })
+        copyInfoList[index][type][key] = CHKey[key]
+        if(this.$refs[`${type}-${key}-${index}`]) {
+          this.$refs[`${type}-${key}-${index}`][0].$el.lastChild.value = CHKey[key]
+        }
+      } else if(new Date().getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${copyInfoList[index][type].hour}:00`).getTime()) {
         Popup.create({
           hasHtml: true,
           htmlText: '活動時間不能小於當前時間',
         })
-        copyInfoList[index][type][key] = ''
+        copyInfoList[index][type][key] = CHKey[key]
         if(this.$refs[`${type}-${key}-${index}`]) {
           this.$refs[`${type}-${key}-${index}`][0].$el.lastChild.value = CHKey[key]
+        }
+      } else {
+        if(type == 'startDate') {
+           if(key == 'hour') {copyInfoList[index].endDate.hour = value == 0 ? 24 : value}
+            copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear()-1911
+            copyInfoList[index].endDate.month = new Date(tomorrow).getMonth()+1
+            copyInfoList[index].endDate.day = copyInfoList[index].endDate.hour == 0 ? new Date(tomorrow).getDate()-1 : new Date(tomorrow).getDate()
         }
       }
 			this.$emit('update:infoList', copyInfoList)
 		},
     updateDay(index) {
-      const startTime = new Date(`${Number(this.copyInfoList[index].startDate.year)+1911}-${this.copyInfoList[index].startDate.month}-${this.copyInfoList[index].startDate.day} ${this.copyInfoList[index].startDate.hour}:00`).getTime()
-      const endTime = new Date(`${Number(this.copyInfoList[index].endDate.year)+1911}-${this.copyInfoList[index].endDate.month}-${this.copyInfoList[index].endDate.day} ${this.copyInfoList[index].endDate.hour}:00`).getTime()
-      const day = Math.ceil((endTime - startTime) / (24 * 3600 * 1000))
+      const startTime = new Date(`${Number(this.copyInfoList[index].startDate.year)+1911}-${this.copyInfoList[index].startDate.month}-${this.copyInfoList[index].startDate.day} 00:00`).getTime()
+      const endTime = new Date(`${Number(this.copyInfoList[index].endDate.year)+1911}-${this.copyInfoList[index].endDate.month}-${this.copyInfoList[index].endDate.day} 00:00`).getTime()
+      const day = Math.round((endTime - startTime) / (24 * 3600 * 1000)) + 1
       this.updateValue(day.toString(),'day',index)
     },
     assignDate(index) {
-      const today = new Date().getHours() > 0 ? new Date().setDate(new Date().getDate() + 1) : new Date().getTime()
-      const tomorrow = new Date().getHours() > 0 ?new Date().setDate(new Date().getDate() + 2) : new Date().setDate(new Date().getDate() + 1)
+      const today = new Date().getHours() > 12 ? new Date().setDate(new Date().getDate() + 1) : new Date().getTime()
+      const tomorrow = new Date().getHours() > 12 ?new Date().setDate(new Date().getDate() + 2) : new Date().setDate(new Date().getDate() + 1)
       
       if(!this.copyInfoList[index].startDate.year) {
         this.copyInfoList[index].startDate.year = new Date(today).getFullYear() - 1911
@@ -305,8 +360,8 @@ export default {
         this.copyInfoList[index].endDate.day = new Date(today).getDate()
       }
       if(!this.copyInfoList[index].startDate.hour) {
-        this.copyInfoList[index].startDate.hour = 0
-        this.copyInfoList[index].endDate.hour = 24
+        this.copyInfoList[index].startDate.hour = new Date().getHours() > 12 ? 0 : 12
+        this.copyInfoList[index].endDate.hour = new Date().getHours() > 12 ? 24 : 12
       }
       this.$emit('update:infoList', this.copyInfoList)
     }

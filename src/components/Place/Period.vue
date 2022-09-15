@@ -208,7 +208,7 @@ export default {
           hasHtml: true,
           htmlText: '保險期間不能小於當前時間',
         })
-        this.copyPeriod[type][key] = ''
+        this.copyPeriod[type][key] = CHKey[key]
         if(this.$refs[`${type}-${key}`]) {
           this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
         }
