@@ -143,20 +143,29 @@ export default {
       this.$store.dispatch(`${type == 1?'place' : 'activity'}/updatedQuotationData`,data)
     },
     async finishQuotation(orderNo) {
-      const res = await this.$store.dispatch('quotation/FinishQuotation', {orderNo})
-      console.log(res)
-      if(res.data.code == 1) {
-        Popup.create({
-          hasHtml: true,
-          htmlText:'報價完成'
-        })
-        this.$emit('updateQuotationList')
-      } else {
-        Popup.create({
-          hasHtml: true,
-          htmlText:res.data.message
-        })
-      }
+      Popup.create({
+        hasHtml: true,
+				maskClose: false,
+				confirm: true,
+				ok: '確定',
+				cancel: '取消',
+				htmlText: `<p>完成報價後將無法改動報價內容，確定完成報價？</p>`,
+      }).then(async () => {
+        const res = await this.$store.dispatch('quotation/FinishQuotation', {orderNo})
+        if(res.data.code == 1) {
+          Popup.create({
+            hasHtml: true,
+            htmlText:'報價完成'
+          })
+          this.$emit('updateQuotationList')
+        } else {
+          Popup.create({
+            hasHtml: true,
+            htmlText:res.data.message
+          })
+        }
+      })
+      
     }
   }
 }

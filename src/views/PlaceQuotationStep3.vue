@@ -18,6 +18,7 @@
       type="place"
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
+      <Button  @click.native="() =>{$router.push('/')}" class="my-8 w-40 md:w-64 mr-5">返回列表</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
         v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
@@ -79,6 +80,7 @@ import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 // import routeChange from '@/utils/mixins/routeChange'
 import { mapState } from 'vuex'
+import { Popup } from '@/utils/popups'
 export default {
   // mixins: [routeChange],
   components: {
@@ -192,20 +194,29 @@ export default {
       console.log(this.quotationData)
     },
     async finishQuotation(key) {
-      const data = {
-        orderNo: this.orderNo,
-        mainOrderNo: this.mainOrderNo
-      }
-      if(key) {
-        await this.$store.dispatch('quotation/FinishQuotation', {data})
-      } else {
-        await this.$store.dispatch('quotation/BeginUnderwriting',{data} )
-      }
-      this.$router.push('/')
-      this.$store.dispatch('place/clearAll')
-      this.$store.dispatch('place/updatedUUID', '')
-      this.$store.dispatch('common/updateOrderNo', '')
-      this.$store.dispatch('common/updatedCalculateModel', false)
+      Popup.create({
+        hasHtml: true,
+				maskClose: false,
+				confirm: true,
+				ok: '確定',
+				cancel: '取消',
+				htmlText: `<p>完成報價後將無法改動報價內容，確定完成報價？</p>`,
+      }).then(async () => {
+        const data = {
+          orderNo: this.orderNo,
+          mainOrderNo: this.mainOrderNo
+        }
+        if(key) {
+          await this.$store.dispatch('quotation/FinishQuotation', {data})
+        } else {
+          await this.$store.dispatch('quotation/BeginUnderwriting',{data} )
+        }
+        this.$router.push('/')
+        this.$store.dispatch('place/clearAll')
+        this.$store.dispatch('place/updatedUUID', '')
+        this.$store.dispatch('common/updateOrderNo', '')
+        this.$store.dispatch('common/updatedCalculateModel', false)
+      })
     }
   },
   async mounted() {
