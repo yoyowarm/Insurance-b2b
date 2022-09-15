@@ -90,4 +90,8 @@ export default {
   .disable {
     @apply cursor-not-allowed bg-gray-100 pointer-events-none;
   }
+  /* input::placeholder {
+    font: 18px;
+} */
+
 </style>

@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="column-6">
-      <InputGroup class=" w-full mb-2.5" title="是否續保" borderBtn :editModel="editModel">
+      <InputGroup class=" w-full " title="是否續保" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="是"/>
         <div v-else slot="input" class="w-full relative">
           {{info.renewal&&info.renewal.isRenewal ? '是' : '否'}}
         </div>
       </InputGroup>
-      <InputGroup class=" w-full mb-2.5" title="保單編號" borderBtn :editModel="editModel">
+      <InputGroup class=" w-full " title="保單編號" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="123456789"/>
         <div v-else slot="input" class="w-full relative">
           {{info.renewal&&info.renewal.insuranceNumber}}

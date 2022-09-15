@@ -10,7 +10,7 @@
           :disabled="disable"
         />
       </InputGroup>
-      <InputGroup class="w-full mb-2.5" title="去年平均保費" :disable="!data.lastYear.status || disable" dash>
+      <InputGroup class="w-full" title="去年平均保費" :disable="!data.lastYear.status || disable" dash>
         <Input
           slot="input"
           placeholder="輸入保單號碼"
@@ -19,7 +19,7 @@
           @updateValue="(e) => updateValue(e,'averagePremium', 'lastYear')"
         />
       </InputGroup>
-      <InputGroup class="w-full mb-2.5" title="去年理賠金額" :disable="!data.lastYear.status || disable">
+      <InputGroup class="w-full" title="去年理賠金額" :disable="!data.lastYear.status || disable">
         <Input
           slot="input"
           placeholder="輸入保單號碼"
@@ -29,7 +29,7 @@
         />
       </InputGroup>
     </div>
-    <div class="column-5">
+    <div class="column-5 mt-4">
       <InputGroup class="item" title="前年投保紀錄" dash :disable="disable">
         <SwitchInput
           slot="input"
@@ -39,7 +39,7 @@
           @updateValue="(e) => updateValue(e,'status', 'previousYear')"
         />
       </InputGroup>
-      <InputGroup class="w-full mb-2.5" title="前年平均保費" :disable="!data.previousYear.status || disable" dash>
+      <InputGroup class="w-full" title="前年平均保費" :disable="!data.previousYear.status || disable" dash>
         <Input
           slot="input"
           placeholder="輸入保單號碼"
@@ -48,7 +48,7 @@
           @updateValue="(e) => updateValue(e,'averagePremium', 'previousYear')"
         />
       </InputGroup>
-      <InputGroup class="w-full mb-2.5" title="前年理賠金額" :disable="!data.previousYear.status || disable">
+      <InputGroup class="w-full" title="前年理賠金額" :disable="!data.previousYear.status || disable">
         <Input
           slot="input"
           placeholder="輸入保單號碼"
