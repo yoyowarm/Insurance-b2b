@@ -383,13 +383,15 @@ export default {
         }
         obj.orderNo = this.orderNo
         obj.mainOrderNo = this.mainOrderNo
-        await this.$store.dispatch('quotation/UpdatePlaceQuotation', obj)
+        const res = await this.$store.dispatch('quotation/UpdatePlaceQuotation', obj)
+        this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: ''})
       } else if (this.InsuranceActive == 2) {
         obj.mainOrderNo = this.mainOrderNo
         await this.$store.dispatch('quotation/EditQuotationApplicantInsured', obj)
       } else if (this.InsuranceActive == 3) {
         obj.mainOrderNo = this.mainOrderNo
-        await this.$store.dispatch('quotation/AddPlaceQuotionSerialNo', obj)
+        const res = await this.$store.dispatch('quotation/AddPlaceQuotionSerialNo', obj)
+        this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: ''})
       } else {
         const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: ''})
