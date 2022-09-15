@@ -23,7 +23,7 @@ export default {
       }
     },
     placeInfo: [{//處所資料
-      holdState: true,
+      holdState: false,
       squareFeet: 0,
       city: {
         Text: '選擇縣市',
@@ -139,8 +139,8 @@ export default {
         },
         area: '',//基地面積
         totalArea: '',//總面積
-        dailyAveragePersons: '',//每日平均出入人數
-        singleDayHighestPersons: '',//單日最高出入人數
+        dailyAveragePersons: '',//平均出入人數(人/天)
+        singleDayHighestPersons: '',//最高出入人數(人/天)
       },
       part2: {
         wallMaterial: '',//外牆建築材質
@@ -151,7 +151,7 @@ export default {
           Text: '選擇性質',
           Value: '',
         },
-        nearbyBuildingNature: {//鄰近建築物性質
+        nearbyBuildingNature: {//鄰近建物性質
           Text: '選擇性質',
           Value: '',
         },
@@ -159,11 +159,11 @@ export default {
           Text: '公共安全檢查',
           Value: '',
         },
-        room: {//營業性質之數量 如係屬飯店、旅館者
+        room: {//營業性質之數量 如係屬飯店、旅館者，請說明其房間數目
           selected: false,
           value: '',
         },
-        seat: {//營業性質之數量 如係屬戲院、音樂廳者
+        seat: {//營業性質之數量 屬戲院、音樂廳者，請說明其座位數目
           selected: false,
           value: '',
         },
@@ -171,7 +171,7 @@ export default {
         underground: '',//地下樓層數
         useFloors: '',//使用樓層數
         hasAntiSlip: null,//樓梯是否有止滑條
-        hasSwimmingPool: null,//是否有游泳池
+        hasSwimmingPool: null,//營業處所是否有游泳池
         lifeguardAmount: '',//救生員人數
         material: '',//地板為何種材質
         hasCarpet: null,//是否鋪設地談,
@@ -392,7 +392,7 @@ export default {
     },
     ADD_PLACE_INFO(state) {
       state.placeInfo.push({
-        holdState: true,
+        holdState: false,
         squareFeet: 0,
         city: '',
         area: '',
