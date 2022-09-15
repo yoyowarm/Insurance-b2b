@@ -12,45 +12,45 @@
       </div>
       <div class="body">
         <div class="column-4" ref="1">
-          <FormTitle title="詢問表(一)"/>
+          <FormTitle class="text-lg" title="詢問表(一)"/>
           <InputGroup class="col-start-4" noMt>
             <Input slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
         <div class="column-4" ref="1">
-          <FormTitle title="(一)活動場所-活動性質與場所"/>
+          <FormTitle class="text-lg" title="(一)活動場所-活動性質與場所"/>
         </div>
         <Part1 :data.sync="questionnaireData"/>
         <div class="column-4" ref="2">
-          <FormTitle title="(二)活動場所-器材使用"/>
+          <FormTitle class="text-lg" title="(二)活動場所-器材使用"/>
         </div>
         <Part2 :data.sync="questionnaireData"/>
         <div class="column-4" ref="3">
-          <FormTitle title="(三)活動場所-交通控管"/>
+          <FormTitle class="text-lg" title="(三)活動場所-交通控管"/>
         </div>
         <Part3 :data.sync="questionnaireData"/>
         <div class="column-4" ref="4">
-          <FormTitle title="(四)活動場所-人員動線及管控"/>
+          <FormTitle class="text-lg" title="(四)活動場所-人員動線及管控"/>
         </div>
         <Part4 :data.sync="questionnaireData"/>
         <div class="column-4" ref="5">
-          <FormTitle title="(五)活動場所-安全防護"/>
+          <FormTitle class="text-lg" title="(五)活動場所-安全防護"/>
         </div>
         <Part5 :data.sync="questionnaireData"/>
         <div class="column-4" ref="6">
-          <FormTitle title="(六)活動場所-緊急救護措施"/>
+          <FormTitle class="text-lg" title="(六)活動場所-緊急救護措施"/>
         </div>
         <Part6 :data.sync="questionnaireData"/>
         <div class="column-4" ref="7">
-          <FormTitle title="(七)活動場所-其他考量"/>
+          <FormTitle  class="text-lg" title="(七)活動場所-其他考量"/>
         </div>
         <Part7 :data.sync="questionnaireData"/>
         <div class="column-4 mt-10" ref="8">
-          <FormTitle title="詢問表(二)"/>
+          <FormTitle class="text-lg" title="詢問表(二)"/>
         </div>
         <Part8 :data.sync="questionnaireData"/>
         <div class="column-4" ref="9">
-          <FormTitle title="(二)器材使用"/>
+          <FormTitle class="text-lg" title="(二)器材使用"/>
         </div>
         <Part9 :data.sync="questionnaireData"/>
         <div class="flex flex-row justify-center">

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <FormTitle lgTitle title="1.營業處所相關之消防和安全措施" class="my-3"/>
+    <FormTitle title="1.營業處所相關之消防和安全措施" class="my-3 text-lg"/>
     <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
         id="消防栓"
-        class="text-md"
+        class="text-lg"
         text="消防栓"
         :checked="data.part7.hasFireHydrant"
         :value="data.part7.hasFireHydrant"
@@ -12,7 +12,7 @@
       />
       <div class="flex">
         <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="!data.part7.hasFireHydrant">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -24,7 +24,7 @@
           />
         </InputGroup>
         <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.hasFireHydrant">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -40,7 +40,7 @@
     <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
         id="滅火器：泡沫型"
-        class="text-md"
+        class="text-lg"
         text="滅火器：泡沫型"
         :checked="data.part7.fireExtinguisher"
         :value="data.part7.fireExtinguisher"
@@ -48,7 +48,7 @@
       />
       <div class="flex">
         <InputGroup noMt class="ml-12 sm:ml-16 w-40" :disable="!data.part7.fireExtinguisher">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -60,7 +60,7 @@
           />
         </InputGroup>
         <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -74,10 +74,10 @@
       </div>
     </div>
     <div class="flex flex-col sm:flex-row my-1">
-      <span class="h-full sm:pl-24 mt-4">二氧化碳</span>
+      <span class="h-full sm:pl-24 mt-4 text-lg">二氧化碳</span>
       <div class="flex">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -89,7 +89,7 @@
           />
         </InputGroup>
         <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -103,10 +103,10 @@
       </div>
     </div>
     <div class="flex flex-col sm:flex-row my-1">
-      <span class="h-full sm:pl-24 mt-4">ABC乾粉</span>
+      <span class="h-full sm:pl-24 mt-4 text-lg">ABC乾粉</span>
       <div class="flex">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -118,7 +118,7 @@
           />
         </InputGroup>
         <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室外</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -132,10 +132,10 @@
       </div>
     </div>
     <div class="flex flex-col sm:flex-row my-1">
-      <span class="h-full w-40 sm:pl-24 mt-4">海龍(halon)</span>
+      <span class="h-full w-40 sm:pl-24 mt-4 text-lg">海龍(halon)</span>
       <div class="flex">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
-          <span slot="input-left" class="absolute -left-10 bottom-4">室內</span>
+          <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
@@ -152,7 +152,7 @@
     <div class="flex flex-col sm:flex-row my-3">
       <Checkbox
         id="其他，請詳述之"
-        class="text-md"
+        class="text-lg"
         text="其他，請詳述之"
         :checked="data.part7.hasOtherExtinguishing"
         :value="data.part7.hasOtherExtinguishing"
@@ -168,17 +168,17 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4">
-      <div class="w90 text-lg">是否有自動灑水系統</div>
-        <div class="w10 flex flex-row justify-between">
+      <div class=" text-lg">是否有自動灑水系統</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" id="sprinkler" :value="data.part7.sprinkler === true" @updateValue="updateValue(true, 'sprinkler')"/>
-          <RadioInput text="否" id="sprinkle2" :value="data.part7.sprinkler === false" @updateValue="updateValue(false, 'sprinkler')"/>
+          <RadioInput class="ml-2" text="否" id="sprinkle2" :value="data.part7.sprinkler === false" @updateValue="updateValue(false, 'sprinkler')"/>
       </div>
     </div>
     <div class="w-full flex flex-row mt-4">
-      <div class="w90 text-lg">是否有氣體滅火系統</div>
-        <div class="w10 flex flex-row justify-between">
+      <div class=" text-lg">是否有氣體滅火系統</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" id="hasGasExtinguishing" :value="data.part7.hasGasExtinguishing === true" @updateValue="updateValue(true, 'hasGasExtinguishing')"/>
-          <RadioInput text="否" id="hasGasExtinguishin2" :value="data.part7.hasGasExtinguishing === false" @updateValue="updateValue(false, 'hasGasExtinguishing')"/>
+          <RadioInput class="ml-2" text="否" id="hasGasExtinguishin2" :value="data.part7.hasGasExtinguishing === false" @updateValue="updateValue(false, 'hasGasExtinguishing')"/>
       </div>
     </div>
     <div class="column-4 my-3">
@@ -193,10 +193,10 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4">
-      <div class="w90 text-lg">是否有泡沫滅火系統</div>
-        <div class="w10 flex flex-row justify-between">
+      <div class="text-lg">是否有泡沫滅火系統</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" id="hasFoamExtinguishing" :value="data.part7.hasFoamExtinguishing === true" @updateValue="updateValue(true, 'hasFoamExtinguishing')"/>
-          <RadioInput text="否" id="hasFoamExtinguishing2" :value="data.part7.hasFoamExtinguishing === false" @updateValue="updateValue(false, 'hasFoamExtinguishing')"/>
+          <RadioInput class="ml-2" text="否" id="hasFoamExtinguishing2" :value="data.part7.hasFoamExtinguishing === false" @updateValue="updateValue(false, 'hasFoamExtinguishing')"/>
       </div>
     </div>
     <div class="column-4 my-3">
@@ -211,10 +211,10 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4">
-      <div class="w90 text-lg">是否有水霧滅火系統</div>
-        <div class="w10 flex flex-row justify-between">
+      <div class="text-lg">是否有水霧滅火系統</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" id="hasWaterMistExtinguishing" :value="data.part7.hasWaterMistExtinguishing === true" @updateValue="updateValue(true, 'hasWaterMistExtinguishing')"/>
-          <RadioInput text="否" id="hasWaterMistExtinguishing2" :value="data.part7.hasWaterMistExtinguishing === false" @updateValue="updateValue(false, 'hasWaterMistExtinguishing')"/>
+          <RadioInput class="ml-2" text="否" id="hasWaterMistExtinguishing2" :value="data.part7.hasWaterMistExtinguishing === false" @updateValue="updateValue(false, 'hasWaterMistExtinguishing')"/>
       </div>
     </div>
     <div class="column-4 my-3">
@@ -229,10 +229,10 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4" :class="{'dashed-border': index == questionList.length-1}" v-for="(item,index) in questionList" :key="item">
-        <div class="w90 text-lg">{{item}}</div>
-        <div class="w10 flex flex-row justify-between">
+        <div class=" text-lg">{{item}}</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-          <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+          <RadioInput class="ml-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
       </div>
     </div>
   </div>

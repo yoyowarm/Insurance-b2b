@@ -15,10 +15,10 @@
       <InputGroup lgTitle title="營業處所建築性質" border0 mid min>
         <RadioInput
           slot="input"
-          text="獨棟"
+          text="獨幢"
           id="part2-buildingType-1"
-          :value="data.part2.buildingNature.Text === '獨棟'"
-          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '獨棟',Value: '獨棟'})"
+          :value="data.part2.buildingNature.Text === '獨幢'"
+          @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '獨幢',Value: '獨幢'})"
         />
       </InputGroup>
       <InputGroup border0 min mid noMt>
@@ -64,13 +64,13 @@
       </InputGroup>
     </div>
      <div class="flex flex-col my-3">
-      <InputGroup lgTitle title="鄰近建築物性質" border0 mid min>
+      <InputGroup lgTitle title="鄰近建物性質" border0 mid min>
         <RadioInput
           slot="input"
-          text="獨棟"
+          text="獨幢"
           id="part2-nearBuildingType-1"
-          :value="data.part2.nearbyBuildingNature.Text === '獨棟'"
-          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '獨棟',Value: '獨棟'})"
+          :value="data.part2.nearbyBuildingNature.Text === '獨幢'"
+          @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '獨幢',Value: '獨幢'})"
         />
       </InputGroup>
       <InputGroup border0 min mid noMt>
@@ -154,7 +154,7 @@
           slot="input"
           :value="data.part2.room.value"
           @updateValue="(e) => updateValue(e,'room.value')"
-          placeholder="輸入數量"
+          placeholder="房間數目"
           numberOnly
           />
         <Checkbox
@@ -165,7 +165,7 @@
           :value="data.part2.room.selected"
           @updateValue="(e) =>updateValue(e,'room.selected')"
         />
-        <span slot="input-right" class="absolute sm:-right-38 -bottom-8 sm:bottom-4">如係屬飯店、旅館者</span>
+        <span slot="input-right" class="absolute sm:-right-76 -bottom-8 sm:bottom-4">如係屬飯店、旅館者，請說明其房間數目</span>
       </InputGroup>
     </div>
     <div class="column-5 mb-3 ml-8">
@@ -174,7 +174,7 @@
           slot="input"
           :value="data.part2.seat.value"
           @updateValue="(e) => updateValue(e,'seat.value')"
-          placeholder="輸入數量"
+          placeholder="座位數目"
           numberOnly
         />
         <Checkbox
@@ -185,7 +185,7 @@
           :value="data.part2.seat.selected"
           @updateValue="(e) =>updateValue(e,'seat.selected')"
         />
-        <span slot="input-right" class="absolute sm:-right-42 -bottom-8 sm:bottom-4">如係屬戲院、音樂廳者</span>
+        <span slot="input-right" class="absolute sm:-right-72 -bottom-8 sm:bottom-4">屬戲院、音樂廳者，請說明其座位數目</span>
       </InputGroup>
     </div>
     <div class="column-4 my-3">
@@ -202,10 +202,10 @@
     
   <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
-        <div class="w90 text-lg">是否有游泳池</div>
-        <div class="w10 flex flex-row justify-between">
+        <div class="text-lg">營業處所是否有游泳池</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" id="hasSwimmingPool" :value="data.part2.hasSwimmingPool === true" @updateValue="updateValue(true, 'hasSwimmingPool')"/>
-          <RadioInput text="否" id="hasSwimmingPool2" :value="data.part2.hasSwimmingPool === false" @updateValue="updateValue(false, 'hasSwimmingPool')"/>
+          <RadioInput class="ml-2" text="否" id="hasSwimmingPool2" :value="data.part2.hasSwimmingPool === false" @updateValue="updateValue(false, 'hasSwimmingPool')"/>
       </div>
     </div>
   </div>
@@ -223,10 +223,10 @@
     </div>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
-        <div class="w90 text-lg">營業處所是否有機械性停車設備</div>
-        <div class="w10 flex flex-row justify-between">
+        <div class="text-lg">營業處所是否有機械性停車設備</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" id="hasMechineParkingDevice" :value="data.part2.hasMechineParkingDevice === true" @updateValue="updateValue(true, 'hasMechineParkingDevice')"/>
-          <RadioInput text="否" id="hasMechineParkingDevice2" :value="data.part2.hasMechineParkingDevice === false" @updateValue="updateValue(false, 'hasMechineParkingDevice')"/>
+          <RadioInput class="ml-2" text="否" id="hasMechineParkingDevice2" :value="data.part2.hasMechineParkingDevice === false" @updateValue="updateValue(false, 'hasMechineParkingDevice')"/>
       </div>
     </div>
   </div>
@@ -236,7 +236,7 @@
           slot="input"
           :options="parkingList"
           defaultText="選擇種類"
-          :selected="data.part2.parkingDevice"
+          :selected="data.part2.mechineParkingDeviceCategory"
           :disable="!data.part2.hasMechineParkingDevice"
           @emitItem="e=>updateValue(e.Value,'mechineParkingDeviceCategory')"
         />
@@ -249,20 +249,20 @@
     </div>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
-        <div class="w90 text-lg">是否鋪設地談</div>
-        <div class="w10 flex flex-row justify-between">
+        <div class="text-lg">是否鋪設地談</div>
+        <div class="ml-4  flex flex-row justify-between">
           <RadioInput text="是" id="hasCarpet" :value="data.part2.hasCarpet === true" @updateValue="updateValue(true, 'hasCarpet')"/>
-          <RadioInput text="否" id="hasCarpet2" :value="data.part2.hasCarpet === false" @updateValue="updateValue(false, 'hasCarpet')"/>
+          <RadioInput class="ml-2" text="否" id="hasCarpet2" :value="data.part2.hasCarpet === false" @updateValue="updateValue(false, 'hasCarpet')"/>
       </div>
     </div>
   </div>
   
     <div class="w-full my-4 dashed-border">
       <div class="w-full flex flex-row mt-4">
-        <div class="w90 text-lg">樓梯是否有止滑條</div>
-        <div class="w10 flex flex-row justify-between">
+        <div class="text-lg">樓梯是否有止滑條</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" id="hasAntiSlip" :value="data.part2.hasAntiSlip === true" @updateValue="updateValue(true, 'hasAntiSlip')"/>
-          <RadioInput text="否" id="hasAntiSlip2" :value="data.part2.hasAntiSlip === false" @updateValue="updateValue(false, 'hasAntiSlip')"/>
+          <RadioInput class="ml-2" text="否" id="hasAntiSlip2" :value="data.part2.hasAntiSlip === false" @updateValue="updateValue(false, 'hasAntiSlip')"/>
       </div>
     </div>
   </div>
@@ -292,6 +292,17 @@ export default {
     marginTop: {
       type: Function,
       default: () => {}
+    },
+  },
+  watch: {
+    'data.part2.hasMechineParkingDevice': {
+      handler: function (val) {
+        if (!val) {
+          console.log(val)
+          this.updateValue('選擇種類','mechineParkingDeviceCategory')
+        }
+      },
+      immediate: true
     },
   },
   data() {

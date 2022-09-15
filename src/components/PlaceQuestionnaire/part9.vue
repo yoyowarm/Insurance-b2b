@@ -1,10 +1,10 @@
 <template>
   <div class="w-full my-4  dashed-border">
     <div class="w-full flex flex-row mt-4" >
-        <div class="w90 text-lg">被保險人過去五年是否有損失紀錄(不論有否投保)</div>
-        <div class="w10 flex flex-row justify-between">
+        <div class=" text-lg">被保險人過去五年是否有損失紀錄(不論有否投保)</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" id="hasLossHistoryBeforeFiveYear" :value="data.part9.hasLossHistoryBeforeFiveYear === true" @updateValue="updateValue(true, 'hasLossHistoryBeforeFiveYear')"/>
-          <RadioInput text="否" id="hasLossHistoryBeforeFiveYear2" :value="data.part9.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
+          <RadioInput class="ml-2" text="否" id="hasLossHistoryBeforeFiveYear2" :value="data.part9.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
       </div>
     </div>
     <div class="column-4">

@@ -1,10 +1,10 @@
 <template>
   <div class="w-full my-4 dashed-border">
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
-      <div class="w90 text-lg">{{item}}</div>
-      <div class="w10 flex flex-row justify-between">
+      <div class=" text-lg">{{item}}</div>
+      <div class="ml-4 flex flex-row justify-between">
         <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part3[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-        <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part3[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+        <RadioInput class="ml-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part3[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
     </div>
     </div>
   </div>

@@ -85,10 +85,10 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle title="每日平均出入人數">
+      <InputGroup lgTitle title="平均出入人數(人/天)">
         <Input slot="input" :value="data.part1.dailyAveragePersons" @updateValue="(e) => updateValue(e,'dailyAveragePersons')" placeholder="輸入人數"/>
       </InputGroup>
-      <InputGroup lgTitle title="單日最高出入人數">
+      <InputGroup lgTitle title="最高出入人數(人/天)">
         <Input slot="input" :value="data.part1.singleDayHighestPersons" @updateValue="(e) => updateValue(e,'singleDayHighestPersons')" placeholder="輸入人數"/>
       </InputGroup>
     </div>

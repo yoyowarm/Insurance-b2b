@@ -12,42 +12,42 @@
       </div>
       <div class="body">
         <div class="column-4" ref="1">
-          <FormTitle title="(一)營業處所-基本資料"/>
+          <FormTitle class="text-lg"  title="(一)營業處所-基本資料"/>
           <InputGroup class="col-start-4" noMt>
             <Input slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
         <Part1 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="2">
-          <FormTitle title="(二)營業處所-建築物資訊"/>
+          <FormTitle class="text-lg"  title="(二)營業處所-建築物資訊"/>
         </div>
         <Part2 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="3">
-          <FormTitle title="(三)營業處所-特殊風險項目"/>
+          <FormTitle class="text-lg"  title="(三)營業處所-特殊風險項目"/>
         </div>
         <Part3 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="4">
-          <FormTitle title="(四)營業處所-器材使用"/>
+          <FormTitle class="text-lg"  title="(四)營業處所-器材使用"/>
         </div>
         <Part4 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="5">
-          <FormTitle title="(五)營業處所-交通控管"/>
+          <FormTitle class="text-lg"  title="(五)營業處所-交通控管"/>
         </div>
         <Part5 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="6">
-          <FormTitle title="(六)營業處所-人員動線及管控"/>
+          <FormTitle class="text-lg"  title="(六)營業處所-人員動線及管控"/>
         </div>
         <Part6 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="7">
-          <FormTitle title="(七)營業處所-安全防護"/>
+          <FormTitle class="text-lg"  title="(七)營業處所-安全防護"/>
         </div>
         <Part7 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="8">
-          <FormTitle title="(八)營業處所-緊急救護措施"/>
+          <FormTitle class="text-lg"  title="(八)營業處所-緊急救護措施"/>
         </div>
         <Part8 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="column-4" ref="9">
-          <FormTitle title="(九)營業處所-其他考量"/>
+          <FormTitle class="text-lg"  title="(九)營業處所-其他考量"/>
         </div>
         <Part9 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="flex flex-row justify-center">

@@ -2,15 +2,15 @@
   <div class="w-full my-4">
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
-        <div class="w90 text-lg">{{item}}</div>
-        <div class="w10 flex flex-row justify-between">
+        <div class="text-lg">{{item}}</div>
+        <div class="ml-4 flex flex-row justify-between">
           <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part4[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-          <RadioInput text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part4[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+          <RadioInput class="ml-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part4[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
       </div>
     </div>
   </div>
     <div class="flex flex-col mt-4 dashed-border">
-      <InputGroup v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" min :noMt="index !== 0" mid border0 >
+      <InputGroup lgTitle v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" min :noMt="index !== 0" mid border0 >
         <Checkbox
           class="text-md"
           :id="list"
