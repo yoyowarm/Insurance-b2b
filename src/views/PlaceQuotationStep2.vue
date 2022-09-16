@@ -131,6 +131,7 @@ export default {
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.place.quotationData,
+      'userInfo': state => state.home.userInfo,
     }),
     InsuranedData: {
       get() {
@@ -401,6 +402,9 @@ export default {
   },
   async mounted() {
     await this.step2Init() 
+    if(!this.internalControlData.issuerNumber) {
+      this.internalControl = {...this.internalControl,issuerNumber: this.userInfo.userid}
+    }
   },
 }
 </script>

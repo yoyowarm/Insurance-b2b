@@ -251,6 +251,7 @@ export default {
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
       'orderNo': state => state.common.orderNo,
+      'token': state => state.home.token,
     }),
   },
   watch: {
@@ -338,6 +339,11 @@ export default {
     await this.getQuotationList()
     const data = await this.$store.dispatch('quotation/GetQuotationState')
     this.quotationState = data.data.content
+    let strings = this.token.split(".")
+    var userInfo = JSON.parse(decodeURIComponent(escape(window.atob(strings[1].replace(/-/g, "+").replace(/_/g, "/")))))
+    this.$store.dispatch('home/updatedUserInfo',userInfo)
+    this.$store.dispatch('activity/updatedQuestionnaire', {...this.$store.state.activity.questionnaire,userId:userInfo.userid})
+    this.$store.dispatch('place/updatedQuestionnaire', {...this.$store.state.place.questionnaire,userId:userInfo.userid})
   }
 }
 </script>

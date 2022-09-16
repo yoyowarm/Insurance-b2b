@@ -8,7 +8,7 @@
 export default {
   created() {
     let params = (new URL(document.location)).searchParams
-    const key = params.get("k");
+    const key = params.get("token");
     if (key) {
       this.$store.dispatch('home/setToken', key)
     }

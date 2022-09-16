@@ -5,7 +5,7 @@
         <img src="../assets/images/head_pic.png" alt="">
       </div>
       <div class="flex items-start relative">
-        <span class="name">Jason Wu</span>
+        <span class="name">{{userInfo.sub}}</span>
         <TriangleIcon class="bg-main"/>
       </div>
     </div>
@@ -88,6 +88,7 @@
 import DynamicLink from '@/components/DynamicLink'
 import TriangleIcon from '@/components/TriangleIcon'
 import WindowResizeListener from '@/components/WindowResizeListener'
+import { mapState } from 'vuex'
 export default {
   props: {
     openMenu: {
@@ -108,6 +109,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      userInfo: state => state.home.userInfo
+    }),
     path() {
       return this.$route.path
     }

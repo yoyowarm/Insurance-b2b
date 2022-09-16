@@ -13,8 +13,8 @@
       <div class="body">
         <div class="column-4" ref="1">
           <FormTitle class="text-lg" title="詢問表(一)"/>
-          <InputGroup class="col-start-4" noMt>
-            <Input slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
+          <InputGroup class="col-start-4" noMt disable>
+            <Input disable slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
         <div class="column-4" ref="1">

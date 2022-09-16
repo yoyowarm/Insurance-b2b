@@ -10,7 +10,7 @@
         <div class="avatar">
           <img src="../assets/images/head_pic.png" alt="">
         </div>
-        <span class="name">Jason Wu</span>
+        <span class="name">{{userInfo.sub}}</span>
         <TriangleIcon class="bg-main"/>
       </div>
       <div class="menu" @click="openMenu= true">
@@ -33,6 +33,7 @@ import DynamicLink from '@/components/DynamicLink'
 import LeftNavigation from '@/components/LeftNavigation'
 import TriangleIcon from '@/components/TriangleIcon'
 import Footer from '@/components/Footer'
+import { mapState } from 'vuex'
 export default {
   components: {
     DynamicLink,
@@ -46,6 +47,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      'userInfo': state => state.home.userInfo,
+    }),
     paginationPage() {
       return ['/','/quotation/list', '/product/list', '/news/list'].includes(this.$route.path)
     },
