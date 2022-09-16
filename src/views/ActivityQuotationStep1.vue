@@ -12,7 +12,7 @@
       <InsuranceIndustry type="activity" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="活動資料">
-      <span slot="icon" class="text-base mt-1 absolute text-gray-700 ml-28">參加活動每日平均人數：{{average.person}}人  總計活動天數：{{average.day}}天</span>
+      <span slot="icon" class="text-base mt-1 absolute text-gray-700 ml-28">參加活動每日平均人數：{{average.person.toFixed(2)}}人  總計活動天數：{{average.day}}天</span>
       <ActivityInfo
         :infoList.sync="activityInfoList"
         @addItem="$store.dispatch('activity/addActivityInfo')"
@@ -225,14 +225,27 @@ export default {
         person: '--',
         day: '--'
       }
+      let totalPerson = 0 // 人數 * 場次的活動天數
       const map1 = new Map()
       this.activityInfoList.map(item => {
-        if( map1.get(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`) && !item.number) return
-        if( map1.set(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`) && !item.number) return
+        totalPerson += Number(item.number)* Number(item.day)
+        if( map1.get(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`) || !item.number) return
+        if( map1.get(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`) || !item.number) return
         map1.set(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`, item.number)
         map1.set(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`, item.number)
+        let startDate = new Date(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`).getTime()
+        let endDate = new Date(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`).getTime()
+        let day = ((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1
+        if(day > 0) {
+          for(let i = 1; i < day; i++) {
+            let date = new Date(`${Number(item.startDate.year)+1911}/${item.startDate.month}/${item.startDate.day}`).getTime() + (1000 * 60 * 60 * 24) * i
+            if( map1.get(`${new Date(date).getFullYear()-1911}/${new Date(date).getMonth()+1}/${new Date(date).getDate()}`) || !item.number) return
+            map1.set(`${new Date(date).getFullYear()-1911}/${new Date(date).getMonth()+1}/${new Date(date).getDate()}`, item.number)
+          }
+        }
       })
-      console.log(map1)
+      average.person = totalPerson/map1.size
+      average.day = map1.size
       return average
     }
   },
