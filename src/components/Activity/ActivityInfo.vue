@@ -41,6 +41,7 @@
           <Input
             slot="input"
             placeholder="輸入後續地址"
+            class="w-full"
             :value="info.address"
             :disable="disable"
             @updateValue="(e) =>updateValue(e,'address',index)"
