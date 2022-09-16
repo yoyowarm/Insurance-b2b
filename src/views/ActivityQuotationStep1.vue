@@ -245,7 +245,6 @@ export default {
       })
       average.person = totalPerson/map1.size
       average.day = map1.size
-      console.log(map1)
       return average
     }
   },

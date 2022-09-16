@@ -329,7 +329,7 @@ export default {
       } else {
         if(type == 'startDate') {
            if(key == 'hour') {
-              copyInfoList[index].endDate.hour = value == 0 ? 24 : value
+              copyInfoList[index].endDate.hour = 24
             } else {
               copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear()-1911
               copyInfoList[index].endDate.month = new Date(tomorrow).getMonth()+1
