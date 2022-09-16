@@ -10,9 +10,9 @@
     </div>
   </div>
     <div class="flex flex-col mt-4 dashed-border">
-      <FormTitle class="text-lg" title="如有下列設施，請勾選"/>
+      <FormTitle class="text-lg mb-2" title="如有下列設施，請勾選"/>
         <Checkbox
-          class="text-md mb-2"
+          class="text-md mb-2 text-lg"
           v-for="(list,index) in facilityList" :key="`${list}${index}`"
           :id="list"
           :text="list"

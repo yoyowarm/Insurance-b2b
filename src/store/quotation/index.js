@@ -63,8 +63,8 @@ export default {
     async GetInsuranceProjectAmount(_, { data }) {
       return await GetInsuranceProjectAmount(data)
     },
-    async FinishQuotation(_, { orderNo }) {
-      return await FinishQuotation({ orderNo })
+    async FinishQuotation(_, data) {
+      return await FinishQuotation(data)
     },
     async BeginUnderwriting(_, { data }) {
       return await BeginUnderwriting(data)

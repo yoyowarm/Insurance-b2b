@@ -12,6 +12,7 @@
       <InsuranceIndustry type="activity" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="活動資料">
+      <span slot="icon" class="text-base mt-1 absolute text-gray-700 ml-28">參加活動每日平均人數：{{average.person}}人  總計活動天數：{{average.day}}天</span>
       <ActivityInfo
         :infoList.sync="activityInfoList"
         @addItem="$store.dispatch('activity/addActivityInfo')"
@@ -219,6 +220,21 @@ export default {
         this.updatePeriod()
       }
     },
+    average() {
+      const average = {
+        person: '--',
+        day: '--'
+      }
+      const map1 = new Map()
+      this.activityInfoList.map(item => {
+        if( map1.get(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`) && !item.number) return
+        if( map1.set(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`) && !item.number) return
+        map1.set(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`, item.number)
+        map1.set(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`, item.number)
+      })
+      console.log(map1)
+      return average
+    }
   },
   watch:{
     periodData: {

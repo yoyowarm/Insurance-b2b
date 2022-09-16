@@ -6,7 +6,7 @@
           <font-awesome-icon :icon="['fas','plus-circle']"  class="download" :class="{'disable': tableData.rows[0].isFinishQuotation}"/>
           <span class="download ml-1" :class="{'disable': tableData.rows[0].isFinishQuotation}">新增序號</span>
         </div>
-        <span @click="copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'updateQuotation')" class="download text-base ml-4"><font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span></span>
+        <span @click="() =>{if(!tableData.rows[0].isFinishQuotation){copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'updateQuotation')}}" class="download text-base ml-4" :class="{'disable': tableData.rows[0].isFinishQuotation}"><font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span></span>
         <span class="ml-4 mr-4">關聯號{{tableData.rows[0].mainOrderNo}}-<span :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>
         <span>保單編號{{tableData.rows[0].policyNo}}</span>
         <!-- <span class="ml-4">保單號碼070FQ013601</span> -->

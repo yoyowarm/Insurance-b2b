@@ -5,7 +5,6 @@
         <div v-if="index !== 0" slot="left" class="flex items-end mr-3" @click="$emit('removeItem',index)">
           <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
         </div>
-        <span slot="right" class="text-md text-gray-700 ml-3">參加活動每日平均人數：--人  總計活動天數：--天</span>
       </FormTitle>
       <div :key="index" class="column-5 relative">
         <InputGroup title="每日人數" :disable="disable">
@@ -328,10 +327,13 @@ export default {
         }
       } else {
         if(type == 'startDate') {
-           if(key == 'hour') {copyInfoList[index].endDate.hour = value == 0 ? 24 : value}
-            copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear()-1911
-            copyInfoList[index].endDate.month = new Date(tomorrow).getMonth()+1
-            copyInfoList[index].endDate.day = value
+           if(key == 'hour') {
+              copyInfoList[index].endDate.hour = value == 0 ? 24 : value
+            } else {
+              copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear()-1911
+              copyInfoList[index].endDate.month = new Date(tomorrow).getMonth()+1
+              copyInfoList[index].endDate.day = value
+            }
         }
       }
 			this.$emit('update:infoList', copyInfoList)

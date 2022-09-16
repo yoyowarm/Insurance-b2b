@@ -203,13 +203,13 @@ export default {
 				htmlText: `<p>完成報價後將無法改動報價內容，確定完成報價？</p>`,
       }).then(async () => {
         const data = {
-          orderNo: this.orderNo,
+          OrderNo: this.orderNo,
           mainOrderNo: this.mainOrderNo
         }
         if(key) {
-          await this.$store.dispatch('quotation/FinishQuotation', {data})
+          await this.$store.dispatch('quotation/FinishQuotation', data)
         } else {
-          await this.$store.dispatch('quotation/BeginUnderwriting',{data} )
+          await this.$store.dispatch('quotation/BeginUnderwriting',data)
         }
         this.$router.push('/')
         this.$store.dispatch('place/clearAll')

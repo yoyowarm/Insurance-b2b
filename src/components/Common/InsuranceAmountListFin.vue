@@ -11,14 +11,14 @@
         :disabled="true"
       />
       <div class="column-5" :class="{'dashed-border': !viewModel}">
-        <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel" :disable="disable || item.fixed">
+        <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel" disable>
           <Select
             v-if="!viewModel"
             slot="input"
             :options="amountList"
             :selected="item.amountType?item.amountType.toString():''"
             @emitItem="e=>{updatedValue(index,'amountType',e.Value);assignAmount(index)}"
-            :disable="disable || item.fixed"
+            disable
             defaultText="請選擇金額"/>
             <div v-if="viewModel" slot="input">{{item.amountType ==0 ? '依各縣市規定' : (item.amountType ==1 ? '合併單一限額' : '自行輸入保額')}}</div>
         </InputGroup>
@@ -87,14 +87,14 @@
       </InputGroup>
       </div>
       <div class="column-5">
-        <InputGroup title="自負額" :borderBtn="viewModel" :editModel="editModel" :disable="disable || item.fixed">
+        <InputGroup title="自負額" :borderBtn="viewModel" :editModel="editModel" disable>
           <Select
             v-if="!viewModel"
             slot="input"
             :options="selfPayList"
             :selected="item.selfInflictedAmount?item.selfInflictedAmount.toString():''"
             defaultText="請選擇金額"
-            :disable="disable || item.fixed"
+            disable
             @emitItem="(e) => updatedValue(index,'selfInflictedAmount',e.Value)"/>
             <div v-else slot="input">{{item.selfInflictedAmount}}</div>
         </InputGroup>
