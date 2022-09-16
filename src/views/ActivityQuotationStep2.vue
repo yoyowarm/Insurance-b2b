@@ -357,7 +357,6 @@ export default {
           obj.questionnaire = this.quotationData.questionnaire
         }
         obj.orderNo = this.orderNo
-        obj.mainOrderNo = this.mainOrderNo
         const res = await this.$store.dispatch('quotation/UpdateActivityQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: ''})
       } else if (this.InsuranceActive == 2) {
@@ -368,6 +367,8 @@ export default {
         const res = await this.$store.dispatch('quotation/AddActivityQuotationSerialNo', obj)
         this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: ''})
       } else {
+        if(this.orderNo)obj.orderNo = this.orderNo
+        if(this.mainOrderNo)obj.mainOrderNo = this.mainOrderNo
         const insert = await this.$store.dispatch('quotation/AddActivityQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: ''})
       }
