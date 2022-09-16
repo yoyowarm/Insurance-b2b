@@ -229,23 +229,23 @@ export default {
       const map1 = new Map()
       this.activityInfoList.map(item => {
         totalPerson += Number(item.number)* Number(item.day)
-        if( map1.get(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`) || !item.number) return
-        if( map1.get(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`) || !item.number) return
+        if(!item.number) return
         map1.set(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`, item.number)
         map1.set(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`, item.number)
         let startDate = new Date(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`).getTime()
         let endDate = new Date(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`).getTime()
         let day = ((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1
+        console.log(item)
         if(day > 0) {
           for(let i = 1; i < day; i++) {
             let date = new Date(`${Number(item.startDate.year)+1911}/${item.startDate.month}/${item.startDate.day}`).getTime() + (1000 * 60 * 60 * 24) * i
-            if( map1.get(`${new Date(date).getFullYear()-1911}/${new Date(date).getMonth()+1}/${new Date(date).getDate()}`) || !item.number) return
             map1.set(`${new Date(date).getFullYear()-1911}/${new Date(date).getMonth()+1}/${new Date(date).getDate()}`, item.number)
           }
         }
       })
       average.person = totalPerson/map1.size
       average.day = map1.size
+      console.log(map1)
       return average
     }
   },
