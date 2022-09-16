@@ -77,7 +77,7 @@
         />
       </InputGroup>
       <InputGroup class="address" :noMt="marginTop(1180)" lgTitle mid :disable="disable">
-        <Input slot="input" placeholder="輸入後續地址" :value="copyInfo.subAddress" @updateValue="(e) => updateInfo('subAddress', e)" :disable="disable"/>
+        <Input slot="input" placeholder="輸入後續地址" class="w-full" :value="copyInfo.subAddress" @updateValue="(e) => updateInfo('subAddress', e)" :disable="disable"/>
       </InputGroup>
     </div>
     <div class="column-5 dashed-border pt-6 pb-3 mb-4">

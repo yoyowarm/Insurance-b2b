@@ -1,5 +1,5 @@
 <template>
-  <div class="left-nav bg-main" :class="{'open':openMenu }">
+  <div class="left-nav relative bg-main" :class="{'open':openMenu }">
     <div class="user-mobile">
       <div class="avatar">
         <img src="../assets/images/head_pic.png" alt="">
@@ -45,13 +45,13 @@
         <span class="text-white text-lg font-bold">權限群組設定</span>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
-      <div class="nav-item sub-pages" :class="{'active': path.includes('parameterSetting'), 'h160': path.includes('parameterSetting')}">
+    <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)" >
+      <div @mouseover="showCategory = true" @mouseout="showCategory = false" class="nav-item sub-pages relative" :class="{'active': path.includes('parameterSetting'), 'h160': path.includes('parameterSetting')||showCategory}">
         <div class="flex flex-row items-center md:flex-col">
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
-        <div v-if="path.includes('parameterSetting')" class="flex flex-col justify-center items-start md:items-center pl-7 md:pl-0">
+        <div v-show="path.includes('parameterSetting') || showCategory" class="flex flex-col justify-center items-start md:items-center pl-7 md:pl-0">
           <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
           </DynamicLink>
@@ -62,12 +62,12 @@
       </div>
     </DynamicLink>
     <DynamicLink type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
-      <div class="nav-item sub-pages" :class="{'active': path.includes('termsSetting'), 'h180': path.includes('termsSetting')}">
+      <div @mouseover="showTerms = true" @mouseout="showTerms = false" class="nav-item sub-pages" :class="{'active': path.includes('termsSetting'), 'h180': path.includes('termsSetting')||showTerms}">
         <div class="flex flex-row items-center md:flex-col">
           <div class="icon termsSetting"/>
           <span class="text-white text-lg font-bold">條款設定</span>
         </div>
-        <div v-if="path.includes('termsSetting')" class="flex flex-col justify-center items-start pl-7 md:pl-0 md:items-center">
+        <div v-show="path.includes('termsSetting') || showTerms" class="flex flex-col justify-center items-start pl-7 md:pl-0 md:items-center">
           <DynamicLink type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/proposedTerms'}">建議條款</span>
           </DynamicLink>
@@ -103,6 +103,8 @@ export default {
   data() {
     return {
       windowWidth: window.innerWidth,
+      showCategory: false,
+      showTerms: false
     }
   },
   computed: {

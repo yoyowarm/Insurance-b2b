@@ -2,17 +2,18 @@
   <div class="w-full my-4">
     <div class="w-full my-4 dashed-border">
       <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
-        <div class=" text-lg">{{item}}</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class="flex flex-row justify-between">
           <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part6[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-          <RadioInput class="ml-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part6[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+          <RadioInput class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part6[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
       </div>
+        <div class=" text-lg">{{item}}</div>
     </div>
   </div>
     <div class="flex flex-col mt-4 dashed-border">
-      <InputGroup lgTitle v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" :noMt="index !== 0" min border0 >
+      <FormTitle class="text-lg" title="如有下列設施，請勾選"/>
         <Checkbox
-          class="text-lg"
+          v-for="(list,index) in facilityList" :key="`${list}${index}`"
+          class="text-lg mb-2"
           :id="list"
           :text="list"
           slot="input"
@@ -20,20 +21,19 @@
           :value="data.part6.facility.includes(list)"
           @updateValue="(e) =>updateFacility(e,list)"
         />
-      </InputGroup>
     </div>
     <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
 <script>
-import InputGroup from '@/components/InputGroup'
+import FormTitle from '@/components/FormTitle'
 import Checkbox from '@/components/Checkbox'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import RadioInput from '@/components/Radio'
 export default {
   components: {
-    InputGroup,
+    FormTitle,
     Checkbox,
     WindowResizeListener,
     RadioInput

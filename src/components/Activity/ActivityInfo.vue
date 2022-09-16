@@ -308,7 +308,6 @@ export default {
         day: '選擇日期',
         hour: '選擇小時'
       }
-        console.log(copyInfoList[index][type])
       if(new Date(`${Number(copyInfoList[index][type].year)+1911}`,`${copyInfoList[index][type].month}`,0).getDate() < Number(copyInfoList[index][type].day)) {
         Popup.create({
           hasHtml: true,
@@ -332,7 +331,7 @@ export default {
            if(key == 'hour') {copyInfoList[index].endDate.hour = value == 0 ? 24 : value}
             copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear()-1911
             copyInfoList[index].endDate.month = new Date(tomorrow).getMonth()+1
-            copyInfoList[index].endDate.day = copyInfoList[index].endDate.hour == 0 ? new Date(tomorrow).getDate()-1 : new Date(tomorrow).getDate()
+            copyInfoList[index].endDate.day = value
         }
       }
 			this.$emit('update:infoList', copyInfoList)

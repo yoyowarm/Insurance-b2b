@@ -2,11 +2,11 @@
   <div>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
-        <div class=" text-lg">被保險人過去五年是否有損失紀錄</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class="flex flex-row justify-between">
           <RadioInput text="是" id="hasLossHistoryBeforeFiveYear" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === true" @updateValue="updateValue(true, 'hasLossHistoryBeforeFiveYear')"/>
-          <RadioInput class="ml-2" text="否" id="hasLossHistoryBeforeFiveYear2" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
+          <RadioInput class="mx-2" text="否" id="hasLossHistoryBeforeFiveYear2" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
       </div>
+        <div class=" text-lg">被保險人過去五年是否有損失紀錄</div>
     </div>
   </div>
     <div class="column-4 my-3">

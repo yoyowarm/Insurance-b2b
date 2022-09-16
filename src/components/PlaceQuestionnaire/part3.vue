@@ -3,11 +3,11 @@
     <FormTitle title="飯店、旅館、汽車旅館、招待所" class="my-3 text-lg"/>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
-        <div class="text-lg">內部設施是否全數自行經營</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class=" flex flex-row justify-between">
           <RadioInput text="是" id="selfOperated" :value="data.part3.selfOperated === true" @updateValue="updateValue(true, 'selfOperated')"/>
-          <RadioInput class="ml-2" text="否" id="selfOperated2" :value="data.part3.selfOperated === false" @updateValue="updateValue(false, 'selfOperated')"/>
+          <RadioInput class="mx-2" text="否" id="selfOperated2" :value="data.part3.selfOperated === false" @updateValue="updateValue(false, 'selfOperated')"/>
       </div>
+        <div class="text-lg">內部設施是否全數自行經營</div>
     </div>
   </div>
     <div class="column-4 my-3">
@@ -22,60 +22,60 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
-      <div class="text-lg">{{item}}</div>
-      <div class="ml-4 flex flex-row justify-between">
+      <div class="flex flex-row justify-between">
         <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part3[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-        <RadioInput class="ml-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part3[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+        <RadioInput class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part3[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
     </div>
+      <div class="text-lg">{{item}}</div>
     </div>
     <div class="flex flex-col my-3">
-      <InputGroup lgTitle v-for="(list,index) in facilityList" :key="`${list}${index}`" :title="index=== 0 ? '如有下列設施，請勾選' : ''" border0 :noMt="index!== 0" >
-        <Checkbox
-          class="text-lg"
-          :id="list"
-          :text="list"
-          :checked="data.part3.facility.includes(list)"
-          :value="data.part3.facility.includes(list)"
-          slot="input"
-          @updateValue="(e) =>updateFacility(e,list)"
-        />
-      </InputGroup>
+      <FormTitle lgTitle title="如有下列設施，請勾選" class="my-3 text-lg"/>
+      <Checkbox
+        v-for="(list,index) in facilityList" :key="`${list}${index}`"
+        class="text-lg mb-2"
+        :id="list"
+        :text="list"
+        :checked="data.part3.facility.includes(list)"
+        :value="data.part3.facility.includes(list)"
+        slot="input"
+        @updateValue="(e) =>updateFacility(e,list)"
+      />
     </div>
     <FormTitle lgTitle title="商場、百貨公司、超級市場是否使用堆高機" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
-      <div class="ml-4 flex flex-row justify-between">
+      <div class="flex flex-row justify-between">
         <RadioInput text="是" id="hasPusher" :value="data.part3.hasPusher === true" @updateValue="updateValue(true, 'hasPusher')"/>
-        <RadioInput class="ml-2" text="否" id="hasPusher2" :value="data.part3.hasPusher === false" @updateValue="updateValue(false, 'hasPusher')"/>
+        <RadioInput class="mx-2" text="否" id="hasPusher2" :value="data.part3.hasPusher === false" @updateValue="updateValue(false, 'hasPusher')"/>
     </div>
     </div>
     <FormTitle lgTitle title="戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
-      <div class="text-lg">是否有特殊表演項目，涉及用火或粉塵表演</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class=" flex flex-row justify-between">
           <RadioInput text="是" id="hasFireOrDust" :value="data.part3.hasFireOrDust === true" @updateValue="updateValue(true, 'hasFireOrDust')"/>
-          <RadioInput class="ml-2" text="否" id="hasFireOrDust2" :value="data.part3.hasFireOrDust === false" @updateValue="updateValue(false, 'hasFireOrDust')"/>
+          <RadioInput class="mx-2" text="否" id="hasFireOrDust2" :value="data.part3.hasFireOrDust === false" @updateValue="updateValue(false, 'hasFireOrDust')"/>
       </div>
+      <div class="text-lg">是否有特殊表演項目，涉及用火或粉塵表演</div>
     </div>
     <div class="w-full flex flex-row mt-4">
-      <div class="text-lg">表演者是否為專業人士</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class=" flex flex-row justify-between">
           <RadioInput text="是" id="isProfessional" :value="data.part3.isProfessional === true" @updateValue="updateValue(true, 'isProfessional')"/>
           <RadioInput class="ml-2" text="否" id="isProfessional2" :value="data.part3.isProfessional === false" @updateValue="updateValue(false, 'isProfessional')"/>
       </div>
+      <div class="text-lg">表演者是否為專業人士</div>
     </div>
     <div class="w-full flex flex-row mt-4">
-      <div class="text-lg">使用、存放煙火爆竹或化學品等危險物品</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class="flex flex-row justify-between">
           <RadioInput text="是" id="hasDangerousItem" :value="data.part3.hasDangerousItem === true" @updateValue="updateValue(true, 'hasDangerousItem')"/>
-          <RadioInput class="ml-2" text="否" id="hasDangerousItem2" :value="data.part3.hasDangerousItem === false" @updateValue="updateValue(false, 'hasDangerousItem')"/>
+          <RadioInput class="mx-2" text="否" id="hasDangerousItem2" :value="data.part3.hasDangerousItem === false" @updateValue="updateValue(false, 'hasDangerousItem')"/>
       </div>
+      <div class="text-lg">使用、存放煙火爆竹或化學品等危險物品</div>
     </div>
     <div class="w-full flex flex-row mt-4 dashed-border">
-      <div class="text-lg">營業處所是否使用鍋爐?</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class="flex flex-row justify-between">
           <RadioInput text="是" id="hasBoiler" :value="data.part3.hasBoiler === true" @updateValue="updateValue(true, 'hasBoiler')"/>
-          <RadioInput class="ml-2" text="否" id="hasBoiler2" :value="data.part3.hasBoiler === false" @updateValue="updateValue(false, 'hasBoiler')"/>
+          <RadioInput class="mx-2" text="否" id="hasBoiler2" :value="data.part3.hasBoiler === false" @updateValue="updateValue(false, 'hasBoiler')"/>
       </div>
+      <div class="text-lg">營業處所是否使用鍋爐?</div>
     </div>
   </div>
 </template>

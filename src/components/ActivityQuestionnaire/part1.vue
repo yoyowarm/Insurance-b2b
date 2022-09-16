@@ -137,25 +137,25 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4 mb-6">
-        <div class=" text-lg">是否有舞台搭建</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class=" flex flex-row justify-between">
           <RadioInput text="是" id="hasStage" :value="data.sheet1.part1.hasStage === true" @updateValue="updateValue(true, 'hasStage')"/>
-          <RadioInput class="ml-2" text="否" id="hasStage2" :value="data.sheet1.part1.hasStage === false" @updateValue="updateValue(false, 'hasStage')"/>
+          <RadioInput class="mx-2" text="否" id="hasStage2" :value="data.sheet1.part1.hasStage === false" @updateValue="updateValue(false, 'hasStage')"/>
       </div>
+        <div class=" text-lg">是否有舞台搭建</div>
     </div>
     <div class="w-full flex flex-row mt-4 mb-6">
-        <div class=" text-lg">是否有水池(如:游泳池、噴泉)</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class=" flex flex-row justify-between">
           <RadioInput text="是" id="hasWaterPool" :value="data.sheet1.part1.hasWaterPool === true" @updateValue="updateValue(true, 'hasWaterPool')"/>
-          <RadioInput class="ml-2" text="否" id="hasWaterPool2" :value="data.sheet1.part1.hasWaterPool === false" @updateValue="updateValue(false, 'hasWaterPool')"/>
+          <RadioInput class="mx-2" text="否" id="hasWaterPool2" :value="data.sheet1.part1.hasWaterPool === false" @updateValue="updateValue(false, 'hasWaterPool')"/>
       </div>
+        <div class=" text-lg">是否有水池(如:游泳池、噴泉)</div>
     </div>
     <div class="w-full flex flex-row mt-4 mb-6">
-        <div class=" text-lg">是否為水域活動</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class="flex flex-row justify-between">
           <RadioInput text="是" id="isWaterArea" :value="data.sheet1.part1.isWaterArea === true" @updateValue="updateValue(true, 'isWaterArea')"/>
-          <RadioInput class="ml-2" text="否" id="isWaterArea2" :value="data.sheet1.part1.isWaterArea === false" @updateValue="updateValue(false, 'isWaterArea')"/>
+          <RadioInput class="mx-2" text="否" id="isWaterArea2" :value="data.sheet1.part1.isWaterArea === false" @updateValue="updateValue(false, 'isWaterArea')"/>
       </div>
+        <div class=" text-lg">是否為水域活動</div>
     </div>
     <div class="column-4 my-3 dashed-border">
       <InputGroup lgTitle title="說明救生人員配置" class="col-span-3" :disable="!data.sheet1.part1.isWaterArea">

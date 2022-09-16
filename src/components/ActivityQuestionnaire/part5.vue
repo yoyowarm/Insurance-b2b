@@ -169,11 +169,11 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
-      <div class=" text-lg">{{item}}</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class="flex flex-row justify-between">
           <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part5[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-          <RadioInput class="ml-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part5[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+          <RadioInput class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part5[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
       </div>
+      <div class=" text-lg">{{item}}</div>
     </div>
     <div class="column-4 my-3 dashed-border">
       <InputGroup lgTitle  mid title="其他安全防護措施" class="col-span-3" >
