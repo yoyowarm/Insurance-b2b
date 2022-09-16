@@ -21,7 +21,7 @@ const requestInterceptors = {
   fulfill(config) {
     store.dispatch('app/updatedLoading')
     if (store.state.home.token) {
-      config.headers['bearer'] = store.state.home.token
+      config.headers['authorization'] = `bearer ${store.state.home.token}`
     }
 
     return config
