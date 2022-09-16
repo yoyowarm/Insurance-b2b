@@ -634,6 +634,11 @@ export default {
       } else {
         data.questionnaire.sheet1.part1.beginDateTime = null
       }
+      if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = true
+      } else {
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = false
+      }
       return data
     }
   },
