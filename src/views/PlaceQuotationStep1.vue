@@ -605,8 +605,8 @@ export default {
             buildingNature: this.questionnaire.part2.buildingNature.Value,
             nearbyBuildingNature: this.questionnaire.part2.nearbyBuildingNature.Value,
             securityCheck: this.questionnaire.part2.securityCheck.Value,
-            room: {...this.questionnaire.part2.room,roomAmount: this.questionnaire.part2.room.Value},
-            seat: {...this.questionnaire.part2.seat,seatAmount: this.questionnaire.part2.seat.Value},
+            room: {...this.questionnaire.part2.room,roomAmount: this.questionnaire.part2.room.value},
+            seat: {...this.questionnaire.part2.seat,seatAmount: this.questionnaire.part2.seat.value},
           }
         }
         if(Object.keys(this.questionnaire.part1.createTime).every(key => this.questionnaire.part1.createTime[key] !== '')) {

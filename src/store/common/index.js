@@ -1,4 +1,4 @@
-import { DownloadFile, UploadFile, DeleteFile, AttachmentDetails } from '@/api/File'
+import { DownloadFile, UploadFile, DeleteFile, AttachmentDetails, GetInsuranceDocument, GetPlaceQuotationDocument, GetActivityQuotationDocument } from '@/api/File'
 export default {
   namespaced: true,
   state: {
@@ -46,6 +46,15 @@ export default {
     },
     async AttachmentDetails(_, { policyAttachmentId }) {
       return await AttachmentDetails(policyAttachmentId)
+    },
+    async GetInsuranceDocument(_, OrderNo) {
+      return await GetInsuranceDocument(OrderNo)
+    },
+    async GetPlaceQuotationDocument(_, OrderNo) {
+      return await GetPlaceQuotationDocument(OrderNo)
+    },
+    async GetActivityQuotationDocument(_, OrderNo) {
+      return await GetActivityQuotationDocument(OrderNo)
     },
     updateOrderNo({ commit }, { orderNo, mainOrderNo }) {
       commit('UPDATED_ORDER_NO', { orderNo, mainOrderNo })

@@ -20,11 +20,11 @@
           <ul class="body">
             <li>
               <span>要保書</span>
-              <a v-if="loading.length === 0" class="print cursor-pointer" :href="`${apiURL}Document/GetInsuranceDocument?orderNo=${orderNo}`" download><font-awesome-icon :icon="['fa','print']" /></a>
+              <p v-if="loading.length === 0" class="print cursor-pointer" @click="downloadFile(orderNo,'insurance')"><font-awesome-icon :icon="['fa','print']" /></p>
             </li>
             <li>
               <span>報價明細</span>
-              <a v-if="loading.length === 0" class="print cursor-pointer" :href="`${apiURL}Document/Get${item.type == 1 ? 'Place': 'Activity'}QuotationDocument?orderNo=${orderNo}`" download><font-awesome-icon :icon="['fa','print']" /></a>
+              <p v-if="loading.length === 0" class="print cursor-pointer" @click="downloadFile(orderNo,'quotation')"><font-awesome-icon :icon="['fa','print']" /></p>
             </li>
           </ul>
         </div>
@@ -41,6 +41,7 @@
 <script>
 import Button from '@/components/Button'
 import { mapState } from 'vuex'
+import FileSaver from 'file-saver'
 export default {
   components: {
     Button,
@@ -83,7 +84,11 @@ export default {
     return {
       apiURL: process.env.VUE_APP_API_URL,
       value: false,
-      whitelist: ['H182','H307','H076','G975','H408','A242','F306','G345','F418','G863']
+      whitelist: ['H182','H307','H076','G975','H408','A242','F306','G345','F418','G863'],
+      downloadLink: {
+        insurance: '',
+        quotation: ''
+      }
     }
   },
   computed: {
@@ -95,6 +100,17 @@ export default {
   methods: {
     show () {
       this.value = true
+    },
+    async downloadFile(orderNo, type) {
+      if (type == 'insurance') {
+       const res = await this.$store.dispatch('common/GetInsuranceDocument', orderNo)
+       var blob = new Blob([res.data], {type: "application/octet-stream"});
+       FileSaver.saveAs(blob,  `要保書_${orderNo}.pdf`);
+      } else if (type == 'quotation') {
+        const res = await this.$store.dispatch(`common/${this.item.type == 1 ? 'GetPlaceQuotationDocument' : 'GetActivityQuotationDocument'}`,orderNo)
+        var blob1 = new Blob([res.data], {type: "application/octet-stream"});
+        FileSaver.saveAs(blob1, `${this.item.type == 1 ?'處所': '活動'}報價單_${orderNo}.pdf`);
+      }
     }
   }
 }

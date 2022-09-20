@@ -3,7 +3,7 @@ import { request } from '../utils/request'
 export default function (method, url, data = null, config) {
   switch (method) {
     case 'get':
-      return request().get(url, { params: data })
+      return request(config).get(url, { params: data })
     case 'post':
       return request(config).post(url, data)
     case 'put':
