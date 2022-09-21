@@ -7,9 +7,6 @@
         <img class="mobile-logo" src="../assets/images/mobile_logo.png" alt="">
       </DynamicLink>
       <div class="user">
-        <div class="avatar">
-          <img src="../assets/images/head_pic.png" alt="">
-        </div>
         <span class="name">{{userInfo.sub}}</span>
         <TriangleIcon class="bg-main"/>
       </div>
