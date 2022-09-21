@@ -2,7 +2,6 @@ import axios from 'axios'
 import store from '../store/index'
 
 export const request = function (config = {}) {
-  console.log('config', config)
   const request = axios.create({
     baseURL: process.env.VUE_APP_API_URL,
     timeout: 20000,
