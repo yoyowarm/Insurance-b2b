@@ -92,7 +92,7 @@
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire type="place" :open.sync="openQuestionnaire" :questionnaire="questionnaire"/>
+    <Questionnaire type="place" :open.sync="openQuestionnaire" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <PopupDialog
       :open.sync="openFormula"

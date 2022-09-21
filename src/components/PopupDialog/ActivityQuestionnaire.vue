@@ -53,8 +53,12 @@
           <FormTitle class="text-lg" title="(二)器材使用"/>
         </div>
         <Part9 :data.sync="questionnaireData"/>
-        <div class="flex flex-row justify-center">
-          <Button @click.native="() =>{$store.dispatch('activity/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
+        <div class="fixed-button">
+          <div class="flex justify-center w-full px-3">
+            <Button outline class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true)}">清除資料</Button>
+            <Button @click.native="() =>{$store.dispatch('activity/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
+            <Button outline class="h-12 w-52" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true)}">列印問卷</Button>
+          </div>
         </div>
       </div>
     </div>
@@ -198,6 +202,15 @@ export default {
   }
   .mask-bg {
     @apply inset-0 bg-black opacity-75 w-screen h-screen z-20 overflow-hidden fixed
+  }
+
+  .fixed-button {
+    max-width: 90vw;
+    height: 80px;
+    margin-left: 5%;
+    margin-bottom: 5%;
+    box-shadow: 0px 0px 5px #00000029;
+    @apply fixed flex flex-row justify-center items-center w-full bg-white z-30 bottom-0 left-0 rounded-b-xl
   }
 
   @media (max-width: 770px) {
