@@ -623,7 +623,68 @@ export const basicPremiumTable = () => {
     ]
   }
 }
-
+export const questionnaireList = () => {
+  return {
+    head: [
+      {
+        text: '流水號',
+        value: 'serialNo',
+        size: '2-6'
+      },
+      {
+        text: '種類',
+        value: 'questionnaireType',
+        size: '2-6'
+      },
+      {
+        text: '問卷名稱',
+        value: 'title',
+        size: '5-6'
+      },
+      {
+        text: '被保險人',
+        value: 'insuredName',
+        size: '3-6'
+      },
+      {
+        text: '被保險人身分證/統編',
+        value: 'insuredId',
+        size: '4-6'
+      },
+      {
+        text: '核保加減費係數',
+        value: 'rate',
+        size: '3-6'
+      },
+      {
+        text: '經手人代號',
+        value: 'iOfficer',
+        size: '2-6'
+      },
+      {
+        text: '經手人',
+        value: 'officerName',
+        size: '2-6'
+      },
+      {
+        text: '分公司',
+        value: 'nGroup',
+        size: '2-6'
+      },
+      {
+        text: '建立日期',
+        value: 'createTime',
+        size: '4-6'
+      },
+      {
+        text: '操作',
+        value: 'operate',
+        size: '2-6'
+      },
+    ],
+    rows: []
+  }
+}
 export const quoteSeparatelyTable = () => {
   return {
     head: [

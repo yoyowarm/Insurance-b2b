@@ -59,6 +59,17 @@ const routes = [
     ]
   },
   {
+    path: '/questionnaire-management',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { // 問卷管理
+        path: '/questionnaire-management',
+        name: 'questionnaire-management',
+        component: () => import(/* webpackChunkName: "about" */ '../views/QuestionnaireManagement.vue')
+      }
+    ]
+  },
+  {
     path: '/Office-audit',
     component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
     children: [

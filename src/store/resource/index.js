@@ -2,7 +2,7 @@ import { CountyMinimumSettings } from '@/api/CountyMinimumSetting'
 import { AdditionTermsType, AdditionTermQuotation, AdditionTerms, AdditionTermQuotations, AdditionTermDescriptions, AdditionTermExtraRates } from '@/api/AdditionTermSetting'
 import { Users, UserDetail, Groups, GroupDetail, GroupsDetail, GroupPermissions } from '@/api/PermissionSetting'
 import { Places, Activities, PlaceTypes, ActivityTypes, PlaceActivities } from '@/api/PlaceActivitySetting'
-import { TaianUsers, CheckTaianUserExist } from '@/api/User'
+import { TaianUsers, CheckTaianUserExist, GetTaianNGroup } from '@/api/User'
 import { Districts } from '@/api/CountySetting'
 import { Nationality } from '@/api/NationalitySetting'
 import { BusinessSource, BusinessSourceByTaianUser } from '@/api/BusinessSourceSetting'
@@ -72,6 +72,9 @@ export default {
     },
     async TaianUsers() {
       return await TaianUsers()
+    },
+    async GetTaianNGroup() {
+      return await GetTaianNGroup()
     },
     async CheckTaianUserExist(_, { employeeId }) {
       return await CheckTaianUserExist(employeeId)

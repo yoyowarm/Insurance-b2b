@@ -27,6 +27,12 @@
         <span class="text-white text-lg font-bold">活動報價</span>
       </div>
     </DynamicLink>
+    <DynamicLink type="router" path="/questionnaire-management" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path.includes('/questionnaire-management')}">
+        <div class="icon questionnaire"/>
+        <span class="text-white text-lg font-bold">問卷表管理</span>
+      </div>
+    </DynamicLink>
     <!-- <DynamicLink type="router" path="/Office-audit" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/Office-audit'}">
         <div class="icon branchAudit"/>
@@ -176,6 +182,9 @@ export default {
       min-height: 40px;
       margin-bottom: 4px;
       @apply bg-no-repeat bg-center;
+      &.questionnaire {
+        background-image: url('../assets/images/9.png');
+      }
       &.termsSetting {
         background-image: url('../assets/images/8.png');
       }
@@ -211,6 +220,9 @@ export default {
     &:hover, &.active {
       background-color: #fafafa;
       .icon {
+        &.questionnaire {
+          background-image: url('../assets/images/9r.png');
+        }
         &.termsSetting {
           background-image: url('../assets/images/8r.png');
         }
@@ -281,6 +293,9 @@ export default {
         min-height: 40px;
         margin-bottom: 4px;
         @apply bg-no-repeat bg-center;
+        &.questionnaire {
+          background-image: url('../assets/images/9b.png');
+        }
          &.termsSetting {
           background-image: url('../assets/images/8b.png');
         }
