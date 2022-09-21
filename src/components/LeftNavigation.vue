@@ -46,7 +46,7 @@
       </div>
     </DynamicLink>
     <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)" >
-      <div @mouseover="showCategory = true" @mouseout="showCategory = false" class="nav-item sub-pages relative" :class="{'active': path.includes('parameterSetting'), 'h160': path.includes('parameterSetting')}">
+      <div @mouseover="showCategory = true" @mouseout="showCategory = false" class="nav-item sub-pages relative" :class="{'active': path.includes('parameterSetting'), 'h180': path.includes('parameterSetting')}">
         <div class="flex flex-row items-center md:flex-col">
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
@@ -57,6 +57,12 @@
           </DynamicLink>
           <DynamicLink type="router" path="/parameterSetting/minimumAmount" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/minimumAmount'}">縣市最低保額</span>
+          </DynamicLink>
+          <DynamicLink type="router" path="/parameterSetting/basic-premium-setting" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/basic-premium-setting'}">基本保費</span>
+          </DynamicLink>
+          <DynamicLink type="router" path="/parameterSetting/quote-separately" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/quote-separately'}">另行報價保額</span>
           </DynamicLink>
         </div>
       </div>
@@ -163,7 +169,7 @@ export default {
       height: 160px;
     }
     &.h180 {
-      height: 180px;
+      height: 190px;
     }
     .icon {
       width: 50px;
@@ -199,8 +205,8 @@ export default {
     .fixed-menu {
       background-color: #fafafa;
       width: 140px;
-      height: 110px;
-      @apply fixed z-10 left-28 flex flex-col justify-center items-center shadow-xl text-xl rounded-r-lg
+      height: 125px;
+      @apply fixed z-10 left-28 ml-2 mt-3 flex flex-col justify-center items-center shadow-xl text-xl rounded-r-lg
     }
     &:hover, &.active {
       background-color: #fafafa;
@@ -242,7 +248,7 @@ export default {
     &.active .fixed-menu {
         width: auto;
         height: auto;
-        @apply relative left-0 shadow-none pl-0 items-center text-base
+        @apply relative left-0 mt-0 shadow-none pl-0 items-center text-base
       }
   }
   
@@ -265,7 +271,7 @@ export default {
         @apply h-28
       }
       &.h180 {
-        @apply h-32
+        @apply h-44
       }
       &.sub-pages {
         @apply flex-col justify-center items-start
@@ -314,6 +320,15 @@ export default {
       }
       &:hover, &.active {
         .icon {
+           &.termsSetting {
+            background-image: url('../assets/images/8.png');
+          }
+          &.parameterSetting  {
+            background-image: url('../assets/images/7.png');
+          }
+          &.permissionSetting {
+            background-image: url('../assets/images/6.png');
+          }
           &.officeAudit {
             background-image: url('../assets/images/5.png');
           }
@@ -330,6 +345,12 @@ export default {
             background-image: url('../assets/images/1.png');
           }
         }
+      }
+      &.active .fixed-menu {
+        background-color: #B3112C;
+        width: auto;
+        height: auto;
+        @apply flex flex-col justify-center mt-0 items-start shadow-none pl-4 text-xl rounded-none
       }
     }
     .left-nav.open {

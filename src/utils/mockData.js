@@ -600,6 +600,30 @@ export const weightListTable = () => {
   }
 }
 
+export const basicPremiumTable = () => {
+  return {
+    head: [
+      {
+        text: '類別',
+        value: 'typeName',
+        size: '2-6'
+      },
+      {
+        text: '基礎保費',
+        value: 'basicPremium',
+        size: '5-6'
+      },
+      {
+        text: '',
+        value: 'operate',
+        size: '2-6'
+      },
+    ],
+    rows: [
+    ]
+  }
+}
+
 export const amountListTable = () => {
   return {
     head: [

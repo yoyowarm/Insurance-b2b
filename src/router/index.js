@@ -105,6 +105,16 @@ const routes = [
         path: '/parameterSetting/minimumAmount',
         name: 'parameterSetting-minimumAmount',
         component: () => import(/* webpackChunkName: "about" */ '../views/ParameterSetting/MinimumAmount.vue')
+      },
+      {
+        path: '/parameterSetting/basic-premium-setting',
+        name: 'parameterSetting-basicPremiumSetting',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ParameterSetting/BasicPremiumSetting.vue')
+      },
+      {
+        path: '/parameterSetting/quote-separately',
+        name: 'parameterSetting-quoteSeparately',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ParameterSetting/QuoteSeparately.vue')
       }
     ]
   },

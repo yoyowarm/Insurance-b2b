@@ -7,6 +7,7 @@ import { Districts } from '@/api/CountySetting'
 import { Nationality } from '@/api/NationalitySetting'
 import { BusinessSource, BusinessSourceByTaianUser } from '@/api/BusinessSourceSetting'
 import { Relationships } from '@/api/CommonSetting'
+import { basicPremiums } from '@/api/BasicPremiumSetting'
 export default {
   namespaced: true,
   state: {},
@@ -89,6 +90,9 @@ export default {
     },
     async Relationships() {
       return await Relationships()
+    },
+    async basicPremiums() {
+      return await basicPremiums()
     }
   }
 }
