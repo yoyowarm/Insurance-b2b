@@ -8,6 +8,7 @@ import { Nationality } from '@/api/NationalitySetting'
 import { BusinessSource, BusinessSourceByTaianUser } from '@/api/BusinessSourceSetting'
 import { Relationships } from '@/api/CommonSetting'
 import { basicPremiums } from '@/api/BasicPremiumSetting'
+import { InsuranceQuotationAmountSetting } from '@/api/InsuranceQuotationAmountSetting'
 export default {
   namespaced: true,
   state: {},
@@ -93,6 +94,9 @@ export default {
     },
     async basicPremiums() {
       return await basicPremiums()
+    },
+    async InsuranceQuotationAmountSetting() {
+      return await InsuranceQuotationAmountSetting()
     }
   }
 }

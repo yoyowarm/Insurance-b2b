@@ -1,6 +1,7 @@
 import { updateCountyMinimumSettings } from '@/api/CountyMinimumSetting'
 import { updatePlacesActivity } from '@/api/PlaceActivitySetting'
 import { updateBasicPremiums } from '@/api/BasicPremiumSetting'
+import { updatedInsuranceQuotationAmountSetting } from '@/api/InsuranceQuotationAmountSetting'
 export default {
   namespaced: true,
   state: {},
@@ -17,6 +18,9 @@ export default {
     },
     async updateBasicPremiums(_, data) {
       return await updateBasicPremiums(data)
+    },
+    async updatedInsuranceQuotationAmountSetting(_, data) {
+      return await updatedInsuranceQuotationAmountSetting(data)
     }
   }
 }

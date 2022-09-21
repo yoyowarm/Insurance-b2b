@@ -383,6 +383,7 @@ export default {
           obj.questionnaire = this.quotationData.questionnaire
         }
         obj.orderNo = this.orderNo
+        obj.mainOrderNo = this.mainOrderNo
         const res = await this.$store.dispatch('quotation/UpdatePlaceQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: ''})
       } else if (this.InsuranceActive == 2) {

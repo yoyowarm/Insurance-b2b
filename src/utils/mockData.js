@@ -624,6 +624,50 @@ export const basicPremiumTable = () => {
   }
 }
 
+export const quoteSeparatelyTable = () => {
+  return {
+    head: [
+      {
+        text: '核保階級/保額',
+        value: 'name',
+        size: '3-6'
+      },
+      {
+        text: '每一個人體傷責任金額',
+        value: 'perBodyAmount',
+        size: '5-6'
+      },
+      {
+        text: '每一意外事故體傷責任金額',
+        value: 'perAccidentBodyAmount',
+        size: '5-6'
+      },
+      {
+        text: '每一意外事故財物損失責任金額',
+        value: 'perAccidentFinanceAmount',
+        size: '5-6'
+      },
+      {
+        text: '本保險契約之最高賠償金額',
+        value: 'insuranceTotalAmount',
+        size: '5-6'
+      },
+      {
+        text: '每一意外事故體傷責任金額 + 每一意外事故財物損失責任金額',
+        value: 'perBodyAmountPlusPerAccidentBodyAmount',
+        size: '5-6'
+      },
+      {
+        text: '操作',
+        value: 'operate',
+        size: '2-6'
+      },
+    ],
+    rows: []
+  }
+}
+
+
 export const amountListTable = () => {
   return {
     head: [

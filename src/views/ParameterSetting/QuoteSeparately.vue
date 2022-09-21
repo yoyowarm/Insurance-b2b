@@ -9,8 +9,11 @@
         @updatedMenu="(e) => currentTag = e"
       />
       <div class="flex w-full">
-        <TableGroup class="w-full" :data="minimumAmountTable" :slotName="slotArray" scrollX>
-        <template v-for="(item,index) in minimumAmountTable.rows">
+        <TableGroup class="w-full" :data="quoteSeparatelyTable" :slotName="slotArray" scrollX>
+        <template v-for="(item,index) in quoteSeparatelyTable.rows">
+          <div :slot="`name-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
+            {{item.level == 1 ? '分公司核保門檻' : '分公司核保上限'}}
+          </div>
           <div :slot="`perBodyAmount-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
               <Input slot="input" placeholder="請輸入金額" :value="item.perBodyAmount.toString()" @updateValue="(e) =>updatedAmount('perBodyAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
@@ -29,6 +32,11 @@
           <div :slot="`insuranceTotalAmount-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
               <Input slot="input" placeholder="請輸入金額" :value="item.insuranceTotalAmount.toString()" @updateValue="(e) =>updatedAmount('insuranceTotalAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
+            </InputGroup>
+          </div>
+          <div :slot="`perBodyAmountPlusPerAccidentBodyAmount-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap pr-3">
+            <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
+              <Input slot="input" placeholder="請輸入金額" :value="item.perBodyAmountPlusPerAccidentBodyAmount.toString()" @updateValue="(e) =>updatedAmount('perBodyAmountPlusPerAccidentBodyAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="w-full flex justify-center">
@@ -51,7 +59,7 @@ import TableGroup from '@/components/TableGroup'
 import NavMenu from '@/components/NavMenu'
 import Button from '@/components/Button'
 import LoadingScreen from '@/components/LoadingScreen.vue'
-import { minimumAmountTable } from '@/utils/mockData'
+import { quoteSeparatelyTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
   components: {
@@ -66,16 +74,17 @@ export default {
   },
   data() {
     return {
-      minimumAmount: minimumAmountTable(),
+      quoteSeparately: quoteSeparatelyTable(),
       openDialog: false,
       dialog: {
         title: '',
         okText: '',
         type: 0
       },
-      currentTag: 0,
+      currentTag: 1,
       itemLists:[
-        { text: '處所', value: 0 }
+        { text: '處所', value: 1 },
+        { text: '活動', value: 2 }
       ],
     }
   },
@@ -85,29 +94,18 @@ export default {
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
     }),
-    minimumAmountTable: {
+    quoteSeparatelyTable: {
       get() {
-        this.minimumAmount.rows.map(item => {
-          // eslint-disable-next-line no-prototype-builtins
-          if(item.hasOwnProperty('edit')) {
-            return item
-          } else {
-            return {
-              ...item,
-              edit: false
-            }
-          }
-        })
-        return this.minimumAmount
+        return {...this.quoteSeparately, rows: this.quoteSeparately.rows.filter(i => i.placeActivityType === this.currentTag)}
       },
       set(value) {
-        this.minimumAmount = value
+        this.quoteSeparately = value
       }
     },
     slotArray () {
       const arr = []
-      const slotArr = [ 'perBodyAmount', 'perAccidentBodyAmount', 'perAccidentFinanceAmount', 'insuranceTotalAmount', 'operate']
-      for (let i = 0; i < this.minimumAmountTable.rows.length; i++) {
+      const slotArr = [ 'name','perBodyAmount', 'perAccidentBodyAmount', 'perAccidentFinanceAmount', 'insuranceTotalAmount','perBodyAmountPlusPerAccidentBodyAmount', 'operate']
+      for (let i = 0; i < this.quoteSeparatelyTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
         })
@@ -117,10 +115,10 @@ export default {
   },
   methods: {
     async editSwitch(index) {
-      const value = !this.minimumAmountTable.rows[index].edit
-      this.minimumAmountTable = Object.assign(this.minimumAmountTable, {
-        ...this.minimumAmountTable.heads,
-        rows: this.minimumAmountTable.rows.map((item, i) => {
+      const value = !this.quoteSeparatelyTable.rows[index].edit
+      this.quoteSeparatelyTable = Object.assign(this.quoteSeparatelyTable, {
+        ...this.quoteSeparatelyTable.heads,
+        rows: this.quoteSeparatelyTable.rows.map((item, i) => {
           if(i === index) {
             return {
               ...item,
@@ -132,31 +130,54 @@ export default {
         })
       })
       if(!value) {
-        const data = JSON.parse(JSON.stringify(this.minimumAmountTable.rows[index]))
-        delete data.countyName
-        delete data.edit
-        Object.keys(data).map(key => {
-          if(key !== 'authorityId') {
-            data[key] = Number(data[key])
-          }
+        const data = JSON.parse(JSON.stringify(this.quoteSeparatelyTable.rows[index]))
+        const req = {
+          insuranceQuotationSettings: []
+        }
+        data.detail.map((item,index) => {
+          const amount = index == 0 
+            ? data.perBodyAmount * 10000
+            : (index== 1 
+              ? data.perAccidentBodyAmount * 10000
+              : (index == 2 
+                ? data.perAccidentFinanceAmount * 10000
+                : (index == 3 
+                  ? data.insuranceTotalAmount * 10000
+                  : data.perBodyAmountPlusPerAccidentBodyAmount * 10000)))
+          req.insuranceQuotationSettings.push({id:item.id, amount})
         })
-        await this.$store.dispatch('parameterSetting/updateCountyMinimumSettings', data)
-        const county = await this.$store.dispatch('resource/CountyMinimumSettings')
-        this.minimumAmountTable.rows = county.data.content
+        await this.$store.dispatch('parameterSetting/updatedInsuranceQuotationAmountSetting', req)
+        await this.getInsuranceQuotationAmountSetting()
       }
     },
     updatedAmount(type,index,e) {
-      const rows = Object.assign(this.minimumAmountTable.rows, {...this.minimumAmountTable.rows, [index]: {
-        ...this.minimumAmountTable.rows[index],
+      const rows = Object.assign(this.quoteSeparatelyTable.rows, {...this.quoteSeparatelyTable.rows, [index]: {
+        ...this.quoteSeparatelyTable.rows[index],
         [type]: e
       }})
-      const all = Object.assign(this.minimumAmountTable, {...this.minimumAmountTable, rows})
-      this.minimumAmountTable = all
+      const all = Object.assign(this.quoteSeparatelyTable, {...this.quoteSeparatelyTable, rows})
+      this.quoteSeparatelyTable = all
+    },
+    async getInsuranceQuotationAmountSetting() {
+      const res = await this.$store.dispatch('resource/InsuranceQuotationAmountSetting')
+      this.quoteSeparatelyTable = {
+          head:this.quoteSeparatelyTable.head,
+          rows: res.data.content.map(item => {
+            return {
+              ...item,
+              edit: false,
+              perBodyAmount: item.detail[0].amount/10000,
+              perAccidentBodyAmount: item.detail[1].amount/10000,
+              perAccidentFinanceAmount: item.detail[2].amount/10000,
+              insuranceTotalAmount: item.detail[3].amount/10000,
+              perBodyAmountPlusPerAccidentBodyAmount: item.detail[4].amount/10000,
+            }
+          })
+        }
     }
   },
   async mounted() {
-    const data = await this.$store.dispatch('resource/CountyMinimumSettings')
-    this.minimumAmountTable.rows = data.data.content
+    await this.getInsuranceQuotationAmountSetting()
   }
 }
 </script>
