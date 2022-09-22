@@ -1,15 +1,6 @@
 <template>
   <div class="w-full">
-    <CommonBoard v-for="(item,index) in copyLists" :key="index" :title="`方案${index+1}、保險金額/自負額(新台幣元)`" :selected="item.isSelected || copyLists.length == 1">
-      <Checkbox
-        :id="`${index}selected`"
-        class="text-md"
-        text="選擇此保險金額"
-        slot="right"
-        :checked="item.isSelected || copyLists.length == 1"
-        :value="item.isSelected || copyLists.length == 1"
-        :disabled="true"
-      />
+    <CommonBoard v-for="(item,index) in copyLists" :key="index" :selected="item.isSelected || copyLists.length == 1">
       <div class="column-5" :class="{'dashed-border': !viewModel}">
         <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel" disable>
           <Select
@@ -149,7 +140,6 @@ import PaymentItem from '@/components/PaymentItem'
 import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
 import Button from '@/components/Button'
-import Checkbox from '@/components/Checkbox'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
@@ -165,7 +155,6 @@ export default {
     Select,
     Button,
     PaymentItem,
-    Checkbox,
     PopupDialog,
     WindowResizeListener
   },
