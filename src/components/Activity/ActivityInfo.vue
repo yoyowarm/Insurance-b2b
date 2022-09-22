@@ -359,7 +359,7 @@ export default {
       }
       if(!this.copyInfoList[index].startDate.day) {
         this.copyInfoList[index].startDate.day = new Date(today).getDate()
-        this.copyInfoList[index].endDate.day = new Date(today).getDate()
+        this.copyInfoList[index].endDate.day = new Date(tomorrow).getDate()
       }
       if(!this.copyInfoList[index].startDate.hour) {
         this.copyInfoList[index].startDate.hour = new Date().getHours() > 12 ? 0 : 12
