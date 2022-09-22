@@ -253,6 +253,9 @@ export const quotation = () => {
     questionnaireFinished: false,
     activityQuestionnaire: {
       userId: '',
+      insuredName: '',
+      insuredId: '',
+      title: '',
       sheet1: {
         part1: {
           name: '',//活動名稱
@@ -375,6 +378,9 @@ export const quotation = () => {
     },
     questionnaire: {//問卷
       userId: '',
+      insuredName: '',
+      insuredId: '',
+      title: '',
       part1: {
         businessType: '',//經營業務種類,
         createTime: {

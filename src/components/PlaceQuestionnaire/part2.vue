@@ -288,7 +288,6 @@ export default {
     'data.part2.hasMechineParkingDevice': {
       handler: function (val) {
         if (!val) {
-          console.log(val)
           this.updateValue('選擇種類','mechineParkingDeviceCategory')
         }
       },

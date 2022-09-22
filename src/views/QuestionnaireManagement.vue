@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="問卷表管理" class="text-lg mb-14"/>
+    <FormTitle title="問卷表管理" class="text-lg mb-5"/>
     <CommonBoard>
       <div class="column-6 pb-6">
         <InputGroup class="w-full" title="被保險人姓名">
@@ -34,11 +34,11 @@
         <Button @click.native="getQuestionnaireList" class="absolute -top-5 w-32">查詢</Button>
       </div>
       <div class="flex flex-row justify-end py-3">
-        <div class="mr-3">
+        <div @click="() => {openQuestionnaire(2,1); SerialNo = ''}" class="mr-3">
           <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
           <span class="download ml-1">活動問卷</span>
         </div>
-        <div >
+        <div  @click="() => {openQuestionnaire(1,1);SerialNo = ''}">
           <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
           <span class="download ml-1">場所問卷</span>
         </div>
@@ -46,13 +46,35 @@
       <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in questionnaireList.rows">
           <div :slot="`operate-${index}`" :key="`operate-${index}`"  class="flex flex-col items-center mr-7 mt-1" >
-              <span class="download mb-3" >列印</span>
-              <span class="download mb-3" >更正</span>
+              <span class="download mb-3" @click="downloadFile(item.serialNo,item.questionnaireType)">列印</span>
+              <span class="download mb-3" @click="getQuestionnaire(item.serialNo,item.questionnaireType)">更正</span>
           </div>
         </template>
       </TableGroup>
-      <Pagination v-if="false" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
+      <Pagination :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
     </CommonBoard>
+    <ActivityQuestionnaire
+      type="activity"
+      :questionnaire="activityQuestionnaire"
+      :open.sync="openActivityQuestionnaire"
+      :updateFunc="updatedActivityQuestionnaire"
+      :clearFunc="clearActivityQuestionnaire"
+      :questionnaireType="questionnaireType"
+      :SerialNo="SerialNo"
+      @addQuestionnaire="addQuestionnaire"
+      @updateQuestionnaire="addQuestionnaire"
+      QuestionnaireManagement/>
+    <PlaceQuestionnaire
+      type="place"
+      :questionnaire="placeQuestionnaire"
+      :open.sync="openPlaceQuestionnaire"
+      :updateFunc="updatedPlaceQuestionnaire"
+      :clearFunc="clearPlaceQuestionnaire"
+      :questionnaireType="questionnaireType"
+      :SerialNo="SerialNo"
+      @addQuestionnaire="addQuestionnaire"
+      @updateQuestionnaire="addQuestionnaire"
+      QuestionnaireManagement/>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
@@ -70,9 +92,14 @@ import WindowResizeListener from '@/components/WindowResizeListener'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import Pagination from '@/components/pagination'
 import TableGroup from '@/components/TableGroup'
+import ActivityQuestionnaire from '@/components/PopupDialog/ActivityQuestionnaire'
+import PlaceQuestionnaire from '@/components/PopupDialog/PlaceQuestionnaire'
 import { mapState } from 'vuex'
 import { questionnaireList } from '@/utils/mockData'
+import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
+import FileSaver from 'file-saver'
 export default {
+  mixins: [editCopyQuestionnaire],
   components: {
     FormTitle,
     CommonBoard,
@@ -84,11 +111,17 @@ export default {
     LoadingScreen,
     Pagination,
     TableGroup,
-    Select
+    Select,
+    ActivityQuestionnaire,
+    PlaceQuestionnaire
   },
   data() {
     return {
       windowWidth: window.innerWidth,
+      openPlaceQuestionnaire: false,
+      openActivityQuestionnaire: false,
+      questionnaireType: 1,
+      SerialNo: '',
       startDate: {
         year: '',
         month: '',
@@ -130,6 +163,8 @@ export default {
       'totalPage': state => state.app.totalPage,
       'orderNo': state => state.common.orderNo,
       'token': state => state.home.token,
+      'activityQuestionnaire': state => state.questionnaire.activityQuestionnaire,
+      'placeQuestionnaire': state => state.questionnaire.placeQuestionnaire
     }),
     slotArray () {
       const arr = []
@@ -160,7 +195,7 @@ export default {
         this.Parameters.Skip = (Number(page)-1)*10
       }
       const res = await this.$store.dispatch('questionnaire/GetQusetionnaireList',this.Parameters)
-      this.questionnaireList.rows = res.data.content.map(item => {
+      this.questionnaireList.rows = res.data.content.questionnaires.map(item => {
         return {
           ...item,
           createTime: item.createTime.split('T')[0] + item.createTime.split('T')[1],
@@ -168,6 +203,128 @@ export default {
           questionnaireType: item.questionnaireType === 1 ? '處所' : '活動'
         }
       })
+      this.$store.dispatch('app/updatedCurrentPage',page? page: 1)
+      this.$store.dispatch('app/updatedTotalPage',Math.ceil(res.data.content.totalCount/10))
+    },
+    async downloadFile(orderNo, type) {
+      const res = await this.$store.dispatch('common/GetQuestionnaireDocument',{ placeActivityType:type == '處所' ? 1 : 2 ,orderNo})
+      var blob = new Blob([res.data], {type: "application/octet-stream"});
+       FileSaver.saveAs(blob,  `${type}問券_${orderNo}.pdf`);
+    },
+    async getQuestionnaire(serialNo,type) {
+      this.SerialNo = serialNo
+      if(type === '處所') {
+        const res = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireWithoutOrder',serialNo)
+        if(res.data.content.placeQuestionnaire ) {
+          const data = this.AssignQuestionnaireToManagement(res.data.content.placeQuestionnaire,type === '處所' ? 'place' : 'activity')
+          data.insuredName = res.data.content.insuredName
+          data.insuredId = res.data.content.insuredId
+          data.title = res.data.content.title
+          this.updatedPlaceQuestionnaire(data)
+        }
+      } else {
+        const res = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireWithoutOrder',serialNo)
+        if(res.data.content.activityQuestionnaire) {
+          const data = this.AssignQuestionnaireToManagement(res.data.content.activityQuestionnaire,type === '處所' ? 'place' : 'activity')
+          data.insuredName = res.data.content.insuredName
+          data.insuredId = res.data.content.insuredId
+          data.title = res.data.content.title
+          this.updatedActivityQuestionnaire(data)
+        }
+      }
+      this.openQuestionnaire(type == '處所' ? 1 : 2,2)
+    },
+    async addQuestionnaire(type) {
+      if(type == 1) {
+        const data = this.placeQuestionnaireMapping(this.placeQuestionnaire)
+        let payload = {
+          placeQuestionnaire:JSON.parse(JSON.stringify(data)),
+          insuredName: data.insuredName,
+          insuredId: data.insuredId,
+          title: data.title
+        }
+        if(this.questionnaireType == 1) {
+          await this.$store.dispatch('questionnaire/AddPlaceQuestionnaireWithoutOrder',payload)
+        } else {
+          payload.questionnaireNo = this.SerialNo
+          await this.$store.dispatch('questionnaire/UpdatePlaceQuestionnaireWithoutOrder',payload)
+        }
+      } else {
+        const data = this.activityQuestionnaireMapping(this.activityQuestionnaire)
+        let payload = {
+          activityQuestionnaire:JSON.parse(JSON.stringify(data)),
+          insuredName: data.insuredName,
+          insuredId: data.insuredId,
+          title: data.title
+        }
+        if(this.questionnaireType == 1) {
+          await this.$store.dispatch('questionnaire/AddActivityQuestionnaireWithoutOrder',payload)
+        } else {
+          payload.questionnaireNo = this.SerialNo
+          await this.$store.dispatch('questionnaire/UpdateActivityQuestionnaireWithoutOrder',payload)
+        }
+      }
+      await this.getQuestionnaireList()
+    },
+    activityQuestionnaireMapping(data) {
+      let copyData = JSON.parse(JSON.stringify(data))
+      if(Object.keys(copyData.sheet1.part1.beginDateTime).every(key => copyData.sheet1.part1.beginDateTime[key] !== '')) {
+        copyData.sheet1.part1.beginDateTime = `${Number(copyData.sheet1.part1.beginDateTime.year)+1911}-${copyData.sheet1.part1.beginDateTime.month}-${copyData.sheet1.part1.beginDateTime.day} ${copyData.sheet1.part1.beginDateTime.hours}:${copyData.sheet1.part1.beginDateTime.minutes}`
+      } else {
+        copyData.sheet1.part1.beginDateTime = null
+      }
+      if(copyData.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
+        copyData.sheet1.part3.afterActivityHasAccessByTransportation = true
+      } else {
+        copyData.sheet1.part3.afterActivityHasAccessByTransportation = false
+      }
+      return copyData
+    },
+    placeQuestionnaireMapping(data) {
+      let copyData = JSON.parse(JSON.stringify(data))
+      copyData = {
+          ...copyData,
+          part2: {
+            ...copyData.part2,
+            buildingNature: copyData.part2.buildingNature.Value,
+            nearbyBuildingNature: copyData.part2.nearbyBuildingNature.Value,
+            securityCheck: copyData.part2.securityCheck.Value,
+            room: {...copyData.part2.room,roomAmount: copyData.part2.room.value},
+            seat: {...copyData.part2.seat,seatAmount: copyData.part2.seat.value},
+          }
+        }
+        if(Object.keys(copyData.part1.createTime).every(key => copyData.part1.createTime[key] !== '')) {
+          copyData.part1.createTime = `${Number(copyData.part1.createTime.year)+1911}-${copyData.part1.createTime.month}-${copyData.part1.createTime.day}`
+        } else copyData.part1.createTime = null
+
+        if(Object.keys(copyData.part1.businessStartDate).every(key => copyData.part1.businessStartDate[key])) {
+          copyData.part1.businessStartDate = `${copyData.part1.businessStartDate.hours}:${copyData.part1.businessStartDate.minutes}`
+        } else copyData.part1.businessStartDate = null
+
+        if(Object.keys(copyData.part1.businessEndDate).every(key => copyData.part1.businessEndDate[key])) {
+          copyData.part1.businessEndDate = `${copyData.part1.businessEndDate.hours}:${copyData.part1.businessEndDate.minutes}`
+        } else copyData.part1.businessEndDate = null
+        return copyData
+    },
+    openQuestionnaire(type,status) {
+      this.questionnaireType = status
+      if(type === 1) {
+        this.openPlaceQuestionnaire = true
+      } else {
+        this.openActivityQuestionnaire = true
+      }
+    },
+    updatedActivityQuestionnaire(data) {
+      this.$store.dispatch('questionnaire/updatedActivityQuestionnaire',data)
+    },
+    updatedPlaceQuestionnaire(data) {
+      this.$store.dispatch('questionnaire/updatedPlaceQuestionnaire',data)
+    },
+    clearActivityQuestionnaire() {
+      this.$store.dispatch('questionnaire/clearActivityQuestionnaire')
+    },
+    clearPlaceQuestionnaire() {
+      this.$store.dispatch('questionnaire/clearPlaceQuestionnaire')
     }
   },
   async mounted() {

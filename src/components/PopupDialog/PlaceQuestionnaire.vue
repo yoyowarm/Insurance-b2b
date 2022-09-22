@@ -2,7 +2,7 @@
   <div class="popup" ref="modal" :class="{'open':open }">
     <div class="dialog">
       <div class="header">
-        <span class="mb-4">公共意外責任保險場所詢問表</span>
+        <span class="mb-6 md:mb-4">公共意外責任保險場所詢問表</span>
         <div class="icon" @click="$emit('update:open' ,false)">
           <font-awesome-icon icon="times-circle" />
         </div>
@@ -11,10 +11,36 @@
         </InputGroup>
       </div>
       <div class="body">
-        <p v-if="multiplePlaceInfo">若有多處所狀況請以坪數最大處所條件填寫</p>
+        <p v-if="multiplePlaceInfo" class="text-red-500">若有多處所狀況請以坪數最大處所條件填寫</p>
+        <div class="flex flex-row flex-wrap mb-2" v-if="QuestionnaireManagement" >
+          <div class="flex flex-row items-center mr-4">
+            <span class="mr-2 mt-2">問券名稱</span>
+            <InputGroup class="col-start-4" noMt min mid>
+              <Input slot="input" class="w-52" :value="questionnaireData.title" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {title: e})" placeholder="輸入問券名稱"/>
+            </InputGroup>
+          </div>
+          <div class="flex flex-row items-center mr-4">
+            <span class="mr-2 mt-2">被保險人姓名</span>
+            <InputGroup class="col-start-4" noMt min mid>
+              <Input slot="input" class="w-32" :value="questionnaireData.insuredName" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {insuredName: e})" placeholder="輸入姓名"/>
+            </InputGroup>
+          </div>
+          <div class="flex flex-row items-center mr-4">
+            <span class="mr-2 mt-2">被保險人身分證/統編</span>
+            <InputGroup class="col-start-4" noMt min mid>
+              <Input slot="input" class="w-32" :value="questionnaireData.insuredId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {insuredId: e})" placeholder="輸入號碼"/>
+            </InputGroup>
+          </div>
+          <div class="flex flex-row items-center">
+            <span class="mr-2 mt-2">填表人代號</span>
+            <InputGroup class="col-start-4" noMt min mid>
+              <Input slot="input" class="w-32" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="輸入號碼"/>
+            </InputGroup>
+          </div>
+        </div>
         <div class="column-4" ref="1">
           <FormTitle class="text-lg"  title="(一)營業處所-基本資料"/>
-          <InputGroup class="col-start-4" noMt disable>
+          <InputGroup v-if="!QuestionnaireManagement" class="col-start-4" noMt disable>
             <Input disable slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
@@ -53,9 +79,11 @@
         <Part9 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="fixed-button">
           <div class="flex justify-center w-full px-3">
-            <Button outline class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/clearQuestionnaire')}">清除資料</Button>
-            <Button class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
-            <Button v-if="orderNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">列印問卷</Button>
+            <Button outline class="h-12 w-52 mr-3" @click.native="clearQuestionnaire">清除資料</Button>
+            <Button v-if="questionnaireType == 0" class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
+            <Button v-if="questionnaireType == 1" class="h-12 w-52 mr-3" @click.native="() =>{$emit('addQuestionnaire',1);$emit('update:open' ,false)}">新增問券</Button>
+            <Button v-if="questionnaireType == 2" class="h-12 w-52 mr-3" @click.native="() =>{$emit('updateQuestionnaire',1);$emit('update:open' ,false)}">更新問券</Button>
+            <Button v-if="orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">列印問卷</Button>
           </div>
         </div>
       </div>
@@ -140,6 +168,26 @@ export default {
     orderNo: {
       type: String,
       default: ''
+    },
+    updateFunc: {
+      type: Function,
+      default: () => {}
+    },
+    clearFunc: {
+      type: Function,
+      default: () => {}
+    },
+    QuestionnaireManagement: {
+      type: Boolean,
+      default: false
+    },
+    questionnaireType: {
+      type: Number,
+      default: 0
+    },
+    SerialNo: {
+      type: String,
+      default: ''
     }
   },
    data () {
@@ -165,7 +213,11 @@ export default {
         return this.questionnaire
       },
       set(val) {
-        this.$store.dispatch(`${this.type}/updatedQuestionnaire`, val)
+        if(this.updateFunc) {
+          this.updateFunc(val)
+        } else {
+          this.$store.dispatch(`${this.type}/updatedQuestionnaire`, val)
+        }
       }
     }
   },
@@ -182,9 +234,16 @@ export default {
       this.windowWidth = window.innerWidth
     },
     async downloadFile () {
-      const res = await this.$store.dispatch('common/GetQuestionnaireDocument',{placeActivityType:1,orderNo:this.orderNo})
+      const res = await this.$store.dispatch('common/GetQuestionnaireDocument',{placeActivityType:1,orderNo:this.SerialNo ? this.SerialNo :this.orderNo})
       var blob = new Blob([res.data], {type: "application/octet-stream"});
-       FileSaver.saveAs(blob,  `處所問券_${this.orderNo}.pdf`);
+       FileSaver.saveAs(blob,  `處所問券_${this.SerialNo ? this.SerialNo :this.orderNo}.pdf`);
+    },
+    clearQuestionnaire() {
+      if(this.clearFunc) {
+        this.clearFunc()
+      } else {
+        this.$store.dispatch('place/clearQuestionnaire')
+      }
     }
   }
 }
@@ -217,12 +276,13 @@ export default {
     .body {
       overflow: scroll;
       max-height: 80vh;
-      @apply  p-6 pt-2 relative
+      @apply  p-6
     }
   }
   .mask-bg {
     @apply inset-0 bg-black opacity-75 w-screen h-screen z-20 overflow-hidden fixed
   }
+
   .fixed-button {
     max-width: 90vw;
     height: 80px;
@@ -231,13 +291,14 @@ export default {
     box-shadow: 0px 0px 5px #00000029;
     @apply fixed flex flex-row justify-center items-center w-full bg-white z-30 bottom-0 left-0 rounded-b-xl
   }
+
   @media (max-width: 770px) {
     .dialog {
       width: 90%;
       @apply bg-white rounded-2xl;
       .header {
         height: 100px;
-        @apply flex-col pl-0 px-4 justify-center;
+        @apply flex-col pl-0 px-4 justify-end items-center;
         >span {
           @apply -mt-5
         }
