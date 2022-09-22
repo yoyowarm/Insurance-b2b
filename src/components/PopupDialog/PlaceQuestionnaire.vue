@@ -33,8 +33,8 @@
           </div>
           <div class="flex flex-row items-center">
             <span class="mr-2 mt-2">填表人代號</span>
-            <InputGroup class="col-start-4" noMt min mid>
-              <Input slot="input" class="w-32" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="輸入號碼"/>
+            <InputGroup class="col-start-4" noMt min mid disable>
+              <Input disable slot="input" class="w-32" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="輸入號碼"/>
             </InputGroup>
           </div>
         </div>

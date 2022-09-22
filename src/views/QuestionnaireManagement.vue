@@ -164,7 +164,8 @@ export default {
       'orderNo': state => state.common.orderNo,
       'token': state => state.home.token,
       'activityQuestionnaire': state => state.questionnaire.activityQuestionnaire,
-      'placeQuestionnaire': state => state.questionnaire.placeQuestionnaire
+      'placeQuestionnaire': state => state.questionnaire.placeQuestionnaire,
+      userInfo: state => state.home.userInfo
     }),
     slotArray () {
       const arr = []
@@ -322,9 +323,11 @@ export default {
     },
     clearActivityQuestionnaire() {
       this.$store.dispatch('questionnaire/clearActivityQuestionnaire')
+      this.$store.dispatch('questionnaire/updatedActivityQuestionnaire', {...this.$store.state.questionnaire.activityQuestionnaire,userId:this.userInfo.userid})
     },
     clearPlaceQuestionnaire() {
       this.$store.dispatch('questionnaire/clearPlaceQuestionnaire')
+      this.$store.dispatch('questionnaire/updatedPlaceQuestionnaire', {...this.$store.state.questionnaire.placeQuestionnaire,userId:this.userInfo.userid})
     }
   },
   async mounted() {

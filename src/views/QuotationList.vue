@@ -344,6 +344,8 @@ export default {
     this.$store.dispatch('home/updatedUserInfo',userInfo)
     this.$store.dispatch('activity/updatedQuestionnaire', {...this.$store.state.activity.questionnaire,userId:userInfo.userid})
     this.$store.dispatch('place/updatedQuestionnaire', {...this.$store.state.place.questionnaire,userId:userInfo.userid})
+    this.$store.dispatch('questionnaire/updatedActivityQuestionnaire', {...this.$store.state.questionnaire.activityQuestionnaire,userId:userInfo.userid})
+    this.$store.dispatch('questionnaire/updatedPlaceQuestionnaire', {...this.$store.state.questionnaire.placeQuestionnaire,userId:userInfo.userid})
   }
 }
 </script>
