@@ -107,8 +107,8 @@
       </div>
       <div class="button-group">
         <Button :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
-        <Button @click.native="downloadFile('', item)" outline>預覽報價單</Button>
-        <Button v-if="item.fixed && !copyLists.some(item => item.isSelected)" @click.native="updateFixed(index)" outline>修改</Button>
+        <Button class="mr-6" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
+        <Button @click.native="downloadFile('questionnaire', item)" outline>預覽問券</Button>
         <!-- <Button :class="{'mr-6': windowWidth > 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button> -->
         <!-- <Button :class="{'col-span-2': windowWidth < 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="updateInsuranceProject(index)" outline>編輯投保資料</Button> -->
         <Button v-if="viewModel && editModel">修改保費</Button>
@@ -155,6 +155,7 @@ import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
 import { numFormat } from '@/utils/regex'
+import FileSaver from 'file-saver'
 
 export default {
   components: {
@@ -269,6 +270,10 @@ export default {
               link.href = URL;
               link.download= true;
               link.click();
+      } else if (type === 'questionnaire') {
+        const res = await this.$store.dispatch(`common/GetQuestionnaireDocument`,{placeActivityType:this.type =='place'? 1: 2,orderNo: this.orderNo})
+        var blob2 = new Blob([res.data], {type: "application/octet-stream"});
+        FileSaver.saveAs(blob2, `${this.type =='place'?'處所': '活動'}問券_${this.orderNo}.pdf`);
       } else {
         const URL = `${process.env.VUE_APP_API_URL}Document/Get${this.type =='place'? 'Place': 'Activity'}QuotationDocument?orderNo=${this.orderNo}`
         const link = document.createElement('a');
