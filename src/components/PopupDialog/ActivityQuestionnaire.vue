@@ -55,9 +55,9 @@
         <Part9 :data.sync="questionnaireData"/>
         <div class="fixed-button">
           <div class="flex justify-center w-full px-3">
-            <Button outline class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true)}">清除資料</Button>
-            <Button @click.native="() =>{$store.dispatch('activity/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
-            <Button outline class="h-12 w-52" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true)}">列印問卷</Button>
+            <Button outline class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/clearQuestionnaire')}">清除資料</Button>
+            <Button class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('activity/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
+            <Button v-if="orderNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">列印問卷</Button>
           </div>
         </div>
       </div>
@@ -81,6 +81,7 @@ import Part6 from '@/components/ActivityQuestionnaire/part6'
 import Part7 from '@/components/ActivityQuestionnaire/part7'
 import Part8 from '@/components/ActivityQuestionnaire/part8'
 import Part9 from '@/components/ActivityQuestionnaire/part9'
+import FileSaver from 'file-saver'
 export default {
   components: {
     FormTitle,
@@ -130,6 +131,10 @@ export default {
     type: {
       type: String,
       default: ''
+    },
+    orderNo: {
+      type: String,
+      default: ''
     }
   },
    data () {
@@ -165,6 +170,11 @@ export default {
       if(this.$refs[e.Value]) {
         this.$refs[e.Value].scrollIntoView({behavior: "smooth"})
       }
+    },
+    async downloadFile () {
+      const res = await this.$store.dispatch('common/GetQuestionnaireDocument',{placeActivityType:2,orderNo:this.orderNo})
+      var blob = new Blob([res.data], {type: "application/octet-stream"});
+       FileSaver.saveAs(blob,  `活動問券_${this.orderNo}.pdf`);
     }
   }
 }

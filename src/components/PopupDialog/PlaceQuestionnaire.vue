@@ -53,9 +53,9 @@
         <Part9 :data.sync="questionnaireData" :marginTop="marginTop"/>
         <div class="fixed-button">
           <div class="flex justify-center w-full px-3">
-            <Button outline class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true)}">清除資料</Button>
+            <Button outline class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/clearQuestionnaire')}">清除資料</Button>
             <Button class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
-            <Button outline class="h-12 w-52" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true)}">列印問卷</Button>
+            <Button v-if="orderNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">列印問卷</Button>
           </div>
         </div>
       </div>
@@ -81,6 +81,7 @@ import Part7 from '@/components/PlaceQuestionnaire/part7'
 import Part8 from '@/components/PlaceQuestionnaire/part8'
 import Part9 from '@/components/PlaceQuestionnaire/part9'
 import WindowResizeListener from '@/components/WindowResizeListener'
+import FileSaver from 'file-saver'
 export default {
   components: {
     FormTitle,
@@ -135,6 +136,10 @@ export default {
     multiplePlaceInfo: {
       type: Boolean,
       default: false
+    },
+    orderNo: {
+      type: String,
+      default: ''
     }
   },
    data () {
@@ -176,6 +181,11 @@ export default {
     handleResize () {
       this.windowWidth = window.innerWidth
     },
+    async downloadFile () {
+      const res = await this.$store.dispatch('common/GetQuestionnaireDocument',{placeActivityType:1,orderNo:this.orderNo})
+      var blob = new Blob([res.data], {type: "application/octet-stream"});
+       FileSaver.saveAs(blob,  `處所問券_${this.orderNo}.pdf`);
+    }
   }
 }
 </script>

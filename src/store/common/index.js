@@ -1,4 +1,13 @@
-import { DownloadFile, UploadFile, DeleteFile, AttachmentDetails, GetInsuranceDocument, GetPlaceQuotationDocument, GetActivityQuotationDocument } from '@/api/File'
+import {
+  DownloadFile,
+  UploadFile,
+  DeleteFile,
+  AttachmentDetails,
+  GetInsuranceDocument,
+  GetPlaceQuotationDocument,
+  GetActivityQuotationDocument,
+  GetQuestionnaireDocument
+} from '@/api/File'
 export default {
   namespaced: true,
   state: {
@@ -55,6 +64,9 @@ export default {
     },
     async GetActivityQuotationDocument(_, OrderNo) {
       return await GetActivityQuotationDocument(OrderNo)
+    },
+    async GetQuestionnaireDocument(_, { orderNo, placeActivityType }) {
+      return await GetQuestionnaireDocument(orderNo, placeActivityType)
     },
     updateOrderNo({ commit }, { orderNo, mainOrderNo }) {
       commit('UPDATED_ORDER_NO', { orderNo, mainOrderNo })

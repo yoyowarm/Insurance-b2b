@@ -71,7 +71,7 @@
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire type="activity" :open.sync="openQuestionnaire" :questionnaire="questionnaire"/>
+    <Questionnaire type="activity" :open.sync="openQuestionnaire" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <PopupDialog
       :open.sync="openFormula"
@@ -647,6 +647,9 @@ export default {
     this.updatePeriod()
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
+    }
+    if(this.InsuranceActive == 0) {
+      this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
     }
   },
   beforeDestroy() {

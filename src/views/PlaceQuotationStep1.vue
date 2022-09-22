@@ -92,7 +92,7 @@
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire type="place" :open.sync="openQuestionnaire" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1"/>
+    <Questionnaire type="place" :open.sync="openQuestionnaire" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <PopupDialog
       :open.sync="openFormula"
@@ -627,6 +627,9 @@ export default {
     await this.pageInit()
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())
+    }
+    if(this.InsuranceActive == 0) {
+      this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
     }
     if(!this.period.startDate.year && !this.period.startDate.month && !this.period.startDate.day && !this.period.startDate.hour) {
       let date = {
