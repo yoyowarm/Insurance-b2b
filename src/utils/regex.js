@@ -55,8 +55,12 @@ export const routeMatch = (path) => {
 		case '/':
 			return 'QuoteDetails'
 		case '/place-quotation/step1':
+		case '/place-quotation/step2':
+		case '/place-quotation/step3':
 			return 'PlaceQuote'
 		case '/activity-quotation/step1':
+		case '/activity-quotation/step2':
+		case '/activity-quotation/step3':
 			return 'ActivityQuote'
 		case '/permissionSetting':
 			return 'PermissionSetting'
