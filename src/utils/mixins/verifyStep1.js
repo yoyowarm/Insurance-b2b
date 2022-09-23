@@ -184,13 +184,19 @@ export default {
           const target = this.additionTermsList.find(item => item.additionTermName == key)
           if (target && this.additionTerms[target.additionTermId]) {
             if (['PL002', 'PL003', 'PL004', 'PL007', 'PL035'].includes(target.additionTermId)) return
-            Object.keys(this.additionTerms[target.additionTermId]).map(key => {
-              if (!this.additionTerms[target.additionTermId][key]) {
-                if (!this.requestFile.includes(`${target.additionTermName}條款未填寫完成`)) {
-                  this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
-                }
+            if (target.additionTermId == 'PL005') {
+              if (!this.additionTerms[target.additionTermId].value1) {
+                this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
               }
-            })
+            } else {
+              Object.keys(this.additionTerms[target.additionTermId]).map(key => {
+                if (!this.additionTerms[target.additionTermId][key]) {
+                  if (!this.requestFile.includes(`${target.additionTermName}條款未填寫完成`)) {
+                    this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
+                  }
+                }
+              })
+            }
           }
         }
       })

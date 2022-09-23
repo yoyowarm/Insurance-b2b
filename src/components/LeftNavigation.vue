@@ -112,12 +112,6 @@ export default {
       default: 0
     }
   },
-  watch: {
-    scrollY() {
-      this.parameterSettingTop = this.$refs.parameterSetting.getBoundingClientRect().top
-      this.SuggestTermSettingTop = this.$refs.SuggestTermSetting.getBoundingClientRect().top
-    }
-  },
   components: {
     DynamicLink,
     TriangleIcon,
@@ -146,10 +140,6 @@ export default {
       this.windowWidth = window.innerWidth
     },
   },
-  mounted() {
-    this.parameterSettingTop = this.$refs.parameterSetting.getBoundingClientRect().top
-    this.SuggestTermSettingTop = this.$refs.SuggestTermSetting.getBoundingClientRect().top
-  }
 }
 </script>
 

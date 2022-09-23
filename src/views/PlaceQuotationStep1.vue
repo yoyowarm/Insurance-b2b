@@ -634,6 +634,7 @@ export default {
   },
   async mounted() {
     await this.pageInit()
+    this.termsInit()
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())
     }
