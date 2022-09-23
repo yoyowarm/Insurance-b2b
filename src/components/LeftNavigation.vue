@@ -57,7 +57,7 @@
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
-        <div v-show="path.includes('parameterSetting') || showCategory" class="fixed-menu md:pl-0 md:items-center">
+        <div v-show="path.includes('parameterSetting') || showCategory" class="fixed-menu md:pl-0 mb-40 md:items-center" :style="{'bottom': scrollY + 'px'}">
           <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
           </DynamicLink>
@@ -79,7 +79,7 @@
           <div class="icon termsSetting"/>
           <span class="text-white text-lg font-bold">條款設定</span>
         </div>
-        <div v-show="path.includes('termsSetting') || showTerms" class="fixed-menu md:pl-0 md:items-center">
+        <div v-show="path.includes('termsSetting') || showTerms" class="fixed-menu md:pl-0 mb-12 md:items-center" :style="{'bottom': scrollY + 'px'}">
           <DynamicLink v-if="permissions.includes('SuggestTermSetting')" type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/proposedTerms'}">建議條款</span>
           </DynamicLink>
@@ -106,6 +106,10 @@ export default {
     openMenu: {
       type: Boolean,
       default: false
+    },
+    scrollY: {
+      type: Number,
+      default: 0
     }
   },
   components: {
@@ -216,7 +220,8 @@ export default {
       background-color: #fafafa;
       width: 140px;
       height: 125px;
-      @apply fixed z-10 left-28 ml-2 mt-3 flex flex-col justify-center items-center shadow-xl text-xl rounded-r-lg
+      z-index: 2;
+      @apply fixed left-28 ml-2 mt-3 flex flex-col justify-center items-center shadow-xl text-xl rounded-r-lg
     }
     &:hover, &.active {
       background-color: #fafafa;

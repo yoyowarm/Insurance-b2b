@@ -14,8 +14,8 @@
         <img src="../assets/images/mobile_nav_icon.png" alt="">
       </div>
     </header>
-    <div class="flex body bg-main-gray" ref="body" :class="{'mb-20': paginationPage && innerWidth < 771}">
-      <LeftNavigation :class="{'open':openMenu }" :openMenu.sync="openMenu"/>
+    <div class="flex body bg-main-gray" ref="body" :class="{'mb-20': paginationPage && innerWidth < 771}" @scroll="handleScroll">
+      <LeftNavigation :class="{'open':openMenu }" :openMenu.sync="openMenu" :scrollY="scrollY"/>
       <div class="right-block">
         <router-view/>
       </div>
@@ -41,6 +41,7 @@ export default {
   data() {
     return {
       openMenu: false,
+      scrollY: 0,
     }
   },
   computed: {
@@ -54,6 +55,17 @@ export default {
       return window.innerWidth
     }
   },
+  methods: {
+    handleScroll() {
+      this.scrollY = window.scrollY
+    }
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  destroyed() {
+    window.removeEventListener("scroll", this.handleScroll);
+  }
 }
 </script>
 
