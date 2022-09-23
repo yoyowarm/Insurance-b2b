@@ -64,6 +64,7 @@
       @addQuestionnaire="addQuestionnaire"
       @updateQuestionnaire="addQuestionnaire"
       hasUpdateFunc
+      hasClearFunc
       QuestionnaireManagement/>
     <PlaceQuestionnaire
       type="place"
@@ -76,6 +77,7 @@
       @addQuestionnaire="addQuestionnaire"
       @updateQuestionnaire="addQuestionnaire"
       hasUpdateFunc
+      hasClearFunc
       QuestionnaireManagement/>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>

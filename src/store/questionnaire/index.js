@@ -85,7 +85,7 @@ export default {
         facility: [],//如有下列設施，請勾選
         hasPusher: null,//是否使用推高機
         hasFireOrDust: null,//涉及用火或粉塵表演
-        isProfessional: null,//表演者是否為專業人士
+        isProfessional: null,//表演者為專業或業餘
         hasDangerousItem: null,//使用、存放煙火爆竹或化學品等危險物品
         hasBoiler: null,//使用鍋爐
       },

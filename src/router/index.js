@@ -163,13 +163,14 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  const whitelist = ['/questionnaire-management']
   // if (to.path === '/place-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
   //   next({ name: 'quotationList' })
   // }
   // if (to.path === '/activity-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
   //   next({ name: 'quotationList' })
   // }
-  if (!store.state.home.userInfo.permissions.includes(routeMatch(to.path))) {
+  if (!store.state.home.userInfo.permissions.includes(routeMatch(to.path)) && !whitelist.includes(to.path)) {
     next({ name: 'quotationList' })
   }
   if (to.path === '/place-quotation/step2' && from.path === '/place-quotation/step3') {

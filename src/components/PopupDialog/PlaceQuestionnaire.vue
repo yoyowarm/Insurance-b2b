@@ -177,6 +177,10 @@ export default {
       type: Function,
       default: () => {}
     },
+    hasClearFunc: {
+      type: Boolean,
+      default: false
+    },
     clearFunc: {
       type: Function,
       default: () => {}
@@ -243,10 +247,11 @@ export default {
        FileSaver.saveAs(blob,  `處所問券_${this.SerialNo ? this.SerialNo :this.orderNo}.pdf`);
     },
     clearQuestionnaire() {
-      if(this.clearFunc) {
+      if(this.hasClearFunc) {
         this.clearFunc()
       } else {
         this.$store.dispatch('place/clearQuestionnaire')
+        this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,userId:this.$store.state.home.userInfo.userid})
       }
     }
   }
