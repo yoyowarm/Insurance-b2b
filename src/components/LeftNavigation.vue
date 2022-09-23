@@ -52,12 +52,12 @@
       </div>
     </DynamicLink>
     <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting') || permissions.includes('CountyMinimumSetting') || permissions.includes('BasicPremium') || permissions.includes('QuoteInsuranceAmount')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)" >
-      <div @mouseover="showCategory = true" @mouseout="showCategory = false" class="nav-item sub-pages relative" :class="{'active': path.includes('parameterSetting'), 'h180': path.includes('parameterSetting')}">
+      <div @mouseover="showCategory = true" @mouseout="showCategory = false" class="nav-item sub-pages relative" :class="{'active': path.includes('parameterSetting'),'h180': (windowWidth <=770 && path.includes('parameterSetting'))}">
         <div class="flex flex-row items-center md:flex-col" ref="parameterSetting">
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
-        <div v-show="path.includes('parameterSetting') || showCategory" class="fixed-menu md:pl-0 mb-40 md:items-center" :style="{'top': (parameterSettingTop -30) + 'px'}">
+        <div v-show="showCategory || (windowWidth <=770 && path.includes('parameterSetting'))" class="fixed-menu md:pl-0 md:items-center" >
           <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
           </DynamicLink>
@@ -74,17 +74,17 @@
       </div>
     </DynamicLink>
     <DynamicLink v-if="permissions.includes('SuggestTermSetting') || permissions.includes('QuoteAndWeight') || permissions.includes('QuoteAmount')" type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
-      <div @mouseover="showTerms = true" @mouseout="showTerms = false" class="nav-item sub-pages" :class="{'active': path.includes('termsSetting'),'h180': path.includes('termsSetting')}">
+      <div @mouseover="showTerms = true" @mouseout="showTerms = false" class="nav-item sub-pages" :class="{'active': path.includes('termsSetting'), 'h180': (windowWidth <=770 && path.includes('termsSetting'))}">
         <div class="flex flex-row items-center md:flex-col" ref="SuggestTermSetting">
           <div class="icon termsSetting"/>
           <span class="text-white text-lg font-bold">條款設定</span>
         </div>
-        <div v-show="path.includes('termsSetting') || showTerms" class="fixed-menu md:pl-0 mb-12 md:items-center" :style="{'top': (SuggestTermSettingTop -30) + 'px'}">
+        <div v-show="showTerms || (windowWidth <=770 && path.includes('termsSetting'))" class="fixed-menu md:pl-0 md:items-center" >
           <DynamicLink v-if="permissions.includes('SuggestTermSetting')" type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/proposedTerms'}">建議條款</span>
           </DynamicLink>
           <DynamicLink v-if="permissions.includes('QuoteAndWeight')" type="router" path="/termsSetting/quotationAndWeight" @click.native="$emit('update:openMenu', false)">
-            <span class="text-white text-md font-bold" :class="{'pagination': path !== '/termsSetting/quotationAndWeight'}">另行報價和權重</span>
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/quotationAndWeight'}">另行報價和權重</span>
           </DynamicLink>
           <DynamicLink v-if="permissions.includes('QuoteAmount')" type="router" path="/termsSetting/quotationAndAmount" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/quotationAndAmount'}">另行報價額度</span>
@@ -156,7 +156,7 @@ export default {
 <style scoped lang="scss">
   .left-nav {
     width: 120px;
-    @apply pt-8 pb-20 overflow-auto
+    @apply pt-8 pb-20
   }
   .user-mobile {
     @apply flex items-center mr-3
@@ -233,7 +233,7 @@ export default {
       width: 140px;
       height: 125px;
       z-index: 2;
-      @apply fixed left-28 ml-2 mt-3 flex flex-col justify-center items-center shadow-xl text-xl rounded-r-lg
+      @apply absolute left-28 ml-2 mt-3 flex flex-col justify-center items-center shadow-xl text-xl rounded-r-lg
     }
     &:hover, &.active {
       background-color: #fafafa;
@@ -275,11 +275,7 @@ export default {
         font-size: 14px!important;
       }
     }
-    &.active .fixed-menu {
-        width: auto;
-        height: auto;
-        @apply relative left-0 mt-0 shadow-none pl-0 items-center text-base
-      }
+    // &.active 
   }
   
   @media screen and (max-width: 770px) {
@@ -378,6 +374,11 @@ export default {
             background-image: url('../assets/images/1.png');
           }
         }
+      }
+      .fixed-menu {
+        width: auto;
+        height: auto;
+        @apply relative flex flex-col left-0 mt-0 shadow-none pl-0 items-center text-base
       }
       &.active .fixed-menu {
         background-color: #B3112C;
