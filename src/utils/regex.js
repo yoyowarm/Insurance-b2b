@@ -49,3 +49,32 @@ export const IDRegex = (id) => {
 	const UniformNumber = new RegExp(/^[0-9]{8}$/, 'g')
 	return [isID.test(id), UniformNumber.test(id)]
 }
+
+export const routeMatch = (path) => {
+	switch (path) {
+		case '/':
+			return 'QuoteDetails'
+		case '/place-quotation/step1':
+			return 'PlaceQuote'
+		case '/activity-quotation/step1':
+			return 'ActivityQuote'
+		case '/permissionSetting':
+			return 'PermissionSetting'
+		case '/parameterSetting/category':
+			return 'PlaceActivityTypeSetting'
+		case '/parameterSetting/minimumAmount':
+			return 'CountyMinimumSetting'
+		case '/parameterSetting/basic-premium-setting':
+			return 'BasicPremium'
+		case '/parameterSetting/quote-separately':
+			return 'QuoteInsuranceAmount'
+		case '/termsSetting/proposedTerms':
+			return 'SuggestTermSetting'
+		case '/termsSetting/quotationAndWeight':
+			return 'QuoteAndWeight'
+		case '/termsSetting/quotationAndAmount':
+			return 'QuoteAmount'
+		default:
+			return ''
+	}
+}

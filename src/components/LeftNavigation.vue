@@ -9,19 +9,19 @@
         <TriangleIcon class="bg-main"/>
       </div>
     </div>
-    <DynamicLink type="router" path="/" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink v-if="permissions.includes('QuoteDetails')" type="router" path="/" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/'}">
       <div class="icon quotation"/>
         <span class="text-white text-lg font-bold">報價明細</span>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink v-if="permissions.includes('PlaceQuote')" type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/place-quotation/step')}">
       <div class="icon placeQuotation"/>
         <span class="text-white text-lg font-bold">場所報價</span>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/activity-quotation/step1" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink v-if="permissions.includes('ActivityQuote')" type="router" path="/activity-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/activity-quotation/step')}">
         <div class="icon activityQuotation"/>
         <span class="text-white text-lg font-bold">活動報價</span>
@@ -45,48 +45,48 @@
         <span class="text-white text-lg font-bold">分公司核保</span>
       </div>
     </DynamicLink> -->
-    <DynamicLink type="router" path="/permissionSetting" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink v-if="permissions.includes('PermissionSetting')" type="router" path="/permissionSetting" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/permissionSetting'}">
         <div class="icon permissionSetting"/>
         <span class="text-white text-lg font-bold">權限群組設定</span>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)" >
+    <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting') || permissions.includes('CountyMinimumSetting') || permissions.includes('BasicPremium') || permissions.includes('QuoteInsuranceAmount')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)" >
       <div @mouseover="showCategory = true" @mouseout="showCategory = false" class="nav-item sub-pages relative" :class="{'active': path.includes('parameterSetting'), 'h180': path.includes('parameterSetting')}">
-        <div class="flex flex-row items-center md:flex-col">
+        <div class="flex flex-row items-center md:flex-col" ref="parameterSetting">
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
         <div v-show="path.includes('parameterSetting') || showCategory" class="fixed-menu md:pl-0 md:items-center">
-          <DynamicLink type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
           </DynamicLink>
-          <DynamicLink type="router" path="/parameterSetting/minimumAmount" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('CountyMinimumSetting')" type="router" path="/parameterSetting/minimumAmount" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/minimumAmount'}">縣市最低保額</span>
           </DynamicLink>
-          <DynamicLink type="router" path="/parameterSetting/basic-premium-setting" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('BasicPremium')" type="router" path="/parameterSetting/basic-premium-setting" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/basic-premium-setting'}">基本保費</span>
           </DynamicLink>
-          <DynamicLink type="router" path="/parameterSetting/quote-separately" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('QuoteInsuranceAmount')" type="router" path="/parameterSetting/quote-separately" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/quote-separately'}">另行報價保額</span>
           </DynamicLink>
         </div>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink v-if="permissions.includes('SuggestTermSetting') || permissions.includes('QuoteAndWeight') || permissions.includes('QuoteAmount')" type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
       <div @mouseover="showTerms = true" @mouseout="showTerms = false" class="nav-item sub-pages" :class="{'active': path.includes('termsSetting'),'h180': path.includes('termsSetting')}">
         <div class="flex flex-row items-center md:flex-col">
           <div class="icon termsSetting"/>
           <span class="text-white text-lg font-bold">條款設定</span>
         </div>
         <div v-show="path.includes('termsSetting') || showTerms" class="fixed-menu md:pl-0 md:items-center">
-          <DynamicLink type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('SuggestTermSetting')" type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/proposedTerms'}">建議條款</span>
           </DynamicLink>
-          <DynamicLink type="router" path="/termsSetting/quotationAndWeight" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('QuoteAndWeight')" type="router" path="/termsSetting/quotationAndWeight" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-md font-bold" :class="{'pagination': path !== '/termsSetting/quotationAndWeight'}">另行報價和權重</span>
           </DynamicLink>
-          <DynamicLink type="router" path="/termsSetting/quotationAndAmount" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('QuoteAmount')" type="router" path="/termsSetting/quotationAndAmount" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/quotationAndAmount'}">另行報價額度</span>
           </DynamicLink>
         </div>
@@ -122,7 +122,8 @@ export default {
   },
   computed: {
     ...mapState({
-      userInfo: state => state.home.userInfo
+      userInfo: state => state.home.userInfo,
+      permissions: state => state.home.userInfo.permissions
     }),
     path() {
       return this.$route.path
