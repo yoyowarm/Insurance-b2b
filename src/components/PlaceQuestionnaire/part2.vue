@@ -152,7 +152,7 @@
           :value="data.part2.room.selected"
           @updateValue="(e) =>updateValue(e,'room.selected')"
         />
-        <span slot="input-right" class="absolute sm:-right-76 -bottom-8 sm:bottom-4">如係屬飯店、旅館者，請說明其房間數目</span>
+        <span slot="input-right" class="absolute sm:-right-80 -bottom-8 sm:bottom-4 text-lg">如係屬飯店、旅館者，請說明其房間數目</span>
       </InputGroup>
     </div>
     <div class="column-5 mb-3 ml-8">
@@ -173,7 +173,7 @@
           :value="data.part2.seat.selected"
           @updateValue="(e) =>updateValue(e,'seat.selected')"
         />
-        <span slot="input-right" class="absolute sm:-right-72 -bottom-8 sm:bottom-4">屬戲院、音樂廳者，請說明其座位數目</span>
+        <span slot="input-right" class="absolute sm:-right-78 -bottom-8 sm:bottom-4 text-lg">屬戲院、音樂廳者，請說明其座位數目</span>
       </InputGroup>
     </div>
     <div class="column-4 my-3">

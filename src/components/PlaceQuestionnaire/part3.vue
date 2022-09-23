@@ -41,12 +41,13 @@
         @updateValue="(e) =>updateFacility(e,list)"
       />
     </div>
-    <FormTitle lgTitle title="商場、百貨公司、超級市場是否使用堆高機" class="my-3 text-lg"/>
+    <FormTitle lgTitle title="商場、百貨公司、超級市場" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
       <div class="flex flex-row justify-between">
         <RadioInput text="是" id="hasPusher" :value="data.part3.hasPusher === true" @updateValue="updateValue(true, 'hasPusher')"/>
         <RadioInput class="mx-2" text="否" id="hasPusher2" :value="data.part3.hasPusher === false" @updateValue="updateValue(false, 'hasPusher')"/>
-    </div>
+      </div>
+      <div class="text-lg">使用堆高機</div>
     </div>
     <FormTitle lgTitle title="戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
@@ -59,9 +60,9 @@
     <div class="w-full flex flex-row mt-4">
         <div class=" flex flex-row justify-between">
           <RadioInput text="是" id="isProfessional" :value="data.part3.isProfessional === true" @updateValue="updateValue(true, 'isProfessional')"/>
-          <RadioInput class="ml-2" text="否" id="isProfessional2" :value="data.part3.isProfessional === false" @updateValue="updateValue(false, 'isProfessional')"/>
+          <RadioInput class="mx-2" text="否" id="isProfessional2" :value="data.part3.isProfessional === false" @updateValue="updateValue(false, 'isProfessional')"/>
       </div>
-      <div class="text-lg">表演者是否為專業人士</div>
+      <div class="text-lg">表演者為專業或業餘</div>
     </div>
     <div class="w-full flex flex-row mt-4">
         <div class="flex flex-row justify-between">

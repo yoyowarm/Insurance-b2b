@@ -90,7 +90,7 @@
       <InputGroup lgTitle title="活動型態" class="col-span-3" inputLeftClass="ml-20">
         <Checkbox
           slot="input-left"
-          class="absolute -left-20 bottom-4"
+          class="absolute -left-20 bottom-4 text-lg"
           id="室內"
           text="室內"
           :checked="data.sheet1.part1.hasActivityIndoor"
@@ -110,7 +110,7 @@
       <InputGroup noMt class="col-span-3" inputLeftClass="ml-20">
         <Checkbox
           slot="input-left"
-          class="absolute -left-20 bottom-4"
+          class="absolute -left-20 bottom-4 text-lg"
           id="室外"
           text="室外"
           :checked="data.sheet1.part1.hasActivityOutdoor"
