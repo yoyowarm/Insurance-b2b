@@ -295,10 +295,8 @@ export default {
   .fixed-button {
     max-width: 90vw;
     height: 80px;
-    margin-left: 5%;
-    margin-bottom: 5%;
     box-shadow: 0px 0px 5px #00000029;
-    @apply fixed flex flex-row justify-center items-center w-full bg-white z-30 bottom-0 left-0 rounded-b-xl
+    @apply absolute flex flex-row justify-center items-center w-full bg-white z-30 bottom-0 left-0 rounded-b-xl
   }
 
   @media (max-width: 770px) {
