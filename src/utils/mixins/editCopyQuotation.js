@@ -113,6 +113,7 @@ export default {
     },
     step1InitAssignValue(type) {
       console.log(this.quotationData)
+      if (Object.keys(this.quotationData).length == 0) return
       const quotationType = type == 'place' ? 'placeInsureInfo' : 'activityInsureInfo'
       if (type == 'place' && this.quotationData[quotationType].renewal.isRenewal) {//訂單續保
         this.$store.dispatch(`${type}/updatedRenewal`, {

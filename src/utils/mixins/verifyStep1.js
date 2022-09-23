@@ -186,7 +186,9 @@ export default {
             if (['PL002', 'PL003', 'PL004', 'PL007', 'PL035'].includes(target.additionTermId)) return
             Object.keys(this.additionTerms[target.additionTermId]).map(key => {
               if (!this.additionTerms[target.additionTermId][key]) {
-                this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
+                if (!this.requestFile.includes(`${target.additionTermName}條款未填寫完成`)) {
+                  this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
+                }
               }
             })
           }
