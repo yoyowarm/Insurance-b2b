@@ -2,7 +2,9 @@ export default {
   namespaced: true,
   state: {
     token: '',
-    userInfo: {},
+    userInfo: {
+      permissions: []
+    },
   },
   getters: {
   },
