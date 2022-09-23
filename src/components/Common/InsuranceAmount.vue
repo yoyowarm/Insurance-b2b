@@ -249,6 +249,7 @@ export default {
       })
     },
     assignAmount() {
+      if(!this.amountMinimum.countyName) return
       if(this.data.amountType.Value == 0) {
         this.$emit('update:data', {
           ...this.data,
@@ -271,6 +272,8 @@ export default {
       }
     }
   },
+  mounted() {
+  }
 }
 </script>
 
