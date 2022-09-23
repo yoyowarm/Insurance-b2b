@@ -262,9 +262,9 @@ export default {
         var blob2 = new Blob([res.data], {type: "application/octet-stream"});
         FileSaver.saveAs(blob2, `${this.type =='place'?'處所': '活動'}問券_${this.orderNo}.pdf`);
       } else {
-        const res = await this.$store.dispatch(`common/${this.item.type == 1 ? 'GetPlaceQuotationDocument' : 'GetActivityQuotationDocument'}`,this.orderNo)
+        const res = await this.$store.dispatch(`common/${this.type == 'place' ? 'GetPlaceQuotationDocument' : 'GetActivityQuotationDocument'}`,this.orderNo)
         var blob1 = new Blob([res.data], {type: "application/octet-stream"});
-        FileSaver.saveAs(blob1, `${this.item.type == 1 ?'處所': '活動'}報價單_${this.orderNo}.pdf`);
+        FileSaver.saveAs(blob1, `${this.type == 'place' ?'處所': '活動'}報價單_${this.orderNo}.pdf`);
 
       }
     },
