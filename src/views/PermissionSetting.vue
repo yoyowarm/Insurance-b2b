@@ -20,7 +20,7 @@
       </div>
     </div>
     <div class="flex w-full">
-      <TableGroup v-if="currentTag == 0" class="w-full" :data="membersListTable" :slotName="slotArray" column2 scrollX>
+      <TableGroup v-if="currentTag == 0" class="w-full" :data="membersListTable" :slotName="memberSlotArray" column2 scrollX>
         <template v-for="(item,index) in membersListTable.rows">
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap">
             <Button class="mr-2" @click.native="callDialog(0,'帳號明細','',item)" outline>明細</Button>
@@ -29,10 +29,10 @@
         </div>
         </template>
       </TableGroup>
-      <TableGroup v-else class="w-full" :data="groupListTable" :slotName="slotArray" column2 scrollX>
+      <TableGroup v-else class="w-full" :data="groupListTable" :slotName="groupSlotArray" column2 scrollX>
         <template v-for="(item,index) in groupListTable.rows">
-          <div :slot="`permissions-${index}`" :key="`permissions-${index}`" class="text-gray-700">
-            <span v-for="(subPermission,subIndex) in item.permissions" :key="subPermission.subPermissionName">{{subPermission.subPermissionName}}<span v-if="item.permissions.length -1 !== subIndex">、</span></span>
+          <div :slot="`permissionsList-${index}`" :key="`permissionsList-${index}`" class="text-gray-700">
+            <span v-for="(subPermission,subIndex) in item.permissions" :key="`${subPermission.subPermissionName}-${index}`">{{subPermission.subPermissionName}}<span v-if="item.permissions.length -1 !== subIndex">、</span></span>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
             <Button class="mr-2" @click.native="callDialog(3,'群組明細','',item)" outline>明細</Button>
@@ -239,10 +239,20 @@ export default {
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
     }),
-    slotArray () {
+    memberSlotArray () {
       const arr = []
-      const slotArr = ['permissions','operate']
+      const slotArr = ['permissionsList','operate']
       for (let i = 0; i < this.membersListTable.rows.length; i++) {
+        slotArr.map(item => {
+          arr.push(`${item}-${i}`)
+        })
+      }
+      return arr
+    },
+    groupSlotArray () {
+      const arr = []
+      const slotArr = ['permissionsList','operate']
+      for (let i = 0; i < this.groupListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
         })
@@ -388,6 +398,7 @@ export default {
             permissions
           }
         })
+        console.log(this.groupListTable.rows)
       const permissions = await this.$store.dispatch('resource/PermissionSettingGroupPermissions')
       this.permissionsList = permissions.data.content
     },

@@ -458,7 +458,7 @@ export const groupListTable = () => {
       },
       {
         text: '權限列表',
-        value: 'permissions',
+        value: 'permissionsList',
         size: '6-6'
       },
       {
