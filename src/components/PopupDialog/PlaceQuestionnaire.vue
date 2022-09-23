@@ -110,6 +110,7 @@ import Part8 from '@/components/PlaceQuestionnaire/part8'
 import Part9 from '@/components/PlaceQuestionnaire/part9'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import FileSaver from 'file-saver'
+import { quotation } from '@/utils/dataTemp'
 export default {
   components: {
     FormTitle,
@@ -250,8 +251,7 @@ export default {
       if(this.hasClearFunc) {
         this.clearFunc()
       } else {
-        this.$store.dispatch('place/clearQuestionnaire')
-        this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,userId:this.$store.state.home.userInfo.userid})
+        this.$store.dispatch('place/updatedQuestionnaire', {...quotation().questionnaire,userId:this.$store.state.home.userInfo.userid})
       }
     }
   }

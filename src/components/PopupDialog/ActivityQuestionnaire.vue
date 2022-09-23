@@ -110,6 +110,7 @@ import Part7 from '@/components/ActivityQuestionnaire/part7'
 import Part8 from '@/components/ActivityQuestionnaire/part8'
 import Part9 from '@/components/ActivityQuestionnaire/part9'
 import FileSaver from 'file-saver'
+import { quotation } from '@/utils/dataTemp'
 export default {
   components: {
     FormTitle,
@@ -240,8 +241,7 @@ export default {
       if(this.hasClearFunc) {
         this.clearFunc()
       } else {
-        this.$store.dispatch('activity/clearQuestionnaire')
-        this.$store.dispatch('activity/updatedQuestionnaire', {...this.questionnaire,userId:this.$store.state.home.userInfo.userid})
+        this.$store.dispatch('activity/updatedQuestionnaire', {...quotation().activityQuestionnaire,userId:this.$store.state.home.userInfo.userid})
       }
     }
   }

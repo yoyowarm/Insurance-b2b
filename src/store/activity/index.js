@@ -551,9 +551,6 @@ export default {
     },
     updatedQuotationData({ commit }, data) {
       commit('UPDATED_QUOTATION_DATA', data)
-    },
-    clearQuestionnaire({ commit }) {
-      commit('UPDATED_QUESTIONNAIRE', quotation().questionnaire)
     }
   }
 }
