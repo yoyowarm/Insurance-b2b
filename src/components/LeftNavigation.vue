@@ -57,7 +57,7 @@
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
-        <div v-show="path.includes('parameterSetting') || showCategory" class="fixed-menu md:pl-0 mb-40 md:items-center" :style="{'bottom': scrollY + 'px'}">
+        <div v-show="path.includes('parameterSetting') || showCategory" class="fixed-menu md:pl-0 mb-40 md:items-center" :style="{'top': (parameterSettingTop -30) + 'px'}">
           <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
           </DynamicLink>
@@ -75,11 +75,11 @@
     </DynamicLink>
     <DynamicLink v-if="permissions.includes('SuggestTermSetting') || permissions.includes('QuoteAndWeight') || permissions.includes('QuoteAmount')" type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
       <div @mouseover="showTerms = true" @mouseout="showTerms = false" class="nav-item sub-pages" :class="{'active': path.includes('termsSetting'),'h180': path.includes('termsSetting')}">
-        <div class="flex flex-row items-center md:flex-col">
+        <div class="flex flex-row items-center md:flex-col" ref="SuggestTermSetting">
           <div class="icon termsSetting"/>
           <span class="text-white text-lg font-bold">條款設定</span>
         </div>
-        <div v-show="path.includes('termsSetting') || showTerms" class="fixed-menu md:pl-0 mb-12 md:items-center" :style="{'bottom': scrollY + 'px'}">
+        <div v-show="path.includes('termsSetting') || showTerms" class="fixed-menu md:pl-0 mb-12 md:items-center" :style="{'top': (SuggestTermSettingTop -30) + 'px'}">
           <DynamicLink v-if="permissions.includes('SuggestTermSetting')" type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/proposedTerms'}">建議條款</span>
           </DynamicLink>
@@ -112,6 +112,12 @@ export default {
       default: 0
     }
   },
+  watch: {
+    scrollY() {
+      this.parameterSettingTop = this.$refs.parameterSetting.getBoundingClientRect().top
+      this.SuggestTermSettingTop = this.$refs.SuggestTermSetting.getBoundingClientRect().top
+    }
+  },
   components: {
     DynamicLink,
     TriangleIcon,
@@ -121,7 +127,9 @@ export default {
     return {
       windowWidth: window.innerWidth,
       showCategory: false,
-      showTerms: false
+      showTerms: false,
+      parameterSettingTop: 0,
+      SuggestTermSettingTop: 0
     }
   },
   computed: {
@@ -137,6 +145,10 @@ export default {
     handleResize () {
       this.windowWidth = window.innerWidth
     },
+  },
+  mounted() {
+    this.parameterSettingTop = this.$refs.parameterSetting.getBoundingClientRect().top
+    this.SuggestTermSettingTop = this.$refs.SuggestTermSetting.getBoundingClientRect().top
   }
 }
 </script>
