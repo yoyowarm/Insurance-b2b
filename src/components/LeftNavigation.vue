@@ -57,7 +57,7 @@
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
-        <div v-show="showCategory || (windowWidth <=770 && path.includes('parameterSetting'))" class="fixed-menu md:pl-0 md:items-center" >
+        <div v-show="(windowWidth >770 && showCategory) || (windowWidth <=770 && path.includes('parameterSetting'))" class="fixed-menu md:pl-0 md:items-center" >
           <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
           </DynamicLink>
@@ -79,7 +79,7 @@
           <div class="icon termsSetting"/>
           <span class="text-white text-lg font-bold">條款設定</span>
         </div>
-        <div v-show="showTerms || (windowWidth <=770 && path.includes('termsSetting'))" class="fixed-menu md:pl-0 md:items-center" >
+        <div v-show="(windowWidth >770 && showTerms) || (windowWidth <=770 && path.includes('termsSetting'))" class="fixed-menu md:pl-0 md:items-center" >
           <DynamicLink v-if="permissions.includes('SuggestTermSetting')" type="router" path="/termsSetting/proposedTerms" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/termsSetting/proposedTerms'}">建議條款</span>
           </DynamicLink>
