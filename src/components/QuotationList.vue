@@ -111,7 +111,7 @@ export default {
       }
     },
     async quotationDetail(type,orderNo,mainOrderNo) {
-      const detail = await this.$store.dispatch(`quotation/Get${type == 1?'Place': 'Activity'}QuotationDetail`, {orderNo,mainOrderNo})
+      const detail = await this.$store.dispatch(`quotation/Get${type == 1?'Place': 'Activity'}QuotationDetail`, {orderno:orderNo,mainOrderNo})
       const data = {
         ...detail.data.content,
         insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
