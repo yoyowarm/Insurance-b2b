@@ -269,9 +269,9 @@ export const quotation = () => {
             minutes: '0',
           },
           activityDays: '',//活動天數
-          hasActivityIndoor: null,//是否有室內活動
+          hasActivityIndoor: false,//是否有室內活動
           indoorActivityContent: '',//室內活動內容
-          hasActivityOutdoor: null,//是否有室外活動
+          hasActivityOutdoor: false,//是否有室外活動
           outdoorActivityContent: '',//室外活動內容
           activityTypeRemark: '',//活動類型備註
           isWaterArea: null,//是否為水域

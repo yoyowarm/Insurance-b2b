@@ -285,7 +285,7 @@ export default {
     .body {
       overflow: scroll;
       max-height: 80vh;
-      @apply  p-6
+      @apply  p-6 pb-20
     }
   }
   .mask-bg {
