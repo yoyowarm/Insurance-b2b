@@ -130,6 +130,7 @@ export default {
       placeQuotation: state => state.place.placeQuotation,
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
+      questionnaire: state => state.place.questionnaire,
       quotationData: state => state.place.quotationData,
       'userInfo': state => state.home.userInfo,
     }),
@@ -199,6 +200,32 @@ export default {
       // } else if (checkID.data.IsSuccess ) {
       //   this.$store.dispatch(`quotationStep2/updated${type}`, {...this[`${type}Data`], ...{ CorporateRequired: checkID.data.Contain.IsRegister }})
       // }
+    },
+    questionnaireMapping(data) {
+      data = JSON.parse(JSON.stringify(data))
+      data = {
+          ...data,
+          part2: {
+            ...data.part2,
+            buildingNature: data.part2.buildingNature.Value,
+            nearbyBuildingNature: data.part2.nearbyBuildingNature.Value,
+            securityCheck: data.part2.securityCheck.Value,
+            room: {...data.part2.room,roomAmount: data.part2.room.value},
+            seat: {...data.part2.seat,seatAmount: data.part2.seat.value},
+          }
+        }
+        if(Object.keys(data.part1.createTime).every(key => data.part1.createTime[key] !== '')) {
+          data.questionnaire.part1.createTime = `${Number(data.part1.createTime.year)+1911}-${data.part1.createTime.month}-${data.part1.createTime.day}`
+        } else data.questionnaire.part1.createTime = null
+
+        if(Object.keys(data.part1.businessStartDate).every(key => data.part1.businessStartDate[key])) {
+          data.questionnaire.part1.businessStartDate = `${data.part1.businessStartDate.hours}:${data.part1.businessStartDate.minutes}`
+        } else data.questionnaire.part1.businessStartDate = null
+
+        if(Object.keys(data.part1.businessEndDate).every(key => data.part1.businessEndDate[key])) {
+          data.questionnaire.part1.businessEndDate = `${data.part1.businessEndDate.hours}:${data.part1.businessEndDate.minutes}`
+        } else data.questionnaire.part1.businessEndDate = null
+        return data
     },
     async insuredOrApplicantDetail (type, params) {
       const detail = await this.$store.dispatch(`quotation/Get${type}`, {[params== 'Name' ? 'name': 'id']: this[type][params]})
@@ -380,7 +407,7 @@ export default {
 
       if(this.InsuranceActive == 1) {
         if(this.quotationData.questionnaire) {
-          obj.questionnaire = this.quotationData.questionnaire
+          obj.questionnaire = this.questionnaireMapping(this.questionnaire)
         }
         obj.orderNo = this.orderNo
         obj.mainOrderNo = this.mainOrderNo

@@ -140,6 +140,9 @@ export default {
           }
         })
       }
+      if(detail.data.content.questionnaire) {
+        this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updateQuestionnaireFinished`, true)
+      }
       this.$store.dispatch(`${type == 1?'place' : 'activity'}/updatedQuotationData`,data)
     },
     async finishQuotation(orderNo) {

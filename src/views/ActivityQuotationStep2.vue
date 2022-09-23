@@ -125,6 +125,7 @@ export default {
       activityQuotation: state => state.activity.activityQuotation,
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
+      questionnaire: state => state.activity.questionnaire,
       quotationData: state => state.activity.quotationData,
       'userInfo': state => state.home.userInfo,
     }),
@@ -281,6 +282,25 @@ export default {
       })
       }
     },
+    questionnaireMapping(data) {
+      data = JSON.parse(JSON.stringify(this.questionnaire))
+      if(Object.keys(data.sheet1.part1.beginDateTime).every(key => data.sheet1.part1.beginDateTime[key] !== '')) {
+        data.sheet1.part1.beginDateTime = `${Number(data.sheet1.part1.beginDateTime.year)+1911}-${data.sheet1.part1.beginDateTime.month}-${data.sheet1.part1.beginDateTime.day} ${data.sheet1.part1.beginDateTime.hours}:${data.sheet1.part1.beginDateTime.minutes}`
+      } else {
+        data.sheet1.part1.beginDateTime = null
+      }
+      if(data.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
+        data.sheet1.part3.afterActivityHasAccessByTransportation = true
+      } else {
+        data.sheet1.part3.afterActivityHasAccessByTransportation = false
+      }
+      if(data.sheet1.part3.useRoadHasAccessByTransportation == '是'){
+        data.sheet1.part3.useRoadHasAccessByTransportation = true
+      } else {
+        data.sheet1.part3.useRoadHasAccessByTransportation = false
+      }
+      return data
+    },
     async nextStep() {
       this.verifyResult = []
       this.verifySalesInvadeResult = []
@@ -311,7 +331,6 @@ export default {
     },
     async quotationMapping() {
        const obj = JSON.parse(JSON.stringify(this.activityQuotation))
-       console.log(obj)
       Object.assign(obj, {insuraned:{
         ...this.Insuraned,
         cityId: this.Insuraned.City.Value,
@@ -355,7 +374,7 @@ export default {
 
       if(this.InsuranceActive == 1) {
         if(this.quotationData.questionnaire) {
-          obj.questionnaire = this.quotationData.questionnaire
+          obj.questionnaire = this.questionnaireMapping(this.questionnaire)
         }
         obj.orderNo = this.orderNo
         obj.mainOrderNo = this.mainOrderNo
