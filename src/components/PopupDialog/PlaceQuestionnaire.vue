@@ -169,6 +169,10 @@ export default {
       type: String,
       default: ''
     },
+    hasUpdateFunc: {
+      type: Boolean,
+      default: false
+    },
     updateFunc: {
       type: Function,
       default: () => {}
@@ -213,7 +217,7 @@ export default {
         return this.questionnaire
       },
       set(val) {
-        if(this.updateFunc) {
+        if(this.hasUpdateFunc) {
           this.updateFunc(val)
         } else {
           this.$store.dispatch(`${this.type}/updatedQuestionnaire`, val)

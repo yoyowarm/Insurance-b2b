@@ -63,6 +63,7 @@
       :SerialNo="SerialNo"
       @addQuestionnaire="addQuestionnaire"
       @updateQuestionnaire="addQuestionnaire"
+      hasUpdateFunc
       QuestionnaireManagement/>
     <PlaceQuestionnaire
       type="place"
@@ -74,6 +75,7 @@
       :SerialNo="SerialNo"
       @addQuestionnaire="addQuestionnaire"
       @updateQuestionnaire="addQuestionnaire"
+      hasUpdateFunc
       QuestionnaireManagement/>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
