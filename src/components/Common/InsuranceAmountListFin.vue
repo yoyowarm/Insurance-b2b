@@ -254,21 +254,18 @@ export default {
     },
     async downloadFile(type) {
       if (type === 'insurance') {
-        const URL = `${process.env.VUE_APP_API_URL}Document/GetInsuranceDocument?orderNo=${this.orderNo}`
-        const link = document.createElement('a');
-              link.href = URL;
-              link.download= true;
-              link.click();
+        const res = await this.$store.dispatch('common/GetInsuranceDocument', this.orderNo)
+        var blob = new Blob([res.data], {type: "application/octet-stream"});
+        FileSaver.saveAs(blob,  `要保書_${this.orderNo}.pdf`);
       } else if (type === 'questionnaire') {
         const res = await this.$store.dispatch(`common/GetQuestionnaireDocument`,{placeActivityType:this.type =='place'? 1: 2,orderNo: this.orderNo})
         var blob2 = new Blob([res.data], {type: "application/octet-stream"});
         FileSaver.saveAs(blob2, `${this.type =='place'?'處所': '活動'}問券_${this.orderNo}.pdf`);
       } else {
-        const URL = `${process.env.VUE_APP_API_URL}Document/Get${this.type =='place'? 'Place': 'Activity'}QuotationDocument?orderNo=${this.orderNo}`
-        const link = document.createElement('a');
-              link.href = URL;
-              link.download= true;
-              link.click();
+        const res = await this.$store.dispatch(`common/${this.item.type == 1 ? 'GetPlaceQuotationDocument' : 'GetActivityQuotationDocument'}`,this.orderNo)
+        var blob1 = new Blob([res.data], {type: "application/octet-stream"});
+        FileSaver.saveAs(blob1, `${this.item.type == 1 ?'處所': '活動'}報價單_${this.orderNo}.pdf`);
+
       }
     },
     addAmount() {
