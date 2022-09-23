@@ -277,6 +277,15 @@ export default {
         
       }
     },
+    periodData: {
+      handler() {
+        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${this.period.startDate.hour}:00:00`).getTime()
+        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${this.period.endDate.hour}:00:00`).getTime()
+        if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
+          Popup.create({hasHtml:true,htmlText:'保期超過一年，需請洽核保'})
+        }
+      }
+    },
     placeInfoList: {
       handler(val) {
         let num = 0
