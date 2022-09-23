@@ -283,6 +283,11 @@ export default {
       } else {
         copyData.sheet1.part3.afterActivityHasAccessByTransportation = false
       }
+      if(copyData.sheet1.part3.useRoadHasAccessByTransportation == '是'){
+        copyData.sheet1.part3.useRoadHasAccessByTransportation = true
+      } else {
+        copyData.sheet1.part3.useRoadHasAccessByTransportation = false
+      }
       return copyData
     },
     placeQuestionnaireMapping(data) {

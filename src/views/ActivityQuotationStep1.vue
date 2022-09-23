@@ -639,6 +639,11 @@ export default {
       } else {
         data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = false
       }
+      if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '是'){
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = true
+      } else {
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = false
+      }
       return data
     }
   },
