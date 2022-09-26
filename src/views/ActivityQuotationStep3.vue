@@ -23,7 +23,7 @@
       type="activity"
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button  @click.native="() =>{$router.push('/')}" class="my-8 w-40 md:w-64 mr-5">返回列表</Button>
+      <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">返回首頁</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
         v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
@@ -185,6 +185,12 @@ export default {
         })
       }
     },
+    packHome() {
+      this.$router.push('/')
+      this.$store.dispatch('activity/clearAll')
+      this.$store.dispatch('activity/updatedUUID', '')
+      this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+    },
     async finishQuotation(key) {
       Popup.create({
         hasHtml: true,
@@ -203,10 +209,7 @@ export default {
         } else {
           await this.$store.dispatch('quotation/BeginUnderwriting',{data} )
         }
-        this.$router.push('/')
-        this.$store.dispatch('activity/clearAll')
-        this.$store.dispatch('activity/updatedUUID', '')
-        this.$store.dispatch('common/updateOrderNo', '')
+        this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)
       })
     },
