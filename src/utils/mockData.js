@@ -240,6 +240,78 @@ export const quotationListTable = () => {
     rows: []
   }
 }
+export const quotationLisMobileTable = () => {
+  return {
+    head: [
+      {
+        text: '序號',
+        value: 'serialNo',
+        size: '1-6'
+      },
+      {
+        text: '要保人',
+        value: 'applicantName',
+        size: '2-6'
+      },
+      {
+        text: '被保人',
+        value: 'insuredName',
+        size: '2-6'
+      },
+      {
+        text: '保費',
+        value: 'insuranceAmount',
+        size: '2-6'
+      },
+      {
+        text: '狀態',
+        value: 'stateText',
+        size: '2-6'
+      },
+      {
+        text: '出單保費',
+        value: 'InsurancePremiums',
+        size: '2-6'
+      },
+      {
+        text: '日結日期',
+        value: 'daySettleDate',
+        size: '3-6'
+      },
+      {
+        text: '保險期間',
+        value: 'ConvergeStartDate',
+        size: '4-6'
+      },
+      {
+        text: '報價日期',
+        value: 'quotationDate',
+        size: '2-6'
+      },
+      {
+        text: '經手人',
+        value: 'iOfficerName',
+        size: '2-6'
+      },
+      {
+        text: '總分公司單位',
+        value: 'companyDepartment',
+        size: '2-6'
+      },
+      {
+        text: '類型',
+        value: 'typeText',
+        size: '1-6'
+      },
+      {
+        text: '報價單操作',
+        value: 'edit',
+        size: '3-6'
+      },
+    ],
+    rows: []
+  }
+}
 
 export const planDetail = () => {
   return {

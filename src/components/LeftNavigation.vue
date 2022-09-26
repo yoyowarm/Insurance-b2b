@@ -1,9 +1,6 @@
 <template>
   <div class="left-nav relative bg-main" :class="{'open':openMenu }">
     <div class="user-mobile">
-      <div class="avatar">
-        <img src="../assets/images/head_pic.png" alt="">
-      </div>
       <div class="flex items-start relative">
         <span class="name">{{userInfo.sub}}</span>
         <TriangleIcon class="bg-main"/>
