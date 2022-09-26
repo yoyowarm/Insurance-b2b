@@ -291,13 +291,17 @@ export default {
       }
       if(data.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
         data.sheet1.part3.afterActivityHasAccessByTransportation = true
-      } else {
+      } else if (data.sheet1.part3.afterActivityHasAccessByTransportation == '否') {
         data.sheet1.part3.afterActivityHasAccessByTransportation = false
+      } else {
+        data.sheet1.part3.afterActivityHasAccessByTransportation = null
       }
       if(data.sheet1.part3.useRoadHasAccessByTransportation == '是'){
         data.sheet1.part3.useRoadHasAccessByTransportation = true
-      } else {
+      } else if (data.sheet1.part3.useRoadHasAccessByTransportation == '否') {
         data.sheet1.part3.useRoadHasAccessByTransportation = false
+      } else {
+        data.sheet1.part3.useRoadHasAccessByTransportation = null
       }
       return data
     },

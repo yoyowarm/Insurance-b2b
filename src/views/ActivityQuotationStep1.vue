@@ -636,13 +636,17 @@ export default {
       }
       if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
         data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = true
-      } else {
+      } else if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '否'){
         data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = false
+      } else {
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = null
       }
       if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '是'){
         data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = true
-      } else {
+      } else if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '否'){
         data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = false
+      } else {
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = null
       }
       return data
     }

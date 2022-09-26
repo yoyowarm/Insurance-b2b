@@ -280,13 +280,17 @@ export default {
       }
       if(copyData.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
         copyData.sheet1.part3.afterActivityHasAccessByTransportation = true
-      } else {
+      } else if(copyData.sheet1.part3.afterActivityHasAccessByTransportation == '否') {
         copyData.sheet1.part3.afterActivityHasAccessByTransportation = false
+      } else {
+        copyData.sheet1.part3.afterActivityHasAccessByTransportation = null
       }
       if(copyData.sheet1.part3.useRoadHasAccessByTransportation == '是'){
         copyData.sheet1.part3.useRoadHasAccessByTransportation = true
-      } else {
+      } else if (copyData.sheet1.part3.useRoadHasAccessByTransportation == '否') {
         copyData.sheet1.part3.useRoadHasAccessByTransportation = false
+      } else {
+        copyData.sheet1.part3.useRoadHasAccessByTransportation = null
       }
       return copyData
     },
