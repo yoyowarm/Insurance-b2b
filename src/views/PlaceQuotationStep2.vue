@@ -214,17 +214,18 @@ export default {
             seat: {...data.part2.seat,seatAmount: data.part2.seat.value},
           }
         }
+         
         if(Object.keys(data.part1.createTime).every(key => data.part1.createTime[key] !== '')) {
-          data.questionnaire.part1.createTime = `${Number(data.part1.createTime.year)+1911}-${data.part1.createTime.month}-${data.part1.createTime.day}`
-        } else data.questionnaire.part1.createTime = null
+          data.part1.createTime = `${Number(data.part1.createTime.year)+1911}-${data.part1.createTime.month}-${data.part1.createTime.day}`
+        } else data.part1.createTime = null
 
-        if(Object.keys(data.part1.businessStartDate).every(key => data.part1.businessStartDate[key])) {
-          data.questionnaire.part1.businessStartDate = `${data.part1.businessStartDate.hours}:${data.part1.businessStartDate.minutes}`
-        } else data.questionnaire.part1.businessStartDate = null
+        if(Object.keys(data.part1.businessStartDate).every(key => data.part1.businessStartDate[key] !== '')) {
+          data.part1.businessStartDate = `${data.part1.businessStartDate.hours}:${data.part1.businessStartDate.minutes}`
+        } else data.part1.businessStartDate = null
 
-        if(Object.keys(data.part1.businessEndDate).every(key => data.part1.businessEndDate[key])) {
-          data.questionnaire.part1.businessEndDate = `${data.part1.businessEndDate.hours}:${data.part1.businessEndDate.minutes}`
-        } else data.questionnaire.part1.businessEndDate = null
+        if(Object.keys(data.part1.businessEndDate).every(key => data.part1.businessEndDate[key] !== '') ) {
+          data.part1.businessEndDate = `${data.part1.businessEndDate.hours}:${data.part1.businessEndDate.minutes}`
+        } else data.part1.businessEndDate = null
         return data
     },
     async insuredOrApplicantDetail (type, params) {
