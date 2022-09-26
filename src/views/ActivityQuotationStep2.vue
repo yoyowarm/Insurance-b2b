@@ -395,7 +395,7 @@ export default {
         if(this.orderNo)obj.orderNo = this.orderNo
         if(this.mainOrderNo)obj.mainOrderNo = this.mainOrderNo
         const insert = await this.$store.dispatch('quotation/AddActivityQuotation', obj)
-        this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: ''})
+        this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: insert.data.content.orderNo.split('_')[0]})
       }
     }
   },
