@@ -8,10 +8,43 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
+    component: () => import(/* webpackChunkName: "home" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      {
+        path: '/',
+        name: 'home',
+        component: () => import(/* webpackChunkName: "home" */ '../views/HomeView.vue'),
+      }
+    ]
+  },
+  {
+    path: '/news',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { //最新消息
+        path: '/news/list',
+        name: 'newsList',
+        component: () => import(/* webpackChunkName: "about" */ '../views/NewsListView.vue')
+      }
+    ]
+  },
+  {
+    path: '/product',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { //商品資訊
+        path: '/product/list',
+        name: 'productList',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ProductListView.vue')
+      }
+    ]
+  },
+  {
+    path: '/quotation-ist',
     component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
     children: [
       { //報價明細
-        path: '/',
+        path: '/quotation-ist',
         name: 'quotationList',
         component: () => import(/* webpackChunkName: "about" */ '../views/QuotationList.vue')
       },
@@ -163,7 +196,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const whitelist = ['/', '/questionnaire-management']
+  const whitelist = ['/', '/news/list', '/product/list', '/questionnaire-management']
   // if (to.path === '/place-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
   //   next({ name: 'quotationList' })
   // }

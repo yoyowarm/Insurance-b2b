@@ -52,7 +52,7 @@ export const IDRegex = (id) => {
 
 export const routeMatch = (path) => {
 	switch (path) {
-		case '/':
+		case '/quotation-ist':
 			return 'QuoteDetails'
 		case '/place-quotation/step1':
 		case '/place-quotation/step2':

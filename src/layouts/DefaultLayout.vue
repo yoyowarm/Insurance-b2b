@@ -49,7 +49,7 @@ export default {
       'userInfo': state => state.home.userInfo,
     }),
     paginationPage() {
-      return ['/','/quotation/list', '/product/list', '/news/list'].includes(this.$route.path)
+      return ['/quotation/list', '/product/list', '/news/list'].includes(this.$route.path)
     },
     innerWidth() {
       return window.innerWidth

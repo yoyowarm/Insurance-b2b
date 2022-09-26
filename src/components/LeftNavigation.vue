@@ -6,8 +6,8 @@
         <TriangleIcon class="bg-main"/>
       </div>
     </div>
-    <DynamicLink v-if="permissions.includes('QuoteDetails')" type="router" path="/" @click.native="$emit('update:openMenu', false)">
-      <div class="nav-item" :class="{'active': path === '/'}">
+    <DynamicLink v-if="permissions.includes('QuoteDetails')" type="router" path="/quotation-ist" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/quotation-ist'}">
       <div class="icon quotation"/>
         <span class="text-white text-lg font-bold">報價明細</span>
       </div>
@@ -22,6 +22,18 @@
       <div class="nav-item" :class="{'active': path.includes('/activity-quotation/step')}">
         <div class="icon activityQuotation"/>
         <span class="text-white text-lg font-bold">活動報價</span>
+      </div>
+    </DynamicLink>
+    <DynamicLink type="router" path="/product/list" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/product/list'}">
+        <div class="icon product"/>
+        <span class="text-white text-lg font-bold">商品資訊</span>
+      </div>
+    </DynamicLink>
+    <DynamicLink type="router" path="/news/list" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/news/list'}">
+        <div class="icon news"/>
+        <span class="text-white text-lg font-bold">最新消息</span>
       </div>
     </DynamicLink>
     <DynamicLink type="router" path="/questionnaire-management" @click.native="$emit('update:openMenu', false)">
@@ -214,6 +226,12 @@ export default {
       &.quotation {
         background-image: url('../assets/images/1.png');
       }
+      &.news {
+        background-image: url('../assets/images/leftbar_icon_5.png');
+      }
+      &.product {
+        background-image: url('../assets/images/leftbar_icon_4.png');
+      }
     }
     .fixed-menu {
       background-color: #fafafa;
@@ -251,6 +269,12 @@ export default {
         }
         &.quotation {
           background-image: url('../assets/images/1r.png');
+        }
+         &.news {
+          background-image: url('../assets/images/leftbar_icon_5_red.png');
+        }
+        &.product {
+          background-image: url('../assets/images/leftbar_icon_4_red.png');
         }
       }
       span {
@@ -321,6 +345,12 @@ export default {
         &.quotation {
           background-image: url('../assets/images/1b.png');
         }
+        &.news {
+          background-image: url('../assets/images/leftbar_icon_5_black.png');
+        }
+        &.product {
+          background-image: url('../assets/images/leftbar_icon_4_black.png');
+        }
       }
       &.open {
         @apply left-0
@@ -359,6 +389,12 @@ export default {
           }
           &.quotation {
             background-image: url('../assets/images/1.png');
+          }
+          &.news {
+            background-image: url('../assets/images/leftbar_icon_5.png');
+          }
+          &.product {
+            background-image: url('../assets/images/leftbar_icon_4.png');
           }
         }
       }
