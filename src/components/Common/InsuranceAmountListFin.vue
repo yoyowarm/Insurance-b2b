@@ -99,7 +99,8 @@
       <div class="button-group">
         <Button :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
         <Button class="mr-6" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
-        <Button @click.native="downloadFile('questionnaire', item)" outline>預覽問券</Button>
+        <Button class="mr-6" @click.native="downloadFile('questionnaire', item)" outline>預覽問券</Button>
+        <Button @click.native="copyQuotation(item.orderNo, item.mainOrderNo)" outline>更正報價</Button>
         <!-- <Button :class="{'mr-6': windowWidth > 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button> -->
         <!-- <Button :class="{'col-span-2': windowWidth < 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="updateInsuranceProject(index)" outline>編輯投保資料</Button> -->
         <Button v-if="viewModel && editModel">修改保費</Button>
@@ -251,6 +252,12 @@ export default {
   methods: {
     handleResize () {
       this.windowWidth = window.innerWidth
+    },
+    async copyQuotation() {
+      this.$store.dispatch('common/updateOrderNo', {orderNo:this.orderNo,mainOrderNo: this.mainOrderNo})
+      await this.quotationDetail(this.type,this.orderNo,this.mainOrderNo)
+      this.$store.dispatch(`${this.type}/updatedInsuranceActive`,1)
+      this.$router.push(`/${this.type}-quotation/step1`)
     },
     async downloadFile(type) {
       if (type === 'insurance') {
