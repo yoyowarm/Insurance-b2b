@@ -383,14 +383,14 @@ export default {
         obj.orderNo = this.orderNo
         obj.mainOrderNo = this.mainOrderNo
         const res = await this.$store.dispatch('quotation/UpdateActivityQuotation', obj)
-        this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: ''})
+        this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: res.data.content.orderNo.split('_')[0]})
       } else if (this.InsuranceActive == 2) {
         obj.mainOrderNo = this.mainOrderNo
         await this.$store.dispatch('quotation/EditQuotationApplicantInsured', obj)
       } else if (this.InsuranceActive == 3) {
         obj.mainOrderNo = this.mainOrderNo
         const res = await this.$store.dispatch('quotation/AddActivityQuotationSerialNo', obj)
-        this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: ''})
+        this.$store.dispatch('common/updateOrderNo',{orderNo:res.data.content.orderNo,mainOrderNo: res.data.content.orderNo.split('_')[0]})
       } else {
         if(this.orderNo)obj.orderNo = this.orderNo
         if(this.mainOrderNo)obj.mainOrderNo = this.mainOrderNo
