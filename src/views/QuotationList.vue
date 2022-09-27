@@ -35,7 +35,7 @@
             <span class="download text-base"><font-awesome-icon class="mr-1" icon="external-link-alt" /><span>匯出報價</span></span>
           </div>
         </template>
-        <div class="column-6 pb-6">
+        <div class="column-6 p-3 pb-6 ">
           <InputGroup class="w-full" title="被保險人姓名">
             <Input
               slot="input"
@@ -85,7 +85,7 @@
         <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
           <Button @click.native="getQuotationList" class="absolute -top-5 w-32">查詢</Button>
         </div>
-        <div class="column-6 pb-6">
+        <div class="column-6 p-3 pb-6">
           <InputGroup class="w-full" noMt>
             <Select
               slot="input"
