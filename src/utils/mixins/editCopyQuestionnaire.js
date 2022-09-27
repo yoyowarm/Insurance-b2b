@@ -108,8 +108,8 @@ export default {
               Text: copyData.part2.securityCheck,
               Value: copyData.part2.securityCheck,
             } : { Text: '選擇性質', Value: '' },
-            room: copyData.part2.room.roomAmount && copyData.part2.room.selected ? { selected: true, value: copyData.part2.room.roomAmount } : { selected: false, value: '' },
-            seat: copyData.part2.seat.seatAmount && copyData.part2.seat.selected ? { selected: true, value: copyData.part2.seat.seatAmount } : { selected: false, value: '' },
+            room: copyData.part2.room && copyData.part2.room.selected ? { selected: true, value: copyData.part2.room.roomAmount } : { selected: false, value: '' },
+            seat: copyData.part2.seat && copyData.part2.seat.selected ? { selected: true, value: copyData.part2.seat.seatAmount } : { selected: false, value: '' },
           }
         }
       } else {
