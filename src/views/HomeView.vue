@@ -2,23 +2,22 @@
   <div class="flex flex-wrap">
     <div class="dashboardGroup">
       <CommonBoard
-        v-for="(item, index) in state"
+        v-for="(item, index) in Object.keys(quotationState)"
         :key="index"
         class="dashboard md:mr-5 lg:mr-7"
-        @click.native="$router.push({path:'/quotation/list', query:{type:item.type}})"
-        :class="{'fail' :item.type === '未核保', 'success': item.type === '已核保', 'warn': item.type === '十五天內生效'}">
+        :class="{'fail' :item === 'waitUnderwriting', 'success': item === 'finishUnderwriting', 'warn': item === 'fifteenDaysEffectiveAmount', 'finish': item === 'alreadyIssueAmount'}">
         <div class="flex justify-start">
-          <img v-if="item.type === '未核保'" :src="failIcon" alt="">
-          <img v-if="item.type === '已核保'" :src="successIcon" alt="">
-          <img v-if="item.type === '十五天內生效'" :src="warnIcon" alt="">
+          <img v-if="item === 'waitUnderwriting'" :src="failIcon" alt="">
+          <img v-if="item === 'finishUnderwriting'" :src="successIcon" alt="">
+          <img v-if="item === 'fifteenDaysEffectiveAmount'" :src="warnIcon" alt="">
+          <img v-if="item === 'alreadyIssueAmount'" :src="finishIcon" alt="">
           <div class="flex flex-col justify-center">
-            <span class="font-semibold text-xl text-gray-700">{{item.type}}</span>
+            <span class="font-semibold text-base md:text-xl lg:text-xl text-gray-700">{{quotationStateText[item]}}</span>
             <span class="text-fail font-bold text-base md:text-xl lg:text-xl tracking-tighter"
-            :class="{'text-fail' :item.type === '未核保', 'text-success': item.type === '已核保', 'text-warn': item.type === '十五天內生效'}">
+            :class="{'text-fail' :item === 'waitUnderwriting', 'text-success': item === 'finishUnderwriting', 'text-warn': item === 'fifteenDaysEffectiveAmount', 'text-finish': item === 'alreadyIssueAmount'}">
               單數
-              <span>：{{item.text.replace(/\/[0-9]{0,}/g, '')}}</span>
-              <span class="px-1 md:px-2 ">/</span>
-              <span class="text-lg md:text-3xl lg:text-4xl pr-2">{{item.text.replace(/[0-9]{0,}\//g, '')}}</span>
+              <!-- <span>：{{item.text.replace(/\/[0-9]{0,}/g, '')}}</span> -->
+              <span class="text-lg md:text-3xl lg:text-4xl pr-2">{{quotationState[item]}}</span>
               <span>件</span>
             </span>
           </div>
@@ -88,6 +87,7 @@ import TableGroup from '@/components/TableGroup'
 import DynamicLink from '@/components/DynamicLink'
 import Button from '@/components/Button/index.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import finishIcon from '@/assets/images/finish_state.png'
 import failIcon from '@/assets/images/not_checked_state.png'
 import successIcon from '@/assets/images/checked_state.png'
 import warnIcon from '@/assets/images/after_effect_state.png'
@@ -107,6 +107,19 @@ export default {
       failIcon,
       successIcon,
       warnIcon,
+      finishIcon,
+      quotationState: {
+        waitUnderwriting: 0,
+        finishUnderwriting: 0,
+        fifteenDaysEffectiveAmount: 0,
+        alreadyIssueAmount: 0,
+      },
+      quotationStateText: {
+        waitUnderwriting: '待核保',
+        finishUnderwriting: '已核保',
+        fifteenDaysEffectiveAmount: '15天有效',
+        alreadyIssueAmount: '已出單',
+      },
       newsListTable: {
         head: [
           {
@@ -233,17 +246,11 @@ export default {
         this.$store.dispatch('questionnaire/updatedPlaceQuestionnaire', {...this.$store.state.questionnaire.placeQuestionnaire,userId:userInfo.userid})
       } catch (error) {
         await this.$store.dispatch('home/refreshToken', this.token)
-        const checkUser = await this.$store.dispatch('home/checkUser', this.token)
-        this.$store.dispatch('home/updatedUserInfo', checkUser.data.User.UserInfo)
-        await this.getTop3Quotation()
-        await this.getTop3top3Products()
-        await this.getTop3News()
-        await this.getAllState()
+        const data = await this.$store.dispatch('quotation/GetQuotationState')
+         this.quotationState = data.data.content
       }
-        await this.getTop3Quotation()
-        await this.getTop3top3Products()
-        await this.getTop3News()
-        await this.getAllState()
+        const data = await this.$store.dispatch('quotation/GetQuotationState')
+        this.quotationState = data.data.content
     }
   }
 }
@@ -272,6 +279,9 @@ export default {
   }
   .dashboard.warn>>>.board {
     border-bottom: 5px solid #FE8F0E;
+  }
+  .dashboard.finish>>>.board {
+    border-bottom: 5px solid #29B4E0;
   }
   .mobile-more {
     @apply hidden
@@ -308,7 +318,7 @@ export default {
     .success {
       margin-right: 0px
     }
-    .fail, .success, .warn {
+    .fail, .success, .warn, .finish {
       width: 100%;
     }
   }

@@ -1,40 +1,21 @@
 <template>
   <div class="flex flex-wrap">
-    <div class="dashboardGroup">
-      <CommonBoard
-        v-for="(item, index) in Object.keys(quotationState)"
-        :key="index"
-        class="dashboard md:mr-5 lg:mr-7"
-        :class="{'fail' :item === 'waitUnderwriting', 'success': item === 'finishUnderwriting', 'warn': item === 'fifteenDaysEffectiveAmount', 'finish': item === 'alreadyIssueAmount'}">
-        <div class="flex justify-start">
-          <img v-if="item === 'waitUnderwriting'" :src="failIcon" alt="">
-          <img v-if="item === 'finishUnderwriting'" :src="successIcon" alt="">
-          <img v-if="item === 'fifteenDaysEffectiveAmount'" :src="warnIcon" alt="">
-          <img v-if="item === 'alreadyIssueAmount'" :src="finishIcon" alt="">
-          <div class="flex flex-col justify-center">
-            <span class="font-semibold text-base md:text-xl lg:text-xl text-gray-700">{{quotationStateText[item]}}</span>
-            <span class="text-fail font-bold text-base md:text-xl lg:text-xl tracking-tighter"
-            :class="{'text-fail' :item === 'waitUnderwriting', 'text-success': item === 'finishUnderwriting', 'text-warn': item === 'fifteenDaysEffectiveAmount', 'text-finish': item === 'alreadyIssueAmount'}">
-              單數
-              <!-- <span>：{{item.text.replace(/\/[0-9]{0,}/g, '')}}</span> -->
-              <span class="text-lg md:text-3xl lg:text-4xl pr-2">{{quotationState[item]}}</span>
-              <span>件</span>
-            </span>
-          </div>
-        </div>
-      </CommonBoard>
-    </div>
     <div class="flex justify-around w-full mt-6">
-      <CommonBoard class="w-full" title="報價明細">
-        <img slot="icon" class="w-7 h-8 mr-1" src="../assets/images/icon_list_alt.png" alt="">
-        <template slot="right" v-if="windowWidth > 770">
+      <CommonBoard class="w-full relative">
+        <NavMenu
+          class="menu"
+          :itemLists="itemLists"
+          :currentTag="currentTag"
+          @updatedMenu="(e) => currentTag = e"
+        />
+        <!-- <template slot="right" v-if="windowWidth > 770">
           <div class="flex flex-row">
             <span class="flex items-end h-full mr-4">
               <span class="text-base text-main"><font-awesome-icon class="mr-1" icon="far fa-trash-alt" />清除過期報價單</span>
             </span>
             <span class="download text-base"><font-awesome-icon class="mr-1" icon="external-link-alt" /><span>匯出報價</span></span>
           </div>
-        </template>
+        </template> -->
         <div class="column-6 p-3 pb-6 ">
           <InputGroup class="w-full" title="被保險人姓名">
             <Input
@@ -109,10 +90,6 @@
 <script>
 import CommonBoard from '@/components/CommonBoard'
 import Button from '@/components/Button/index.vue'
-import failIcon from '@/assets/images/not_checked_state.png'
-import successIcon from '@/assets/images/checked_state.png'
-import warnIcon from '@/assets/images/after_effect_state.png'
-import finishIcon from '@/assets/images/finish_state.png'
 import Pagination from '@/components/pagination'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
@@ -122,6 +99,7 @@ import LoadingScreen from '@/components/LoadingScreen.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import DownloadFile from '@/components/PopupDialog/DownloadFile.vue'
 import QuotationList from '@/components/QuotationList.vue'
+import NavMenu from '@/components/NavMenu'
 import { mapState } from 'vuex'
 import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
@@ -137,17 +115,19 @@ export default {
     DatePicker,
     LoadingScreen,
     DownloadFile,
-    QuotationList
+    QuotationList,
+    NavMenu
   },
   data() {
     return {
       windowWidth: window.innerWidth,
+      currentTag: 0,
+      itemLists:[
+        { text: '報價明細', value: 0 },
+        { text: '核保明細', value: 1, disabled: true }
+      ],
       open: false,
       downloadQuotation: {},
-      failIcon,
-      successIcon,
-      warnIcon,
-      finishIcon,
       ApplicantName: '',
       InsuredName: '',
       IOffIcer: '',
@@ -224,24 +204,12 @@ export default {
         Value: '0'
       },
       quotationList: [],
-      quotationState: {
-        waitUnderwriting: 0,
-        finishUnderwriting: 0,
-        fifteenDaysEffectiveAmount: 0,
-        alreadyIssueAmount: 0,
-      },
       stateText: {
         1: '待核保',
         7: '已核保',
         8: '完成報價',
         9: '已出單',
         99: '取消'
-      },
-      quotationStateText: {
-        waitUnderwriting: '待核保',
-        finishUnderwriting: '已核保',
-        fifteenDaysEffectiveAmount: '15天有效',
-        alreadyIssueAmount: '已出單',
       },
     }
   },
@@ -348,6 +316,10 @@ export default {
     color: #1076EE;
     @apply cursor-pointer
   }
+  .menu {
+    top: -27px;
+    @apply absolute
+  }
   .copy-button {
     min-width: 96px;
     height: 40px;
@@ -366,18 +338,6 @@ export default {
   .dashboard>>>.board {
     margin-top:0px;
     @apply p-2 py-4
-  }
-  .dashboard.fail>>>.board {
-    border-bottom: 5px solid #EC4343;
-  }
-  .dashboard.success>>>.board {
-    border-bottom: 5px solid #3AA551;
-  }
-  .dashboard.warn>>>.board {
-    border-bottom: 5px solid #FE8F0E;
-  }
-  .dashboard.finish>>>.board {
-    border-bottom: 5px solid #29B4E0;
   }
   .mobile-more {
     @apply hidden
@@ -407,10 +367,6 @@ export default {
     }
     .success {
       margin-right: 0px
-    }
-    .fail, .success, .warn, .finish {
-      width: 48%;
-      margin: 0px 1%
     }
   }
 
