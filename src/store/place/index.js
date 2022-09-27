@@ -119,7 +119,7 @@ export default {
       fileList: []
     },
     questionnaireFinished: false,
-    questionnaire: {//問卷
+    questionnaire: {//詢問表
       userId: '',
       part1: {
         businessType: '',//經營業務種類,

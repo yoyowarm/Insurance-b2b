@@ -7,7 +7,7 @@ export const AttachmentDetails = (policyAttachmentId) => request('get', '/File/G
 export const GetInsuranceDocument = (OrderNo) => request('get', '/Document/GetInsuranceDocument', { OrderNo }, { responseType: 'blob' })//取得要保書
 export const GetPlaceQuotationDocument = (OrderNo) => request('get', '/Document/GetPlaceQuotationDocument', { OrderNo }, { responseType: 'blob' })//取得處所類報價單
 export const GetActivityQuotationDocument = (OrderNo) => request('get', '/Document/GetActivityQuotationDocument', { OrderNo }, { responseType: 'blob' })//取得活動類報價單
-export const GetQuestionnaireDocument = (orderNo, placeActivityType) => request('get', '/Document/GetQuestionnaireDocument', { orderNo, placeActivityType }, { responseType: 'blob' })//取得問卷
+export const GetQuestionnaireDocument = (orderNo, placeActivityType) => request('get', '/Document/GetQuestionnaireDocument', { orderNo, placeActivityType }, { responseType: 'blob' })//取得詢問表
 
 
 

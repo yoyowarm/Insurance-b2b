@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="問卷表管理" class="text-lg mb-5"/>
+    <FormTitle title="詢問表管理" class="text-lg mb-5"/>
     <CommonBoard>
       <div class="column-6 pb-6">
         <InputGroup class="w-full" title="被保險人姓名">
@@ -36,11 +36,11 @@
       <div class="flex flex-row justify-end py-3">
         <div @click="() => {openQuestionnaire(2,1); SerialNo = ''; clearActivityQuestionnaire()}" class="mr-3">
           <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
-          <span class="download ml-1">活動問卷</span>
+          <span class="download ml-1">活動詢問表</span>
         </div>
         <div  @click="() => {openQuestionnaire(1,1);SerialNo = ''; clearPlaceQuestionnaire()}">
           <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
-          <span class="download ml-1">場所問卷</span>
+          <span class="download ml-1">場所詢問表</span>
         </div>
       </div>
       <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX>
@@ -142,8 +142,8 @@ export default {
           Value: '',
           Text: '全部'
         },
-        {Text:'活動問卷',Value:'1'},
-        {Text:'場所問卷',Value:'2'}
+        {Text:'活動詢問表',Value:'1'},
+        {Text:'場所詢問表',Value:'2'}
       ],
       Parameters:{
         InsuredName:'',
@@ -214,7 +214,7 @@ export default {
     async downloadFile(orderNo, type) {
       const res = await this.$store.dispatch('common/GetQuestionnaireDocument',{ placeActivityType:type == '處所' ? 1 : 2 ,orderNo})
       var blob = new Blob([res.data], {type: "application/octet-stream"});
-       FileSaver.saveAs(blob,  `${type}問券_${orderNo}.pdf`);
+       FileSaver.saveAs(blob,  `${type}詢問表_${orderNo}.pdf`);
     },
     async getQuestionnaire(serialNo,type) {
       this.SerialNo = serialNo

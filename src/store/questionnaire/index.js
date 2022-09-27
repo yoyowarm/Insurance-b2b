@@ -13,7 +13,7 @@ import {
 export default {
   namespaced: true,
   state: {
-    placeQuestionnaire: {//問卷
+    placeQuestionnaire: {//詢問表
       userId: '',
       insuredName: '',
       insuredId: '',

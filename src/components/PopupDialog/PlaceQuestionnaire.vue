@@ -14,9 +14,9 @@
         <p v-if="multiplePlaceInfo" class="text-red-500">若有多處所狀況請以坪數最大處所條件填寫</p>
         <div class="flex flex-row flex-wrap mb-2" v-if="QuestionnaireManagement" >
           <div class="flex flex-row items-center mr-4">
-            <span class="mr-2 mt-2">問券名稱</span>
+            <span class="mr-2 mt-2">詢問表名稱</span>
             <InputGroup class="col-start-4" noMt min mid>
-              <Input slot="input" class="w-52" :value="questionnaireData.title" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {title: e})" placeholder="輸入問券名稱"/>
+              <Input slot="input" class="w-52" :value="questionnaireData.title" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {title: e})" placeholder="輸入詢問表名稱"/>
             </InputGroup>
           </div>
           <div class="flex flex-row items-center mr-4">
@@ -81,9 +81,9 @@
           <div class="flex justify-center w-full px-3">
             <Button outline class="h-12 w-52 mr-3" @click.native="clearQuestionnaire">清除資料</Button>
             <Button v-if="questionnaireType == 0" class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
-            <Button v-if="questionnaireType == 1" class="h-12 w-52 mr-3" @click.native="() =>{$emit('addQuestionnaire',1);$emit('update:open' ,false)}">新增問券</Button>
-            <Button v-if="questionnaireType == 2" class="h-12 w-52 mr-3" @click.native="() =>{$emit('updateQuestionnaire',1);$emit('update:open' ,false)}">更新問券</Button>
-            <Button v-if="orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">列印問卷</Button>
+            <Button v-if="questionnaireType == 1" class="h-12 w-52 mr-3" @click.native="() =>{$emit('addQuestionnaire',1);$emit('update:open' ,false)}">新增詢問表</Button>
+            <Button v-if="questionnaireType == 2" class="h-12 w-52 mr-3" @click.native="() =>{$emit('updateQuestionnaire',1);$emit('update:open' ,false)}">更新詢問表</Button>
+            <Button v-if="orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">列印詢問表</Button>
           </div>
         </div>
       </div>
@@ -245,7 +245,7 @@ export default {
     async downloadFile () {
       const res = await this.$store.dispatch('common/GetQuestionnaireDocument',{placeActivityType:1,orderNo:this.SerialNo ? this.SerialNo :this.orderNo})
       var blob = new Blob([res.data], {type: "application/octet-stream"});
-       FileSaver.saveAs(blob,  `處所問券_${this.SerialNo ? this.SerialNo :this.orderNo}.pdf`);
+       FileSaver.saveAs(blob,  `處所詢問表_${this.SerialNo ? this.SerialNo :this.orderNo}.pdf`);
     },
     clearQuestionnaire() {
       if(this.hasClearFunc) {

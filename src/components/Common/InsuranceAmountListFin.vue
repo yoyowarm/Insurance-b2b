@@ -99,7 +99,7 @@
       <div class="button-group">
         <Button :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
         <Button class="mr-6" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
-        <Button class="mr-6" @click.native="downloadFile('questionnaire', item)" outline>預覽問券</Button>
+        <Button class="mr-6" @click.native="downloadFile('questionnaire', item)" outline>預覽詢問表</Button>
         <Button @click.native="copyQuotation(item.orderNo, item.mainOrderNo)" outline>更正報價</Button>
         <!-- <Button :class="{'mr-6': windowWidth > 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button> -->
         <!-- <Button :class="{'col-span-2': windowWidth < 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="updateInsuranceProject(index)" outline>編輯投保資料</Button> -->
@@ -274,7 +274,7 @@ export default {
       } else if (type === 'questionnaire') {
         const res = await this.$store.dispatch(`common/GetQuestionnaireDocument`,{placeActivityType:this.type =='place'? 1: 2,orderNo: this.orderNo})
         var blob2 = new Blob([res.data], {type: "application/octet-stream"});
-        FileSaver.saveAs(blob2, `${this.type =='place'?'處所': '活動'}問券_${this.orderNo}.pdf`);
+        FileSaver.saveAs(blob2, `${this.type =='place'?'處所': '活動'}詢問表_${this.orderNo}.pdf`);
       } else {
         const res = await this.$store.dispatch(`common/${this.type == 'place' ? 'GetPlaceQuotationDocument' : 'GetActivityQuotationDocument'}`,this.orderNo)
         var blob1 = new Blob([res.data], {type: "application/octet-stream"});

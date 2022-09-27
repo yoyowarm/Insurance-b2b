@@ -39,7 +39,7 @@
     <DynamicLink type="router" path="/questionnaire-management" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/questionnaire-management')}">
         <div class="icon questionnaire"/>
-        <span class="text-white text-lg font-bold">問卷表管理</span>
+        <span class="text-white text-lg font-bold">詢問表管理</span>
       </div>
     </DynamicLink>
     <!-- <DynamicLink type="router" path="/Office-audit" @click.native="$emit('update:openMenu', false)">

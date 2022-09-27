@@ -382,7 +382,7 @@ export const quotation = () => {
         },
       },
     },
-    questionnaire: {//問卷
+    questionnaire: {//詢問表
       userId: '',
       insuredName: '',
       insuredId: '',

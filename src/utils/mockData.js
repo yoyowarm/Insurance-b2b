@@ -709,7 +709,7 @@ export const questionnaireList = () => {
         size: '2-6'
       },
       {
-        text: '問卷名稱',
+        text: '詢問表名稱',
         value: 'title',
         size: '5-6'
       },

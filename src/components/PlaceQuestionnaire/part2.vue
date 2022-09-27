@@ -55,7 +55,7 @@
     </div>
     <div class="column-5 my-3">
       <InputGroup lgTitle title="距鄰近建築物" mid>
-        <Input slot="input" unit="公尺" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離"/>
+        <Input slot="input" unit="公尺" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離" numberOnly/>
       </InputGroup>
     </div>
      <div class="flex flex-col my-3">

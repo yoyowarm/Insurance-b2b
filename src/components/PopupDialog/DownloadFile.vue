@@ -27,7 +27,7 @@
               <p v-if="loading.length === 0" class="print cursor-pointer" @click="downloadFile(orderNo,'quotation')"><font-awesome-icon :icon="['fa','print']" /></p>
             </li>
             <li>
-              <span>問券</span>
+              <span>詢問表</span>
               <p v-if="loading.length === 0" class="print cursor-pointer" @click="downloadFile(orderNo,'questionnaire', item.type)"><font-awesome-icon :icon="['fa','print']" /></p>
             </li>
           </ul>
@@ -117,7 +117,7 @@ export default {
       } else if (type == 'questionnaire') {
         const res = await this.$store.dispatch(`common/GetQuestionnaireDocument`,{placeActivityType:quotationType,orderNo})
         var blob2 = new Blob([res.data], {type: "application/octet-stream"});
-        FileSaver.saveAs(blob2, `${quotationType == 1 ?'處所': '活動'}問券_${orderNo}.pdf`);
+        FileSaver.saveAs(blob2, `${quotationType == 1 ?'處所': '活動'}詢問表_${orderNo}.pdf`);
       }
     }
   }
