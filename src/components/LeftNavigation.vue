@@ -27,7 +27,7 @@
     <DynamicLink type="router" path="/product/list" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/product/list'}">
         <div class="icon product"/>
-        <span class="text-white text-lg font-bold">商品資訊</span>
+        <span class="text-white text-lg font-bold">文件下載</span>
       </div>
     </DynamicLink>
     <DynamicLink type="router" path="/news/list" @click.native="$emit('update:openMenu', false)">

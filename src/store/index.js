@@ -14,7 +14,7 @@ import parameterSetting from './parameterSetting'
 import additionTermSetting from './additionTermSetting'
 import quotation from './quotation'
 import questionnaire from './questionnaire'
-
+import news from './news'
 
 Vue.use(Vuex)
 
@@ -93,7 +93,8 @@ export default new Vuex.Store({
     parameterSetting,
     additionTermSetting,
     quotation,
-    questionnaire
+    questionnaire,
+    news
   },
   plugins: [vuexLocal.plugin]
 })

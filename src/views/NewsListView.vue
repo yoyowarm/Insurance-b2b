@@ -30,17 +30,17 @@ export default {
         head: [
           {
             text: '發布日期',
-            value: 'LanuchDate',
-            size: '1-6'
+            value: 'lumchTime',
+            size: '2-6'
           },
           {
             text: '消息標題',
-            value: 'Title',
+            value: 'title',
             size: '2-6'
           },
           {
             text: '消息內文',
-            value: 'Content',
+            value: 'content',
             size: '3-6'
           },
         ],
@@ -67,12 +67,19 @@ export default {
     async changePage(page) {
       if(this.currentPage === page || page < 1) return
       this.$store.dispatch('app/updatedCurrentPage',page)
-      await this.getNews()
+      await this.getNews(page)
     },
-    async getNews() {
-      const newsList = await this.$store.dispatch('news/newsByPageSetting', this.currentPage)
+    async getNews(page) {
+      const newsList = await this.$store.dispatch('news/GetNewsList', page ? page : this.currentPage)
       this.$store.dispatch('app/updatedTotalPage',newsList.data.TotalPage)
-      this.newsListTable.rows = newsList.data.data
+      this.newsListTable.rows = newsList.data.content.news.map(i => {
+        return {
+          ...i,
+          lumchTime: i.lumchTime.split('T')[0] + ' ' + i.lumchTime.split('T')[1].split('.')[0]
+        }
+      })
+      this.$store.dispatch('app/updatedCurrentPage',1)
+      this.$store.dispatch('app/updatedTotalPage',Math.ceil(newsList.data.content.totalCount/10))
     },
     popup(index) {
       NewsPopup.create({
