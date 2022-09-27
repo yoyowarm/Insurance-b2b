@@ -185,6 +185,11 @@ export default {
         canAccessBalcony: null,//人員可否進入陽台
         hasFireproofMaterial: null,//地毯、窗簾是否為防火材質
         hasCompartmentFireproofMaterial: null,//客房隔間是否為防火材質
+        HasSwimmingPoll: null,//是否有游泳池
+        HasGym: null,//是否有健身房
+        HasBeach: null,//是否有沙灘
+        HasPlayground: null,//是否有遊樂場
+        HasRestaurant: null,//是否有餐廳
         facility: [],//如有下列設施，請勾選
         hasPusher: null,//是否使用推高機
         hasFireOrDust: null,//涉及用火或粉塵表演

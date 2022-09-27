@@ -2,8 +2,8 @@
   <div class="w-full my-4  dashed-border">
     <div class="w-full flex flex-row mt-4" >
         <div class=" flex flex-row justify-between">
-          <RadioInput text="是" id="hasLossHistoryBeforeFiveYear" :value="data.part9.hasLossHistoryBeforeFiveYear === true" @updateValue="updateValue(true, 'hasLossHistoryBeforeFiveYear')"/>
-          <RadioInput class="mx-2" text="否" id="hasLossHistoryBeforeFiveYear2" :value="data.part9.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
+          <RadioInput text="是" id="hasLossHistoryBeforeFiveYear11" :value="data.part9.hasLossHistoryBeforeFiveYear === true" @updateValue="updateValue(true, 'hasLossHistoryBeforeFiveYear')"/>
+          <RadioInput class="mx-2" text="否" id="hasLossHistoryBeforeFiveYear21" :value="data.part9.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
       </div>
         <div class=" text-lg">被保險人過去五年是否有損失紀錄(不論有否投保)</div>
     </div>

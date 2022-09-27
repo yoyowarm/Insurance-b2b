@@ -28,7 +28,7 @@
     </div>
       <div class="text-lg">{{item}}</div>
     </div>
-    <div class="flex flex-col my-3">
+    <!-- <div class="flex flex-col my-3">
       <FormTitle lgTitle title="如有下列設施，請勾選" class="my-3 text-lg"/>
       <Checkbox
         v-for="(list,index) in facilityList" :key="`${list}${index}`"
@@ -40,7 +40,7 @@
         slot="input"
         @updateValue="(e) =>updateFacility(e,list)"
       />
-    </div>
+    </div> -->
     <FormTitle lgTitle title="商場、百貨公司、超級市場" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
       <div class="flex flex-row justify-between">
@@ -85,14 +85,14 @@
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle.vue'
 import Input from '@/components/InputGroup/Input'
-import Checkbox from '@/components/Checkbox'
+// import Checkbox from '@/components/Checkbox'
 import RadioInput from '@/components/Radio'
 export default {
   components: {
     InputGroup,
     FormTitle,
     Input,
-    Checkbox,
+    // Checkbox,
     RadioInput
   },
   props:{
@@ -119,12 +119,23 @@ export default {
         '人員可否進入陽台',
         '是否有地毯、窗簾，是否為防火材質',
         '是否有客房隔間，客房隔間是否為防火材質',
+        '是否有游泳池',
+        '是否有健身房',
+        '是否有沙灘',
+        '是否有兒童遊樂場',
+        '是否有餐廳'
+
       ],
       questionListID: [
         'hasBalcony',
         'canAccessBalcony',
         'hasFireproofMaterial',
         'hasCompartmentFireproofMaterial',
+        'HasSwimmingPoll',
+        'HasGym',
+        'HasBeach',
+        'HasPlayground',
+        'HasRestaurant'
       ]
     }
   },
@@ -149,24 +160,24 @@ export default {
         }
       })
     },
-    updateFacility(e,list) {
-      let arr = []
-      if(e && !this.data.part3.facility.includes(list)) {
-        arr.push(list)
-      }
-      if(!e && this.data.part3.facility.includes(list)) {
-        arr = [...this.data.part3.facility]
-        const index = arr.findIndex(item => item === list)
-        arr.splice(index,1)
-      }
-      this.$emit('update:data',{
-        ...this.data,
-        part3: {
-          ...this.data.part3,
-          facility: e ? [...this.data.part3.facility,...arr] : arr
-        }
-      })
-    }
+    // updateFacility(e,list) {
+    //   let arr = []
+    //   if(e && !this.data.part3.facility.includes(list)) {
+    //     arr.push(list)
+    //   }
+    //   if(!e && this.data.part3.facility.includes(list)) {
+    //     arr = [...this.data.part3.facility]
+    //     const index = arr.findIndex(item => item === list)
+    //     arr.splice(index,1)
+    //   }
+    //   this.$emit('update:data',{
+    //     ...this.data,
+    //     part3: {
+    //       ...this.data.part3,
+    //       facility: e ? [...this.data.part3.facility,...arr] : arr
+    //     }
+    //   })
+    // }
   }
 }
 </script>

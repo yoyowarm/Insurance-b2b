@@ -3,7 +3,7 @@
     <FormTitle title="1.營業處所相關之消防和安全措施" class="my-3 text-lg"/>
     <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
-        id="消防栓"
+        id="消防栓1"
         class="text-lg"
         text="消防栓"
         :checked="data.part7.hasFireHydrant"
@@ -39,7 +39,7 @@
     </div>
     <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
-        id="滅火器：泡沫型"
+        id="滅火器：泡沫型1"
         class="text-lg"
         text="滅火器：泡沫型"
         :checked="data.part7.fireExtinguisher"
@@ -151,7 +151,7 @@
     <div class="ml-12 sm:ml-24 text-red-500 text-sm">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>
     <div class="flex flex-col sm:flex-row my-3">
       <Checkbox
-        id="其他，請詳述之"
+        id="其他，請詳述之1"
         class="text-lg"
         text="其他，請詳述之"
         :checked="data.part7.hasOtherExtinguishing"
@@ -193,11 +193,11 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4">
-      <div class="text-lg">是否有泡沫滅火系統</div>
-        <div class="ml-4 flex flex-row justify-between">
+        <div class=" flex flex-row justify-between">
           <RadioInput text="是" id="hasFoamExtinguishing" :value="data.part7.hasFoamExtinguishing === true" @updateValue="updateValue(true, 'hasFoamExtinguishing')"/>
           <RadioInput class="mx-2" text="否" id="hasFoamExtinguishing2" :value="data.part7.hasFoamExtinguishing === false" @updateValue="updateValue(false, 'hasFoamExtinguishing')"/>
       </div>
+      <div class="text-lg">是否有泡沫滅火系統</div>
     </div>
     <div class="column-4 my-3">
       <InputGroup lgTitle title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasFoamExtinguishing">
@@ -308,6 +308,9 @@ export default {
       })
       }
     },
+  },
+  mounted() {
+    console.log(this.data.part7)
   }
 }
 </script>

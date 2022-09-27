@@ -34,11 +34,11 @@
         <Button @click.native="getQuestionnaireList" class="absolute -top-5 w-32">查詢</Button>
       </div>
       <div class="flex flex-row justify-end py-3">
-        <div @click="() => {openQuestionnaire(2,1); SerialNo = ''}" class="mr-3">
+        <div @click="() => {openQuestionnaire(2,1); SerialNo = ''; clearActivityQuestionnaire()}" class="mr-3">
           <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
           <span class="download ml-1">活動問卷</span>
         </div>
-        <div  @click="() => {openQuestionnaire(1,1);SerialNo = ''}">
+        <div  @click="() => {openQuestionnaire(1,1);SerialNo = ''; clearPlaceQuestionnaire()}">
           <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
           <span class="download ml-1">場所問卷</span>
         </div>

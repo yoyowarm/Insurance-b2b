@@ -9,7 +9,7 @@
         <div class="text-lg">{{item}}</div>
     </div>
   </div>
-    <div class="flex flex-col mt-4 dashed-border">
+    <!-- <div class="flex flex-col mt-4 dashed-border">
       <FormTitle class="text-lg mb-2" title="如有下列設施，請勾選"/>
         <Checkbox
           class="text-md mb-2 text-lg"
@@ -21,18 +21,18 @@
           :value="data.sheet1.part4.facility.includes(list)"
           @updateValue="(e) =>updateFacility(e,list)"
         />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import FormTitle from '@/components/FormTitle'
-import Checkbox from '@/components/Checkbox'
+// import FormTitle from '@/components/FormTitle'
+// import Checkbox from '@/components/Checkbox'
 import RadioInput from '@/components/Radio'
 export default {
   components: {
-    FormTitle,
-    Checkbox,
+    // FormTitle,
+    // Checkbox,
     RadioInput
   },
   props:{
@@ -57,6 +57,12 @@ export default {
         '是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)',
         '是否有疏散標示',
         '是否有人員管制計畫',
+        '是否有緊急照明',
+        '是否有緊急廣播',
+        '是否有安全門',
+        '是否有安全逃生通道',
+        '是否有排煙設備',
+        '是否有緊急電源'
       ],
       questionListID: [
         'hasActivityRoutePlan',
@@ -64,6 +70,12 @@ export default {
         'hasEvacuationPlan',
         'hasEvacuationSign',
         'hasPersonnelControl',
+        'HasUrgentLight',
+        'HasUrgentBroadcast',
+        'HasSafetyDoor',
+        'HasEscapeTrunk',
+        'HasSmokeExhaust',
+        'HasUrgentPower'
       ]
     }
   },
