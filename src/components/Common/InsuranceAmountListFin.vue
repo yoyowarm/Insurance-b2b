@@ -2,90 +2,90 @@
   <div class="w-full">
     <CommonBoard v-for="(item,index) in copyLists" :key="index" :selected="item.isSelected || copyLists.length == 1">
       <div class="column-5" :class="{'dashed-border': !viewModel}">
-        <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel" disable>
+        <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel" disableWhite>
           <Select
             v-if="!viewModel"
             slot="input"
             :options="amountList"
             :selected="item.amountType?item.amountType.toString():''"
             @emitItem="e=>{updatedValue(index,'amountType',e.Value);assignAmount(index)}"
-            disable
+            disableWhite
             defaultText="請選擇金額"/>
             <div v-if="viewModel" slot="input">{{item.amountType ==0 ? '依各縣市規定' : (item.amountType ==1 ? '合併單一限額' : '自行輸入保額')}}</div>
         </InputGroup>
         <div v-if="amountMinimum.countyName && item.amountType == 0" class="mt-10 col-span-2">處所行跨多縣市時，將採用最高縣市保額，目前採用 {{amountMinimum.countyName}} 費率</div>
       </div>
       <div class="column-5 pt-5" :class="{'dashed-border': !viewModel}">
-        <InputGroup v-if="item.amountType != 1" title="每一個人體傷責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType == 0 || disable || item.fixed">
+        <InputGroup v-if="item.amountType != 1" title="每一個人體傷責任金額" :borderBtn="viewModel" :editModel="editModel" disableWhite>
           <Input
             v-if="!viewModel"
             slot="input"
             :value="item.perBodyAmount? numFormat(item.perBodyAmount.toString()): ''"
             @updateValue="(e) => {updatedValue(index,'perBodyAmount',e);assignAmount(index)}"
             placeholder="請輸入金額"
-            :disable="item.amountType == 0 || disable || item.fixed"
+            disableWhite
             numberOnly
             unit="萬元"/>
             <div v-else slot="input">{{item.perBodyAmount}}</div>
         </InputGroup>
-        <InputGroup v-if="item.amountType != 1" title="每一意外事故體傷責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType == 0 || disable || item.fixed">
+        <InputGroup v-if="item.amountType != 1" title="每一意外事故體傷責任金額" :borderBtn="viewModel" :editModel="editModel" disableWhite>
           <Input
             v-if="!viewModel"
             slot="input"
             :value="item.perAccidentBodyAmount? numFormat(item.perAccidentBodyAmount.toString()): ''"
             @updateValue="(e) => updatedValue(index,'perAccidentBodyAmount',e)"
             placeholder="請輸入金額"
-            :disable="item.amountType == 0 || disable || item.fixed"
+            disableWhite
             numberOnly
             unit="萬元"/>
             <div v-else slot="input">{{item.perAccidentBodyAmount}}</div>
         </InputGroup>
-        <InputGroup v-if="item.amountType != 1" title="每一意外事故財物損失責任金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType == 0 || disable || item.fixed">
+        <InputGroup v-if="item.amountType != 1" title="每一意外事故財物損失責任金額" :borderBtn="viewModel" :editModel="editModel" disableWhite>
           <Input
             v-if="!viewModel"
             slot="input"
             :value="item.perAccidentBodyAmount? numFormat(item.perAccidentFinanceAmount.toString()): ''"
             @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
             placeholder="請輸入金額"
-            :disable="item.amountType == 0 || disable || item.fixed"
+            disableWhite
             numberOnly
             unit="萬元"/>
             <div v-else slot="input">{{item.perAccidentFinanceAmount}}</div>
         </InputGroup>
-        <InputGroup v-if="item.amountType != 1" title="本保險契約之最高賠償金額" :borderBtn="viewModel" :editModel="editModel" :disable="item.amountType == 0 || disable || item.fixed">
+        <InputGroup v-if="item.amountType != 1" title="本保險契約之最高賠償金額" :borderBtn="viewModel" :editModel="editModel" disableWhite>
           <Input
             v-if="!viewModel"
             slot="input"
             :value="item.insuranceTotalAmount? numFormat(item.insuranceTotalAmount.toString()): ''"
             @updateValue="(e) => updatedValue(index,'insuranceTotalAmount',e)"
             placeholder="請輸入金額"
-            :disable="item.amountType == 0 || disable || item.fixed"
+            disableWhite
             numberOnly
             unit="萬元"/>
             <div v-else slot="input">{{item.insuranceTotalAmount}}</div>
         </InputGroup>
-        <InputGroup v-if="item.amountType == 1" title="單一限額" :disable="disable || item.fixed">
+        <InputGroup v-if="item.amountType == 1" title="單一限額" disableWhite>
         <Input
           v-if="!viewModel"
           slot="input"
           :value="numFormat(item.mergeSingleAmount)"
           @updateValue="(e) => updatedValue(index,'mergeSingleAmount',e)"
           placeholder="請輸入金額"
-          :disable="disable || item.fixed"
+          disableWhite
           numberOnly
           unit="萬元"/>
           <div v-else slot="input">{{item.mergeSingleAmount}}</div>
       </InputGroup>
       </div>
       <div class="column-5">
-        <InputGroup title="自負額" :borderBtn="viewModel" :editModel="editModel" disable>
+        <InputGroup title="自負額" :borderBtn="viewModel" :editModel="editModel" disableWhite>
           <Select
             v-if="!viewModel"
             slot="input"
             :options="selfPayList"
             :selected="item.selfInflictedAmount?item.selfInflictedAmount.toString():''"
             defaultText="請選擇金額"
-            disable
+            disableWhite
             @emitItem="(e) => updatedValue(index,'selfInflictedAmount',e.Value)"/>
             <div v-else slot="input">{{item.selfInflictedAmount}}</div>
         </InputGroup>
@@ -199,9 +199,16 @@ export default {
         {Value: 200000, Text: '200,000元'},
       ],
       amountList: [
-        {Value: 0, Text: '依各縣市規定'},
-        {Value: 1, Text: '合併單一限額'},
-        {Value: 2, Text: '自行輸入保額'}
+         {Value: 1, Text: '合併單一限額'},
+        {Value: 2, Text: '自行輸入保額'},
+        {Value: 4, Text: '200萬/1000萬/200萬/2400萬'},
+        {Value: 5, Text: '200萬/2000萬/200萬/3600萬'},
+        {Value: 6, Text: '300萬/1500萬/200萬/3400萬'},
+        {Value: 7, Text: '300萬/1500萬/200萬/4800萬'},
+        {Value: 8, Text: '300萬/1500萬/300萬/3600萬'},
+        {Value: 9, Text: '300萬/2000萬/300萬/2400萬'},
+        {Value: 10, Text: '300萬/3000萬/300萬/4800萬'},
+        {Value: 11, Text: '600萬/3000萬/300萬/6600萬'},
       ],
       copyLists: [...this.lists],
       openFormula: false,
@@ -420,6 +427,11 @@ export default {
   },
   mounted() {
     this.copyLists = [...this.lists]
+    if (this.type == 'place') {
+      this.amountList = [{Value: 0, Text: '依各縣市規定'},
+        {Value: 1, Text: '合併單一限額'},
+        {Value: 2, Text: '自行輸入保額'},]
+    }
   }
 }
 </script>

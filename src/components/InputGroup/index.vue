@@ -47,6 +47,10 @@ export default {
       type: Boolean,
       default: false
     },
+    disableWhite: {
+      type: Boolean,
+      default: false
+    },
     border0: {
       type: Boolean,
       default: false
@@ -97,6 +101,9 @@ export default {
       if (this.disable) {
         childClass += ' disable '
       }
+      if (this.disableWhite) {
+        childClass += ' disable-white '
+      }
       if (this.border0) {
         childClass += ' border0 '
       }
@@ -138,6 +145,9 @@ export default {
       }
       &.disable {
         @apply border-0 bg-gray-100 pointer-events-none
+      }
+      &.disable-white {
+        @apply border-0 bg-white pointer-events-none
       }
       &.border0 {
         @apply border-0

@@ -51,6 +51,7 @@
         :countyAmount="countyAmount"
         :infoList="placeInfo"
         :disable="calculateModel"
+        type="place"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest && item.isEnable).length > 0">
@@ -474,7 +475,7 @@ export default {
               squareFeet: item.squareFeet,
             }
           })],
-          amountType: this.insuranceAmountList[0].amountType.Value,
+          amountType: Number(this.insuranceAmountList[0].amountType.Value) >1 ? 2 : this.insuranceAmountList[0].amountType.Value,
           perBodyAmount: this.insuranceAmountList[0].perBodyAmount * 10000,
           perAccidentBodyAmount: this.insuranceAmountList[0].perAccidentBodyAmount * 10000,
           perAccidentFinanceAmount: this.insuranceAmountList[0].perAccidentFinanceAmount * 10000,

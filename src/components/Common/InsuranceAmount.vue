@@ -1,81 +1,81 @@
 <template>
   <div class="w-full">
     <div class="column-5 dashed-border">
-      <InputGroup title="金額" class="col-span-2" :disable="disable">
+      <InputGroup title="金額" class="col-span-2" :disableWhite="disable">
         <Select
           slot="input"
           :options="amountList"
           :selected="data.amountType.Value.toString()"
           @emitItem="e=>updatedValue('amountType',e)"
-          :disable="disable"
+          :disableWhite="disable"
           defaultText="請選擇金額"/>
       </InputGroup>
       <div v-if="amountMinimum.countyName && data.amountType.Value == 0" class="mt-10 col-span-2">處所行跨多縣市時，將採用最高縣市保額，目前採用 {{amountMinimum.countyName}} 費率</div>
     </div>
     <div class="column-5 pt-5">
-      <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disable="data.amountType.Value == 0 || disable">
+      <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disableWhite="data.amountType.Value == 0 || disable">
         <Input
           slot="input"
           :value="data.perBodyAmount.toString()"
           @updateValue="(e) => updatedValue('perBodyAmount',e)"
           placeholder="請輸入金額"
-          :disable="data.amountType.Value == 0 || disable"
+          :disableWhite="data.amountType.Value == 0 || disable"
           numberOnly
           numberFormat
           unit="萬元"/>
       </InputGroup>
-      <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故體傷責任金額" :disable="data.amountType.Value == 0 || disable">
+      <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故體傷責任金額" :disableWhite="data.amountType.Value == 0 || disable">
         <Input
           slot="input"
           :value="data.perAccidentBodyAmount.toString()"
           @updateValue="(e) => updatedValue('perAccidentBodyAmount',e)"
           placeholder="請輸入金額"
-          :disable="data.amountType.Value == 0 || disable"
+          :disableWhite="data.amountType.Value == 0 || disable"
           numberOnly
           numberFormat
           unit="萬元"/>
       </InputGroup>
-      <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故財物損失責任金額" :disable="data.amountType.Value == 0 || disable">
+      <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故財物損失責任金額" :disableWhite="data.amountType.Value == 0 || disable">
         <Input
           slot="input"
           :value="data.perAccidentFinanceAmount.toString()"
           @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
           placeholder="請輸入金額"
-          :disable="data.amountType.Value == 0 || disable"
+          :disableWhite="data.amountType.Value == 0 || disable"
           numberOnly
           numberFormat
           unit="萬元"/>
       </InputGroup>
-      <InputGroup v-if="data.amountType.Value != 1" title="本保險契約之最高賠償金額" :disable="data.amountType.Value == 0 || disable">
+      <InputGroup v-if="data.amountType.Value != 1" title="本保險契約之最高賠償金額" :disableWhite="data.amountType.Value == 0 || disable">
         <Input
           slot="input"
           :value="data.insuranceTotalAmount.toString()"
           @updateValue="(e) => updatedValue('insuranceTotalAmount',e)"
           placeholder="請輸入金額"
-          :disable="data.amountType.Value == 0 || disable"
+          :disableWhite="data.amountType.Value == 0 || disable"
           numberOnly
           numberFormat
           unit="萬元"/>
       </InputGroup>
-      <InputGroup v-if="data.amountType.Value == 1" title="單一限額" :disable="disable">
+      <InputGroup v-if="data.amountType.Value == 1" title="單一限額" :disableWhite="disable">
         <Input
           slot="input"
           :value="numFormat(data.mergeSingleAmount)"
           @updateValue="(e) => updatedValue('mergeSingleAmount',e)"
           placeholder="請輸入金額"
-          :disable="disable"
+          :disableWhite="disable"
           numberFormat
           unit="萬元"/>
       </InputGroup>
     </div>
     <div class="column-5 pt-5">
-      <InputGroup title="自負額" :disable="disable">
+      <InputGroup title="自負額" :disableWhite="disable">
         <Select
           slot="input"
           :options="selfPayList"
           :selected="data.selfInflictedAmount.Value"
           defaultText="請選擇金額"
-          :disable="disable"
+          :disableWhite="disable"
           @emitItem="(e) => updatedValue('selfInflictedAmount',e)"/>
       </InputGroup>
     </div>
@@ -110,6 +110,10 @@ export default {
       type: Boolean,
       default: false
     },
+    type: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -124,17 +128,16 @@ export default {
         {Value: 200000, Text: '200,000元'},
       ],
       amountList: [
-        {Value: 0, Text: '依各縣市規定'},
         {Value: 1, Text: '合併單一限額'},
         {Value: 2, Text: '自行輸入保額'},
-        // {Value: 4, Text: '200萬/1000萬/200萬/2400萬'},
-        // {Value: 5, Text: '200萬/2000萬/200萬/3600萬'},
-        // {Value: 6, Text: '300萬/1500萬/200萬/3400萬'},
-        // {Value: 7, Text: '300萬/1500萬/200萬/4800萬'},
-        // {Value: 8, Text: '300萬/1500萬/300萬/3600萬'},
-        // {Value: 9, Text: '300萬/2000萬/300萬/2400萬'},
-        // {Value: 10, Text: '300萬/3000萬/300萬/4800萬'},
-        // {Value: 11, Text: '600萬/3000萬/300萬/6600萬'},
+        {Value: 4, Text: '200萬/1000萬/200萬/2400萬'},
+        {Value: 5, Text: '200萬/2000萬/200萬/3600萬'},
+        {Value: 6, Text: '300萬/1500萬/200萬/3400萬'},
+        {Value: 7, Text: '300萬/1500萬/200萬/4800萬'},
+        {Value: 8, Text: '300萬/1500萬/300萬/3600萬'},
+        {Value: 9, Text: '300萬/2000萬/300萬/2400萬'},
+        {Value: 10, Text: '300萬/3000萬/300萬/4800萬'},
+        {Value: 11, Text: '600萬/3000萬/300萬/6600萬'},
       ]
     }
   },
@@ -159,7 +162,7 @@ export default {
     'data.perBodyAmount': {
       handler(val, odlVal) {
         if (!odlVal || val.toString() !== odlVal.toString()) {
-          this.assignAmount()
+          this.assignAmount(val)
         }
       },
       immediate: true
@@ -248,8 +251,8 @@ export default {
         [key]: e
       })
     },
-    assignAmount() {
-      if(!this.amountMinimum.countyName) return
+    assignAmount(value) {
+      if(!this.amountMinimum.countyName && this.type == 'place') return
       if(this.data.amountType.Value == 0) {
         this.$emit('update:data', {
           ...this.data,
@@ -260,7 +263,7 @@ export default {
           selfInflictedAmount: this.data.selfInflictedAmount
         })
       }
-      if(this.data.amountType.Value == 2) {
+      if(this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) > 2 && value)) {
         this.$emit('update:data', {
           ...this.data,
           perBodyAmount: this.data.perBodyAmount,
@@ -270,9 +273,25 @@ export default {
           selfInflictedAmount: this.data.selfInflictedAmount
         })
       }
+
+      if(Number(this.data.amountType.Value) > 2 && !value) {
+        this.$emit('update:data', {
+          ...this.data,
+          perBodyAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[0],
+          perAccidentBodyAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[1],
+          perAccidentFinanceAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[2],
+          insuranceTotalAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[3],
+          selfInflictedAmount: this.data.selfInflictedAmount
+        })
+      }
     }
   },
   mounted() {
+    if (this.type == 'place') {
+      this.amountList = [{Value: 0, Text: '依各縣市規定'},
+        {Value: 1, Text: '合併單一限額'},
+        {Value: 2, Text: '自行輸入保額'},]
+    }
   }
 }
 </script>

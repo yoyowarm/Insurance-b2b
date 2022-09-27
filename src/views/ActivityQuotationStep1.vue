@@ -235,7 +235,6 @@ export default {
         let startDate = new Date(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`).getTime()
         let endDate = new Date(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`).getTime()
         let day = ((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1
-        console.log(item)
         if(day > 0) {
           for(let i = 1; i < day; i++) {
             let date = new Date(`${Number(item.startDate.year)+1911}/${item.startDate.month}/${item.startDate.day}`).getTime() + (1000 * 60 * 60 * 24) * i
@@ -439,7 +438,7 @@ export default {
               activityEndHour: item.endDate.hour,
             }
           })],
-          amountType: this.insuranceAmountList[0].amountType.Value,
+          amountType: Number(this.insuranceAmountList[0].amountType.Value) > 1 ? 2 : this.insuranceAmountList[0].amountType.Value,
           perBodyAmount: this.insuranceAmountList[0].perBodyAmount * 10000,
           perAccidentBodyAmount: this.insuranceAmountList[0].perAccidentBodyAmount * 10000,
           perAccidentFinanceAmount: this.insuranceAmountList[0].perAccidentFinanceAmount * 10000,
@@ -595,7 +594,7 @@ export default {
           delete item.amount
           return {
             ...item,
-            amountType: item.amountType.Value,
+            amountType: Number(item.amountType.Value) > 1 ? 2 : item.amountType.Value,
             selfInflictedAmount: item.selfInflictedAmount.Value,
             perBodyAmount: item.perBodyAmount * 10000,
             perAccidentBodyAmount: item.perAccidentBodyAmount * 10000,

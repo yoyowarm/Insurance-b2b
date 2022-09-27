@@ -40,7 +40,7 @@
   <select
     v-if="!search"
     class="text-gray-800 bg-white text-xl focus:outline-none w-full"
-    :class="{'appearance-none':hiddenArrow, 'editModel': editModel, disable}"
+    :class="{'appearance-none':hiddenArrow, 'editModel': editModel, disable, 'disable-white': disableWhite}"
     @change="(item) =>choiceItem({Value:item.target.value, Text: item.target.selectedOptions[0].dataset.text})">
     <option>{{ defaultText }}</option>
     <option v-for="(item, index) in options" :key="index" :value="item[valueName]" :data-text="item[textName]" :selected="item[valueName] == selected">{{item[textName]}}</option>
@@ -70,6 +70,10 @@ export default {
       default: false
     },
     disable: {
+      type: Boolean,
+      default: false
+    },
+    disableWhite: {
       type: Boolean,
       default: false
     },
@@ -236,6 +240,9 @@ export default {
   }
   .disable {
     @apply border-0 bg-gray-100 pointer-events-none
+  }
+  .disable-white {
+    @apply border-0 bg-white pointer-events-none appearance-none
   }
   svg path,
   svg rect{

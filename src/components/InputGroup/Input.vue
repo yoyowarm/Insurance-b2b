@@ -3,7 +3,7 @@
     <input
       type="text"
       class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2"
-      :class="{'pr-9': slotIcon, disable, 'pr-8': unit.length > 0}"
+      :class="{'pr-9': slotIcon, disable,'disable-white': disableWhite, 'pr-8': unit.length > 0}"
       :placeholder="placeholder"
       :value="numberFormat ? numFormat(value) : value"
       @input="updateValue"
@@ -42,6 +42,10 @@ export default {
       default: ''
     },
     disable: {
+      type: Boolean,
+      default: false
+    },
+    disableWhite: {
       type: Boolean,
       default: false
     },
@@ -89,6 +93,9 @@ export default {
   }
   .disable {
     @apply cursor-not-allowed bg-gray-100 pointer-events-none;
+  }
+  .disable-white {
+    @apply cursor-not-allowed bg-white pointer-events-none;
   }
   /* input::placeholder {
     font: 18px;
