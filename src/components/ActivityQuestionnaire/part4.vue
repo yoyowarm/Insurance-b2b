@@ -70,12 +70,12 @@ export default {
         'hasEvacuationPlan',
         'hasEvacuationSign',
         'hasPersonnelControl',
-        'HasUrgentLight',
-        'HasUrgentBroadcast',
-        'HasSafetyDoor',
-        'HasEscapeTrunk',
-        'HasSmokeExhaust',
-        'HasUrgentPower'
+        'hasUrgentLight',
+        'hasUrgentBroadcast',
+        'hasSafetyDoor',
+        'hasEscapeTrunk',
+        'hasSmokeExhaust',
+        'hasUrgentPower'
       ]
     }
   },

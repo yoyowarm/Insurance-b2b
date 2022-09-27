@@ -185,11 +185,11 @@ export default {
         canAccessBalcony: null,//人員可否進入陽台
         hasFireproofMaterial: null,//地毯、窗簾是否為防火材質
         hasCompartmentFireproofMaterial: null,//客房隔間是否為防火材質
-        HasSwimmingPoll: null,//是否有游泳池
-        HasGym: null,//是否有健身房
-        HasBeach: null,//是否有沙灘
-        HasPlayground: null,//是否有遊樂場
-        HasRestaurant: null,//是否有餐廳
+        hasSwimmingPoll: null,//是否有游泳池
+        hasGym: null,//是否有健身房
+        hasBeach: null,//是否有沙灘
+        hasPlayground: null,//是否有遊樂場
+        hasRestaurant: null,//是否有餐廳
         facility: [],//如有下列設施，請勾選
         hasPusher: null,//是否使用推高機
         hasFireOrDust: null,//涉及用火或粉塵表演
@@ -205,8 +205,8 @@ export default {
         hasWireInTube: null,//所有電線是否裝在管內(含踏板)以避免短路
       },
       part5: {
-        useRoadHasAccessByTransportation: null,//使用道路者，對附近交通之衝擊是否經交通主管機關認許
-        afterActivityHasAccessByTransportation: null,//未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許
+        useRoadhasAccessByTransportation: null,//使用道路者，對附近交通之衝擊是否經交通主管機關認許
+        afterActivityhasAccessByTransportation: null,//未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許
         hasSegmentWithInsurancePlaceAndLane: null,//保險處所與車道有無有效區隔(含車道與人員動線安排)
       },
       part6: {
@@ -246,7 +246,7 @@ export default {
         waterMistExtinguishingInstall: '',//水霧滅火系統安裝於何處
         hasOtherExtinguishing: false,//是否有其他滅火系統
         otherExtinguishingRemark: '',//其他滅火系統備註
-        HasEquipmentTestAndTrain: null,//是否有設備測試及訓練,
+        hasEquipmentTestAndTrain: null,//是否有設備測試及訓練,
         hasNoSmokingControl: null,//是否有禁菸管制
         hasAlertSystem: null,//是否有監視或預警系統
         hasSwitchboardNormalState: null,//是否受信總機正常使用並有專人看守

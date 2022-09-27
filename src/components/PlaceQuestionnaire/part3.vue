@@ -131,11 +131,11 @@ export default {
         'canAccessBalcony',
         'hasFireproofMaterial',
         'hasCompartmentFireproofMaterial',
-        'HasSwimmingPoll',
-        'HasGym',
-        'HasBeach',
-        'HasPlayground',
-        'HasRestaurant'
+        'hasSwimmingPoll',
+        'hasGym',
+        'hasBeach',
+        'hasPlayground',
+        'hasRestaurant'
       ]
     }
   },

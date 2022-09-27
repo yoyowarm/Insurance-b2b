@@ -236,12 +236,12 @@ export default {
           hasEvacuationSign: null,//是否有疏散標示
           hasPersonnelControl: null,//是否有人員管制計畫
           hasEvacuationPlan: null,//是否有疏散計畫
-          HasUrgentLight: null,//是否有緊急照明設備
-          HasUrgentBroadcast: null,//是否有緊急廣播設備
-          HasSafetyDoor: null,//是否有安全門
-          HasEscapeTrunk: null,//是否有逃生梯
-          HasSmokeExhaust: null,//是否有煙霧排出設備
-          HasUrgentPower: null,//是否有緊急電源
+          hasUrgentLight: null,//是否有緊急照明設備
+          hasUrgentBroadcast: null,//是否有緊急廣播設備
+          hasSafetyDoor: null,//是否有安全門
+          hasEscapeTrunk: null,//是否有逃生梯
+          hasSmokeExhaust: null,//是否有煙霧排出設備
+          hasUrgentPower: null,//是否有緊急電源
           facility: [],//設施
         },
         part5: {
