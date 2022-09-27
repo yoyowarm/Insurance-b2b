@@ -43,11 +43,15 @@
           <span class="download ml-1">場所詢問表</span>
         </div>
       </div>
-      <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX>
+      <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX column3>
         <template v-for="(item,index) in questionnaireList.rows">
-          <div :slot="`operate-${index}`" :key="`operate-${index}`"  class="flex flex-col items-center mr-7 mt-1" >
+          <div :slot="`createTime-${index}`" :key="`createTime-${index}`" class="mr-7 mt-1">
+            <span v-if="windowWidth > 600">{{item.createTime.split('T')[0] +' '+ item.createTime.split('T')[1]}}</span>
+            <span v-else>{{item.createTime.split('T')[0]}}<br>{{item.createTime.split('T')[1]}}</span>
+          </div>
+          <div :slot="`operate-${index}`" :key="`operate-${index}`"  class="flex items-center mr-7 mt-1" :class="{'flex-col': windowWidth > 600, 'flex-row ml-2': windowWidth <= 600}">
               <span class="download mb-3" @click="downloadFile(item.serialNo,item.questionnaireType)">列印</span>
-              <span class="download mb-3" @click="getQuestionnaire(item.serialNo,item.questionnaireType)">更正</span>
+              <span class="download mb-3" :class="{'ml-5': windowWidth <= 600}" @click="getQuestionnaire(item.serialNo,item.questionnaireType)">更正</span>
           </div>
         </template>
       </TableGroup>
@@ -173,7 +177,7 @@ export default {
     }),
     slotArray () {
       const arr = []
-      const slotArr = [ 'operate']
+      const slotArr = [ 'createTime','operate']
       for (let i = 0; i < this.questionnaireList.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -203,7 +207,6 @@ export default {
       this.questionnaireList.rows = res.data.content.questionnaires.map(item => {
         return {
           ...item,
-          createTime: item.createTime.split('T')[0] + item.createTime.split('T')[1],
           rate: item.rate* 100 + '%',
           questionnaireType: item.questionnaireType === 1 ? '處所' : '活動'
         }
