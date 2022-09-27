@@ -339,13 +339,6 @@ export default {
     await this.getQuotationList()
     const data = await this.$store.dispatch('quotation/GetQuotationState')
     this.quotationState = data.data.content
-    let strings = this.token.split(".")
-    var userInfo = JSON.parse(decodeURIComponent(escape(window.atob(strings[1].replace(/-/g, "+").replace(/_/g, "/")))))
-    this.$store.dispatch('home/updatedUserInfo',userInfo)
-    this.$store.dispatch('activity/updatedQuestionnaire', {...this.$store.state.activity.questionnaire,userId:userInfo.userid})
-    this.$store.dispatch('place/updatedQuestionnaire', {...this.$store.state.place.questionnaire,userId:userInfo.userid})
-    this.$store.dispatch('questionnaire/updatedActivityQuestionnaire', {...this.$store.state.questionnaire.activityQuestionnaire,userId:userInfo.userid})
-    this.$store.dispatch('questionnaire/updatedPlaceQuestionnaire', {...this.$store.state.questionnaire.placeQuestionnaire,userId:userInfo.userid})
   }
 }
 </script>
