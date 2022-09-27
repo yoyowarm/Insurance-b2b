@@ -316,8 +316,8 @@ export default {
     insuranceAmountList: [//保險金額/自負額
       {
         amountType: {
-          Text: '依各縣市規定',
-          Value: '0',
+          Text: '自行輸入保額',
+          Value: '2',
         },
         perBodyAmount: '',
         perAccidentBodyAmount: '',
@@ -474,7 +474,37 @@ export default {
       commit('UPDATED_INDUSTRY_TEXT', quotation().industryText)
       commit('UPDATED_REMARK', quotation().remark)
       commit('UPDATED_QUESTIONNAIRE', quotation().activityQuestionnaire)
-      commit('UPDATED_INSURANCE_AMOUNT_LIST', quotation().insuranceAmountList)
+      commit('UPDATED_INSURANCE_AMOUNT_LIST', [//保險金額/自負額
+        {
+          amountType: {
+            Text: '自行輸入保額',
+            Value: '2',
+          },
+          perBodyAmount: '',
+          perAccidentBodyAmount: '',
+          perAccidentFinanceAmount: '',
+          insuranceTotalAmount: '',
+          mergeSingleAmount: '',
+          selfInflictedAmount: {
+            Text: '2,500元',
+            Value: '2500',
+          },
+          amount: null,
+          parameter: {
+            basicFee: '',
+            finalHC: '',
+            sizeParameter: '',
+            selfInflictedParameter: '',
+            shortPeriodParameter: '',
+            additionalCostParameter: '',
+            mutiSizeParameter: '',
+            additionTermCoefficientParameter: '',
+            aggAOACoefficient: '',
+            amount: '',
+            underwriteCoefficient: '0%',
+          }
+        }
+      ])
       commit('UPDATED_ADDITION_TERMS', quotation().additionTerms)
       commit('UPDATED_QUESTIONNAIRE_FINISHED', false)
       commit('UPDATED_ACTIVITY_QUOTATION', {})
