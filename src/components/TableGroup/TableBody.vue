@@ -23,7 +23,7 @@
           </template>
         </div>
         <div v-else class="item" :key="index">
-          <div class="" :class="{'column-2-wide' : column2}">
+          <div class="" :class="{'column-2-wide' : column2, 'column-3-wide': column3}">
             <template v-for="(headItem,headIndex) in head">
               <div :key="`${headItem.value}-${headIndex}`" >
                 <span class="text-gray-600 text-sm hidden">{{headItem.text}}</span>
@@ -83,6 +83,10 @@ export default {
       default: 'State'
     },
     column2: {
+      type: Boolean,
+      default: false
+    },
+    column3: {
       type: Boolean,
       default: false
     }

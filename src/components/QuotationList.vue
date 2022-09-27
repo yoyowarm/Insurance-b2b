@@ -14,7 +14,7 @@
           <span>保單編號{{tableData.rows[0].policyNo}}</span>
         </div>
       </div>
-      <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column2>
+      <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3>
         <template v-for="(item,index) in tableData.rows">
           <div
             class="mb-3 download"
