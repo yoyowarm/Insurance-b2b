@@ -183,7 +183,7 @@ export default {
     type: {
       type: String,
       default: ''
-    }
+    },
   },
   data() {
     return {
@@ -273,8 +273,16 @@ export default {
         FileSaver.saveAs(blob,  `要保書_${this.orderNo}.pdf`);
       } else if (type === 'questionnaire') {
         const res = await this.$store.dispatch(`common/GetQuestionnaireDocument`,{placeActivityType:this.type =='place'? 1: 2,orderNo: this.orderNo})
-        var blob2 = new Blob([res.data], {type: "application/octet-stream"});
-        FileSaver.saveAs(blob2, `${this.type =='place'?'處所': '活動'}詢問表_${this.orderNo}.pdf`);
+        if(res.data.size < 100) {
+          this.$emit('update:open',false)
+          Popup.create({
+            hasHtml: true,
+            htmlText: '詢問表尚未填寫',
+          })
+        } else {
+          var blob2 = new Blob([res.data], {type: "application/octet-stream"});
+          FileSaver.saveAs(blob2, `${this.type =='place'?'處所': '活動'}詢問表_${this.orderNo}.pdf`);
+        }
       } else {
         const res = await this.$store.dispatch(`common/${this.type == 'place' ? 'GetPlaceQuotationDocument' : 'GetActivityQuotationDocument'}`,this.orderNo)
         var blob1 = new Blob([res.data], {type: "application/octet-stream"});

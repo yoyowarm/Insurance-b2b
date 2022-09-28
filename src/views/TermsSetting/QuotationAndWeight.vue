@@ -1,8 +1,9 @@
 <template>
   <div>
-    <FormTitle title="另行報價和權重(數值大者優先) 條款設定" class="text-lg mb-14"/>
+    <FormTitle title="另行報價和權重(數值大者優先) 條款設定" class="text-lg"/>
     <CommonBoard class="category rotate">
       <NavMenu
+        v-if="false"
         class="menu"
         :itemLists="itemLists"
         :currentTag="currentTag"
@@ -161,7 +162,7 @@ export default {
 
 <style scoped lang="scss">
   .category {
-    margin-top: 40px;
+    margin-top: 20px;
     @apply  w-full relative
   }
   .menu {

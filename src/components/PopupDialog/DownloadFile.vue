@@ -46,6 +46,8 @@
 import Button from '@/components/Button'
 import { mapState } from 'vuex'
 import FileSaver from 'file-saver'
+import { Popup } from '@/utils/popups'
+
 export default {
   components: {
     Button,
@@ -82,7 +84,7 @@ export default {
     orderNo: {
       type: String,
       default: ''
-    },
+    }
   },
    data () {
     return {
@@ -116,8 +118,16 @@ export default {
         FileSaver.saveAs(blob1, `${this.item.type == 1 ?'處所': '活動'}報價單_${orderNo}.pdf`);
       } else if (type == 'questionnaire') {
         const res = await this.$store.dispatch(`common/GetQuestionnaireDocument`,{placeActivityType:quotationType,orderNo})
-        var blob2 = new Blob([res.data], {type: "application/octet-stream"});
-        FileSaver.saveAs(blob2, `${quotationType == 1 ?'處所': '活動'}詢問表_${orderNo}.pdf`);
+        if(res.data.size < 100) {
+          this.$emit('update:open',false)
+          Popup.create({
+            hasHtml: true,
+            htmlText: '詢問表尚未填寫',
+          })
+        } else {
+          var blob2 = new Blob([res.data], {type: "application/octet-stream"});
+          FileSaver.saveAs(blob2, `${quotationType == 1 ?'處所': '活動'}詢問表_${orderNo}.pdf`);
+        }
       }
     }
   }
