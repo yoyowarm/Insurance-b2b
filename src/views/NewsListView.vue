@@ -1,6 +1,12 @@
 <template>
   <CommonBoard class="w-full">
-    <TableGroup :data="newsListTable" @popup="popup"/>
+    <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray">
+      <template v-for="(item,index) in newsListTable.rows">
+          <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
+            <span @click="popup(item)" class="link">{{item.title}}</span>
+          </div>
+        </template>
+    </TableGroup>
     <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <WindowResizeListener @resize="handleResize"/>
@@ -53,7 +59,17 @@ export default {
       'loading': state => state.app.loading,
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
-    })
+    }),
+    newsSlotArray () {
+      const arr = []
+      const slotArr = ['title']
+      for (let i = 0; i < this.newsListTable.rows.length; i++) {
+        slotArr.map(item => {
+          arr.push(`${item}-${i}`)
+        })
+      }
+      return arr
+    }
   },
   watch: {
     async currentPage() {
@@ -70,7 +86,7 @@ export default {
       await this.getNews(page)
     },
     async getNews(page) {
-      const newsList = await this.$store.dispatch('news/GetNewsList', page ? page : this.currentPage)
+      const newsList = await this.$store.dispatch('news/GetNewsList', {skip: page ? (page-1)*10 : (this.currentPage-1)*10})
       this.$store.dispatch('app/updatedTotalPage',newsList.data.TotalPage)
       this.newsListTable.rows = newsList.data.content.news.map(i => {
         return {
@@ -81,14 +97,14 @@ export default {
       this.$store.dispatch('app/updatedCurrentPage',1)
       this.$store.dispatch('app/updatedTotalPage',Math.ceil(newsList.data.content.totalCount/10))
     },
-    popup(index) {
+    popup(item) {
       NewsPopup.create({
-        headerText: this.newsListTable.rows[index].Title,
+        headerText: item.title,
         hasHtml: true,
-        htmlText: `<div>${this.newsListTable.rows[index].Content}</div>`,
-        lanuchDate: this.newsListTable.rows[index].LanuchDate,
+        htmlText: `<div>${item.content}</div>`,
+        lanuchDate: item.lumchTime,
       })
-    }
+    },
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
@@ -98,5 +114,8 @@ export default {
 </script>
 
 <style scoped lang="postcss">
-  
+  .link {
+    color: #1076EE;
+    @apply cursor-pointer
+  }
 </style>

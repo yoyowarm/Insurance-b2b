@@ -15,6 +15,7 @@ import additionTermSetting from './additionTermSetting'
 import quotation from './quotation'
 import questionnaire from './questionnaire'
 import news from './news'
+import documentDownload from './documentDownload'
 
 Vue.use(Vuex)
 
@@ -94,7 +95,8 @@ export default new Vuex.Store({
     additionTermSetting,
     quotation,
     questionnaire,
-    news
+    news,
+    documentDownload
   },
   plugins: [vuexLocal.plugin]
 })

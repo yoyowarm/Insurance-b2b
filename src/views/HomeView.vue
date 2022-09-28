@@ -34,7 +34,13 @@
             </div>
           </DynamicLink>
       </template>
-      <TableGroup :data="newsListTable" @popup="popup"/>
+      <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray">
+        <template v-for="(item,index) in newsListTable.rows">
+          <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
+            <span @click="popup(item)" class="link">{{item.title}}</span>
+          </div>
+        </template>
+      </TableGroup>
     </CommonBoard>
       <DynamicLink type="router" path="/news/list" class="w-full mobile-more">
         <Button class="w-full mt-4 mb-6">
@@ -52,7 +58,13 @@
             </div>
           </DynamicLink>
         </template>
-        <TableGroup :data="productListTable" urlKey="ProductName"/>
+        <TableGroup :data="productListTable" urlKey="ProductName" :slotName="productSlotArray">
+          <template v-for="(item,index) in productListTable.rows">
+            <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
+              <span @click="downloadProduct(item)" class="link">{{item.title}}</span>
+            </div>
+          </template>
+        </TableGroup>
       </CommonBoard>
       <DynamicLink type="router" path="/product/list" class="mobile-more w-full mt-4 mb-6">
         <Button class="w-full">
@@ -93,6 +105,7 @@ import successIcon from '@/assets/images/checked_state.png'
 import warnIcon from '@/assets/images/after_effect_state.png'
 import { NewsPopup } from '@/utils/popups'
 import { mapState } from 'vuex'
+import FileSaver from 'file-saver'
 export default {
   name: 'TestView',
   components: {
@@ -124,17 +137,17 @@ export default {
         head: [
           {
             text: '發布日期',
-            value: 'LanuchDate',
-            size: '1-6'
+            value: 'lumchTime',
+            size: '2-6'
           },
           {
             text: '消息標題',
-            value: 'Title',
+            value: 'title',
             size: '2-6'
           },
           {
             text: '消息內文',
-            value: 'Content',
+            value: 'content',
             size: '3-6'
           },
         ],
@@ -143,15 +156,20 @@ export default {
       productListTable: {
         head: [
         {
-          text: '發布日期',
-          value: 'LaunchDate',
-          size: '2-6'
-        },
-        {
-          text: '商品名稱',
-          value: 'ProductName',
-          size: '5-6'
-        },
+            text: '發布日期',
+            value: 'createTime',
+            size: '1-6'
+          },
+          {
+            text: '類型',
+            value: 'categoryText',
+            size: '1-6'
+          },
+          {
+            text: '商品名稱',
+            value: 'title',
+            size: '3-6'
+          },
 
       ],
       rows: []
@@ -159,30 +177,37 @@ export default {
       quotationListTable: {
         head: [
           {
-            text: '報價日期',
-            value: 'CreateDate',
+            text: '建立日期',
+            value: 'quotationDate',
             size: '2-6'
           },
           {
             text: '狀態',
-            value: 'State',
-            size: '2-6'
+            value: 'stateText',
+            size: '1-6'
           },
           {
-            text: '報價單編號',
-            value: 'SerialNo',
+            text: '關聯號',
+            value: 'mainOrderNo',
             size: '3-6'
           },
           {
-            text: '要保人',
-            value: 'ApplicantName',
-            size: '1-6'
+            text: '被保險人',
+            value: 'insuredName',
+            size: '2-6'
           },
 
         ],
         rows: []
       },
-      state: []
+      state: [],
+      stateText: {
+        1: '待核保',
+        7: '已核保',
+        8: '完成報價',
+        9: '已出單',
+        99: '取消'
+      },
     }
   },
   computed: {
@@ -190,46 +215,94 @@ export default {
       'loading': state => state.app.loading,
       'token': state => state.home.token,
       'userInfo': state => state.home.userInfo,
-    })
+    }),
+    productSlotArray () {
+      const arr = []
+      const slotArr = ['title']
+      for (let i = 0; i < this.productListTable.rows.length; i++) {
+        slotArr.map(item => {
+          arr.push(`${item}-${i}`)
+        })
+      }
+      return arr
+    },
+    newsSlotArray () {
+      const arr = []
+      const slotArr = ['title']
+      for (let i = 0; i < this.newsListTable.rows.length; i++) {
+        slotArr.map(item => {
+          arr.push(`${item}-${i}`)
+        })
+      }
+      return arr
+    }
   },
   methods: {
-    popup(id) {
+    popup(item) {
       NewsPopup.create({
-        headerText: this.newsListTable.rows[id].Title,
+        headerText: item.title,
         hasHtml: true,
-        htmlText: `<div>${this.newsListTable.rows[id].Content}</div>`,
-        lanuchDate: this.newsListTable.rows[id].LanuchDate,
+        htmlText: `<div>${item.content}</div>`,
+        lanuchDate: item.lumchTime,
       })
     },
     async getTop3Quotation() {
-      const quotation = await this.$store.dispatch('quotation/quotationForTop3', this.userInfo.UserId)
-      this.quotationListTable.rows = quotation.data
-      this.quotationListTable.rows.map(item => {
-        if(item.State === '十五天內生效') {
-          item.class = 'text-warn'
-        }
-        if(item.State === '已核保') {
-          item.class = 'text-success'
-        }
-        if(item.State === '未核保') {
-          item.class = 'text-fail'
+      const data = {
+        Skip: 0,
+        Take: 3,
+        QuotationListState: '',
+        Type: '',
+        ApplicantName: '',
+      }
+      const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
+      this.quotationListTable.rows = quotationList.data.content.quotations.map(item => {
+        return {
+          ...item,
+          serialNo: item.serialNo.toString(),
+          quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
+          typeText: item.type === 1 ? '處所' : item.type === 2 ? '活動' : '',
+          stateText: this.stateText[item.policyStatus]
         }
       })
     },
     async getTop3top3Products() {
-      const products = await this.$store.dispatch('product/top3Products')
-      this.productListTable.rows = products.data
+       const data = {
+        take: 3,
+        skip: 0,
+        categoryId:1,
+      }
+      const productList = await this.$store.dispatch('documentDownload/GetDocumentSettings', data)
+      this.productListTable.rows = productList.data.content.documents.map(item => {
+        return {
+          ...item,
+          createTime: item.createTime.split('T')[0] + ' ' + item.createTime.split('T')[1].split('.')[0],
+          categoryText: '基本條款',
+        }
+      })
     },
     async getTop3News() {
-      const news = await this.$store.dispatch('news/top3News')
-      this.newsListTable.rows = news.data
+      const newsList = await this.$store.dispatch('news/GetNewsList', {skip:0, take:3})
+      this.newsListTable.rows = newsList.data.content.news.map(i => {
+        return {
+          ...i,
+          lumchTime: i.lumchTime.split('T')[0] + ' ' + i.lumchTime.split('T')[1].split('.')[0]
+        }
+      })
     },
     async getAllState() {
       const state = await this.$store.dispatch('resource/AllState', {SalesLayer: this.userInfo.salesLayer, UserId: this.userInfo.UserId})
       this.state = state.data
+    },
+    async downloadProduct(item) {
+      const res = await this.$store.dispatch('documentDownload/DownloadDocument', item.id)
+      var blob1 = new Blob([res.data], {type: "application/octet-stream"});
+      FileSaver.saveAs(blob1, `${item.fileName}`);
     }
   },
   async mounted () {
+    await this.getTop3News()
+    await this.getTop3top3Products()
+    await this.getTop3Quotation()
     let params = (new URL(document.location)).searchParams
      const key = params.get("k");
     if (key || this.token) {
@@ -257,6 +330,10 @@ export default {
 </script>
 
 <style scoped lang="postcss">
+.link {
+    color: #1076EE;
+    @apply cursor-pointer
+  }
   .dashboardGroup {
     @apply flex w-full mb-7 relative
   }

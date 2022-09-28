@@ -6,11 +6,15 @@
       :currentTag="currentTag"
       @updatedMenu="(e) => currentTag = e"
       rotate
+      bigItem
     />
-    <div class="flex w-full">
-      <TableGroup class="w-full lg:w-1/2 lg:pr-2.5" :data="leftTableData"/>
-      <TableGroup v-if="rightTableData.rows.length > 0" class="w-full lg:w-1/2 lg:pl-2.5" :data="rightTableData"/>
-    </div>
+    <TableGroup :data="productListTable" :slotName="slotArray">
+      <template v-for="(item,index) in productListTable.rows">
+        <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
+          <span @click="download(item)" class="link">{{item.title}}</span>
+        </div>
+      </template>
+    </TableGroup>
     <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <WindowResizeListener @resize="handleResize"/>
@@ -25,6 +29,8 @@ import LoadingScreen from '@/components/LoadingScreen.vue'
 import NavMenu from '@/components/NavMenu'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
+import FileSaver from 'file-saver'
+
 export default {
   components:{
     CommonBoard,
@@ -41,30 +47,24 @@ export default {
         head: [
           {
             text: '發布日期',
-            value: 'LaunchDate',
-            size: '2-6'
+            value: 'createTime',
+            size: '1-6'
           },
           {
             text: '類型',
-            value: 'Type',
+            value: 'categoryText',
             size: '1-6'
           },
           {
             text: '商品名稱',
-            value: 'Name',
+            value: 'title',
             size: '3-6'
           },
         ],
         rows: []
       },
-      currentTag: 0,
+      currentTag: 1,
       itemLists:[
-        { text: '全部商品', value: 0 },
-        { text: '商品 DM', value: 1 },
-        { text: '要保書', value: 2 },
-        { text: '保單條款', value: 3 },
-        { text: '申請書', value: 4 },
-        { text: '其他', value: 5 },
       ],
     }
   },
@@ -74,19 +74,25 @@ export default {
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
     }),
-    leftTableData() {
-      return {head: this.productListTable.head, rows: this.productListTable.rows.slice(0,9).sort((a,b) => new Date(a.LaunchDate) - new Date(b.LaunchDate))}
-    },
-    rightTableData() {
-      return {head: this.productListTable.head, rows: this.productListTable.rows.slice(9,18).sort((a,b) => new Date(a.LaunchDate) - new Date(b.LaunchDate))}
-    },
+    slotArray () {
+      const arr = []
+      const slotArr = ['title']
+      for (let i = 0; i < this.productListTable.rows.length; i++) {
+        slotArr.map(item => {
+          arr.push(`${item}-${i}`)
+        })
+      }
+      return arr
+    }
   },
   watch: {
-    async currentTag() {
-      await this.getProducts()
+    async currentTag(e) {
+      await this.getProducts('',e)
     },
-    async currentPage() {
-      await this.getProducts()
+    async currentPage(page) {
+      if(this.currentPage === page || page < 1) return
+      this.$store.dispatch('app/updatedCurrentPage',page)
+      await this.getProducts(page)
     },
   },
   methods: {
@@ -98,27 +104,39 @@ export default {
       this.$store.dispatch('app/updatedCurrentPage',page)
       await this.getProducts()
     },
-    async getProducts() {
-      this.productListTable.rows = []
-      const data = {
-        Page: this.currentPage,
-        PageSize: 18,
-        Condictions: {
-          productCategory: this.currentTag
-        }
-      }
-      const productList = await this.$store.dispatch('product/productsByGroup', data)
-      this.$store.dispatch('app/updatedTotalPage',productList.data.totalPage)
-      productList.data.data.map(item => {
-        item.ProductNameAndUrl.map(i => {
-          this.productListTable.rows.push(i)
-        })
+    async getCategories() {
+      const res = await this.$store.dispatch('documentDownload/GetCategories')
+      this.itemLists = res.data.content.map(i => {
+        return {text: i.name, value: i.id}
       })
+    },
+    async getProducts(page, tag) {
+      const data = {
+        take: 10,
+        skip: page ? (page-1)*10 : (this.currentPage-1)*10,
+        categoryId:tag ? tag :this.currentTag,
+      }
+      const productList = await this.$store.dispatch('documentDownload/GetDocumentSettings', data)
+      this.$store.dispatch('app/updatedCurrentPage',1)
+      this.$store.dispatch('app/updatedTotalPage',Math.ceil(productList.data.content.totalCount/10))
+      this.productListTable.rows = productList.data.content.documents.map(item => {
+        return {
+          ...item,
+          createTime: item.createTime.split('T')[0] + ' ' + item.createTime.split('T')[1].split('.')[0],
+          categoryText: this.itemLists.find(i => i.value === item.categoryId).text,
+        }
+      })
+    },
+    async download(item) {
+      const res = await this.$store.dispatch('documentDownload/DownloadDocument', item.id)
+      var blob1 = new Blob([res.data], {type: "application/octet-stream"});
+      FileSaver.saveAs(blob1, `${item.fileName}`);
     }
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
-    await this.getProducts()
+    await this.getCategories()
+    await this.getProducts('',1)
   }
 }
 </script>
@@ -131,6 +149,10 @@ export default {
   .menu {
     top: -39px;
     @apply absolute
+  }
+  .link {
+    color: #1076EE;
+    @apply cursor-pointer
   }
 @media screen and (max-width: 600px) {
   .product-list.rotate {
