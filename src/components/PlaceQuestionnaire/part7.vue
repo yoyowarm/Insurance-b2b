@@ -290,7 +290,8 @@ export default {
         'hasAlertSystem',
         'hasSwitchboardNormalState',
         'hasCleaner',
-        'hasClutterAtAisle'
+        'hasClutterAtAisle',
+        'hasSprinkler'
       ]
       if(type.includes('.')) {
         let arr = type.split('.')
