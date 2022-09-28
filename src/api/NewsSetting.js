@@ -13,5 +13,5 @@ export const UpdateNews = (data) => {//修改最新消息
     return request('put', `/NewsSetting/UpdateNews`, data)
 }
 export const DeleteNews = (id) => {//刪除最新消息
-    return request('delete', `/NewsSetting/DeleteNews`, { id })
+    return request('delete', `/NewsSetting/DeleteNews?id=${id}`)
 }

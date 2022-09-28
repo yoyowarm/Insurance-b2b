@@ -19,7 +19,7 @@ export const UpdateDocument = (id, CategoryId, Title, Sort, data) => {//修改�
     return request('put', `/DocumentDownloadSetting/UpdateDocument?id=${id}&CategoryId=${CategoryId}&Title=${Title}&Sort=${Sort}`, data)
 }
 export const DeleteDocument = (id) => {//刪除文件
-    return request('delete', `/DocumentDownloadSetting/DeleteDocument`, { id })
+    return request('delete', `/DocumentDownloadSetting/DeleteDocument?id=${id}`)
 }
 
 

@@ -74,7 +74,7 @@ export default {
   }
   .dialog {
     position: fixed;
-    top: 20%;
+    top: 5%;
     left: 0;
     right:0;
     margin: 0 auto;
@@ -102,7 +102,7 @@ export default {
     }
     .body {
       overflow: scroll;
-      max-height: 60vh;
+      max-height: 80vh;
       @apply  p-6
     }
   }

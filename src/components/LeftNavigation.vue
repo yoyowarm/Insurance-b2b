@@ -66,7 +66,7 @@
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
-        <div v-show="(windowWidth >770 && showCategory) || (windowWidth <=770 && path.includes('parameterSetting'))" class="fixed-menu md:pl-0 md:items-center" >
+        <div v-show="(windowWidth >770 && showCategory) || (windowWidth <=770 && path.includes('parameterSetting'))" class="fixed-menu md:pl-0 md:items-center" style="height: 200px;margin-top:90px">
           <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
           </DynamicLink>
@@ -78,6 +78,12 @@
           </DynamicLink>
           <DynamicLink v-if="permissions.includes('QuoteInsuranceAmount')" type="router" path="/parameterSetting/quote-separately" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/quote-separately'}">另行報價保額</span>
+          </DynamicLink>
+          <DynamicLink type="router" path="/parameterSetting/news-setting" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/news-setting'}">最新消息設定</span>
+          </DynamicLink>
+          <DynamicLink type="router" path="/parameterSetting/document-download-setting" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/document-download-setting'}">文件下載設定</span>
           </DynamicLink>
         </div>
       </div>

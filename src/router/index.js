@@ -160,6 +160,16 @@ const routes = [
         path: '/parameterSetting/quote-separately',
         name: 'parameterSetting-quoteSeparately',
         component: () => import(/* webpackChunkName: "about" */ '../views/ParameterSetting/QuoteSeparately.vue')
+      },
+      {
+        path: '/parameterSetting/news-setting',
+        name: 'parameterSetting-news-setting',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ParameterSetting/NewsSetting.vue')
+      },
+      {
+        path: '/parameterSetting/document-download-setting',
+        name: 'parameterSetting-document-download-setting',
+        component: () => import(/* webpackChunkName: "about" */ '../views/ParameterSetting/DocumentDownloadSetting.vue')
       }
     ]
   },
@@ -196,7 +206,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const whitelist = ['/', '/news/list', '/product/list', '/questionnaire-management']
+  const whitelist = ['/', '/news/list', '/product/list', '/questionnaire-management', '/parameterSetting/news-setting', '/parameterSetting/document-download-setting']
   // if (to.path === '/place-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
   //   next({ name: 'quotationList' })
   // }
