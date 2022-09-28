@@ -46,8 +46,8 @@ export default {
                 Text: this.quotationData.questionnaire.part2.securityCheck,
                 Value: this.quotationData.questionnaire.part2.securityCheck,
               } : { Text: '選擇性質', Value: '' },
-              room: this.quotationData.questionnaire.part2.room ? this.quotationData.questionnaire.part2.room : { selected: false, value: '' },
-              seat: this.quotationData.questionnaire.part2.seat ? this.quotationData.questionnaire.part2.seat : { selected: false, value: '' },
+              room: this.quotationData.questionnaire.part2.room && this.quotationData.questionnaire.part2.room.selected ? { selected: true, value: this.quotationData.questionnaire.part2.room.roomAmount } : { selected: false, value: '' },
+              seat: this.quotationData.questionnaire.part2.seat && this.quotationData.questionnaire.part2.seat.selected ? { selected: true, value: this.quotationData.questionnaire.part2.seat.seatAmount } : { selected: false, value: '' },
             }
           }
         } else {
@@ -74,7 +74,6 @@ export default {
     },
     AssignQuestionnaireToManagement(data, type) {
       let copyData = JSON.parse(JSON.stringify(data))
-      console.log(copyData)
       if (type === 'place') {
         copyData = {
           ...copyData,
