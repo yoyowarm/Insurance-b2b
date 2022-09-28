@@ -169,8 +169,8 @@
     </div>
     <div class="w-full flex flex-row mt-4">
         <div class="flex flex-row justify-between">
-          <RadioInput text="是" id="sprinkler" :value="data.part7.sprinkler === true" @updateValue="updateValue(true, 'sprinkler')"/>
-          <RadioInput class="mx-2" text="否" id="sprinkle2" :value="data.part7.sprinkler === false" @updateValue="updateValue(false, 'sprinkler')"/>
+          <RadioInput text="是" id="hasSprinkler" :value="data.part7.hasSprinkler === true" @updateValue="updateValue(true, 'hasSprinkler')"/>
+          <RadioInput class="mx-2" text="否" id="sprinkle2" :value="data.part7.hasSprinkler === false" @updateValue="updateValue(false, 'hasSprinkler')"/>
       </div>
       <div class=" text-lg">是否有自動灑水系統</div>
     </div>
