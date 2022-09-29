@@ -1,7 +1,7 @@
 <template>
 <div>
   <FormTitle title="文件下載設定" class="text-lg"/>
-  <CommonBoard class="product-list rotate">
+  <CommonBoard class="product-list">
     <div class="column-5 sm:mb-4">
       <div class="col-start-5 flex justify-end">
         <Button class="sm:mr-2 w-full sm:w-32" @click.native="callDialog(0,'新增文件','新增文件')" outline>新增</Button>
@@ -51,12 +51,12 @@
           <Input slot="input" numberOnly placeholder="請輸入排序" :value="currentItem.sort" @updateValue="e => currentItem.sort = e"/>
         </InputGroup>
         <InputGroup class="col-span-2" title="上傳儻案">
-        <dir slot="input">
+        <div slot="input">
           <label for="aa" class="text-gray-400 pl-4 text-lg w-full cursor-pointer">
-          上傳檔案
+          {{currentItem.fileName}}
         </label>
           <input id="aa" type="file" name="fileUpload"  accept=".csv,.pdf,.xls,.txt,.doc" class="w-full" @change="newFile">
-        </dir>
+        </div>
         </InputGroup>
       </div>
     </div>
@@ -76,7 +76,6 @@ import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
 import { mapState } from 'vuex'
-import FileSaver from 'file-saver'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 
 export default {
@@ -104,8 +103,9 @@ export default {
       },
       currentItem: {
         categoryId: '1',
-        fileName: '',
+        fileName: '上傳檔案',
       },
+      file: null,
       productListTable: {
         head: [
           {
@@ -172,7 +172,7 @@ export default {
       this.currentItem = item
       this.currentItem = {
         categoryId: '1',
-        fileName: '',
+        fileName: '上傳檔案',
       }
       if(item)this.currentItem = JSON.parse(JSON.stringify(item))
       if(okText) this.dialog.okText = okText
@@ -181,13 +181,33 @@ export default {
       this.openDialog = false
       this.currentItem = {}
     },
+    async newFile(e) {
+      this.currentItem.fileName = e.target.files[0].name
+      this.file = e.target.files[0]
+    },
     async confirmDialog() {
+      const data = {
+          CategoryId: this.currentItem.categoryId,
+          Title: this.currentItem.title,
+          Sort: this.currentItem.sort,
+      }
+      if (this.dialog.type == 0) {
+        data.file = this.file
+        await this.$store.dispatch('documentDownload/AddDocument',data)
+      }
+      if (this.dialog.type == 1) {
+        data.id = this.currentItem.id
+        if (this.file) data.file = this.file
+        console.log(this.file)
+        await this.$store.dispatch('documentDownload/UpdateDocument',data)
+      }
       if (this.dialog.type == 2) {
         await this.$store.dispatch('documentDownload/DeleteDocument', this.currentItem.id)
       }
       await this.getProducts(this.currentPage)
       this.openDialog = false
       this.currentItem = {}
+      this.file = null
     },
     async changePage(page) {
       if(this.currentPage === page || page < 1) return
@@ -216,11 +236,6 @@ export default {
         }
       })
     },
-    async download(item) {
-      const res = await this.$store.dispatch('documentDownload/DownloadDocument', item.id)
-      var blob1 = new Blob([res.data], {type: "application/octet-stream"});
-      FileSaver.saveAs(blob1, `${item.fileName}`);
-    }
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
