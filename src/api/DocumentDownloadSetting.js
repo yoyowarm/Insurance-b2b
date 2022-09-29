@@ -12,11 +12,11 @@ export const GetCategories = () => {//取得文件類型清單
 export const DownloadDocument = (id) => {//下載文件
     return request('get', `/DocumentDownloadSetting/DownloadDocument`, { id }, { responseType: 'blob' })
 }
-export const AddDocument = (CategoryId, Title, Sort, data) => {//新增文件
-    return request('post', `/DocumentDownloadSetting/AddDocument?CategoryId=${CategoryId}&Title=${Title}&Sort=${Sort}`, data)
+export const AddDocument = (CategoryId, Title, Sort, file) => {//新增文件
+    return request('post', `/DocumentDownloadSetting/AddDocument?CategoryId=${CategoryId}&Title=${Title}&Sort=${Sort}`, { file }, { 'Content-Type': 'multipart/form-data' })
 }
-export const UpdateDocument = (id, CategoryId, Title, Sort, data) => {//修改文件
-    return request('put', `/DocumentDownloadSetting/UpdateDocument?id=${id}&CategoryId=${CategoryId}&Title=${Title}&Sort=${Sort}`, data)
+export const UpdateDocument = (id, CategoryId, Title, Sort, file) => {//修改文件
+    return request('put', `/DocumentDownloadSetting/UpdateDocument?id=${id}&CategoryId=${CategoryId}&Title=${Title}&Sort=${Sort}`, { file }, { 'Content-Type': 'multipart/form-data' })
 }
 export const DeleteDocument = (id) => {//刪除文件
     return request('delete', `/DocumentDownloadSetting/DeleteDocument?id=${id}`)

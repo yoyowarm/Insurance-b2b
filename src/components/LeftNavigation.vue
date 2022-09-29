@@ -61,12 +61,12 @@
       </div>
     </DynamicLink>
     <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting') || permissions.includes('CountyMinimumSetting') || permissions.includes('BasicPremium') || permissions.includes('QuoteInsuranceAmount')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)" >
-      <div @mouseover="showCategory = true" @mouseout="showCategory = false" class="nav-item sub-pages relative" :class="{'active': path.includes('parameterSetting'),'h180': (windowWidth <=770 && path.includes('parameterSetting'))}">
+      <div @mouseover="showCategory = true" @mouseout="showCategory = false" class="nav-item parameterSetting-menu sub-pages relative" :class="{'active': path.includes('parameterSetting'),'h180': (windowWidth <=770 && path.includes('parameterSetting'))}">
         <div class="flex flex-row items-center md:flex-col" ref="parameterSetting">
           <div class="icon parameterSetting"/>
           <span class="text-white text-lg font-bold">參數設定</span>
         </div>
-        <div v-show="(windowWidth >770 && showCategory) || (windowWidth <=770 && path.includes('parameterSetting'))" class="fixed-menu md:pl-0 md:items-center" style="height: 200px;margin-top:90px">
+        <div v-show="(windowWidth >770 && showCategory) || (windowWidth <=770 && path.includes('parameterSetting'))" class="fixed-menu md:pl-0 md:items-center">
           <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
           </DynamicLink>
@@ -292,8 +292,11 @@ export default {
         font-size: 14px!important;
       }
     }
-    // &.active 
   }
+  .parameterSetting-menu .fixed-menu {
+      height: 200px;
+      margin-top:90px
+    }
   
   @media screen and (max-width: 770px) {
     .left-nav {
@@ -407,7 +410,11 @@ export default {
       .fixed-menu {
         width: auto;
         height: auto;
-        @apply relative flex flex-col left-0 mt-0 shadow-none pl-0 items-center text-base
+        @apply relative flex flex-col left-0 mt-0 shadow-none pl-0 items-center text-base;
+        &.parameterSetting-menu {
+          height: 200px;
+          margin-top:90px
+        }
       }
       &.active .fixed-menu {
         background-color: #B3112C;
@@ -415,6 +422,9 @@ export default {
         height: auto;
         @apply flex flex-col justify-center mt-0 items-start shadow-none pl-4 text-xl rounded-none
       }
+    }
+    .nav-item.parameterSetting-menu {
+      height: 230px;
     }
     .left-nav.open {
       @apply left-0

@@ -27,11 +27,12 @@ export default {
     async DownloadDocument(_, id) {
       return await DownloadDocument(id)
     },
-    async AddDocument(_, { CategoryId, Title, Sort, data }) {
-      return await AddDocument(CategoryId, Title, Sort, data)
+    async AddDocument(_, { CategoryId, Title, Sort, file }) {
+      console.log(CategoryId, Title, Sort, file)
+      return await AddDocument(CategoryId, Title, Sort, file)
     },
-    async UpdateDocument(_, { id, CategoryId, Title, Sort, data }) {
-      return await UpdateDocument(id, CategoryId, Title, Sort, data)
+    async UpdateDocument(_, { id, CategoryId, Title, Sort, file }) {
+      return await UpdateDocument(id, CategoryId, Title, Sort, file)
     },
     async DeleteDocument(_, id) {
       return await DeleteDocument(id)
