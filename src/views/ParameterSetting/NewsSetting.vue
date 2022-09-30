@@ -44,9 +44,6 @@
         <InputGroup class="col-span-2" title="前台排序">
           <Input slot="input" numberOnly placeholder="請輸入排序" :value="currentItem.sort" @updateValue="e => currentItem.sort = e"/>
         </InputGroup>
-        <InputGroup class="col-span-2" title="公布對象">
-          <Select slot="input" defaultText="選擇公佈對象" :options="audienceTypeOptions" :selected="currentItem.audienceType" @emitItem="e => currentItem.audienceType = e.Value"/>
-        </InputGroup>
       </div>
       <div class="column-4 mt-5">
         <InputGroup class="col-span-2" title="開始時間">
@@ -290,7 +287,7 @@ export default {
             minutes: new Date().getMinutes()
           }
           this.endDate = {
-            year: new Date().getFullYear()-1911,
+            year: (new Date().getFullYear()-1910),
             month: new Date().getMonth()+1,
             day: new Date().getDate(),
             hours: new Date().getHours(),
@@ -309,7 +306,7 @@ export default {
         content: this.currentItem.content,
         lumchTime: `${Number(this.startDate.year)+1911}-${this.startDate.month}-${this.startDate.day} ${this.startDate.hours}:${this.startDate.minutes}`,
         offTime: `${Number(this.endDate.year)+1911}-${this.endDate.month}-${this.endDate.day} ${this.endDate.hours}:${this.endDate.minutes}`,
-        audienceType: this.currentItem.audienceType,
+        audienceType: 0,
         isEnable: this.currentItem.isEnable,
         sort: this.currentItem.sort
       }
