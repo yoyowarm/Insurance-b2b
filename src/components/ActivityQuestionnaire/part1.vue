@@ -245,16 +245,30 @@ export default {
   methods: {
     updateValue(e,type) {
       const arr = ['isWaterArea','hasStage','hasWaterPool']
-      this.$emit('update:data',{
-        ...this.data,
-        sheet1: {
-          ...this.data.sheet1,
-          part1: {
-            ...this.data.sheet1.part1,
-            [type]: arr.includes(type) && e === this.data.sheet1.part1[type] ? null : e
+      if(!e && type =='isWaterArea') {
+        this.$emit('update:data', {
+          ...this.data,
+          sheet1: {
+            ...this.data.sheet1,
+            part1: {
+              ...this.data.sheet1.part1,
+              lifeguardDeploy: '',
+              [type]: e === this.data.sheet1.part1[type] ? null : e
+            }
           }
-        }
-      })
+        })
+      } else {
+        this.$emit('update:data',{
+          ...this.data,
+          sheet1: {
+            ...this.data.sheet1,
+            part1: {
+              ...this.data.sheet1.part1,
+              [type]: arr.includes(type) && e === this.data.sheet1.part1[type] ? null : e
+            }
+          }
+        })
+      }
     },
     emitSelectItem(key,childKey, value) {
       const obj = {

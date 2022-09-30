@@ -38,13 +38,24 @@ export default {
   },
   methods: {
     updateValue(e,type) {
-      this.$emit('update:data',{
-        ...this.data,
-        part9: {
-          ...this.data.part9,
-          [type]: type === 'hasLossHistoryBeforeFiveYear' && e === this.data.part9[type] ? null : e
-        }
-      })
+      if(!e && type == 'hasLossHistoryBeforeFiveYear') {
+        this.$emit('update:data', {
+          ...this.data,
+          part9: {
+            ...this.data.part9,
+            [type]: e === this.data.part9[type],
+            lostAmountFrequencyReason: ''
+          }
+        })
+      } else {
+        this.$emit('update:data',{
+          ...this.data,
+          part9: {
+            ...this.data.part9,
+            [type]: type === 'hasLossHistoryBeforeFiveYear' && e === this.data.part9[type] ? null : e
+          }
+        })
+      }
     },
   }
 }

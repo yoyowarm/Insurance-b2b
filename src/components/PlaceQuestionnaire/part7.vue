@@ -158,11 +158,12 @@
         :value="data.part7.hasOtherExtinguishing"
         @updateValue="(e) =>updateValue(e,'hasOtherExtinguishing')"
       />
-      <InputGroup noMt class="ml-0 sm:ml-4 w-full sm:w-9/12">
+      <InputGroup noMt class="ml-0 sm:ml-4 w-full sm:w-9/12" :disable="!data.part7.hasOtherExtinguishing">
         <Input
           slot="input"
           placeholder="輸入內容"
           :value="data.part7.otherExtinguishingRemark"
+          :disable="!data.part7.hasOtherExtinguishing"
           @updateValue="(e) => updateValue(e,'otherExtinguishingRemark')"
         />
       </InputGroup>
@@ -300,13 +301,33 @@ export default {
         const part7 = {...this.data.part7, [arr[0]]: obj2}
         this.$emit('update:data',{...this.data, part7})
       } else {
-        this.$emit('update:data',{
-        ...this.data,
-        part7: {
-          ...this.data.part7,
-          [type]: arr.includes(type) && e === this.data.part7[type] ? null : e
+        if(!e && type == 'hasFireHydrant') {
+          this.$emit('update:data', {...this.data, part7: {...this.data.part7, hasFireHydrant: e, hydrantIndoorAmount: '', hydrantOutdoorAmount: ''}})
+        } else if (!e && type == 'fireExtinguisher') {
+          this.$emit('update:data', {...this.data, part7: {...this.data.part7,
+            fireExtinguisher: e,
+            abc: {indoor: '', outdoor: ''},
+            carbonDioxide: {indoor: '', outdoor: ''},
+            foam: {indoor: '', outdoor: ''},
+            halon: {indoor: '', outdoor: ''},
+        }})
+        } else if(!e && type == 'hasOtherExtinguishing') {
+          this.$emit('update:data', {...this.data, part7: {...this.data.part7, hasOtherExtinguishing: e, otherExtinguishingRemark: ''}})
+        } else if (!e && type == 'hasGasExtinguishing') {
+          this.$emit('update:data', {...this.data, part7: {...this.data.part7, hasGasExtinguishing: e === this.data.part7[type] ? null : e, gasExtinguishingInstall: ''}})
+        } else if (!e && type == 'hasFoamExtinguishing') {
+          this.$emit('update:data', {...this.data, part7: {...this.data.part7, hasFoamExtinguishing: e === this.data.part7[type] ? null : e, foamExtinguishingInstall: ''}})
+        } else if (!e && type == 'hasWaterMistExtinguishing') {
+          this.$emit('update:data', {...this.data, part7: {...this.data.part7, hasWaterMistExtinguishing: e === this.data.part7[type] ? null : e, waterMistExtinguishingInstall: ''}})
+        }else {
+          this.$emit('update:data',{
+          ...this.data,
+          part7: {
+            ...this.data.part7,
+            [type]: arr.includes(type) && e === this.data.part7[type] ? null : e
+          }
+        })
         }
-      })
       }
     },
   },

@@ -230,16 +230,27 @@ export default {
         'hasErectFireDevice',
         'hasNoSmokingControl',
         'hasAlertSystem']
-      this.$emit('update:data',{
-        ...this.data,
-        sheet1: {
-          ...this.data.sheet1,
-          part5: {
-            ...this.data.sheet1.part5,
-            [type]: arr.includes(type) && e === this.data.sheet1.part5[type] ? null : e
+      if(!e && type == 'hasFireHydrant') {
+        this.$emit('update:data',{...this.data,sheet1: {...this.data.sheet1,part5: {...this.data.sheet1.part5,[type]: e,hydrantIndoorAmount: '',hydrantOutdoorAmount: '',}}})
+      } else if (!e && type == 'fireExtinguisher') {
+        this.$emit('update:data',{...this.data,sheet1: {...this.data.sheet1,part5: {...this.data.sheet1.part5,[type]: e,abc: {indoor: '', outdoor: ''},
+            carbonDioxide: {indoor: '', outdoor: ''},
+            foam: {indoor: '', outdoor: ''},
+            halon: {indoor: '', outdoor: ''},}}})
+      } else if (!e && type == 'hasOtherExtinguishing') {
+        this.$emit('update:data', {...this.data, sheet1: {...this.data.sheet1, part5: {...this.data.sheet1.part5, [type]: e, otherExtinguishingRemark: ''}}})
+      } else {
+        this.$emit('update:data',{
+          ...this.data,
+          sheet1: {
+            ...this.data.sheet1,
+            part5: {
+              ...this.data.sheet1.part5,
+              [type]: arr.includes(type) && e === this.data.sheet1.part5[type] ? null : e
+            }
           }
-        }
-      })
+        })
+      }
     },
     emitSelectItem(key,childKey, value) {
       const obj = {

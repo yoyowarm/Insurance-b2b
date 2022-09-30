@@ -135,9 +135,10 @@
         />
     </div>
     <div class="column-5 mt-3 ml-8">
-      <InputGroup lgTitle title="被保險人之經營業務性質" mid class="mb-8 sm:mb-0" >
+      <InputGroup lgTitle title="被保險人之經營業務性質" mid class="mb-8 sm:mb-0" :border0="!data.part2.room.selected">
         <Input
           slot="input"
+          class="w-full"
           :value="data.part2.room.value"
           :disable="!data.part2.room.selected"
           @updateValue="(e) => updateValue(e,'room.value')"
@@ -156,9 +157,10 @@
       </InputGroup>
     </div>
     <div class="column-5 mb-3 ml-8">
-      <InputGroup noMt mid class="mb-8 sm:mb-0">
+      <InputGroup noMt mid class="mb-8 sm:mb-0" :border0="!data.part2.seat.selected">
         <Input
           slot="input"
+          class="w-full"
           :value="data.part2.seat.value"
           :disable="!data.part2.seat.selected"
           @updateValue="(e) => updateValue(e,'seat.value')"
@@ -320,15 +322,25 @@ export default {
         const obj = Object.assign({}, {[arr[1]]: e})
         const obj2 = {...this.data.part2[arr[0]], ...obj}
         const part2 = {...this.data.part2, [arr[0]]: obj2}
-        this.$emit('update:data',{...this.data, part2})
+        if(!e && type == 'seat.selected') {
+          this.$emit('update:data', {...this.data, part2:{...this.data.part2, seat: {selected: e, value: ''}}})
+        } else if (!e && type == 'room.selected') {
+          this.$emit('update:data', {...this.data, part2:{...this.data.part2, room: {selected: e, value: ''}}})
+        } else {
+          this.$emit('update:data',{...this.data, part2})
+        }
       } else {
-        this.$emit('update:data',{
-          ...this.data,
-          part2: {
-            ...this.data.part2,
-            [type]: arr.includes(type) && e === this.data.part2[type] ? null : e
-          }
-        })
+        if(!e && type =='hasSwimmingPool') {
+          this.$emit('update:data', {...this.data, part2:{...this.data.part2, lifeguardAmount: '', hasSwimmingPool: e}})
+        } else {
+          this.$emit('update:data',{
+            ...this.data,
+            part2: {
+              ...this.data.part2,
+              [type]: arr.includes(type) && e === this.data.part2[type] ? null : e
+            }
+          })
+        }
       }
     },
     updateRadio(e,type,value) {

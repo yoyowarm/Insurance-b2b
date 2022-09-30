@@ -13,7 +13,7 @@
       <InputGroup lgTitle title="請說明損失金額、次數及原因" class="col-span-3" :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear">
         <Input
           slot="input"
-          placeholder="輸入安裝地點"
+          placeholder="輸入說明損失金額、次數及原因"
           :disable="!data.sheet1.part7.hasLossHistoryBeforeFiveYear"
           :value="data.sheet1.part7.lostAmountFrequencyReason"
           @updateValue="(e) => updateValue(e,'lostAmountFrequencyReason')"
@@ -52,16 +52,30 @@ export default {
   },
   methods: {
     updateValue(e,type) {
-      this.$emit('update:data',{
-        ...this.data,
-        sheet1: {
-          ...this.data.sheet1,
-          part7: {
-            ...this.data.sheet1.part7,
-            [type]: type === 'hasLossHistoryBeforeFiveYear' && e === this.data.sheet1.part7.hasLossHistoryBeforeFiveYear ? null : e
+      if(!e && type == 'hasLossHistoryBeforeFiveYear') {
+        this.$emit('update:data', {
+          ...this.data,
+          sheet1: {
+            ...this.data.sheet1,
+            part7: {
+              ...this.data.sheet1.part7,
+              [type]: e === this.data.sheet1.part7.hasLossHistoryBeforeFiveYear ? null : e,
+              lostAmountFrequencyReason: ''
+            }
           }
-        }
-      })
+        })
+      } else {
+        this.$emit('update:data',{
+          ...this.data,
+          sheet1: {
+            ...this.data.sheet1,
+            part7: {
+              ...this.data.sheet1.part7,
+              [type]: type === 'hasLossHistoryBeforeFiveYear' && e === this.data.sheet1.part7.hasLossHistoryBeforeFiveYear ? null : e
+            }
+          }
+        })
+      }
     },
   }
 }

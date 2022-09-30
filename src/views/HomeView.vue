@@ -48,7 +48,7 @@
         </Button>
       </DynamicLink>
     <div class="flex flex-wrap lg:flex-no-wrap justify-around w-full mt-6">
-      <CommonBoard class="w-full lg:w-1/2 lg:mr-9" title="商品資訊">
+      <CommonBoard class="w-full lg:w-1/2 lg:mr-9" title="文件下載">
         <img slot="icon" class="w-7 h-8 mr-1" src="../assets/images/icon_work_outline.png" alt="">
         <template slot="right">
           <DynamicLink type="router" path="/product/list" class="more">
