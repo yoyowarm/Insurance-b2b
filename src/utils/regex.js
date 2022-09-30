@@ -70,6 +70,10 @@ export const routeMatch = (path) => {
 			return 'CountyMinimumSetting'
 		case '/parameterSetting/basic-premium-setting':
 			return 'BasicPremium'
+		case '/parameterSetting/document-download-setting':
+			return 'DocumentDownloadSetting'
+		case '/parameterSetting/news-setting':
+			return 'NewsSetting'
 		case '/parameterSetting/quote-separately':
 			return 'QuoteInsuranceAmount'
 		case '/termsSetting/proposedTerms':

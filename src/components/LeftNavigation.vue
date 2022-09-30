@@ -79,10 +79,10 @@
           <DynamicLink v-if="permissions.includes('QuoteInsuranceAmount')" type="router" path="/parameterSetting/quote-separately" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/quote-separately'}">另行報價保額</span>
           </DynamicLink>
-          <DynamicLink type="router" path="/parameterSetting/news-setting" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('NewsSetting')" type="router" path="/parameterSetting/news-setting" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/news-setting'}">最新消息設定</span>
           </DynamicLink>
-          <DynamicLink type="router" path="/parameterSetting/document-download-setting" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('DocumentDownloadSetting')" type="router" path="/parameterSetting/document-download-setting" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/document-download-setting'}">文件下載設定</span>
           </DynamicLink>
         </div>
