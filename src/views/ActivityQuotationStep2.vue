@@ -52,6 +52,7 @@
          type="ApplicantData"
       />
     </CommonBoard>
+    <EmailPolicy/>
     <CommonBoard class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
@@ -77,6 +78,7 @@ import BrokerInfo from '@/components/Common/BrokerInfo.vue'
 import mixinVerify from '@/utils/mixins/verifyStep2'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
+import EmailPolicy from '@/components/Common/EmailPolicy'
 // import { quotationStep2 } from '@/utils/dataTemp'
 // import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
@@ -92,6 +94,7 @@ export default {
     WindowResizeListener,
     LoadingScreen,
     BrokerInfo,
+    EmailPolicy
   },
   data() {
     return {
@@ -105,7 +108,7 @@ export default {
       detailArea: '',
       InsuranceActiveText: {
         0:'產生報價單',
-        1:'更正報價單',
+        1:'下一步',
         2:'修改要被保人',
         3: '新增序號'
       }

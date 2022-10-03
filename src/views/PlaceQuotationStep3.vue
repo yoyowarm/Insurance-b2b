@@ -19,6 +19,7 @@
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">返回列表</Button>
+      <Button @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
         v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
@@ -161,6 +162,12 @@ export default {
     },
   },
   methods: {
+    async copyQuotation() {
+      this.$store.dispatch('common/updateOrderNo', {orderNo:this.orderNo,mainOrderNo: this.mainOrderNo})
+      await this.quotationDetail()
+      this.$store.dispatch(`place/updatedInsuranceActive`,1)
+      this.$router.push(`/place-quotation/step1`)
+    },
     async quotationDetail() {
       const detail = await this.$store.dispatch('quotation/GetPlaceQuotationDetail', {orderno: this.orderNo,mainOrderNo: this.mainOrderNo})
       this.quotationData = {
@@ -192,6 +199,7 @@ export default {
         })
       }
       console.log(this.quotationData)
+      this.$store.dispatch(`place/updatedQuotationData`,this.quotationData)
     },
     packHome() {
       this.$router.push('/quotation-ist')

@@ -273,7 +273,6 @@ export default {
           selfInflictedAmount: this.data.selfInflictedAmount
         })
       }
-      console.log(this.data.amountType, value)
       if(Number(this.data.amountType.Value) !== 2) {
         this.$emit('update:data', {
           ...this.data,
