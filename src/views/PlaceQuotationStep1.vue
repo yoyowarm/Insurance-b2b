@@ -376,6 +376,7 @@ export default {
       const places = await this.$store.dispatch('resource/PlacesSetting')
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
+      await this.getPL053Amount()
       await this.getAttachmentList()
       places.data.content.map(item => {
         if(!this.industryType.includes(item.typeName)) {
@@ -407,6 +408,16 @@ export default {
         this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')
       }
+    },
+    async getPL053Amount() {
+      const additionTerms = JSON.parse(JSON.stringify(this.additionTerms))
+      const res = await this.$store.dispatch('resource/AdditionTermQuotations')
+      const amountList = res.data.content.filter(i => i.additionTermID === 'PL053')
+      additionTerms.PL053.value1 = amountList[0].amount
+      additionTerms.PL053.value2 = amountList[1].amount
+      additionTerms.PL053.value3 = amountList[2].amount
+      additionTerms.PL053.value4 = amountList[3].amount
+      this.$store.dispatch(`place/updateAdditionTerms`, additionTerms)
     },
     correctAmount() {
       this.insuranceAmountListData = {
