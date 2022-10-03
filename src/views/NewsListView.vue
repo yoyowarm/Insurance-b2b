@@ -1,6 +1,6 @@
 <template>
   <CommonBoard class="w-full">
-    <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray">
+    <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray" boldFont>
       <template v-for="(item,index) in newsListTable.rows">
           <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
             <span @click="popup(item)" class="link">{{item.title}}</span>
@@ -37,7 +37,7 @@ export default {
           {
             text: '發布日期',
             value: 'lumchTime',
-            size: '2-6'
+            size: '1-6'
           },
           {
             text: '消息標題',
@@ -91,7 +91,7 @@ export default {
       this.newsListTable.rows = newsList.data.content.news.map(i => {
         return {
           ...i,
-          lumchTime: i.lumchTime.split('T')[0] + ' ' + i.lumchTime.split('T')[1].split('.')[0]
+          lumchTime: i.lumchTime.split('T')[0]
         }
       })
       this.$store.dispatch('app/updatedCurrentPage',1)

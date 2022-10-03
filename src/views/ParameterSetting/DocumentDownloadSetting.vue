@@ -7,7 +7,7 @@
         <Button class="sm:mr-2 w-full sm:w-32" @click.native="callDialog(0,'新增文件','新增文件')" outline>新增</Button>
       </div>
     </div>
-    <TableGroup :data="productListTable" :slotName="slotArray" scrollX>
+    <TableGroup :data="productListTable" :slotName="slotArray" scrollX boldFont>
       <template v-for="(item,index) in productListTable.rows">
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap">
             <Button outline class="mr-3" @click.native="callDialog(1,'編輯文件','儲存文件',item)">編輯</Button>
@@ -33,16 +33,7 @@
     </div>
     <div v-if="dialog.type !== 2" class="flex flex-col">
       <div class="column-4 mb-5">
-        <InputGroup class="col-span-2" title="類別">
-          <Select
-            slot="input"
-            :options="itemLists"
-            :selected="currentItem.categoryId"
-            @emitItem="(e) => currentItem.categoryId = e.Value"
-            defaultText="選擇類別"
-          />
-        </InputGroup>
-        <InputGroup class="col-span-2" title="名稱">
+        <InputGroup class="col-span-4" title="名稱">
           <Input slot="input" placeholder="請輸入名稱" :value="currentItem.title" @updateValue="e => currentItem.title = e"/>
         </InputGroup>
       </div>
@@ -74,7 +65,6 @@ import WindowResizeListener from '@/components/WindowResizeListener'
 import Button from '@/components/Button'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
-import Select from '@/components/Select'
 import { mapState } from 'vuex'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 
@@ -90,7 +80,6 @@ export default {
     PopupDialog,
     InputGroup,
     Input,
-    Select,
   },
   data () {
     return {
@@ -109,14 +98,9 @@ export default {
       productListTable: {
         head: [
           {
-            text: '商品名稱',
+            text: '檔案名稱',
             value: 'title',
-            size: '3-6'
-          },
-          {
-            text: '類型',
-            value: 'categoryText',
-            size: '1-6'
+            size: '2-6'
           },
           {
             text: '最後更新時間',
@@ -187,7 +171,7 @@ export default {
     },
     async confirmDialog() {
       const data = {
-          CategoryId: this.currentItem.categoryId,
+          CategoryId: '1',
           Title: this.currentItem.title,
           Sort: this.currentItem.sort,
       }
@@ -232,7 +216,6 @@ export default {
         return {
           ...item,
           createTime: item.createTime.split('T')[0] + ' ' + item.createTime.split('T')[1].split('.')[0],
-          categoryText: this.itemLists.find(i => i.Value === item.categoryId).Text,
         }
       })
     },

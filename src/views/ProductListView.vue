@@ -1,14 +1,6 @@
 <template>
-  <CommonBoard class="product-list rotate">
-    <NavMenu
-      class="menu rotate"
-      :itemLists="itemLists"
-      :currentTag="currentTag"
-      @updatedMenu="(e) => currentTag = e"
-      rotate
-      bigItem
-    />
-    <TableGroup :data="productListTable" :slotName="slotArray">
+  <CommonBoard class="product-list">
+    <TableGroup :data="productListTable" :slotName="slotArray" boldFont>
       <template v-for="(item,index) in productListTable.rows">
         <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
           <span @click="download(item)" class="link">{{item.title}}</span>
@@ -26,7 +18,6 @@ import CommonBoard from '@/components/CommonBoard'
 import TableGroup from '@/components/TableGroup'
 import Pagination from '@/components/pagination'
 import LoadingScreen from '@/components/LoadingScreen.vue'
-import NavMenu from '@/components/NavMenu'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
 import FileSaver from 'file-saver'
@@ -37,7 +28,6 @@ export default {
     TableGroup,
     Pagination,
     LoadingScreen,
-    NavMenu,
     WindowResizeListener
   },
   data () {
@@ -56,7 +46,7 @@ export default {
             size: '1-6'
           },
           {
-            text: '商品名稱',
+            text: '檔案名稱',
             value: 'title',
             size: '3-6'
           },
@@ -122,7 +112,7 @@ export default {
       this.productListTable.rows = productList.data.content.documents.map(item => {
         return {
           ...item,
-          createTime: item.createTime.split('T')[0] + ' ' + item.createTime.split('T')[1].split('.')[0],
+          createTime: item.createTime.split('T')[0],
           categoryText: this.itemLists.find(i => i.value === item.categoryId).text,
         }
       })
@@ -143,7 +133,6 @@ export default {
 
 <style scoped lang="postcss">
   .product-list {
-    margin-top: 40px;
     @apply  w-full relative
   }
   .menu {

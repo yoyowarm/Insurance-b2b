@@ -1,7 +1,7 @@
 <template>
   <div class="table-group">
     <TableHead ref="head" :head="data.head" :scrollX="scrollX"/>
-    <TableBody ref="body" :rows="data.rows" :head="data.head" @popup="(e) => $emit('popup',e)" :scrollX="scrollX" :urlKey="urlKey" :statusKey="statusKey" :column2="column2" :column3="column3">
+    <TableBody ref="body" :rows="data.rows" :head="data.head" @popup="(e) => $emit('popup',e)" :scrollX="scrollX" :boldFont="boldFont" :urlKey="urlKey" :statusKey="statusKey" :column2="column2" :column3="column3">
       <template v-for="(slot,index) in slotName">
          <div class="" :slot="slot" :key="`${slot}${index}`"><slot :name="slot"/></div>
       </template>
@@ -43,6 +43,10 @@ export default {
       default: false
     },
     column3: {
+      type: Boolean,
+      default: false
+    },
+    boldFont: {
       type: Boolean,
       default: false
     }

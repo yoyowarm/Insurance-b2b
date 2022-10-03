@@ -34,7 +34,7 @@
             </div>
           </DynamicLink>
       </template>
-      <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray">
+      <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray" boldFont>
         <template v-for="(item,index) in newsListTable.rows">
           <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
             <span @click="popup(item)" class="link">{{item.title}}</span>
@@ -58,7 +58,7 @@
             </div>
           </DynamicLink>
         </template>
-        <TableGroup :data="productListTable" urlKey="ProductName" :slotName="productSlotArray">
+        <TableGroup :data="productListTable" urlKey="ProductName" :slotName="productSlotArray" boldFont>
           <template v-for="(item,index) in productListTable.rows">
             <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
               <span @click="downloadProduct(item)" class="link">{{item.title}}</span>
@@ -81,7 +81,7 @@
             </div>
           </DynamicLink>
         </template>
-        <TableGroup :data="quotationListTable"/>
+        <TableGroup :data="quotationListTable" boldFont/>
       </CommonBoard>
       <DynamicLink type="router" path="/quotation-list" class="w-full mobile-more">
         <Button class="w-full mt-4 mb-6">
@@ -138,7 +138,7 @@ export default {
           {
             text: '發布日期',
             value: 'lumchTime',
-            size: '2-6'
+            size: '1-6'
           },
           {
             text: '消息標題',
@@ -158,15 +158,10 @@ export default {
         {
             text: '發布日期',
             value: 'createTime',
-            size: '1-6'
+            size: '2-6'
           },
           {
-            text: '類型',
-            value: 'categoryText',
-            size: '1-6'
-          },
-          {
-            text: '商品名稱',
+            text: '檔案名稱',
             value: 'title',
             size: '3-6'
           },
@@ -275,7 +270,7 @@ export default {
       this.productListTable.rows = productList.data.content.documents.map(item => {
         return {
           ...item,
-          createTime: item.createTime.split('T')[0] + ' ' + item.createTime.split('T')[1].split('.')[0],
+          createTime: item.createTime.split('T')[0] ,
           categoryText: '基本條款',
         }
       })
@@ -285,7 +280,7 @@ export default {
       this.newsListTable.rows = newsList.data.content.news.map(i => {
         return {
           ...i,
-          lumchTime: i.lumchTime.split('T')[0] + ' ' + i.lumchTime.split('T')[1].split('.')[0]
+          lumchTime: i.lumchTime.split('T')[0] 
         }
       })
     },

@@ -7,7 +7,7 @@
         <Button class="sm:mr-2 w-full sm:w-32" @click.native="callDialog(0,'新增消息','新增消息')" outline>新增</Button>
       </div>
     </div>
-    <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray" scrollX>
+    <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray" scrollX boldFont>
       <template v-for="(item,index) in newsListTable.rows">
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap">
             <Button outline class="mr-3" @click.native="callDialog(1,'編輯消息','儲存編輯',item)">編輯</Button>
