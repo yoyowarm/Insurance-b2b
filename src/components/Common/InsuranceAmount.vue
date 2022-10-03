@@ -13,46 +13,46 @@
       <div v-if="amountMinimum.countyName && data.amountType.Value == 0" class="mt-10 col-span-2">處所行跨多縣市時，將採用最高縣市保額，目前採用 {{amountMinimum.countyName}} 費率</div>
     </div>
     <div class="column-5 pt-5">
-      <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disableWhite="data.amountType.Value == 0 || disable">
+      <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
           :value="data.perBodyAmount.toString()"
           @updateValue="(e) => updatedValue('perBodyAmount',e)"
           placeholder="請輸入金額"
-          :disableWhite="data.amountType.Value == 0 || disable"
+          :disableWhite="data.amountType.Value != 2 || disable"
           numberOnly
           numberFormat
           unit="萬元"/>
       </InputGroup>
-      <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故體傷責任金額" :disableWhite="data.amountType.Value == 0 || disable">
+      <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故體傷責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
           :value="data.perAccidentBodyAmount.toString()"
           @updateValue="(e) => updatedValue('perAccidentBodyAmount',e)"
           placeholder="請輸入金額"
-          :disableWhite="data.amountType.Value == 0 || disable"
+          :disableWhite="data.amountType.Value != 2 || disable"
           numberOnly
           numberFormat
           unit="萬元"/>
       </InputGroup>
-      <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故財物損失責任金額" :disableWhite="data.amountType.Value == 0 || disable">
+      <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故財物損失責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
           :value="data.perAccidentFinanceAmount.toString()"
           @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
           placeholder="請輸入金額"
-          :disableWhite="data.amountType.Value == 0 || disable"
+          :disableWhite="data.amountType.Value != 2 || disable"
           numberOnly
           numberFormat
           unit="萬元"/>
       </InputGroup>
-      <InputGroup v-if="data.amountType.Value != 1" title="本保險契約之最高賠償金額" :disableWhite="data.amountType.Value == 0 || disable">
+      <InputGroup v-if="data.amountType.Value != 1" title="本保險契約之最高賠償金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
           :value="data.insuranceTotalAmount.toString()"
           @updateValue="(e) => updatedValue('insuranceTotalAmount',e)"
           placeholder="請輸入金額"
-          :disableWhite="data.amountType.Value == 0 || disable"
+          :disableWhite="data.amountType.Value != 2 || disable"
           numberOnly
           numberFormat
           unit="萬元"/>
@@ -263,7 +263,7 @@ export default {
           selfInflictedAmount: this.data.selfInflictedAmount
         })
       }
-      if(this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) > 2 && value)) {
+      if(this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) == 2 && value)) {
         this.$emit('update:data', {
           ...this.data,
           perBodyAmount: this.data.perBodyAmount,
@@ -273,8 +273,8 @@ export default {
           selfInflictedAmount: this.data.selfInflictedAmount
         })
       }
-
-      if(Number(this.data.amountType.Value) > 2 && !value) {
+      console.log(this.data.amountType, value)
+      if(Number(this.data.amountType.Value) !== 2) {
         this.$emit('update:data', {
           ...this.data,
           perBodyAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[0],
