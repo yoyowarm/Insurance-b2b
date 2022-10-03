@@ -112,11 +112,18 @@ export default {
         if (this.renewal.IsRenewal && !this.renewal.InsuranceNumber) {
           this.requestFile.push('未輸入續保號碼')
         }
+        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${this.period.startDate.hour}:00:00`).getTime()
+        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${this.period.endDate.hour}:00:00`).getTime()
+        if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
+          this.requestFile.push('保期不能超過一年')
+        }
         this.placeInfo.map(item => {
-          if (!item.city.Value) {
+          if (!item.city || item.city.Value == '選擇縣市') {
+            if (this.requestFile.includes('未選擇縣市')) return
             this.requestFile.push('未選擇縣市')
           }
           if (item.squareFeet == 0) {
+            if (this.requestFile.includes('未輸入處所坪數')) return
             this.requestFile.push('未輸入處所坪數')
           }
         })
@@ -137,24 +144,31 @@ export default {
         }
         this.activityInfo.map(item => {
           if (!item.number) {
+            if (this.requestFile.includes('未輸入每日人數')) return
             this.requestFile.push('未輸入每日人數')
           }
           if (!item.startDate.year || !item.startDate.month || !item.startDate.day || isNaN(item.startDate.hour)) {
+            if (this.requestFile.includes('未選擇活動起始日')) return
             this.requestFile.push('未選擇活動開始日')
           }
           if (!item.endDate.year || !item.endDate.month || !item.endDate.day || isNaN(item.endDate.hour)) {
+            if (this.requestFile.includes('未選擇活動結束日')) return
             this.requestFile.push('未選擇活動結束日')
           }
           if (!item.city.Value) {
+            if (this.requestFile.includes('未選擇縣市')) return
             this.requestFile.push('未選擇縣市')
           }
           if (!item.area.Value) {
+            if (this.requestFile.includes('未選區域')) return
             this.requestFile.push('未選區域')
           }
           if (!item.address) {
+            if (this.requestFile.includes('未輸入活動處所地址')) return
             this.requestFile.push('未輸入活動處所地址')
           }
           if (item.day <= 0) {
+            if (this.requestFile.includes('活動計日錯誤')) return
             this.requestFile.push('活動計日錯誤')
           }
         })

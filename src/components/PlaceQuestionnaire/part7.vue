@@ -331,9 +331,6 @@ export default {
       }
     },
   },
-  mounted() {
-    console.log(this.data.part7)
-  }
 }
 </script>
 

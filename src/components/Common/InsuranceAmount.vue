@@ -252,7 +252,8 @@ export default {
       })
     },
     assignAmount(value) {
-      if(!this.amountMinimum.countyName && this.type == 'place') return
+      
+      if(this.amountMinimum.countyName.length == 0 && this.type == 'place') return
       if(this.data.amountType.Value == 0) {
         this.$emit('update:data', {
           ...this.data,
@@ -273,7 +274,7 @@ export default {
           selfInflictedAmount: this.data.selfInflictedAmount
         })
       }
-      if(Number(this.data.amountType.Value) !== 2) {
+      if(Number(this.data.amountType.Value) > 2) {
         this.$emit('update:data', {
           ...this.data,
           perBodyAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[0],

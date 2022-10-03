@@ -14,7 +14,7 @@
             @updateValue="(e) =>$store.dispatch('place/updatedRenewal', Object.assign(renewal, {IsRenewal: e}))"
           />
         </InputGroup>
-        <InputGroup class="w-full mb-2.5" :disable="!renewal.IsRenewal || calculateModel">
+        <InputGroup class="w-ful" :disable="!renewal.IsRenewal || calculateModel">
         <div slot="input" class="w-full pr-24 relative">
           <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal|| calculateModel"/>
           <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
@@ -283,7 +283,7 @@ export default {
         const startTime = new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${this.period.startDate.hour}:00:00`).getTime()
         const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${this.period.endDate.hour}:00:00`).getTime()
         if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
-          Popup.create({hasHtml:true,htmlText:'保期超過一年，需請洽核保'})
+          Popup.create({hasHtml:true,htmlText:'保期不能超過一年'})
         }
       }
     },
