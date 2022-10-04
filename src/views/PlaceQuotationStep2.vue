@@ -84,6 +84,7 @@ import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import EmailPolicy from '@/components/Common/EmailPolicy'
 // import { quotationStep2 } from '@/utils/dataTemp'
+import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
   mixins: [mixinVerify, editCopyQuotation,routeChange],
@@ -234,25 +235,33 @@ export default {
     async insuredOrApplicantDetail (type, params) {
       const detail = await this.$store.dispatch(`quotation/Get${type}`, {[params== 'Name' ? 'name': 'id']: this[type][params]})
       const detailData = detail.data.content
-      const data = {}
-      Object.assign(data, {
-        ID: detailData.id,
-        Name: detailData.name,
-        IsForeigner: detailData.isForeigner,
-        Nationality: detailData.nationalityName ? this.nationalities.find(i => i.Text == detailData.nationalityName) : { Text: '', Value: '' },
-        CorporateName: detailData.corporateName,
-        City: this.cityList.find(i => i.Value == detailData.cityId) ? this.cityList.find(i => i.Value == detailData.cityId) : { Text: '', Value: '' },
-        Area: this.ApplicantAreaList.find(i => i.areaId == detailData.areaId)? this.ApplicantAreaList.find(i => i.areaId == detailData.areaId): { Text: '', Value: '' } ,
-        subAddress: detailData.subAddress,
-        Mobile: detailData.mobile,
-        IsForeignRegister: detailData.isForeignRegister,
-        RegisterNationality: detailData.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == detailData.registerNationality)?this.nationalities.find(i => i.Text == detailData.registerNationality):{Text: '', Value: ''}) : { Text: '', Value: '' },
-        Profession: detailData.isProfession,
-        IsPolitician: detailData.isPolitician,
-        overseasOrDomestic: Boolean(detailData.overseasOrDomestic),
-        IsProOrNot: detailData.isProOrNot,
-      })
-      this.$store.dispatch(`place/updated${type}`, data)
+      if(detail.data.code == 0) {
+        Popup.create({
+          hasHtml: true,
+          htmlText: detail.data.message,
+        })
+        return
+      } else {
+        const data = {}
+        Object.assign(data, {
+          ID: detailData.id,
+          Name: detailData.name,
+          IsForeigner: detailData.isForeigner,
+          Nationality: detailData.nationalityName ? this.nationalities.find(i => i.Text == detailData.nationalityName) : { Text: '', Value: '' },
+          CorporateName: detailData.corporateName,
+          City: this.cityList.find(i => i.Value == detailData.cityId) ? this.cityList.find(i => i.Value == detailData.cityId) : { Text: '', Value: '' },
+          Area: this.ApplicantAreaList.find(i => i.areaId == detailData.areaId)? this.ApplicantAreaList.find(i => i.areaId == detailData.areaId): { Text: '', Value: '' } ,
+          subAddress: detailData.subAddress,
+          Mobile: detailData.mobile,
+          IsForeignRegister: detailData.isForeignRegister,
+          RegisterNationality: detailData.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == detailData.registerNationality)?this.nationalities.find(i => i.Text == detailData.registerNationality):{Text: '', Value: ''}) : { Text: '', Value: '' },
+          Profession: detailData.isProfession,
+          IsPolitician: detailData.isPolitician,
+          overseasOrDomestic: Boolean(detailData.overseasOrDomestic),
+          IsProOrNot: detailData.isProOrNot,
+        })
+        this.$store.dispatch(`place/updated${type}`, data)
+      }
     },
     async step2Init() {
       const result = await Promise.all([

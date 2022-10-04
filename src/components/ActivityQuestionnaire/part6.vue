@@ -47,7 +47,7 @@ export default {
           ...this.data.sheet1,
           part6: {
             ...this.data.sheet1.part6,
-            [type]: e === this.data.sheet1.part4[type] ? null : e
+            [type]: e === this.data.sheet1.part6[type] ? null : e
           }
         }
       })

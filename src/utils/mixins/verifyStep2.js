@@ -149,9 +149,11 @@ export default {
             this.requestFile.push('未選擇區域')
           }
           if (!item.subAddress) {
+            if (this.requestFile.includes('未輸入處所地址')) return
             this.requestFile.push('未輸入處所地址')
           }
           if (item.subAddress.length > 50) {
+            if (this.requestFile.includes('處所地址長度不可超過50字')) return
             this.requestFile.push('處所地址長度不可超過50字')
           }
         })
