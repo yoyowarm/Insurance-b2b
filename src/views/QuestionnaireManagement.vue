@@ -205,6 +205,12 @@ export default {
       if(page) {
         this.Parameters.Skip = (Number(page)-1)*10
       }
+      if (this.startDate.year && this.startDate.month && this.startDate.day) {
+        this.Parameters.CreateTimeBegin = `${Number(this.startDate.year)+1911}-${this.startDate.month}-${this.startDate.day}`
+      }
+      if (this.endDate.year && this.endDate.month && this.endDate.day) {
+        this.Parameters.CreateTimeEnd = `${Number(this.endDate.year)+1911}-${this.endDate.month}-${this.endDate.day}`
+      }
       const res = await this.$store.dispatch('questionnaire/GetQusetionnaireList',this.Parameters)
       this.questionnaireList.rows = res.data.content.questionnaires.map(item => {
         return {
@@ -213,7 +219,7 @@ export default {
           questionnaireType: item.questionnaireType === 1 ? '處所' : '活動'
         }
       })
-      this.$store.dispatch('app/updatedCurrentPage',page? page: 1)
+      this.$store.dispatch('app/updatedCurrentPage',typeof page === 'number'? page: 1)
       this.$store.dispatch('app/updatedTotalPage',Math.ceil(res.data.content.totalCount/10))
     },
     async downloadFile(orderNo, type) {

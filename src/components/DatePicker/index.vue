@@ -70,7 +70,7 @@ export default {
      yearOptions () {
         const arr = []
         if(this.formerYears) {
-          for (let i = 99; i < 140; i++) {
+          for (let i = 99; i < (new Date().getFullYear()-1911); i++) {
             arr.push({
               Value: i + 1,
               Text: i + 1
@@ -86,19 +86,41 @@ export default {
         }
        return arr 
      },
+     pastYear() {
+      return this.dateObject.year && (Number(this.dateObject.year) < (new Date().getFullYear()-1911)) ? 12 : new Date().getMonth() + 1
+     },
+     pastMonth() {
+      return this.dateObject.year && this.dateObject.month && (Number(this.dateObject.year) < (new Date().getFullYear()-1911))
+        ? new Date(Number(this.dateObject.year)+1911,Number(this.dateObject.month),0).getDate()
+        : this.dateObject.year && this.dateObject.month && (Number(this.dateObject.year) == (new Date().getFullYear()-1911))
+          ? Number(this.dateObject.month) == new Date().getMonth() +1
+            ? new Date().getDate()
+            : new Date(Number(this.dateObject.year)+1911,Number(this.dateObject.month),0).getDate()
+          : 31
+     },
      monthOptions () {
        const arr = []
-      for (let i = 1; i <= 12; i++) {
-         arr.push({
-           Text: i,
-           Value: i
-         })
+       if(this.formerYears) {
+        for (let i = 1; i <= this.pastYear; i++) {
+          arr.push({
+            Text: i,
+            Value: i
+          })
+        }
+       } else {
+        for (let i = 1; i <= 12; i++) {
+          arr.push({
+            Text: i,
+            Value: i
+          })
+        }
        }
+      
        return arr 
      },
       dayOptions () {
         const arr = []
-        for (let i = 1; i <= 31; i++) {
+        for (let i = 1; i <= this.pastMonth; i++) {
           arr.push({
             Text: i,
             Value: i

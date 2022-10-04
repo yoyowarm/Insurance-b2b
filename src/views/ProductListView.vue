@@ -41,11 +41,6 @@ export default {
             size: '1-6'
           },
           {
-            text: '類型',
-            value: 'categoryText',
-            size: '1-6'
-          },
-          {
             text: '檔案名稱',
             value: 'title',
             size: '3-6'

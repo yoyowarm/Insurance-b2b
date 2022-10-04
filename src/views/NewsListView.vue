@@ -47,7 +47,7 @@ export default {
           {
             text: '消息內文',
             value: 'content',
-            size: '3-6'
+            size: '5-6'
           },
         ],
         rows: []
