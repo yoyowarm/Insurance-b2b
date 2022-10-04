@@ -39,7 +39,7 @@
     <DynamicLink type="router" path="/questionnaire-management" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/questionnaire-management')}">
         <div class="icon questionnaire"/>
-        <span class="text-white text-lg font-bold">詢問表管理</span>
+        <span class="text-white text-sm font-bold">詢問表填寫及查詢</span>
       </div>
     </DynamicLink>
     <!-- <DynamicLink type="router" path="/Office-audit" @click.native="$emit('update:openMenu', false)">
@@ -317,7 +317,7 @@ export default {
         @apply h-28
       }
       &.h180 {
-        @apply h-44
+        height: 230px;
       }
       &.sub-pages {
         @apply flex-col justify-center items-start
@@ -411,21 +411,21 @@ export default {
         width: auto;
         height: auto;
         @apply relative flex flex-col left-0 mt-0 shadow-none pl-0 items-center text-base;
-        &.parameterSetting-menu {
-          height: 200px;
-          margin-top:90px
-        }
       }
       &.active .fixed-menu {
         background-color: #B3112C;
         width: auto;
         height: auto;
-        @apply flex flex-col justify-center mt-0 items-start shadow-none pl-4 text-xl rounded-none
+        @apply flex flex-col justify-center mt-0 items-start shadow-none pl-4 text-xl rounded-none;
+        &.parameterSetting-menu {
+          height: 230px;
+          margin-top:90px
+        }
       }
     }
-    .nav-item.parameterSetting-menu {
-      height: 230px;
-    }
+    // .nav-item.parameterSetting-menu {
+    //   height: 230px;
+    // }
     .left-nav.open {
       @apply left-0
     }

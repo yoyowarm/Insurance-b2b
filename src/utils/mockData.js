@@ -709,11 +709,6 @@ export const questionnaireList = () => {
         size: '2-6'
       },
       {
-        text: '詢問表名稱',
-        value: 'title',
-        size: '5-6'
-      },
-      {
         text: '被保險人',
         value: 'insuredName',
         size: '3-6'

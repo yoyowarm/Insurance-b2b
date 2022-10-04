@@ -29,23 +29,25 @@
         <InputGroup class="w-full" >
           <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄"/>
         </InputGroup>
+        <InputGroup class="w-full" border0>
+          <div slot="input" @click="() => {openQuestionnaire(2,1); SerialNo = ''; clearActivityQuestionnaire()}" class="mr-3">
+            <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
+            <span class="download ml-1 text-lg">活動詢問表</span>
+          </div>
+        </InputGroup>
+        <InputGroup class="w-full" border0>
+          <div slot="input" @click="() => {openQuestionnaire(1,1);SerialNo = ''; clearPlaceQuestionnaire()}">
+            <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
+            <span class="download ml-1 text-lg">場所詢問表</span>
+          </div>
+        </InputGroup>
       </div>
       <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
         <Button @click.native="getQuestionnaireList" class="absolute -top-5 w-32">查詢</Button>
       </div>
-      <div class="flex flex-row justify-end py-3">
-        <div @click="() => {openQuestionnaire(2,1); SerialNo = ''; clearActivityQuestionnaire()}" class="mr-3">
-          <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
-          <span class="download ml-1">活動詢問表</span>
-        </div>
-        <div  @click="() => {openQuestionnaire(1,1);SerialNo = ''; clearPlaceQuestionnaire()}">
-          <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
-          <span class="download ml-1">場所詢問表</span>
-        </div>
-      </div>
-      <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX column3>
+      <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX column3 boldFont>
         <template v-for="(item,index) in questionnaireList.rows">
-          <div :slot="`createTime-${index}`" :key="`createTime-${index}`" class="mr-7 mt-1">
+          <div :slot="`createTime-${index}`" :key="`createTime-${index}`" class="mr-7 mt-1 font-semibold">
             <span v-if="windowWidth > 600">{{item.createTime.split('T')[0] +' '+ item.createTime.split('T')[1]}}</span>
             <span v-else>{{item.createTime.split('T')[0]}}<br>{{item.createTime.split('T')[1]}}</span>
           </div>
