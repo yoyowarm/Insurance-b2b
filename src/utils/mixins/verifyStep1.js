@@ -118,7 +118,8 @@ export default {
           this.requestFile.push('保期不能超過一年')
         }
         this.placeInfo.map(item => {
-          if (!item.city || item.city.Value == '選擇縣市') {
+          if (!item.city || item.city.Text == '選擇縣市') {
+            console.log(this.requestFile)
             if (this.requestFile.includes('未選擇縣市')) return
             this.requestFile.push('未選擇縣市')
           }
