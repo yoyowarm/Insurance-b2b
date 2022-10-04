@@ -320,7 +320,7 @@ export default {
       } else if(new Date().getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${copyInfoList[index][type].hour}:00`).getTime()) {
         Popup.create({
           hasHtml: true,
-          htmlText: '活動時間不能小於當前時間',
+          htmlText: '結束日期不得早於起始日期',
         })
         copyInfoList[index][type][key] = CHKey[key]
         if(this.$refs[`${type}-${key}-${index}`]) {

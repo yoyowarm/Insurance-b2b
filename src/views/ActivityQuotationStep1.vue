@@ -12,7 +12,7 @@
       <InsuranceIndustry type="activity" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="活動資料">
-      <span slot="icon" class="text-base mt-1 absolute text-gray-700 ml-28">參加活動每日平均人數：{{average.person.toFixed(2)}}人  總計活動天數：{{average.day}}天</span>
+      <span slot="icon" class="text-base mt-1 absolute text-gray-700 ml-28">參加活動每日平均人數：{{Math.round(average.person.toFixed(2))}}人  總計活動天數：{{average.day}}天</span>
       <ActivityInfo
         :infoList.sync="activityInfoList"
         @addItem="$store.dispatch('activity/addActivityInfo')"

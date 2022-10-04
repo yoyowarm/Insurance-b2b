@@ -16,7 +16,7 @@
       <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
-          :value="data.perBodyAmount.toString()"
+          :value="data.perBodyAmount.toString() == '0' ? '' : data.perBodyAmount"
           @updateValue="(e) => updatedValue('perBodyAmount',e)"
           placeholder="請輸入金額"
           :disableWhite="data.amountType.Value != 2 || disable"
@@ -27,7 +27,7 @@
       <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故體傷責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
-          :value="data.perAccidentBodyAmount.toString()"
+          :value="data.perAccidentBodyAmount.toString() == '0' ? '' : data.perAccidentBodyAmount"
           @updateValue="(e) => updatedValue('perAccidentBodyAmount',e)"
           placeholder="請輸入金額"
           :disableWhite="data.amountType.Value != 2 || disable"
@@ -38,7 +38,7 @@
       <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故財物損失責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
-          :value="data.perAccidentFinanceAmount.toString()"
+          :value="data.perAccidentFinanceAmount.toString() == '0' ? '' : data.perAccidentFinanceAmount"
           @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
           placeholder="請輸入金額"
           :disableWhite="data.amountType.Value != 2 || disable"
@@ -49,7 +49,7 @@
       <InputGroup v-if="data.amountType.Value != 1" title="本保險契約之最高賠償金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
-          :value="data.insuranceTotalAmount.toString()"
+          :value="data.insuranceTotalAmount.toString() == '0' ? '' : data.insuranceTotalAmount"
           @updateValue="(e) => updatedValue('insuranceTotalAmount',e)"
           placeholder="請輸入金額"
           :disableWhite="data.amountType.Value != 2 || disable"
@@ -154,7 +154,13 @@ export default {
     'data.amountType': {
       handler(val, odlVal) {
         if (!odlVal || val.Value !== odlVal.Value) {
-          this.assignAmount()
+          if(val.Value == '2' && odlVal && odlVal.Value !== '2') {
+            this.assignAmount('',true)
+          } else if(val.Value == '1' && odlVal && odlVal.Value !== '1') {
+            this.updatedValue('mergeSingleAmount','')
+          } else {
+            this.assignAmount()
+          }
         }
       },
       immediate: true
@@ -251,39 +257,50 @@ export default {
         [key]: e
       })
     },
-    assignAmount(value) {
+    assignAmount(value,reset) {
+      if(reset) {
+        this.$emit('update:data', {
+          ...this.data,
+          perBodyAmount: '',
+          perAccidentBodyAmount: '',
+          perAccidentFinanceAmount: '',
+          insuranceTotalAmount: '',
+          selfInflictedAmount: this.data.selfInflictedAmount
+        })
+      } else {
+        if(this.amountMinimum.countyName.length == 0 && this.type == 'place') return
+        if(this.data.amountType.Value == 0) {
+          this.$emit('update:data', {
+            ...this.data,
+            perBodyAmount: this.amountMinimum.perBodyAmount,
+            perAccidentBodyAmount: this.amountMinimum.perAccidentBodyAmount,
+            perAccidentFinanceAmount: this.amountMinimum.perAccidentFinanceAmount,
+            insuranceTotalAmount: this.amountMinimum.insuranceTotalAmount,
+            selfInflictedAmount: this.data.selfInflictedAmount
+          })
+        }
+        if(this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) == 2 && value)) {
+          this.$emit('update:data', {
+            ...this.data,
+            perBodyAmount: this.data.perBodyAmount,
+            perAccidentBodyAmount: this.data.perBodyAmount * 5,
+            perAccidentFinanceAmount: this.data.perBodyAmount,
+            insuranceTotalAmount: this.data.perBodyAmount * 12,
+            selfInflictedAmount: this.data.selfInflictedAmount
+          })
+        }
+        if(Number(this.data.amountType.Value) > 2) {
+          this.$emit('update:data', {
+            ...this.data,
+            perBodyAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[0],
+            perAccidentBodyAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[1],
+            perAccidentFinanceAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[2],
+            insuranceTotalAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[3],
+            selfInflictedAmount: this.data.selfInflictedAmount
+          })
+        }
+      }
       
-      if(this.amountMinimum.countyName.length == 0 && this.type == 'place') return
-      if(this.data.amountType.Value == 0) {
-        this.$emit('update:data', {
-          ...this.data,
-          perBodyAmount: this.amountMinimum.perBodyAmount,
-          perAccidentBodyAmount: this.amountMinimum.perAccidentBodyAmount,
-          perAccidentFinanceAmount: this.amountMinimum.perAccidentFinanceAmount,
-          insuranceTotalAmount: this.amountMinimum.insuranceTotalAmount,
-          selfInflictedAmount: this.data.selfInflictedAmount
-        })
-      }
-      if(this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) == 2 && value)) {
-        this.$emit('update:data', {
-          ...this.data,
-          perBodyAmount: this.data.perBodyAmount,
-          perAccidentBodyAmount: this.data.perBodyAmount * 5,
-          perAccidentFinanceAmount: this.data.perBodyAmount,
-          insuranceTotalAmount: this.data.perBodyAmount * 12,
-          selfInflictedAmount: this.data.selfInflictedAmount
-        })
-      }
-      if(Number(this.data.amountType.Value) > 2) {
-        this.$emit('update:data', {
-          ...this.data,
-          perBodyAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[0],
-          perAccidentBodyAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[1],
-          perAccidentFinanceAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[2],
-          insuranceTotalAmount: this.data.amountType.Text.split('/').map(i => i.replace('萬', ''))[3],
-          selfInflictedAmount: this.data.selfInflictedAmount
-        })
-      }
     }
   },
   mounted() {
