@@ -300,75 +300,75 @@ export default {
       PL002: {//停車場責任附加條款
         value1: false,//停車場是否收費
         value2: false,//是否有代客停車
-        value3: 0,//平面式車位
-        value4: 0,//室內機械式車位
-        value5: 0,//機械塔車位
+        value3: '',//平面式車位
+        value4: '',//室內機械式車位
+        value5: '',//機械塔車位
       },
       PL003: {//電梯意外責任附加條款
         value1: false,//是否簽訂檢查維護合約
-        value2: 0,//電扶梯
-        value3: 0,//客/貨梯
-        value4: 0,//汽車升降梯
-        value5: 0,//其他種類
+        value2: '',//電扶梯
+        value3: '',//客/貨梯
+        value4: '',//汽車升降梯
+        value5: '',//其他種類
       },
       PL007: {//各級學校暨幼兒園責任附加條款
-        value1: 0,//學員
-        value2: 0,//幼兒
+        value1: '',//學員
+        value2: '',//幼兒
       },
       PL005: {//建築物承租人火災附加條款
-        value1: 0,//每一意外事故
-        value2: 0,//處所數量
+        value1: '',//每一意外事故
+        value2: '',//處所數量
       },
       PL016: {//獨立承攬人責任附加條款
-        value1: 0,//承攬工程合約金額少於
+        value1: '',//承攬工程合約金額少於
       },
       PL022: {//裝卸搬運責任附加條款
-        value1: 0,//每一意外事故財損責任之保險金額
-        value2: 0,//保險期間內之最高賠償金額
+        value1: '',//每一意外事故財損責任之保險金額
+        value2: '',//保險期間內之最高賠償金額
       },
       PL023: {//慰問金費用附加條款
-        value1: 1000,
-        value2: 5000,
-        value3: 10000,
-        value4: 10000,
-        value5: 50000,
-        value6: 100000,
+        value1: '',
+        value2: '',
+        value3: '',
+        value4: '',
+        value5: '',
+        value6: '',
       },
       PL028: {//安養事業責任附加條款
-        value1: 0,
-        value2: 0,
+        value1: '',
+        value2: '',
       },
       PL040: {//受託物責任附加條款
-        value1: 0,
-        value2: 0,
+        value1: '',
+        value2: '',
       },
       PL041: {//接駁運送責任附加條款
-        value1: 0,
-        value2: 0,
+        value1: '',
+        value2: '',
       },
       PL043: {//保管箱責任附加條款
-        value1: 0,
-        value2: 0,
-        value3: 0,
+        value1: '',
+        value2: '',
+        value3: '',
       },
       PL047: {//放棄代位求償權附加條款
         value1: '',
       },
       PL049: {//承租人借用人責任附加條款(保額外加)
-        value1: 0,
+        value1: '',
       },
       PL053: {//傷害醫療及身故慰問金費用附加條款
-        value1: 0,
-        value2: 0,
-        value3: 0,
-        value4: 0,
+        value1: '',
+        value2: '',
+        value3: '',
+        value4: '',
       },
       PL055: {//營業中斷損失責任附加條款
-        value1: 0,
-        value2: 0,
+        value1: '',
+        value2: '',
       },
       PL058: {//液化石油氣及容器附加條款
-        value1: 0,
+        value1: '',
       }
     },
     internalControlData: {//內部管制資料

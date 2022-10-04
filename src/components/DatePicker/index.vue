@@ -48,7 +48,12 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    formerYears: {
+      type: Boolean,
+      default: false
     }
+
   },
    components: {
       Select
@@ -64,12 +69,21 @@ export default {
    computed: {
      yearOptions () {
         const arr = []
-      for (let i = (new Date().getFullYear()-1911); i <= 140; i++) {
-         arr.push({
-           Text: i,
-           Value: i
-         })
+        if(this.formerYears) {
+          for (let i = 99; i < 140; i++) {
+            arr.push({
+              Value: i + 1,
+              Text: i + 1
+            })
+          }
+        } else {
+          for (let i = (new Date().getFullYear()-1911); i <= 140; i++) {
+          arr.push({
+            Text: i,
+            Value: i
+          })
        }
+        }
        return arr 
      },
      monthOptions () {

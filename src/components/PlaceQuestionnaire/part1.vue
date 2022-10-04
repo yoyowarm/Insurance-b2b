@@ -118,7 +118,7 @@ export default {
   computed: {
      yearOptions () {
         const arr = []
-      for (let i = 20; i <= 140; i++) {
+      for (let i = 20; i <= new Date().getFullYear() -1911; i++) {
          arr.push({
            Text: `民國${i}年`,
            Value: i
@@ -128,7 +128,7 @@ export default {
      },
      monthOptions () {
        const arr = []
-      for (let i = 1; i <= 12; i++) {
+      for (let i = 1; i <= new Date().getMonth()+1; i++) {
          arr.push({
            Text: `${i}月`,
            Value: i

@@ -23,11 +23,11 @@
         </InputGroup>
       </div>
       <div class="column-6 pb-6">
-        <InputGroup class="w-full" title="報價日期">
-          <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
+        <InputGroup class="w-full" title="詢問表製作日期">
+          <DatePicker slot="input" formerYears :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
         </InputGroup>
         <InputGroup class="w-full" >
-          <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄"/>
+          <DatePicker slot="input" formerYears :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄"/>
         </InputGroup>
         <InputGroup class="w-full" border0>
           <div slot="input" @click="() => {openQuestionnaire(2,1); SerialNo = ''; clearActivityQuestionnaire()}" class="mr-3">
