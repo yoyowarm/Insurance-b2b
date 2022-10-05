@@ -370,6 +370,9 @@ export default {
   },
   mounted() {
     this.copyInfoList = [...this.infoList]
+    this.copyInfoList.map((i,index) => {
+      this.updateDay(index)
+    })
   }
 }
 </script>
