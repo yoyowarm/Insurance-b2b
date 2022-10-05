@@ -310,6 +310,20 @@ export default {
         }
         this.$store.dispatch(`${type}/updatedApplicant`, Applicant)
       }
+      if (Object.keys(this.quotationData.policyTransfer).length > 0) {
+        this.policyTransferData = {
+          transferType: this.quotationData.policyTransfer.transferType,
+          transferDetails: this.quotationData.policyTransfer.transferDetails.length > 0
+            ? this.quotationData.policyTransfer.transferDetails.map(item => {
+              return {
+                ...item,
+                transferDetailType: item.transferDetailType == 2 ? false : true,
+                transferOriginalType: item.transferOriginalType == 2 ? false : true,
+              }
+            })
+            : []
+        }
+      }
       if (Object.keys(this.quotationData.internalControlData).length > 0) {
         this.internalControl = {
           issuerNumber: this.quotationData.internalControlData.issuerNumber.trim(),

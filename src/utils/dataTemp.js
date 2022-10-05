@@ -245,6 +245,17 @@ export const quotation = () => {
       Text: '選擇行業',
       Value: '',
     },
+    policyTransfer: {
+      transferType: 1,
+      transferDetails: [
+        {
+          transferDetailType: false,
+          transferOriginalType: false,
+          transferInfo: '',
+          sort: 0
+        }
+      ]
+    },
     industryText: '',
     remark: {//備註
       text: '',

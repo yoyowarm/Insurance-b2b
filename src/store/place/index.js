@@ -109,6 +109,17 @@ export default {
       overseasOrDomestic: false,
       IsProOrNot: false,
     },
+    policyTransfer: {
+      transferType: 1,
+      transferDetails: [
+        {
+          transferDetailType: false,
+          transferOriginalType: false,
+          transferInfo: '',
+          sort: 0
+        }
+      ]
+    },
     industry: {//行業別
       Text: '選擇行業',
       Value: '',
@@ -477,6 +488,9 @@ export default {
     },
     UPDATED_QUOTATION_DATA(state, data) {
       state.quotationData = data
+    },
+    UPDATED_POLICY_TRANSFER(state, data) {
+      state.policyTransfer = data
     }
   },
   actions: {
@@ -501,8 +515,9 @@ export default {
       commit('UPDATED_QUESTIONNAIRE_FINISHED', false)
       commit('UPDATED_INTERNAL_CONTROL_DATA', quotation().internalControlData)
       commit('UPDATED_UUID', '')
-      commit('UPDATED_INSURANCE_ACTIVE', 0),
-        commit('UPDATED_QUOTATION_DATA', {})
+      commit('UPDATED_INSURANCE_ACTIVE', 0)
+      commit('UPDATED_QUOTATION_DATA', {})
+      commit('UPDATED_POLICY_TRANSFER', quotation().policyTransfer)
     },
     addPlaceInfo({ commit }) {
       commit('ADD_PLACE_INFO')
@@ -581,6 +596,9 @@ export default {
     },
     updatedQuotationData({ commit }, data) {
       commit('UPDATED_QUOTATION_DATA', data)
+    },
+    updatedPolicyTransfer({ commit }, data) {
+      commit('UPDATED_POLICY_TRANSFER', data)
     }
   }
 }

@@ -4,21 +4,21 @@
       <Checkbox
         class="my-1.5"
         id="ePolicy"
-        :checked="PolicyType == 'ePolicy'"
-        :value="PolicyType == 'ePolicy'"
-        :disabled="disable"
-        @updateValue="(e) =>$emit('updatedPolicyType', {Value: e, Text: 'ePolicy'})"
+        :checked="eletric.transferType == 1"
+        :value="eletric.transferType == 1"
+        :disabled="disable || eletric.transferType == 1"
+        @updateValue="(e) =>{ if(eletric.transferType !== 1){updateValue('', 'transferType', 1)}}"
         slot="left"
       />
-      <div class="flex flex-no-wrap items-center text-red-500 ml-3" slot="right">
+      <!-- <div class="flex flex-no-wrap items-center text-red-500 ml-3" slot="right">
         <font-awesome-icon class="mr-1" icon="exclamation-circle" />
         <span>如有抵押請選擇紙本保單方式</span>
-      </div>
+      </div> -->
     </FormTitle>
-    <template v-for="(item,index) in eletric">
+    <template v-for="(item,index) in eletric.transferDetails">
       <FormTitle title="寄送資訊" :key="index + '寄送資訊'" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
-      <div v-if="eletric.length > 1" class="cursor-pointer ml-2" slot="right" @click="remoteInfo(index)">
+      <div v-if="eletric.transferDetails.length > 1" class="cursor-pointer ml-2" slot="right" @click="remoteInfo(index)">
         <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
       </div>
     </FormTitle>
@@ -29,19 +29,19 @@
             :id="index + 'email'"
             checkedText="Email"
             uncheckedText="手機"
-            :value="item.SendType"
+            :value="item.TransferDetailType"
             :disable="disable"
-            @updateValue="(e) =>updateValue(index, 'SendType', e)"
+            @updateValue="(e) =>updateValue(index, 'TransferDetailType', e)"
           />
         </InputGroup>
         <InputGroup class="w-full" title="寄送資料" :disable="disable">
           <Input
             slot="input"
             placeholder="輸入寄送資料"
-            :value="item.Delivery"
+            :value="item.transferInfo"
             :disable="disable"
-            @updateValue="(e) =>updateValue(index, 'Delivery', e)"
-            />
+            @updateValue="(e) =>updateValue(index, 'transferInfo', e)"
+          />
         </InputGroup>
       </div>
       <div class="column-5 pb-3 mb-4 dashed-border " :key="index+'column2'">
@@ -52,38 +52,17 @@
             checkedText="副本"
             uncheckedText="正本"
             :disable="disable"
-            :value="item.IsOriginalOrCopy_Order"
-            @updateValue="(e) =>updateValue(index, 'IsOriginalOrCopy_Order', e)"
+            :value="item.TransferOriginalType"
+            @updateValue="(e) =>updateValue(index, 'TransferOriginalType', e)"
           />
         </InputGroup>
-        <InputGroup class="w-full" title="保單正本排序" :disable="disable || item.IsOriginalOrCopy_Order">
+        <InputGroup class="w-full" title="保單正本排序" :disable="disable || item.TransferOriginalType">
           <Input
             slot="input"
             placeholder="輸入排序"
-            :value="item.Order"
-            :disable="disable || item.IsOriginalOrCopy_Order"
-            @updateValue="(e) =>updateValue(index, 'Order', e)"
-            numberOnly
-          />
-        </InputGroup>
-        <InputGroup class="w-full" title="收據份數" dash :disable="disable">
-          <SwitchInput
-            slot="input"
-            :id="index + '副本'"
-            checkedText="副本"
-            uncheckedText="正本"
-            :disable="disable"
-            :value="item.IsOriginalOrCopy_Recepit"
-            @updateValue="(e) =>updateValue(index, 'IsOriginalOrCopy_Recepit', e)"
-          />
-        </InputGroup>
-        <InputGroup class="w-full" title="收據副本份數" :disable="disable || !item.IsOriginalOrCopy_Recepit">
-          <Input
-            slot="input"
-            placeholder="輸入副本份數"
-            :value="item.CopyNumber"
-            :disable="disable || !item.IsOriginalOrCopy_Recepit"
-            @updateValue="(e) =>updateValue(index, 'CopyNumber', e)"
+            :value="item.sort"
+            :disable="disable || item.TransferOriginalType"
+            @updateValue="(e) =>updateValue(index, 'sort', e)"
             numberOnly
           />
         </InputGroup>
@@ -116,8 +95,8 @@ export default {
   },
   props: {
     eletric: {
-      type: Array,
-      default: () => []
+      type: Object,
+      default: () => {}
     },
     disable: {
       type: Boolean,
@@ -131,24 +110,26 @@ export default {
   methods: {
     addItem() {
       const data = JSON.parse(JSON.stringify(this.eletric))
-      data.push({
-          SendType: false,
-          Delivery: '',
-          IsOriginalOrCopy_Order: false,
-          Order: '',
-          IsOriginalOrCopy_Recepit: false,
-          CopyNumber: '',
+      data.transferDetails.push({
+          transferDetailType: false,
+          transferOriginalType: false,
+          transferInfo: '',
+          sort: 0
         })
       this.$emit('update:eletric', data)
     },
     remoteInfo(index) {
       const data = JSON.parse(JSON.stringify(this.eletric))
-      data.splice(index, 1)
+      data.transferDetails.splice(index, 1)
       this.$emit('update:eletric', data)
     },
     updateValue(index, key, value) {
       const data = JSON.parse(JSON.stringify(this.eletric))
-      data[index][key] = value
+      if(key == 'transferType') {
+        data.transferType = value
+      } else {
+        data.transferDetails[index][key] = value
+      }
       this.$emit('update:eletric', data)
     }
   }

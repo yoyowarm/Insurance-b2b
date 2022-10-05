@@ -55,7 +55,20 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <EmailPolicy/>
+    <EmailPolicy  :eletric.sync="policyTransferData"/>
+    <CommonBoard class="mb-5">
+      <FormTitle classList="text-xl text-gray-700" title="紙本保單">
+        <Checkbox
+          class="my-1.5"
+          id="paper"
+          :checked="policyTransferData.transferType == 2"
+          :value="policyTransferData.transferType == 2"
+          :disabled="policyTransferData.transferType == 2"
+          @updateValue="(e) =>{ if(policyTransferData.transferType !== 2){policyTransferData.transferType = 2}}"
+          slot="left"
+        />
+      </FormTitle>
+    </CommonBoard>
     <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
@@ -83,6 +96,7 @@ import mixinVerify from '@/utils/mixins/verifyStep2'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import EmailPolicy from '@/components/Common/EmailPolicy'
+import FormTitle from '@/components/FormTitle'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
@@ -99,7 +113,8 @@ export default {
     LoadingScreen,
     BrokerInfo,
     Address,
-    EmailPolicy
+    EmailPolicy,
+    FormTitle
   },
   data() {
     return {
@@ -137,6 +152,7 @@ export default {
       questionnaire: state => state.place.questionnaire,
       quotationData: state => state.place.quotationData,
       'userInfo': state => state.home.userInfo,
+      policyTransfer: state => state.place.policyTransfer,
     }),
     InsuranedData: {
       get() {
@@ -171,6 +187,14 @@ export default {
       },
       set(value) {
         this.$store.dispatch('place/updatedPlaceInfo', value)
+      }
+    },
+    policyTransferData: {
+      get() {
+        return this.policyTransfer
+      },
+      set(value) {
+        this.$store.dispatch('place/updatedPolicyTransfer', value)
       }
     },
   },
@@ -409,6 +433,16 @@ export default {
         statisticsCode: this.internalControlData.statisticsCode,
         loginIdNumber: this.internalControlData.loginIdNumber,}
       })
+      Object.assign(obj,{policyTransfer : {
+        transferType: this.PolicyTransfer.transferType,
+        transferDetails:this.PolicyTransfer.transferType == 1 ? this.PolicyTransfer.transferDetails.map(i => {
+          return {
+            ...i,
+            transferDetailType: i.transferDetailType ? 2 : 1,
+            transferOriginalType: i.transferOriginalType ? 2 : 1,
+          }
+        }) : [],
+      }})
       delete obj.insuraned.City
       delete obj.insuraned.Area
       delete obj.insuraned.Nationality
