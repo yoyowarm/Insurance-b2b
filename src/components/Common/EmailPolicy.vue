@@ -29,9 +29,9 @@
             :id="index + 'email'"
             checkedText="Email"
             uncheckedText="手機"
-            :value="item.TransferDetailType"
+            :value="item.transferDetailType"
             :disable="disable"
-            @updateValue="(e) =>updateValue(index, 'TransferDetailType', e)"
+            @updateValue="(e) =>updateValue(index, 'transferDetailType', e)"
           />
         </InputGroup>
         <InputGroup class="w-full" title="寄送資料" :disable="disable">
@@ -52,16 +52,16 @@
             checkedText="副本"
             uncheckedText="正本"
             :disable="disable"
-            :value="item.TransferOriginalType"
-            @updateValue="(e) =>updateValue(index, 'TransferOriginalType', e)"
+            :value="item.transferOriginalType"
+            @updateValue="(e) =>updateValue(index, 'transferOriginalType', e)"
           />
         </InputGroup>
-        <InputGroup class="w-full" title="保單正本排序" :disable="disable || item.TransferOriginalType">
+        <InputGroup class="w-full" title="保單正本排序" :disable="disable || item.transferOriginalType">
           <Input
             slot="input"
             placeholder="輸入排序"
             :value="item.sort"
-            :disable="disable || item.TransferOriginalType"
+            :disable="disable || item.transferOriginalType"
             @updateValue="(e) =>updateValue(index, 'sort', e)"
             numberOnly
           />

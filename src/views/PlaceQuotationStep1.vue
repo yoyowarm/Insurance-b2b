@@ -352,8 +352,8 @@ export default {
       const res = await this.$store.dispatch('quotation/GetRenewInfo', this.renewal.InsuranceNumber)
       if(res.data.code ==1) {
         this.InsuranceRecordTable = {
-          lastYear: res.data.content.lastYear,
-          previousYear: res.data.content.previousYear,
+          lastYear: res.data.content.placeInsureInfo.insuranceRecord.lastYear,
+          previousYear: res.data.content.placeInsureInfo.insuranceRecord.previousYear,
         }
       }
     },

@@ -434,8 +434,8 @@ export default {
         loginIdNumber: this.internalControlData.loginIdNumber,}
       })
       Object.assign(obj,{policyTransfer : {
-        transferType: this.PolicyTransfer.transferType,
-        transferDetails:this.PolicyTransfer.transferType == 1 ? this.PolicyTransfer.transferDetails.map(i => {
+        transferType: this.policyTransferData.transferType,
+        transferDetails:this.policyTransferData.transferType == 1 ? this.policyTransferData.transferDetails.map(i => {
           return {
             ...i,
             transferDetailType: i.transferDetailType ? 2 : 1,
