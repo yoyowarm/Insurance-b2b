@@ -279,21 +279,7 @@ export default {
     },
     openQuestionnaire: async function(val) {
       if(!val && this.questionnaireFinished) {
-        let data = {questionnaire: null,}
-        const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
-        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
-          this.correctAmount()//如果核保加減費系數不同更正保費
-        }
-        this.insuranceAmountListData = {
-          ...this.insuranceAmountListData,
-          parameter: {
-            ...this.insuranceAmountListData.parameter,
-            underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
-            ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
-            : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
-          }
-        }
-        
+        await this.questionnaireCoefficient()
       }
     }
   },
@@ -335,7 +321,24 @@ export default {
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('activity')
         this.AssignQuestionnaire('activity')
+        await this.questionnaireCoefficient()
       }
+    },
+    async questionnaireCoefficient() {
+      let data = {questionnaire: null,}
+        const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
+        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
+          this.correctAmount()//如果核保加減費系數不同更正保費
+        }
+        this.insuranceAmountListData = {
+          ...this.insuranceAmountListData,
+          parameter: {
+            ...this.insuranceAmountListData.parameter,
+            underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
+            ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
+            : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+          }
+        }
     },
     termsInit() {
       const terms = {}

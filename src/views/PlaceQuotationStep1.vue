@@ -261,21 +261,7 @@ export default {
     },
     openQuestionnaire: async function(val) {
       if(!val && this.questionnaireFinished) {
-        let data = {questionnaire: null,}
-        const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
-        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
-          this.correctAmount()//如果核保加減費系數不同更正保費
-        }
-        this.insuranceAmountListData = {
-          ...this.insuranceAmountListData,
-          parameter: {
-            ...this.insuranceAmountListData.parameter,
-            underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
-            ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
-            : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
-          }
-        }
-        
+        await this.questionnaireCoefficient()
       }
     },
     periodData: {
@@ -386,7 +372,24 @@ export default {
         this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')
         this.$store.dispatch(`place/updatedInsuranceActive`, 4)
+        await this.questionnaireCoefficient()
       }
+    },
+    async questionnaireCoefficient() {
+      let data = {questionnaire: null,}
+        const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
+        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
+          this.correctAmount()//如果核保加減費系數不同更正保費
+        }
+        this.insuranceAmountListData = {
+          ...this.insuranceAmountListData,
+          parameter: {
+            ...this.insuranceAmountListData.parameter,
+            underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
+            ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
+            : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+          }
+        }
     },
     termsInit() {
       const terms = {}
@@ -449,6 +452,7 @@ export default {
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo ) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')
+        await this.questionnaireCoefficient()
       }
     },
     async getPL053Amount() {
