@@ -317,8 +317,8 @@ export default {
             ? this.quotationData.policyTransfer.transferDetails.map(item => {
               return {
                 ...item,
-                transferDetailType: item.transferDetailType == 2 ? false : true,
-                transferOriginalType: item.transferOriginalType == 2 ? false : true,
+                transferDetailType: item.transferDetailType == 2 ? true : false,
+                transferOriginalType: item.transferOriginalType == 2 ? true : false,
               }
             })
             : []
