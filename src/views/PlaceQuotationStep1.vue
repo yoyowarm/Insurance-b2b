@@ -351,10 +351,41 @@ export default {
     async renewInfo() {
       const res = await this.$store.dispatch('quotation/GetRenewInfo', this.renewal.InsuranceNumber)
       if(res.data.code ==1) {
-        this.InsuranceRecordTable = {
-          lastYear: res.data.content.placeInsureInfo.insuranceRecord.lastYear,
-          previousYear: res.data.content.placeInsureInfo.insuranceRecord.previousYear,
+        const data = {
+          ...res.data.content,
+          insuranceAmounts: res.data.content.insuranceAmounts.map((item,index) => {
+            return {
+              ...item,
+              // eslint-disable-next-line no-prototype-builtins
+              selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
+              fixed: false,
+              insuranceTotalAmount: item.insuranceTotalAmount/10000,
+              mergeSingleAmount: item.mergeSingleAmount/10000,
+              perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
+              perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
+              perBodyAmount: item.perBodyAmount/10000,
+              parameter: {
+                basicFee: '',
+                finalHC: '',
+                sizeParameter: '',
+                selfInflictedParameter: '',
+                shortPeriodParameter: '',
+                additionalCostParameter: '',
+                mutiSizeParameter: '',
+                additionTermCoefficientParameter: '',
+                aggAOACoefficient: '',
+                amount: '',
+              }
+            }
+          })
         }
+        if(res.data.content.questionnaire) {
+          this.$store.dispatch(`place/updateQuestionnaireFinished`, true)
+        }
+        this.$store.dispatch(`place/updatedQuotationData`,data)
+        this.step1InitAssignValue('place')
+        this.AssignQuestionnaire('place')
+        this.$store.dispatch(`place/updatedInsuranceActive`, 4)
       }
     },
     termsInit() {
@@ -423,11 +454,21 @@ export default {
     async getPL053Amount() {
       const additionTerms = JSON.parse(JSON.stringify(this.additionTerms))
       const res = await this.$store.dispatch('resource/AdditionTermQuotations')
-      const amountList = res.data.content.filter(i => i.additionTermID === 'PL053')
-      additionTerms.PL053.value1 = amountList[0].amount
-      additionTerms.PL053.value2 = amountList[1].amount
-      additionTerms.PL053.value3 = amountList[2].amount
-      additionTerms.PL053.value4 = amountList[3].amount
+      const amountList = res.data.content
+      additionTerms.PL005.value1 = amountList[0].amount / 10000
+      additionTerms.PL023.value1 = amountList[1].amount
+      additionTerms.PL023.value2 = amountList[2].amount
+      additionTerms.PL023.value3 = amountList[3].amount
+      additionTerms.PL023.value4 = amountList[4].amount
+      additionTerms.PL023.value5 = amountList[5].amount
+      additionTerms.PL023.value6 = amountList[6].amount
+      additionTerms.PL040.value1 = amountList[7].amount / 10000
+      additionTerms.PL040.value2 = amountList[8].amount / 10000
+      additionTerms.PL049.value1 = amountList[9].amount / 10000
+      additionTerms.PL053.value1 = amountList[10].amount
+      additionTerms.PL053.value2 = amountList[11].amount
+      additionTerms.PL053.value3 = amountList[12].amount
+      additionTerms.PL053.value4 = amountList[13].amount
       this.$store.dispatch(`place/updateAdditionTerms`, additionTerms)
     },
     correctAmount() {

@@ -475,11 +475,21 @@ export default {
     async getPL053Amount() {
       const additionTerms = JSON.parse(JSON.stringify(this.additionTerms))
       const res = await this.$store.dispatch('resource/AdditionTermQuotations')
-      const amountList = res.data.content.filter(i => i.additionTermID === 'PL053')
-      additionTerms.PL053.value1 = amountList[0].amount
-      additionTerms.PL053.value2 = amountList[1].amount
-      additionTerms.PL053.value3 = amountList[2].amount
-      additionTerms.PL053.value4 = amountList[3].amount
+      const amountList = res.data.content
+      additionTerms.PL005.value1 = amountList[0].amount / 10000
+      additionTerms.PL023.value1 = amountList[1].amount
+      additionTerms.PL023.value2 = amountList[2].amount
+      additionTerms.PL023.value3 = amountList[3].amount
+      additionTerms.PL023.value4 = amountList[4].amount
+      additionTerms.PL023.value5 = amountList[5].amount
+      additionTerms.PL023.value6 = amountList[6].amount
+      additionTerms.PL040.value1 = amountList[7].amount / 10000
+      additionTerms.PL040.value2 = amountList[8].amount / 10000
+      additionTerms.PL049.value1 = amountList[9].amount / 10000
+      additionTerms.PL053.value1 = amountList[10].amount
+      additionTerms.PL053.value2 = amountList[11].amount
+      additionTerms.PL053.value3 = amountList[12].amount
+      additionTerms.PL053.value4 = amountList[13].amount
       this.$store.dispatch(`activity/updateAdditionTerms`, additionTerms)
     },
     async getAttachmentList() {

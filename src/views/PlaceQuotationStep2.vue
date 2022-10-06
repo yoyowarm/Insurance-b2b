@@ -5,7 +5,7 @@
         :marginTop="marginTop"
         :info.sync="InsuranedData"
         :nationalities="nationalities"
-        :cityList="cityList"
+        :cityList="countyList"
         :areaList="InsuranedAreaList.filter(item => item.cityId == InsuranedData.City.Value)"
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
@@ -14,7 +14,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
-      <Address :lists.sync="placeInfoData" :cityList="cityList" :areaList="ApplicantAreaList"/>
+      <Address :lists.sync="placeInfoData" :cityList="countyList" :areaList="ApplicantAreaList"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
@@ -48,7 +48,7 @@
         :marginTop="marginTop"
         :info.sync="ApplicantData"
         :nationalities="nationalities"
-        :cityList="cityList"
+        :cityList="countyList"
         :areaList="ApplicantAreaList.filter(item => item.cityId == ApplicantData.City.Value)"
          @checkID="() =>checkID('Applicant')"
          @getDetail="(type) =>insuredOrApplicantDetail('Applicant',type)"
@@ -121,7 +121,7 @@ export default {
       windowWidth: window.innerWidth,
       nationalities: [],
       relationShips: [],
-      cityList: [],
+      countyList: [],
       areaList: [],
       businessSource: [],
       InsuranedAreaList: [],
@@ -131,7 +131,8 @@ export default {
         0:'產生報價單',
         1:'下一步',
         2:'修改要被保人',
-        3: '新增序號'
+        3: '新增序號',
+        4: '下一步'
       }
     }
   },
@@ -273,7 +274,7 @@ export default {
           IsForeigner: detailData.isForeigner,
           Nationality: detailData.nationalityName ? this.nationalities.find(i => i.Text == detailData.nationalityName) : { Text: '', Value: '' },
           CorporateName: detailData.corporateName,
-          City: this.cityList.find(i => i.Value == detailData.cityId) ? this.cityList.find(i => i.Value == detailData.cityId) : { Text: '', Value: '' },
+          City: this.countyList.find(i => i.Value == detailData.cityId) ? this.countyList.find(i => i.Value == detailData.cityId) : { Text: '', Value: '' },
           Area: this.ApplicantAreaList.find(i => i.areaId == detailData.areaId)? this.ApplicantAreaList.find(i => i.areaId == detailData.areaId): { Text: '', Value: '' } ,
           subAddress: detailData.subAddress,
           Mobile: detailData.mobile,
@@ -299,7 +300,7 @@ export default {
       const relationShips = result[2]
       const districts = result[3]
       districts.data.content.map(item => {
-        this.cityList.push({
+        this.countyList.push({
           ...item,
           Value: item.cityId,
           Text: item.cityName
@@ -399,7 +400,7 @@ export default {
             areaId: item.area.Value,
             area: item.area.Text,
             subAddress: item.subAddress,
-            countyCode: this.cityList.find(i => i.Value == item.city.Value).cityCode,
+            countyCode: this.countyList.find(i => i.Value == item.city.Value).cityCode,
           }
         })],})
       }

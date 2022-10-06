@@ -210,7 +210,7 @@ export default {
           },
         }
       }
-      if (this.quotationData[quotationType].fileAttachments.length > 0) {//附件
+      if (this.quotationData[quotationType].fileAttachments && this.quotationData[quotationType].fileAttachments.length > 0) {//附件
         this.attachmentList = this.quotationData[quotationType].fileAttachments
       }
       if (this.quotationData[quotationType][`${type}Info`].length > 0) {//處所活動資訊
@@ -269,8 +269,8 @@ export default {
           IsForeigner: this.quotationData.insuraned.isForeigner,
           Nationality: this.quotationData.insuraned.nationalityName ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.nationalityName) : { Text: '', Value: '' },
           CorporateName: this.quotationData.insuraned.corporateName,
-          City: this.cityList.find(i => i.Value == this.quotationData.insuraned.cityId),
-          Area: this.InsuranedAreaList.find(i => i.areaId == this.quotationData.insuraned.areaId),
+          City: this.quotationData.insuraned.cityId ? this.countyList.find(i => i.Value == this.quotationData.insuraned.cityId) : { Text: '選擇縣市', Value: '', },
+          Area: this.quotationData.insuraned.areaId ? this.InsuranedAreaList.find(i => i.areaId == this.quotationData.insuraned.areaId) : { Text: '選擇區域', Value: '', },
           subAddress: this.quotationData.insuraned.subAddress,
           Mobile: this.quotationData.insuraned.mobile,
           IsForeignRegister: this.quotationData.insuraned.isForeignRegister,
@@ -294,8 +294,8 @@ export default {
           IsForeigner: this.quotationData.applicant.isForeigner,
           Nationality: this.quotationData.applicant.nationalityName ? this.nationalities.find(i => i.Text == this.quotationData.applicant.nationalityName) : { Text: '', Value: '' },
           CorporateName: this.quotationData.applicant.corporateName,
-          City: this.cityList.find(i => i.Value == this.quotationData.applicant.cityId),
-          Area: this.ApplicantAreaList.find(i => i.areaId == this.quotationData.applicant.areaId),
+          City: this.quotationData.applicant.cityId ? this.countyList.find(i => i.Value == this.quotationData.applicant.cityId) : { Text: '選擇縣市', Value: '', },
+          Area: this.quotationData.applicant.areaId ? this.ApplicantAreaList.find(i => i.areaId == this.quotationData.applicant.areaId) : { Text: '選擇區域', Value: '', },
           subAddress: this.quotationData.applicant.subAddress,
           Mobile: this.quotationData.applicant.mobile,
           IsForeignRegister: this.quotationData.applicant.isForeignRegister,
@@ -310,7 +310,7 @@ export default {
         }
         this.$store.dispatch(`${type}/updatedApplicant`, Applicant)
       }
-      if (Object.keys(this.quotationData.policyTransfer).length > 0) {
+      if (this.quotationData.policyTransfer && Object.keys(this.quotationData.policyTransfer).length > 0) {
         this.policyTransferData = {
           transferType: this.quotationData.policyTransfer.transferType,
           transferDetails: this.quotationData.policyTransfer.transferDetails.length > 0
@@ -324,7 +324,7 @@ export default {
             : []
         }
       }
-      if (Object.keys(this.quotationData.internalControlData).length > 0) {
+      if (this.quotationData.internalControlData && Object.keys(this.quotationData.internalControlData).length > 0) {
         this.internalControl = {
           issuerNumber: this.quotationData.internalControlData.issuerNumber.trim(),
           loginIdNumber: this.quotationData.internalControlData.loginIdNumber.trim(),
