@@ -313,7 +313,7 @@ export default {
       if (this.quotationData.policyTransfer && Object.keys(this.quotationData.policyTransfer).length > 0) {
         this.policyTransferData = {
           transferType: this.quotationData.policyTransfer.transferType,
-          transferDetails: this.quotationData.policyTransfer.transferDetails.length > 0
+          transferDetails: this.quotationData.policyTransfer.transferDetails
             ? this.quotationData.policyTransfer.transferDetails.map(item => {
               return {
                 ...item,
@@ -321,7 +321,12 @@ export default {
                 transferOriginalType: item.transferOriginalType == 2 ? true : false,
               }
             })
-            : []
+            : [{
+              transferDetailType: false,
+              transferOriginalType: false,
+              transferInfo: '',
+              sort: 0
+            }]
         }
       }
       if (this.quotationData.internalControlData && Object.keys(this.quotationData.internalControlData).length > 0) {
