@@ -5,6 +5,7 @@
       class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2"
       :class="{'pr-9': slotIcon, disable,'disable-white': disableWhite, 'pr-8': unit.length > 0}"
       :placeholder="placeholder"
+      :maxLength="maxLength"
       :value="numberFormat ? numFormat(value) : value"
       @input="updateValue"
       @blur="()=> $emit('blurInput')">
@@ -56,6 +57,10 @@ export default {
     numberFormat: {
       type: Boolean,
       default: false
+    },
+    maxLength: {
+      type: Number,
+      default: 10000
     }
   },
   methods: {
