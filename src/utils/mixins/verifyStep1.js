@@ -203,6 +203,16 @@ export default {
               if (!this.additionTerms[target.additionTermId].value1) {
                 this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
               }
+              if (!this.additionTerms[target.additionTermId].value2) {
+                this.requestFile.push(`${target.additionTermName}處所數量至少為1`)
+              }
+            } else if (target.additionTermId == 'PL058') {
+              if (!this.additionTerms[target.additionTermId].value1) {
+                this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
+              }
+              if (Number(this.additionTerms[target.additionTermId].value1) < 1) {
+                this.requestFile.push(`${target.additionTermName}數量至少為1公斤`)
+              }
             } else {
               Object.keys(this.additionTerms[target.additionTermId]).map(key => {
                 if (!this.additionTerms[target.additionTermId][key]) {
