@@ -25,7 +25,18 @@ export const MobileRegex = (mobile) => {
 	}
 
 }
-
+export const isPhone = (mobile) => {
+	const isPhone = new RegExp(/^09+[0-9]{8}/, 'g')
+	if (!isPhone.test(mobile)) {
+		return '號碼格式錯誤'
+	}
+}
+export const isEmail = (email) => {
+	const isEmail = new RegExp(/^([a-zA-Z0-9_.-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/)
+	if (!isEmail.test(email)) {
+		return '信箱格式錯誤'
+	}
+}
 export const ObjCompare = (obj1, obj2) => {
 	const Obj1_keys = Object.keys(obj1);
 	const Obj2_keys = Object.keys(obj2);

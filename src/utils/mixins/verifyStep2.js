@@ -1,5 +1,5 @@
 import { Popup } from '@/utils/popups/index'
-import { IDRegex } from '@/utils/regex'
+import { IDRegex, isPhone, isEmail } from '@/utils/regex'
 export default {
   data() {
     return {
@@ -99,7 +99,7 @@ export default {
       if (!this.Insuraned.subAddress) {
         this.requestFile.push('被保險人未輸入地址')
       }
-      if (this.Insuraned.subAddress.length > 50) {
+      if (this.Insuraned.subAddress && this.Insuraned.subAddress.length > 50) {
         this.requestFile.push('被保險人地址長度不可超過50字')
       }
       if (this.Insuraned.IsForeignRegister && !this.Insuraned.RegisterNationality) {
@@ -147,6 +147,23 @@ export default {
       }
       if (!this.internalControlData.issuerNumber) {
         this.requestFile.push('未填寫經手人代號')
+      }
+      if (this.policyTransfer.transferType == 1) {
+        this.policyTransfer.transferDetails.map(item => {
+          if (!item.transferInfo) {
+            if (this.requestFile.includes('未填寫寄送資料')) return
+            this.requestFile.push('未填寫寄送資料')
+          } else {
+            if (!item.transferDetailType && isPhone(item.transferInfo)) {
+              if (this.requestFile.includes('號碼格式錯誤')) return
+              this.requestFile.push('號碼格式錯誤')
+            }
+            if (item.transferDetailType && isEmail(item.transferInfo)) {
+              if (this.requestFile.includes('信箱格式錯誤')) return
+              this.requestFile.push('信箱格式錯誤')
+            }
+          }
+        })
       }
       if (type == 'place' && InsuranceActive !== 2) {
         this.placeInfo.map(item => {
