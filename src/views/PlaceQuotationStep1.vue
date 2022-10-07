@@ -372,17 +372,21 @@ export default {
         this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')
         this.$store.dispatch(`place/updatedInsuranceActive`, 4)
-        await this.questionnaireCoefficient()
-        this.insuranceAmountListData = {
-          ...this.quotationData.insuranceAmounts[0],
-          amountType: this.amountList.find(item => item.Value == this.quotationData.insuranceAmounts[0].amountType),
-          insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
-          mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
-          perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
-          perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
-          perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-          selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
-        }
+        
+        this.$nextTick(async () => {
+          this.insuranceAmountListData = {
+            ...this.quotationData.insuranceAmounts[0],
+            amountType: this.amountList.find(item => item.Value == this.quotationData.insuranceAmounts[0].amountType),
+            insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
+            mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
+            perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
+            perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
+            perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
+            selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+          }
+          await this.questionnaireCoefficient()
+
+        })
       }
     },
     async questionnaireCoefficient() {
