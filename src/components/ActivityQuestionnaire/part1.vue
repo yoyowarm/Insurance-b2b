@@ -176,6 +176,7 @@ import Input from '@/components/InputGroup/Input'
 import Select from '@/components/Select/index.vue'
 import Checkbox from '@/components/Checkbox'
 import RadioInput from '@/components/Radio'
+import { mapState } from 'vuex'
 export default {
   components: {
     InputGroup,
@@ -187,10 +188,14 @@ export default {
   props:{
     data: {
       type: Object,
-      default: () => ({})
+      default: () => ({
+      })
     }
   },
   computed: {
+    ...mapState({
+      'Insuraned': state => state.activity.Insuraned,
+    }),
      yearOptions () {
         const arr = []
       for (let i = (new Date().getFullYear()-1911); i <= 140; i++) {
@@ -268,6 +273,12 @@ export default {
             }
           }
         })
+        if(type == 'name') {
+          this.$store.dispatch('activity/updatedInsuraned', {
+            ...this.Insuraned,
+            activityName: e
+          })
+        }
       }
     },
     emitSelectItem(key,childKey, value) {

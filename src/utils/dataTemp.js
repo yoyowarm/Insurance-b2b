@@ -208,6 +208,7 @@ export const quotation = () => {
       IsPolitician: false,
       overseasOrDomestic: false,
       IsProOrNot: false,
+      activityName: '', //活動名稱
     },
     Relation: {//被保人與要保人之關係
       Text: '選擇關係',

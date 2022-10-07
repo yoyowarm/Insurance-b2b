@@ -9,6 +9,7 @@
         :areaList="InsuranedAreaList.filter(item => item.cityId == InsuranedData.City.Value)"
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
+        quotationType="activity"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
         :disable="InsuranceActive == 1 || InsuranceActive == 3"
       />
@@ -242,6 +243,7 @@ export default {
           IsPolitician: detailData.isPolitician,
           overseasOrDomestic: Boolean(detailData.overseasOrDomestic),
           IsProOrNot: detailData.isProOrNot,
+          activityName: detailData.activityName,
         })
         this.$store.dispatch(`activity/updated${type}`, data)
       }

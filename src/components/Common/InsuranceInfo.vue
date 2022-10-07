@@ -13,6 +13,9 @@
           <Button class="absolute right-0 -top-1 w-10 md:w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.ID) {$emit('getDetail', 'ID')}}" :disable="disable">查詢</Button>
         </div>
       </InputGroup>
+      <InputGroup v-if="quotationType == 'activity'" class="w-full mb-2.5" title="活動名稱" lgTitle mid :disable="disable">
+        <Input slot="input" placeholder="輸入活動名稱" :value="copyInfo.activityName" @updateValue="(e) => updateInfo('activityName', e)" :disable="disable"/>
+      </InputGroup>
     </div>
     <div class="column-5 pt-6 pb-3 mb-4">
       <InputGroup class="w-full" title="電話" lgTitle mid :disable="disable">
@@ -190,6 +193,10 @@ export default {
     disable: {
       type: Boolean,
       default: () => false
+    },
+    quotationType: {
+      type: String,
+      default: () => ''
     }
   },
   data () {

@@ -71,6 +71,7 @@ export default {
       IsPolitician: false,
       overseasOrDomestic: false,
       IsProOrNot: false,
+      activityName: '',
     },
     Relation: {
       Text: '選擇關係',

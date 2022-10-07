@@ -279,6 +279,7 @@ export default {
           IsPolitician: this.quotationData.insuraned.isPolitician,
           overseasOrDomestic: Boolean(this.quotationData.insuraned.overseasOrDomestic),
           IsProOrNot: this.quotationData.insuraned.isProOrNot,
+          activityName: this.quotationData.insuraned.activityName,
         })
         if (this.IDRegex(Insuraned.ID)[1]) {
           Insuraned.CorporateRequired = true
