@@ -112,11 +112,11 @@ export default {
         if (this.renewal.IsRenewal && !this.renewal.InsuranceNumber) {
           this.requestFile.push('未輸入續保號碼')
         }
-        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${this.period.startDate.hour}:00:00`).getTime()
-        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${this.period.endDate.hour}:00:00`).getTime()
-        if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
-          this.requestFile.push('保期不能超過一年')
-        }
+        // const startTime = new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${this.period.startDate.hour}:00:00`).getTime()
+        // const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${this.period.endDate.hour}:00:00`).getTime()
+        // if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
+        //   this.requestFile.push('保期不能超過一年')
+        // }
         this.placeInfo.map(item => {
           if (!item.city || item.city.Text == '選擇縣市') {
             console.log(this.requestFile)
