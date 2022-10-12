@@ -20,6 +20,8 @@
             placeholder="輸入坪數"
             :value="info.squareFeet.toString()"
             decimalPoint
+            numberOnly
+            numberFormat
             :disable="disable"
             @updateValue="(e) =>updateValue(e,'squareFeet',index)"
           />
