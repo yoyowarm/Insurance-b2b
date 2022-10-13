@@ -1,7 +1,7 @@
 <template>
   <div class="table-body" :class="{scrollX, 'overflow-x-auto': scrollX}">
       <template v-for="(item, index) in rows">
-        <div v-if="windowWidth >= 600" class="item" :key="index" >
+        <div v-if="windowWidth >= 600" class="item cursor-pointer" :key="index" @click="$emit('review',item)">
           <template v-for="(headItem,headIndex) in head">
             <span :key="`${headItem.value}-${headIndex}`" class="text-gray-600 text-sm hidden">{{headItem.text}}</span>
             <div v-if="$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">

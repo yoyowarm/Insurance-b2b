@@ -14,25 +14,20 @@
           <span>保單編號{{tableData.rows[0].policyNo}}</span>
         </div>
       </div>
-      <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3>
+      <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3 @review="review">
         <template v-for="(item,index) in tableData.rows">
-          <div
-            class="mb-3 download"
-            @click="() => review(item.type,item.orderNo, item.mainOrderNo)" :slot="`serialNo-${index}`" :key="`serialNo-${index}`">
-            <span>{{item.serialNo}}</span>
-          </div>
           <div :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-24': windowWidth <= 600}">
             <div v-if="item.policyStatus == 99">序號改為:{{item.newSerialNo}}</div>
             <div v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))" class="mr-9 mt-5 ml-1">- -</div>
             <div v-else class="flex items-center mr-7 mt-1" :class="{'absolute flex-row top-12': windowWidth <= 600, 'flex-col': windowWidth > 600}">
-              <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click="popup(item)">列印</span>
-              <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600, 'ml-16': windowWidth <= 600}" v-if="!tableData.rows[0].isFinishQuotation" @click="copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')">更正</span>
-              <span class="download whitespace-no-wrap" :class="{'ml-16': windowWidth <= 600}" @click="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
+              <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
+              <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600, 'ml-16': windowWidth <= 600}" v-if="!tableData.rows[0].isFinishQuotation" @click.stop="copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')">更正</span>
+              <span class="download whitespace-no-wrap" :class="{'ml-16': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
             </div>
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <Button class="minButton whitespace-no-wrap" disabled outline>查看歷程</Button>
               <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" disabled outline>異動比對</Button>
-              <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="() => finishQuotation(item.orderNo)" v-if="!item.isFinishQuotation" outline>確認報價</Button>
+              <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
           </div>
           <div :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`" class="flex flex-col">
@@ -86,12 +81,11 @@ export default {
           target.rows.push(item)
           target.slotArray.push(`edit-${target.rows.length-1}`)
           target.slotArray.push(`ConvergeStartDate-${target.rows.length-1}`)
-          target.slotArray.push(`serialNo-${target.rows.length-1}`)
         } else {
           if(this.windowWidth > 600) {
-            arr.push({head:quotationListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'serialNo-0']})
+            arr.push({head:quotationListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0']})
           } else {
-            arr.push({head:quotationLisMobileTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'serialNo-0']})
+            arr.push({head:quotationLisMobileTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0']})
           }
         }
       })
@@ -102,9 +96,9 @@ export default {
     handleResize () {
       this.windowWidth = window.innerWidth
     },
-    review(type, orderNo,mainOrderNo) {
-      this.$store.dispatch('common/updateOrderNo', {orderNo,mainOrderNo})
-      this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step3`)
+    review(e) {
+      this.$store.dispatch('common/updateOrderNo', {orderNo: e.orderNo,mainOrderNo: e.mainOrderNo})
+      this.$router.push(`/${e.type == 1 ? 'place' : 'activity'}-quotation/step3`)
     },
     popup(item) {
       console.log(item)

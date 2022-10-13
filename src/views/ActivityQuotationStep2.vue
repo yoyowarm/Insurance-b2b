@@ -365,7 +365,7 @@ export default {
       this.$router.push('/activity-quotation/step1')
     },
     async verifyFinal() {
-      if(this.verifyResult.length === 0 && this.verifySalesInvadeResult.length === 0) {
+      if(this.verifyResult.length === 0 && this.verifyInvadeResult.length === 0) {
         await this.quotationMapping()
         this.$router.push('/activity-quotation/step3')
       }
