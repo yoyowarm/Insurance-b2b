@@ -219,7 +219,7 @@ export default {
             return {
               ...item,
               holdState: item.holdState == 0 ? true : false,
-              city: this.countyList.find(i => i.Value == item.cityId),
+              city: this.countyList.find(i => i.Value == item.cityId) ? this.countyList.find(i => i.Value == item.cityId) : { Text: '選擇縣市', Value: '' },
               area: this.areaList.find(i => i.Value == item.areaId) ? this.areaList.find(i => i.Value == item.areaId) : { Value: '選擇區域', Text: '選擇區域' },
             }
           })
