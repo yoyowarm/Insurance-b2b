@@ -344,7 +344,7 @@ export default {
     },
     async nextStep() {
       this.verifyResult = []
-      this.verifySalesInvadeResult = []
+      this.verifyInvadeResult = []
       this.verifyRequired('activity', this.InsuranceActive)
       await this.verifyUser()
       if(this.requestFile.length === 0) {

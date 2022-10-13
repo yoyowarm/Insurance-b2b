@@ -16,6 +16,8 @@ import quotation from './quotation'
 import questionnaire from './questionnaire'
 import news from './news'
 import documentDownload from './documentDownload'
+import verify from './verify'
+
 
 Vue.use(Vuex)
 
@@ -98,7 +100,8 @@ export default new Vuex.Store({
     quotation,
     questionnaire,
     news,
-    documentDownload
+    documentDownload,
+    verify
   },
   plugins: [vuexLocal.plugin]
 })

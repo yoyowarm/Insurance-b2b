@@ -5,6 +5,7 @@ export default {
     return {
       requestFile: [],
       verifyResult: [],
+      verifyInvadeResult: [],
       IDRegex
     }
   },
@@ -23,6 +24,36 @@ export default {
     }
   },
   methods: {
+    async checkPreventOccupy() {
+      //要保人電話
+      const number = await this.$store.dispatch('verify/CheckPreventOccupy', { Type: 1, Text: this.ApplicantData.Mobile, InsuranedId: this.InsuranedData.ID, ApplicantId: this.ApplicantData.ID })
+      this.verifyInvadeResult.push(number.data.content)
+      //要保人eMail
+      if (this.policyTransfer.transferType == 1) {
+        this.policyTransfer.transferDetails.map(async item => {
+          if (item.transferDetailType) {
+            const email = await this.$store.dispatch('verify/CheckPreventOccupy', { Type: 2, Text: item.transferInfo, InsuranedId: this.InsuranedData.ID, ApplicantId: this.ApplicantData.ID })
+            this.verifyInvadeResult.push(email.data.content)
+          }
+        })
+      }
+      if (this.ApplicantData.ID == '03336704') {
+        this.verifyInvadeResult.push({ isSuccess: false, message: '要保人統編為 03336704 請注意是否更改' })
+      }
+      if (this.InsuranedData.ID == '03336704') {
+        this.verifyInvadeResult.push({ isSuccess: false, message: '被保人統編為 03336704 請注意是否更改' })
+      }
+      //要保人地址
+      const address = await this.$store.dispatch('verify/CheckPreventOccupy', { Type: 3, Text: `${this.ApplicantData.City.Text}${this.ApplicantData.Area.Text}${this.ApplicantData.subAddress}`, InsuranedId: this.InsuranedData.ID, ApplicantId: this.ApplicantData.ID })
+      this.verifyInvadeResult.push(address.data.content)
+
+      if (this.$route.path.includes('place')) {//處所地址
+        this.placeInfo.map(async item => {
+          const place = await this.$store.dispatch('verify/CheckPreventOccupy', { Type: 3, Text: `${item.city.Text}${item.area.Text}${item.subAddress}`, InsuranedId: this.InsuranedData.ID, ApplicantId: this.ApplicantData.ID })
+          this.verifyInvadeResult.push(place.data.content)
+        })
+      }
+    },
     async verifySalesInvade() {
       //地址
       const InsuranedAD = await this.$store.dispatch('verify/salesInvade', { value: `${this.Insuraned.City.placeholder}${this.Insuraned.Area.placeholder}${this.Insuraned.Street}`, salesInvadetype: 0 })
@@ -47,7 +78,7 @@ export default {
       if (!InsuranedId.data.IsSuccess) this.verifyResult.push(InsuranedId.data)
       if (!ApplicantId.data.IsSuccess) this.verifyResult.push(ApplicantId.data)
     },
-    verifyResultPopup: function () {
+    verifyResultPopup: async function () {
       let htmlText = ''
       this.verifyResult.map(item => {
         if (!item.IsSuccess) {
@@ -57,11 +88,34 @@ export default {
         }
       })
 
-      if (this.verifyResult.length > 0) {
+      this.verifyInvadeResult.map(item => {
+        if (!item.isSuccess) {
+          htmlText += `<p>${item.message}</p>`
+        } else {
+          this.verifyInvadeResult.pop()
+        }
+      })
+      if ((this.verifyInvadeResult.length > 0 || this.verifyResult.length > 0) && htmlText != '') {
         Popup.create({
+          confirm: true,
+          ok: '否',
+          cancel: '是',
           hasHtml: true,
           htmlText: htmlText,
+        }).then(async () => {
+          this.verifyResult = []
+          this.verifyInvadeResult = []
+          htmlText = ''
+          await this.verifyFinal()
+        }).catch(() => {
+          this.verifyResult = []
+          this.verifyInvadeResult = []
+          htmlText = ''
         })
+      } else {
+        this.verifyResult = []
+        this.verifyInvadeResult = []
+        await this.verifyFinal()
       }
     },
     verifyRequired(type, InsuranceActive) {

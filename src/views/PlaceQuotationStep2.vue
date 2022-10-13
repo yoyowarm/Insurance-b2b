@@ -362,11 +362,12 @@ export default {
     },
     async nextStep() {
       this.verifyResult = []
-      this.verifySalesInvadeResult = []
+      this.verifyInvadeResult = []
       this.verifyRequired('place', this.InsuranceActive)
       await this.verifyUser()
       if(this.requestFile.length === 0) {
-        await this.verifyFinal()
+        await this.checkPreventOccupy()
+        await this.verifyResultPopup()
       }
     },
     prevStep() {
@@ -383,7 +384,7 @@ export default {
       this.$router.push('/place-quotation/step1')
     },
     async verifyFinal() {
-      if(this.verifyResult.length === 0 && this.verifySalesInvadeResult.length === 0) {
+      if(this.verifyResult.length === 0 && this.verifyInvadeResult.length === 0) {
         await this.quotationMapping()
         this.$router.push('/place-quotation/step3')
       }
