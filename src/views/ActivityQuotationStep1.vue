@@ -683,9 +683,9 @@ export default {
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
     }
-    if(this.InsuranceActive == 0) {
-      this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
-    }
+    // if(this.InsuranceActive == 0) {
+    //   this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
+    // }
   },
   beforeDestroy() {
     this.$store.dispatch('common/updatedCalculateModel',false)

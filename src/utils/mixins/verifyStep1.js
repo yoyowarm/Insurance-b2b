@@ -138,6 +138,9 @@ export default {
         if (Object.keys(this.period.startDate).some(key => isNaN(this.period.startDate[key])) || Object.keys(this.period.endDate).some(key => isNaN(this.period.endDate[key]))) {
           this.requestFile.push('保期起迄日不可為空')
         }
+        if (new Date().getTime() > new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${this.period.startDate.hour}:00`).getTime()) {
+          this.requestFile.push('保期起日不可小於今天')
+        }
       }
       if (type == 'activity') {
         if (!this.period.endDate.year || !this.period.endDate.month || !this.period.endDate.day || isNaN(this.period.endDate.hour)) {
