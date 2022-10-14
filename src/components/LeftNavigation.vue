@@ -68,7 +68,7 @@
         </div>
         <div v-show="(windowWidth >770 && showCategory) || (windowWidth <=770 && path.includes('parameterSetting'))" class="fixed-menu md:pl-0 md:items-center">
           <DynamicLink v-if="permissions.includes('PlaceActivityTypeSetting')" type="router" path="/parameterSetting/category" @click.native="$emit('update:openMenu', false)">
-            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">類別</span>
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/category'}">投保行業</span>
           </DynamicLink>
           <DynamicLink v-if="permissions.includes('CountyMinimumSetting')" type="router" path="/parameterSetting/minimumAmount" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/minimumAmount'}">縣市最低保額</span>
@@ -160,7 +160,7 @@ export default {
 
 <style scoped lang="scss">
   .left-nav {
-    width: 120px;
+    width: 130px;
     @apply pt-8 pb-20
   }
   .user-mobile {

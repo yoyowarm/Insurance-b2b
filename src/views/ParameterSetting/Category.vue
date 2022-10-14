@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="類別 參數設定" class="text-lg mb-14"/>
+    <FormTitle title="投保行業 參數設定" class="text-lg mb-14"/>
     <CommonBoard class="category">
       <NavMenu
         class="menu"

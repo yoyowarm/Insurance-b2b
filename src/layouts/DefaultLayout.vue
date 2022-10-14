@@ -102,7 +102,7 @@ export default {
     margin-top: 80px;
   }
   .right-block  {
-    width: calc(100vw - 120px);
+    width: calc(100vw - 130px);
     @apply  px-12 py-8
   }
   .user {
