@@ -318,7 +318,7 @@ export default {
         if(this.$refs[`${type}-${key}-${index}`]) {
           this.$refs[`${type}-${key}-${index}`][0].$el.lastChild.value = CHKey[key]
         }
-      } else if(new Date().getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${copyInfoList[index][type].hour}:00`).getTime()) {
+      } else if(new Date().getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${copyInfoList[index][type].hour}:00`).getTime()-(60*24*60*1000)) {
         Popup.create({
           hasHtml: true,
           htmlText: '結束日期不得早於起始日期',
@@ -344,7 +344,7 @@ export default {
       const startTime = new Date(`${Number(this.copyInfoList[index].startDate.year)+1911}-${this.copyInfoList[index].startDate.month}-${this.copyInfoList[index].startDate.day} 00:00`).getTime()
       const endTime = new Date(`${Number(this.copyInfoList[index].endDate.year)+1911}-${this.copyInfoList[index].endDate.month}-${this.copyInfoList[index].endDate.day} 00:00`).getTime()
       const day = Math.round((endTime - startTime) / (24 * 3600 * 1000)) + 1
-      this.updateValue(isNaN(day) ? '--' : day.toString(),'day',index)
+      this.updateValue(isNaN(day) ? '2' : day.toString(),'day',index)
     },
     assignDate(index) {
       const today = new Date().getHours() > 12 ? new Date().setDate(new Date().getDate() + 1) : new Date().getTime()
@@ -372,6 +372,7 @@ export default {
   mounted() {
     this.copyInfoList = [...this.infoList]
     this.copyInfoList.map((i,index) => {
+      this.assignDate(index)
       this.updateDay(index)
     })
   }
