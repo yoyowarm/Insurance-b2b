@@ -206,8 +206,8 @@ export default {
           if (target && this.additionTerms[target.additionTermId]) {
             if (['PL002', 'PL003', 'PL004', 'PL007', 'PL035'].includes(target.additionTermId)) return
             if (target.additionTermId == 'PL005') {
-              if (!this.additionTerms[target.additionTermId].value1) {
-                this.requestFile.push(`${target.additionTermName}條款未填寫完成`)
+              if (!this.additionTerms[target.additionTermId].value1 || this.additionTerms[target.additionTermId].value1 === '0') {
+                this.requestFile.push(`${target.additionTermName}條款未填寫完成或金額不能為0`)
               }
               if (!this.additionTerms[target.additionTermId].value2) {
                 this.requestFile.push(`${target.additionTermName}處所數量至少為1`)
@@ -234,6 +234,15 @@ export default {
       if (!calculate && !this.insuranceAmountListData.amount) {
         this.requestFile.push('未試算保費')
       }
+      // Object.keys(this.terms).map(key => {
+      //   if (this.terms[key].selected && this.additionTerms[key.split(' ')[0]]) {
+      //     if (Object.keys(this.additionTerms[key.split(' ')[0]]).some(k => (!this.additionTerms[key.split(' ')[0]][k] && this.additionTerms[key.split(' ')[0]][k] !== false) || this.additionTerms[key.split(' ')[0]][k] === '0')) {
+      //       if (!this.requestFile.includes(`${key}條款未填寫完成或金額不能為0`)) {
+      //         this.requestFile.push(`${key}條款未填寫完成或金額不能為0`)
+      //       }
+      //     }
+      //   }
+      // })
     }
   },
 }
