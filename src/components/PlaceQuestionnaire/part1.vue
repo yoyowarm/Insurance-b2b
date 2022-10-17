@@ -128,7 +128,10 @@ export default {
      },
      monthOptions () {
        const arr = []
-      for (let i = 1; i <= new Date().getMonth()+1; i++) {
+       const month = this.data.part1.createTime.year == new Date().getFullYear() - 1911
+        ? new Date().getMonth() + 1
+        : 12
+      for (let i = 1; i <= month; i++) {
          arr.push({
            Text: `${i}月`,
            Value: i
@@ -138,11 +141,23 @@ export default {
      },
       dayOptions () {
         const arr = []
-        for (let i = 1; i <= 31; i++) {
-          arr.push({
-            Text: `${i}日`,
-            Value: i
-          })
+        if(this.data.part1.createTime.year && this.data.part1.createTime.month){
+          const days = this.data.part1.createTime.year == new Date().getFullYear() - 1911 && this.data.part1.createTime.month == new Date().getMonth() + 1
+            ? new Date().getDate()
+            : new Date(Number(this.data.part1.createTime.year)+1911, this.data.part1.createTime.month, 0).getDate()
+          for (let i = 1; i <= days; i++) {
+            arr.push({
+              Text: `${i}日`,
+              Value: i
+            })
+          }
+        } else {
+          for (let i = 1; i <= 31; i++) {
+            arr.push({
+              Text: `${i}日`,
+              Value: i
+            })
+          }
         }
         return arr 
       },
