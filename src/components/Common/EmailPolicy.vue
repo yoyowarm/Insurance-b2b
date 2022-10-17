@@ -128,6 +128,9 @@ export default {
       if(key == 'transferType') {
         data.transferType = value
       } else {
+        if(key == 'transferOriginalType' && value) {
+          data.transferDetails[index].sort = ''
+        }
         data.transferDetails[index][key] = value
       }
       this.$emit('update:eletric', data)
