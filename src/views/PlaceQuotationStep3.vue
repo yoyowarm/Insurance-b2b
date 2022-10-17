@@ -33,7 +33,7 @@
         v-else
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
-        class="my-8 w-40 md:w-64 ">完成報價</Button>
+        class="my-8 w-40 md:w-64 ">{{InsuranceActive == 1 ? '完成更正' : '完成報價'}}</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
@@ -135,6 +135,7 @@ export default {
       insuranceAmountList: state => state.place.insuranceAmountList,
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
+      InsuranceActive: state => state.place.InsuranceActive,
     }),
     InsuranedData: {
       get() {
@@ -214,7 +215,7 @@ export default {
 				confirm: true,
 				ok: '確定',
 				cancel: '取消',
-				htmlText: `<p>完成報價後將無法改動報價內容，確定完成報價？</p>`,
+				htmlText: `<p>${this.InsuranceActive ==1 ? '完成更正' : '完成報價' }後將無法改動報價內容，確定${this.InsuranceActive ==1 ? '完成更正' : '完成報價' }？</p>`,
       }).then(async () => {
         const data = {
           OrderNo: this.orderNo,
