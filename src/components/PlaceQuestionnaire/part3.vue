@@ -152,13 +152,24 @@ export default {
         'hasDangerousItem',
         'hasBoiler'
       ]
-      this.$emit('update:data',{
-        ...this.data,
-        part3: {
-          ...this.data.part3,
-          [type]: arr.includes(type) && e === this.data.part3[type] ? null : e
-        }
-      })
+      if(e && type == 'selfOperated') {
+        this.$emit('update:data',{
+          ...this.data,
+          part3: {
+            ...this.data.part3,
+            [type]: arr.includes(type) && e === this.data.part3[type] ? null : e,
+            notSelfOperated: ''
+          }
+        })
+      } else {
+        this.$emit('update:data',{
+          ...this.data,
+          part3: {
+            ...this.data.part3,
+            [type]: arr.includes(type) && e === this.data.part3[type] ? null : e
+          }
+        })
+      }
     },
     // updateFacility(e,list) {
     //   let arr = []
