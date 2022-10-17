@@ -609,12 +609,12 @@ export const quotation = () => {
         value2: '',//保險期間內之最高賠償金額
       },
       PL023: {//慰問金費用附加條款
-        value1: '',
-        value2: '',
-        value3: '',
-        value4: '',
-        value5: '',
-        value6: '',
+        value1: '1000',
+        value2: '5000',
+        value3: '10000',
+        value4: '10000',
+        value5: '50000',
+        value6: '100000',
       },
       PL028: {//安養事業責任附加條款
         value1: '',
