@@ -33,7 +33,7 @@
         v-else
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
-        class="my-8 w-40 md:w-64 ">{{InsuranceActive == 1 ? '完成更正' : '完成報價'}}</Button>
+        class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
@@ -211,25 +211,21 @@ export default {
     async finishQuotation(key) {
       Popup.create({
         hasHtml: true,
-				maskClose: false,
-				confirm: true,
-				ok: '確定',
-				cancel: '取消',
-				htmlText: `<p>${this.InsuranceActive ==1 ? '完成更正' : '完成報價' }後將無法改動報價內容，確定${this.InsuranceActive ==1 ? '完成更正' : '完成報價' }？</p>`,
+        maskClose: false,
+        confirm: true,
+        ok: '確定',
+        cancel: '取消',
+        htmlText: `<p>完成報價後將無法改動報價內容，確定完成報價？</p>`,
       }).then(async () => {
-        const data = {
-          OrderNo: this.orderNo,
-          mainOrderNo: this.mainOrderNo
-        }
         if(key) {
-          await this.$store.dispatch('quotation/FinishQuotation', data)
+          await this.$store.dispatch('quotation/FinishQuotation', {orderNo: this.orderNo})
         } else {
-          await this.$store.dispatch('quotation/BeginUnderwriting',data)
+          await this.$store.dispatch('quotation/BeginUnderwriting',{orderNo: this.orderNo})
         }
         this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)
       })
-    }
+    },
   },
   async mounted() {
     await this.quotationDetail()
