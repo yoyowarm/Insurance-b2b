@@ -10,7 +10,7 @@
       />
       <div class="column-5 mb-4">
         <InputGroup noMt>
-          <Select slot="input" :options="typeList" @emitItem="e=> {currentType = e.Value}" defaultText="選擇類別"/>
+          <Select slot="input" :options="typeList" @emitItem="e=> {currentType = e.Value}" defaultText="選擇投保行業"/>
         </InputGroup>
       </div>
       <div class="flex w-full">
@@ -148,7 +148,7 @@ export default {
     currentType: {
       async handler(val, oldVal) {
         if(val === oldVal) return 
-        if(val == '選擇類別') {
+        if(val == '選擇投保行業') {
           await this.getAllList(this.currentTag)
         } else {
           const data = await this.$store.dispatch('resource/PlaceActivities', {
@@ -196,7 +196,10 @@ export default {
           isEnable: this.categoryListTable.rows[index].isEnable
         }
         await this.$store.dispatch('parameterSetting/updatePlacesActivity', data)
-        const category = await this.$store.dispatch(`resource/${this.currentTag === 0 ? 'PlacesSetting' : 'ActivitiesSetting'}`)
+        const category = await this.$store.dispatch('resource/PlaceActivities', {
+            placeActivityType: this.currentTag+1,
+            typeName: this.currentType
+          })
         this.categoryListTable = {
           head: this.categoryListTable.head,
           rows: category.data.content
