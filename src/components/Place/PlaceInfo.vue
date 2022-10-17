@@ -22,6 +22,7 @@
             decimalPoint
             numberOnly
             numberFormat
+            :maxLength="7"
             :disable="disable"
             @updateValue="(e) =>updateValue(e,'squareFeet',index)"
           />

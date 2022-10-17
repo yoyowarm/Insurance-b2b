@@ -16,6 +16,7 @@
             @updateValue="(e) =>updateValue(e,'number',index)"
             numberOnly
             numberFormat
+            :maxLength="7"
           />
         </InputGroup>
         <InputGroup title="活動處所地址" dash :disable="disable">
