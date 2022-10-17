@@ -30,16 +30,10 @@
           <DatePicker slot="input" formerYears :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄"/>
         </InputGroup>
         <InputGroup class="w-full" border0>
-          <div slot="input" @click="() => {openQuestionnaire(2,1); SerialNo = ''; clearActivityQuestionnaire()}" class="mr-3">
-            <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
-            <span class="download ml-1 text-lg">活動詢問表</span>
-          </div>
+          <Button slot="input" class="w-full" outline @click.native="() => {openQuestionnaire(2,1); SerialNo = ''; clearActivityQuestionnaire()}" >活動詢問表</Button>
         </InputGroup>
         <InputGroup class="w-full" border0>
-          <div slot="input" @click="() => {openQuestionnaire(1,1);SerialNo = ''; clearPlaceQuestionnaire()}">
-            <font-awesome-icon :icon="['fas','plus-circle']"  class="download" />
-            <span class="download ml-1 text-lg">場所詢問表</span>
-          </div>
+          <Button slot="input" class="w-full" outline @click.native="() => {openQuestionnaire(1,1);SerialNo = ''; clearPlaceQuestionnaire()}" >場所詢問表</Button>
         </InputGroup>
       </div>
       <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
