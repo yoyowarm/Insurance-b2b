@@ -14,6 +14,7 @@
           slot="input"
           numberOnly
           placeholder="輸入人數"
+          :maxLength="7"
           :value="data.sheet1.part1.joinPersonAmount"
           @updateValue="(e) => updateValue(e,'joinPersonAmount')"
         />
@@ -23,6 +24,7 @@
           slot="input"
           numberOnly
           placeholder="輸入人數"
+          :maxLength="7"
           :value="data.sheet1.part1.ruleCapacity"
           @updateValue="(e) => updateValue(e,'ruleCapacity')"
         />
@@ -81,6 +83,7 @@
         <Input
           slot="input"
           placeholder="輸入天數"
+          :maxLength="7"
           :value="data.sheet1.part1.activityDays"
           @updateValue="(e) => updateValue(e,'activityDays')"
         />

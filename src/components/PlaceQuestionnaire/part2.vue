@@ -2,13 +2,13 @@
   <div>
     <div class="column-4 my-3">
       <InputGroup lgTitle title="外牆建築材質">
-        <Input slot="input" :maxLength="19" :value="data.part2.wallMaterial" @updateValue="(e) => updateValue(e,'wallMaterial')" placeholder="輸入材質名稱"/>
+        <Input slot="input" :maxLength="7" :value="data.part2.wallMaterial" @updateValue="(e) => updateValue(e,'wallMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
       <InputGroup lgTitle title="樓地板建築材質">
-        <Input slot="input" :maxLength="19" :value="data.part2.floorMaterial" @updateValue="(e) => updateValue(e,'floorMaterial')" placeholder="輸入材質名稱"/>
+        <Input slot="input" :maxLength="7" :value="data.part2.floorMaterial" @updateValue="(e) => updateValue(e,'floorMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
       <InputGroup lgTitle title="屋頂建築材質">
-        <Input slot="input" :maxLength="19" :value="data.part2.roofMaterial" @updateValue="(e) => updateValue(e,'roofMaterial')" placeholder="輸入材質名稱"/>
+        <Input slot="input" :maxLength="7" :value="data.part2.roofMaterial" @updateValue="(e) => updateValue(e,'roofMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
     </div>
     <div class="flex flex-col my-3">
