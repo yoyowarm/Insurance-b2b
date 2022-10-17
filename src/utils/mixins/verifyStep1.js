@@ -180,6 +180,9 @@ export default {
       if (!this.industry.Value) {
         this.requestFile.push('未選擇投保行業')
       }
+      if (this.industry.Value == 106 && !this.industryText) {
+        this.requestFile.push('未輸入其他行業')
+      }
       if (!this.period.startDate.year || !this.period.startDate.month || !this.period.startDate.day || isNaN(this.period.startDate.hour)) {
         this.requestFile.push('未選擇起保日')
       }

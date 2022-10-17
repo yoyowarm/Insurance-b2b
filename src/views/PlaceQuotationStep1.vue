@@ -666,7 +666,7 @@ export default {
           }
         })],
         insureIndustrySeq: this.industry.Value,
-        insureIndustryOtherText: this.industry.Text,
+        insureIndustryOtherText: this.industry.Value == 106 ? this.industryText :this.industry.Text,
         remark: this.remark.text,
         insuranceAmounts:[...this.insuranceAmountList.map(item => {
           delete item.amount
