@@ -27,7 +27,8 @@
           numberFormat
           :disable="type == 'place'"
         />
-        <span class="absolute -right-42 bottom-3" slot="suffix">處 <span class="ml-2 text-sm text-red-500">指承租處所的數量</span></span>
+        <span slot="right" class="ml-2 text-sm text-red-500"><font-awesome-icon class="mr-1" icon="exclamation-circle" />請輸入承租處所的數量</span>
+        <span class="absolute right-2 bottom-3" slot="suffix">處</span>
       </InputGroup>
     </div>
 	</div>
