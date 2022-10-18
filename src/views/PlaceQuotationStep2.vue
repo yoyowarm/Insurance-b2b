@@ -1,6 +1,9 @@
 <template>
   <div>
-    <CommonBoard class="w-full mb-7" title="被保險人資料">
+    <CommonBoard class="w-full mb-7 relative" title="被保險人資料">
+      <div v-if="InsuranceActive == 1" class="customer-attr" slot="right">
+        <span><font-awesome-icon class="mr-1" icon="exclamation-circle" />若需修訂保險人資訊，請至『列表頁面』點選『更正要被保人』按鈕</span>
+      </div>
       <InsuranceInfo
         :marginTop="marginTop"
         :info.sync="InsuranedData"
@@ -487,4 +490,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.customer-attr {
+  @apply absolute left-36 top-1 text-sm text-main;
+}
+@media (max-width: 600px) {
+  .customer-attr {
+    @apply absolute left-28 top-1 text-xs text-main;
+  }
+}
 </style>
