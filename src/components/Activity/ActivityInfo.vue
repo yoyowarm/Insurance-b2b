@@ -208,9 +208,10 @@ export default {
     infoList: {
       handler(val) {
         this.copyInfoList = val
-        val.map((_,index) => {
+        this.copyInfoList.map((_,index) => {
           this.assignDate(index)
         })
+
       },
       deep: true
     }
@@ -345,7 +346,7 @@ export default {
       const startTime = new Date(`${Number(this.copyInfoList[index].startDate.year)+1911}-${this.copyInfoList[index].startDate.month}-${this.copyInfoList[index].startDate.day} 00:00`).getTime()
       const endTime = new Date(`${Number(this.copyInfoList[index].endDate.year)+1911}-${this.copyInfoList[index].endDate.month}-${this.copyInfoList[index].endDate.day} 00:00`).getTime()
       const day = Math.round((endTime - startTime) / (24 * 3600 * 1000)) + 1
-      this.updateValue(isNaN(day) ? '2' : day.toString(),'day',index)
+      this.updateValue(isNaN(day) ? '1' : day.toString(),'day',index)
     },
     assignDate(index) {
       const today = new Date().getHours() > 12 ? new Date().setDate(new Date().getDate() + 1) : new Date().getTime()
@@ -361,12 +362,13 @@ export default {
       }
       if(!this.copyInfoList[index].startDate.day) {
         this.copyInfoList[index].startDate.day = new Date(today).getDate()
-        this.copyInfoList[index].endDate.day = new Date(tomorrow).getDate()
+        this.copyInfoList[index].endDate.day = new Date(today).getDate()
       }
       if(!this.copyInfoList[index].startDate.hour) {
         this.copyInfoList[index].startDate.hour = new Date().getHours() > 12 ? 0 : 12
         this.copyInfoList[index].endDate.hour = new Date().getHours() > 12 ? 24 : 12
       }
+      this.updateDay(index)
       this.$emit('update:infoList', this.copyInfoList)
     }
   },
