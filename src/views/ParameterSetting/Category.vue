@@ -202,7 +202,7 @@ export default {
           })
         this.categoryListTable = {
           head: this.categoryListTable.head,
-          rows: category.data.content
+          rows: category.data.content.placeActivityDetails
         }
       }
     },
