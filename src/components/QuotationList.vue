@@ -16,7 +16,7 @@
       </div>
       <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3 @review="review">
         <template v-for="(item,index) in tableData.rows">
-          <div :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-24': windowWidth <= 600}">
+          <div :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-24': windowWidth <= 600 && item.policyStatus !== 99}">
             <div v-if="item.policyStatus == 99">序號改為:{{item.newSerialNo}}</div>
             <div v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))" class="mr-9 mt-5 ml-1">- -</div>
             <div v-else class="flex items-center mr-7 mt-1" :class="{'absolute flex-row top-12': windowWidth <= 600, 'flex-col': windowWidth > 600}">

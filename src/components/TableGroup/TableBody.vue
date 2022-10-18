@@ -26,7 +26,7 @@
           <div class="" :class="{'column-2-wide' : column2, 'column-3-wide': column3}">
             <template v-for="(headItem,headIndex) in head">
               <div :key="`${headItem.value}-${headIndex}`" >
-                <span class="text-gray-600 text-sm hidden">{{headItem.text}}</span>
+                <span class="text-gray-100 bg-gray-500 text-sm hidden">{{headItem.text}}</span>
                 <div v-if="$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
                   <slot :name="`${headItem.value}-${index}`"/>
                 </div>
