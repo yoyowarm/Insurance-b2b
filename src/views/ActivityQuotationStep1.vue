@@ -458,6 +458,13 @@ export default {
         }
         this.$store.dispatch('common/updatedCalculateModel',true)
         const res = await this.$store.dispatch('quotation/GetActivityInsuranceProjectAmount',{data})
+        if(!res.data.content) {
+          Popup.create({
+            headerText: '',
+            hasHtml: true,
+            htmlText: res.data.message,
+          })
+        }
         this.insuranceAmountListData = {
           ...this.insuranceAmountListData,
           amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',

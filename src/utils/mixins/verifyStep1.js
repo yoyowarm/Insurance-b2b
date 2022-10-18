@@ -196,6 +196,9 @@ export default {
         if (item.amountType.Value == 2 && (!item.insuranceTotalAmount || !item.perAccidentBodyAmount || !item.perAccidentFinanceAmount || !item.perBodyAmount)) {
           this.requestFile.push('未輸入保額')
         }
+        if (item.amountType.Value == 2 && (item.insuranceTotalAmount == '0' || item.perAccidentBodyAmount == '0' || item.perAccidentFinanceAmount == '0' || item.perBodyAmount == '0')) {
+          this.requestFile.push('保額不可為0')
+        }
         if (item.amountType.Value == 2 && (Number(item.insuranceTotalAmount) < Number(item.perAccidentBodyAmount) + Number(item.perAccidentFinanceAmount))) {
           this.requestFile.push('AGG不得小於AOA加總')
         }
