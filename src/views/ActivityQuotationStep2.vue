@@ -248,6 +248,9 @@ export default {
           IsProOrNot: detailData.isProOrNot,
           activityName: detailData.activityName,
         })
+        if (type == 'Insuraned') {
+          data.activityName = this.InsuranedData.activityName
+        }
         this.$store.dispatch(`activity/updated${type}`, data)
       }
     },
