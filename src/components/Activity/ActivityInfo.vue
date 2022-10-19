@@ -346,7 +346,6 @@ export default {
       const startTime = new Date(`${Number(this.copyInfoList[index].startDate.year)+1911}-${this.copyInfoList[index].startDate.month}-${this.copyInfoList[index].startDate.day} 00:00`).getTime()
       const endTime = new Date(`${Number(this.copyInfoList[index].endDate.year)+1911}-${this.copyInfoList[index].endDate.month}-${this.copyInfoList[index].endDate.day} 00:00`).getTime()
       const day = Math.round((endTime - startTime) / (24 * 3600 * 1000))
-      console.log(day)
       this.updateValue(isNaN(day) ? '1' : day.toString(),'day',index)
     },
     assignDate(index) {
