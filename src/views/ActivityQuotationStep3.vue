@@ -23,11 +23,11 @@
       type="activity"
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">返回列表</Button>
+      <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
       <Button @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
+        v-if="false && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.insuranceAmount)"
         @click.native="finishQuotation()"
         class="my-8 w-40 md:w-64 "
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
@@ -35,8 +35,8 @@
         開始核保
       </Button>
       <Button
-        v-else
-        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
+        v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && InsuranceActive > 4"
+        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
@@ -160,11 +160,9 @@ export default {
       const detail = await this.$store.dispatch('quotation/GetActivityQuotationDetail', {orderno: this.orderNo,mainOrderNo: this.mainOrderNo})
       this.quotationData = {
         ...detail.data.content,
-        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
+        insuranceAmounts: detail.data.content.insuranceAmounts.map((item) => {
           return {
             ...item,
-            // eslint-disable-next-line no-prototype-builtins
-            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
             fixed: false,
             insuranceTotalAmount: item.insuranceTotalAmount/10000,
             mergeSingleAmount: item.mergeSingleAmount/10000,
@@ -216,6 +214,7 @@ export default {
         }
         this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)
+        this.$store.dispatch(`activity/updatedInsuranceActive`,0)
       })
     },
     async pageInit() {
@@ -242,6 +241,12 @@ export default {
     await this.quotationDetail()
     await this.pageInit()
   },
+  destroyed() {
+    this.$store.dispatch('activity/clearAll')
+    this.$store.dispatch('activity/updatedUUID', '')
+    this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+    this.$store.dispatch(`activity/updatedInsuranceActive`,0)
+  }
 }
 </script>
 

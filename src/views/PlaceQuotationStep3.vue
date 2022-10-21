@@ -18,11 +18,11 @@
       type="place"
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">返回列表</Button>
+      <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
       <Button @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
+        v-if="false && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-8 w-40 md:w-64 "
@@ -30,7 +30,7 @@
         開始核保
       </Button>
        <Button
-        v-else
+        v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && InsuranceActive > 4"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
         class="my-8 w-40 md:w-64 ">完成報價</Button>
@@ -224,6 +224,7 @@ export default {
         }
         this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)
+        this.$store.dispatch(`place/updatedInsuranceActive`,0)
       })
     },
   },
@@ -232,6 +233,12 @@ export default {
     const county = await this.$store.dispatch('resource/CountyMinimumSettings')
     this.countyAmount = county.data.content
   },
+  destroyed() {
+    this.$store.dispatch('place/clearAll')
+    this.$store.dispatch('place/updatedUUID', '')
+    this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+    this.$store.dispatch(`place/updatedInsuranceActive`,0)
+  }
 }
 </script>
 

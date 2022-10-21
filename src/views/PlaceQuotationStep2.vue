@@ -132,7 +132,7 @@ export default {
       detailArea: '',
       InsuranceActiveText: {
         0:'產生報價單',
-        1:'下一步',
+        1:'更正報價單',
         2:'修改要被保人',
         3: '新增序號',
         4: '下一步'
@@ -369,8 +369,21 @@ export default {
       this.verifyRequired('place', this.InsuranceActive)
       await this.verifyUser()
       if(this.requestFile.length === 0) {
-        await this.checkPreventOccupy()
-        await this.verifyResultPopup()
+        if(this.InsuranceActive ==1) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: '此更正動作將產生新報價單序號，確認繼續？',
+            ok: '是',
+            cancel: '否',
+            confirm: true
+          }).then(async() => {
+            await this.checkPreventOccupy()
+            await this.verifyResultPopup()
+          })
+        } else {
+          await this.checkPreventOccupy()
+          await this.verifyResultPopup()
+        }
       }
     },
     prevStep() {

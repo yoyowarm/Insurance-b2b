@@ -12,7 +12,7 @@
       :statusKey="statusKey"
       :column2="column2"
       :column3="column3"
-      @review="(e) => $emit('review',{type: e.type, orderNo: e.orderNo,mainOrderNo: e.mainOrderNo})"
+      @review="(e) => $emit('review',{type: e.type, orderNo: e.orderNo,mainOrderNo: e.mainOrderNo, item:e})"
     >
       <template v-for="(slot,index) in slotName">
          <div class="" :slot="slot" :key="`${slot}${index}`"><slot :name="slot"/></div>
