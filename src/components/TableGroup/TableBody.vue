@@ -22,26 +22,26 @@
             </div>
           </template>
         </div>
-        <div v-else class="item" :key="index">
+        <div v-else class="item" :key="index" @click="$emit('review',item)">
           <div class="" :class="{'column-2-wide' : column2, 'column-3-wide': column3}">
             <template v-for="(headItem,headIndex) in head">
               <div :key="`${headItem.value}-${headIndex}`" >
-                <span class="text-gray-100 bg-gray-500 text-sm hidden">{{headItem.text}}</span>
-                <div v-if="$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
+                <span class="text-gray-100 bg-main rounded-t-xl text-center p-1 text-sm hidden">{{headItem.text}}</span>
+                <div v-if="$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`" :class="[scrollX ? '' :'truncate']">
                   <slot :name="`${headItem.value}-${index}`"/>
                 </div>
-                <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`"  :class="[`w-${headItem.size}`,scrollX ? '' :'truncate']">
+                <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`"  :class="[,scrollX ? '' :'truncate']">
                   <DynamicLink v-if="item.link && headItem.value === 'Title'" type="router" :path="item.link">
-                    <span class="link" :class="{'font-semibold': boldFont}">{{item[headItem.value]}}</span>
+                    <span class="link bg-gray-100" :class="{'font-semibold': boldFont}">{{item[headItem.value]}}</span>
                   </DynamicLink>
                   <a v-else-if="item.Url && headItem.value === urlKey" :href="item.Url" download>
-                    <span class="link" :class="{'font-semibold': boldFont}">{{item[headItem.value]}}</span>
+                    <span class="link bg-gray-100" :class="{'font-semibold': boldFont}">{{item[headItem.value]}}</span>
                   </a>
-                  <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer" @click="$emit('popup', index)">{{item[headItem.value]}}</span>
-                  <span class="text-gray-600" v-else-if="item.class && headItem.value === statusKey" :class="item.class" v-html="item[headItem.value]">
+                  <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer bg-gray-100" @click="$emit('popup', index)">{{item[headItem.value]}}</span>
+                  <span class="text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl  min-h-4" v-else-if="item.class && headItem.value === statusKey" :class="item.class" v-html="item[headItem.value]">
                     {{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}
                   </span>
-                  <span class="text-gray-600" :class="{'font-semibold': boldFont}" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}</span>
+                  <span class="text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl  min-h-4" :class="{'font-semibold': boldFont}" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}</span>
                 </div>
               </div>
             </template>

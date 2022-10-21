@@ -52,6 +52,9 @@ input:focus-visible {
   .column-5, .column-3, .column-4 {
     @apply flex flex-col gap-3;
   }
+  .column-3-wide {
+    @apply gap-2;
+  }
   .column-5 .item {
     @apply col-span-1;
   }
