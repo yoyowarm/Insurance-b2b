@@ -353,20 +353,39 @@ export default {
                 selected: true,
               }
             } else {
-              terms[item.additionTermName] = {
-                selected: false
+              if(item.isSuggest) {
+                terms[item.additionTermName] = {
+                  selected: true,
+                }
+              } else {
+                terms[item.additionTermName] = {
+                  selected: false,
+                }
               }
             }
           } else {
             if(['758A','911','PL013'].includes(item.additionTermId)) {
               item.disable = true
-            }
-            terms[item.additionTermName] = {
-              selected: this.termsData[item.additionTermName].selected
+              terms[item.additionTermName] = {
+                selected: true,
+              }
+            } else {
+              if(item.isSuggest) {
+                terms[item.additionTermName] = {
+                  selected: true,
+                }
+              } else {
+                terms[item.additionTermName] = {
+                  selected: false,
+                }
+              }
             }
           }
         })
       this.termsData = terms
+      this.$nextTick(() => {
+        this.$store.dispatch('activity/clearAdditionTerms')
+      })
     },
     correctAmount() {
       this.insuranceAmountListData = {

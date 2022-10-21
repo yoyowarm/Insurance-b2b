@@ -109,12 +109,15 @@ export default {
   watch: {
     terms: {
       handler (val) {
-        this.copyTerms = {
-          ...val
-        }
+        this.$nextTick(() => {
+          this.copyTerms = JSON.parse(JSON.stringify(val))
+        })
       },
       deep: true
     }
+  },
+  mounted() {
+    this.copyTerms = JSON.parse(JSON.stringify(this.terms))
   }
 }
 </script>

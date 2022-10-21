@@ -583,6 +583,9 @@ export default {
     updateAdditionTerms({ commit }, data) {
       commit('UPDATED_ADDITION_TERMS', data)
     },
+    clearAdditionTerms({ commit }) {
+      commit('UPDATED_ADDITION_TERMS', quotation().additionTerms)
+    },
     updateInternalControlData({ commit }, data) {
       commit('UPDATED_INTERNAL_CONTROL_DATA', data)
     },
