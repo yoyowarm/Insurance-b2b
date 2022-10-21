@@ -6,6 +6,12 @@
         <TriangleIcon class="bg-main"/>
       </div>
     </div>
+    <DynamicLink v-if="windowWidth <=770" type="router" path="/" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/'}">
+      <div class="icon home"/>
+        <span class="text-white text-lg font-bold">回首頁</span>
+      </div>
+    </DynamicLink>
     <DynamicLink v-if="permissions.includes('QuoteDetails')" type="router" path="/quotation-ist" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/quotation-ist'}">
       <div class="icon quotation"/>
@@ -204,6 +210,9 @@ export default {
       min-height: 40px;
       margin-bottom: 4px;
       @apply bg-no-repeat bg-center;
+      &.home {
+        background-image: url('../assets/images/10.png');
+      }
       &.questionnaire {
         background-image: url('../assets/images/9.png');
       }
@@ -249,6 +258,9 @@ export default {
     &:hover, &.active {
       background-color: #fafafa;
       .icon {
+        &.home {
+          background-image: url('../assets/images/10r.png');
+        }
         &.questionnaire {
           background-image: url('../assets/images/9r.png');
         }
@@ -327,6 +339,9 @@ export default {
         min-height: 40px;
         margin-bottom: 4px;
         @apply bg-no-repeat bg-center;
+        &.home {
+          background-image: url('../assets/images/10b.png');
+        }
         &.questionnaire {
           background-image: url('../assets/images/9b.png');
         }
@@ -375,6 +390,12 @@ export default {
       }
       &:hover, &.active {
         .icon {
+          &.home {
+            background-image: url('../assets/images/10.png');
+          }
+          &.questionnaire {
+            background-image: url('../assets/images/9.png');
+          }
            &.termsSetting {
             background-image: url('../assets/images/8.png');
           }

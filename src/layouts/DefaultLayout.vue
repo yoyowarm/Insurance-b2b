@@ -2,6 +2,10 @@
   <div class="layout" :class="{'open':openMenu }">
     <header class="header">
       <DynamicLink type="router" path="/" class="flex items-end">
+        <div v-if="windowWidth >770" class="flex flex-col justify-center items-center mr-4 mt-3">
+          <img src="../assets/images/10r.png" class="w-6" alt="">
+          <div class="text-main">回首頁</div>
+        </div>
         <img class="logo" src="../assets/images/logo.png" alt="">
         <div class="title md:text-xl sm:text-sm"><span>公共責任保險報價系統</span></div>
         <img class="mobile-logo" src="../assets/images/mobile_logo.png" alt="">
@@ -21,6 +25,7 @@
       </div>
     </div>
     <Footer ref="footer" :pagination="paginationPage"/>
+    <WindowResizeListener @resize="handleResize"/>
   <div class="mask-bg" :class="{'open':openMenu }" @click="openMenu= false"/>
   </div>
 </template>
@@ -30,18 +35,21 @@ import DynamicLink from '@/components/DynamicLink'
 import LeftNavigation from '@/components/LeftNavigation'
 import TriangleIcon from '@/components/TriangleIcon'
 import Footer from '@/components/Footer'
+import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
 export default {
   components: {
     DynamicLink,
     LeftNavigation,
     TriangleIcon,
-    Footer
+    Footer,
+    WindowResizeListener
   },
   data() {
     return {
       openMenu: false,
       scrollY: 0,
+      windowWidth: window.innerWidth,
     }
   },
   computed: {
@@ -58,7 +66,10 @@ export default {
   methods: {
     handleScroll() {
       this.scrollY = window.scrollY
-    }
+    },
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
