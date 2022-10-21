@@ -98,8 +98,8 @@ export default {
       if ((this.verifyInvadeResult.length > 0 || this.verifyResult.length > 0) && htmlText != '') {
         Popup.create({
           confirm: true,
-          ok: '否',
-          cancel: '是',
+          ok: '繼續報價',
+          cancel: '修改資料',
           hasHtml: true,
           htmlText: htmlText,
         }).then(async () => {
