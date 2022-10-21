@@ -2,6 +2,7 @@
 	<div>
 		<FormTitle title="建築物承租人火災附加條款" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
+      <span class="text-main ml-2" slot="right">*必填</span>
     </FormTitle>	
     <div class="column-5 mt-4">
       <InputGroup class="col-span-2" title="保險金額:每一意外事故">
