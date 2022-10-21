@@ -1,5 +1,5 @@
 import { Popup } from '@/utils/popups/index'
-import { IDRegex, isPhone, isEmail } from '@/utils/regex'
+import { IDRegex, isEmail, MobileRegex } from '@/utils/regex'
 export default {
   data() {
     return {
@@ -159,6 +159,11 @@ export default {
       if (this.Insuraned.IsForeignRegister && !this.Insuraned.RegisterNationality) {
         this.requestFile.push('被保險人未輸入登記/註冊地國籍')
       }
+      if (this.Insuraned.Mobile) {
+        if (MobileRegex(this.Insuraned.Mobile)) {
+          this.requestFile.push('被保險人' + MobileRegex(this.Insuraned.Mobile))
+        }
+      }
       //要保險人
       if (!this.Applicant.ID) {
         this.requestFile.push('未填寫要保險人統編/身分證')
@@ -193,6 +198,11 @@ export default {
       if (this.Applicant.CorporateRequired && !this.Applicant.CorporateName) {
         this.requestFile.push('未填寫要保險負責人')
       }
+      if (this.Applicant.Mobile) {
+        if (MobileRegex(this.Applicant.Mobile)) {
+          this.requestFile.push('要保險人' + MobileRegex(this.Applicant.Mobile))
+        }
+      }
       if (!this.Relation.Value) {
         this.requestFile.push('未選擇關係')
       }
@@ -208,9 +218,9 @@ export default {
             if (this.requestFile.includes('未填寫寄送資料')) return
             this.requestFile.push('未填寫寄送資料')
           } else {
-            if (!item.transferDetailType && isPhone(item.transferInfo)) {
-              if (this.requestFile.includes('號碼格式錯誤')) return
-              this.requestFile.push('號碼格式錯誤')
+            if (!item.transferDetailType && MobileRegex(item.transferInfo, true)) {
+              if (this.requestFile.includes(MobileRegex(item.transferInfo, true))) return
+              this.requestFile.push(MobileRegex(item.transferInfo, true))
             }
             if (item.transferDetailType && isEmail(item.transferInfo)) {
               if (this.requestFile.includes('信箱格式錯誤')) return
