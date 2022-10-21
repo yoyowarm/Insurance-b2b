@@ -494,15 +494,17 @@ export default {
       const additionTerms = JSON.parse(JSON.stringify(this.additionTerms))
       const res = await this.$store.dispatch('resource/AdditionTermQuotations')
       const amountList = res.data.content
-      additionTerms.PL005.value1 = amountList[0].amount / 10000
-      additionTerms.PL040.value1 = amountList[7].amount / 10000
-      additionTerms.PL040.value2 = amountList[8].amount / 10000
-      additionTerms.PL049.value1 = amountList[9].amount / 10000
-      additionTerms.PL053.value1 = amountList[10].amount
-      additionTerms.PL053.value2 = amountList[11].amount
-      additionTerms.PL053.value3 = amountList[12].amount
-      additionTerms.PL053.value4 = amountList[13].amount
-      this.$store.dispatch(`place/updateAdditionTerms`, additionTerms)
+      if(amountList.length > 0) {
+        additionTerms.PL005.value1 = amountList[0].amount / 10000
+        additionTerms.PL040.value1 = amountList[7].amount / 10000
+        additionTerms.PL040.value2 = amountList[8].amount / 10000
+        additionTerms.PL049.value1 = amountList[9].amount / 10000
+        additionTerms.PL053.value1 = amountList[10].amount
+        additionTerms.PL053.value2 = amountList[11].amount
+        additionTerms.PL053.value3 = amountList[12].amount
+        additionTerms.PL053.value4 = amountList[13].amount
+        this.$store.dispatch(`place/updateAdditionTerms`, additionTerms)
+      }
     },
     correctAmount() {
       this.insuranceAmountListData = {
