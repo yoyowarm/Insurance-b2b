@@ -36,7 +36,7 @@
       </Button>
       <Button
         v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && InsuranceActive > 4"
-        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">完成報價</Button>
+        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">確認報價</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
