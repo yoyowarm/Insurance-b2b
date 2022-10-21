@@ -241,12 +241,12 @@ export default {
     await this.quotationDetail()
     await this.pageInit()
   },
-  destroyed() {
-    this.$store.dispatch('activity/clearAll')
-    this.$store.dispatch('activity/updatedUUID', '')
-    this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
-    this.$store.dispatch(`activity/updatedInsuranceActive`,0)
-  }
+  // destroyed() {
+  //   this.$store.dispatch('activity/clearAll')
+  //   this.$store.dispatch('activity/updatedUUID', '')
+  //   this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+  //   this.$store.dispatch(`activity/updatedInsuranceActive`,0)
+  // }
 }
 </script>
 

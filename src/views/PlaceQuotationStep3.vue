@@ -233,12 +233,12 @@ export default {
     const county = await this.$store.dispatch('resource/CountyMinimumSettings')
     this.countyAmount = county.data.content
   },
-  destroyed() {
-    this.$store.dispatch('place/clearAll')
-    this.$store.dispatch('place/updatedUUID', '')
-    this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
-    this.$store.dispatch(`place/updatedInsuranceActive`,0)
-  }
+  // destroyed() {
+  //   this.$store.dispatch('place/clearAll')
+  //   this.$store.dispatch('place/updatedUUID', '')
+  //   this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+  //   this.$store.dispatch(`place/updatedInsuranceActive`,0)
+  // }
 }
 </script>
 
