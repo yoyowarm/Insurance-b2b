@@ -6,7 +6,7 @@
         <TriangleIcon class="bg-main"/>
       </div>
     </div>
-    <DynamicLink v-if="windowWidth <=770" type="router" path="/" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink type="router" path="/" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/'}">
       <div class="icon home"/>
         <span class="text-white text-lg font-bold">回首頁</span>

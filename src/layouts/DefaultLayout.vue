@@ -2,10 +2,6 @@
   <div class="layout" :class="{'open':openMenu }">
     <header class="header">
       <DynamicLink type="router" path="/" class="flex items-end">
-        <div v-if="windowWidth >770" class="flex flex-col justify-center items-center mr-4 mt-3">
-          <img src="../assets/images/10r.png" class="w-6" alt="">
-          <div class="text-main">回首頁</div>
-        </div>
         <img class="logo" src="../assets/images/logo.png" alt="">
         <div class="title md:text-xl sm:text-sm"><span>公共責任保險報價系統</span></div>
         <img class="mobile-logo" src="../assets/images/mobile_logo.png" alt="">
