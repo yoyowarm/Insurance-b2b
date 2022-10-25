@@ -440,8 +440,14 @@ export default {
                   selected: true,
                 }
               } else {
-                terms[item.additionTermName] = {
-                  selected: false,
+                if(this.termsData[item.additionTermName]) {
+                  terms[item.additionTermName] = {
+                    selected: this.termsData[item.additionTermName].selected,
+                  }
+                } else {
+                  terms[item.additionTermName] = {
+                    selected: false,
+                  }
                 }
               }
             }
