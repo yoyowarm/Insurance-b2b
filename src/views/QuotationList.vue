@@ -261,6 +261,9 @@ export default {
         return {
           ...item,
           serialNo: item.serialNo.toString(),
+          daySettleDate: item.daySettleDate ? item.daySettleDate : '- -',
+          InsurancePremiums: item.InsurancePremiums ? item.InsurancePremiums : '- -',
+          insuranceAmount: item.insuranceAmount ? item.insuranceAmount : '- -',
           quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
           typeText: item.type === 1 ? '處所' : item.type === 2 ? '活動' : '',
           stateText: this.stateText[item.policyStatus]

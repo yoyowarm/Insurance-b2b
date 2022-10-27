@@ -30,7 +30,7 @@
               <Button class="minButton whitespace-no-wrap" :disabled="!item.insuranceAmount" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
           </div>
-          <div class="text-gray-600 bg-gray-100 md:bg-white md:p-1 md:rounded-b-xl  min-h-4 flex flex-col" :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`">
+          <div class="text-gray-600 bg-gray-100 md:bg-white md:p-1 md:rounded-b-xl text-center md:text-left  min-h-4 flex flex-col" :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`">
             <span>{{item.insuranceBeginTime.split('T')[0]}}<span class="text-sm ml-1">起</span></span>
             <span>{{item.insuranceEndTime.split('T')[0]}}<span class="text-sm ml-1">迄</span></span>
           </div>
