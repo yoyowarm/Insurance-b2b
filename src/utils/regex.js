@@ -88,7 +88,7 @@ export const ObjCompare = (obj1, obj2) => {
 }
 
 export const numFormat = (num) => {
-	return !num || isNaN(num) ? num : parseInt(num, 10).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+	return num.toString().replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
 export const IDRegex = (id) => {

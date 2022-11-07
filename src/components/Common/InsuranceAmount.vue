@@ -268,7 +268,7 @@ export default {
           selfInflictedAmount: this.data.selfInflictedAmount
         })
       } else {
-        if(this.amountMinimum.countyName.length == 0 && this.type == 'place') return
+        if(this.amountMinimum.countyName.length == 0 && this.type == 'place' && this.data.amountType.Value == 0) return
         if(this.data.amountType.Value == 0) {
           this.$emit('update:data', {
             ...this.data,

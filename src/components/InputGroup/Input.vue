@@ -6,8 +6,8 @@
       :class="{'pr-9': slotIcon, disable,'disable-white': disableWhite, 'pr-8': unit.length > 0}"
       :placeholder="placeholder"
       :maxLength="maxLength"
-      :value="numberFormat ? numFormat(value) : value"
-      @input="updateValue"
+      v-model="syncValue"
+      ref="input"
       @blur="()=> $emit('blurInput')">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
@@ -63,30 +63,54 @@ export default {
       default: 10000
     }
   },
+  computed: {
+    syncValue: {
+      get() {
+        return this.numberFormat ? this.numFormat(this.value) : this.value
+      },
+      set (value) {
+        this.updateValue(value)
+      }
+    }
+  },
   methods: {
     numFormat,
-    updateValue (e) {
+    updateValue (value) {
+      let inputValue = value
       if(this.numberOnly) {
-        e.target.value = e.target.value.replace(/[^0-9]/g, '')
-        this.$emit('updateValue', e.target.value.replace(/[^0-9]/g, ''))
+        const regex = new RegExp(/^0{0,}/, 'g');
+        const regex2 = new RegExp(/[0-9]/, 'g')
+        inputValue = value ? value.replace(regex, '').match(regex2).join('') : ''
+        this.$refs.input.value = inputValue
+      }
+      if (this.negative) {
+        const regex = new RegExp(/^-+[0-9]{1,}/, 'g');
+        const regex1 = new RegExp(/[^0-9]/, 'g');
+        if(value === '-') {
+          inputValue = value
+        } else if(regex.test(value)) {
+          inputValue = value
+        } else if (regex1.test(value)) {
+          inputValue = value.replace(regex1, '')
+        }
       }
       if(this.decimalPoint) {
-        if(/^\d+.?\d{0,2}$/.test(e.target.value)) {
-          this.$emit('updateValue', e.target.value)
+        const regex = new RegExp(/^[0-9]+.?[0-9]{0,2}$/, 'g');
+        if(regex.test(value)) {
+          inputValue = value
         } else {
-          e.target.value = e.target.value.slice(0, e.target.value.length -2)
-          this.$emit('updateValue', e.target.value.slice(0, e.target.value.length -2))
+          inputValue = value.slice(0, value.length -2)
         }
       }
-      if(this.isNumber) {
-        if(isNaN(e.target.value)) {
-          e.target.value = e.target.value.replace(/[^0-9]/g, '')
-          this.$emit('updateValue', e.target.value.replace(/[^0-9]/g, ''))
+      if(this.decimalPoint3) {
+        const regex = new RegExp(/^[0-9]+.?[0-9]{0,3}$/, 'g');
+        if(regex.test(value)) {
+          inputValue = value
         } else {
-          this.$emit('updateValue', e.target.value)
+          inputValue = value.slice(0, value.length -3)
         }
       }
-      this.$emit('updateValue', e.target.value)
+      this.$emit('updateValue', inputValue)
     }
   }
 }
