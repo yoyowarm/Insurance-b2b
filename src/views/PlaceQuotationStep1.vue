@@ -576,7 +576,7 @@ export default {
           })],
           placeInfo:[...this.placeInfo.map(item => {
             return {
-              squareFeet: item.squareFeet,
+              squareFeet: Number(item.squareFeet.toString().replace(/,/g, '')),
             }
           })],
           amountType: Number(this.insuranceAmountList[0].amountType.Value) >1 ? 2 : this.insuranceAmountList[0].amountType.Value,

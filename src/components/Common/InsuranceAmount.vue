@@ -64,6 +64,7 @@
           @updateValue="(e) => updatedValue('mergeSingleAmount',e)"
           placeholder="請輸入金額"
           :disableWhite="disable"
+          numberOnly
           numberFormat
           unit="萬元"/>
       </InputGroup>

@@ -455,7 +455,7 @@ export default {
           })],
           activityInfo:[...this.activityInfo.map(item => {
             return {
-              dailyPeople: item.number,
+              dailyPeople: item.number.replace(/,/g,''),
               cityId: item.city.Value,
               city: item.city.Text,
               areaId: item.area.Value,
@@ -659,7 +659,7 @@ export default {
         })],
         activityInfo: [...this.activityInfo.map(item => {
             return {
-              dailyPeople: item.number,
+              dailyPeople: item.number.replace(/,/g,''),
               cityId: item.city.Value,
               city: item.city.Text,
               areaId: item.area.Value,

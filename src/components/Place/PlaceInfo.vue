@@ -19,7 +19,6 @@
             slot="input"
             placeholder="輸入坪數"
             :value="info.squareFeet.toString()"
-            decimalPoint
             numberOnly
             numberFormat
             :maxLength="7"
