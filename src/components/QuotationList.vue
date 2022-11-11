@@ -99,6 +99,8 @@ export default {
     review(e) {
       if(e.item.stateText !== '取消' && e.item.insuranceAmount) {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,5)
+      } else {
+        this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,6)
       }
       this.$store.dispatch('common/updateOrderNo', {orderNo: e.orderNo,mainOrderNo: e.mainOrderNo})
       this.$router.push(`/${e.type == 1 ? 'place' : 'activity'}-quotation/step3`)
