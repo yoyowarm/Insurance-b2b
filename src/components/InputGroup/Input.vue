@@ -148,7 +148,7 @@ export default {
           inputValue = value.slice(0, value.length -3)
         }
       }
-      this.$emit('updateValue', this.numFormat ? this.numFormat(inputValue) : inputValue)
+      this.$emit('updateValue', this.numberFormat ? this.numFormat(inputValue) : inputValue)
     }
   }
 }
