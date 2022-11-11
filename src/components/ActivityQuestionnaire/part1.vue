@@ -1,11 +1,12 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup class="col-span-2" lgTitle title="活動名稱">
+      <InputGroup class="col-span-2" lgTitle title="活動名稱" :disable="InsuranceActive== 1 || InsuranceActive > 2">
         <Input
           slot="input"
           placeholder="輸入活動名稱"
           :value="data.sheet1.part1.name"
+          :disable="InsuranceActive== 1 || InsuranceActive > 2"
           @updateValue="(e) => updateValue(e,'name')"
         />
       </InputGroup>
@@ -198,6 +199,7 @@ export default {
   computed: {
     ...mapState({
       'Insuraned': state => state.activity.Insuraned,
+      InsuranceActive: state => state.activity.InsuranceActive,
     }),
      yearOptions () {
         const arr = []

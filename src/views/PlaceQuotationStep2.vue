@@ -1,7 +1,7 @@
 <template>
   <div>
     <CommonBoard class="w-full mb-7 relative" title="被保險人資料">
-      <div v-if="InsuranceActive == 1" class="customer-attr" slot="right">
+      <div v-if="InsuranceActive == 1 || InsuranceActive == 3" class="customer-attr" slot="right">
         <span><font-awesome-icon class="mr-1" icon="exclamation-circle" />若需修訂保險人資訊，請至『列表頁面』點選『更正要被保人』按鈕</span>
       </div>
       <InsuranceInfo
@@ -14,6 +14,7 @@
         type="InsuranedData"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
         :disable="InsuranceActive == 1 || InsuranceActive == 3"
+        :InsuranceActive="InsuranceActive"
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
@@ -410,7 +411,7 @@ export default {
       if(this.InsuranceActive !==2) {
         Object.assign(obj, {placeInfo: [...this.placeInfo.map(item => {
           return {
-            squareFeet: item.squareFeet,
+            squareFeet: Number(item.squareFeet.toString().replace(/,/g, '')),
             holdState: item.holdState ? 0 : 1,
             cityId: item.city.Value,
             city: item.city.Text,

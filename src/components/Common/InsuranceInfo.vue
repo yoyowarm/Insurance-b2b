@@ -13,8 +13,8 @@
           <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.ID) {$emit('getDetail', 'ID')}}" :disable="disable">查詢</Button>
         </div>
       </InputGroup>
-      <InputGroup v-if="quotationType == 'activity'" class="w-full mb-2.5" title="活動名稱" lgTitle mid :disable="disable">
-        <Input slot="input" placeholder="輸入活動名稱" :value="copyInfo.activityName" @updateValue="(e) => updateInfo('activityName', e)" :disable="disable"/>
+      <InputGroup v-if="quotationType == 'activity'" class="w-full mb-2.5" title="活動名稱" lgTitle mid :disable="disable || (InsuranceActive == 1 || InsuranceActive > 2)">
+        <Input slot="input" placeholder="輸入活動名稱" :value="copyInfo.activityName" @updateValue="(e) => updateInfo('activityName', e)" :disable="disable || (InsuranceActive == 1 || InsuranceActive > 2)"/>
       </InputGroup>
     </div>
     <div class="column-5 pt-6 pb-3 mb-4">
@@ -197,6 +197,10 @@ export default {
     quotationType: {
       type: String,
       default: () => ''
+    },
+    InsuranceActive: {
+      type: Number,
+      default: () => 0
     }
   },
   data () {

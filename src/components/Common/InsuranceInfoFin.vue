@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="column-6">
-      <InputGroup class=" w-full mb-2.5" title="姓名" borderBtn :editModel="editModel">
+      <InputGroup class=" w-full" title="姓名" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full pr-24 relative text-main" value="陳曉明"/>
         <div v-else slot="input" class="w-full relative">
           {{info.name}}
         </div>
       </InputGroup>
-      <InputGroup class=" w-full mb-2.5" title="統編/身分證" borderBtn :editModel="editModel">
+      <InputGroup class=" w-full" title="統編/身分證" borderBtn :editModel="editModel">
         <Input v-if="editModel" slot="input" class="w-full relative text-main" value="A123456789"/>
         <div v-else slot="input" class="w-full relative">
           {{info.id}}
@@ -33,6 +33,14 @@
         <Select v-if="editModel" slot="input" defaultText="一般"/>
         <div v-else slot="input" class="w-full relative">
           {{info.isProfession ? '專業' : '一般'}}
+        </div>
+      </InputGroup>
+    </div>
+    <div class="column-6 pt-6 pb-3 mb-4" v-if="info.activityName">
+      <InputGroup class="w-full col-span-3" title="活動名稱" borderBtn :editModel="editModel">
+        <Select v-if="editModel" slot="input" defaultText="一般"/>
+        <div v-else slot="input" class="w-full relative">
+          {{info.activityName}}
         </div>
       </InputGroup>
     </div>
