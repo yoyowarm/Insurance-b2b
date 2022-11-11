@@ -16,7 +16,7 @@
           <div class="flex flex-row items-center mr-4">
             <span class="mr-2 mt-2">被保險人姓名</span>
             <InputGroup class="col-start-4" noMt min mid>
-              <Input slot="input" class="w-32" :value="questionnaireData.insuredName" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {insuredName: e})" placeholder="輸入姓名"/>
+              <Input slot="input" class="w-44 md:w-64" :value="questionnaireData.insuredName" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {insuredName: e})" placeholder="輸入姓名"/>
             </InputGroup>
           </div>
           <div class="flex flex-row items-center mr-4">
