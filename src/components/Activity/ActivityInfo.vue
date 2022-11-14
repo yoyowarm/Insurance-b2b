@@ -350,7 +350,7 @@ export default {
     },
     assignDate(index) {
       const today = new Date().getHours() >= 12 ? new Date().setDate(new Date().getDate() + 1) : new Date().getTime()
-      const tomorrow = new Date().getHours() >= 12 ?new Date().setDate(new Date().getDate() + 2) : new Date().setDate(new Date().getDate() + 1)
+      const tomorrow = new Date().getHours() >= 12 ?new Date().setDate(new Date().getDate() + 1) : new Date().setDate(new Date().getDate() + 1)
       
       if(!this.copyInfoList[index].startDate.year) {
         this.copyInfoList[index].startDate.year = new Date(today).getFullYear() - 1911
