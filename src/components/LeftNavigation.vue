@@ -113,6 +113,22 @@
         </div>
       </div>
     </DynamicLink>
+    <DynamicLink v-if="false" type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
+      <div @mouseover="showUnderwriting = true" @mouseout="showUnderwriting = false" class="nav-item sub-pages" :class="{'active': path.includes('underwritingCooperation'), 'h180': (windowWidth <=770 && path.includes('underwritingCooperation'))}">
+        <div class="flex flex-row items-center md:flex-col" ref="SuggestTermSetting">
+          <div class="icon termsSetting"/>
+          <span class="text-white text-lg font-bold">核保組織設定</span>
+        </div>
+        <div v-show="(windowWidth >770 && showUnderwriting) || (windowWidth <=770 && path.includes('underwritingCooperation'))" class="fixed-menu md:pl-0 md:items-center" >
+          <DynamicLink type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/underwritingCooperation/Setting'}">核保組織設定</span>
+          </DynamicLink>
+          <DynamicLink type="router" path="/underwritingCooperation/Level" @click.native="$emit('update:openMenu', false)">
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/underwritingCooperation/Level'}">核保明細階級設定</span>
+          </DynamicLink>
+        </div>
+      </div>
+    </DynamicLink>
     <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
@@ -143,6 +159,7 @@ export default {
       windowWidth: window.innerWidth,
       showCategory: false,
       showTerms: false,
+      showUnderwriting: false,
       parameterSettingTop: 0,
       SuggestTermSettingTop: 0
     }

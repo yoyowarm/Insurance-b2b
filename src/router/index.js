@@ -193,6 +193,22 @@ const routes = [
         component: () => import(/* webpackChunkName: "about" */ '../views/TermsSetting/QuotationAndAmount.vue')
       }
     ]
+  },
+  {
+    path: '/underwritingCooperation',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { //核保明細階級設定
+        path: '/underwritingCooperation/Level',
+        name: 'underwritingCooperationLevel',
+        component: () => import(/* webpackChunkName: "about" */ '../views/UnderwritingCooperation/Level.vue')
+      },
+      { //核保組織設定
+        path: '/underwritingCooperation/Setting',
+        name: 'underwritingCooperationSetting',
+        component: () => import(/* webpackChunkName: "about" */ '../views/UnderwritingCooperation/Setting.vue')
+      }
+    ]
   }
 ]
 
@@ -206,7 +222,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const whitelist = ['/', '/news/list', '/product/list', '/questionnaire-management']
+  const whitelist = ['/', '/news/list', '/product/list', '/questionnaire-management', '/underwritingCooperation/Level', '/underwritingCooperation/Setting']
   // if (to.path === '/place-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
   //   next({ name: 'quotationList' })
   // }
