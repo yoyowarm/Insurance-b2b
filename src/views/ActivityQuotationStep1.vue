@@ -230,7 +230,7 @@ export default {
       let totalPerson = 0 // 人數 * 場次的活動天數
       const map1 = new Map()
       this.activityInfoList.map(item => {
-        totalPerson += Number(item.number)* Number(item.day)
+        totalPerson += Number(item.number.replace(/,/g, ''))* Number(item.day)
         if(!item.number) return
         map1.set(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`, item.number)
         map1.set(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`, item.number)

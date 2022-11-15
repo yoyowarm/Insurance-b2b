@@ -133,7 +133,7 @@ export default {
       if (this.quotationData[quotationType].otherIndustryName && this.quotationData[quotationType].insureType == '其他(混合類別)') {
         this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData[quotationType].otherIndustryName)
       }
-      if (this.quotationData[quotationType].additionTerms.length > 0) {
+      if (this.quotationData[quotationType].additionTerms.length > 0 && this.additionTermsList.length > 0) {//附加條款
         this.quotationData[quotationType].additionTerms.map(item => {//建議條款
           const target = this.additionTermsList.find(i => i.additionTermId === item.additionTermId)
           if (target) {
