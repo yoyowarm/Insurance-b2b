@@ -524,6 +524,7 @@ export default {
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
         const data = {
+          renewal: {isRenewal: this.renewal.IsRenewal, insuranceNumber: this.renewal.InsuranceNumber},
           placeActivitySeq: this.industry.Value,
           questionnaire: null,
           placeType: this.industryList.find(item => item.dangerSeq == this.industry.Value).typeName,

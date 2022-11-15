@@ -156,7 +156,7 @@ export default {
         } else {
           const data = await this.$store.dispatch('resource/PlaceActivities', {
             placeActivityType: this.currentTag+1,
-            typeName: val
+            typeName: val == '選擇投保行業' ? '' : val
           })
           this.categoryListTable = {
             head: this.categoryListTable.head,
@@ -202,7 +202,7 @@ export default {
         await this.$store.dispatch('parameterSetting/updatePlacesActivity', data)
         const category = await this.$store.dispatch('resource/PlaceActivities', {
             placeActivityType: this.currentTag+1,
-            typeName: this.currentType
+            typeName: this.currentType === '選擇投保行業' ? '' : this.currentType
           })
         this.categoryListTable = {
           head: this.categoryListTable.head,
@@ -211,11 +211,14 @@ export default {
       }
     },
     async getAllList(val) {
-      const data = await this.$store.dispatch(`resource/${val === 0 ? 'PlacesSetting' :'ActivitiesSetting'}`)
-          this.categoryListTable = {
-            head: this.categoryListTable.head,
-            rows: data.data.content
-          }
+      const data = await this.$store.dispatch('resource/PlaceActivities', {
+            placeActivityType: this.currentTag+1,
+            typeName: this.currentType == '選擇投保行業' ? '' : this.currentType
+          })
+      this.categoryListTable = {
+        head: this.categoryListTable.head,
+        rows: data.data.content.placeActivityDetails
+      }
       const type = await this.$store.dispatch(`resource/${val === 0 ? 'PlaceTypes' :'ActivityTypes'}`)
       
       this.typeList = type.data.content.map(item => {
