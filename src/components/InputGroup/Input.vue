@@ -86,8 +86,7 @@ export default {
       if(this.numberOnly && Boolean(Number(this.value)) == false && !this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
-      }
-      if(this.numberOnly && Boolean(Number(this.value.match(/[0-9]/g).join(''))) == false && this.numberFormat) {
+      } else if(this.numberOnly && this.value.match(/[0-9]/g) &&  Boolean(Number(this.value.match(/[0-9]/g).join(''))) == false && this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
       }
@@ -148,7 +147,7 @@ export default {
           inputValue = value.slice(0, value.length -3)
         }
       }
-      this.$emit('updateValue', this.numberFormat ? this.numFormat(inputValue) : inputValue)
+      this.$emit('updateValue', inputValue)
     }
   }
 }
