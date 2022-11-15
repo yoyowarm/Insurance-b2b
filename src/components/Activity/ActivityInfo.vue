@@ -320,10 +320,10 @@ export default {
         if(this.$refs[`${type}-${key}-${index}`]) {
           this.$refs[`${type}-${key}-${index}`][0].$el.lastChild.value = CHKey[key]
         }
-      } else if(new Date().getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${copyInfoList[index][type].hour}:00`).getTime()-(60*24*60*1000)) {
+      } else if(new Date().getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${Number(copyInfoList[index][type].hour) -1 }:00`).getTime()) {
         Popup.create({
           hasHtml: true,
-          htmlText: '結束日期不得早於起始日期',
+          htmlText: '活動起迄時間不得小於現在時間 +2 小時',
         })
         copyInfoList[index][type][key] = CHKey[key]
         if(this.$refs[`${type}-${key}-${index}`]) {
@@ -349,8 +349,8 @@ export default {
       this.updateValue(isNaN(day) ? '1' : day.toString(),'day',index)
     },
     assignDate(index) {
-      const today = new Date().getHours() >= 12 ? new Date().setDate(new Date().getDate() + 1) : new Date().getTime()
-      const tomorrow = new Date().getHours() >= 12 ?new Date().setDate(new Date().getDate() + 1) : new Date().setDate(new Date().getDate() + 1)
+      const today = new Date().getTime()
+      const tomorrow = new Date().setDate(new Date().getDate() + 1)
       
       if(!this.copyInfoList[index].startDate.year) {
         this.copyInfoList[index].startDate.year = new Date(today).getFullYear() - 1911
@@ -361,12 +361,12 @@ export default {
         this.copyInfoList[index].endDate.month = new Date(tomorrow).getMonth() + 1
       }
       if(!this.copyInfoList[index].startDate.day) {
-        this.copyInfoList[index].startDate.day = new Date(today).getDate()
-        this.copyInfoList[index].endDate.day = new Date(tomorrow).getDate()
+        this.copyInfoList[index].startDate.day = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getDate() : new Date(today).getDate()
+        this.copyInfoList[index].endDate.day = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getDate() : new Date(today).getDate()
       }
       if(!this.copyInfoList[index].startDate.hour) {
-        this.copyInfoList[index].startDate.hour = new Date().getHours() >= 12 ? 0 : 12
-        this.copyInfoList[index].endDate.hour = new Date().getHours() >= 12 ? 24 : 12
+        this.copyInfoList[index].startDate.hour = new Date(new Date().setHours(new Date().getHours()+3)).getHours()
+        this.copyInfoList[index].endDate.hour = 24
       }
       this.updateDay(index)
       this.$emit('update:infoList', this.copyInfoList)
