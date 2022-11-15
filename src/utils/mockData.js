@@ -560,7 +560,12 @@ export const categoryListTable = () => {
       {
         text: '場所名稱',
         value: 'itemName',
-        size: '6-6'
+        size: '3-6'
+      },
+      {
+        text: '顯示名稱',
+        value: 'displayItemName',
+        size: '5-6'
       },
       {
         text: '應另行報價',

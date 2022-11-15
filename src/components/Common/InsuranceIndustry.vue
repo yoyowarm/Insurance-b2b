@@ -2,7 +2,7 @@
   <div class="">
     <template v-for="(category,index) in industryType">
       <div
-        v-if="(searchText.length === 0 || (searchText.length > 0 && categoryFilter(category,index).filter(item => item.itemName.includes(searchText)).length > 0)) && categoryFilter(category,index).length > 0"
+        v-if="(searchText.length === 0 || (searchText.length > 0 && categoryFilter(category,index).filter(item => item.displayItemName.includes(searchText)).length > 0)) && categoryFilter(category,index).length > 0"
         class="border-b-2 border-dashed mb-6"
         :key="category">
         <FormTitle :title="category" classList="text-xl text-gray-700" class="mb-6">
@@ -11,12 +11,12 @@
           <div class="column-6 mb-8" :class="{'packUp': categoryFilter(category,index).length > 18}">
             <template v-for="list in (categoryFilter(category,index).length > 18 && !switchList[index] && searchText.length === 0) ? categoryFilter(category,index).slice(0, 18) : categoryFilter(category,index)">
               <RadioInput
-                v-if="(searchText.length === 0 ||( searchText.length > 0 && list.itemName.includes(searchText)))"
+                v-if="(searchText.length === 0 ||( searchText.length > 0 && list.displayItemName.includes(searchText)))"
                 :key="list.dangerSeq"
-                :class="{'col-span-2': list.itemName.length >= 10}"
+                :class="{'col-span-2': list.displayItemName.length >= 10}"
                 :id="`list${list.dangerSeq}`"
-                :text="list.itemName"
-                :value="selected.Text === list.itemName"
+                :text="list.displayItemName"
+                :value="selected.Text === list.displayItemName"
                 @updateValue="(e) => updateIndustry(e, list)"
                 :disabled="calculateModel"
               />
@@ -30,7 +30,7 @@
                 />
               </InputGroup>
             </template>
-            <template v-if="searchText.length === 0 ||( searchText.length > 0 && categoryFilter(category,index).filter(item => item.itemName.includes(searchText)).length > 18)">
+            <template v-if="searchText.length === 0 ||( searchText.length > 0 && categoryFilter(category,index).filter(item => item.displayItemName.includes(searchText)).length > 18)">
               <span class="more" v-if="categoryFilter(category,index).length > 18 && !switchList[index]" @click="() => switchBtn(index)" >更多<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-down']" /></span>
               <span class="more" v-if="categoryFilter(category,index).length > 18 && switchList[index]" @click="() => switchBtn(index)" >收起<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-up']" /></span>
             </template>
@@ -98,7 +98,7 @@ export default {
     },
     updateIndustry(e, list) {
       if(!list.Text) {
-        list.Text = list.itemName
+        list.Text = list.displayItemName
         list.Value = list.dangerSeq
       }
       if(e) {

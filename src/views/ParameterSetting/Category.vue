@@ -28,6 +28,9 @@
               @updateValue="e => item.hasQuotation = e"
             />
           </div>
+          <div :slot="`displayItemName-${index}`" :key="`displayItemName${index}`" class="flex whitespace-no-wrap">
+            <Input :value="item.displayItemName.toString()" @updateValue="e =>{ item.displayItemName = e}" class="md:mr-4 weight-input w-full" :disable="!item.edit"/>
+          </div>
           <div :slot="`isEnable-${index}`" :key="`isEnable${index}`" class="w-full flex sm:justify-center items-center whitespace-no-wrap">
             <font-awesome-icon v-if="item.isEnable" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" class="text-lg mr-2" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye']" />
             <font-awesome-icon v-else @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye-slash']" />
@@ -127,7 +130,7 @@ export default {
     },
     slotArray () {
       const arr = []
-      const slotArr = [ 'weight','hasQuotation', 'isEnable', 'operate']
+      const slotArr = [ 'weight','hasQuotation','displayItemName', 'isEnable', 'operate']
       for (let i = 0; i < this.categoryListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -193,6 +196,7 @@ export default {
           seq: this.categoryListTable.rows[index].dangerSeq,
           weight: this.categoryListTable.rows[index].weight,
           hasQuotation: this.categoryListTable.rows[index].hasQuotation,
+          displayItemName: this.categoryListTable.rows[index].displayItemName,
           isEnable: this.categoryListTable.rows[index].isEnable
         }
         await this.$store.dispatch('parameterSetting/updatePlacesActivity', data)
