@@ -272,17 +272,17 @@ export default {
         const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${this.period.endDate.hour}:00:00`).getTime()
         if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
           Popup.create({hasHtml:true,htmlText:'保期不能超過一年'})
-          // this.$nextTick(() => {
-          //   this.periodData = {
-          //     ...this.periodData,
-          //     endDate: {
-          //       day: new Date(startTime - 1000*60*60*24).getDate(),
-          //       month: new Date(startTime - 1000*60*60*24).getMonth() + 1,
-          //       year: new Date(startTime - 1000*60*60*24).getFullYear() - 1910,
-          //       hour: new Date().getHours() > 12 ? 24 : 12
-          //     }
-          //   }
-          // });
+          this.$nextTick(() => {
+            this.periodData = {
+              ...this.periodData,
+              endDate: {
+                day: this.period.startDate.day,
+                month: this.period.startDate.month,
+                year: new Date(startTime - 1000*60*60*24).getFullYear() - 1910,
+                hour: new Date().getHours() > 12 ? 24 : 12
+              }
+            }
+          });
         }
       }
     },
