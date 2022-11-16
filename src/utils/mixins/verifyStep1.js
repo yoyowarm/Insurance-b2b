@@ -151,14 +151,22 @@ export default {
             if (this.requestFile.includes('未輸入每日人數')) return
             this.requestFile.push('未輸入每日人數')
           }
-          if (!item.startDate.year || !item.startDate.month || !item.startDate.day || isNaN(item.startDate.hour)) {
-            if (this.requestFile.includes('未選擇活動起始日')) return
-            this.requestFile.push('未選擇活動開始日')
+          if (Object.keys(item.startDate).some(key => isNaN(item.startDate[key] || !!item.startDate[key]))) {
+            if (this.requestFile.includes('未選擇活動起始時間')) return
+            this.requestFile.push('未選擇活動起始時間')
           }
-          if (!item.endDate.year || !item.endDate.month || !item.endDate.day || isNaN(item.endDate.hour)) {
-            if (this.requestFile.includes('未選擇活動結束日')) return
-            this.requestFile.push('未選擇活動結束日')
+          if (Object.keys(item.endDate).some(key => isNaN(item.endDate[key] || !!item.endDate[key]))) {
+            if (this.requestFile.includes('未選擇活動結束時間')) return
+            this.requestFile.push('未選擇活動結束時間')
           }
+          // if (!item.startDate.year || !item.startDate.month || !item.startDate.day || isNaN(item.startDate.hour)) {
+          //   if (this.requestFile.includes('未選擇活動起始日')) return
+          //   this.requestFile.push('未選擇活動開始日')
+          // }
+          // if (!item.endDate.year || !item.endDate.month || !item.endDate.day || isNaN(item.endDate.hour)) {
+          //   if (this.requestFile.includes('未選擇活動結束日')) return
+          //   this.requestFile.push('未選擇活動結束日')
+          // }
           if (!item.city.Value) {
             if (this.requestFile.includes('未選擇縣市')) return
             this.requestFile.push('未選擇縣市')
