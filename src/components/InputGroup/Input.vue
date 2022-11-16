@@ -73,8 +73,8 @@ export default {
       }
     },
     inputMaxLength() {
-      const commaLength = this.value && this.value.toString().match(/,/g) ? this.value.toString().match(/,/g).length : 0
-      const pointLength = this.value && this.value.toString().match(/\./g) ? this.value.toString().match(/\./g).length + 2 : 0
+      const commaLength = this.syncValue && this.syncValue.toString().match(/,/g) ? this.syncValue.toString().match(/,/g).length : 0
+      const pointLength = this.syncValue && this.syncValue.toString().match(/\./g) ? this.syncValue.toString().match(/\./g).length + 2 : 0
       return this.numberFormat ?
         this.maxLength + commaLength + pointLength :
         this.maxLength
