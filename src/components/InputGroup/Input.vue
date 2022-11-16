@@ -92,16 +92,15 @@ export default {
       }
     },
     updateValue (value) {
-      let inputValue = value.replace(/,/g, '')
+      let inputValue = value
       if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3) {
-        if(Boolean(Number(inputValue)) == false) {
+        if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false) {
           this.$emit('updateValue', '')
           this.$refs.input.value = ''
           return
         } 
         const regex = new RegExp(/^0{0,}/, 'g');
-        const regex2 = new RegExp(/[0-9]/, 'g')
-        inputValue = inputValue ? inputValue.replace(regex, '').match(regex2).join('') : ''
+        inputValue = inputValue ? inputValue.replace(regex, '') : ''
         this.$nextTick(() => {
           this.$refs.input.value = inputValue
         })
