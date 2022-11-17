@@ -452,7 +452,7 @@ export const quotation = () => {
         hasSwimmingPool: null,//營業處所是否有游泳池
         lifeguardAmount: '',//救生員人數
         material: '',//地板為何種材質
-        hasCarpet: null,//是否鋪設地談,
+        hasCarpet: null,//是否鋪設地毯,
         hasMechineParkingDevice: null,//是否有機車停車場
         mechineParkingDeviceCategory: '',//機車停車場類別
       },

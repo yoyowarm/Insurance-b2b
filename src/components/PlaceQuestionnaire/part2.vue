@@ -243,7 +243,7 @@
           <RadioInput text="是" id="hasCarpet" :value="data.part2.hasCarpet === true" @updateValue="updateValue(true, 'hasCarpet')"/>
           <RadioInput class="mx-2" text="否" id="hasCarpet2" :value="data.part2.hasCarpet === false" @updateValue="updateValue(false, 'hasCarpet')"/>
       </div>
-        <div class="text-lg">是否鋪設地談</div>
+        <div class="text-lg">是否鋪設地毯</div>
     </div>
   </div>
   
