@@ -86,7 +86,7 @@ export default {
       await this.getNews(page)
     },
     async getNews(page) {
-      const newsList = await this.$store.dispatch('news/GetNewsList', {skip: page ? (page-1)*10 : (this.currentPage-1)*10})
+      const newsList = await this.$store.dispatch('news/GetNewsList', {skip: page ? (page-1)*10 : (this.currentPage-1)*10, isEnable: true})
       this.$store.dispatch('app/updatedTotalPage',newsList.data.TotalPage)
       this.newsListTable.rows = newsList.data.content.news.map(i => {
         return {

@@ -276,7 +276,7 @@ export default {
       })
     },
     async getTop3News() {
-      const newsList = await this.$store.dispatch('news/GetNewsList', {skip:0, take:3})
+      const newsList = await this.$store.dispatch('news/GetNewsList', {skip:0, take:3, isEnable: true})
       this.newsListTable.rows = newsList.data.content.news.map(i => {
         return {
           ...i,

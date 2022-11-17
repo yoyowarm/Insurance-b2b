@@ -11,8 +11,8 @@ export default {
     async GetNews(_, id) {
       return await GetNews(id)
     },
-    async GetNewsList(_, { skip = 0, take = 10, isFilterEffective }) {
-      return await GetNewsList(skip, take, isFilterEffective)
+    async GetNewsList(_, { skip = 0, take = 10, isFilterEffective, isEnable }) {
+      return await GetNewsList(skip, take, isFilterEffective, isEnable)
     },
     async AddNews(_, data) {
       return await AddNews(data)
