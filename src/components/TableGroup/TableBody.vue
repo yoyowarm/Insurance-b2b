@@ -110,6 +110,9 @@ export default {
 
 <style scoped lang="scss">
   .table-body {
+    &::-webkit-scrollbar {
+      display: none;
+    }
     @apply px-4 py-2 text-gray-900;
   }
   .table-body .item {

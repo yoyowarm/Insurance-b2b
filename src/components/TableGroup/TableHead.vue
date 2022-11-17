@@ -23,8 +23,9 @@ export default {
 }
 </script>
 
-<style scoped lang="postcss">
+<style scoped lang="scss">
   .table-head {
+    scrollbar-width: thin;
     @apply rounded-lg px-4 py-2 flex flex-row justify-start w-full;
   }
   @media (max-width: 600px) {
