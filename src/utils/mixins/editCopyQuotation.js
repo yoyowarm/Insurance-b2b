@@ -150,7 +150,7 @@ export default {
                 data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : (value.itemId == 'value1' ? Number(value.itemValue) / 10000 : value.itemValue))
               })
               this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
-            } else if (['PL040', 'PL049'].includes(item.additionTermId)) {
+            } else if (['PL040', 'PL049', 'PL016'].includes(item.additionTermId)) {
               item.additionTermValue.map(value => {
                 data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : Number(value.itemValue) / 10000)
               })

@@ -421,7 +421,7 @@ export default {
                   additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
                     return {
                       itemId: key,
-                      itemValue: key =='value1' ? Number(this.additionTerms[item.additionTermId][key])*10000 : this.additionTerms[item.additionTermId][key]
+                      itemValue: key =='value1' ? Number(this.additionTerms[item.additionTermId][key].toString().replace(/,/g,''))*10000 : this.additionTerms[item.additionTermId][key].toString().replace(/,/g,'')
                     }
                   })]
                 }
@@ -431,7 +431,7 @@ export default {
                   additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
                     return {
                       itemId: key,
-                      itemValue: Number(this.additionTerms[item.additionTermId][key])*10000
+                      itemValue: Number(this.additionTerms[item.additionTermId][key].toString().replace(/,/g,''))*10000
                     }
                   })]
                 }
@@ -441,7 +441,7 @@ export default {
                   additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
                     return {
                       itemId: key,
-                      itemValue: this.additionTerms[item.additionTermId][key]
+                      itemValue: this.additionTerms[item.additionTermId][key].toString().replace(/,/g,'')
                     }
                   })]
                 }
@@ -611,7 +611,7 @@ export default {
               additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
                 return {
                   itemId: key,
-                  itemValue: key =='value1' ? Number(this.additionTerms[item.additionTermId][key])*10000 : this.additionTerms[item.additionTermId][key]
+                  itemValue: key =='value1' ? Number(this.additionTerms[item.additionTermId][key].toString().replace(/,/g,''))*10000 : this.additionTerms[item.additionTermId][key].toString().replace(/,/g,'')
                 }
               })]
             }
@@ -621,7 +621,7 @@ export default {
               additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
                 return {
                   itemId: key,
-                  itemValue: Number(this.additionTerms[item.additionTermId][key])*10000
+                  itemValue: Number(this.additionTerms[item.additionTermId][key].toString().replace(/,/g,''))*10000
                 }
               })]
             }
@@ -631,7 +631,7 @@ export default {
               additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
                 return {
                   itemId: key,
-                  itemValue: this.additionTerms[item.additionTermId][key]
+                  itemValue: this.additionTerms[item.additionTermId][key].toString().replace(/,/g,'')
                 }
               })]
             }
