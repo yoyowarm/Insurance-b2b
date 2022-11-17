@@ -179,12 +179,12 @@ export const quotationListTable = () => {
       {
         text: '要保人',
         value: 'applicantName',
-        size: '4-6'
+        size: '6-6'
       },
       {
         text: '被保人',
         value: 'insuredName',
-        size: '4-6'
+        size: '6-6'
       },
       {
         text: '保費',
@@ -214,7 +214,7 @@ export const quotationListTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '4-6'
+        size: '3-6'
       },
       {
         text: '報價日期',
