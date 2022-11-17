@@ -425,7 +425,7 @@ export default {
                     }
                   })]
                 }
-              } else if (['PL040','PL049'].includes(item.additionTermId)) {
+              } else if (['PL040','PL049','PL016'].includes(item.additionTermId)) {
                 return {
                   additionTermId: item.additionTermId,
                   additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
@@ -615,7 +615,7 @@ export default {
                 }
               })]
             }
-          } else if(['PL040','PL049'].includes(item.additionTermId)) {
+          } else if(['PL040','PL049','PL016'].includes(item.additionTermId)) {
             return {
               additionTermId: item.additionTermId,
               additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
