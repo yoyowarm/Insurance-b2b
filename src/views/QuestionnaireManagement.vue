@@ -283,19 +283,19 @@ export default {
       } else {
         copyData.sheet1.part1.beginDateTime = null
       }
-      if(copyData.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
-        copyData.sheet1.part3.afterActivityHasAccessByTransportation = true
-      } else if(copyData.sheet1.part3.afterActivityHasAccessByTransportation == '否') {
-        copyData.sheet1.part3.afterActivityHasAccessByTransportation = false
+      if(copyData.sheet1.part3.afterActivityhasAccessByTransportation == '是'){
+        copyData.sheet1.part3.afterActivityhasAccessByTransportation = true
+      } else if(copyData.sheet1.part3.afterActivityhasAccessByTransportation == '否') {
+        copyData.sheet1.part3.afterActivityhasAccessByTransportation = false
       } else {
-        copyData.sheet1.part3.afterActivityHasAccessByTransportation = null
+        copyData.sheet1.part3.afterActivityhasAccessByTransportation = null
       }
-      if(copyData.sheet1.part3.useRoadHasAccessByTransportation == '是'){
-        copyData.sheet1.part3.useRoadHasAccessByTransportation = true
-      } else if (copyData.sheet1.part3.useRoadHasAccessByTransportation == '否') {
-        copyData.sheet1.part3.useRoadHasAccessByTransportation = false
+      if(copyData.sheet1.part3.useRoadhasAccessByTransportation == '是'){
+        copyData.sheet1.part3.useRoadhasAccessByTransportation = true
+      } else if (copyData.sheet1.part3.useRoadhasAccessByTransportation == '否') {
+        copyData.sheet1.part3.useRoadhasAccessByTransportation = false
       } else {
-        copyData.sheet1.part3.useRoadHasAccessByTransportation = null
+        copyData.sheet1.part3.useRoadhasAccessByTransportation = null
       }
       return copyData
     },

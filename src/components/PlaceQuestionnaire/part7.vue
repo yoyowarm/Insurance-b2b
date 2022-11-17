@@ -270,7 +270,7 @@ export default {
         '7.走道或逃生路線是否堆放雜物'
       ],
       questionListID: [
-        'HasEquipmentTestAndTrain',
+        'hasEquipmentTestAndTrain',
         'hasNoSmokingControl',
         'hasAlertSystem',
         'hasSwitchboardNormalState',
@@ -286,7 +286,7 @@ export default {
         'hasGasExtinguishing',
         'hasFoamExtinguishing',
         'hasWaterMistExtinguishing',
-        'HasEquipmentTestAndTrain',
+        'hasEquipmentTestAndTrain',
         'hasNoSmokingControl',
         'hasAlertSystem',
         'hasSwitchboardNormalState',

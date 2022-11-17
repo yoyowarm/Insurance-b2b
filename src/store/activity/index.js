@@ -238,8 +238,8 @@ export default {
           hasWireInTube: null,//所有電線是否裝在館內避免短路
         },
         part3: {
-          useRoadHasAccessByTransportation: null,//使用道路者 是否經交通主管認許
-          afterActivityHasAccessByTransportation: null,//未使用道路者 活動結束後散場動線是否經交通主管認許
+          useRoadhasAccessByTransportation: null,//使用道路者 是否經交通主管認許
+          afterActivityhasAccessByTransportation: null,//未使用道路者 活動結束後散場動線是否經交通主管認許
           hasSegmentWithInsurancePlaceAndLane: null,//保險處所與車道有無有效區隔
         },
         part4: {
