@@ -115,16 +115,16 @@
     </DynamicLink>
     <DynamicLink v-if="false" type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
       <div @mouseover="showUnderwriting = true" @mouseout="showUnderwriting = false" class="nav-item sub-pages" :class="{'active': path.includes('underwritingCooperation'), 'h180': (windowWidth <=770 && path.includes('underwritingCooperation'))}">
-        <div class="flex flex-row items-center md:flex-col" ref="SuggestTermSetting">
-          <div class="icon termsSetting"/>
-          <span class="text-white text-lg font-bold">核保組織設定</span>
+        <div class="flex flex-row items-center md:flex-col" ref="underwritingCooperation">
+          <div class="icon underwritingCooperation"/>
+          <span class="text-white text-lg font-bold">核保明細設定</span>
         </div>
         <div v-show="(windowWidth >770 && showUnderwriting) || (windowWidth <=770 && path.includes('underwritingCooperation'))" class="fixed-menu md:pl-0 md:items-center" >
           <DynamicLink type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
-            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/underwritingCooperation/Setting'}">核保組織設定</span>
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/underwritingCooperation/Setting'}">核保組織</span>
           </DynamicLink>
           <DynamicLink type="router" path="/underwritingCooperation/Level" @click.native="$emit('update:openMenu', false)">
-            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/underwritingCooperation/Level'}">核保明細階級設定</span>
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/underwritingCooperation/Level'}">核保明細階級</span>
           </DynamicLink>
         </div>
       </div>
@@ -227,6 +227,9 @@ export default {
       min-height: 40px;
       margin-bottom: 4px;
       @apply bg-no-repeat bg-center;
+      &.underwritingCooperation {
+        background-image: url('../assets/images/11.png');
+      }
       &.home {
         background-image: url('../assets/images/10.png');
       }
@@ -264,6 +267,7 @@ export default {
       &.product {
         background-image: url('../assets/images/leftbar_icon_4.png');
       }
+      
     }
     .fixed-menu {
       background-color: #fafafa;
@@ -275,6 +279,9 @@ export default {
     &:hover, &.active {
       background-color: #fafafa;
       .icon {
+        &.underwritingCooperation {
+          background-image: url('../assets/images/11r.png');
+        }
         &.home {
           background-image: url('../assets/images/10r.png');
         }
@@ -356,6 +363,9 @@ export default {
         min-height: 40px;
         margin-bottom: 4px;
         @apply bg-no-repeat bg-center;
+        &.underwritingCooperation {
+          background-image: url('../assets/images/11b.png');
+        }
         &.home {
           background-image: url('../assets/images/10b.png');
         }
@@ -407,6 +417,9 @@ export default {
       }
       &:hover, &.active {
         .icon {
+          &.underwritingCooperation {
+            background-image: url('../assets/images/11.png');
+          }
           &.home {
             background-image: url('../assets/images/10.png');
           }

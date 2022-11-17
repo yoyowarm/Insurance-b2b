@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="核保組織設定" class="text-lg"/>
+    <FormTitle title="核保組織" class="text-lg"/>
     <CommonBoard class="w-full">
       <div class="column-5 sm:mb-4">
         <div class="col-start-5 flex justify-end">

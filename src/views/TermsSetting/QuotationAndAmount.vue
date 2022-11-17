@@ -34,56 +34,62 @@
           </InputGroup>
         </div>
         <div v-if="dialog.type == 1">
-          <p>PL023慰問金費用附加條款</p>
-          <FormTitle class="mt-3" title="住院慰問金費用保險金額"/>
-          <InputGroup title="每一個人">
-            <Input slot="input" :value="copyQuotationList[1] ? copyQuotationList[1].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[1].amount = e" placeholder="請輸入金額"/>
-          </InputGroup>
-          <InputGroup class="mt-2" title="每一意外事故">
-            <Input slot="input" :value="copyQuotationList[2] ? copyQuotationList[2].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[2].amount = e" placeholder="請輸入金額"/>
-          </InputGroup>
-          <InputGroup class="mt-2" title="保險期間內最高賠償金額">
-            <Input slot="input" :value="copyQuotationList[3] ? copyQuotationList[3].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[3].amount = e" placeholder="請輸入金額"/>
-          </InputGroup>
-          <FormTitle class="mt-3" title="奠儀慰問金費用保險金額"/>
-          <InputGroup title="每一個人">
-            <Input slot="input" :value="copyQuotationList[4] ? copyQuotationList[4].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[4].amount = e" placeholder="請輸入金額"/>
-          </InputGroup>
-          <InputGroup class="mt-2" title="每一意外事故">
-            <Input slot="input" :value="copyQuotationList[5] ? copyQuotationList[5].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[5].amount = e" placeholder="請輸入金額"/>
-          </InputGroup>
-          <InputGroup class="mt-2" title="保險期間內最高賠償金額">
-            <Input slot="input" :value="copyQuotationList[6] ? copyQuotationList[6].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[6].amount = e" placeholder="請輸入金額"/>
+          <p>PL016獨立承攬人責任附加條款</p>
+          <InputGroup class="mt-3" title="超過額度另行報價">
+            <Input slot="input" :value="copyQuotationList[1]? copyQuotationList[1].amount.toString(): ''" numberOnly @updateValue="(e) => copyQuotationList[1].amount = e" placeholder="請輸入金額"/>
           </InputGroup>
         </div>
         <div v-if="dialog.type == 2">
-          <p>PL040受託物附加條款</p>
-          <InputGroup class="mt-3" title="每一意外事故財損責任之保險金額">
-            <Input slot="input" :value="copyQuotationList[7] ? copyQuotationList[7].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[7].amount = e" placeholder="請輸入金額"/>
+          <p>PL023慰問金費用附加條款</p>
+          <FormTitle class="mt-3" title="住院慰問金費用保險金額"/>
+          <InputGroup title="每一個人">
+            <Input slot="input" :value="copyQuotationList[2] ? copyQuotationList[2].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[2].amount = e" placeholder="請輸入金額"/>
+          </InputGroup>
+          <InputGroup class="mt-2" title="每一意外事故">
+            <Input slot="input" :value="copyQuotationList[3] ? copyQuotationList[3].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[3].amount = e" placeholder="請輸入金額"/>
           </InputGroup>
           <InputGroup class="mt-2" title="保險期間內最高賠償金額">
-            <Input slot="input" :value="copyQuotationList[8] ? copyQuotationList[8].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[8].amount = e" placeholder="請輸入金額"/>
+            <Input slot="input" :value="copyQuotationList[4] ? copyQuotationList[4].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[4].amount = e" placeholder="請輸入金額"/>
+          </InputGroup>
+          <FormTitle class="mt-3" title="奠儀慰問金費用保險金額"/>
+          <InputGroup title="每一個人">
+            <Input slot="input" :value="copyQuotationList[5] ? copyQuotationList[5].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[5].amount = e" placeholder="請輸入金額"/>
+          </InputGroup>
+          <InputGroup class="mt-2" title="每一意外事故">
+            <Input slot="input" :value="copyQuotationList[6] ? copyQuotationList[6].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[6].amount = e" placeholder="請輸入金額"/>
+          </InputGroup>
+          <InputGroup class="mt-2" title="保險期間內最高賠償金額">
+            <Input slot="input" :value="copyQuotationList[7] ? copyQuotationList[7].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[7].amount = e" placeholder="請輸入金額"/>
           </InputGroup>
         </div>
         <div v-if="dialog.type == 3">
-          <p>PL049承租人借用人責任附加條款(保額外加)</p>
-          <InputGroup class="mt-3" title="額度">
+          <p>PL040受託物附加條款</p>
+          <InputGroup class="mt-3" title="每一意外事故財損責任之保險金額">
+            <Input slot="input" :value="copyQuotationList[8] ? copyQuotationList[8].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[8].amount = e" placeholder="請輸入金額"/>
+          </InputGroup>
+          <InputGroup class="mt-2" title="保險期間內最高賠償金額">
             <Input slot="input" :value="copyQuotationList[9] ? copyQuotationList[9].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[9].amount = e" placeholder="請輸入金額"/>
           </InputGroup>
         </div>
         <div v-if="dialog.type == 4">
-          <p>PL053慰問金費用附加條款</p>
-          <InputGroup class="mt-3" title="每一個人傷害醫療慰問金費用保險金額">
+          <p>PL049承租人借用人責任附加條款(保額外加)</p>
+          <InputGroup class="mt-3" title="額度">
             <Input slot="input" :value="copyQuotationList[10] ? copyQuotationList[10].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[10].amount = e" placeholder="請輸入金額"/>
           </InputGroup>
-          <InputGroup class="mt-2" title="每一個人身故慰問金費用保險金額">
+        </div>
+        <div v-if="dialog.type == 5">
+          <p>PL053慰問金費用附加條款</p>
+          <InputGroup class="mt-3" title="每一個人傷害醫療慰問金費用保險金額">
             <Input slot="input" :value="copyQuotationList[11] ? copyQuotationList[11].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[11].amount = e" placeholder="請輸入金額"/>
           </InputGroup>
-          <InputGroup class="mt-2" title="每一個人事故慰問金費用保險金額">
+          <InputGroup class="mt-2" title="每一個人身故慰問金費用保險金額">
             <Input slot="input" :value="copyQuotationList[12] ? copyQuotationList[12].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[12].amount = e" placeholder="請輸入金額"/>
           </InputGroup>
+          <InputGroup class="mt-2" title="每一個人事故慰問金費用保險金額">
+            <Input slot="input" :value="copyQuotationList[13] ? copyQuotationList[13].amount.toString() : ''" numberOnly @updateValue="(e) => copyQuotationList[13].amount = e" placeholder="請輸入金額"/>
+          </InputGroup>
           <InputGroup class="mt-2" title="保險期間內慰問金費用最高賠償金額">
-            <Input slot="input" :value="copyQuotationList[13] ? copyQuotationList[13].amount.toString(): ''" numberOnly @updateValue="(e) => copyQuotationList[13].amount = e" placeholder="請輸入金額"/>
+            <Input slot="input" :value="copyQuotationList[14] ? copyQuotationList[14].amount.toString(): ''" numberOnly @updateValue="(e) => copyQuotationList[14].amount = e" placeholder="請輸入金額"/>
           </InputGroup>
         </div>
       </PopupDialog>
