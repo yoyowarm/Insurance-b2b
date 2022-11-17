@@ -138,7 +138,9 @@ export default {
         okText: '',
         type: 0
       },
-      currentItem: {},
+      currentItem: {
+        sort: 0,
+      },
       startDate: {
         year: '',
         month: '',
@@ -308,7 +310,7 @@ export default {
         offTime: `${Number(this.endDate.year)+1911}-${this.endDate.month}-${this.endDate.day} ${this.endDate.hours}:${this.endDate.minutes}`,
         audienceType: 0,
         isEnable: this.currentItem.isEnable,
-        sort: this.currentItem.sort
+        sort: this.currentItem.sort ? this.currentItem.sort : 0
       }
       if (this.dialog.type == 0) {
         await this.$store.dispatch('news/AddNews', data)

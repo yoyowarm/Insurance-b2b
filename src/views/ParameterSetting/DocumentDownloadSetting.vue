@@ -93,6 +93,7 @@ export default {
       currentItem: {
         categoryId: '1',
         fileName: '上傳檔案',
+        sort: 0,
       },
       file: null,
       productListTable: {
@@ -157,6 +158,7 @@ export default {
       this.currentItem = {
         categoryId: '1',
         fileName: '上傳檔案',
+        sort: 0,
       }
       if(item)this.currentItem = JSON.parse(JSON.stringify(item))
       if(okText) this.dialog.okText = okText
@@ -173,7 +175,7 @@ export default {
       const data = {
           CategoryId: '1',
           Title: this.currentItem.title,
-          Sort: this.currentItem.sort,
+          Sort: this.currentItem.sort ? this.currentItem.sort : 0,
       }
       if (this.dialog.type == 0) {
         data.file = this.file
