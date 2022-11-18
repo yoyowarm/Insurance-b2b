@@ -24,7 +24,7 @@
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
-      <Button @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
+      <Button v-if="InsuranceActive !== 6" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
         v-if="false && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.insuranceAmount)"
