@@ -1,0 +1,150 @@
+@import "tailwindcss/base.css";
+/* @import 'base'; */
+
+@import "tailwindcss/components.css";
+/* @import 'components'; */
+
+@import "tailwindcss/utilities.css";
+
+input:focus-visible {
+  outline: none;
+}
+.column-2, .column-2-wide {
+  @apply grid grid-cols-2 gap-6;
+}
+.column-3, .column-3-wide {
+  @apply grid grid-cols-3 gap-6;
+}
+.column-4 {
+  @apply grid grid-cols-4 gap-6;
+}
+.column-5 {
+  @apply grid grid-cols-5 gap-6;
+}
+.column-5 .item {
+  @apply w-full;
+}
+.column-6 {
+  @apply grid grid-cols-6 gap-6;
+}
+.dashed-border {
+  @apply border-dashed border-b-2 pb-6;
+}
+@media only screen and (min-width: 1180px) and (max-width: 1614px) {
+  .column-5 {
+    @apply grid grid-cols-4 gap-6;
+  }
+}
+@media screen and (max-width: 1179px) {
+  .column-3,
+  .column-4,
+  .column-5,
+  .column-6 {
+    @apply grid grid-cols-2 gap-6;
+  }
+}
+@media screen and (max-width: 900px) {
+  .column-2 {
+    @apply flex flex-col gap-3;
+  }
+}
+@media screen and (max-width: 560px) {
+  .column-5, .column-3, .column-4 {
+    @apply flex flex-col gap-3;
+  }
+  .column-3-wide {
+    @apply gap-2;
+  }
+  .column-5 .item {
+    @apply col-span-1;
+  }
+  .column-6 {
+    @apply gap-3;
+  }
+}
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE10+ CSS styles go here */
+  .column-2-wide,
+  .column-3-wide,
+  .column-2,
+  .column-3,
+  .column-4,
+  .column-5,
+  .column-6 {
+    @apply flex flex-no-wrap;
+  }
+}
+
+@media all and (-ms-high-contrast: none) and (max-width: 1179px),
+  (-ms-high-contrast: active) and (max-width: 1179px) {
+  /* IE10+ CSS styles go here */
+  .column-2-wide,
+  .column-3-wide,
+  .column-2,
+  .column-3,
+  .column-4,
+  .column-5,
+  .column-6 {
+    @apply flex flex-wrap;
+  }
+}
+
+.w-1-6, .w-2-12 {
+  width: 16.666%;
+}
+.w-2-6, .w-4-12 { 
+  width: 33.333%;
+}
+.w-3-6, .w-6-12 {
+  width: 50%;
+}
+.w-4-6, .w-8-12 {
+  width: 66.666%;
+}
+.w-5-6, .w-10-12 {
+  width: 83.333%;
+}
+.w-6-6, .w-12-12 {
+  width: 100%;
+}
+.w-1-12 {
+  width: 8.333%;
+}
+.w-3-12 {
+  width: 25%;
+}
+.w-5-12 {
+  width: 41.666%;
+}
+.w-7-12 {
+  width: 58.333%;
+}
+.w-9-12 {
+  width: 75%;
+}
+.w-11-12 {
+  width: 91.666%;
+}
+
+.scrollX .w-1-6,.scrollX .w-2-12 {
+  min-width: 50px;
+}
+.scrollX .w-2-6,.scrollX .w-4-12 { 
+  min-width: 100px;
+}
+.scrollX .w-3-6,.scrollX .w-6-12 {
+  min-width: 150px;
+}
+.scrollX .w-4-6,.scrollX .w-8-12 {
+  min-width: 200px;
+}
+.scrollX .w-5-6,.scrollX .w-10-12 {
+  min-width: 250px;
+}
+.scrollX .w-6-6,.scrollX .w-12-12 {
+  min-width: 300px;
+}
+
+.dashed-border {
+  @apply border-dashed border-b-2 pb-6;
+}

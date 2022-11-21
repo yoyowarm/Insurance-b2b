@@ -1,0 +1,231 @@
+{
+  "GetAllCountyMinimumSettings": [
+    {
+      "authorityId": "1",
+      "countyName": "基隆市政府",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 1500,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 3400
+    },
+    {
+      "authorityId": "2",
+      "countyName": "台北市政府 ",
+      "perBodyAmount": 600,
+      "perAccidentBodyAmount": 3000,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 6600
+    },
+    {
+      "authorityId": "3",
+      "countyName": "新北市政府 ",
+      "perBodyAmount": 600,
+      "perAccidentBodyAmount": 3000,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 6600
+    },
+    {
+      "authorityId": "4",
+      "countyName": "桃園市政府 ",
+      "perBodyAmount": 600,
+      "perAccidentBodyAmount": 3000,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 6600
+    },
+    {
+      "authorityId": "5",
+      "countyName": "新竹市政府 ",
+      "perBodyAmount": 600,
+      "perAccidentBodyAmount": 3000,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 6600
+    },
+    {
+      "authorityId": "6",
+      "countyName": "新竹縣政府 ",
+      "perBodyAmount": 200,
+      "perAccidentBodyAmount": 2000,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 3600
+    },
+    {
+      "authorityId": "7",
+      "countyName": "苗栗縣政府 ",
+      "perBodyAmount": 200,
+      "perAccidentBodyAmount": 1000,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 2400
+    },
+    {
+      "authorityId": "8",
+      "countyName": "台中市政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 3000,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 4800
+    },
+    {
+      "authorityId": "9",
+      "countyName": "彰化縣政府 ",
+      "perBodyAmount": 600,
+      "perAccidentBodyAmount": 3000,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 6600
+    },
+    {
+      "authorityId": "10",
+      "countyName": "南投縣政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 1500,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 3400
+    },
+    {
+      "authorityId": "11",
+      "countyName": "雲林縣政府 ",
+      "perBodyAmount": 200,
+      "perAccidentBodyAmount": 1000,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 2400
+    },
+    {
+      "authorityId": "12",
+      "countyName": "嘉義縣(市)政府 ",
+      "perBodyAmount": 200,
+      "perAccidentBodyAmount": 1000,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 2400
+    },
+    {
+      "authorityId": "13",
+      "countyName": "台南市政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 1500,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 2400
+    },
+    {
+      "authorityId": "14",
+      "countyName": "高雄市政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 1500,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 4800
+    },
+    {
+      "authorityId": "15",
+      "countyName": "屏東縣政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 3000,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 6400
+    },
+    {
+      "authorityId": "16",
+      "countyName": "宜蘭縣政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 3000,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 4800
+    },
+    {
+      "authorityId": "17",
+      "countyName": "花蓮縣政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 1500,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 2400
+    },
+    {
+      "authorityId": "18",
+      "countyName": "台東縣政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 2000,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 2400
+    },
+    {
+      "authorityId": "19",
+      "countyName": "澎湖縣政府 ",
+      "perBodyAmount": 300,
+      "perAccidentBodyAmount": 1500,
+      "perAccidentFinanceAmount": 300,
+      "insuranceTotalAmount": 3600
+    },
+    {
+      "authorityId": "20",
+      "countyName": "金門縣政府 ",
+      "perBodyAmount": 200,
+      "perAccidentBodyAmount": 1000,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 2400
+    },
+    {
+      "authorityId": "21",
+      "countyName": "連江縣政府 ",
+      "perBodyAmount": 200,
+      "perAccidentBodyAmount": 1000,
+      "perAccidentFinanceAmount": 200,
+      "insuranceTotalAmount": 2400
+    }
+  ],
+  "PermissionSettingUsers": [
+    {
+      "number": "F624",
+      "name": "林國強",
+      "time": "2021-11-03 18:02",
+      "group": "系統管理員",
+      "status": "啟用",
+      "mail": "H014@mail.xxxx.com.tw"
+    }
+  ],
+  "PermissionSettingUsersDetail": {
+    "number": "F624",
+    "name": "林國強",
+    "time": "2021-11-03 18:02",
+    "group": "系統管理員",
+    "status": "啟用",
+    "mail": "H014@mail.xxxx.com.tw"
+  },
+  "PermissionSettingGroups": [],
+  "PermissionSettingGroupsDetail": {},
+  "ActivityTypes": [],
+  "AdditionTermsType": [],
+  "AdditionTermQuotation": {},
+  "PlaceTypes": [
+    {
+      "quote": "是",
+      "type": "甲類",
+      "name": "公私企業辦公處所",
+      "eye": "顯示"
+    }
+  ],
+  "Places": [
+    {
+      "quote": "是",
+      "type": "甲類",
+      "name": "公私企業辦公處所",
+      "eye": "顯示"
+    }
+  ],
+  "Activities": [],
+  "taianUsers": [
+    {
+      "IsValid": true,
+      "IsTaian": true,
+      "UserInfo": {
+        "UserId": "G284",
+        "UserName": "翁維凰",
+        "iresource": "",
+        "ichannel": "",
+        "ibroker": "",
+        "iofficer": "F1",
+        "salesLayer": "A",
+        "IsL9": false,
+        "typeNumber": "0",
+        "InsuredCode": "A"
+      },
+      "Remark": null
+    }
+  ]
+}

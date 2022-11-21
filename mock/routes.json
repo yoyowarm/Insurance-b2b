@@ -1,0 +1,14 @@
+{
+  "/api/CountyMinimumSetting/GetAllCountyMinimumSettings": "/GetAllCountyMinimumSettings",
+  "/api/PermissionSetting/GetUsers": "/PermissionSettingUsers",
+  "/api/PermissionSetting/GetUserDetail": "/PermissionSettingUsersDetail",
+  "/api/PermissionSetting/GetGroups": "/PermissionSettingGroups",
+  "/api/PermissionSetting/GetGroupDetail": "/PermissionSettingGroupsDetail",
+  "/api/Activity/GetActivityTypes": "/ActivityTypes",
+  "/api/AdditionTermSetting/GetTypeAdditionTerms": "/AdditionTermsType",
+  "/api/AdditionTermSetting/GetAdditionTermQuotation": "/AdditionTermQuotation",
+  "/api/Place/GetPlaceTypes": "/PlaceTypes",
+  "/api/PlaceActivitySetting/GetPlaces": "/Places",
+  "/api/PlaceActivitySetting/GetActivities": "/Activities",
+  "/api/User/GetTaianUsers": "/taianUsers"
+}
