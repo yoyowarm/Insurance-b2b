@@ -8,37 +8,37 @@
       <template v-for="(item,index) in placeRatesListTable.rows">
         <div :slot="`甲類1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['甲類1'].rate" @updateValue="(e) =>updatedRate('甲類1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['甲類1'].rate) ? item['甲類1'].rate : Math.round(item['甲類1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('甲類1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div :slot="`乙類1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['乙類1'].rate" @updateValue="(e) =>updatedRate('乙類1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['乙類1'].rate) ? item['乙類1'].rate : Math.round(item['乙類1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('乙類1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div :slot="`丙類1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['丙類1'].rate" @updateValue="(e) =>updatedRate('丙類1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value=" isNaN(item['丙類1'].rate) ? item['丙類1'].rate : Math.round(item['丙類1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('丙類1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div :slot="`丁類1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['丁類1'].rate" @updateValue="(e) =>updatedRate('丁類1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['丁類1'].rate) ? item['丁類1'].rate : Math.round(item['丁類1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('丁類1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div :slot="`戊類1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['戊類1'].rate" @updateValue="(e) =>updatedRate('戊類1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['戊類1'].rate) ? item['戊類1'].rate : Math.round(item['戊類1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('戊類1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div :slot="`己類1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['己類1'].rate" @updateValue="(e) =>updatedRate('己類1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['己類1'].rate) ? item['己類1'].rate : Math.round(item['己類1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('己類1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div :slot="`其他(混合類別)1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['其他(混合類別)1'].rate" @updateValue="(e) =>updatedRate('其他(混合類別)1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['其他(混合類別)1'].rate) ? item['其他(混合類別)1'].rate : Math.round(item['其他(混合類別)1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('其他(混合類別)1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div v-if="type ==2" :slot="`operate-${index}`" :key="`operate${index}`" class="w-full flex justify-center">
@@ -48,17 +48,17 @@
       <template v-for="(item,index) in activityRatesListTable.rows">
         <div :slot="`A1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['A1'].rate" @updateValue="(e) =>updatedRate('A1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['A1'].rate) ? item['A1'].rate : Math.round(item['A1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('A1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div :slot="`B1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['B1'].rate" @updateValue="(e) =>updatedRate('B1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['B1'].rate) ? item['B1'].rate : Math.round(item['B1'].rate * 100) / 100" @updateValue="(e) =>updatedRate('B1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div :slot="`C1-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
           <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
-              <Input slot="input" placeholder="%數" :value="item['C1'].rate" @updateValue="(e) =>updatedRate('C1',index, e)" :disable="!item.edit" isNumber/>
+              <Input slot="input" placeholder="%數" :value="isNaN(item['C1'].rate) ? item['C1'].rate :Math.round(item['C1'].rate * 100) /100" @updateValue="(e) =>updatedRate('C1',index, e)" :disable="!item.edit" isNumber/>
             </InputGroup>
         </div>
         <div v-if="type ==3" :slot="`operate-${index}`" :key="`operate${index}`" class="w-full flex justify-center">
