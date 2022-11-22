@@ -313,6 +313,84 @@ export const quotationLisMobileTable = () => {
   }
 }
 
+export const auditListTable = () => {
+  return {
+    head: [
+      {
+        text: '序號',
+        value: 'serialNo',
+        size: '1-6'
+      },
+      {
+        text: '要保人',
+        value: 'applicantName',
+        size: '6-6'
+      },
+      {
+        text: '被保人',
+        value: 'insuredName',
+        size: '6-6'
+      },
+      {
+        text: '保費',
+        value: 'insuranceAmount',
+        size: '2-6'
+      },
+      {
+        text: '狀態',
+        value: 'stateText',
+        size: '2-6'
+      },
+      {
+        text: '待確認人員',
+        value: 'a',
+        size: '3-6'
+      },
+      {
+        text: '核保結果',
+        value: 'b',
+        size: '3-6'
+      },
+      {
+        text: '操作',
+        value: 'edit',
+        size: '3-6'
+      },
+      {
+        text: '保險期間',
+        value: 'ConvergeStartDate',
+        size: '4-6'
+      },
+      {
+        text: '報價日期',
+        value: 'quotationDate',
+        size: '3-6'
+      },
+      {
+        text: '經手人',
+        value: 'iOfficerName',
+        size: '2-6'
+      },
+      {
+        text: '總分公司單位',
+        value: 'companyDepartment',
+        size: '2-6'
+      },
+      {
+        text: '核保人員',
+        value: 'companyDepartment',
+        size: '2-6'
+      },
+      {
+        text: '類型',
+        value: 'typeText',
+        size: '1-6'
+      },
+    ],
+    rows: []
+  }
+}
+
 export const planDetail = () => {
   return {
     list: [

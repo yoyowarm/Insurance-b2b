@@ -77,7 +77,7 @@
             />
           </InputGroup>
         </div>
-        <QuotationList :list="quotationList" @updateQuotationList="getQuotationList"/>
+        <QuotationList :list="quotationList" :currentTag="currentTag" @updateQuotationList="getQuotationList"/>
         <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
       </CommonBoard>
     </div>
@@ -124,7 +124,7 @@ export default {
       currentTag: 0,
       itemLists:[
         { text: '報價明細', value: 0 },
-        { text: '核保明細', value: 1, disabled: true }
+        { text: '核保明細', value: 1 }
       ],
       open: false,
       downloadQuotation: {},

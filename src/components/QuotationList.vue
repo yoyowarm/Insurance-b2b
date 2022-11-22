@@ -16,7 +16,7 @@
       </div>
       <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3 @review="(e) =>review(e,tableData.rows)" class="mb-4" style="border-bottom: 1px solid #d1d5db">
         <template v-for="(item,index) in tableData.rows">
-          <div :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-24': windowWidth <= 600 && item.policyStatus !== 99}">
+          <div v-if="currentTag == 0" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-24': windowWidth <= 600 && item.policyStatus !== 99}">
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4" v-if="item.policyStatus == 99">序號改為:{{item.newSerialNo}}</div>
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4 mr-9 mt-5 ml-1" v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))">- -</div>
             <div v-else class="flex items-center mr-7 mt-1" :class="{'absolute flex-row top-12': windowWidth <= 600, 'flex-col': windowWidth > 600}">
@@ -28,6 +28,12 @@
               <Button class="minButton whitespace-no-wrap" disabled outline>查看歷程</Button>
               <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" disabled outline>異動比對</Button>
               <Button class="minButton whitespace-no-wrap" :disabled="!item.insuranceAmount" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
+            </div>
+          </div>
+          <div v-if="currentTag == 1" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-24': windowWidth <= 600 && item.policyStatus !== 99}">
+            <div class="flex items-center mr-7 mt-1" :class="{'absolute flex-row top-12': windowWidth <= 600, 'flex-col': windowWidth > 600}">
+              <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
+              <span class="download whitespace-no-wrap" :class="{'ml-16': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo,'audit')}">審核</span>
             </div>
           </div>
           <div class="text-gray-600 bg-gray-100 md:bg-white md:p-1 md:rounded-b-xl text-center md:text-left  min-h-4 flex flex-col" :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`">
@@ -46,7 +52,7 @@
 import TableGroup from '@/components/TableGroup'
 import DownloadFile from '@/components/PopupDialog/DownloadFile.vue'
 import Button from '@/components/Button'
-import { quotationListTable, quotationLisMobileTable } from '@/utils/mockData'
+import { quotationListTable, quotationLisMobileTable, auditListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
 import WindowResizeListener from '@/components/WindowResizeListener'
@@ -56,6 +62,10 @@ export default {
       type: Array,
       default: () => []
     },
+    currentTag: {
+      type: Number,
+      default: 0
+    }
   },
   components: {
     TableGroup,
@@ -83,9 +93,9 @@ export default {
           target.slotArray.push(`ConvergeStartDate-${target.rows.length-1}`)
         } else {
           if(this.windowWidth > 600) {
-            arr.push({head:quotationListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationListTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0']})
           } else {
-            arr.push({head:quotationLisMobileTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0']})
           }
         }
       })
@@ -120,6 +130,7 @@ export default {
       } else {
         if(update == 'addSerialNo') { this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,3) }
         if(update == 'correct') { this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,1)}
+        if(update == 'audit') { this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,7)}
         this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step1`)
       }
     },
