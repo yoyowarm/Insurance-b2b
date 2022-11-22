@@ -12,20 +12,22 @@
             @emitItem="(item) => updateInfo('city', item, index)"
             defaultText="選擇縣市"/>
         </InputGroup>
-        <InputGroup dash noMt>
+        <InputGroup dash noMt :disable="disable">
           <Select
             slot="input"
             :options="areaList.filter(u => u.cityId == item.city.Value)"
             :selected="item.area.Value"
+            :disable="disable"
             @emitItem="(item) => updateInfo('area', item, index)"
             defaultText="選擇區域"/>
         </InputGroup>
-        <InputGroup class="col-span-3" noMt>
+        <InputGroup class="col-span-3" noMt :disable="disable">
           <Input
             slot="input"
             class="w-full"
             placeholder="輸入地址"
             :value="item.subAddress"
+            :disable="disable"
             @updateValue="(e) => updateInfo('subAddress', e, index)"/>
           />
         </InputGroup>
@@ -52,7 +54,11 @@ export default {
     areaList: {
       type: Array,
       default: () => []
-    }
+    },
+    disable: {
+      type: Boolean,
+      default: false
+    },
   },
   components: {
     FormTitle,

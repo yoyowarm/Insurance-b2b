@@ -17,7 +17,7 @@
         <InputGroup class="w-ful" :disable="!renewal.IsRenewal || calculateModel">
         <div slot="input" class="w-full pr-24 relative">
           <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal|| calculateModel"/>
-          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
+          <Button v-if="InsuranceActive !== 7" class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
         </div>
       </InputGroup>
       </div>
@@ -42,7 +42,7 @@
         @addItem="$store.dispatch('place/addPlaceInfo')"
         @removeItem="(index) => $store.dispatch('place/deletePlaceInfo',index)"
         :countyList="countyList"
-        :disable="calculateModel"
+        :disable="calculateModel || InsuranceActive == 7"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
@@ -89,11 +89,11 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="() => { if(!calculateModel) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-48 md:w-42 " outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
+        <Button @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-48 md:w-42 " outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire type="place" :open.sync="openQuestionnaire" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
+    <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <PopupDialog
       :open.sync="openFormula"

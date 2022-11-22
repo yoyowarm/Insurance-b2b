@@ -14,16 +14,16 @@
         type="InsuranedData"
         quotationType="activity"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
-        :disable="InsuranceActive == 1 || InsuranceActive == 3"
+        :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :InsuranceActive="InsuranceActive"
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
-        <InputGroup class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3">
+        <InputGroup class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
           <Select
             slot="input"
-            :disable="InsuranceActive == 1 || InsuranceActive == 3"
+            :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
             defaultText="選擇關係"
             :options="relationShips"
             :selected="Relation.Value"
@@ -46,7 +46,7 @@
         }"
       />
       <InsuranceInfo
-        :disable="sameAsInsured || Relation.Value =='RL00' || InsuranceActive == 1 || InsuranceActive == 3"
+        :disable="sameAsInsured || Relation.Value =='RL00' || InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :marginTop="marginTop"
         :info.sync="ApplicantData"
         :nationalities="nationalities"
@@ -57,7 +57,7 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <EmailPolicy :eletric.sync="policyTransferData"/>
+    <EmailPolicy :eletric.sync="policyTransferData" :disable="InsuranceActive == 7"/>
     <CommonBoard class="mb-5">
       <FormTitle classList="text-xl text-gray-700" title="紙本保單">
         <Checkbox
@@ -65,14 +65,14 @@
           id="paper"
           :checked="policyTransferData.transferType == 2"
           :value="policyTransferData.transferType == 2"
-          :disabled="policyTransferData.transferType == 2"
+          :disabled="policyTransferData.transferType == 2 || InsuranceActive == 7"
           @updateValue="(e) =>{ if(policyTransferData.transferType !== 2){policyTransferData.transferType = 2}}"
           slot="left"
         />
       </FormTitle>
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3">
-      <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
+    <CommonBoard class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+      <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="InsuranceActive!==2" @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
@@ -130,7 +130,9 @@ export default {
         0:'產生報價單',
         1:'更正報價單',
         2:'修改要被保人',
-        3: '新增序號'
+        3: '新增序號',
+        4: '下一步',
+        7: '下一步',
       }
     }
   },

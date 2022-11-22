@@ -19,7 +19,7 @@
         @removeItem="(index) => $store.dispatch('activity/deleteActivityInfo',index)"
         :countyList="countyList"
         :areaList="areaList"
-        :disable="calculateModel"
+        :disable="calculateModel || InsuranceActive == 7"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
@@ -67,11 +67,11 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="() => { if(!calculateModel) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
+        <Button @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire type="activity" :open.sync="openQuestionnaire" :questionnaire="questionnaire" :orderNo="orderNo"/>
+    <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <PopupDialog
       :open.sync="openFormula"

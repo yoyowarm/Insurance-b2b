@@ -2,8 +2,8 @@
   <div class="w-full my-4 dashed-border">
       <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
         <div class=" flex flex-row justify-between">
-          <RadioInput text="是" :id="`${questionListID[index]}${index}111`" :value="data.part8[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-          <RadioInput class="mx-2" text="否" :id="`${questionListID[index]}${index}21`" :value="data.part8[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+          <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}111`" :value="data.part8[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}21`" :value="data.part8[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
       </div>
         <div class="text-lg">{{item}}</div>
     </div>
@@ -20,6 +20,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
