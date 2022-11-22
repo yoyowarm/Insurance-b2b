@@ -95,6 +95,7 @@
     </div>
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
+    <PlaceModifyAmount :open.sync="openAudit"/>
     <PopupDialog
       :open.sync="openFormula"
     >
@@ -142,6 +143,7 @@ import routeChange from '@/utils/mixins/routeChange'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
+import PlaceModifyAmount from '@/components/PopupDialog/PlaceModifyAmount'
 import { Popup } from '@/utils/popups'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
@@ -166,7 +168,8 @@ export default {
     FileUpload,
     InsuranceRecord,
     LoadingScreen,
-    PopupDialog
+    PopupDialog,
+    PlaceModifyAmount
   },
   data () {
     return {
@@ -181,7 +184,8 @@ export default {
       additionTermsList: [],
       attachmentList: [],
       openQuestionnaire: false,
-      openFormula: false
+      openFormula: false,
+      openAudit: false,
     }
   },
   computed: {
@@ -616,6 +620,8 @@ export default {
             hasHtml: true,
             htmlText: res.data.content.quotationReason.join('<br>'),
           })
+        } else if (this.InsuranceActive == 7) {
+          this.openAudit = true
         }
       }
     },

@@ -73,6 +73,7 @@
     </div>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
+    <ActivityModifyAmount :open.sync="openAudit"/>
     <PopupDialog
       :open.sync="openFormula"
     >
@@ -118,6 +119,7 @@ import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import ActivityModifyAmount from '@/components/PopupDialog/ActivityModifyAmount'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
@@ -141,7 +143,8 @@ export default {
     Questionnaire,
     FileUpload,
     LoadingScreen,
-    PopupDialog
+    PopupDialog,
+    ActivityModifyAmount
   },
   data () {
     return {
@@ -159,6 +162,7 @@ export default {
       attachmentList: [],
       openQuestionnaire: false,
       openFormula: false,
+      openAudit: false,
     }
   },
   computed: {
@@ -505,6 +509,8 @@ export default {
             hasHtml: true,
             htmlText: res.data.content.quotationReason.join('<br>'),
           })
+        } else if (this.InsuranceActive == 7) {
+          this.openAudit = true
         }
       }
       this.updatePeriod()
