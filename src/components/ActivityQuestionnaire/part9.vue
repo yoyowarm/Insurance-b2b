@@ -2,24 +2,24 @@
   <div class="w-full my-4">
     <div class="w-full flex flex-row mt-4" :class="{'dashed-border mb-6': index === questionList.length-1}" v-for="(item,index) in questionList" :key="item">
       <div class="flex flex-row justify-between">
-        <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part2[questionListID[index]] === true" @updateValue="updatePart2Value(true, questionListID[index])"/>
-        <RadioInput class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet2.part2[questionListID[index]] === false" @updateValue="updatePart2Value(false, questionListID[index])"/>
+        <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet2.part2[questionListID[index]] === true" @updateValue="updatePart2Value(true, questionListID[index])"/>
+        <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet2.part2[questionListID[index]] === false" @updateValue="updatePart2Value(false, questionListID[index])"/>
      </div>
       <div class="text-lg">{{item}}</div>
     </div>
     <FormTitle class="text-lg" title="(三)交通控管"/>
     <div class="w-full flex flex-row mt-4 dashed-border mb-6">
       <div class="flex flex-row justify-between">
-        <RadioInput text="是" id="eeee" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === true" @updateValue="updatePart3Value(true, 'hasSegmentWithInsurancePlaceAndLane')"/>
-        <RadioInput class="mx-2" text="否" id="por" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === false" @updateValue="updatePart3Value(false, 'hasSegmentWithInsurancePlaceAndLane')"/>
+        <RadioInput :disabled="disable" text="是" id="eeee" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === true" @updateValue="updatePart3Value(true, 'hasSegmentWithInsurancePlaceAndLane')"/>
+        <RadioInput :disabled="disable" class="mx-2" text="否" id="por" :value="data.sheet2.part3.hasSegmentWithInsurancePlaceAndLane === false" @updateValue="updatePart3Value(false, 'hasSegmentWithInsurancePlaceAndLane')"/>
      </div>
       <div class="text-lg">保險處所與車道有無有效區隔(含車道與人員動線安排)</div>
     </div>
     <FormTitle class="text-lg" title="(四)安全防護"/>
       <div class="w-full flex flex-row mt-4 dashed-border mb-6">
         <div class=" flex flex-row justify-between">
-          <RadioInput text="是" id="eeeee" :value="data.sheet2.part4.potentialOtherSafePlan === true" @updateValue="updatePart4Value(true, 'potentialOtherSafePlan')"/>
-          <RadioInput class="mx-2" text="否" id="porr" :value="data.sheet2.part4.potentialOtherSafePlan === false" @updateValue="updatePart4Value(false, 'potentialOtherSafePlan')"/>
+          <RadioInput :disabled="disable" text="是" id="eeeee" :value="data.sheet2.part4.potentialOtherSafePlan === true" @updateValue="updatePart4Value(true, 'potentialOtherSafePlan')"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" id="porr" :value="data.sheet2.part4.potentialOtherSafePlan === false" @updateValue="updatePart4Value(false, 'potentialOtherSafePlan')"/>
       </div>
         <div class="text-lg">請說明潛在風險的防護與消防措施，包含並不限於上述風險項目</div>
       </div>
