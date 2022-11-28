@@ -8,6 +8,7 @@ import {
   GetUnderwriteLevel,
   AddUnderwriteLevel,
   UpdateUnderwriteLevel,
+  DeleteUnderwriteLevel
 } from '@/api/UnderwriteLevelSetting'
 export default {
   namespaced: true,
@@ -44,5 +45,8 @@ export default {
     async UpdateUnderwriteLevel(_, data) {
       return await UpdateUnderwriteLevel(data)
     },
+    async DeleteUnderwriteLevel(_, id) {
+      return await DeleteUnderwriteLevel(id)
+    }
   }
 }

@@ -35,6 +35,7 @@
         <Button v-if="type == 2" class="w-40" @click.native="confirmDialog('delete')">確定刪除</Button>
       </div>
     </PopupDialog>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -46,6 +47,8 @@ import TableGroup from '@/components/TableGroup'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
+import LoadingScreen from '@/components/LoadingScreen.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
     FormTitle,
@@ -54,7 +57,8 @@ export default {
     TableGroup,
     PopupDialog,
     InputGroup,
-    Input
+    Input,
+    LoadingScreen
   },
   data () {
     return {
@@ -87,6 +91,9 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      'loading': state => state.app.loading,
+    }),
     slotArray () {
       const arr = []
       const slotArr = ['operate']

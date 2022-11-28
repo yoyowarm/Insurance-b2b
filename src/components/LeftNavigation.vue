@@ -113,7 +113,7 @@
         </div>
       </div>
     </DynamicLink>
-    <DynamicLink v-if="false" type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
       <div @mouseover="showUnderwriting = true" @mouseout="showUnderwriting = false" class="nav-item sub-pages" :class="{'active': path.includes('underwritingCooperation'), 'h180': (windowWidth <=770 && path.includes('underwritingCooperation'))}">
         <div class="flex flex-row items-center md:flex-col" ref="underwritingCooperation">
           <div class="icon underwritingCooperation"/>
