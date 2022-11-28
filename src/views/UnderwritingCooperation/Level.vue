@@ -28,11 +28,11 @@
         parentUnderwriteGroupId: ''}}"
     >
       <div class="w-full flex flex-col mb-5" v-if="type < 2">
-        <InputGroup title="階級" class="mb-6">
-          <Select slot="input" defaultText="選擇階級" :options="levelList" :selected="cooperation.level" @emitItem="(e) => cooperation.level = e.Value"/>
+        <InputGroup title="階級" class="mb-6" :disable="type ==1">
+          <Select slot="input" defaultText="選擇階級" :disable="type ==1" :options="levelList" :selected="cooperation.level" @emitItem="(e) => cooperation.level = e.Value"/>
         </InputGroup>
-        <InputGroup title="單位" class="mb-6">
-          <Select slot="input" defaultText="選擇單位" :options="settingList" :selected="cooperation.groupId" @emitItem="(e) => cooperation.groupId = e.Value"/>
+        <InputGroup title="單位" class="mb-6" :disable="type ==1">
+          <Select slot="input" defaultText="選擇單位" :disable="type ==1" :options="settingList" :selected="cooperation.groupId" @emitItem="(e) => cooperation.groupId = e.Value"/>
         </InputGroup>
         <InputGroup title="上層組織" class="mb-6" v-if="cooperation.level <= 2">
           <Select slot="input" defaultText="選擇上層組織" :options="settingList" :selected="cooperation.parentUnderwriteGroupId" @emitItem="(e) => cooperation.parentUnderwriteGroupId = e.Value"/>
