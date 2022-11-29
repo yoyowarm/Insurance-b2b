@@ -164,7 +164,7 @@ export default {
     async confirmDialog (type) {
       if(type == 'add') {
         await this.$store.dispatch('underwriteLevelSetting/AddUnderwriteLevel', {
-          level: this.cooperation.level,
+          levelId: this.cooperation.level,
           groupId: this.cooperation.groupId,
           parentGroupId: this.cooperation.parentUnderwriteGroupId,
           employeeIds: this.cooperation.employees.map(item => item.employeeNumber || item.employeeId)
@@ -172,7 +172,7 @@ export default {
       }
       if (type == 'update') {
         await this.$store.dispatch('underwriteLevelSetting/UpdateUnderwriteLevel', {
-          level: this.cooperation.level,
+          levelId: this.cooperation.level,
           groupId: this.cooperation.groupId,
           parentGroupId: this.cooperation.parentUnderwriteGroupId,
           employeeIds: this.cooperation.employees.map(item => item.employeeNumber || item.employeeId)
