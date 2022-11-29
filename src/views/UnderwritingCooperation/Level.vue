@@ -34,7 +34,7 @@
         <InputGroup title="單位" class="mb-6" :disable="type ==1">
           <Select slot="input" defaultText="選擇單位" :disable="type ==1" :options="settingList" :selected="cooperation.groupId" @emitItem="(e) => cooperation.groupId = e.Value"/>
         </InputGroup>
-        <InputGroup title="上層組織" class="mb-6" v-if="cooperation.level <= 2">
+        <InputGroup title="上層組織" class="mb-6" v-if="cooperation.level <= 1">
           <Select slot="input" defaultText="選擇上層組織" :options="settingList" :selected="cooperation.parentUnderwriteGroupId" @emitItem="(e) => cooperation.parentUnderwriteGroupId = e.Value"/>
         </InputGroup>
         <InputGroup title="員編">
@@ -163,6 +163,7 @@ export default {
   methods: {
     async confirmDialog (type) {
       if(type == 'add') {
+        if((this.cooperation.level ==1 && !this.cooperation.parentUnderwriteGroupId) || !this.cooperation.groupId || !this.cooperation.level || this.cooperation.employees.map(item => item.employeeNumber || item.employeeId).length == 0) return
         await this.$store.dispatch('underwriteLevelSetting/AddUnderwriteLevel', {
           level: this.cooperation.level,
           groupId: this.cooperation.groupId,
@@ -171,6 +172,8 @@ export default {
         })
       }
       if (type == 'update') {
+        console.log(this.cooperation)
+        if((this.cooperation.level ==1 && !this.cooperation.parentUnderwriteGroupId) || !this.cooperation.groupId || !this.cooperation.level || this.cooperation.employees.map(item => item.employeeNumber || item.employeeId).length == 0) return
         await this.$store.dispatch('underwriteLevelSetting/UpdateUnderwriteLevel', {
           levelId: this.cooperation.id,
           groupId: this.cooperation.groupId,
