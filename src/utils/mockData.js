@@ -338,17 +338,17 @@ export const auditListTable = () => {
       },
       {
         text: '狀態',
-        value: 'stateText',
-        size: '2-6'
+        value: 'underwriteStateText',
+        size: '3-6'
       },
       {
         text: '待確認人員',
-        value: 'a',
+        value: 'waitConfirmEmployeeName',
         size: '3-6'
       },
       {
         text: '核保結果',
-        value: 'b',
+        value: 'underwriteResultStateText',
         size: '3-6'
       },
       {
@@ -378,8 +378,8 @@ export const auditListTable = () => {
       },
       {
         text: '核保人員',
-        value: 'companyDepartment',
-        size: '2-6'
+        value: 'underwriteEmployee',
+        size: '3-6'
       },
       {
         text: '類型',

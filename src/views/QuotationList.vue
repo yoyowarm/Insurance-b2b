@@ -33,12 +33,14 @@
               @updateValue="(e) => ApplicantName = e"
             />
           </InputGroup>
-          <!-- <InputGroup class="w-full" title="關聯號">
+          <InputGroup v-if="currentTag ==1" class="w-full" title="關聯號">
             <Input
               slot="input"
               placeholder="輸入關聯號"
+              :value="MainOrderNo"
+              @updateValue="(e) => MainOrderNo = e"
             />
-          </InputGroup> -->
+          </InputGroup>
           <InputGroup class="w-full" title="經手人代號">
             <Input
               slot="input"
@@ -131,6 +133,7 @@ export default {
       ApplicantName: '',
       InsuredName: '',
       IOffIcer: '',
+      MainOrderNo: '',
       startDate: {
         year: '',
         month: '',
@@ -226,6 +229,11 @@ export default {
     async currentPage() {
       await this.getQuotationList()
     },
+    async currentTag(val,oldVal) {
+      if(val !== oldVal) {
+        await this.getQuotationList()
+      }
+    },
     quotationStatus() {
       if(this.currentPage > 1) {
         this.changePage(1)
@@ -249,6 +257,8 @@ export default {
         QuotationListState: this.stateSelected.Value == '0' ? '' : this.stateSelected.Value,
         Type: this.typeSelected.Value == '0' ? '' : this.typeSelected.Value,
         ApplicantName: this.ApplicantName,
+        InsuredName: this.InsuredName,
+        IOffIcer: this.IOffIcer,
       }
       if(this.startDate.year !== '' && this.startDate.month !== '' && this.startDate.day !== '') {
         data.QuotationDateBegin = `${Number(this.startDate.year)+1911}-${this.startDate.month}-${this.startDate.day}`
@@ -256,21 +266,36 @@ export default {
       if(this.endDate.year !== '' && this.endDate.month !== '' && this.endDate.day !== '') {
         data.QuotationDateEnd = `${Number(this.endDate.year)+1911}-${this.endDate.month}-${this.endDate.day}`
       }
-      const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
-      this.quotationList = [...quotationList.data.content.quotations.map(item => {
-        return {
-          ...item,
-          serialNo: item.serialNo.toString(),
-          daySettleDate: item.daySettleDate ? item.daySettleDate : '- -',
-          InsurancePremiums: item.InsurancePremiums ? item.InsurancePremiums : '- -',
-          insuranceAmount: item.insuranceAmount ? item.insuranceAmount : '- -',
-          quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
-          typeText: item.type === 1 ? '處所' : item.type === 2 ? '活動' : '',
-          stateText: this.stateText[item.policyStatus]
-        }
-      })
-      ]
-      this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+      if(this.currentTag == 0) {
+        const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
+        this.quotationList = [...quotationList.data.content.quotations.map(item => {
+          return {
+            ...item,
+            serialNo: item.serialNo.toString(),
+            daySettleDate: item.daySettleDate ? item.daySettleDate : '- -',
+            InsurancePremiums: item.InsurancePremiums ? item.InsurancePremiums : '- -',
+            insuranceAmount: item.insuranceAmount ? item.insuranceAmount : '- -',
+            quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
+            typeText: item.type === 1 ? '處所' : item.type === 2 ? '活動' : '',
+            stateText: this.stateText[item.policyStatus]
+          }
+        })
+        ]
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+      } else {
+        data.MainOrderNo = this.MainOrderNo
+        const quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
+        this.quotationList = [...quotationList.data.content.underwrites.map(item => {
+          return {
+            ...item,
+            serialNo: item.serialNo.toString(),
+            underwriteStateText: item.underwriteState === 0 ? '核保中' : '待確認核保結果',
+            underwriteResultStateText: item.underwriteResultState === 0 ? '核保中' : (item.underwriteResultState === 1 ? '完成核保' : '不予核保'),
+          }
+        })]
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+      }
+      
     },
     async quotationDetail(type,orderNo) {
       const detail = await this.$store.dispatch(`quotation/Get${type == 1?'Place': 'Activity'}QuotationDetail`, orderNo)

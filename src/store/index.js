@@ -18,6 +18,7 @@ import news from './news'
 import documentDownload from './documentDownload'
 import verify from './verify'
 import underwriteLevelSetting from './underwriteLevelSetting'
+import underwrite from './underwrite'
 
 
 Vue.use(Vuex)
@@ -103,7 +104,8 @@ export default new Vuex.Store({
     news,
     documentDownload,
     verify,
-    underwriteLevelSetting
+    underwriteLevelSetting,
+    underwrite
   },
   plugins: [vuexLocal.plugin]
 })
