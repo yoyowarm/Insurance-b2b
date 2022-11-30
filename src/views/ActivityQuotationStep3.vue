@@ -27,7 +27,7 @@
       <Button v-if="InsuranceActive !== 6" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="false && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.insuranceAmount)"
+        v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.insuranceAmount)"
         @click.native="finishQuotation()"
         class="my-8 w-40 md:w-64 "
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
