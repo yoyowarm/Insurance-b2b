@@ -115,7 +115,7 @@ export default {
       this.copyAdditionTermCoefficientParameter = this.additionTermCoefficientParameter
       this.copyAggAOACoefficient = this.aggAOACoefficient
       this.copyMutiSizeParameter = this.mutiSizeParameter
-      this.copySizeCofficient = this.sizeCofficient
+      this.copySizeCofficient = this.sizeCofficient !== 0 ? this.sizeCofficient : ''
       this.hexTypeBasicAmount = ''
     },
     additionTermCoefficientParameter (val) {
@@ -128,10 +128,10 @@ export default {
       this.copyMutiSizeParameter = val
     },
     sizeCofficient (val) {
-      this.copySizeCofficient = val
+      this.copySizeCofficient = val !== 0 ? val : ''
     },
     premium (val) {
-      if(val.length > 0) {
+      if(val && val.toString().length > 0) {
         this.copyPremium = val.toString().replace('NT$', '')
       }
     },
@@ -140,8 +140,8 @@ export default {
         this.copyAdditionTermCoefficientParameter = val.parameter.additionTermCoefficientParameter
         this.copyAggAOACoefficient = val.parameter.aggAOACoefficient
         this.copyMutiSizeParameter = val.parameter.mutiSizeParameter
-        this.copySizeCofficient = val.parameter.sizeParameter
-        this.copyPremium = val.amount
+        this.copySizeCofficient = val.parameter.sizeParameter !==0 ? val.parameter.sizeParameter : ''
+        this.copyPremium = val.amount !== 0 ? val.amount : ''
       }
     }
   },
@@ -172,7 +172,7 @@ export default {
     this.copyAdditionTermCoefficientParameter = this.additionTermCoefficientParameter
     this.copyAggAOACoefficient = this.aggAOACoefficient
     this.copyMutiSizeParameter = this.mutiSizeParameter
-    this.copySizeCofficient = this.sizeCofficient
+    this.copySizeCofficient = this.sizeCofficient !==0 ? this.sizeCofficient : ''
     this.hexTypeBasicAmount = ''
   }
 }

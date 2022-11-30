@@ -105,7 +105,7 @@ export default {
       this.copyAdditionTermCoefficientParameter = this.additionTermCoefficientParameter
       this.copyAggAOACoefficient = this.aggAOACoefficient
       this.copyPeriodParameter = this.periodParameter
-      this.copySizeCofficient = this.sizeCofficient
+      this.copySizeCofficient = this.sizeCofficient !== 0 ? this.sizeCofficient : ''
     },
     additionTermCoefficientParameter (val) {
       this.copyAdditionTermCoefficientParameter = val
@@ -117,11 +117,11 @@ export default {
       this.copyPeriodParameter = val
     },
     sizeCofficient (val) {
-      this.copySizeCofficient = val
+      this.copySizeCofficient = val !== 0 ? val : ''
     },
     premium (val) {
       if(val) {
-        this.copyPremium = val.toString().replace('NT$', '')
+        this.copyPremium = val !== 0 ? val.toString().replace('NT$', '') : ''
       }
     },
     insideCalculateAmount (val) {
@@ -129,8 +129,8 @@ export default {
         this.copyAdditionTermCoefficientParameter = val.parameter.additionTermCoefficientParameter
         this.copyAggAOACoefficient = val.parameter.aggAOACoefficient
         this.copyPeriodParameter = val.parameter.periodParameter
-        this.copySizeCofficient = val.parameter.sizeParameter
-        this.copyPremium = val.amount
+        this.copySizeCofficient = val.parameter.sizeParameter !==0 ? val.parameter.sizeParameter : ''
+        this.copyPremium = val.amount !== 0 ? val.amount : ''
       }
     }
   },
@@ -160,7 +160,7 @@ export default {
     this.copyAdditionTermCoefficientParameter = this.additionTermCoefficientParameter
     this.copyAggAOACoefficient = this.aggAOACoefficient
     this.copyPeriodParameter = this.periodParameter
-    this.copySizeCofficient = this.sizeCofficient
+    this.copySizeCofficient = this.sizeCofficient !==0 ? this.sizeCofficient : ''
   }
 }
 </script>
