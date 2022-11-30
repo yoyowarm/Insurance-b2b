@@ -95,7 +95,20 @@
     </div>
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
-    <PlaceModifyAmount :open.sync="openAudit"/>
+    <PlaceModifyAmount
+      :open.sync="openAudit"
+      :insuranedName="quotationData.insuraned.name"
+      :orderNo="orderNo"
+      :additionTermCoefficientParameter="insuranceAmountListData.parameter.additionTermCoefficientParameter"
+      :aggAOACoefficient="insuranceAmountListData.parameter.aggAOACoefficient"
+      :mutiSizeParameter="insuranceAmountListData.parameter.mutiSizeParameter"
+      :sizeCofficient="insuranceAmountListData.parameter.sizeParameter"
+      :premium="insuranceAmountListData.amount"
+      :insideCalculateAmount="parameter"
+      :hasHexTypeBasicAmount="industry.typeName == '己類'"
+      @auditCalculateAmount="placeAuditCalculateAmount"
+      @updateParameter="updateParameter"
+    />
     <PopupDialog
       :open.sync="openFormula"
     >
@@ -140,6 +153,7 @@ import InsuranceRecord from '@/components/Place/InsuranceRecord.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
 import routeChange from '@/utils/mixins/routeChange'
+import audit from '@/utils/mixins/audit'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
@@ -149,7 +163,7 @@ import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { numFormat } from '@/utils/regex'
 export default {
-  mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire],
+  mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire,audit],
   components: {
     CommonBoard,
     InputGroup,
@@ -524,6 +538,17 @@ export default {
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
     async calculateAmount() {
+      if(this.InsuranceActive == 7) {
+        this.placeAuditCalculateAmount({
+        additionTermCoefficientParameter: '',
+        aggAOACoefficient: '',
+        mutiSizeCofficient: '',
+        sizeCofficient: '',
+        hexTypeBasicAmount: '',
+        type: 'audit'
+      })
+        return
+      }
       this.verifyRequired('place', true)
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {

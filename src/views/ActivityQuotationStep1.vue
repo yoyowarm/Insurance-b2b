@@ -73,7 +73,19 @@
     </div>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
-    <ActivityModifyAmount :open.sync="openAudit"/>
+    <ActivityModifyAmount
+      :open.sync="openAudit"
+      :insuranedName="quotationData.insuraned.name"
+      :orderNo="orderNo"
+      :additionTermCoefficientParameter="insuranceAmountListData.parameter.additionTermCoefficientParameter"
+      :aggAOACoefficient="insuranceAmountListData.parameter.aggAOACoefficient"
+      :periodParameter="insuranceAmountListData.parameter.periodParameter"
+      :sizeCofficient="insuranceAmountListData.parameter.sizeParameter"
+      :premium="insuranceAmountListData.amount"
+      :insideCalculateAmount="parameter"
+      @auditCalculateAmount="activityAuditCalculateAmount"
+      @updateParameter="updateParameter"
+    />
     <PopupDialog
       :open.sync="openFormula"
     >
@@ -114,6 +126,7 @@ import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/ActivityQuestionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
+import audit from '@/utils/mixins/audit'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
@@ -126,7 +139,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
 import { numFormat } from '@/utils/regex'
 export default {
-  mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire],
+  mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire, audit],
   components: {
     CommonBoard,
     InputGroup,
@@ -330,10 +343,10 @@ export default {
         await this.questionnaireCoefficient()
       }
     },
-    async questionnaireCoefficient() {
+    async questionnaireCoefficient(audit) {
       let data = {questionnaire: null,}
         const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
-        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
+        if (!audit && coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
         this.insuranceAmountListData = {
@@ -405,6 +418,16 @@ export default {
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
     async calculateAmount() {
+      if(this.InsuranceActive == 7) {
+        this.activityAuditCalculateAmount({
+        additionTermCoefficientParameter: '',
+        aggAOACoefficient: '',
+        periodParameter: '',
+        sizeCofficient: '',
+        type: 'audit'
+      })
+        return
+      }
       this.verifyRequired('activity', true)
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {

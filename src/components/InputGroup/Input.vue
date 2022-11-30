@@ -61,6 +61,10 @@ export default {
     maxLength: {
       type: Number,
       default: 10000
+    },
+    negative: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {

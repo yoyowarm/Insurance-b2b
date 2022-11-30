@@ -161,7 +161,7 @@
 		</div>
     </template>
     <div class="flex justify-center mt-6">
-      <Button @click.native="$emit('addItem')" outline>新增活動場次</Button>
+      <Button :disabled="disable" @click.native="$emit('addItem')" outline>新增活動場次</Button>
     </div>
   </div>
 </template>
