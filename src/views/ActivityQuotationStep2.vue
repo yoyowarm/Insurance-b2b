@@ -156,6 +156,7 @@ export default {
       'userInfo': state => state.home.userInfo,
       policyTransfer: state => state.activity.policyTransfer,
       underwriteQuotationData: state => state.activity.underwriteQuotationData,
+      underwriteQuotationIsChange: state => state.activity.underwriteQuotationIsChange,
     }),
     InsuranedData: {
       get() {
@@ -370,7 +371,9 @@ export default {
              await this.verifyFinal()
           })
         } else if (this.InsuranceActive ==7) {
-          await this.updateUnderwriteActivityQuotation(this.underwriteQuotationData)
+          if(this.underwriteQuotationIsChange) {
+            await this.updateUnderwriteActivityQuotation(this.underwriteQuotationData)
+          }
           this.$router.push('/activity-quotation/step3')
         } else {
            await this.verifyFinal()

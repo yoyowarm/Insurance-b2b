@@ -540,6 +540,9 @@ export default {
         amount: '',
       }
       this.$store.dispatch('common/updatedCalculateModel',false)
+      if(this.InsuranceActive == 7) {
+        this.$store.dispatch('place/updatedUnderwriteQuotationIsChange',true)
+      }
     },
     async calculateAmount() {
       if(this.InsuranceActive == 7) {

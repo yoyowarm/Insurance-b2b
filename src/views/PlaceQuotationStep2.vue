@@ -161,6 +161,7 @@ export default {
       'userInfo': state => state.home.userInfo,
       policyTransfer: state => state.place.policyTransfer,
       underwriteQuotationData: state => state.place.underwriteQuotationData,
+      underwriteQuotationIsChange: state => state.place.underwriteQuotationIsChange,
     }),
     InsuranedData: {
       get() {
@@ -385,7 +386,9 @@ export default {
             await this.verifyResultPopup()
           })
         } else if (this.InsuranceActive ==7) {
-          await this.updateUnderwritePlaceQuotation(this.underwriteQuotationData)
+          if(this.underwriteQuotationIsChange) {
+            await this.updateUnderwritePlaceQuotation(this.underwriteQuotationData)
+          }
           this.$router.push('/place-quotation/step3')
         } else {
           await this.checkPreventOccupy()
