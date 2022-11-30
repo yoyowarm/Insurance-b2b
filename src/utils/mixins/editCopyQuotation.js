@@ -179,6 +179,7 @@ export default {
       if (this.quotationData.insuranceAmounts.length > 0) {//保險金額/自負額
         this.insuranceAmountListData = {
           ...this.quotationData.insuranceAmounts[0],
+          amount: this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : 'NT$ - -',
           amountType: this.amountList.find(item => item.Value == this.quotationData.insuranceAmounts[0].amountType),
           insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
           mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,

@@ -7,6 +7,7 @@ export default {
     InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增序號,4:續保,5:報價明細,6:查看取消序號報價單,7:審核
     quotationData: {},
     underwriteQuotationData: {},
+    underwriteQuotationIsChange: false,
     activityInfo: [{
       number: '',
       city: {
@@ -484,6 +485,9 @@ export default {
     },
     UPDATED_UNDERWRITE_QUOTATION_DATA(state, data) {
       state.underwriteQuotationData = data
+    },
+    UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE(state, data) {
+      state.underwriteQuotationIsChange = data
     }
   },
   actions: {
@@ -539,6 +543,7 @@ export default {
       commit('UPDATED_QUOTATION_DATA', {})
       commit('UPDATED_UNDERWRITE_QUOTATION_DATA', {})
       commit('UPDATED_POLICY_TRANSFER', quotation().policyTransfer)
+      commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', false)
     },
     addActivityInfo({ commit }) {
       commit('ADD_ACTIVITY_INFO')
@@ -617,6 +622,9 @@ export default {
     },
     updatedUnderwriteQuotationData({ commit }, data) {
       commit('UPDATED_UNDERWRITE_QUOTATION_DATA', data)
+    },
+    updatedUnderwriteQuotationIsChange({ commit }, data) {
+      commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', data)
     }
   }
 }

@@ -56,6 +56,7 @@ const vuexLocal = new VuexPersistence({
         InsuranceActive: state.place.InsuranceActive,
         quotationData: state.place.quotationData,
         underwriteQuotationData: state.place.underwriteQuotationData,
+        underwriteQuotationIsChange: state.place.underwriteQuotationIsChange,
       },
       activity: {
         uuid: state.activity.uuid,
@@ -79,6 +80,7 @@ const vuexLocal = new VuexPersistence({
         InsuranceActive: state.activity.InsuranceActive,
         quotationData: state.activity.quotationData,
         underwriteQuotationData: state.activity.underwriteQuotationData,
+        underwriteQuotationIsChange: state.activity.underwriteQuotationIsChange,
       },
       common: {
         viewModel: state.common.viewModel,

@@ -340,7 +340,11 @@ export default {
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('activity')
         this.AssignQuestionnaire('activity')
-        await this.questionnaireCoefficient()
+        await this.questionnaireCoefficient(this.InsuranceActive == 7)
+        if(this.InsuranceActive == 7) {
+          if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true) //核保時，如果有保額，鎖著輸入欄位
+          if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('activity/updatedUnderwriteQuotationIsChange',true) //核保時，如果沒有保額，預設為核保單變更
+        }
       }
     },
     async questionnaireCoefficient(audit) {
