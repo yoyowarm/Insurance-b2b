@@ -82,7 +82,8 @@ export default {
   },
   computed: {
     ...mapState({
-      'orderNo': state => state.common.orderNo,}),
+      'orderNo': state => state.common.orderNo,
+    }),
     listData () {
       const arr = []
       this.list.map(item => {
@@ -107,6 +108,7 @@ export default {
       this.windowWidth = window.innerWidth
     },
     review(e,table) {
+      if(this.currentTag == 1) return
       if((e.item.stateText !== '取消' && e.item.insuranceAmount) && !table.some(i => i.stateText == '完成報價')) {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,5)
       } else {
