@@ -99,13 +99,14 @@ import Address from '@/components/Place/Address'
 import mixinVerify from '@/utils/mixins/verifyStep2'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
+import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
 import FormTitle from '@/components/FormTitle'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
-  mixins: [mixinVerify, editCopyQuotation,routeChange],
+  mixins: [mixinVerify, editCopyQuotation,routeChange,audit],
   components: {
     CommonBoard,
     Button,
@@ -159,6 +160,7 @@ export default {
       quotationData: state => state.place.quotationData,
       'userInfo': state => state.home.userInfo,
       policyTransfer: state => state.place.policyTransfer,
+      underwriteQuotationData: state => state.place.underwriteQuotationData,
     }),
     InsuranedData: {
       get() {
@@ -382,6 +384,9 @@ export default {
             await this.checkPreventOccupy()
             await this.verifyResultPopup()
           })
+        } else if (this.InsuranceActive ==7) {
+          await this.updateUnderwritePlaceQuotation(this.underwriteQuotationData)
+          this.$router.push('/place-quotation/step3')
         } else {
           await this.checkPreventOccupy()
           await this.verifyResultPopup()

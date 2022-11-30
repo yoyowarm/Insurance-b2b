@@ -96,13 +96,14 @@ import BrokerInfo from '@/components/Common/BrokerInfo.vue'
 import mixinVerify from '@/utils/mixins/verifyStep2'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
+import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
 import FormTitle from '@/components/FormTitle'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
-  mixins: [mixinVerify, editCopyQuotation,routeChange],
+  mixins: [mixinVerify, editCopyQuotation,routeChange,audit],
   components: {
     CommonBoard,
     Button,
@@ -153,7 +154,8 @@ export default {
       questionnaire: state => state.activity.questionnaire,
       quotationData: state => state.activity.quotationData,
       'userInfo': state => state.home.userInfo,
-      policyTransfer: state => state.activity.policyTransfer
+      policyTransfer: state => state.activity.policyTransfer,
+      underwriteQuotationData: state => state.activity.underwriteQuotationData,
     }),
     InsuranedData: {
       get() {
@@ -367,6 +369,9 @@ export default {
           }).then(async() => {
              await this.verifyFinal()
           })
+        } else if (this.InsuranceActive ==7) {
+          await this.updateUnderwriteActivityQuotation(this.underwriteQuotationData)
+          this.$router.push('/activity-quotation/step3')
         } else {
            await this.verifyFinal()
         }

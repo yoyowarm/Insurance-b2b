@@ -6,6 +6,7 @@ export default {
     uuid: '',
     InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增序號,4:續保,5:報價明細,6:查看取消序號報價單,7:審核
     quotationData: {},
+    underwriteQuotationData: {},
     activityInfo: [{
       number: '',
       city: {
@@ -480,6 +481,9 @@ export default {
     },
     UPDATED_POLICY_TRANSFER(state, data) {
       state.policyTransfer = data
+    },
+    UPDATED_UNDERWRITE_QUOTATION_DATA(state, data) {
+      state.underwriteQuotationData = data
     }
   },
   actions: {
@@ -533,6 +537,7 @@ export default {
       commit('UPDATED_UUID', '')
       commit('UPDATED_INSURANCE_ACTIVE', 0)
       commit('UPDATED_QUOTATION_DATA', {})
+      commit('UPDATED_UNDERWRITE_QUOTATION_DATA', {})
       commit('UPDATED_POLICY_TRANSFER', quotation().policyTransfer)
     },
     addActivityInfo({ commit }) {
@@ -609,6 +614,9 @@ export default {
     },
     updatedPolicyTransfer({ commit }, data) {
       commit('UPDATED_POLICY_TRANSFER', data)
+    },
+    updatedUnderwriteQuotationData({ commit }, data) {
+      commit('UPDATED_UNDERWRITE_QUOTATION_DATA', data)
     }
   }
 }

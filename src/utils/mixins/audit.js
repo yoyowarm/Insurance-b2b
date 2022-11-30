@@ -97,6 +97,9 @@ export default {
               : this.insuranceAmountListData.parameter,
           }
         }
+        payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
+        payload.remark = this.remark.text
+        this.$store.dispatch('activity/updatedUnderwriteQuotationData', payload)
         await this.questionnaireCoefficient(true)
         this.openAudit = true
       }
@@ -197,6 +200,15 @@ export default {
               : this.insuranceAmountListData.parameter,
           }
         }
+
+        payload.renewal = {
+          isRenewal: this.renewal.isRenewal,
+          insuranceNumber: this.renewal.InsuranceNumber,
+        }
+        payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
+        payload.remark = this.remark.text
+
+        this.$store.dispatch('place/updatedUnderwriteQuotationData', payload)
         await this.questionnaireCoefficient(true)
         this.openAudit = true
       }
@@ -214,6 +226,12 @@ export default {
       }
       this.$store.dispatch('common/updatedCalculateModel', true)
       await this.questionnaireCoefficient(true)
+    },
+    async updateUnderwritePlaceQuotation(payload) {
+      await this.$store.dispatch('underwrite/UpdateUnderwritePlaceQuotation', payload)
+    },
+    async updateUnderwriteActivityQuotation(payload) {
+      await this.$store.dispatch('underwrite/updateUnderwriteActivityQuotation', payload)
     }
   }
 }

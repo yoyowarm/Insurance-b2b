@@ -20,3 +20,12 @@ export const UpdateUnderwriteActivityQuotation = (data) => {//核保更新活動
   return request('patch', '/Underwrite/UpdateUnderwriteActivityQuotation', data)
 }
 
+export const BeginUnderwriting = (data) => {//開始核保
+  return request('post', '/Underwrite/BeginUnderwriting', data)
+}
+
+export const GetUnderwriteStatusParameter = (orderno) => {//取得核保狀態參數
+  return request('get', '/Underwrite/GetUnderwriteStatusParameter', { orderno })
+}
+
+

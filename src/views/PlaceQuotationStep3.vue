@@ -22,7 +22,7 @@
       <Button v-if="InsuranceActive !== 6" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="false && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
+        v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-8 w-40 md:w-64 "
@@ -216,12 +216,12 @@ export default {
         confirm: true,
         ok: '確定',
         cancel: '取消',
-        htmlText: `<p>完成報價後將無法改動報價內容，確定完成報價？</p>`,
+        htmlText: `<p>${key? '完成報價' : '開始核保' }後將無法改動報價內容，確定完成報價？</p>`,
       }).then(async () => {
         if(key) {
           await this.$store.dispatch('quotation/FinishQuotation', {orderNo: this.orderNo})
         } else {
-          await this.$store.dispatch('quotation/BeginUnderwriting',{orderNo: this.orderNo})
+          await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
         }
         this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)
@@ -233,13 +233,11 @@ export default {
     await this.quotationDetail()
     const county = await this.$store.dispatch('resource/CountyMinimumSettings')
     this.countyAmount = county.data.content
+    if(this.InsuranceActive == 7) {
+      const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
+      console.log(underwriteStatus)
+    }
   },
-  // destroyed() {
-  //   this.$store.dispatch('place/clearAll')
-  //   this.$store.dispatch('place/updatedUUID', '')
-  //   this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
-  //   this.$store.dispatch(`place/updatedInsuranceActive`,0)
-  // }
 }
 </script>
 

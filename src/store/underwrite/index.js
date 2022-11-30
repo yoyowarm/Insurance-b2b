@@ -3,7 +3,9 @@ import {
   TrialBalancePlaceInsurance,
   TrialBalanceActivityInsurance,
   UpdateUnderwritePlaceQuotation,
-  UpdateUnderwriteActivityQuotation
+  UpdateUnderwriteActivityQuotation,
+  BeginUnderwriting,
+  GetUnderwriteStatusParameter
 } from '@/api/Underwrite'
 export default {
   namespaced: true,
@@ -27,6 +29,12 @@ export default {
     },
     async UpdateUnderwriteActivityQuotation(_, data) {
       return await UpdateUnderwriteActivityQuotation(data)
+    },
+    async BeginUnderwriting(_, data) {
+      return await BeginUnderwriting(data)
+    },
+    async GetUnderwriteStatusParameter(_, orderno) {
+      return await GetUnderwriteStatusParameter(orderno)
     }
   }
 }

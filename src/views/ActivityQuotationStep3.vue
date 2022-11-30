@@ -206,12 +206,12 @@ export default {
         confirm: true,
         ok: '確定',
         cancel: '取消',
-        htmlText: `<p>完成報價後將無法改動報價內容，確定完成報價？</p>`,
+        htmlText: `<p>${key? '完成報價' : '開始核保' }後將無法改動報價內容，確定完成報價？</p>`,
       }).then(async () => {
         if(key) {
           await this.$store.dispatch('quotation/FinishQuotation', {orderNo: this.orderNo})
         } else {
-          await this.$store.dispatch('quotation/BeginUnderwriting',{orderNo: this.orderNo})
+          await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
         }
         this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)

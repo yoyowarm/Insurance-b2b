@@ -75,7 +75,7 @@
     <LoadingScreen :isLoading="loading.length > 0"/>
     <ActivityModifyAmount
       :open.sync="openAudit"
-      :insuranedName="quotationData.insuraned.name"
+      :insuranedName="quotationData.insuraned ? quotationData.insuraned.name : ''"
       :orderNo="orderNo"
       :additionTermCoefficientParameter="insuranceAmountListData.parameter.additionTermCoefficientParameter"
       :aggAOACoefficient="insuranceAmountListData.parameter.aggAOACoefficient"
