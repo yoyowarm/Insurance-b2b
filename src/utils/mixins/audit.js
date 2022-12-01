@@ -7,7 +7,7 @@ export default {
   methods: {
     async activityAuditCalculateAmount(data) {
       this.parameter = {}
-      // this.verifyRequired('activity', true)
+      this.verifyRequired('activity', true)
       if (this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
         const payload = {
@@ -105,7 +105,7 @@ export default {
     },
     async placeAuditCalculateAmount(data) {
       this.parameter = {}
-      // this.verifyRequired('place', true)
+      this.verifyRequired('place', true)
       if (this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
         const payload = {
@@ -205,7 +205,6 @@ export default {
         }
         payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
         payload.remark = this.remark.text
-
         this.$store.dispatch('place/updatedUnderwriteQuotationData', payload)
         await this.questionnaireCoefficient(true)
         this.openAudit = true

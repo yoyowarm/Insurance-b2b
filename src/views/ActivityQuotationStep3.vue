@@ -23,11 +23,11 @@
       type="activity"
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
-      <Button v-if="InsuranceActive !== 6" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
+      <Button v-if="InsuranceActive !== 7" @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
+      <Button v-if="InsuranceActive !== 6 && InsuranceActive !== 7" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.insuranceAmount)"
+        v-if="InsuranceActive !== 7 && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.insuranceAmount)"
         @click.native="finishQuotation()"
         class="my-8 w-40 md:w-64 "
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
@@ -37,6 +37,10 @@
       <Button
         v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">確認報價</Button>
+        <Button v-if="InsuranceActive == 7 && underwriteStatus.underwriteLevel < underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5">向上核保</Button>
+      <Button v-if="InsuranceActive == 7 && underwriteStatus.underwriteDirection == 1" class="my-8 w-40 md:w-64 mr-5">完成核保</Button>
+      <Button v-if="InsuranceActive == 7 && underwriteStatus.underwriteDirection == 1" class="my-8 w-40 md:w-64 mr-5">不予核保</Button>
+      <Button v-if="InsuranceActive == 7 && underwriteStatus.underwriteDirection == 0" class="my-8 w-40 md:w-64 mr-5">確認審核結果</Button>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
@@ -112,7 +116,8 @@ export default {
       },
       countyAmount: [],
       cityList: [],
-      areaList:[]
+      areaList:[],
+      underwriteStatus: {},
     }
   },
   computed: {
@@ -241,6 +246,10 @@ export default {
   async mounted() {
     await this.quotationDetail()
     await this.pageInit()
+    if(this.InsuranceActive == 7) {
+      const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
+      this.underwriteStatus = underwriteStatus.data.content
+    }
   },
 }
 </script>
