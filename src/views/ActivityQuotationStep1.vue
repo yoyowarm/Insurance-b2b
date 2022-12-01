@@ -427,10 +427,10 @@ export default {
     async calculateAmount() {
       if(this.InsuranceActive == 7) {
         this.activityAuditCalculateAmount({
-        additionTermCoefficientParameter: '',
-        aggAOACoefficient: '',
-        periodParameter: '',
-        sizeCofficient: '',
+        additionTermCoefficientParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.additionTermCoefficientParameter,
+        aggAOACoefficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.aggAOACoefficient,
+        periodParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.periodParameter,
+        sizeCofficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.sizeParameter,
         type: 'audit'
       })
         return

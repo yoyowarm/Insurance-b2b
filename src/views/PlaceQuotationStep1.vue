@@ -547,10 +547,10 @@ export default {
     async calculateAmount() {
       if(this.InsuranceActive == 7) {
         this.placeAuditCalculateAmount({
-        additionTermCoefficientParameter: '',
-        aggAOACoefficient: '',
-        mutiSizeCofficient: '',
-        sizeCofficient: '',
+        additionTermCoefficientParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.additionTermCoefficientParameter,
+        aggAOACoefficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.aggAOACoefficient,
+        mutiSizeParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.mutiSizeParameter,
+        sizeCofficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.sizeParameter,
         hexTypeBasicAmount: '',
         type: 'audit'
       })

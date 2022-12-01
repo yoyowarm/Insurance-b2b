@@ -7,7 +7,7 @@ export default {
   methods: {
     async activityAuditCalculateAmount(data) {
       this.parameter = {}
-      this.verifyRequired('activity', true)
+      // this.verifyRequired('activity', true)
       if (this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
         const payload = {
@@ -86,7 +86,6 @@ export default {
           this.parameter = res.data.content
           this.insuranceAmountListData = {
             ...this.insuranceAmountListData,
-            amount: res.data.content.amount && res.data.content.amount !== 0 ? `NT$${res.data.content.amount}` : 'NT$ - -',
             parameter: res.data.content.parameter
               ? {
                 ...res.data.content.parameter,
@@ -106,7 +105,7 @@ export default {
     },
     async placeAuditCalculateAmount(data) {
       this.parameter = {}
-      this.verifyRequired('place', true)
+      // this.verifyRequired('place', true)
       if (this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
         const payload = {
@@ -188,7 +187,6 @@ export default {
           this.parameter.parameter.hexTypeBasicAmount = data.hexTypeBasicAmount
           this.insuranceAmountListData = {
             ...this.insuranceAmountListData,
-            amount: res.data.content.amount ? `NT$${res.data.content.amount}` : 'NT$ - -',
             parameter: res.data.content.parameter
               ? {
                 ...res.data.content.parameter,

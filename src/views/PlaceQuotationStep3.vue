@@ -30,7 +30,7 @@
         開始核保
       </Button>
        <Button
-        v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6)"
+        v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
         class="my-8 w-40 md:w-64 ">確認報價</Button>
