@@ -37,10 +37,12 @@
       <Button
         v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.insuranceAmount == '- -').length > 0" @click.native="finishQuotation('FinishQuotation')" class="my-8 w-40 md:w-64 ">確認報價</Button>
-        <Button v-if="InsuranceActive == 7 && underwriteStatus.underwriteLevel < underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5">向上核保</Button>
-      <Button v-if="InsuranceActive == 7 && underwriteStatus.underwriteDirection == 1" class="my-8 w-40 md:w-64 mr-5">完成核保</Button>
-      <Button v-if="InsuranceActive == 7 && underwriteStatus.underwriteDirection == 1" class="my-8 w-40 md:w-64 mr-5">不予核保</Button>
-      <Button v-if="InsuranceActive == 7 && underwriteStatus.underwriteDirection == 0" class="my-8 w-40 md:w-64 mr-5">確認審核結果</Button>
+      <template v-if="InsuranceActive == 7">
+        <Button v-if="underwriteStatus.underwriteLevel <= underwriteStatus.underwriteTargetLevel && underwriteStatus.employeeUnderwriteLevel != 6" class="my-8 w-40 md:w-64 mr-5">向上核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5">完成核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 0" class="my-8 w-40 md:w-64 mr-5">確認審核結果</Button>
+      </template>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
