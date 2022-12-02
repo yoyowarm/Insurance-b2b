@@ -14,8 +14,8 @@ module.exports = {
   },
   configureWebpack: {
     output: {
-      filename: `[name].${timestamp}.js`,
-      chunkFilename: `[name].${timestamp}.js`
+      filename: `js/[name].${timestamp}.js`,
+      chunkFilename: `js/[name].${timestamp}.js`,
     },
   },
   chainWebpack: config => {
@@ -26,7 +26,7 @@ module.exports = {
         return args;
       })
   },
-  publicPath: process.env.NODE_ENV === 'uat'
+  publicPath: process.env.NODE_ENV === 'uat' || process.env.NODE_ENV === 'production'
     ? '/PLIB2B/'
     : '/'
 
