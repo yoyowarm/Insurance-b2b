@@ -19,10 +19,10 @@
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="InsuranceActive !== 7"  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
-      <Button v-if="InsuranceActive !== 6 && InsuranceActive !== 7" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
+      <Button v-if="(PolicyStatus == 0 || PolicyStatus == 1 || PolicyStatus == 2 || PolicyStatus == 6 || PolicyStatus == 7) && InsuranceActive !== 6 && InsuranceActive !== 7" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="InsuranceActive !== 7 && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
+        v-if="(PolicyStatus == 1 || PolicyStatus == 0) && InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-8 w-40 md:w-64 "
@@ -30,7 +30,7 @@
         開始核保
       </Button>
        <Button
-        v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
+        v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
         class="my-8 w-40 md:w-64 ">確認報價</Button>
@@ -143,6 +143,7 @@ export default {
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
       InsuranceActive: state => state.place.InsuranceActive,
+      PolicyStatus: state => state.place.PolicyStatus,
     }),
     InsuranedData: {
       get() {

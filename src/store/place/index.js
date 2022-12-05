@@ -5,6 +5,7 @@ export default {
   state: {
     uuid: '',
     InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增序號,4:續保,5:報價明細,6:查看取消序號報價單,7:審核
+    PolicyStatus: 0,//99取消,9已出單,8完成報價,7已核保,6請洽核保,2核保中,1待核保,0新增、複製
     quotationData: {},
     underwriteQuotationData: {},
     underwriteQuotationIsChange: false,
@@ -488,6 +489,9 @@ export default {
     UPDATED_INSURANCE_ACTIVE(state, data) {
       state.InsuranceActive = data
     },
+    UPDATED_POLICY_STATUS(state, data) {
+      state.PolicyStatus = data
+    },
     UPDATED_QUOTATION_DATA(state, data) {
       state.quotationData = data
     },
@@ -528,6 +532,7 @@ export default {
       commit('UPDATED_UNDERWRITE_QUOTATION_DATA', {})
       commit('UPDATED_POLICY_TRANSFER', quotation().policyTransfer)
       commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', false)
+      commit('UPDATED_POLICY_STATUS', 0)
     },
     addPlaceInfo({ commit }) {
       commit('ADD_PLACE_INFO')
@@ -606,6 +611,9 @@ export default {
     },
     updatedInsuranceActive({ commit }, type) {
       commit('UPDATED_INSURANCE_ACTIVE', type)
+    },
+    updatedPolicyStatus({ commit }, type) {
+      commit('UPDATED_POLICY_STATUS', type)
     },
     updatedQuotationData({ commit }, data) {
       commit('UPDATED_QUOTATION_DATA', data)
