@@ -128,7 +128,7 @@ export default {
             this.requestFile.push('未輸入處所坪數')
           }
         })
-        if (['丙類', '丁類', '戊類', '己類'].includes(this.industry.typeName)) {
+        if (this.InsuranceActive !== 7 && ['丙類', '丁類', '戊類', '己類'].includes(this.industry.typeName)) {
           if (this.industry.typeName == '丙類' && this.placeInfo.some(i => Number(i.squareFeet) > 100) && !this.questionnaireFinished) {
             this.requestFile.push('必填詢問表')
           } else if (this.industry.typeName != '丙類' && !this.questionnaireFinished) {
