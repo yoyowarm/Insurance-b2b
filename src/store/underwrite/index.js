@@ -5,7 +5,8 @@ import {
   UpdateUnderwritePlaceQuotation,
   UpdateUnderwriteActivityQuotation,
   BeginUnderwriting,
-  GetUnderwriteStatusParameter
+  GetUnderwriteStatusParameter,
+  UpdateUnderwriteProcess
 } from '@/api/Underwrite'
 export default {
   namespaced: true,
@@ -35,6 +36,9 @@ export default {
     },
     async GetUnderwriteStatusParameter(_, orderno) {
       return await GetUnderwriteStatusParameter(orderno)
+    },
+    async UpdateUnderwriteProcess(_, data) {
+      return await UpdateUnderwriteProcess(data)
     }
   }
 }

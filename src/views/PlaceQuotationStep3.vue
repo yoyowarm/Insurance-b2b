@@ -35,10 +35,10 @@
         @click.native="finishQuotation('FinishQuotation')"
         class="my-8 w-40 md:w-64 ">確認報價</Button>
       <template v-if="InsuranceActive == 7">
-        <Button v-if="underwriteStatus.underwriteLevel <= underwriteStatus.underwriteTargetLevel && underwriteStatus.employeeUnderwriteLevel != 6" class="my-8 w-40 md:w-64 mr-5">向上核保</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5">完成核保</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5">不予核保</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 0" class="my-8 w-40 md:w-64 mr-5">確認審核結果</Button>
+        <Button v-if="underwriteStatus.underwriteLevel <= underwriteStatus.underwriteTargetLevel && underwriteStatus.employeeUnderwriteLevel != 6" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(1)">向上核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(2)">完成核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 0" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(4)">確認審核結果</Button>
       </template>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
@@ -236,6 +236,12 @@ export default {
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
       })
     },
+    async updateUnderwrite(type) {
+      await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
+      this.packHome()
+        this.$store.dispatch('common/updatedCalculateModel', false)
+        this.$store.dispatch(`place/updatedInsuranceActive`,0)
+    }
   },
   async mounted() {
     await this.quotationDetail()

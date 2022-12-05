@@ -28,4 +28,7 @@ export const GetUnderwriteStatusParameter = (orderno) => {//取得核保狀態�
   return request('get', '/Underwrite/GetUnderwriteStatusParameter', { orderno })
 }
 
+export const UpdateUnderwriteProcess = (data) => {//更新核保流程
+  return request('patch', '/Underwrite/UpdateUnderwriteProcess', data)
+}
 
