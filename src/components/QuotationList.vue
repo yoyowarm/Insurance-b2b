@@ -27,7 +27,7 @@
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <Button class="minButton whitespace-no-wrap" disabled outline>查看歷程</Button>
               <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" disabled outline>異動比對</Button>
-              <Button class="minButton whitespace-no-wrap" :disabled="!item.insuranceAmount" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
+              <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
           </div>
           <div v-if="currentTag == 1" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-24': windowWidth <= 600 && item.policyStatus !== 99}">

@@ -209,6 +209,8 @@ export default {
       quotationList: [],
       stateText: {
         1: '待核保',
+        2: '核保中',
+        6: '請洽核保',
         7: '已核保',
         8: '完成報價',
         9: '已出單',
