@@ -107,6 +107,7 @@
           <InputGroup noMt>
             <Input
               slot="input"
+              class="w-full"
               :value="dialog.type == 6 ? createGroup.groupName : currentItem.groupName"
               @updateValue="e=>{ dialog.type == 6 ? createGroup.groupName = e : currentItem.groupName = e}"
             />
@@ -143,7 +144,7 @@
             <Select slot="input" defaultText="選擇權限" :options="groupsList" :selected="createUser.groupId"  @emitItem="e =>{ createUser.groupId = e.Value}"/>
           </InputGroup>
         </div>
-        <div class="column-2">
+        <div class="column-2 mt-3">
           <InputGroup title="帳號狀態">
             <Select slot="input" defaultText="選擇狀態" :options="employeeStatusList" @emitItem="e => {createUser.employeeStatus = e}"/>
           </InputGroup>
@@ -151,7 +152,7 @@
             <Input slot="input" placeholder="輸入E-mail" :value="createUser.email" @updateValue="e => {createUser.email = e}"/>
           </InputGroup>
         </div>
-        <div class="column-2">
+        <div class="column-2 mt-3">
           <InputGroup title="分機">
             <Input slot="input" placeholder="輸入分機" :value="createUser.extension" @updateValue="e => {createUser.extension = e}"/>
           </InputGroup>
@@ -223,7 +224,7 @@ export default {
       createUser: {
         employeeId: '',
         employeeName: '',
-        employeeStatus: '',
+        employeeStatus: 0,
         email: '',
         extension: '',
       },
@@ -292,7 +293,7 @@ export default {
         this.createUser = {
           employeeId: '',
           employeeName: '',
-          employeeStatus: '',
+          employeeStatus: '停用',
           email: '',
           extension: '',
         }
@@ -320,7 +321,7 @@ export default {
     async confirmDialog() {
       if(this.dialog.type === 7) {//新增成員
         const data = {...this.createUser}
-        data.employeeStatus = Number(this.createUser.employeeStatus.Value)
+        data.employeeStatus = Number(this.createUser.employeeStatus)
         await this.$store.dispatch('permissionSetting/AddUsers', data)
         await this.getUser()
       }
@@ -363,6 +364,16 @@ export default {
         await this.$store.dispatch('permissionSetting/DeleteGroup', {groupId: this.currentItem.groupId})
         await this.groupInit()
         this.currentItem = {permissions: []}
+      }
+      if(this.dialog.type !== 7 && this.dialog.type !== 1 && this.dialog.type !== 2 ) {
+        const groupsList = await this.$store.dispatch('resource/PermissionSettingGroups')
+        this.groupsList = groupsList.data.content.map(item => {
+        return {
+          ...item,
+          Text: item.groupName,
+          Value: item.groupId
+        }
+      })
       }
     },
     async pageInit() {
