@@ -8,7 +8,7 @@
         </div>
       </div>
       <div class="px-6">
-        <TableGroup :data="historyTable" class="mb-4" :slotName="slotArray">
+        <TableGroup :data="historyTable" class="mb-4" :slotName="slotArray" scrollX >
           <template v-for="(item,index) in historyTable.rows">
             <div :key="`operate-${index}`" :slot="`operate-${index}`">
               <span class="text-main">{{item.action}}</span>
