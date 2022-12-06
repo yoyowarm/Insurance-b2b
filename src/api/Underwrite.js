@@ -32,3 +32,13 @@ export const UpdateUnderwriteProcess = (data) => {//更新核保流程
   return request('patch', '/Underwrite/UpdateUnderwriteProcess', data)
 }
 
+export const GetEmployeeUnderwriteLevel = () => {//取得使用者的核保階級
+  return request('get', '/Underwrite/GetEmployeeUnderwriteLevel')
+}
+
+export const GetUnderwriteProcessHistory = (orderno) => {//取得核保歷程記錄
+  return request('get', '/Underwrite/GetUnderwriteProcessHistory', { orderno })
+}
+
+
+

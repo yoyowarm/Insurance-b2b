@@ -25,7 +25,7 @@
               <span class="download whitespace-no-wrap" :class="{'ml-16': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
             </div>
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
-              <Button class="minButton whitespace-no-wrap" disabled outline>查看歷程</Button>
+              <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
               <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" disabled outline>異動比對</Button>
               <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
@@ -43,6 +43,7 @@
           </template>
       </TableGroup>
     </template>
+    <HistoryPopup :open.sync="openHistory" :historyData="historyData"/>
     <DownloadFile :open.sync="open" :orderNo="orderNo" :item="downloadQuotation" headerText="列印文件"/>
     <WindowResizeListener @resize="handleResize"/>
   </div>
@@ -52,6 +53,7 @@
 import TableGroup from '@/components/TableGroup'
 import DownloadFile from '@/components/PopupDialog/DownloadFile.vue'
 import Button from '@/components/Button'
+import HistoryPopup from '@/components/PopupDialog/historyPopup'
 import { quotationListTable, quotationLisMobileTable, auditListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
@@ -71,12 +73,15 @@ export default {
     TableGroup,
     DownloadFile,
     Button,
-    WindowResizeListener
+    WindowResizeListener,
+    HistoryPopup
   },
   data() {
     return {
       windowWidth: window.innerWidth,
       open: false,
+      openHistory: false,
+      historyData: [],
       downloadQuotation: {},
     }
   },
@@ -195,8 +200,17 @@ export default {
           })
         }
       })
-      
-    }
+    },
+    async processHistory(orderNo) {
+      const res = await this.$store.dispatch('underwrite/GetUnderwriteProcessHistory', orderNo)
+      this.historyData = res.data.content.map(item => {
+        return {
+          ...item,
+          employee: `${item.employeeName}(${item.employeeId})`,
+        }
+      })
+      this.openHistory = true
+    },
   }
 }
 </script>
