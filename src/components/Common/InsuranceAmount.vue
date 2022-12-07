@@ -174,32 +174,6 @@ export default {
       },
       immediate: true
     },
-    'data.perAccidentBodyAmount': {
-      handler(val, odlVal) {
-        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
-          this.updatedValue('insuranceTotalAmount',((Number(val)+Number(this.data.perAccidentFinanceAmount))*2).toString())
-        }
-      },
-      immediate: true
-    },
-    'data.perAccidentFinanceAmount': {
-      handler(val, odlVal) {
-        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
-          this.updatedValue('insuranceTotalAmount',((Number(this.data.perAccidentBodyAmount)+Number(val))*2).toString())
-        }
-      },
-      immediate: true
-    },
-    'data.insuranceTotalAmount': {
-      handler(val, odlVal) {
-        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
-          if(val < Number(this.data.perAccidentFinanceAmount) + Number(this.data.perAccidentBodyAmount)) {
-            this.updatedValue('insuranceTotalAmount','')
-          }
-        }
-      },
-      immediate: true
-    },
   },
   computed: {
     amountMinimum() {
@@ -284,9 +258,9 @@ export default {
           this.$emit('update:data', {
             ...this.data,
             perBodyAmount: this.data.perBodyAmount,
-            perAccidentBodyAmount: this.data.perBodyAmount * 5,
+            perAccidentBodyAmount: Number(this.data.perBodyAmount.replace(/,/g, '')) * 5,
             perAccidentFinanceAmount: this.data.perBodyAmount,
-            insuranceTotalAmount: this.data.perBodyAmount * 12,
+            insuranceTotalAmount: Number(this.data.perBodyAmount.replace(/,/g, '')) * 11,
             selfInflictedAmount: this.data.selfInflictedAmount
           })
         }
