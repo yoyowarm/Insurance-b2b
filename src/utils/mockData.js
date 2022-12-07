@@ -841,7 +841,7 @@ export const quoteSeparatelyTable = () => {
       {
         text: '核保階級/保額',
         value: 'name',
-        size: '3-6'
+        size: '4-6'
       },
       {
         text: '每一個人體傷責任金額',
