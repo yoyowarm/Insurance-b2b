@@ -14,11 +14,7 @@ export default {
         { Value: 100000, Text: '100,000元' },
         { Value: 200000, Text: '200,000元' },
       ],
-      amountList: [
-        { Value: 0, Text: '依各縣市規定' },
-        { Value: 1, Text: '合併單一限額' },
-        { Value: 2, Text: '自行輸入保額' },
-      ],
+      amountList: ['依各縣市規定', '合併單一限額', '自行輸入保額'],
       IDRegex
     }
   },
@@ -180,7 +176,7 @@ export default {
         this.insuranceAmountListData = {
           ...this.quotationData.insuranceAmounts[0],
           amount: this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
-          amountType: this.amountList.find(item => item.Value == this.quotationData.insuranceAmounts[0].amountType),
+          amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
           insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
           mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
           perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
@@ -188,6 +184,19 @@ export default {
           perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
           selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
         }
+        setTimeout(() => {
+          this.insuranceAmountListData = {
+            ...this.quotationData.insuranceAmounts[0],
+            amount: this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
+            amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
+            insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
+            mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
+            perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
+            perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
+            perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
+            selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+          }
+        }, 10)
       }
       if (this.quotationData[quotationType].insuranceBeginDate) {//保險期間
         this.periodData = {

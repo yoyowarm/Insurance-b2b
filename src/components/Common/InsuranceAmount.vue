@@ -254,13 +254,13 @@ export default {
             selfInflictedAmount: this.data.selfInflictedAmount
           })
         }
-        if(this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) == 2 && value)) {
+        if((this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) == 2) && value)) {
           this.$emit('update:data', {
             ...this.data,
             perBodyAmount: this.data.perBodyAmount,
-            perAccidentBodyAmount: Number(this.data.perBodyAmount.replace(/,/g, '')) * 5,
+            perAccidentBodyAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 5 : 0,
             perAccidentFinanceAmount: this.data.perBodyAmount,
-            insuranceTotalAmount: Number(this.data.perBodyAmount.replace(/,/g, '')) * 11,
+            insuranceTotalAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 11 : 0,
             selfInflictedAmount: this.data.selfInflictedAmount
           })
         }
