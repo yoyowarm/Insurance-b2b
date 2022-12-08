@@ -39,7 +39,7 @@ export default {
 			}).then(() => {
 				this.$store.dispatch('place/clearAll')
 				this.$store.dispatch('activity/clearAll')
-				this.$store.dispatch('common/updateOrderNo', '')
+				this.$store.dispatch('common/updateOrderNo', { orderNo: '', mainOrderNo: '' })
 				this.$store.dispatch('common/updatedCalculateModel', false)
 				this.$store.dispatch('place/updatedInsuranceActive', 0)
 				this.$store.dispatch('activity/updatedInsuranceActive', 0)
