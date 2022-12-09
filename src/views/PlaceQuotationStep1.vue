@@ -596,10 +596,10 @@ export default {
               } else {
                 return {
                   additionTermId: item.additionTermId,
-                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId].toString().replace(/,/g,'')).map(key => {
+                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
                     return {
                       itemId: key,
-                      itemValue: this.additionTerms[item.additionTermId][key]
+                      itemValue: this.additionTerms[item.additionTermId][key].toString().replace(/,/g,'')
                     }
                   })]
                 }

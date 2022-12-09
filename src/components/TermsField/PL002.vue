@@ -17,6 +17,7 @@
           slot="input"
           id="代客停車"
           :value="data.PL002.value2"
+          @updateValue="(e) =>updateValue(e,'value2')"
         />
       </InputGroup>
     </div>
