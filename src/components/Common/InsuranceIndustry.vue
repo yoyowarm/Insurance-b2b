@@ -16,7 +16,7 @@
                 :class="{'col-span-2': list.displayItemName.length >= 10}"
                 :id="`list${list.dangerSeq}`"
                 :text="list.displayItemName"
-                :value="selected.Text === list.displayItemName"
+                :value="selected.itemName === list.itemName"
                 @updateValue="(e) => updateIndustry(e, list)"
                 :disabled="calculateModel"
               />
