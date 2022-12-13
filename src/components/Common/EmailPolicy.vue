@@ -1,5 +1,5 @@
 <template>
-  <CommonBoard class="w-full mb-7" title="出單方式(二擇一)">
+  <CommonBoard class="w-full" title="出單方式(二擇一)">
     <FormTitle classList="text-xl text-gray-700" class="mb-6" title="電子保單">
       <Checkbox
         class="my-1.5"
