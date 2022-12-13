@@ -117,14 +117,14 @@ export default {
         // if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
         //   this.requestFile.push('保期不能超過一年')
         // }
-        this.placeInfo.map(item => {
+        this.placeInfo.map((item, index) => {
           if (!item.city || item.city.Text == '選擇縣市') {
-            if (this.requestFile.includes('未選擇縣市')) return
-            this.requestFile.push('未選擇縣市')
+            if (this.requestFile.includes(`處所${index + 1}未選擇縣市`)) return
+            this.requestFile.push(`處所${index + 1}未選擇縣市`)
           }
           if (item.squareFeet == 0) {
-            if (this.requestFile.includes('未輸入處所坪數')) return
-            this.requestFile.push('未輸入處所坪數')
+            if (this.requestFile.includes(`處所${index + 1}未輸入處所坪數`)) return
+            this.requestFile.push(`處所${index + 1}未輸入處所坪數`)
           }
         })
         if (this.InsuranceActive !== 7 && ['丙類', '丁類', '戊類', '己類'].includes(this.industry.typeName)) {
@@ -145,18 +145,18 @@ export default {
         if (!this.period.endDate.year || !this.period.endDate.month || !this.period.endDate.day || isNaN(this.period.endDate.hour)) {
           this.requestFile.push('未選擇結束日')
         }
-        this.activityInfo.map(item => {
+        this.activityInfo.map((item, index) => {
           if (!item.number) {
-            if (this.requestFile.includes('未輸入每日人數')) return
-            this.requestFile.push('未輸入每日人數')
+            if (this.requestFile.includes(`活動${index + 1}未輸入每日人數`)) return
+            this.requestFile.push(`活動${index + 1}未輸入每日人數`)
           }
           if (Object.keys(item.startDate).some(key => isNaN(item.startDate[key] || !!item.startDate[key]))) {
-            if (this.requestFile.includes('未選擇活動起始時間')) return
-            this.requestFile.push('未選擇活動起始時間')
+            if (this.requestFile.includes(`活動${index + 1}未選擇活動起始時間`)) return
+            this.requestFile.push(`活動${index + 1}未選擇活動起始時間`)
           }
           if (Object.keys(item.endDate).some(key => isNaN(item.endDate[key] || !!item.endDate[key]))) {
-            if (this.requestFile.includes('未選擇活動結束時間')) return
-            this.requestFile.push('未選擇活動結束時間')
+            if (this.requestFile.includes(`活動${index + 1}未選擇活動結束時間`)) return
+            this.requestFile.push(`活動${index + 1}未選擇活動結束時間`)
           }
           // if (!item.startDate.year || !item.startDate.month || !item.startDate.day || isNaN(item.startDate.hour)) {
           //   if (this.requestFile.includes('未選擇活動起始日')) return
@@ -167,20 +167,20 @@ export default {
           //   this.requestFile.push('未選擇活動結束日')
           // }
           if (!item.city.Value) {
-            if (this.requestFile.includes('未選擇縣市')) return
-            this.requestFile.push('未選擇縣市')
+            if (this.requestFile.includes(`活動${index + 1}未選擇縣市`)) return
+            this.requestFile.push(`活動${index + 1}未選擇縣市`)
           }
           if (!item.area.Value) {
-            if (this.requestFile.includes('未選區域')) return
-            this.requestFile.push('未選區域')
+            if (this.requestFile.includes(`活動${index + 1}未選區域`)) return
+            this.requestFile.push(`活動${index + 1}未選區域`)
           }
           if (!item.address) {
-            if (this.requestFile.includes('未輸入活動處所地址')) return
-            this.requestFile.push('未輸入活動處所地址')
+            if (this.requestFile.includes(`活動${index + 1}未輸入活動處所地址`)) return
+            this.requestFile.push(`活動${index + 1}未輸入活動處所地址`)
           }
           if (item.day <= 0) {
-            if (this.requestFile.includes('活動計日錯誤')) return
-            this.requestFile.push('活動計日錯誤')
+            if (this.requestFile.includes(`活動${index + 1}活動計日錯誤`)) return
+            this.requestFile.push(`活動${index + 1}活動計日錯誤`)
           }
         })
       }

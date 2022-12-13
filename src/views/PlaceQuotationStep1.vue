@@ -480,7 +480,6 @@ export default {
       const places = await this.$store.dispatch('resource/PlacesSetting')
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
-      await this.getPL053Amount()
       await this.getAttachmentList()
       places.data.content.map(item => {
         if(!this.industryType.includes(item.typeName)) {
@@ -516,22 +515,6 @@ export default {
           if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true)//核保時，如果有保額，鎖著輸入欄位
           if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('place/updatedUnderwriteQuotationIsChange',true)//核保時，如果沒有保額，預設為核保單變更
         }
-      }
-    },
-    async getPL053Amount() {
-      const additionTerms = JSON.parse(JSON.stringify(this.additionTerms))
-      const res = await this.$store.dispatch('resource/AdditionTermQuotations')
-      const amountList = res.data.content
-      if(amountList.length > 0) {
-        additionTerms.PL005.value1 = amountList[0].amount / 10000
-        additionTerms.PL040.value1 = amountList[7].amount / 10000
-        additionTerms.PL040.value2 = amountList[8].amount / 10000
-        additionTerms.PL049.value1 = amountList[9].amount / 10000
-        additionTerms.PL053.value1 = amountList[10].amount
-        additionTerms.PL053.value2 = amountList[11].amount
-        additionTerms.PL053.value3 = amountList[12].amount
-        additionTerms.PL053.value4 = amountList[13].amount
-        this.$store.dispatch(`place/updateAdditionTerms`, additionTerms)
       }
     },
     correctAmount() {
@@ -797,8 +780,8 @@ export default {
         startDate: {
           year: new Date().getFullYear()-1911,
           month: new Date().getMonth() + 1,
-          day: new Date().getDate(),
-          hour: new Date().getHours() > 12 ? 24 : 12,
+          day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
+          hour: 12,
         }
       }
       if((new Date().getFullYear()%4) == 0) {
@@ -811,7 +794,7 @@ export default {
                 year: new Date().getFullYear()-1911,
                 month: new Date().getMonth() + 1,
                 day:28,
-                hour: new Date().getHours() > 12 ? 24 : 12,
+                hour: 12,
               }
             }
           } else if(leapYear > startDate) {
@@ -821,8 +804,8 @@ export default {
               endDate: 
                 { year: new Date(newYear).getFullYear()-1911,
                   month: new Date(newYear).getMonth()+1,
-                  day: new Date(newYear).getDate(),
-                  hour: new Date().getHours() > 12 ? 24 : 12,
+                  day: new Date().getHours() > 12 ? new Date(newYear).getDate()+1 : new Date(newYear).getDate(),
+                  hour: 12,
                 }
               }
           } else {
@@ -831,8 +814,8 @@ export default {
             endDate: {
                 year: (new Date().getFullYear() + 1)-1911,
                 month: new Date().getMonth()+1,
-                day: new Date().getDate(),
-                hour: new Date().getHours() > 12 ? 24 : 12
+                day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
+                hour: 12
               }
             }
           }
@@ -842,8 +825,8 @@ export default {
             endDate: {
                 year: (new Date().getFullYear() + 1)-1911,
                 month: new Date().getMonth()+1,
-                day: new Date().getDate(),
-                hour: new Date().getHours() > 12 ? 24 : 12
+                day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
+                hour: 12
               }
           }
         }

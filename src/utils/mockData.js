@@ -179,17 +179,17 @@ export const quotationListTable = () => {
       {
         text: '要保人',
         value: 'applicantName',
-        size: '6-6'
+        size: '3-6'
       },
       {
         text: '被保人',
         value: 'insuredName',
-        size: '6-6'
+        size: '3-6'
       },
       {
         text: '保費',
         value: 'insuranceAmount',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '狀態',
@@ -324,12 +324,12 @@ export const auditListTable = () => {
       {
         text: '要保人',
         value: 'applicantName',
-        size: '6-6'
+        size: '3-6'
       },
       {
         text: '被保人',
         value: 'insuredName',
-        size: '6-6'
+        size: '3-6'
       },
       {
         text: '保費',
