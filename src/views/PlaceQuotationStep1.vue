@@ -37,6 +37,7 @@
         :searchText="searchText"
         :disable="calculateModel"
         :questionnaire="questionnaire"
+        :isRenewal="renewal.IsRenewal"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
@@ -374,11 +375,11 @@ export default {
               // eslint-disable-next-line no-prototype-builtins
               selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
               fixed: false,
-              insuranceTotalAmount: item.insuranceTotalAmount/10000,
-              mergeSingleAmount: item.mergeSingleAmount/10000,
-              perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
-              perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
-              perBodyAmount: item.perBodyAmount/10000,
+              insuranceTotalAmount: item.insuranceTotalAmount ? item.insuranceTotalAmount/10000 : '',
+              mergeSingleAmount: item.mergeSingleAmount ? item.mergeSingleAmount/10000 : '',
+              perAccidentBodyAmount: item.perAccidentBodyAmount ? item.perAccidentBodyAmount/10000 : '',
+              perAccidentFinanceAmount: item.perAccidentFinanceAmount ? item.perAccidentFinanceAmount/10000 : '',
+              perBodyAmount: item.perBodyAmount ? item.perBodyAmount/10000 : '',
               parameter: {
                 basicFee: '',
                 finalHC: '',

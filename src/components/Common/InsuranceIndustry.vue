@@ -85,6 +85,10 @@ export default {
       type: Object,
       default: () => ({})
     },
+    isRenewal: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -119,7 +123,11 @@ export default {
       }
     },
     categoryFilter(category) {
-      return this.industryList.filter(item => item.typeName === category  && item.isEnable)
+      if(this.isRenewal) {
+         return this.industryList.filter(item => item.typeName === category  && item.isEnable).sort((a) => { return a.itemName == this.selected.itemName ? -1 : 1})
+      } else {
+        return this.industryList.filter(item => item.typeName === category  && item.isEnable)
+      }
     },
   },
   mounted() {
