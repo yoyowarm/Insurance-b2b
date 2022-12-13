@@ -189,12 +189,12 @@ export const quotationListTable = () => {
       {
         text: '保費',
         value: 'insuranceAmount',
-        size: '2-6'
+        size: '1-6'
       },
       {
         text: '狀態',
         value: 'stateText',
-        size: '2-6'
+        size: '1-6'
       },
       {
         text: '報價單操作',
@@ -209,12 +209,12 @@ export const quotationListTable = () => {
       {
         text: '日結日期',
         value: 'daySettleDate',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '報價日期',
@@ -261,12 +261,12 @@ export const quotationLisMobileTable = () => {
       {
         text: '保費',
         value: 'insuranceAmount',
-        size: '2-6'
+        size: '1-6'
       },
       {
         text: '狀態',
         value: 'stateText',
-        size: '2-6'
+        size: '1-6'
       },
       {
         text: '出單保費',
@@ -281,7 +281,7 @@ export const quotationLisMobileTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '4-6'
+        size: '3-6'
       },
       {
         text: '報價日期',
@@ -306,7 +306,7 @@ export const quotationLisMobileTable = () => {
       {
         text: '報價單操作',
         value: 'edit',
-        size: '3-6'
+        size: '2-6'
       },
     ],
     rows: []
@@ -339,7 +339,7 @@ export const auditListTable = () => {
       {
         text: '狀態',
         value: 'underwriteStateText',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '待確認人員',
@@ -349,22 +349,22 @@ export const auditListTable = () => {
       {
         text: '核保結果',
         value: 'underwriteResultStateText',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '操作',
         value: 'edit',
-        size: '3-6'
+        size: '1-6'
       },
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '4-6'
+        size: '2-6'
       },
       {
         text: '報價日期',
         value: 'quotationDate',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '經手人',
