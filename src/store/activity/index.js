@@ -193,10 +193,10 @@ export default {
         value1: '',
       },
       PL053: {//傷害醫療及身故慰問金費用附加條款
-        value1: '',
-        value2: '',
-        value3: '',
-        value4: '',
+        value1: '2000',
+        value2: '10000',
+        value3: '20000',
+        value4: '40000',
       },
       PL055: {//營業中斷損失責任附加條款
         value1: '',
