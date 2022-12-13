@@ -15,7 +15,7 @@
       @review="(e) => $emit('review',{type: e.type, orderNo: e.orderNo,mainOrderNo: e.mainOrderNo, item:e})"
     >
       <template v-for="(slot,index) in slotName">
-         <div class="" :slot="slot" :key="`${slot}${index}`"><slot :name="slot"/></div>
+         <div :class="data.head.find( i=> i.value == slot.split('-')[0])? 'w-' +data.head.find( i=> i.value == slot.split('-')[0]).size : ''" :slot="slot" :key="`${slot}${index}`"><slot :name="slot"/></div>
       </template>
     </TableBody>
   </div>
