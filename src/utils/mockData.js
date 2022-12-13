@@ -379,7 +379,7 @@ export const auditListTable = () => {
       {
         text: '核保人員',
         value: 'underwriteEmployee',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '類型',
