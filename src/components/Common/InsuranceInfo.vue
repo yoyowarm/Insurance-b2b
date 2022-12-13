@@ -59,7 +59,7 @@
       </InputGroup>
     </div>
     <div class="column-5">
-      <InputGroup class="item" title="居住地址(選填)" lgTitle mid :disable="disable" dash>
+      <InputGroup class="item" title="通訊地址" lgTitle mid :disable="disable" dash>
         <Select
           slot="input"
           defaultText="選擇縣市"

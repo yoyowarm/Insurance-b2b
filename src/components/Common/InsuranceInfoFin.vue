@@ -57,7 +57,7 @@
           {{info.isForeignRegister ? '外國' : '本國'}}
         </div>
       </InputGroup>
-      <InputGroup class="item" title="居住地址(選填)" borderBtn :editModel="editModel">
+      <InputGroup class="item" title="通訊地址" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="台北市"/>
         <div v-else slot="input" class="w-full relative">
           {{info.city}}
