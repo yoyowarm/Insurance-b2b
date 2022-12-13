@@ -28,7 +28,16 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry type="place" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText" :disable="calculateModel"/>
+      <InsuranceIndustry
+        type="place"
+        :industryList="industryList"
+        :industryType="industryType"
+        :selected="industry"
+        :industryText="industryText"
+        :searchText="searchText"
+        :disable="calculateModel"
+        :questionnaire="questionnaire"
+      />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
       <Period :period.sync="periodData" :disable="calculateModel"/>

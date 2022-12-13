@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="經營業務種類"  :disable="disable">
-        <Input slot="input"  :disable="disable" :value="data.part1.businessType" @updateValue="(e) => updateValue(e,'businessType')"  placeholder="輸入種類"/>
+      <InputGroup lgTitle title="經營業務種類"  :disable="disable || !QuestionnaireManagement">
+        <Input slot="input"  :disable="disable || !QuestionnaireManagement" :value="data.part1.businessType" @updateValue="(e) => updateValue(e,'businessType')"  placeholder="輸入種類"/>
       </InputGroup>
       <div class="col-span-2">
         <div class="column-3 w-full">
@@ -122,6 +122,10 @@ export default {
       default: () => {}
     },
     disable: {
+      type: Boolean,
+      default: false
+    },
+    QuestionnaireManagement: {
       type: Boolean,
       default: false
     }

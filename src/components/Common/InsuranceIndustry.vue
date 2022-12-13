@@ -26,7 +26,7 @@
                   placeholder="輸入行業名稱"
                   :value="industryText"
                   :disable="!selected.Text.includes('其他') || calculateModel"
-                  @updateValue="(e) =>$store.dispatch(`${type}/updatedIndustryText`, e)"
+                  @updateValue="(e) =>updatedIndustryText(e)"
                 />
               </InputGroup>
             </template>
@@ -81,6 +81,10 @@ export default {
       type: String,
       default: ''
     },
+    questionnaire: {
+      type: Object,
+      default: () => ({})
+    },
   },
   data () {
     return {
@@ -103,6 +107,15 @@ export default {
       }
       if(e) {
         this.$store.dispatch(`${this.type}/updatedIndustry`,list)
+        if(this.type == 'place') {
+           this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,part1:{...this.questionnaire.part1, businessType: list.displayItemName}})
+        }
+      }
+    },
+    updatedIndustryText(e) {
+      this.$store.dispatch(`${this.type}/updatedIndustryText`, e)
+      if(this.type == 'place') {
+        this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,part1:{...this.questionnaire.part1, businessType: e}})
       }
     },
     categoryFilter(category) {

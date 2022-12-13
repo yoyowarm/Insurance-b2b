@@ -38,7 +38,7 @@
             <Input disable slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
-        <Part1 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
+        <Part1 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit" :QuestionnaireManagement="QuestionnaireManagement"/>
         <div class="column-4" ref="2">
           <FormTitle class="text-lg"  title="(二)營業處所-建築物資訊"/>
         </div>
