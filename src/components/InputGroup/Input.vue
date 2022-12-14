@@ -121,6 +121,11 @@ export default {
         }
       }
       if(this.decimalPoint) {
+        if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false) {
+          this.$emit('updateValue', '')
+          this.$refs.input.value = ''
+          return
+        } 
         const regex = new RegExp(/^[0-9]+.?[0-9]{0,2}$/, 'g');
         const regex2 = new RegExp(/^0+[0-9]{1,}/, 'g');
         const regex3 = new RegExp(/[0-9]{0,}/, 'g')
@@ -135,6 +140,7 @@ export default {
           inputValue = value
         } else {
           inputValue = value.slice(0, value.length -2)
+          this.$refs.input.value = value.slice(0, value.length -2)
         }
       }
       if(this.decimalPoint3) {
