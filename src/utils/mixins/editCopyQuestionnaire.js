@@ -128,8 +128,8 @@ export default {
               } : { year: '', month: '', day: '', hours: '0', minutes: '0', },
             },
             part3: {
-              afterActivityhasAccessByTransportation: copyData.sheet1.part3.afterActivityhasAccessByTransportation ? '是' : '否',
-              useRoadhasAccessByTransportation: copyData.sheet1.part3.useRoadhasAccessByTransportation ? '是' : '否',
+              afterActivityHasAccessByTransportation: copyData.sheet1.part3.afterActivityHasAccessByTransportation ? '是' : '否',
+              useRoadHasAccessByTransportation: copyData.sheet1.part3.useRoadHasAccessByTransportation ? '是' : '否',
             }
           }
         }

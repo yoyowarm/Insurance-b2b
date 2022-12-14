@@ -34,8 +34,8 @@ export default {
         '保險處所與車道有無有效區隔(含車道與人員動線安排)',
       ],
       questionListID: [
-        'useRoadhasAccessByTransportation',
-        'afterActivityhasAccessByTransportation',
+        'useRoadHasAccessByTransportation',
+        'afterActivityHasAccessByTransportation',
         'hasSegmentWithInsurancePlaceAndLane',
       ]
     }

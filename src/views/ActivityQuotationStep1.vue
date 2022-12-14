@@ -706,19 +706,19 @@ export default {
       } else {
         data.questionnaire.sheet1.part1.beginDateTime = null
       }
-      if(data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation == '是'){
-        data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation = true
-      } else if(data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation == '否'){
-        data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation = false
+      if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = true
+      } else if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '否'){
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = false
       } else {
-        data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation = null
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = null
       }
-      if(data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation == '是'){
-        data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation = true
-      } else if(data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation == '否'){
-        data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation = false
+      if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '是'){
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = true
+      } else if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '否'){
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = false
       } else {
-        data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation = null
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = null
       }
       return data
     }
