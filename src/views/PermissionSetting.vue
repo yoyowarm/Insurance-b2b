@@ -181,6 +181,7 @@ import WindowResizeListener from '@/components/WindowResizeListener'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import { membersListTable, groupListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
+import { Popup } from '@/utils/popups'
 export default {
   components:{
     CommonBoard,
@@ -276,7 +277,8 @@ export default {
     },
     async changePage(page) {
       if(this.currentPage === page || page < 1) return
-      // this.$store.dispatch('app/updatedCurrentPage',page)
+      this.$store.dispatch('app/updatedCurrentPage',page)
+      await this.getUser(page)
     },
     callDialog(type,title, okText, item) {
       this.openDialog = true
@@ -321,8 +323,16 @@ export default {
     async confirmDialog() {
       if(this.dialog.type === 7) {//新增成員
         const data = {...this.createUser}
+        const rex = new RegExp(/\(+\w+\)/, 'g')
+        data.employeeName = data.employeeName.split(rex)[1]
         data.employeeStatus = Number(this.createUser.employeeStatus)
-        await this.$store.dispatch('permissionSetting/AddUsers', data)
+        const res = await this.$store.dispatch('permissionSetting/AddUsers', data)
+        if(res.data.message) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: res.data.message
+          })
+        }
         await this.getUser()
       }
       if(this.dialog.type === 1) {//編輯成員
@@ -382,7 +392,7 @@ export default {
       this.taianUsers = taianUsers.data.content.map(item => {
         return {
           ...item,
-          Text: item.employeeName,
+          Text:  `(${item.employeeNumber})${item.employeeName}`,
           Value: item.employeeNumber
         }
       })
@@ -413,8 +423,8 @@ export default {
       const permissions = await this.$store.dispatch('resource/PermissionSettingGroupPermissions')
       this.permissionsList = permissions.data.content
     },
-    async getUser() {
-      const usersList = await this.$store.dispatch('resource/PermissionSettingUsers', 0)
+    async getUser(page) {
+      const usersList = await this.$store.dispatch('resource/PermissionSettingUsers', page ? (page-1)*10 : 0)
       this.membersListTable.rows = usersList.data.content.userPermissionSettings.map(item => {
         return {
           ...item,
@@ -422,8 +432,9 @@ export default {
           groupId: this.groupsList.find(i => i.Text === item.groupName).Value.toString(),
         }
       })
-      this.$store.dispatch('app/updatedCurrentPage',1)
+      this.$store.dispatch('app/updatedCurrentPage',page ? page: 1)
       this.$store.dispatch('app/updatedTotalPage',Math.ceil(usersList.data.content.totalCount/10))
+      window.scrollTo({top: 0, behavior: 'smooth'})
     }
   },
   async mounted() {
