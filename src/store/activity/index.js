@@ -109,7 +109,7 @@ export default {
       IsProOrNot: false,
     },
     policyTransfer: {
-      transferType: 1,
+      transferType: 2,
       transferDetails: [
         {
           transferDetailType: false,

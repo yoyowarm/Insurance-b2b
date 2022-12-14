@@ -69,7 +69,7 @@
             :checked="policyTransferData.transferType == 2"
             :value="policyTransferData.transferType == 2"
             :disabled="policyTransferData.transferType == 2 || InsuranceActive == 7"
-            @updateValue="(e) =>{ if(policyTransferData.transferType !== 2){policyTransferData.transferType = 2}}"
+            @updateValue="(e) =>{ if(policyTransferData.transferType !== 2){policyTransferData = {...policyTransferData,transferType: 2}}}"
             slot="left"
           />
         </FormTitle>

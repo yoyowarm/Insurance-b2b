@@ -22,7 +22,7 @@
         <font-awesome-icon icon="times-circle" class="text-2xl" :class="{'text-main': !disable, 'text-gray-500': disable}"/>
       </div>
     </FormTitle>
-      <div class="column-5 pb-3 mb-4" :key="index">
+      <div class="column-3 pb-3 mb-4" :key="index">
         <InputGroup class="w-full" title="寄送方式" :disable="disable">
           <SwitchInput
             slot="input"
@@ -44,7 +44,7 @@
           />
         </InputGroup>
       </div>
-      <div class="column-5 pb-3 mb-4 dashed-border " :key="index+'column2'">
+      <div class="column-3 pb-3 mb-4 dashed-border " :key="index+'column2'">
         <InputGroup class="w-full" title="保單" dash :disable="disable">
           <SwitchInput
             slot="input"
