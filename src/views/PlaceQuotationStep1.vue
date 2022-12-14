@@ -406,7 +406,7 @@ export default {
         this.$nextTick(async () => {
           this.insuranceAmountListData = {
             ...this.quotationData.insuranceAmounts[0],
-            amountType: this.amountList.find(item => item.Value == this.quotationData.insuranceAmounts[0].amountType),
+            amountType: {Value: this.quotationData.insuranceAmounts[0].amountType, Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType]},
             insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
             mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
             perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
