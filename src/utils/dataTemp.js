@@ -253,7 +253,7 @@ export const quotation = () => {
           transferDetailType: false,
           transferOriginalType: false,
           transferInfo: '',
-          sort: 0
+          sort: 1
         }
       ]
     },

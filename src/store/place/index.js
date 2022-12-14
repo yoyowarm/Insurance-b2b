@@ -119,7 +119,7 @@ export default {
           transferDetailType: false,
           transferOriginalType: false,
           transferInfo: '',
-          sort: 0
+          sort: 1
         }
       ]
     },
