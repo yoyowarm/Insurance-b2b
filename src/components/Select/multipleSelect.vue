@@ -7,8 +7,8 @@
   </div>
   <div class="custom-options" v-if="open" ref="custom-options">
     <div  class="searchInput" ref="custom-input" :style="{'width':offsetWidth + 'px'}">
-      <div class="text-gray-200 mb-3" v-if="selectedArr.length > 0">
-        {{selectedArr.reduce((a,b) => a + b[valueName] + ', ', '').slice(0,-2)}}
+      <div class="text-gray-200 mb-3" v-if="selectedArrText.length > 0">
+        {{selectedArrText.reduce((a,b) => a + b[textName] + ', ', '').slice(0,-2)}}
       </div>
       <input type="text" class="focus:outline-none placeholder-gray-400" placeholder="搜尋..." v-model="searchText">
     </div>
@@ -19,8 +19,8 @@
             <Checkbox
               :id="`${item[textName]}${index}`"
               :text="item[textName]"
-              :checked="selectedArr.filter(i => i[valueName] == item[valueName]).length > 0"
-              :value="selectedArr.filter(i => i[valueName] == item[valueName]).length > 0"
+              :checked="selectedArrText.filter(i => i[textName] == item[textName]).length > 0"
+              :value="selectedArrText.filter(i => i[textName] == item[textName]).length > 0"
               @updateValue="e => {updateValue(e, item)}"
             />
           </li>
@@ -144,10 +144,18 @@ export default {
     }),
     filterOptions() {
       let arr = JSON.parse(JSON.stringify(this.options))
-      return arr.filter(item => this.selectedArr.some(i => i[this.valueName] == item[this.valueName])).concat(arr.filter(item => !this.selectedArr.some(i => i[this.valueName] == item[this.valueName]))).filter(item => item.Text.includes(this.searchText))
+      return arr.filter(item => this.selectedArrText.some(i => i[this.valueName] == item[this.valueName])).concat(arr.filter(item => !this.selectedArrText.some(i => i[this.valueName] == item[this.valueName]))).filter(item => item.Text.includes(this.searchText))
     },
     visibleList() {
       return this.filterOptions.slice(this.startIndex, this.endIndex)
+    },
+    selectedArrText() {
+      return this.selectedArr.map(i => {
+        return {
+          ...i,
+          Text: `(${i.employeeId})${i.employeeName}`
+        }
+      })
     }
 
   },
@@ -214,13 +222,14 @@ export default {
       this.endIndex = (this.filterOptions.length >= 10) ? this.startIndex + 10: 10
     },
     updateValue(value, item) {
-      const arr = JSON.parse(JSON.stringify(this.selectedArr))
+      const arr = JSON.parse(JSON.stringify(this.selectedArrText))
       if(value) {
-        arr.push(item)
+        arr.push({...item,Text: `(${item.Value})${item.employeeName}`, employeeId: item.Value})
       } else {
         arr.splice(arr.findIndex(i => i[this.valueName] == item[this.valueName]), 1)
       }
       this.$emit('update:selectedArr', arr)
+      console.log(arr)
     },
   },
   mounted() {

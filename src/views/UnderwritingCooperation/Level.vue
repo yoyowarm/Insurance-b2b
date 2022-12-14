@@ -172,7 +172,6 @@ export default {
         })
       }
       if (type == 'update') {
-        console.log(this.cooperation)
         if((this.cooperation.level ==1 && !this.cooperation.parentUnderwriteGroupId) || !this.cooperation.groupId || !this.cooperation.level || this.cooperation.employees.map(item => item.employeeNumber || item.employeeId).length == 0) return
         await this.$store.dispatch('underwriteLevelSetting/UpdateUnderwriteLevel', {
           levelId: this.cooperation.id,
@@ -226,7 +225,7 @@ export default {
       this.taianUsers = taianUsers.data.content.map(item => {
         return {
           ...item,
-          Text: item.employeeName,
+          Text: `(${item.employeeNumber})${item.employeeName}`,
           Value: item.employeeNumber
         }
       })
