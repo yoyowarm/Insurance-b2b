@@ -223,7 +223,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const whitelist = ['/', '/news/list', '/product/list', '/questionnaire-management', '/underwritingCooperation/Level', '/underwritingCooperation/Setting']
+  const whitelist = ['/', '/news/list', '/product/list']
   // if (to.path === '/place-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
   //   next({ name: 'quotationList' })
   // }

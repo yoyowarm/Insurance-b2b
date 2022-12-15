@@ -42,7 +42,7 @@
         <span class="text-white text-lg font-bold">最新消息</span>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/questionnaire-management" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink v-if="permissions.includes('QuestionnaireManage')" type="router" path="/questionnaire-management" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/questionnaire-management')}">
         <div class="icon questionnaire"/>
         <span class="text-white text-sm font-bold">詢問表填寫及查詢</span>
@@ -113,17 +113,17 @@
         </div>
       </div>
     </DynamicLink>
-    <DynamicLink type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink v-if="permissions.includes('UnderwriteLevel') || permissions.includes('UnderwriteGroup')" type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
       <div @mouseover="showUnderwriting = true" @mouseout="showUnderwriting = false" class="nav-item sub-pages" :class="{'active': path.includes('underwritingCooperation'), 'h180': (windowWidth <=770 && path.includes('underwritingCooperation'))}">
         <div class="flex flex-row items-center md:flex-col" ref="underwritingCooperation">
           <div class="icon underwritingCooperation"/>
           <span class="text-white text-lg font-bold">核保明細設定</span>
         </div>
         <div v-show="(windowWidth >770 && showUnderwriting) || (windowWidth <=770 && path.includes('underwritingCooperation'))" class="fixed-menu md:pl-0 md:items-center" >
-          <DynamicLink type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('UnderwriteGroup')" type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/underwritingCooperation/Setting'}">核保組織</span>
           </DynamicLink>
-          <DynamicLink type="router" path="/underwritingCooperation/Level" @click.native="$emit('update:openMenu', false)">
+          <DynamicLink v-if="permissions.includes('UnderwriteLevel')" type="router" path="/underwritingCooperation/Level" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/underwritingCooperation/Level'}">核保明細階級</span>
           </DynamicLink>
         </div>
