@@ -24,7 +24,7 @@ import underwrite from './underwrite'
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
+  storage: window.sessionStorage,
   modules: ['app', 'home', 'place', 'activity', 'common'],
   reducer: (state) => {
     return {
