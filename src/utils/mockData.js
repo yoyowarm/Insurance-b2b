@@ -628,12 +628,12 @@ export const categoryListTable = () => {
       {
         text: '權重值',
         value: 'weight',
-        size: '1-6'
+        size: '2-6'
       },
       {
         text: '投保行業',
         value: 'typeName',
-        size: '1-6'
+        size: '2-6'
       },
       {
         text: '場所名稱',
