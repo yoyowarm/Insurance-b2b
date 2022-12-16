@@ -210,7 +210,7 @@ export default {
         this.openAudit = true
       }
     },
-    async updateParameter() {
+    async updateParameter(type) {
       this.insuranceAmountListData = {
         ...this.insuranceAmountListData,
         amount: this.parameter.amount ? `NT$${this.parameter.amount}` : this.insuranceAmountListData.amount,
@@ -222,6 +222,7 @@ export default {
           : this.insuranceAmountListData.parameter,
       }
       this.$store.dispatch('common/updatedCalculateModel', true)
+      this.$store.dispatch(`${type}/updatedUnderwriteQuotationIsChange`, true)
       await this.questionnaireCoefficient(true)
     },
     async updateUnderwritePlaceQuotation(payload) {
