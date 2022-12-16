@@ -35,7 +35,7 @@
         @click.native="finishQuotation('FinishQuotation')"
         class="my-8 w-40 md:w-64 ">確認報價</Button>
       <template v-if="InsuranceActive == 7">
-        <Button v-if="(underwriteStatus.underwriteLevel <= underwriteStatus.underwriteTargetLevel && underwriteStatus.employeeUnderwriteLevel != 6) || (underwriteStatus.isLastActionEditUnderwrite && underwriteStatus.employeeUnderwriteLevel != 6)" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(1)">向上核保</Button>
+        <Button v-if="(underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel != 6) || (underwriteStatus.underwriteDirection == 0 && underwriteStatus.isLastActionEditUnderwrite && underwriteStatus.employeeUnderwriteLevel != 6)" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(1)">向上核保</Button>
         <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(2)">完成核保</Button>
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(3)">不予核保</Button>
         <Button v-if="underwriteStatus.underwriteDirection == 0 && !underwriteStatus.isLastActionEditUnderwrite" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(4)">確認審核結果</Button>
