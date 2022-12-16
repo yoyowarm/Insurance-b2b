@@ -323,7 +323,7 @@ export default {
       } else if(new Date(new Date().setHours(new Date().getHours()+2)).getTime() > new Date(`${Number(copyInfoList[index][type].year)+1911}/${copyInfoList[index][type].month}/${copyInfoList[index][type].day} ${copyInfoList[index][type].hour}:00`).getTime()) {
         Popup.create({
           hasHtml: true,
-          htmlText: '活動起迄時間不得小於現在時間 +2 小時',
+          htmlText: '活動起始時間不得小於現在時間 +2 小時',
         })
         copyInfoList[index][type][key] = CHKey[key]
         if(this.$refs[`${type}-${key}-${index}`]) {

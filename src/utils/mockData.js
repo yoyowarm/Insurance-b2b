@@ -731,7 +731,7 @@ export const weightListTable = () => {
       {
         text: '條款權重值',
         value: 'weight',
-        size: '1-6'
+        size: '2-6'
       },
       {
         text: '條款名稱',
