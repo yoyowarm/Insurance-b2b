@@ -72,6 +72,7 @@ import Select from '@/components/Select'
 import MultipleSelect from '@/components/Select/multipleSelect.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import { mapState } from 'vuex'
+import { Popup } from '@/utils/popups'
 export default {
   components: {
     FormTitle,
@@ -107,6 +108,11 @@ export default {
           {
             text: '單位',
             value: 'groupName',
+            size: '3-6'
+          },
+          {
+            text: '上層組織名稱',
+            value: 'parentUnderwriteGroupName',
             size: '3-6'
           },
           {
@@ -162,9 +168,10 @@ export default {
   },
   methods: {
     async confirmDialog (type) {
+      let res = {}
       if(type == 'add') {
         if((this.cooperation.level ==1 && !this.cooperation.parentUnderwriteGroupId) || !this.cooperation.groupId || !this.cooperation.level || this.cooperation.employees.map(item => item.employeeNumber || item.employeeId).length == 0) return
-        await this.$store.dispatch('underwriteLevelSetting/AddUnderwriteLevel', {
+        res = await this.$store.dispatch('underwriteLevelSetting/AddUnderwriteLevel', {
           level: this.cooperation.level,
           groupId: this.cooperation.groupId,
           parentGroupId: this.cooperation.parentUnderwriteGroupId,
@@ -173,7 +180,7 @@ export default {
       }
       if (type == 'update') {
         if((this.cooperation.level ==1 && !this.cooperation.parentUnderwriteGroupId) || !this.cooperation.groupId || !this.cooperation.level || this.cooperation.employees.map(item => item.employeeNumber || item.employeeId).length == 0) return
-        await this.$store.dispatch('underwriteLevelSetting/UpdateUnderwriteLevel', {
+        res = await this.$store.dispatch('underwriteLevelSetting/UpdateUnderwriteLevel', {
           levelId: this.cooperation.id,
           groupId: this.cooperation.groupId,
           parentGroupId: this.cooperation.parentUnderwriteGroupId,
@@ -181,7 +188,14 @@ export default {
         })
       }
       if (type == 'delete') {
-        await this.$store.dispatch('underwriteLevelSetting/DeleteUnderwriteLevel', this.cooperation.id)
+        res = await this.$store.dispatch('underwriteLevelSetting/DeleteUnderwriteLevel', this.cooperation.id)
+      }
+       if(res.data.code == 0) {
+        Popup.create({
+          headerText: '',
+          hasHtml: true,
+          htmlText: res.data.message,
+        })
       }
       await this.getSettingGroup()
       await this.getGroups()
