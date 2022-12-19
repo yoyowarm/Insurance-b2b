@@ -29,8 +29,8 @@
         <InputGroup title="經營業務處所" :disable="disable">
           <Select slot="input" :options="countyList" :selected="info.city.Value" @emitItem="e=>updateValue(e,'city',index)" defaultText="選擇縣市" :disable="disable"/>
         </InputGroup>
-        <div v-if="index !== 0" class="flex items-end pb-4" @click="() => {if(!disable){$emit('removeItem',index)}}">
-          <font-awesome-icon icon="times-circle" class="text-2xl " :class="{'text-gray-500':disable, 'text-main': !disable}" />
+        <div v-if="index !== 0" class="flex items-end pb-4" >
+          <font-awesome-icon @click="() => {if(!disable){$emit('removeItem',index)}}" icon="times-circle" class="text-2xl " :class="{'text-gray-500':disable, 'text-main': !disable}" />
         </div>
       </div>
     </template>
