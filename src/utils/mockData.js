@@ -739,6 +739,16 @@ export const weightListTable = () => {
         size: '6-6'
       },
       {
+        text: '活動隱藏/顯示',
+        value: 'activityEnable',
+        size: '2-6'
+      },
+      {
+        text: '場所隱藏/顯示',
+        value: 'placeEnable',
+        size: '2-6'
+      },
+      {
         text: '另行報價',
         value: 'hasQuotation',
         size: '1-6'

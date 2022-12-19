@@ -286,7 +286,7 @@ export default {
   watch:{
     industry: async function(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
-      this.additionTermsList = data.data.content.additionTermsDetails
+      this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isPlaceEnable)
       this.termsInit()
     },
     openQuestionnaire: async function(val) {
@@ -514,7 +514,7 @@ export default {
       this.countyAmount = county.data.content
       if(this.industry.Value) {
         const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
-        this.additionTermsList = data.data.content.additionTermsDetails
+        this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isPlaceEnable)
         this.termsInit()
       }
       if((this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) ) {//報價明細更正、複製時塞資料

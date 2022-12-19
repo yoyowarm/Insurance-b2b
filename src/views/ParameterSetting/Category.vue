@@ -39,7 +39,6 @@
               <span class="text-gray-300 pr-3">/</span>
               <span class=" text-gray-300" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">隱藏</span>
             </div>
-            
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
             <Button class="w-full sm:w-24" @click.native="editSwitch(index)" :outline="!item.edit"><span v-if="!item.edit">編輯</span><span v-else>儲存</span></Button>
