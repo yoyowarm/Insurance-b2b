@@ -1,6 +1,7 @@
 <template>
-  <div class="flex flex-row column-3">
-    <template v-for="item in termsLists">
+<div>
+  <div class="flex flex-row column-3 gap-important">
+    <template v-for="item in switchBtn && termsLists.length > 3 ? termsLists.slice(0,3) : termsLists">
       <div :key="item.additionTermName" class="flex flex-row items-center mb-2 ">
         <Checkbox
           class="my-1"
@@ -14,6 +15,12 @@
       </div>
     </template>
   </div>
+  <div v-if="more && termsLists.length > 3 " class="flex flex-row justify-center items-center w-full mt-2">
+      <span class="more" v-if="switchBtn" @click="switchBtn = !switchBtn" >收起<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-down']" /></span>
+      <span class="more" v-if="switchBtn == false" @click="switchBtn = !switchBtn" >更多<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-up']" /></span>
+  </div>
+</div>
+  
 </template>
 
 <script>
@@ -35,10 +42,15 @@ export default {
     disable: {
       type: Boolean,
       default: false
+    },
+    more: {
+      type: Boolean,
+      default: false
     }
   },
   data(){
     return {
+      switchBtn: false,
       copyTerms: {
         ...this.terms
       },
@@ -79,5 +91,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+  .more {
+    width: 90px;
+    height: 40px;
+    margin: 0px auto;
+    left: 0px;
+    right: 0px;
+    @apply text-main cursor-pointer bg-white z-10 text-center -bottom-13 flex justify-center items-center ;
+  }
+  .gap-important {
+    grid-gap: 0.65rem!important;
+    gap: 0.65rem!important
+  }
 </style>
