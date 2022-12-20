@@ -18,8 +18,22 @@
       </InputGroup>
     </div>
     <div class="column-5 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" title="電話" lgTitle mid :disable="disable">
-        <Input slot="input" placeholder="輸入號碼" :value="copyInfo.Mobile" @updateValue="(e) => updateInfo('Mobile', e)" :disable="disable"/>
+      <InputGroup class="w-full" title="通訊方式" :disable="disable" lgTitle mid dash>
+        <SwitchInput
+          slot="input"
+          :id="`${type}numberType`"
+          :value="copyInfo.numberType"
+          checkedText="手機"
+          uncheckedText="市話"
+          :disable="disable"
+          @updateValue="(e) =>updateInfo('numberType', e)"
+        />
+      </InputGroup>
+      <InputGroup class="w-full" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
+        <div slot="input" class="flex flex-row">
+          <Input class="w-28 border-r-2" :placeholder="copyInfo.numberType ? '前四碼' : '區碼'" :value="copyInfo.prefixNumber" @updateValue="(e) => updateInfo('prefixNumber', e)" :disable="disable"/>
+          <Input placeholder="輸入號碼" :value="copyInfo.Mobile" @updateValue="(e) => updateInfo('Mobile', e)" :disable="disable"/>
+        </div>
       </InputGroup>
       <InputGroup class="w-full" title="國籍" :disable="disable" lgTitle mid dash>
         <SwitchInput
@@ -205,6 +219,7 @@ export default {
   },
   data () {
     return {
+      numberType: true,
       copyInfo: {
         ...this.info
       },
