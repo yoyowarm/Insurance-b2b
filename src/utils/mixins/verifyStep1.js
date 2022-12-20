@@ -196,12 +196,6 @@ export default {
       this.insuranceAmountList.map(item => {
         if (!item.selfInflictedAmount.Value == '請選擇金額') {
           this.requestFile.push('未選擇自負額')
-        } else if (item.selfInflictedAmount.Value == 0 && !['甲類', '乙類', 'A', 'B'].includes(this.industry.typeName)) {
-          if (type == 'place') {
-            this.requestFile.push('處所丙類以上自負額不得<2500')
-          } else {
-            this.requestFile.push('活動C類以上自負額不得<2500')
-          }
         }
         if (item.amountType.Value == 1 && !item.mergeSingleAmount) {
           this.requestFile.push('未輸入單一限額')
