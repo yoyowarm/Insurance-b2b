@@ -26,7 +26,7 @@
             </div>
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
-              <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" disabled outline>異動比對</Button>
+              <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
               <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
           </div>
@@ -44,6 +44,7 @@
       </TableGroup>
     </template>
     <HistoryPopup :open.sync="openHistory" :historyData="historyData"/>
+    <ModifyLogPopup :open.sync="openLog" :modifyLogData="modifyLogData"/>
     <DownloadFile :open.sync="open" :orderNo="orderNo" :item="downloadQuotation" headerText="列印文件"/>
     <WindowResizeListener @resize="handleResize"/>
   </div>
@@ -54,6 +55,7 @@ import TableGroup from '@/components/TableGroup'
 import DownloadFile from '@/components/PopupDialog/DownloadFile.vue'
 import Button from '@/components/Button'
 import HistoryPopup from '@/components/PopupDialog/historyPopup'
+import ModifyLogPopup from '@/components/PopupDialog/modifyLogPopup'
 import { quotationListTable, quotationLisMobileTable, auditListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
@@ -74,14 +76,17 @@ export default {
     DownloadFile,
     Button,
     WindowResizeListener,
-    HistoryPopup
+    HistoryPopup,
+    ModifyLogPopup
   },
   data() {
     return {
       windowWidth: window.innerWidth,
       open: false,
       openHistory: false,
+      openLog:false,
       historyData: [],
+      modifyLogData: [],
       downloadQuotation: {},
     }
   },
@@ -211,6 +216,16 @@ export default {
       })
       this.openHistory = true
     },
+    async modifyLogs(orderNo) {
+      const res = await this.$store.dispatch('underwrite/GetUnderwriteModifyLogs', orderNo)
+      this.modifyLogData = res.data.content.map(item => {
+        return {
+          ...item,
+          employee: `${item.eMployeeName}(${item.employeeId})`,
+        }
+      })
+      this.openLog = true
+    }
   }
 }
 </script>
