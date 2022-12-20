@@ -104,7 +104,9 @@ export default {
           return
         } 
         const regex = new RegExp(/^0{0,}/, 'g');
+        const regex2 = new RegExp(/\./, 'g');
         inputValue = inputValue ? inputValue.replace(regex, '') : ''
+        inputValue = inputValue ? inputValue.replace(regex2, '') : ''
         this.$nextTick(() => {
           this.$refs.input.value = inputValue
         })
