@@ -296,8 +296,8 @@ export default {
     },
     periodData: {
       handler() {
-        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}T${this.period.startDate.hour == '0' ? '00' : this.period.startDate.hour}:00:00`).getTime()
-        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}T${this.period.endDate.hour == '0' ? '00' : this.period.endDate.hour}:00:00`).getTime()
+        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}T${this.period.startDate.hour == '0' ? '00' : (this.period.startDate.hour == '24' ? '23' : this.period.startDate.hour)}:${this.period.startDate.hour == '24' ? '59' : '00'}:00`).getTime()
+        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}T${this.period.endDate.hour == '0' ? '00' : (this.period.endDate.hour == '24' ? '23' : this.period.endDate.hour)}:${this.period.endDate.hour == '24'? '59':'00'}:00`).getTime()
         if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
           Popup.create({hasHtml:true,htmlText:'保期不能超過一年'})
           this.$nextTick(() => {
