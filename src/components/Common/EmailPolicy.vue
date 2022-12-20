@@ -1,5 +1,5 @@
 <template>
-  <CommonBoard class="w-full">
+  <CommonBoard class="w-full" title="出單方式(二擇一)">
     <FormTitle classList="text-xl text-gray-700" class="mb-6" title="電子保單">
       <Checkbox
         class="my-1.5"
@@ -71,6 +71,17 @@
     <div class="flex justify-center items-center mb-3 mt-6">
       <Button @click.native="addItem" outline :disabled="disable">新增寄送資訊</Button>
     </div>
+    <FormTitle classList="text-xl text-gray-700" title="紙本保單">
+      <Checkbox
+        class="my-1.5"
+        id="paper"
+        :checked="eletric.transferType == 2"
+        :value="eletric.transferType == 2"
+        :disabled="eletric.transferType == 2 || InsuranceActive == 7"
+        @updateValue="(e) =>{ if(eletric.transferType !== 2){updateValue('', 'transferType', 2)}}"
+        slot="left"
+      />
+    </FormTitle>
   </CommonBoard>
 </template>
 
@@ -105,6 +116,10 @@ export default {
     PolicyType: {
       type: String,
       default: ''
+    },
+    InsuranceActive: {
+      type: Number,
+      default: 0
     }
   },
   methods: {

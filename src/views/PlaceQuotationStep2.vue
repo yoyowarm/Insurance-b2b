@@ -59,20 +59,7 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <CommonBoard class="mb-5" title="出單方式(二擇一)">
-      <FormTitle classList="text-xl text-gray-700" title="紙本保單">
-        <Checkbox
-          class="my-1.5"
-          id="paper"
-          :checked="policyTransferData.transferType == 2"
-          :value="policyTransferData.transferType == 2"
-          :disabled="policyTransferData.transferType == 2 || InsuranceActive == 7"
-          @updateValue="(e) =>{ if(policyTransferData.transferType !== 2){policyTransferData = {...policyTransferData,transferType: 2}}}"
-          slot="left"
-        />
-      </FormTitle>
-    </CommonBoard>
-    <EmailPolicy  :eletric.sync="policyTransferData" :disable="InsuranceActive == 7" class="mb-8"/>
+    <EmailPolicy  :eletric.sync="policyTransferData" :disable="InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
     <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
@@ -101,7 +88,6 @@ import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
-import FormTitle from '@/components/FormTitle'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
@@ -119,7 +105,6 @@ export default {
     BrokerInfo,
     Address,
     EmailPolicy,
-    FormTitle
   },
   data() {
     return {
