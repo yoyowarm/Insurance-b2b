@@ -135,7 +135,7 @@ export default {
       if (!this.Insuraned.Name) {
         this.requestFile.push('未填寫被保險人名稱')
       }
-      if (!this.Insuraned.Mobile || !this.Insuraned.prefixNumber) {
+      if (!this.Insuraned.Mobile || (!this.Insuraned.prefixNumber && !this.Insuraned.numberType)) {
         this.requestFile.push('未填寫被保險人電話')
       }
       if (this.Insuraned.IsForeigner && !this.Insuraned.Nationality.Value) {
@@ -174,7 +174,7 @@ export default {
       if (!this.Applicant.Name) {
         this.requestFile.push('未填寫要保險人名稱')
       }
-      if (!this.Applicant.Mobile || !this.Insuraned.prefixNumber) {
+      if (!this.Applicant.Mobile || (!this.Insuraned.prefixNumber && !this.Insuraned.numberType)) {
         this.requestFile.push('未填寫要保險人電話')
       }
       if (this.Applicant.IsForeigner && !this.Applicant.Nationality.Value) {

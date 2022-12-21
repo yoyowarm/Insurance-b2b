@@ -32,8 +32,9 @@
       <InputGroup class="w-full" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
         <div slot="input" class="flex flex-row">
           <Input
+            v-if="!copyInfo.numberType"
             class="w-28 border-r-2"
-            :placeholder="copyInfo.numberType ? '前四碼' : '區碼'"
+            placeholder="區碼"
             :maxLength="4"
             :value="copyInfo.prefixNumber"
             @updateValue="(e) => updateInfo('prefixNumber', e)"
@@ -46,7 +47,7 @@
             @updateValue="(e) => updateInfo('Mobile', e)"
             @blurInput="phoneVerify('Mobile')"
             :disable="disable"
-            :maxLength="copyInfo.numberType ? 6 : 8"
+            :maxLength="copyInfo.numberType ? 10 : 8"
           />
         </div>
       </InputGroup>
@@ -262,6 +263,10 @@ export default {
           Text: '選擇國籍'
         })
       }
+    },
+    'copyInfo.numberType'() {
+      this.updateInfo('prefixNumber', '')
+      this.updateInfo('Mobile', '')
     }
   },
   methods: {
@@ -275,8 +280,9 @@ export default {
       const isNumber = new RegExp(/^\d/g)
       const isPhone = new RegExp(/^09.*/)
       const isTelephone = new RegExp(/^0+[2-8]{1}.*/)
+      isNumber.test(this.copyInfo[type])
       if(!isNumber.test(this.copyInfo[type]) ||
-        (type == 'prefixNumber' && this.copyInfo.numberType && !isPhone.test(this.copyInfo[type])) ||
+        (type == 'Mobile' && this.copyInfo.numberType && !isPhone.test(this.copyInfo[type])) ||
         (type == 'prefixNumber' && !this.copyInfo.numberType && !isTelephone.test(this.copyInfo[type]))
         ) {
         Popup.create({
