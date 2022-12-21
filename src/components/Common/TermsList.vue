@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="flex flex-row column-3 gap-important">
-    <template v-for="item in switchBtn && termsLists.length > 3 ? termsLists.slice(0,3) : termsLists">
+    <template v-for="item in more && switchBtn && termsLists.length > 3 ? termsLists.slice(0,3) : termsLists">
       <div :key="item.additionTermName" class="flex flex-row items-center mb-2 ">
         <Checkbox
           class="my-1"
