@@ -373,14 +373,20 @@ export default {
               terms[item.additionTermName] = {
                 selected: true,
               }
-            } else {
-              if(item.isSuggest) {
+            } else{
+              if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
                   selected: true,
                 }
               } else {
-                terms[item.additionTermName] = {
-                  selected: false,
+                if(this.termsData[item.additionTermName]) {
+                  terms[item.additionTermName] = {
+                    selected: this.termsData[item.additionTermName].selected,
+                  }
+                } else {
+                  terms[item.additionTermName] = {
+                    selected: false,
+                  }
                 }
               }
             }
@@ -390,8 +396,8 @@ export default {
               terms[item.additionTermName] = {
                 selected: true,
               }
-            } else {
-              if(item.isSuggest) {
+            } else{
+              if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
                   selected: true,
                 }

@@ -175,7 +175,7 @@ export default {
       if (this.quotationData.insuranceAmounts.length > 0) {//保險金額/自負額
         this.insuranceAmountListData = {
           ...this.quotationData.insuranceAmounts[0],
-          amount: this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
+          amount: this.InsuranceActive == 7 && this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
           amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
           insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
           mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
@@ -187,7 +187,7 @@ export default {
         setTimeout(() => {
           this.insuranceAmountListData = {
             ...this.quotationData.insuranceAmounts[0],
-            amount: this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
+            amount: this.InsuranceActive == 7 && this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
             amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
             insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
             mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,

@@ -447,13 +447,19 @@ export default {
                 selected: true,
               }
             } else {
-              if(item.isSuggest) {
-                terms[item.additionTermName] = {
-                  selected: true,
-                }
-              } else {
+              if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
                   selected: false,
+                }
+              } else {
+                if(this.termsData[item.additionTermName]) {
+                  terms[item.additionTermName] = {
+                    selected: this.termsData[item.additionTermName].selected,
+                  }
+                } else {
+                  terms[item.additionTermName] = {
+                    selected: false,
+                  }
                 }
               }
             }
@@ -464,16 +470,16 @@ export default {
                 selected: true,
               }
             } else {
-              if(item.isSuggest) {
+              if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
-                  selected: true,
+                  selected: false,
                 }
               } else {
                 if(this.termsData[item.additionTermName]) {
                   terms[item.additionTermName] = {
                     selected: this.termsData[item.additionTermName].selected,
                   }
-                } else {
+                } else{
                   terms[item.additionTermName] = {
                     selected: false,
                   }
@@ -776,7 +782,6 @@ export default {
   },
   async mounted() {
     await this.pageInit()
-    this.termsInit()
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())
     }
