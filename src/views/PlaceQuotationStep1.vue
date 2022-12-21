@@ -498,6 +498,10 @@ export default {
             const copyTerms = { ...this.termsData }
             copyTerms[item.additionTermName].selected = false
             this.$store.dispatch(`place/updatedTerms`, copyTerms)
+          } else {
+            const copyTerms = { ...this.termsData }
+            copyTerms[item.additionTermName].selected = true
+            this.$store.dispatch(`place/updatedTerms`, copyTerms)
           }
         })
     },
