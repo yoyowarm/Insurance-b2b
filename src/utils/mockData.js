@@ -646,6 +646,11 @@ export const categoryListTable = () => {
         size: '5-6'
       },
       {
+        text: '危險代號',
+        value: 'dangerCode',
+        size: '5-6'
+      },
+      {
         text: '應另行報價',
         value: 'hasQuotation',
         size: '1-6'
