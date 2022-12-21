@@ -278,9 +278,10 @@ export default {
     },
     phoneVerify(type) {
       const isNumber = new RegExp(/^\d/g)
-      const isPhone = new RegExp(/^09.*/)
+      const isPhone = new RegExp(/^09+\d{0,8}/g)
       const isTelephone = new RegExp(/^0+[2-8]{1}.*/)
-      isNumber.test(this.copyInfo[type])
+
+      console.log(type,this.copyInfo.numberType, isTelephone.test(this.copyInfo[type]),this.copyInfo[type])
       if(!isNumber.test(this.copyInfo[type]) ||
         (type == 'Mobile' && this.copyInfo.numberType && !isPhone.test(this.copyInfo[type])) ||
         (type == 'prefixNumber' && !this.copyInfo.numberType && !isTelephone.test(this.copyInfo[type]))
