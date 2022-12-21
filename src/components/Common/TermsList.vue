@@ -16,8 +16,8 @@
     </template>
   </div>
   <div v-if="more && termsLists.length > 3 " class="flex flex-row justify-center items-center w-full mt-2">
-      <span class="more" v-if="switchBtn" @click="switchBtn = !switchBtn" >收起<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-down']" /></span>
-      <span class="more" v-if="switchBtn == false" @click="switchBtn = !switchBtn" >更多<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-up']" /></span>
+      <span class="more" v-if="switchBtn" @click="switchBtn = !switchBtn" >更多<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-down']" /></span>
+      <span class="more" v-if="switchBtn == false" @click="switchBtn = !switchBtn" >收起<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-up']" /></span>
   </div>
 </div>
   
@@ -50,7 +50,7 @@ export default {
   },
   data(){
     return {
-      switchBtn: false,
+      switchBtn: true,
       copyTerms: {
         ...this.terms
       },

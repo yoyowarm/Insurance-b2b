@@ -45,6 +45,7 @@
         :terms.sync="termsData"
         :termsLists="additionTermsList.filter(item => !item.isSuggest)"
         :disable="calculateModel"
+        :more="true"
       />
     </CommonBoard>
     <TermConditions type="activity" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest)" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0" :disable="calculateModel"/>
