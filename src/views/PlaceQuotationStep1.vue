@@ -449,7 +449,7 @@ export default {
             } else {
               if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
-                  selected: false,
+                  selected: true,
                 }
               } else {
                 if(this.termsData[item.additionTermName]) {
@@ -472,7 +472,7 @@ export default {
             } else {
               if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
-                  selected: false,
+                  selected: true,
                 }
               } else {
                 if(this.termsData[item.additionTermName]) {
@@ -492,6 +492,14 @@ export default {
       this.$nextTick(() => {
         this.$store.dispatch('activity/clearAdditionTerms')
       })
+      this.additionTermsList.map(item => {//自訂條款
+          const target = this.quotationData.placeInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
+          if (!target) {
+            const copyTerms = { ...this.termsData }
+            copyTerms[item.additionTermName].selected = false
+            this.$store.dispatch(`place/updatedTerms`, copyTerms)
+          }
+        })
     },
     async pageInit() {
       const places = await this.$store.dispatch('resource/PlacesSetting')

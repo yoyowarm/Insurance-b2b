@@ -419,6 +419,14 @@ export default {
       this.$nextTick(() => {
         this.$store.dispatch('activity/clearAdditionTerms')
       })
+      this.additionTermsList.map(item => {//自訂條款
+          const target = this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
+          if (!target) {
+            const copyTerms = { ...this.termsData }
+            copyTerms[item.additionTermName].selected = false
+            this.$store.dispatch(`place/updatedTerms`, copyTerms)
+          }
+        })
     },
     correctAmount() {
       this.insuranceAmountListData = {
@@ -729,7 +737,6 @@ export default {
   },
   async mounted() {
     await this.pageInit()
-    this.termsInit()
     this.updatePeriod()
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
