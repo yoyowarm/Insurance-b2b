@@ -737,6 +737,7 @@ export default {
   },
   async mounted() {
     await this.pageInit()
+    this.termsInit()
     this.updatePeriod()
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
