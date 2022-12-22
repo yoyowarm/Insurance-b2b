@@ -303,8 +303,8 @@ export default {
     emitSelectItem(type,key, value, index) {
       const copyInfoList = [...this.infoList]
 			copyInfoList[index][type][key] = value
-      const hour = copyInfoList[index].startDate.hour == 24 ? '11:59' : `${copyInfoList[index].startDate.hour}:00`
-      const tomorrow = new Date(`${Number(copyInfoList[index].startDate.year)+1911}/${copyInfoList[index].startDate.month}/${copyInfoList[index].startDate.day} ${hour}`).getTime() + (1000 *60 *60 *24)
+      const hour = copyInfoList[index].startDate.hour.toString() == '24' ? '11:59' : `${copyInfoList[index].startDate.hour}:00`
+      const tomorrow = new Date(`${Number(copyInfoList[index].startDate.year)+1911}/${copyInfoList[index].startDate.month}/${copyInfoList[index].startDate.day} ${hour}`).getTime()
       const CHKey = {
         year: '選擇民國年',
         month: '選擇月份',
@@ -336,7 +336,7 @@ export default {
             } else {
               copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear()-1911
               copyInfoList[index].endDate.month = new Date(tomorrow).getMonth()+1
-              copyInfoList[index].endDate.day = value
+              copyInfoList[index].endDate.day = copyInfoList[index].startDate.day
             }
         }
       }
