@@ -37,8 +37,8 @@
             </div>
           </div>
           <div class="text-gray-600 bg-gray-100 md:bg-white md:p-1 md:rounded-b-xl text-center md:text-left  min-h-4 flex flex-col" :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`">
-            <span>{{item.insuranceBeginTime.split('T')[0]}}<span class="text-sm ml-1">起</span></span>
-            <span>{{item.insuranceEndTime.split('T')[0]}}<span class="text-sm ml-1">迄</span></span>
+            <span class="whitespace-no-wrap">{{item.insuranceBeginTime.split('T')[0]}}<span class="text-sm ml-1">起</span></span>
+            <span class="whitespace-no-wrap">{{item.insuranceEndTime.split('T')[0]}}<span class="text-sm ml-1">迄</span></span>
           </div>
           </template>
       </TableGroup>

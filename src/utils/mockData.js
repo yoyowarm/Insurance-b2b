@@ -214,7 +214,7 @@ export const quotationListTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '2-6'
+        size: '3-6'
       },
       {
         text: '報價日期',
