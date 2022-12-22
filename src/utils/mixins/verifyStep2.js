@@ -135,7 +135,7 @@ export default {
       if (!this.Insuraned.Name) {
         this.requestFile.push('未填寫被保險人名稱')
       }
-      if (!this.Insuraned.Mobile || (!this.Insuraned.prefixNumber && !this.Insuraned.numberType)) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && (!this.Insuraned.Mobile || (!this.Insuraned.prefixNumber && !this.Insuraned.numberType))) {
         this.requestFile.push('未填寫被保險人電話')
       }
       if (this.Insuraned.IsForeigner && !this.Insuraned.Nationality.Value) {
@@ -159,7 +159,7 @@ export default {
       if (this.Insuraned.IsForeignRegister && !this.Insuraned.RegisterNationality) {
         this.requestFile.push('被保險人未輸入登記/註冊地國籍')
       }
-      if (this.Insuraned.Mobile && this.Insuraned.prefixNumber) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Insuraned.Mobile && this.Insuraned.prefixNumber) {
         if (MobileRegex(`${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`)) {
           this.requestFile.push('被保險人' + MobileRegex(`${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`))
         }
@@ -174,7 +174,7 @@ export default {
       if (!this.Applicant.Name) {
         this.requestFile.push('未填寫要保險人名稱')
       }
-      if (!this.Applicant.Mobile || (!this.Insuraned.prefixNumber && !this.Insuraned.numberType)) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && (!this.Applicant.Mobile || (!this.Insuraned.prefixNumber && !this.Insuraned.numberType))) {
         this.requestFile.push('未填寫要保險人電話')
       }
       if (this.Applicant.IsForeigner && !this.Applicant.Nationality.Value) {
@@ -198,7 +198,7 @@ export default {
       if (this.Applicant.CorporateRequired && !this.Applicant.CorporateName) {
         this.requestFile.push('未填寫要保險負責人')
       }
-      if (this.Applicant.Mobile && this.Applicant.prefixNumber) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Applicant.Mobile && this.Applicant.prefixNumber) {
         if (MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`)) {
           this.requestFile.push('要保險人' + MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`))
         }
