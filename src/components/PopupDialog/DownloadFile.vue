@@ -23,7 +23,7 @@
               <p v-if="loading.length === 0" class="print cursor-pointer" @click="downloadFile(orderNo,'insurance')"><font-awesome-icon :icon="['fa','print']" /></p>
             </li>
             <li>
-              <span>報價明細</span>
+              <span>報價單</span>
               <p v-if="loading.length === 0" class="print cursor-pointer" @click="downloadFile(orderNo,'quotation')"><font-awesome-icon :icon="['fa','print']" /></p>
             </li>
             <li>
