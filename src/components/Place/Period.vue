@@ -203,7 +203,8 @@ export default {
         hour: '選擇小時'
       }
       this.copyPeriod[type][key] = value
-      if(new Date().getTime() > new Date(`${Number(this.copyPeriod[type].year)+1911}/${this.copyPeriod[type].month}/${this.copyPeriod[type].day} ${this.copyPeriod[type].hour}:00`).getTime()) {
+      const startTime = new Date(`${Number(this.copyPeriod[type].year) + 1911}-${this.copyPeriod[type].month}-${this.copyPeriod[type].day}T${this.copyPeriod[type].hour.toString() == '0' ? '00' : (this.copyPeriod[type].hour.toString() == '24' ? '23' : this.copyPeriod[type].hour.toString())}:${this.copyPeriod[type].hour.toString() == '24' ? '59' : '00'}:00`).getTime()
+      if(new Date().getTime() > startTime) {
         Popup.create({
           hasHtml: true,
           htmlText: '保險期間不能小於當前時間',

@@ -4,8 +4,11 @@ export default {
   namespaced: true,
   state: {
     uuid: '',
-    InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增序號,4:續保,5:報價明細,6:查看取消序號報價單
+    InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增序號,4:續保,5:報價明細,6:查看取消序號報價單,7:審核
+    PolicyStatus: 0,//99取消,9已出單,8完成報價,7已核保,6請洽核保,2核保中,1待核保,0新增、複製
     quotationData: {},
+    underwriteQuotationData: {},
+    underwriteQuotationIsChange: false,
     activityInfo: [{
       number: '',
       city: {
@@ -64,6 +67,8 @@ export default {
         Value: '',
       },
       subAddress: '',
+      numberType: true,
+      prefixNumber: '',
       Mobile: '',
       IsForeignRegister: false,
       RegisterNationality: '',
@@ -97,6 +102,8 @@ export default {
         Value: '',
       },
       subAddress: '',
+      numberType: true,
+      prefixNumber: '',
       Mobile: '',
       IsForeignRegister: false,
       RegisterNationality: '',
@@ -106,13 +113,13 @@ export default {
       IsProOrNot: false,
     },
     policyTransfer: {
-      transferType: 1,
+      transferType: 2,
       transferDetails: [
         {
           transferDetailType: false,
           transferOriginalType: false,
           transferInfo: '',
-          sort: 0
+          sort: 1
         }
       ]
     },
@@ -148,7 +155,7 @@ export default {
         value2: '',//幼兒
       },
       PL005: {//建築物承租人火災附加條款
-        value1: '',//每一意外事故
+        value1: '100',//每一意外事故
         value2: '',//處所數量
       },
       PL016: {//獨立承攬人責任附加條款
@@ -190,10 +197,10 @@ export default {
         value1: '',
       },
       PL053: {//傷害醫療及身故慰問金費用附加條款
-        value1: '',
-        value2: '',
-        value3: '',
-        value4: '',
+        value1: '2000',
+        value2: '10000',
+        value3: '20000',
+        value4: '40000',
       },
       PL055: {//營業中斷損失責任附加條款
         value1: '',
@@ -238,8 +245,8 @@ export default {
           hasWireInTube: null,//所有電線是否裝在館內避免短路
         },
         part3: {
-          useRoadhasAccessByTransportation: null,//使用道路者 是否經交通主管認許
-          afterActivityhasAccessByTransportation: null,//未使用道路者 活動結束後散場動線是否經交通主管認許
+          useRoadHasAccessByTransportation: null,//使用道路者 是否經交通主管認許
+          afterActivityHasAccessByTransportation: null,//未使用道路者 活動結束後散場動線是否經交通主管認許
           hasSegmentWithInsurancePlaceAndLane: null,//保險處所與車道有無有效區隔
         },
         part4: {
@@ -475,11 +482,20 @@ export default {
     UPDATED_INSURANCE_ACTIVE(state, data) {
       state.InsuranceActive = data
     },
+    UPDATED_POLICY_STATUS(state, data) {
+      state.PolicyStatus = data
+    },
     UPDATED_QUOTATION_DATA(state, data) {
       state.quotationData = data
     },
     UPDATED_POLICY_TRANSFER(state, data) {
       state.policyTransfer = data
+    },
+    UPDATED_UNDERWRITE_QUOTATION_DATA(state, data) {
+      state.underwriteQuotationData = data
+    },
+    UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE(state, data) {
+      state.underwriteQuotationIsChange = data
     }
   },
   actions: {
@@ -495,6 +511,7 @@ export default {
       commit('UPDATED_INDUSTRY_TEXT', quotation().industryText)
       commit('UPDATED_REMARK', quotation().remark)
       commit('UPDATED_QUESTIONNAIRE', quotation().activityQuestionnaire)
+      commit('UPDATED_POLICY_STATUS', 0)
       commit('UPDATED_INSURANCE_AMOUNT_LIST', [//保險金額/自負額
         {
           amountType: {
@@ -533,7 +550,9 @@ export default {
       commit('UPDATED_UUID', '')
       commit('UPDATED_INSURANCE_ACTIVE', 0)
       commit('UPDATED_QUOTATION_DATA', {})
+      commit('UPDATED_UNDERWRITE_QUOTATION_DATA', {})
       commit('UPDATED_POLICY_TRANSFER', quotation().policyTransfer)
+      commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', false)
     },
     addActivityInfo({ commit }) {
       commit('ADD_ACTIVITY_INFO')
@@ -604,11 +623,20 @@ export default {
     updatedInsuranceActive({ commit }, type) {
       commit('UPDATED_INSURANCE_ACTIVE', type)
     },
+    updatedPolicyStatus({ commit }, data) {
+      commit('UPDATED_POLICY_STATUS', data)
+    },
     updatedQuotationData({ commit }, data) {
       commit('UPDATED_QUOTATION_DATA', data)
     },
     updatedPolicyTransfer({ commit }, data) {
       commit('UPDATED_POLICY_TRANSFER', data)
+    },
+    updatedUnderwriteQuotationData({ commit }, data) {
+      commit('UPDATED_UNDERWRITE_QUOTATION_DATA', data)
+    },
+    updatedUnderwriteQuotationIsChange({ commit }, data) {
+      commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', data)
     }
   }
 }

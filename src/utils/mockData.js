@@ -179,22 +179,22 @@ export const quotationListTable = () => {
       {
         text: '要保人',
         value: 'applicantName',
-        size: '6-6'
+        size: '2-6'
       },
       {
         text: '被保人',
         value: 'insuredName',
-        size: '6-6'
+        size: '2-6'
       },
       {
         text: '保費',
         value: 'insuranceAmount',
-        size: '3-6'
+        size: '1-6'
       },
       {
         text: '狀態',
         value: 'stateText',
-        size: '2-6'
+        size: '1-6'
       },
       {
         text: '報價單操作',
@@ -209,12 +209,12 @@ export const quotationListTable = () => {
       {
         text: '日結日期',
         value: 'daySettleDate',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '3-6'
+        size: '2-6'
       },
       {
         text: '報價日期',
@@ -261,12 +261,12 @@ export const quotationLisMobileTable = () => {
       {
         text: '保費',
         value: 'insuranceAmount',
-        size: '2-6'
+        size: '1-6'
       },
       {
         text: '狀態',
         value: 'stateText',
-        size: '2-6'
+        size: '1-6'
       },
       {
         text: '出單保費',
@@ -281,7 +281,7 @@ export const quotationLisMobileTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '4-6'
+        size: '3-6'
       },
       {
         text: '報價日期',
@@ -306,7 +306,85 @@ export const quotationLisMobileTable = () => {
       {
         text: '報價單操作',
         value: 'edit',
+        size: '2-6'
+      },
+    ],
+    rows: []
+  }
+}
+
+export const auditListTable = () => {
+  return {
+    head: [
+      {
+        text: '序號',
+        value: 'serialNo',
+        size: '1-6'
+      },
+      {
+        text: '要保人',
+        value: 'applicantName',
+        size: '2-6'
+      },
+      {
+        text: '被保人',
+        value: 'insuredName',
+        size: '2-6'
+      },
+      {
+        text: '保費',
+        value: 'insuranceAmount',
+        size: '2-6'
+      },
+      {
+        text: '狀態',
+        value: 'underwriteStateText',
+        size: '2-6'
+      },
+      {
+        text: '待確認人員',
+        value: 'waitConfirmEmployeeName',
         size: '3-6'
+      },
+      {
+        text: '核保結果',
+        value: 'underwriteResultStateText',
+        size: '2-6'
+      },
+      {
+        text: '操作',
+        value: 'edit',
+        size: '1-6'
+      },
+      {
+        text: '保險期間',
+        value: 'ConvergeStartDate',
+        size: '2-6'
+      },
+      {
+        text: '報價日期',
+        value: 'quotationDate',
+        size: '2-6'
+      },
+      {
+        text: '經手人',
+        value: 'iOfficerName',
+        size: '2-6'
+      },
+      {
+        text: '總分公司單位',
+        value: 'companyDepartment',
+        size: '2-6'
+      },
+      {
+        text: '核保人員',
+        value: 'underwriteEmployee',
+        size: '2-6'
+      },
+      {
+        text: '類型',
+        value: 'typeText',
+        size: '1-6'
       },
     ],
     rows: []
@@ -550,12 +628,12 @@ export const categoryListTable = () => {
       {
         text: '權重值',
         value: 'weight',
-        size: '1-6'
+        size: '2-6'
       },
       {
         text: '投保行業',
         value: 'typeName',
-        size: '1-6'
+        size: '2-6'
       },
       {
         text: '場所名稱',
@@ -565,6 +643,11 @@ export const categoryListTable = () => {
       {
         text: '顯示名稱',
         value: 'displayItemName',
+        size: '5-6'
+      },
+      {
+        text: '危險代號',
+        value: 'dangerCode',
         size: '5-6'
       },
       {
@@ -653,12 +736,22 @@ export const weightListTable = () => {
       {
         text: '條款權重值',
         value: 'weight',
-        size: '1-6'
+        size: '2-6'
       },
       {
         text: '條款名稱',
         value: 'additionTermName',
         size: '6-6'
+      },
+      {
+        text: '活動隱藏/顯示',
+        value: 'activityEnable',
+        size: '2-6'
+      },
+      {
+        text: '場所隱藏/顯示',
+        value: 'placeEnable',
+        size: '2-6'
       },
       {
         text: '另行報價',
@@ -763,7 +856,7 @@ export const quoteSeparatelyTable = () => {
       {
         text: '核保階級/保額',
         value: 'name',
-        size: '3-6'
+        size: '4-6'
       },
       {
         text: '每一個人體傷責任金額',
@@ -830,33 +923,33 @@ export const amountListTable = () => {
       },
       {
         name: 'PL016獨立承攬人責任附加條款',
-        content: ['承攬工程合約金額少於 1 須另行報價'],
+        content: ['承攬工程合約金額少於 2 須另行報價'],
         id: '2',
         operate: ''
       },
       {
         name: 'PL023慰問金費用附加條款',
-        content: ['住院慰問金費用保險金額：', '每一個人 2 、每一意外事故 3 、保險期間內最高賠償金額 4 ', '奠儀慰問金費用保險金額：',
-          '每一個人 5 元、每一意外事故 6 、保險期間內最高賠償金額 7 '],
+        content: ['住院慰問金費用保險金額：', '每一個人 3 、每一意外事故 4 、保險期間內最高賠償金額 5 ', '奠儀慰問金費用保險金額：',
+          '每一個人 6 、每一意外事故 7 、保險期間內最高賠償金額 8 '],
         id: '3',
         operate: ''
       },
       {
         name: 'PL040受託物附加條款',
         identity: '台北總公司 核保部 / 協理 林國強',
-        content: ['每一意外事故財損責任之保險金額 8 ', '保險期間內之最高賠償金額 9 '],
+        content: ['每一意外事故財損責任之保險金額 9 ', '保險期間內之最高賠償金額 10 '],
         id: '4',
         operate: ''
       },
       {
         name: 'PL049承租人借用人責任附加條款(保額外加)',
-        content: ['額度 10 '],
+        content: ['額度 11 '],
         id: '5',
         operate: ''
       },
       {
         name: 'PL053慰問金費用附加條款',
-        content: ['每一個人傷害醫療慰問金費用保險金額： 11 ', '每一個人身故慰問金費用保險金額： 12 ', '每一個人事故慰問金費用保險金額： 13 ', '保險期間內慰問金費用最高賠償金額： 14 '],
+        content: ['每一個人傷害醫療慰問金費用保險金額： 12 ', '每一個人身故慰問金費用保險金額： 13 ', '每一個人事故慰問金費用保險金額： 14 ', '保險期間內慰問金費用最高賠償金額： 16 '],
         id: '6',
         operate: ''
       },

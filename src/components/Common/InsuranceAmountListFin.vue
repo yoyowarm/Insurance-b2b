@@ -1,7 +1,7 @@
 <template>
   <div class="w-full">
     <CommonBoard v-for="(item,index) in copyLists" :key="index" :selected="item.isSelected || copyLists.length == 1">
-      <div class="column-5" :class="{'dashed-border': !viewModel}">
+      <div v-if="false" class="column-5" :class="{'dashed-border': !viewModel}">
         <InputGroup title="金額" class="col-span-2" :borderBtn="viewModel" :editModel="editModel" disableWhite>
           <Select
             v-if="!viewModel"

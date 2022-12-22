@@ -17,12 +17,14 @@ import questionnaire from './questionnaire'
 import news from './news'
 import documentDownload from './documentDownload'
 import verify from './verify'
+import underwriteLevelSetting from './underwriteLevelSetting'
+import underwrite from './underwrite'
 
 
 Vue.use(Vuex)
 
 const vuexLocal = new VuexPersistence({
-  storage: window.localStorage,
+  storage: window.sessionStorage,
   modules: ['app', 'home', 'place', 'activity', 'common'],
   reducer: (state) => {
     return {
@@ -52,7 +54,10 @@ const vuexLocal = new VuexPersistence({
         policyTransfer: state.place.policyTransfer,
         questionnaireFinished: state.place.questionnaireFinished,
         InsuranceActive: state.place.InsuranceActive,
+        PolicyStatus: state.place.PolicyStatus,
         quotationData: state.place.quotationData,
+        underwriteQuotationData: state.place.underwriteQuotationData,
+        underwriteQuotationIsChange: state.place.underwriteQuotationIsChange,
       },
       activity: {
         uuid: state.activity.uuid,
@@ -74,7 +79,10 @@ const vuexLocal = new VuexPersistence({
         additionTerms: state.activity.additionTerms,
         internalControlData: state.activity.internalControlData,
         InsuranceActive: state.activity.InsuranceActive,
+        PolicyStatus: state.activity.PolicyStatus,
         quotationData: state.activity.quotationData,
+        underwriteQuotationData: state.activity.underwriteQuotationData,
+        underwriteQuotationIsChange: state.activity.underwriteQuotationIsChange,
       },
       common: {
         viewModel: state.common.viewModel,
@@ -101,7 +109,9 @@ export default new Vuex.Store({
     questionnaire,
     news,
     documentDownload,
-    verify
+    verify,
+    underwriteLevelSetting,
+    underwrite
   },
   plugins: [vuexLocal.plugin]
 })

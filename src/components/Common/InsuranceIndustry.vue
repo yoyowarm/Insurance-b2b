@@ -8,12 +8,12 @@
         <FormTitle :title="category" classList="text-xl text-gray-700" class="mb-6">
           <font-awesome-icon class="text-xl text-gray-700 mr-1" icon="briefcase" slot="left"/>
         </FormTitle>
-          <div class="column-6 mb-8" :class="{'packUp': categoryFilter(category,index).length > 18}">
-            <template v-for="list in (categoryFilter(category,index).length > 18 && !switchList[index] && searchText.length === 0) ? categoryFilter(category,index).slice(0, 18) : categoryFilter(category,index)">
+          <div class="column-6 mb-4 gap-important" :class="{'packUp': categoryFilter(category,index).length > 12}">
+            <template v-for="(list,index) in (categoryFilter(category,index).length > 12 && !switchList[index] && searchText.length === 0) ? categoryFilter(category,index).slice(0, 12) : categoryFilter(category,index)">
               <RadioInput
                 v-if="(searchText.length === 0 ||( searchText.length > 0 && list.displayItemName.includes(searchText)))"
                 :key="list.dangerSeq"
-                :class="{'col-span-2': list.displayItemName.length >= 10}"
+                :class="{ 'font-semibold text-main': index < 4}"
                 :id="`list${list.dangerSeq}`"
                 :text="list.displayItemName"
                 :value="selected.itemName === list.itemName"
@@ -26,13 +26,13 @@
                   placeholder="輸入行業名稱"
                   :value="industryText"
                   :disable="!selected.Text.includes('其他') || calculateModel"
-                  @updateValue="(e) =>$store.dispatch(`${type}/updatedIndustryText`, e)"
+                  @updateValue="(e) =>updatedIndustryText(e)"
                 />
               </InputGroup>
             </template>
-            <template v-if="searchText.length === 0 ||( searchText.length > 0 && categoryFilter(category,index).filter(item => item.displayItemName.includes(searchText)).length > 18)">
-              <span class="more" v-if="categoryFilter(category,index).length > 18 && !switchList[index]" @click="() => switchBtn(index)" >更多<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-down']" /></span>
-              <span class="more" v-if="categoryFilter(category,index).length > 18 && switchList[index]" @click="() => switchBtn(index)" >收起<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-up']" /></span>
+            <template v-if="searchText.length === 0 ||( searchText.length > 0 && categoryFilter(category,index).filter(item => item.displayItemName.includes(searchText)).length > 12)">
+              <span class="more" v-if="categoryFilter(category,index).length > 12 && !switchList[index]" @click="() => switchBtn(index)" >更多<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-down']" /></span>
+              <span class="more" v-if="categoryFilter(category,index).length > 12 && switchList[index]" @click="() => switchBtn(index)" >收起<font-awesome-icon class="text-sm ml-3" :icon="['fa', 'angle-up']" /></span>
             </template>
           </div>
       </div>
@@ -81,6 +81,14 @@ export default {
       type: String,
       default: ''
     },
+    questionnaire: {
+      type: Object,
+      default: () => ({})
+    },
+    isRenewal: {
+      type: Boolean,
+      default: false
+    }
   },
   data () {
     return {
@@ -103,10 +111,23 @@ export default {
       }
       if(e) {
         this.$store.dispatch(`${this.type}/updatedIndustry`,list)
+        if(this.type == 'place') {
+           this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,part1:{...this.questionnaire.part1, businessType: list.displayItemName}})
+        }
+      }
+    },
+    updatedIndustryText(e) {
+      this.$store.dispatch(`${this.type}/updatedIndustryText`, e)
+      if(this.type == 'place') {
+        this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,part1:{...this.questionnaire.part1, businessType: e}})
       }
     },
     categoryFilter(category) {
-      return this.industryList.filter(item => item.typeName === category  && item.isEnable)
+      if(this.isRenewal) {
+         return this.industryList.filter(item => item.typeName === category  && item.isEnable).sort((a) => { return a.itemName == this.selected.itemName ? -1 : 1})
+      } else {
+        return this.industryList.filter(item => item.typeName === category  && item.isEnable)
+      }
     },
   },
   mounted() {
@@ -128,5 +149,9 @@ export default {
     right: 0px;
     @apply absolute text-main cursor-pointer bg-white z-10 text-center -bottom-13 flex justify-center items-center ;
   }
+}
+.gap-important {
+  grid-gap: 0.75rem!important;
+  gap: 0.75rem!important
 }
 </style>

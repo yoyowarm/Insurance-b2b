@@ -1,5 +1,5 @@
 <template>
-  <CommonBoard class="w-full mb-7" title="出單方式(二擇一)">
+  <CommonBoard class="w-full" title="出單方式(二擇一)">
     <FormTitle classList="text-xl text-gray-700" class="mb-6" title="電子保單">
       <Checkbox
         class="my-1.5"
@@ -18,11 +18,11 @@
     <template v-for="(item,index) in eletric.transferDetails">
       <FormTitle title="寄送資訊" :key="index + '寄送資訊'" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
-      <div v-if="eletric.transferDetails.length > 1" class="cursor-pointer ml-2" slot="right" @click="remoteInfo(index)">
-        <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
+      <div v-if="eletric.transferDetails.length > 1" class=" ml-2" :class="{'cursor-pointer': !disable}" slot="right" @click="() => {if(!disable){remoteInfo(index)}}">
+        <font-awesome-icon icon="times-circle" class="text-2xl" :class="{'text-main': !disable, 'text-gray-500': disable}"/>
       </div>
     </FormTitle>
-      <div class="column-5 pb-3 mb-4" :key="index">
+      <div class="column-3 pb-3 mb-4" :key="index">
         <InputGroup class="w-full" title="寄送方式" :disable="disable">
           <SwitchInput
             slot="input"
@@ -44,7 +44,7 @@
           />
         </InputGroup>
       </div>
-      <div class="column-5 pb-3 mb-4 dashed-border " :key="index+'column2'">
+      <div class="column-3 pb-3 mb-4 dashed-border " :key="index+'column2'">
         <InputGroup class="w-full" title="保單" dash :disable="disable">
           <SwitchInput
             slot="input"
@@ -71,6 +71,17 @@
     <div class="flex justify-center items-center mb-3 mt-6">
       <Button @click.native="addItem" outline :disabled="disable">新增寄送資訊</Button>
     </div>
+    <FormTitle classList="text-xl text-gray-700" title="紙本保單">
+      <Checkbox
+        class="my-1.5"
+        id="paper"
+        :checked="eletric.transferType == 2"
+        :value="eletric.transferType == 2"
+        :disabled="eletric.transferType == 2 || InsuranceActive == 7"
+        @updateValue="(e) =>{ if(eletric.transferType !== 2){updateValue('', 'transferType', 2)}}"
+        slot="left"
+      />
+    </FormTitle>
   </CommonBoard>
 </template>
 
@@ -105,6 +116,10 @@ export default {
     PolicyType: {
       type: String,
       default: ''
+    },
+    InsuranceActive: {
+      type: Number,
+      default: 0
     }
   },
   methods: {
@@ -114,7 +129,7 @@ export default {
           transferDetailType: false,
           transferOriginalType: false,
           transferInfo: '',
-          sort: 0
+          sort: 1
         })
       this.$emit('update:eletric', data)
     },

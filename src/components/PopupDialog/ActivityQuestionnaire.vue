@@ -40,40 +40,40 @@
         <div class="column-4" ref="1">
           <FormTitle class="text-lg" title="(一)活動場所-活動性質與場所"/>
         </div>
-        <Part1 :data.sync="questionnaireData"/>
+        <Part1 :data.sync="questionnaireData" :disable="audit"/>
         <div class="column-4" ref="2">
           <FormTitle class="text-lg" title="(二)活動場所-器材使用"/>
         </div>
-        <Part2 :data.sync="questionnaireData"/>
+        <Part2 :data.sync="questionnaireData" :disable="audit"/>
         <div class="column-4" ref="3">
           <FormTitle class="text-lg" title="(三)活動場所-交通控管"/>
         </div>
-        <Part3 :data.sync="questionnaireData"/>
+        <Part3 :data.sync="questionnaireData" :disable="audit"/>
         <div class="column-4" ref="4">
           <FormTitle class="text-lg" title="(四)活動場所-人員動線及管控"/>
         </div>
-        <Part4 :data.sync="questionnaireData"/>
+        <Part4 :data.sync="questionnaireData" :disable="audit"/>
         <div class="column-4" ref="5">
           <FormTitle class="text-lg" title="(五)活動場所-安全防護"/>
         </div>
-        <Part5 :data.sync="questionnaireData"/>
+        <Part5 :data.sync="questionnaireData" :disable="audit"/>
         <div class="column-4" ref="6">
           <FormTitle class="text-lg" title="(六)活動場所-緊急救護措施"/>
         </div>
-        <Part6 :data.sync="questionnaireData"/>
+        <Part6 :data.sync="questionnaireData" :disable="audit"/>
         <div class="column-4" ref="7">
           <FormTitle  class="text-lg" title="(七)活動場所-其他考量"/>
         </div>
-        <Part7 :data.sync="questionnaireData"/>
+        <Part7 :data.sync="questionnaireData" :disable="audit"/>
         <div class="column-4 mt-10" ref="8">
           <FormTitle class="text-lg" title="詢問表(二)"/>
         </div>
-        <Part8 :data.sync="questionnaireData"/>
+        <Part8 :data.sync="questionnaireData" :disable="audit"/>
         <div class="column-4" ref="9">
           <FormTitle class="text-lg" title="(二)器材使用"/>
         </div>
-        <Part9 :data.sync="questionnaireData"/>
-        <div class="fixed-button">
+        <Part9 :data.sync="questionnaireData" :disable="audit"/>
+        <div class="fixed-button" v-if="!audit">
           <div class="flex justify-center w-full px-3">
             <Button outline class="h-12 w-52 mr-3" @click.native="clearQuestionnaire">清除資料</Button>
             <Button v-if="questionnaireType == 0" class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('activity/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
@@ -186,6 +186,10 @@ export default {
     SerialNo: {
       type: String,
       default: ''
+    },
+    audit: {
+      type: Boolean,
+      default: false
     }
   },
    data () {

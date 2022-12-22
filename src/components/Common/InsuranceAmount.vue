@@ -10,7 +10,7 @@
           :disableWhite="disable"
           defaultText="請選擇金額"/>
       </InputGroup>
-      <div v-if="amountMinimum.countyName && data.amountType.Value == 0" class="mt-10 col-span-2">處所行跨多縣市時，將採用最高縣市保額，目前採用 {{amountMinimum.countyName}} 費率</div>
+      <div v-if="amountMinimum.countyName && data.amountType.Value == 0" class="mt-10 col-span-2">處所行跨多縣市時，將採用最高縣市保額，目前採用 <span class="text-main">{{amountMinimum.countyName}}</span> 保額</div>
     </div>
     <div class="column-5 pt-5">
       <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disableWhite="data.amountType.Value != 2 || disable">
@@ -174,32 +174,6 @@ export default {
       },
       immediate: true
     },
-    'data.perAccidentBodyAmount': {
-      handler(val, odlVal) {
-        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
-          this.updatedValue('insuranceTotalAmount',((Number(val)+Number(this.data.perAccidentFinanceAmount))*2).toString())
-        }
-      },
-      immediate: true
-    },
-    'data.perAccidentFinanceAmount': {
-      handler(val, odlVal) {
-        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
-          this.updatedValue('insuranceTotalAmount',((Number(this.data.perAccidentBodyAmount)+Number(val))*2).toString())
-        }
-      },
-      immediate: true
-    },
-    'data.insuranceTotalAmount': {
-      handler(val, odlVal) {
-        if ((!odlVal || val.toString() !== odlVal.toString()) && this.data.amountType.Value == 2) {
-          if(val < Number(this.data.perAccidentFinanceAmount) + Number(this.data.perAccidentBodyAmount)) {
-            this.updatedValue('insuranceTotalAmount','')
-          }
-        }
-      },
-      immediate: true
-    },
   },
   computed: {
     amountMinimum() {
@@ -280,13 +254,13 @@ export default {
             selfInflictedAmount: this.data.selfInflictedAmount
           })
         }
-        if(this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) == 2 && value)) {
+        if((this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) == 2) && value)) {
           this.$emit('update:data', {
             ...this.data,
-            perBodyAmount: this.data.perBodyAmount,
-            perAccidentBodyAmount: this.data.perBodyAmount * 5,
-            perAccidentFinanceAmount: this.data.perBodyAmount,
-            insuranceTotalAmount: this.data.perBodyAmount * 12,
+            perBodyAmount: this.data.perBodyAmount? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) : 0,
+            perAccidentBodyAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 5 : 0,
+            perAccidentFinanceAmount: this.data.perBodyAmount? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) : 0,
+            insuranceTotalAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 11 : 0,
             selfInflictedAmount: this.data.selfInflictedAmount
           })
         }

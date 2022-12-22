@@ -10,8 +10,8 @@
       <TableGroup :data="cooperationListTable" :slotName="slotArray" scrollX boldFont>
         <template v-for="(item,index) in cooperationListTable.rows">
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap">
-            <Button outline class="mr-3" @click.native="() => {openDialog = true; cooperationName = item.title; type = 1}">編輯</Button>
-            <Button @click.native="() => {openDialog = true; type = 2}">刪除</Button>
+            <Button outline class="mr-3" @click.native="() => {openDialog = true; cooperation = JSON.parse(JSON.stringify(item)); type = 1}">編輯</Button>
+            <Button @click.native="() => {openDialog = true;cooperation = JSON.parse(JSON.stringify(item)), type = 2}">刪除</Button>
           </div>
         </template>
       </TableGroup>
@@ -19,22 +19,23 @@
     <PopupDialog
       :open.sync="openDialog"
       :headerText="type == 0 ? '新增組織' : (type == 1 ? '編輯組織' : '刪除組織')"
-      @cancel="() => {openDialog = false; cooperationName = ''}"
+      @cancel="() => {openDialog = false; cooperation = {name: '',id: ''}}"
     >
       <div class="w-full" v-if="type < 2">
         <InputGroup title="組織名稱">
-          <Input slot="input" class="w-full" v-model="cooperationName" />
+          <Input slot="input" class="w-full" :value="cooperation.name" @updateValue="e => {cooperation.name = e}" />
         </InputGroup>
       </div>
       <div class="w-full" v-if="type ==2">
         <p class="text-lg">確定刪除此組織？</p>
       </div>
       <div class="w-full flex justify-center mt-8">
-        <Button v-if="type == 0" class="w-40" @click.native="() => {openDialog = false}">新增</Button>
-        <Button v-if="type == 1" class="w-40" @click.native="() => {openDialog = false}">確定修改</Button>
-        <Button v-if="type == 2" class="w-40" @click.native="() => {openDialog = false}">確定刪除</Button>
+        <Button v-if="type == 0" class="w-40" @click.native="confirmDialog('add')">新增</Button>
+        <Button v-if="type == 1" class="w-40" @click.native="confirmDialog('update')">確定修改</Button>
+        <Button v-if="type == 2" class="w-40" @click.native="confirmDialog('delete')">確定刪除</Button>
       </div>
     </PopupDialog>
+    <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
 </template>
 
@@ -46,6 +47,8 @@ import TableGroup from '@/components/TableGroup'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
+import LoadingScreen from '@/components/LoadingScreen.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
     FormTitle,
@@ -54,23 +57,27 @@ export default {
     TableGroup,
     PopupDialog,
     InputGroup,
-    Input
+    Input,
+    LoadingScreen
   },
   data () {
     return {
       openDialog: false,
-      cooperationName: '',
+      cooperation: {
+        name: '',
+        id: ''
+      },
       type: 0,//0新增 1編輯 2刪除
       cooperationListTable: {
         head: [
            {
             text: '組織',
-            value: 'title',
+            value: 'name',
             size: '3-6'
           },
           {
             text: '建立時間',
-            value: 'lumchTime',
+            value: 'createTime',
             size: '3-6'
           },
           {
@@ -79,16 +86,14 @@ export default {
             size: '2-6'
           },
         ],
-        rows: [
-          {
-            title: 'test1',
-            lumchTime: '2020/01/01',
-          }
-        ]
+        rows: []
       },
     }
   },
   computed: {
+    ...mapState({
+      'loading': state => state.app.loading,
+    }),
     slotArray () {
       const arr = []
       const slotArr = ['operate']
@@ -101,10 +106,31 @@ export default {
     },
   },
   methods: {
-    confirmDialog () {
+    async confirmDialog (type) {
+      if(type == 'add') {
+        console.log(this.cooperation)
+        await this.$store.dispatch('underwriteLevelSetting/AddUnderwriteGroup', {name: this.cooperation.name})
+      }
+      if (type == 'update') {
+        await this.$store.dispatch('underwriteLevelSetting/UpdateUnderwriteGroup', {name: this.cooperation.name, id: this.cooperation.id})
+      }
+      if (type == 'delete') {
+        await this.$store.dispatch('underwriteLevelSetting/DeleteUnderwriteGroup', this.cooperation.id)
+      }
+      await this.getGroups()
       this.openDialog = false
-      this.cooperationName = ''
+      this.cooperation = {
+        name: '',
+        id: ''
+      }
+    },
+    async getGroups() {
+      const groups = await this.$store.dispatch('underwriteLevelSetting/GetUnderwriteGroups')
+      this.cooperationListTable.rows = groups.data.content
     }
+  },
+  async mounted () {
+    await this.getGroups()
   }
 }
 </script>

@@ -201,6 +201,8 @@ export const quotation = () => {
         Value: '',
       },
       subAddress: '',
+      numberType: true,
+      prefixNumber: '',
       Mobile: '',
       IsForeignRegister: false,
       RegisterNationality: '',
@@ -234,6 +236,8 @@ export const quotation = () => {
         Value: '',
       },
       subAddress: '',
+      numberType: true,
+      prefixNumber: '',
       Mobile: '',
       IsForeignRegister: false,
       RegisterNationality: '',
@@ -247,13 +251,13 @@ export const quotation = () => {
       Value: '',
     },
     policyTransfer: {
-      transferType: 1,
+      transferType: 2,
       transferDetails: [
         {
           transferDetailType: false,
           transferOriginalType: false,
           transferInfo: '',
-          sort: 0
+          sort: 1
         }
       ]
     },
@@ -301,8 +305,8 @@ export const quotation = () => {
           hasWireInTube: null,//所有電線是否裝在館內避免短路
         },
         part3: {
-          useRoadhasAccessByTransportation: null,//使用道路者 是否經交通主管認許
-          afterActivityhasAccessByTransportation: null,//未使用道路者 活動結束後散場動線是否經交通主管認許
+          useRoadHasAccessByTransportation: null,//使用道路者 是否經交通主管認許
+          afterActivityHasAccessByTransportation: null,//未使用道路者 活動結束後散場動線是否經交通主管認許
           hasSegmentWithInsurancePlaceAndLane: null,//保險處所與車道有無有效區隔
         },
         part4: {
@@ -483,8 +487,8 @@ export const quotation = () => {
         hasWireInTube: null,//所有電線是否裝在管內(含踏板)以避免短路
       },
       part5: {
-        useRoadhasAccessByTransportation: null,//使用道路者，對附近交通之衝擊是否經交通主管機關認許
-        afterActivityhasAccessByTransportation: null,//未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許
+        useRoadHasAccessByTransportation: null,//使用道路者，對附近交通之衝擊是否經交通主管機關認許
+        afterActivityHasAccessByTransportation: null,//未使用道路者，對附近交通之衝擊、停車事宜、行人及活動結束後之散場動線是否經交通主管機關認許
         hasSegmentWithInsurancePlaceAndLane: null,//保險處所與車道有無有效區隔(含車道與人員動線安排)
       },
       part6: {
@@ -598,7 +602,7 @@ export const quotation = () => {
         value2: '',//幼兒
       },
       PL005: {//建築物承租人火災附加條款
-        value1: '',//每一意外事故
+        value1: '100',//每一意外事故
         value2: '',//處所數量
       },
       PL016: {//獨立承攬人責任附加條款
@@ -640,10 +644,10 @@ export const quotation = () => {
         value1: '',
       },
       PL053: {//傷害醫療及身故慰問金費用附加條款
-        value1: '',
-        value2: '',
-        value3: '',
-        value4: '',
+        value1: '2000',
+        value2: '10000',
+        value3: '20000',
+        value4: '40000',
       },
       PL055: {//營業中斷損失責任附加條款
         value1: '',

@@ -18,11 +18,11 @@
       type="place"
     />
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
-      <Button v-if="InsuranceActive !== 6" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
+      <Button v-if="InsuranceActive !== 7"  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
+      <Button v-if="(PolicyStatus == 0 || PolicyStatus == 1 || PolicyStatus == 2 || PolicyStatus == 6 || PolicyStatus == 7) && InsuranceActive !== 6 && InsuranceActive !== 7" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
       <Button
-        v-if="false && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
+        v-if="(PolicyStatus == 1 || PolicyStatus == 0) && InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-8 w-40 md:w-64 "
@@ -30,10 +30,16 @@
         開始核保
       </Button>
        <Button
-        v-else-if="quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6)"
+        v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
         class="my-8 w-40 md:w-64 ">確認報價</Button>
+      <template v-if="InsuranceActive == 7">
+        <Button v-if="(underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel != 6) || (underwriteStatus.underwriteDirection == 0 && underwriteStatus.isLastActionEditUnderwrite && underwriteStatus.employeeUnderwriteLevel != 6)" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(1)">向上核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(2)">完成核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 0 && !underwriteStatus.isLastActionEditUnderwrite" class="my-8 w-40 md:w-64 mr-5" @click.native="updateUnderwrite(4)">確認審核結果</Button>
+      </template>
     </div>
     <ViewModelSticker v-if="viewModel" @openDialog="(e) => historyDialog = e"/>
     <QuoteHistory :open.sync="historyDialog"/>
@@ -120,6 +126,7 @@ export default {
           placeInfo: [],
         }
       },
+      underwriteStatus: {},
       countyAmount: []
     }
   },
@@ -136,6 +143,7 @@ export default {
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
       InsuranceActive: state => state.place.InsuranceActive,
+      PolicyStatus: state => state.place.PolicyStatus,
     }),
     InsuranedData: {
       get() {
@@ -216,30 +224,40 @@ export default {
         confirm: true,
         ok: '確定',
         cancel: '取消',
-        htmlText: `<p>完成報價後將無法改動報價內容，確定完成報價？</p>`,
+        htmlText: `<p>${key? '完成報價' : '開始核保' }後將無法改動報價內容，確定完成報價？</p>`,
       }).then(async () => {
         if(key) {
           await this.$store.dispatch('quotation/FinishQuotation', {orderNo: this.orderNo})
         } else {
-          await this.$store.dispatch('quotation/BeginUnderwriting',{orderNo: this.orderNo})
+          await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
         }
         this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
       })
     },
+    async updateUnderwrite(type) {
+      await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
+      this.packHome()
+        this.$store.dispatch('common/updatedCalculateModel', false)
+        this.$store.dispatch(`place/updatedInsuranceActive`,0)
+    }
   },
   async mounted() {
     await this.quotationDetail()
     const county = await this.$store.dispatch('resource/CountyMinimumSettings')
     this.countyAmount = county.data.content
+    if(this.InsuranceActive == 7) {
+      const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
+      this.underwriteStatus = underwriteStatus.data.content
+    }
   },
-  // destroyed() {
-  //   this.$store.dispatch('place/clearAll')
-  //   this.$store.dispatch('place/updatedUUID', '')
-  //   this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
-  //   this.$store.dispatch(`place/updatedInsuranceActive`,0)
-  // }
+  destroyed() {
+    this.$store.dispatch('place/clearAll')
+    this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo:''})
+    this.$store.dispatch('common/updatedCalculateModel', false)
+    this.$store.dispatch('place/updatedInsuranceActive', 0)
+  }
 }
 </script>
 

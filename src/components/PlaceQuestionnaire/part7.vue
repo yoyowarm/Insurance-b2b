@@ -134,12 +134,12 @@
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full w-40 sm:pl-24 mt-4 text-lg">海龍(halon)</span>
       <div class="flex">
-        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.part7.fireExtinguisher"
+            :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.halon.indoor"
             @updateValue="(e) => updateValue(e,'halon.indoor')"
             numberOnly
@@ -156,38 +156,39 @@
         text="其他，請詳述之"
         :checked="data.part7.hasOtherExtinguishing"
         :value="data.part7.hasOtherExtinguishing"
+        :disabled="disable"
         @updateValue="(e) =>updateValue(e,'hasOtherExtinguishing')"
       />
-      <InputGroup noMt class="ml-0 sm:ml-4 w-full sm:w-9/12" :disable="!data.part7.hasOtherExtinguishing">
+      <InputGroup noMt class="ml-0 sm:ml-4 w-full sm:w-9/12" :disable="disable || !data.part7.hasOtherExtinguishing">
         <Input
           slot="input"
           placeholder="輸入內容"
           :value="data.part7.otherExtinguishingRemark"
-          :disable="!data.part7.hasOtherExtinguishing"
+          :disable="disable || !data.part7.hasOtherExtinguishing"
           @updateValue="(e) => updateValue(e,'otherExtinguishingRemark')"
         />
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4">
         <div class="flex flex-row justify-between">
-          <RadioInput text="是" id="hasSprinkler" :value="data.part7.hasSprinkler === true" @updateValue="updateValue(true, 'hasSprinkler')"/>
-          <RadioInput class="mx-2" text="否" id="sprinkle2" :value="data.part7.hasSprinkler === false" @updateValue="updateValue(false, 'hasSprinkler')"/>
+          <RadioInput :disabled="disable" text="是" id="hasSprinkler" :value="data.part7.hasSprinkler === true" @updateValue="updateValue(true, 'hasSprinkler')"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" id="sprinkle2" :value="data.part7.hasSprinkler === false" @updateValue="updateValue(false, 'hasSprinkler')"/>
       </div>
       <div class=" text-lg">是否有自動灑水系統</div>
     </div>
     <div class="w-full flex flex-row mt-4">
         <div class="flex flex-row justify-between">
-          <RadioInput text="是" id="hasGasExtinguishing" :value="data.part7.hasGasExtinguishing === true" @updateValue="updateValue(true, 'hasGasExtinguishing')"/>
-          <RadioInput class="mx-2" text="否" id="hasGasExtinguishin2" :value="data.part7.hasGasExtinguishing === false" @updateValue="updateValue(false, 'hasGasExtinguishing')"/>
+          <RadioInput :disabled="disable" text="是" id="hasGasExtinguishing" :value="data.part7.hasGasExtinguishing === true" @updateValue="updateValue(true, 'hasGasExtinguishing')"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" id="hasGasExtinguishin2" :value="data.part7.hasGasExtinguishing === false" @updateValue="updateValue(false, 'hasGasExtinguishing')"/>
       </div>
       <div class=" text-lg">是否有氣體滅火系統</div>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="氣體滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasGasExtinguishing">
+      <InputGroup lgTitle title="氣體滅火系統安裝於何處" class="col-span-3" :disable="disable || !data.part7.hasGasExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.part7.hasGasExtinguishing"
+          :disable="disable || !data.part7.hasGasExtinguishing"
           :value="data.part7.gasExtinguishingInstall"
           @updateValue="(e) => updateValue(e,'gasExtinguishingInstall')"
         />
@@ -195,17 +196,17 @@
     </div>
     <div class="w-full flex flex-row mt-4">
         <div class=" flex flex-row justify-between">
-          <RadioInput text="是" id="hasFoamExtinguishing" :value="data.part7.hasFoamExtinguishing === true" @updateValue="updateValue(true, 'hasFoamExtinguishing')"/>
-          <RadioInput class="mx-2" text="否" id="hasFoamExtinguishing2" :value="data.part7.hasFoamExtinguishing === false" @updateValue="updateValue(false, 'hasFoamExtinguishing')"/>
+          <RadioInput :disabled="disable" text="是" id="hasFoamExtinguishing" :value="data.part7.hasFoamExtinguishing === true" @updateValue="updateValue(true, 'hasFoamExtinguishing')"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" id="hasFoamExtinguishing2" :value="data.part7.hasFoamExtinguishing === false" @updateValue="updateValue(false, 'hasFoamExtinguishing')"/>
       </div>
       <div class="text-lg">是否有泡沫滅火系統</div>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasFoamExtinguishing">
+      <InputGroup lgTitle title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="disable || !data.part7.hasFoamExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.part7.hasFoamExtinguishing"
+          :disable="disable || !data.part7.hasFoamExtinguishing"
           :value="data.part7.foamExtinguishingInstall"
           @updateValue="(e) => updateValue(e,'foamExtinguishingInstall')"
         />
@@ -213,17 +214,17 @@
     </div>
     <div class="w-full flex flex-row mt-4">
         <div class=" flex flex-row justify-between">
-          <RadioInput text="是" id="hasWaterMistExtinguishing" :value="data.part7.hasWaterMistExtinguishing === true" @updateValue="updateValue(true, 'hasWaterMistExtinguishing')"/>
-          <RadioInput class="mx-2" text="否" id="hasWaterMistExtinguishing2" :value="data.part7.hasWaterMistExtinguishing === false" @updateValue="updateValue(false, 'hasWaterMistExtinguishing')"/>
+          <RadioInput :disabled="disable" text="是" id="hasWaterMistExtinguishing" :value="data.part7.hasWaterMistExtinguishing === true" @updateValue="updateValue(true, 'hasWaterMistExtinguishing')"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" id="hasWaterMistExtinguishing2" :value="data.part7.hasWaterMistExtinguishing === false" @updateValue="updateValue(false, 'hasWaterMistExtinguishing')"/>
       </div>
       <div class="text-lg">是否有水霧滅火系統</div>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="水霧滅火系統安裝於何處" class="col-span-3" :disable="!data.part7.hasWaterMistExtinguishing">
+      <InputGroup lgTitle title="水霧滅火系統安裝於何處" class="col-span-3" :disable="disable || !data.part7.hasWaterMistExtinguishing">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
-          :disable="!data.part7.hasWaterMistExtinguishing"
+          :disable="disable || !data.part7.hasWaterMistExtinguishing"
           :value="data.part7.waterMistExtinguishingInstall"
           @updateValue="(e) => updateValue(e,'waterMistExtinguishingInstall')"
         />
@@ -231,8 +232,8 @@
     </div>
     <div class="w-full flex flex-row mt-4" :class="{'dashed-border': index == questionList.length-1}" v-for="(item,index) in questionList" :key="item">
         <div class=" flex flex-row justify-between">
-          <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-          <RadioInput class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+          <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
       </div>
         <div class=" text-lg">{{item}}</div>
     </div>
@@ -257,6 +258,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

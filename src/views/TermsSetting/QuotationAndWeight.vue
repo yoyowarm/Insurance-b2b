@@ -15,6 +15,24 @@
           <div :slot="`weight-${index}`" :key="`weight${index}`" class="flex whitespace-no-wrap">
             <Input :value="item.weight.toString()" @updateValue="e =>{ item.weight = e}" class="md:mr-4 weight-input w-full sm:w-24" :disable="!item.edit"/>
           </div>
+          <div :slot="`activityEnable-${index}`" :key="`activityEnable${index}`" class="w-full flex sm:justify-center items-center whitespace-no-wrap">
+            <font-awesome-icon v-if="item.isActivityEnable" @click="() =>{ if(item.edit){item.isActivityEnable = !item.isActivityEnable}}" class="text-lg mr-2" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye']" />
+            <font-awesome-icon v-else @click="() =>{ if(item.edit){item.isActivityEnable = !item.isActivityEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye-slash']" />
+            <div class="sm:hidden flex whitespace-no-wrap">
+              <span class="pr-3" @click="() =>{ if(item.edit){item.isActivityEnable = !item.isActivityEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}">顯示</span>
+              <span class="text-gray-300 pr-3">/</span>
+              <span class=" text-gray-300" @click="() =>{ if(item.edit){item.isActivityEnable = !item.isActivityEnable}}" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">隱藏</span>
+            </div>
+          </div>
+          <div :slot="`placeEnable-${index}`" :key="`placeEnable${index}`" class="w-full flex sm:justify-center items-center whitespace-no-wrap">
+            <font-awesome-icon v-if="item.isPlaceEnable" @click="() =>{ if(item.edit){item.isPlaceEnable = !item.isPlaceEnable}}" class="text-lg mr-2" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye']" />
+            <font-awesome-icon v-else @click="() =>{ if(item.edit){item.isPlaceEnable = !item.isPlaceEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye-slash']" />
+            <div class="sm:hidden flex whitespace-no-wrap">
+              <span class="pr-3" @click="() =>{ if(item.edit){item.isPlaceEnable = !item.isPlaceEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}">顯示</span>
+              <span class="text-gray-300 pr-3">/</span>
+              <span class=" text-gray-300" @click="() =>{ if(item.edit){item.isPlaceEnable = !item.isPlaceEnable}}" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">隱藏</span>
+            </div>
+          </div>
           <div :slot="`hasQuotation-${index}`" :key="`hasQuotation${index}`" class="flex whitespace-no-wrap">
             <span
               class="pr-3"
@@ -97,7 +115,7 @@ export default {
     },
     slotArray () {
       const arr = []
-      const slotArr = [ 'weight','hasQuotation', 'operate']
+      const slotArr = [ 'weight','hasQuotation','activityEnable','placeEnable', 'operate']
       for (let i = 0; i < this.weightListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -134,7 +152,9 @@ export default {
         await this.$store.dispatch('additionTermSetting/editAdditionTerm', {
           additionTermId: this.weightListTable.rows[index].additionTermId,
           weight: Number(this.weightListTable.rows[index].weight),
-          hasQuotation: this.weightListTable.rows[index].hasQuotation
+          hasQuotation: this.weightListTable.rows[index].hasQuotation,
+          isPlaceEnable: this.weightListTable.rows[index].isPlaceEnable,
+          isActivityEnable: this.weightListTable.rows[index].isActivityEnable
         })
         await this.getAdditionTerms((this.currentPage-1)*10,10, this.currentPage)
       }

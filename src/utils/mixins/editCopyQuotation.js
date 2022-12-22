@@ -14,11 +14,7 @@ export default {
         { Value: 100000, Text: '100,000元' },
         { Value: 200000, Text: '200,000元' },
       ],
-      amountList: [
-        { Value: 0, Text: '依各縣市規定' },
-        { Value: 1, Text: '合併單一限額' },
-        { Value: 2, Text: '自行輸入保額' },
-      ],
+      amountList: ['依各縣市規定', '合併單一限額', '自行輸入保額'],
       IDRegex
     }
   },
@@ -179,7 +175,8 @@ export default {
       if (this.quotationData.insuranceAmounts.length > 0) {//保險金額/自負額
         this.insuranceAmountListData = {
           ...this.quotationData.insuranceAmounts[0],
-          amountType: this.amountList.find(item => item.Value == this.quotationData.insuranceAmounts[0].amountType),
+          amount: this.InsuranceActive == 7 && this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
+          amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
           insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
           mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
           perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
@@ -187,6 +184,19 @@ export default {
           perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
           selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
         }
+        setTimeout(() => {
+          this.insuranceAmountListData = {
+            ...this.quotationData.insuranceAmounts[0],
+            amount: this.InsuranceActive == 7 && this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
+            amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
+            insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
+            mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
+            perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
+            perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
+            perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
+            selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+          }
+        }, 10)
       }
       if (this.quotationData[quotationType].insuranceBeginDate) {//保險期間
         this.periodData = {
@@ -272,7 +282,9 @@ export default {
           City: this.quotationData.insuraned.cityId ? this.countyList.find(i => i.Value == this.quotationData.insuraned.cityId) : { Text: '選擇縣市', Value: '', },
           Area: this.quotationData.insuraned.areaId ? this.InsuranedAreaList.find(i => i.areaId == this.quotationData.insuraned.areaId) : { Text: '選擇區域', Value: '', },
           subAddress: this.quotationData.insuraned.subAddress,
-          Mobile: this.quotationData.insuraned.mobile,
+          numberType: !this.quotationData.insuraned.mobile || /^09/.test(this.quotationData.insuraned.mobile) ? true : false,
+          prefixNumber: this.quotationData.insuraned.mobile ? (/^09/.test(this.quotationData.insuraned.mobile) ? '' : this.quotationData.insuraned.mobile.toString().slice(0, 2)) : '',
+          Mobile: this.quotationData.insuraned.mobile ? (/^09/.test(this.quotationData.insuraned.mobile) ? this.quotationData.insuraned.mobile : this.quotationData.insuraned.mobile.toString().slice(2,)) : '',
           IsForeignRegister: this.quotationData.insuraned.isForeignRegister,
           RegisterNationality: this.quotationData.insuraned.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) : { Text: '', Value: '' }) : { Text: '', Value: '' },
           Profession: this.quotationData.insuraned.isProfession,
@@ -298,7 +310,9 @@ export default {
           City: this.quotationData.applicant.cityId ? this.countyList.find(i => i.Value == this.quotationData.applicant.cityId) : { Text: '選擇縣市', Value: '', },
           Area: this.quotationData.applicant.areaId ? this.ApplicantAreaList.find(i => i.areaId == this.quotationData.applicant.areaId) : { Text: '選擇區域', Value: '', },
           subAddress: this.quotationData.applicant.subAddress,
-          Mobile: this.quotationData.applicant.mobile,
+          numberType: !this.quotationData.insuraned.mobile || /^09/.test(this.quotationData.insuraned.mobile) ? true : false,
+          prefixNumber: this.quotationData.insuraned.mobile ? (/^09/.test(this.quotationData.insuraned.mobile) ? '' : this.quotationData.insuraned.mobile.toString().slice(0, 2)) : '',
+          Mobile: this.quotationData.insuraned.mobile ? (/^09/.test(this.quotationData.insuraned.mobile) ? this.quotationData.insuraned.mobile : this.quotationData.insuraned.mobile.toString().slice(2,)) : '',
           IsForeignRegister: this.quotationData.applicant.isForeignRegister,
           RegisterNationality: this.quotationData.applicant.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) ? this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) : { Text: '', Value: '' }) : { Text: '', Value: '' },
           Profession: this.quotationData.applicant.isProfession,
@@ -326,7 +340,7 @@ export default {
               transferDetailType: false,
               transferOriginalType: false,
               transferInfo: '',
-              sort: 0
+              sort: 1
             }]
         }
       }

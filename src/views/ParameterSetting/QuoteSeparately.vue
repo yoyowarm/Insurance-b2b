@@ -12,7 +12,7 @@
         <TableGroup class="w-full" :data="quoteSeparatelyTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in quoteSeparatelyTable.rows">
           <div :slot="`name-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
-            {{item.level == 1 ? '分公司核保門檻' : '分公司核保上限'}}
+            {{levelText[item.level]}}
           </div>
           <div :slot="`perBodyAmount-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
@@ -86,6 +86,14 @@ export default {
         { text: '處所', value: 1 },
         { text: '活動', value: 2 }
       ],
+      levelText: {
+        1: '分公司核保門檻',
+        2: '分公司核保上限',
+        3: '總公司核保上限',
+        4: '總公司科處主管上限',
+        5: '總公司部室主管上限',
+        6: '協理、副總上限',
+      }
     }
   },
   computed: {

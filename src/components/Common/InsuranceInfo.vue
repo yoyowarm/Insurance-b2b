@@ -18,8 +18,38 @@
       </InputGroup>
     </div>
     <div class="column-5 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" title="電話" lgTitle mid :disable="disable">
-        <Input slot="input" placeholder="輸入號碼" :value="copyInfo.Mobile" @updateValue="(e) => updateInfo('Mobile', e)" :disable="disable"/>
+      <InputGroup class="w-full" title="通訊方式" :disable="disable" lgTitle mid dash>
+        <SwitchInput
+          slot="input"
+          :id="`${type}numberType`"
+          :value="copyInfo.numberType"
+          checkedText="手機"
+          uncheckedText="市話"
+          :disable="disable"
+          @updateValue="(e) =>updateInfo('numberType', e)"
+        />
+      </InputGroup>
+      <InputGroup class="w-full" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
+        <div slot="input" class="flex flex-row">
+          <Input
+            v-if="!copyInfo.numberType"
+            class="w-28 border-r-2"
+            placeholder="區碼"
+            :maxLength="4"
+            :value="copyInfo.prefixNumber"
+            @updateValue="(e) => updateInfo('prefixNumber', e)"
+            @blurInput="phoneVerify('prefixNumber')"
+            :disable="disable"
+          />
+          <Input
+            placeholder="輸入號碼"
+            :value="copyInfo.Mobile"
+            @updateValue="(e) => updateInfo('Mobile', e)"
+            @blurInput="phoneVerify('Mobile')"
+            :disable="disable"
+            :maxLength="copyInfo.numberType ? 10 : 8"
+          />
+        </div>
       </InputGroup>
       <InputGroup class="w-full" title="國籍" :disable="disable" lgTitle mid dash>
         <SwitchInput
@@ -59,7 +89,7 @@
       </InputGroup>
     </div>
     <div class="column-5">
-      <InputGroup class="item" title="居住地址(選填)" lgTitle mid :disable="disable" dash>
+      <InputGroup class="item" title="通訊地址" lgTitle mid :disable="disable" dash>
         <Select
           slot="input"
           defaultText="選擇縣市"
@@ -205,6 +235,7 @@ export default {
   },
   data () {
     return {
+      numberType: true,
       copyInfo: {
         ...this.info
       },
@@ -232,6 +263,10 @@ export default {
           Text: '選擇國籍'
         })
       }
+    },
+    'copyInfo.numberType'() {
+      this.updateInfo('prefixNumber', '')
+      this.updateInfo('Mobile', '')
     }
   },
   methods: {
@@ -240,6 +275,23 @@ export default {
     },
     updateInfo (key, value) {
       this.$emit('update:info', Object.assign(this.copyInfo, { [key]: value }))
+    },
+    phoneVerify(type) {
+      const isNumber = new RegExp(/^\d/g)
+      const isPhone = new RegExp(/^09+\d{0,8}/g)
+      const isTelephone = new RegExp(/^0+[2-8]{1}.*/)
+
+      console.log(type,this.copyInfo.numberType, isTelephone.test(this.copyInfo[type]),this.copyInfo[type])
+      if(!isNumber.test(this.copyInfo[type]) ||
+        (type == 'Mobile' && this.copyInfo.numberType && !isPhone.test(this.copyInfo[type])) ||
+        (type == 'prefixNumber' && !this.copyInfo.numberType && !isTelephone.test(this.copyInfo[type]))
+        ) {
+        Popup.create({
+          hasHtml: true,
+          htmlText: '請輸入正確電話號碼',
+        })
+       this.updateInfo(type, '')
+      }
     },
     idVerify() {
       if(this.IDRegex(this.copyInfo.ID).every(item => !item)) {

@@ -107,6 +107,7 @@
           <InputGroup noMt>
             <Input
               slot="input"
+              class="w-full"
               :value="dialog.type == 6 ? createGroup.groupName : currentItem.groupName"
               @updateValue="e=>{ dialog.type == 6 ? createGroup.groupName = e : currentItem.groupName = e}"
             />
@@ -143,7 +144,7 @@
             <Select slot="input" defaultText="選擇權限" :options="groupsList" :selected="createUser.groupId"  @emitItem="e =>{ createUser.groupId = e.Value}"/>
           </InputGroup>
         </div>
-        <div class="column-2">
+        <div class="column-2 mt-3">
           <InputGroup title="帳號狀態">
             <Select slot="input" defaultText="選擇狀態" :options="employeeStatusList" @emitItem="e => {createUser.employeeStatus = e}"/>
           </InputGroup>
@@ -151,7 +152,7 @@
             <Input slot="input" placeholder="輸入E-mail" :value="createUser.email" @updateValue="e => {createUser.email = e}"/>
           </InputGroup>
         </div>
-        <div class="column-2">
+        <div class="column-2 mt-3">
           <InputGroup title="分機">
             <Input slot="input" placeholder="輸入分機" :value="createUser.extension" @updateValue="e => {createUser.extension = e}"/>
           </InputGroup>
@@ -180,6 +181,7 @@ import WindowResizeListener from '@/components/WindowResizeListener'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import { membersListTable, groupListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
+import { Popup } from '@/utils/popups'
 export default {
   components:{
     CommonBoard,
@@ -223,7 +225,7 @@ export default {
       createUser: {
         employeeId: '',
         employeeName: '',
-        employeeStatus: '',
+        employeeStatus: 0,
         email: '',
         extension: '',
       },
@@ -275,7 +277,8 @@ export default {
     },
     async changePage(page) {
       if(this.currentPage === page || page < 1) return
-      // this.$store.dispatch('app/updatedCurrentPage',page)
+      this.$store.dispatch('app/updatedCurrentPage',page)
+      await this.getUser(page)
     },
     callDialog(type,title, okText, item) {
       this.openDialog = true
@@ -292,7 +295,7 @@ export default {
         this.createUser = {
           employeeId: '',
           employeeName: '',
-          employeeStatus: '',
+          employeeStatus: '停用',
           email: '',
           extension: '',
         }
@@ -320,8 +323,16 @@ export default {
     async confirmDialog() {
       if(this.dialog.type === 7) {//新增成員
         const data = {...this.createUser}
-        data.employeeStatus = Number(this.createUser.employeeStatus.Value)
-        await this.$store.dispatch('permissionSetting/AddUsers', data)
+        const rex = new RegExp(/\(+\w+\)/, 'g')
+        data.employeeName = data.employeeName.split(rex)[1]
+        data.employeeStatus = Number(this.createUser.employeeStatus)
+        const res = await this.$store.dispatch('permissionSetting/AddUsers', data)
+        if(res.data.message) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: res.data.message
+          })
+        }
         await this.getUser()
       }
       if(this.dialog.type === 1) {//編輯成員
@@ -364,6 +375,16 @@ export default {
         await this.groupInit()
         this.currentItem = {permissions: []}
       }
+      if(this.dialog.type !== 7 && this.dialog.type !== 1 && this.dialog.type !== 2 ) {
+        const groupsList = await this.$store.dispatch('resource/PermissionSettingGroups')
+        this.groupsList = groupsList.data.content.map(item => {
+        return {
+          ...item,
+          Text: item.groupName,
+          Value: item.groupId
+        }
+      })
+      }
     },
     async pageInit() {
       const groupsList = await this.$store.dispatch('resource/PermissionSettingGroups')
@@ -371,7 +392,7 @@ export default {
       this.taianUsers = taianUsers.data.content.map(item => {
         return {
           ...item,
-          Text: item.employeeName,
+          Text:  `(${item.employeeNumber})${item.employeeName}`,
           Value: item.employeeNumber
         }
       })
@@ -402,8 +423,8 @@ export default {
       const permissions = await this.$store.dispatch('resource/PermissionSettingGroupPermissions')
       this.permissionsList = permissions.data.content
     },
-    async getUser() {
-      const usersList = await this.$store.dispatch('resource/PermissionSettingUsers', 0)
+    async getUser(page) {
+      const usersList = await this.$store.dispatch('resource/PermissionSettingUsers', page ? (page-1)*10 : 0)
       this.membersListTable.rows = usersList.data.content.userPermissionSettings.map(item => {
         return {
           ...item,
@@ -411,8 +432,9 @@ export default {
           groupId: this.groupsList.find(i => i.Text === item.groupName).Value.toString(),
         }
       })
-      this.$store.dispatch('app/updatedCurrentPage',1)
+      this.$store.dispatch('app/updatedCurrentPage',page ? page: 1)
       this.$store.dispatch('app/updatedTotalPage',Math.ceil(usersList.data.content.totalCount/10))
+      window.scrollTo({top: 0, behavior: 'smooth'})
     }
   },
   async mounted() {

@@ -13,19 +13,19 @@
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
-        :disable="InsuranceActive == 1 || InsuranceActive == 3"
+        :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :InsuranceActive="InsuranceActive"
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
-      <Address :lists.sync="placeInfoData" :cityList="countyList" :areaList="ApplicantAreaList"/>
+      <Address :lists.sync="placeInfoData" :cityList="countyList" :areaList="ApplicantAreaList" :disable="InsuranceActive == 7"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
-        <InputGroup class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3">
+        <InputGroup class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
           <Select
             slot="input"
-            :disable="InsuranceActive == 1 || InsuranceActive == 3"
+            :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
             defaultText="選擇關係"
             :options="relationShips"
             :selected="Relation.Value"
@@ -48,7 +48,7 @@
         }"
       />
       <InsuranceInfo
-        :disable="sameAsInsured || Relation.Value =='RL00' || InsuranceActive == 1 || InsuranceActive == 3"
+        :disable="sameAsInsured || Relation.Value =='RL00' || InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :marginTop="marginTop"
         :info.sync="ApplicantData"
         :nationalities="nationalities"
@@ -59,22 +59,9 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <EmailPolicy  :eletric.sync="policyTransferData"/>
-    <CommonBoard class="mb-5">
-      <FormTitle classList="text-xl text-gray-700" title="紙本保單">
-        <Checkbox
-          class="my-1.5"
-          id="paper"
-          :checked="policyTransferData.transferType == 2"
-          :value="policyTransferData.transferType == 2"
-          :disabled="policyTransferData.transferType == 2"
-          @updateValue="(e) =>{ if(policyTransferData.transferType !== 2){policyTransferData.transferType = 2}}"
-          slot="left"
-        />
-      </FormTitle>
-    </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3">
-      <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
+    <EmailPolicy  :eletric.sync="policyTransferData" :disable="InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
+    <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+      <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="InsuranceActive!==2" @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
@@ -99,13 +86,13 @@ import Address from '@/components/Place/Address'
 import mixinVerify from '@/utils/mixins/verifyStep2'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
+import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
-import FormTitle from '@/components/FormTitle'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {
-  mixins: [mixinVerify, editCopyQuotation,routeChange],
+  mixins: [mixinVerify, editCopyQuotation,routeChange,audit],
   components: {
     CommonBoard,
     Button,
@@ -118,7 +105,6 @@ export default {
     BrokerInfo,
     Address,
     EmailPolicy,
-    FormTitle
   },
   data() {
     return {
@@ -136,7 +122,8 @@ export default {
         1:'更正報價單',
         2:'修改要被保人',
         3: '新增序號',
-        4: '下一步'
+        4: '下一步',
+        7: '下一步',
       }
     }
   },
@@ -158,6 +145,8 @@ export default {
       quotationData: state => state.place.quotationData,
       'userInfo': state => state.home.userInfo,
       policyTransfer: state => state.place.policyTransfer,
+      underwriteQuotationData: state => state.place.underwriteQuotationData,
+      underwriteQuotationIsChange: state => state.place.underwriteQuotationIsChange,
     }),
     InsuranedData: {
       get() {
@@ -281,7 +270,9 @@ export default {
           City: this.countyList.find(i => i.Value == detailData.cityId) ? this.countyList.find(i => i.Value == detailData.cityId) : { Text: '', Value: '' },
           Area: this.ApplicantAreaList.find(i => i.areaId == detailData.areaId)? this.ApplicantAreaList.find(i => i.areaId == detailData.areaId): { Text: '', Value: '' } ,
           subAddress: detailData.subAddress,
-          Mobile: detailData.mobile,
+          numberType: !detailData.mobile || /^09/.test(detailData.mobile) ? true : false,
+          prefixNumber: detailData.mobile ? (/^09/.test(detailData.mobile) ? detailData.mobile.toString().slice(0,4,): detailData.mobile.toString().slice(0,2)) : '',
+          Mobile: detailData.mobile ? (/^09/.test(detailData.mobile) ? detailData.mobile.toString().slice(4,): detailData.mobile.toString().slice(2,)) : '',
           IsForeignRegister: detailData.isForeignRegister,
           RegisterNationality: detailData.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == detailData.registerNationality)?this.nationalities.find(i => i.Text == detailData.registerNationality):{Text: '', Value: ''}) : { Text: '', Value: '' },
           Profession: detailData.isProfession,
@@ -381,6 +372,11 @@ export default {
             await this.checkPreventOccupy()
             await this.verifyResultPopup()
           })
+        } else if (this.InsuranceActive ==7) {
+          if(this.underwriteQuotationIsChange) {
+            await this.updateUnderwritePlaceQuotation(this.underwriteQuotationData)
+          }
+          this.$router.push('/place-quotation/step3')
         } else {
           await this.checkPreventOccupy()
           await this.verifyResultPopup()
@@ -428,6 +424,7 @@ export default {
         city: this.Insuraned.City.Text,
         areaId: this.Insuraned.Area.Value,
         area: this.Insuraned.Area.Text,
+        Mobile: `${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`,
         zipCode: this.ApplicantAreaList.find(item => item.Value == this.Insuraned.Area.Value).zipCode,
         nationalityName: this.Insuraned.Nationality.Text,
         registerNationality: this.Insuraned.RegisterNationality.Text,
@@ -441,6 +438,7 @@ export default {
         city: this.Applicant.City.Text,
         areaId: this.Applicant.Area.Value ,
         area: this.Applicant.Area.Text,
+        Mobile: `${this.Applicant.prefixNumber}${this.Applicant.Mobile}`,
         zipCode: this.ApplicantAreaList.find(item => item.Value == this.Applicant.Area.Value).zipCode,
         nationalityName: this.Applicant.Nationality.Text,
         registerNationality: this.Applicant.RegisterNationality.Text,

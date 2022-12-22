@@ -61,6 +61,10 @@ export default {
     maxLength: {
       type: Number,
       default: 10000
+    },
+    negative: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -100,7 +104,9 @@ export default {
           return
         } 
         const regex = new RegExp(/^0{0,}/, 'g');
+        const regex2 = new RegExp(/\./, 'g');
         inputValue = inputValue ? inputValue.replace(regex, '') : ''
+        inputValue = inputValue ? inputValue.replace(regex2, '') : ''
         this.$nextTick(() => {
           this.$refs.input.value = inputValue
         })
@@ -131,6 +137,7 @@ export default {
           inputValue = value
         } else {
           inputValue = value.slice(0, value.length -2)
+          this.$refs.input.value = value.slice(0, value.length -2)
         }
       }
       if(this.decimalPoint3) {

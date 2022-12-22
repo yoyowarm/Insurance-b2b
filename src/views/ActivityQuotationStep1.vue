@@ -19,7 +19,7 @@
         @removeItem="(index) => $store.dispatch('activity/deleteActivityInfo',index)"
         :countyList="countyList"
         :areaList="areaList"
-        :disable="calculateModel"
+        :disable="calculateModel || InsuranceActive == 7"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
@@ -45,6 +45,7 @@
         :terms.sync="termsData"
         :termsLists="additionTermsList.filter(item => !item.isSuggest)"
         :disable="calculateModel"
+        :more="true"
       />
     </CommonBoard>
     <TermConditions type="activity" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest)" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0" :disable="calculateModel"/>
@@ -67,12 +68,25 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="() => { if(!calculateModel) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
+        <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire type="activity" :open.sync="openQuestionnaire" :questionnaire="questionnaire" :orderNo="orderNo"/>
+    <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
+    <ActivityModifyAmount
+      :open.sync="openAudit"
+      :insuranedName="quotationData.insuraned ? quotationData.insuraned.name : ''"
+      :orderNo="orderNo"
+      :additionTermCoefficientParameter="insuranceAmountListData.parameter.additionTermCoefficientParameter"
+      :aggAOACoefficient="insuranceAmountListData.parameter.aggAOACoefficient"
+      :periodParameter="insuranceAmountListData.parameter.periodParameter"
+      :sizeCofficient="insuranceAmountListData.parameter.sizeParameter"
+      :premium="insuranceAmountListData.amount"
+      :insideCalculateAmount="parameter"
+      @auditCalculateAmount="activityAuditCalculateAmount"
+      @updateParameter="updateParameter"
+    />
     <PopupDialog
       :open.sync="openFormula"
     >
@@ -113,18 +127,20 @@ import TermConditions from '@/components/Common/TermConditions'
 import Questionnaire from '@/components/PopupDialog/ActivityQuestionnaire.vue'
 import FileUpload from '@/components/InputGroup/FileUpload.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
+import audit from '@/utils/mixins/audit'
 import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import ActivityModifyAmount from '@/components/PopupDialog/ActivityModifyAmount'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
 import { numFormat } from '@/utils/regex'
 export default {
-  mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire],
+  mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire, audit],
   components: {
     CommonBoard,
     InputGroup,
@@ -141,7 +157,8 @@ export default {
     Questionnaire,
     FileUpload,
     LoadingScreen,
-    PopupDialog
+    PopupDialog,
+    ActivityModifyAmount
   },
   data () {
     return {
@@ -159,6 +176,7 @@ export default {
       attachmentList: [],
       openQuestionnaire: false,
       openFormula: false,
+      openAudit: false,
     }
   },
   computed: {
@@ -276,7 +294,7 @@ export default {
     },
     industry: async function(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
-      this.additionTermsList = data.data.content.additionTermsDetails
+      this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isActivityEnable)
       this.termsInit()
     },
     openQuestionnaire: async function(val) {
@@ -290,7 +308,6 @@ export default {
       const activity = await this.$store.dispatch('resource/ActivitiesSetting')
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
-      await this.getPL053Amount()
       await this.getAttachmentList()
       activity.data.content.map(item => {
         if(!this.industryType.includes(item.typeName)) {
@@ -317,19 +334,23 @@ export default {
       this.countyAmount = county.data.content
       if(this.industry.Value) {
         const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
-        this.additionTermsList = data.data.content.additionTermsDetails
+        this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isActivityEnable)
         this.termsInit()
       }
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('activity')
         this.AssignQuestionnaire('activity')
-        await this.questionnaireCoefficient()
+        await this.questionnaireCoefficient(this.InsuranceActive == 7)
+        if(this.InsuranceActive == 7) {
+          if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true) //核保時，如果有保額，鎖著輸入欄位
+          if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('activity/updatedUnderwriteQuotationIsChange',true) //核保時，如果沒有保額，預設為核保單變更
+        }
       }
     },
-    async questionnaireCoefficient() {
+    async questionnaireCoefficient(audit) {
       let data = {questionnaire: null,}
         const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
-        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
+        if (!audit && coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
         this.insuranceAmountListData = {
@@ -352,14 +373,20 @@ export default {
               terms[item.additionTermName] = {
                 selected: true,
               }
-            } else {
-              if(item.isSuggest) {
+            } else{
+              if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
                   selected: true,
                 }
               } else {
-                terms[item.additionTermName] = {
-                  selected: false,
+                if(this.termsData[item.additionTermName]) {
+                  terms[item.additionTermName] = {
+                    selected: this.termsData[item.additionTermName].selected,
+                  }
+                } else {
+                  terms[item.additionTermName] = {
+                    selected: false,
+                  }
                 }
               }
             }
@@ -369,8 +396,8 @@ export default {
               terms[item.additionTermName] = {
                 selected: true,
               }
-            } else {
-              if(item.isSuggest) {
+            } else{
+              if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
                   selected: true,
                 }
@@ -392,6 +419,19 @@ export default {
       this.$nextTick(() => {
         this.$store.dispatch('activity/clearAdditionTerms')
       })
+      if(!this.quotationData.activityInsureInfo) return
+      this.additionTermsList.map(item => {//自訂條款
+          const target = this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
+          if (!target) {
+            const copyTerms = { ...this.termsData }
+            copyTerms[item.additionTermName].selected = false
+            this.$store.dispatch(`place/updatedTerms`, copyTerms)
+          } else {
+            const copyTerms = { ...this.termsData }
+            copyTerms[item.additionTermName].selected = true
+            this.$store.dispatch(`place/updatedTerms`, copyTerms)
+          }
+        })
     },
     correctAmount() {
       this.insuranceAmountListData = {
@@ -401,6 +441,16 @@ export default {
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
     async calculateAmount() {
+      if(this.InsuranceActive == 7) {
+        this.activityAuditCalculateAmount({
+        additionTermCoefficientParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.additionTermCoefficientParameter,
+        aggAOACoefficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.aggAOACoefficient,
+        periodParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.periodParameter,
+        sizeCofficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.sizeParameter,
+        type: 'audit'
+      })
+        return
+      }
       this.verifyRequired('activity', true)
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
@@ -505,25 +555,11 @@ export default {
             hasHtml: true,
             htmlText: res.data.content.quotationReason.join('<br>'),
           })
+        } else if (this.InsuranceActive == 7) {
+          this.openAudit = true
         }
       }
       this.updatePeriod()
-    },
-    async getPL053Amount() {
-      const additionTerms = JSON.parse(JSON.stringify(this.additionTerms))
-      const res = await this.$store.dispatch('resource/AdditionTermQuotations')
-      const amountList = res.data.content
-      if(amountList.length > 0) {
-        additionTerms.PL005.value1 = amountList[0].amount / 10000
-        additionTerms.PL040.value1 = amountList[7].amount / 10000
-        additionTerms.PL040.value2 = amountList[8].amount / 10000
-        additionTerms.PL049.value1 = amountList[9].amount / 10000
-        additionTerms.PL053.value1 = amountList[10].amount
-        additionTerms.PL053.value2 = amountList[11].amount
-        additionTerms.PL053.value3 = amountList[12].amount
-        additionTerms.PL053.value4 = amountList[13].amount
-        this.$store.dispatch(`place/updateAdditionTerms`, additionTerms)
-      }
     },
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
@@ -687,19 +723,19 @@ export default {
       } else {
         data.questionnaire.sheet1.part1.beginDateTime = null
       }
-      if(data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation == '是'){
-        data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation = true
-      } else if(data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation == '否'){
-        data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation = false
-      } else {
-        data.questionnaire.sheet1.part3.afterActivityhasAccessByTransportation = null
+      if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = true
+      } else if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '否'){
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = false
+      } else if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation !== true && data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation !== false){
+        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = null
       }
-      if(data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation == '是'){
-        data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation = true
-      } else if(data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation == '否'){
-        data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation = false
-      } else {
-        data.questionnaire.sheet1.part3.useRoadhasAccessByTransportation = null
+      if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '是'){
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = true
+      } else if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '否'){
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = false
+      } else if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation !== true && data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation !== false){
+        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = null
       }
       return data
     }

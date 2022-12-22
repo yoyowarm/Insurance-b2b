@@ -17,7 +17,7 @@
         <InputGroup class="w-ful" :disable="!renewal.IsRenewal || calculateModel">
         <div slot="input" class="w-full pr-24 relative">
           <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal|| calculateModel"/>
-          <Button class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
+          <Button v-if="InsuranceActive !== 7" class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
         </div>
       </InputGroup>
       </div>
@@ -28,7 +28,17 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry type="place" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText" :disable="calculateModel"/>
+      <InsuranceIndustry
+        type="place"
+        :industryList="industryList"
+        :industryType="industryType"
+        :selected="industry"
+        :industryText="industryText"
+        :searchText="searchText"
+        :disable="calculateModel"
+        :questionnaire="questionnaire"
+        :isRenewal="renewal.IsRenewal"
+      />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
       <Period :period.sync="periodData" :disable="calculateModel"/>
@@ -42,7 +52,7 @@
         @addItem="$store.dispatch('place/addPlaceInfo')"
         @removeItem="(index) => $store.dispatch('place/deletePlaceInfo',index)"
         :countyList="countyList"
-        :disable="calculateModel"
+        :disable="calculateModel || InsuranceActive == 7"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
@@ -67,6 +77,7 @@
         :terms.sync="termsData"
         :termsLists="additionTermsList.filter(item => !item.isSuggest && item.isEnable)"
         :disable="calculateModel"
+        :more="true"
       />
     </CommonBoard>
     <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest && item.isEnable)" v-if="additionTermsList.filter(item => !item.isSuggest && item.isEnable).length > 0" :disable="calculateModel"/>
@@ -89,12 +100,26 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button @click.native="() => { if(!calculateModel) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-48 md:w-42 " outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
+        <Button :disabled="calculateModel && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-48 md:w-42 " outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
-    <Questionnaire type="place" :open.sync="openQuestionnaire" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
+    <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
+    <PlaceModifyAmount
+      :open.sync="openAudit"
+      :insuranedName="quotationData.insuraned ? quotationData.insuraned.name : ''"
+      :orderNo="orderNo"
+      :additionTermCoefficientParameter="insuranceAmountListData.parameter.additionTermCoefficientParameter"
+      :aggAOACoefficient="insuranceAmountListData.parameter.aggAOACoefficient"
+      :mutiSizeParameter="insuranceAmountListData.parameter.mutiSizeParameter"
+      :sizeCofficient="insuranceAmountListData.parameter.sizeParameter"
+      :premium="insuranceAmountListData.amount"
+      :insideCalculateAmount="parameter"
+      :hasHexTypeBasicAmount="industry.typeName == '己類'"
+      @auditCalculateAmount="placeAuditCalculateAmount"
+      @updateParameter="updateParameter"
+    />
     <PopupDialog
       :open.sync="openFormula"
     >
@@ -139,15 +164,17 @@ import InsuranceRecord from '@/components/Place/InsuranceRecord.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import mixinVerify from '@/utils/mixins/verifyStep1'
 import routeChange from '@/utils/mixins/routeChange'
+import audit from '@/utils/mixins/audit'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
+import PlaceModifyAmount from '@/components/PopupDialog/PlaceModifyAmount'
 import { Popup } from '@/utils/popups'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { numFormat } from '@/utils/regex'
 export default {
-  mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire],
+  mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire,audit],
   components: {
     CommonBoard,
     InputGroup,
@@ -166,7 +193,8 @@ export default {
     FileUpload,
     InsuranceRecord,
     LoadingScreen,
-    PopupDialog
+    PopupDialog,
+    PlaceModifyAmount
   },
   data () {
     return {
@@ -181,7 +209,8 @@ export default {
       additionTermsList: [],
       attachmentList: [],
       openQuestionnaire: false,
-      openFormula: false
+      openFormula: false,
+      openAudit: false,
     }
   },
   computed: {
@@ -258,7 +287,7 @@ export default {
   watch:{
     industry: async function(val) {
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
-      this.additionTermsList = data.data.content.additionTermsDetails
+      this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isPlaceEnable)
       this.termsInit()
     },
     openQuestionnaire: async function(val) {
@@ -268,9 +297,15 @@ export default {
     },
     periodData: {
       handler() {
-        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}T${this.period.startDate.hour}:00:00`).getTime()
-        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}T${this.period.endDate.hour}:00:00`).getTime()
-        if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
+        const startHour = this.period.startDate.hour.toString() == '0' ? '00' : (this.period.startDate.hour.toString() == '24' ? '23' : this.period.startDate.hour.toString())
+        const startMinute = this.period.startDate.hour.toString() == '24' ? '59' : '00'
+        const endHour = this.period.endDate.hour.toString() == '0' ? '00' : (this.period.endDate.hour.toString() == '24' ? '23' : this.period.endDate.hour.toString())
+        const endMinute = this.period.endDate.hour.toString() == '24' ? '59' : '00'
+        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}T${startHour}:${startMinute}:00`).getTime()
+        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}T${endHour}:${endMinute}:00`).getTime()
+        const leapYear = ((Number(this.period.startDate.year) + 1911) %4 == 0) || ((Number(this.period.endDate.year) + 1911) %4 == 0) ? 366 : 365
+        const overYear = ((endTime - startTime) / 86400000) > leapYear
+        if (overYear) {
           Popup.create({hasHtml:true,htmlText:'保期不能超過一年'})
           this.$nextTick(() => {
             this.periodData = {
@@ -347,11 +382,11 @@ export default {
               // eslint-disable-next-line no-prototype-builtins
               selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
               fixed: false,
-              insuranceTotalAmount: item.insuranceTotalAmount/10000,
-              mergeSingleAmount: item.mergeSingleAmount/10000,
-              perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
-              perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
-              perBodyAmount: item.perBodyAmount/10000,
+              insuranceTotalAmount: item.insuranceTotalAmount ? item.insuranceTotalAmount/10000 : '',
+              mergeSingleAmount: item.mergeSingleAmount ? item.mergeSingleAmount/10000 : '',
+              perAccidentBodyAmount: item.perAccidentBodyAmount ? item.perAccidentBodyAmount/10000 : '',
+              perAccidentFinanceAmount: item.perAccidentFinanceAmount ? item.perAccidentFinanceAmount/10000 : '',
+              perBodyAmount: item.perBodyAmount ? item.perBodyAmount/10000 : '',
               parameter: {
                 basicFee: '',
                 finalHC: '',
@@ -378,7 +413,7 @@ export default {
         this.$nextTick(async () => {
           this.insuranceAmountListData = {
             ...this.quotationData.insuranceAmounts[0],
-            amountType: this.amountList.find(item => item.Value == this.quotationData.insuranceAmounts[0].amountType),
+            amountType: {Value: this.quotationData.insuranceAmounts[0].amountType, Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType]},
             insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
             mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
             perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
@@ -391,10 +426,10 @@ export default {
         })
       }
     },
-    async questionnaireCoefficient() {
+    async questionnaireCoefficient(audit = false) {
       let data = {questionnaire: null,}
         const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
-        if (coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
+        if (!audit &&coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
         this.insuranceAmountListData = {
@@ -418,24 +453,7 @@ export default {
                 selected: true,
               }
             } else {
-              if(item.isSuggest) {
-                terms[item.additionTermName] = {
-                  selected: true,
-                }
-              } else {
-                terms[item.additionTermName] = {
-                  selected: false,
-                }
-              }
-            }
-          } else {
-            if(['758A','911','PL013'].includes(item.additionTermId)) {
-              item.disable = true
-              terms[item.additionTermName] = {
-                selected: true,
-              }
-            } else {
-              if(item.isSuggest) {
+              if(item.isSuggest && this.InsuranceActive == 0) {
                 terms[item.additionTermName] = {
                   selected: true,
                 }
@@ -451,18 +469,53 @@ export default {
                 }
               }
             }
+          } else {
+            if(['758A','911','PL013'].includes(item.additionTermId)) {
+              item.disable = true
+              terms[item.additionTermName] = {
+                selected: true,
+              }
+            } else {
+              if(item.isSuggest && this.InsuranceActive == 0) {
+                terms[item.additionTermName] = {
+                  selected: true,
+                }
+              } else {
+                if(this.termsData[item.additionTermName]) {
+                  terms[item.additionTermName] = {
+                    selected: this.termsData[item.additionTermName].selected,
+                  }
+                } else{
+                  terms[item.additionTermName] = {
+                    selected: false,
+                  }
+                }
+              }
+            }
           }
         })
       this.termsData = terms
       this.$nextTick(() => {
         this.$store.dispatch('activity/clearAdditionTerms')
       })
+      if(!this.quotationData.placeInsureInfo) return
+      this.additionTermsList.map(item => {//自訂條款
+          const target = this.quotationData.placeInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
+          if (!target) {
+            const copyTerms = { ...this.termsData }
+            copyTerms[item.additionTermName].selected = false
+            this.$store.dispatch(`place/updatedTerms`, copyTerms)
+          } else {
+            const copyTerms = { ...this.termsData }
+            copyTerms[item.additionTermName].selected = true
+            this.$store.dispatch(`place/updatedTerms`, copyTerms)
+          }
+        })
     },
     async pageInit() {
       const places = await this.$store.dispatch('resource/PlacesSetting')
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
-      await this.getPL053Amount()
       await this.getAttachmentList()
       places.data.content.map(item => {
         if(!this.industryType.includes(item.typeName)) {
@@ -487,29 +540,17 @@ export default {
       this.countyAmount = county.data.content
       if(this.industry.Value) {
         const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
-        this.additionTermsList = data.data.content.additionTermsDetails
+        this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isPlaceEnable)
         this.termsInit()
       }
-      if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo ) {//報價明細更正、複製時塞資料
+      if((this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) ) {//報價明細更正、複製時塞資料
         this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')
-        await this.questionnaireCoefficient()
-      }
-    },
-    async getPL053Amount() {
-      const additionTerms = JSON.parse(JSON.stringify(this.additionTerms))
-      const res = await this.$store.dispatch('resource/AdditionTermQuotations')
-      const amountList = res.data.content
-      if(amountList.length > 0) {
-        additionTerms.PL005.value1 = amountList[0].amount / 10000
-        additionTerms.PL040.value1 = amountList[7].amount / 10000
-        additionTerms.PL040.value2 = amountList[8].amount / 10000
-        additionTerms.PL049.value1 = amountList[9].amount / 10000
-        additionTerms.PL053.value1 = amountList[10].amount
-        additionTerms.PL053.value2 = amountList[11].amount
-        additionTerms.PL053.value3 = amountList[12].amount
-        additionTerms.PL053.value4 = amountList[13].amount
-        this.$store.dispatch(`place/updateAdditionTerms`, additionTerms)
+        await this.questionnaireCoefficient(this.InsuranceActive == 7)
+        if(this.InsuranceActive == 7) {
+          if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true)//核保時，如果有保額，鎖著輸入欄位
+          if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('place/updatedUnderwriteQuotationIsChange',true)//核保時，如果沒有保額，預設為核保單變更
+        }
       }
     },
     correctAmount() {
@@ -520,6 +561,17 @@ export default {
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
     async calculateAmount() {
+      if(this.InsuranceActive == 7) {
+        this.placeAuditCalculateAmount({
+        additionTermCoefficientParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.additionTermCoefficientParameter,
+        aggAOACoefficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.aggAOACoefficient,
+        mutiSizeParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.mutiSizeParameter,
+        sizeCofficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.sizeParameter,
+        hexTypeBasicAmount: '',
+        type: 'audit'
+      })
+        return
+      }
       this.verifyRequired('place', true)
       if(this.requestFile.length === 0 &&
         this.verifyResult.length === 0) {
@@ -560,10 +612,10 @@ export default {
               } else {
                 return {
                   additionTermId: item.additionTermId,
-                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId].toString().replace(/,/g,'')).map(key => {
+                  additionTermDetail: [...Object.keys(this.additionTerms[item.additionTermId]).map(key => {
                     return {
                       itemId: key,
-                      itemValue: this.additionTerms[item.additionTermId][key]
+                      itemValue: this.additionTerms[item.additionTermId][key].toString().replace(/,/g,'')
                     }
                   })]
                 }
@@ -616,6 +668,8 @@ export default {
             hasHtml: true,
             htmlText: res.data.content.quotationReason.join('<br>'),
           })
+        } else if (this.InsuranceActive == 7) {
+          this.openAudit = true
         }
       }
     },
@@ -695,7 +749,7 @@ export default {
           }
         })],
         insureIndustrySeq: this.industry.Value,
-        insureIndustryOtherText: this.industry.Value == 106 ? this.industryText :this.industry.Text,
+        insureIndustryOtherText: this.industryText,
         remark: this.remark.text,
         insuranceAmounts:[...this.insuranceAmountList.map(item => {
           delete item.amount
@@ -759,8 +813,8 @@ export default {
         startDate: {
           year: new Date().getFullYear()-1911,
           month: new Date().getMonth() + 1,
-          day: new Date().getDate(),
-          hour: new Date().getHours() > 12 ? 24 : 12,
+          day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
+          hour: 12,
         }
       }
       if((new Date().getFullYear()%4) == 0) {
@@ -773,7 +827,7 @@ export default {
                 year: new Date().getFullYear()-1911,
                 month: new Date().getMonth() + 1,
                 day:28,
-                hour: new Date().getHours() > 12 ? 24 : 12,
+                hour: 12,
               }
             }
           } else if(leapYear > startDate) {
@@ -783,8 +837,8 @@ export default {
               endDate: 
                 { year: new Date(newYear).getFullYear()-1911,
                   month: new Date(newYear).getMonth()+1,
-                  day: new Date(newYear).getDate(),
-                  hour: new Date().getHours() > 12 ? 24 : 12,
+                  day: new Date().getHours() > 12 ? new Date(newYear).getDate()+1 : new Date(newYear).getDate(),
+                  hour: 12,
                 }
               }
           } else {
@@ -793,8 +847,8 @@ export default {
             endDate: {
                 year: (new Date().getFullYear() + 1)-1911,
                 month: new Date().getMonth()+1,
-                day: new Date().getDate(),
-                hour: new Date().getHours() > 12 ? 24 : 12
+                day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
+                hour: 12
               }
             }
           }
@@ -804,8 +858,8 @@ export default {
             endDate: {
                 year: (new Date().getFullYear() + 1)-1911,
                 month: new Date().getMonth()+1,
-                day: new Date().getDate(),
-                hour: new Date().getHours() > 12 ? 24 : 12
+                day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
+                hour: 12
               }
           }
         }

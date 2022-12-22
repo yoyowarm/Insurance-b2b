@@ -1,95 +1,102 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="經營業務種類">
-        <Input slot="input" :value="data.part1.businessType" @updateValue="(e) => updateValue(e,'businessType')"  placeholder="輸入種類"/>
+      <InputGroup lgTitle title="經營業務種類"  :disable="disable || !QuestionnaireManagement">
+        <Input slot="input"  :disable="disable || !QuestionnaireManagement" :value="data.part1.businessType" @updateValue="(e) => updateValue(e,'businessType')"  placeholder="輸入種類"/>
       </InputGroup>
       <div class="col-span-2">
         <div class="column-3 w-full">
-          <InputGroup lgTitle title="創立日期">
+          <InputGroup lgTitle title="創立日期"  :disable="disable">
             <Select
               slot="input"
               :selected="data.part1.createTime.year"
               :options="yearOptions"
+               :disable="disable"
               @emitItem="(e) => emitSelectItem('createTime','year', e.Value)"
               defaultText="選擇年"/>
           </InputGroup>
-          <InputGroup :noMt="marginTop(560)">
+          <InputGroup :noMt="marginTop(560)"  :disable="disable">
             <Select
               slot="input"
               :selected="data.part1.createTime.month"
               :options="monthOptions"
+               :disable="disable"
               @emitItem="(e) => emitSelectItem('createTime','month', e.Value)"
               defaultText="選擇月"/>
           </InputGroup>
-          <InputGroup :noMt="marginTop(560)">
+          <InputGroup :noMt="marginTop(560)"  :disable="disable">
             <Select
               slot="input"
               :selected="data.part1.createTime.day"
               :options="dayOptions"
+               :disable="disable"
               @emitItem="(e) => emitSelectItem('createTime','day', e.Value)"
               defaultText="選擇日"/>
           </InputGroup>
         </div>
       </div>
-      <InputGroup lgTitle title="員工人數">
-        <Input slot="input" :maxLength="7" numberOnly placeholder="輸入人數" @updateValue="(e) => updateValue(e,'staffAmount')" :value="data.part1.staffAmount"/>
+      <InputGroup lgTitle title="員工人數"  :disable="disable">
+        <Input slot="input"  :disable="disable" :maxLength="7" numberOnly placeholder="輸入人數" @updateValue="(e) => updateValue(e,'staffAmount')" :value="data.part1.staffAmount"/>
       </InputGroup>
     </div>
     <div class="column-4 my-3">
       <div class="column-2">
-        <InputGroup lgTitle title="營業開始時間">
+        <InputGroup lgTitle title="營業開始時間"  :disable="disable">
           <Select
             slot="input"
             :selected="data.part1.businessStartDate.hours"
             :options="hoursOptions"
             defaultText="- - 點"
+             :disable="disable"
             @emitItem="(e) => emitSelectItem('businessStartDate','hours', e.Value)"/>
           />
         </InputGroup>
-        <InputGroup :noMt="marginTop(560)">
+        <InputGroup :noMt="marginTop(560)"  :disable="disable">
           <Select
             slot="input"
             :selected="data.part1.businessStartDate.minutes"
             defaultText="- - 分"
+             :disable="disable"
             :options="minutesOptions"
             @emitItem="(e) => emitSelectItem('businessStartDate','minutes', e.Value)"/>
           />
         </InputGroup>
       </div>
       <div class="column-2">
-        <InputGroup lgTitle title="營業結束時間">
+        <InputGroup lgTitle title="營業結束時間" :disable="disable">
           <Select
             slot="input"
             :selected="data.part1.businessEndDate.hours"
             defaultText="- - 點"
+            :disable="disable"
             :options="hoursOptions"
             @emitItem="(e) => emitSelectItem('businessEndDate','hours', e.Value)"/>
           />
         </InputGroup>
-        <InputGroup :noMt="marginTop(560)">
+        <InputGroup :noMt="marginTop(560)" :disable="disable">
           <Select
             slot="input"
             :selected="data.part1.businessEndDate.minutes"
             defaultText="- - 分"
+            :disable="disable"
             :options="minutesOptions"
             @emitItem="(e) => emitSelectItem('businessEndDate','minutes', e.Value)"/>
           />
         </InputGroup>
       </div>
-      <InputGroup lgTitle title="基地面積">
-        <Input slot="input" :maxLength="7" :value="data.part1.area" @updateValue="(e) => updateValue(e,'area')"  placeholder="輸入面積"/>
+      <InputGroup lgTitle title="基地面積" :disable="disable">
+        <Input slot="input" :maxLength="7" :disable="disable" :value="data.part1.area" @updateValue="(e) => updateValue(e,'area')"  placeholder="輸入面積"/>
       </InputGroup>
-      <InputGroup lgTitle title="總面積">
-        <Input slot="input" :maxLength="7" :value="data.part1.totalArea" @updateValue="(e) => updateValue(e,'totalArea')" placeholder="輸入面積"/>
+      <InputGroup lgTitle title="總面積" :disable="disable">
+        <Input slot="input" :maxLength="7" :disable="disable" :value="data.part1.totalArea" @updateValue="(e) => updateValue(e,'totalArea')" placeholder="輸入面積"/>
       </InputGroup>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle title="平均出入人數(人/天)">
-        <Input slot="input" :maxLength="7" :value="data.part1.dailyAveragePersons" @updateValue="(e) => updateValue(e,'dailyAveragePersons')" placeholder="輸入人數" numberOnly/>
+      <InputGroup lgTitle title="平均出入人數(人/天)" :disable="disable">
+        <Input slot="input" :maxLength="7" :disable="disable" :value="data.part1.dailyAveragePersons" @updateValue="(e) => updateValue(e,'dailyAveragePersons')" placeholder="輸入人數" numberOnly/>
       </InputGroup>
-      <InputGroup lgTitle title="最高出入人數(人/天)">
-        <Input slot="input" :maxLength="7" :value="data.part1.singleDayHighestPersons" @updateValue="(e) => updateValue(e,'singleDayHighestPersons')" placeholder="輸入人數" numberOnly/>
+      <InputGroup lgTitle title="最高出入人數(人/天)" :disable="disable">
+        <Input slot="input" :maxLength="7" :disable="disable" :value="data.part1.singleDayHighestPersons" @updateValue="(e) => updateValue(e,'singleDayHighestPersons')" placeholder="輸入人數" numberOnly/>
       </InputGroup>
     </div>
   </div>
@@ -114,6 +121,14 @@ export default {
       type: Function,
       default: () => {}
     },
+    disable: {
+      type: Boolean,
+      default: false
+    },
+    QuestionnaireManagement: {
+      type: Boolean,
+      default: false
+    }
   },
   computed: {
      yearOptions () {

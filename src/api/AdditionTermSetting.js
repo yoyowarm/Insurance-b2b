@@ -16,3 +16,6 @@ export const AdditionTermDescriptions = (additionTermId) => request('get', `/Add
 export const AdditionTermExtraRates = (placeActivityType) => request('get', `/AdditionTermSetting/GetAdditionTermExtraRates?placeActivityType=${placeActivityType}`)
 //編輯附加條款加費
 export const EditAdditionTermExtraRates = (data) => request('patch', '/AdditionTermSetting/EditAdditionTermExtraRates', data)
+//取得已啟用的處所or活動類型底下附加條款清單
+export const GetEnableTypeAdditionTerms = (seq) => request('get', '/AdditionTermSetting/GetEnableTypeAdditionTerms', { seq })
+

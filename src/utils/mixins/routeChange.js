@@ -35,11 +35,11 @@ export default {
 				confirm: true,
 				ok: '確定',
 				cancel: '取消',
-				htmlText: `<p>目前更正尚未報價完成，確定離開頁面嗎？</p>`,
+				htmlText: this.InsuranceActive === 7 ? '<p>尚未審核完成，確定離開頁面嗎？</p>' : `<p>目前更正尚未報價完成，確定離開頁面嗎？</p>`,
 			}).then(() => {
 				this.$store.dispatch('place/clearAll')
 				this.$store.dispatch('activity/clearAll')
-				this.$store.dispatch('common/updateOrderNo', '')
+				this.$store.dispatch('common/updateOrderNo', { orderNo: '', mainOrderNo: '' })
 				this.$store.dispatch('common/updatedCalculateModel', false)
 				this.$store.dispatch('place/updatedInsuranceActive', 0)
 				this.$store.dispatch('activity/updatedInsuranceActive', 0)

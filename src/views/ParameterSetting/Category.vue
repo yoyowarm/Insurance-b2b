@@ -31,6 +31,19 @@
           <div :slot="`displayItemName-${index}`" :key="`displayItemName${index}`" class="flex whitespace-no-wrap">
             <Input :value="item.displayItemName.toString()" @updateValue="e =>{ item.displayItemName = e}" class="md:mr-4 weight-input w-full" :disable="!item.edit"/>
           </div>
+          <div :slot="`dangerCode-${index}`" :key="`dangerCode${index}`" class="flex whitespace-no-wrap pr-2">
+            <InputGroup noMt class="w-full -mt-2" :disable="!item.edit">
+              <Select
+                slot="input"
+                class="w-full"
+                :disable="!item.edit"
+                :options="dangerCodeList"
+                @emitItem="e=> {item.dangerCode = e.Value}"
+                :selected="item.dangerCode"
+                defaultText="選擇投保行業"
+              />
+            </InputGroup>
+          </div>
           <div :slot="`isEnable-${index}`" :key="`isEnable${index}`" class="w-full flex sm:justify-center items-center whitespace-no-wrap">
             <font-awesome-icon v-if="item.isEnable" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" class="text-lg mr-2" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye']" />
             <font-awesome-icon v-else @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye-slash']" />
@@ -39,7 +52,6 @@
               <span class="text-gray-300 pr-3">/</span>
               <span class=" text-gray-300" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">隱藏</span>
             </div>
-            
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
             <Button class="w-full sm:w-24" @click.native="editSwitch(index)" :outline="!item.edit"><span v-if="!item.edit">編輯</span><span v-else>儲存</span></Button>
@@ -100,7 +112,8 @@ export default {
         { text: '處所', value: 0 },
         { text: '活動', value: 1 }
       ],
-      typeList: []
+      typeList: [],
+      dangerCodeList: [],
     }
   },
   computed: {
@@ -130,7 +143,7 @@ export default {
     },
     slotArray () {
       const arr = []
-      const slotArr = [ 'weight','hasQuotation','displayItemName', 'isEnable', 'operate']
+      const slotArr = [ 'weight','hasQuotation','displayItemName', 'isEnable', 'operate','dangerCode']
       for (let i = 0; i < this.categoryListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -142,7 +155,7 @@ export default {
   watch: {
     currentTag: {
       async handler(val,oldVal) {
-        if(val !== oldVal) {
+        if(!isNaN(oldVal) && val !== oldVal) {
           await this.getAllList(val)
         }
       },
@@ -197,6 +210,7 @@ export default {
           weight: this.categoryListTable.rows[index].weight,
           hasQuotation: this.categoryListTable.rows[index].hasQuotation,
           displayItemName: this.categoryListTable.rows[index].displayItemName,
+          dangerCode: this.categoryListTable.rows[index].dangerCode,
           isEnable: this.categoryListTable.rows[index].isEnable
         }
         await this.$store.dispatch('parameterSetting/updatePlacesActivity', data)
@@ -228,9 +242,18 @@ export default {
         }
       })
     },
+    async GetPlaceActivitieDangerCodes() {
+      const res = await this.$store.dispatch('parameterSetting/GetPlaceActivitieDangerCodes')
+      this.dangerCodeList = res.data.content.map(item => {
+        return {
+          Text: `(${item.dangerCode})${item.dangerName}`,
+          Value: item.dangerCode
+        }
+      })
+    }
   },
   async mounted() {
-    await this.getAllList(0)
+    await this.GetPlaceActivitieDangerCodes()
   }
 }
 </script>

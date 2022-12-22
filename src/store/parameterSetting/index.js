@@ -1,5 +1,5 @@
 import { updateCountyMinimumSettings } from '@/api/CountyMinimumSetting'
-import { updatePlacesActivity } from '@/api/PlaceActivitySetting'
+import { updatePlacesActivity, GetPlaceActivitieDangerCodes } from '@/api/PlaceActivitySetting'
 import { updateBasicPremiums } from '@/api/BasicPremiumSetting'
 import { updatedInsuranceQuotationAmountSetting } from '@/api/InsuranceQuotationAmountSetting'
 export default {
@@ -21,6 +21,9 @@ export default {
     },
     async updatedInsuranceQuotationAmountSetting(_, data) {
       return await updatedInsuranceQuotationAmountSetting(data)
+    },
+    async GetPlaceActivitieDangerCodes(_, data) {
+      return await GetPlaceActivitieDangerCodes(data)
     }
   }
 }

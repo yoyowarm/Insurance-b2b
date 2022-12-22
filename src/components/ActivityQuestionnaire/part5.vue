@@ -8,27 +8,28 @@
         text="消防栓"
         :checked="data.sheet1.part5.hasFireHydrant"
         :value="data.sheet1.part5.hasFireHydrant"
+        :disabled="disable"
         @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
       <div class="flex">
-        <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="!data.sheet1.part5.hasFireHydrant">
+        <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="disable || !data.sheet1.part5.hasFireHydrant">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.hasFireHydrant"
+            :disable="disable || !data.sheet1.part5.hasFireHydrant"
             :value="data.sheet1.part5.hydrantIndoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
             numberOnly
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.sheet1.part5.hasFireHydrant">
+        <InputGroup noMt class="ml-12 w-40" :disable="disable || !data.sheet1.part5.hasFireHydrant">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.hasFireHydrant"
+            :disable="disable || !data.sheet1.part5.hasFireHydrant"
             :value="data.sheet1.part5.hydrantOutdoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
             numberOnly
@@ -44,27 +45,28 @@
         text="滅火器：泡沫型"
         :checked="data.sheet1.part5.fireExtinguisher"
         :value="data.sheet1.part5.fireExtinguisher"
+        :disabled="disable"
         @updateValue="(e) =>updateValue(e,'fireExtinguisher')"
       />
       <div class="flex">
-        <InputGroup noMt class="ml-12 sm:ml-16 w-40" :disable="!data.sheet1.part5.fireExtinguisher">
+        <InputGroup noMt class="ml-12 sm:ml-16 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.fireExtinguisher"
+            :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.foam.indoor"
             @updateValue="(e) => emitSelectItem('foam','indoor',e)"
             numberOnly
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.sheet1.part5.fireExtinguisher">
+        <InputGroup noMt class="ml-12 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.fireExtinguisher"
+            :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.foam.outdoor"
             @updateValue="(e) => emitSelectItem('foam','outdoor',e)"
             numberOnly
@@ -76,24 +78,24 @@
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full sm:pl-24 mt-4 text-lg">二氧化碳</span>
       <div class="flex">
-        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.sheet1.part5.fireExtinguisher">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.fireExtinguisher"
+            :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.carbonDioxide.indoor"
             @updateValue="(e) => emitSelectItem('carbonDioxide','indoor',e)"
             numberOnly
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.sheet1.part5.fireExtinguisher">
+        <InputGroup noMt class="ml-12 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.fireExtinguisher"
+            :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.carbonDioxide.outdoor"
             @updateValue="(e) => emitSelectItem('carbonDioxide','outdoor',e)"
             numberOnly
@@ -105,24 +107,24 @@
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full sm:pl-24 mt-4 text-lg">ABC乾粉</span>
       <div class="flex">
-        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.sheet1.part5.fireExtinguisher">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.fireExtinguisher"
+            :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.abc.indoor"
             @updateValue="(e) => emitSelectItem('abc','indoor',e)"
             numberOnly
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.sheet1.part5.fireExtinguisher">
+        <InputGroup noMt class="ml-12 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.fireExtinguisher"
+            :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.abc.outdoor"
             @updateValue="(e) => emitSelectItem('abc','outdoor',e)"
             numberOnly
@@ -134,12 +136,12 @@
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full w-40 sm:pl-24 mt-4 text-lg">海龍(halon)</span>
       <div class="flex">
-        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.sheet1.part5.fireExtinguisher">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
-            :disable="!data.sheet1.part5.fireExtinguisher"
+            :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.halon.indoor"
             @updateValue="(e) => emitSelectItem('halon','indoor',e)"
             numberOnly
@@ -156,13 +158,14 @@
         text="其他，請詳述之"
         :checked="data.sheet1.part5.hasOtherExtinguishing"
         :value="data.sheet1.part5.hasOtherExtinguishing"
+        :disabled="disable"
         @updateValue="(e) =>updateValue(e,'hasOtherExtinguishing')"
       />
-      <InputGroup noMt class="ml-4 w-full sm:w-9/12" :disable="!data.sheet1.part5.hasOtherExtinguishing">
+      <InputGroup noMt class="ml-4 w-full sm:w-9/12" :disable="disable || !data.sheet1.part5.hasOtherExtinguishing">
         <Input
           slot="input"
           placeholder="輸入內容"
-          :disable="!data.sheet1.part5.hasOtherExtinguishing"
+          :disable="disable || !data.sheet1.part5.hasOtherExtinguishing"
           :value="data.sheet1.part5.otherExtinguishingRemark"
           @updateValue="(e) => updateValue(e,'otherExtinguishingRemark')"
         />
@@ -170,16 +173,17 @@
     </div>
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
         <div class="flex flex-row justify-between">
-          <RadioInput text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part5[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
-          <RadioInput class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part5[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
+          <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part5[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part5[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
       </div>
       <div class=" text-lg">{{item}}</div>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle  mid title="其他安全防護措施" class="col-span-3" >
+      <InputGroup lgTitle  mid title="其他安全防護措施" class="col-span-3" :disable="disable">
         <Input
           slot="input"
           placeholder="輸入安裝地點"
+          :disable="disable"
           :value="data.sheet1.part5.otherSafeMeasure"
           @updateValue="(e) => updateValue(e,'otherSafeMeasure')"
         />
@@ -206,6 +210,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

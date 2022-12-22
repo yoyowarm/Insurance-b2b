@@ -38,41 +38,41 @@
             <Input disable slot="input" :value="questionnaireData.userId" @updateValue="(e)=> questionnaireData = Object.assign(questionnaireData, {userId: e})" placeholder="填表人代號"/>
           </InputGroup>
         </div>
-        <Part1 :data.sync="questionnaireData" :marginTop="marginTop"/>
+        <Part1 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit" :QuestionnaireManagement="QuestionnaireManagement"/>
         <div class="column-4" ref="2">
           <FormTitle class="text-lg"  title="(二)營業處所-建築物資訊"/>
         </div>
-        <Part2 :data.sync="questionnaireData" :marginTop="marginTop"/>
+        <Part2 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="3">
           <FormTitle class="text-lg"  title="(三)營業處所-特殊風險項目"/>
         </div>
-        <Part3 :data.sync="questionnaireData" :marginTop="marginTop"/>
+        <Part3 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="4">
           <FormTitle class="text-lg"  title="(四)營業處所-器材使用"/>
         </div>
-        <Part4 :data.sync="questionnaireData" :marginTop="marginTop"/>
+        <Part4 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="5">
           <FormTitle class="text-lg"  title="(五)營業處所-交通控管"/>
         </div>
-        <Part5 :data.sync="questionnaireData" :marginTop="marginTop"/>
+        <Part5 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="6">
           <FormTitle class="text-lg"  title="(六)營業處所-人員動線及管控"/>
         </div>
-        <Part6 :data.sync="questionnaireData" :marginTop="marginTop"/>
+        <Part6 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="7">
           <FormTitle class="text-lg"  title="(七)營業處所-安全防護"/>
         </div>
-        <Part7 :data.sync="questionnaireData" :marginTop="marginTop"/>
+        <Part7 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="8">
           <FormTitle class="text-lg"  title="(八)營業處所-緊急救護措施"/>
         </div>
-        <Part8 :data.sync="questionnaireData" :marginTop="marginTop"/>
+        <Part8 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="9">
           <FormTitle class="text-lg"  title="(九)營業處所-其他考量"/>
         </div>
-        <Part9 :data.sync="questionnaireData" :marginTop="marginTop"/>
-        <div class="fixed-button">
-          <div class="flex justify-center w-full px-3">
+        <Part9 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
+        <div class="fixed-button" v-if="!audit">
+          <div class="flex justify-center w-full px-3" >
             <Button outline class="h-12 w-52 mr-3" @click.native="clearQuestionnaire">清除資料</Button>
             <Button v-if="questionnaireType == 0" class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
             <Button v-if="questionnaireType == 1" class="h-12 w-52 mr-3" @click.native="() =>{$emit('addQuestionnaire',1);$emit('update:open' ,false)}">新增詢問表</Button>
@@ -191,6 +191,10 @@ export default {
     SerialNo: {
       type: String,
       default: ''
+    },
+    audit: {
+      type: Boolean,
+      default: false
     }
   },
    data () {
