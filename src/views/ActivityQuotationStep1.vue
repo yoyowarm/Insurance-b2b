@@ -272,8 +272,12 @@ export default {
       handler(val) {
         let millisecond = 0
         val.startDate.year%4 == 0 ? millisecond = 366*24*60*60*1000 : millisecond = 365*24*60*60*1000
-        const startTime = new Date(`${Number(val.startDate.year)+1911}-${val.startDate.month}-${val.startDate.day} ${val.startDate.hour}:00`).getTime()
-        const endTime = new Date(`${Number(val.endDate.year)+1911}-${val.endDate.month}-${val.endDate.day} ${val.endDate.hour}:00`).getTime()
+        const startHour = val.startDate.hour.toString() == '0' ? '00' : (val.startDate.hour.toString() == '24' ? '23' : val.startDate.hour.toString())
+        const startMinute = val.startDate.hour.toString() == '24' ? '59' : '00'
+        const endHour = val.endDate.hour.toString() == '0' ? '00' : (val.endDate.hour.toString() == '24' ? '23' : val.endDate.hour.toString())
+        const endMinute = val.endDate.hour.toString() == '24' ? '59' : '00'
+        const startTime = new Date(`${Number(val.startDate.year)+1911}-${val.startDate.month}-${val.startDate.day} ${startHour}:${startMinute}`).getTime()
+        const endTime = new Date(`${Number(val.endDate.year)+1911}-${val.endDate.month}-${val.endDate.day} ${endHour}:${endMinute}`).getTime()
         if(endTime - startTime > millisecond) {
           Popup.create({
             hasHtml: true,
