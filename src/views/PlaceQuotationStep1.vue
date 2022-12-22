@@ -297,9 +297,15 @@ export default {
     },
     periodData: {
       handler() {
-        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}T${this.period.startDate.hour == '0' ? '00' : (this.period.startDate.hour == '24' ? '23' : this.period.startDate.hour)}:${this.period.startDate.hour == '24' ? '59' : '00'}:00`).getTime()
-        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}T${this.period.endDate.hour == '0' ? '00' : (this.period.endDate.hour == '24' ? '23' : this.period.endDate.hour)}:${this.period.endDate.hour == '24'? '59':'00'}:00`).getTime()
-        if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
+        const startHour = this.period.startDate.hour.toString() == '0' ? '00' : (this.period.startDate.hour.toString() == '24' ? '23' : this.period.startDate.hour.toString())
+        const startMinute = this.period.startDate.hour.toString() == '24' ? '59' : '00'
+        const endHour = this.period.endDate.hour.toString() == '0' ? '00' : (this.period.endDate.hour.toString() == '24' ? '23' : this.period.endDate.hour.toString())
+        const endMinute = this.period.endDate.hour.toString() == '24' ? '59' : '00'
+        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}T${startHour}:${startMinute}:00`).getTime()
+        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}T${endHour}:${endMinute}:00`).getTime()
+        const leapYear = ((Number(this.period.startDate.year) + 1911) %4 == 0) || ((Number(this.period.endDate.year) + 1911) %4 == 0) ? 366 : 365
+        const overYear = ((endTime - startTime) / 86400000) > leapYear
+        if (overYear) {
           Popup.create({hasHtml:true,htmlText:'保期不能超過一年'})
           this.$nextTick(() => {
             this.periodData = {
@@ -492,6 +498,7 @@ export default {
       this.$nextTick(() => {
         this.$store.dispatch('activity/clearAdditionTerms')
       })
+      if(!this.quotationData.placeInsureInfo) return
       this.additionTermsList.map(item => {//自訂條款
           const target = this.quotationData.placeInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
           if (!target) {

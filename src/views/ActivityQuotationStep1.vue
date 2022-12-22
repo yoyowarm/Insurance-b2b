@@ -419,6 +419,7 @@ export default {
       this.$nextTick(() => {
         this.$store.dispatch('activity/clearAdditionTerms')
       })
+      if(!this.quotationData.activityInsureInfo) return
       this.additionTermsList.map(item => {//自訂條款
           const target = this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
           if (!target) {
