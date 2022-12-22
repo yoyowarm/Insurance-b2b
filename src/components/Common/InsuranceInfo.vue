@@ -103,7 +103,7 @@
         <Select
           slot="input"
           defaultText="選擇區域"
-          :options="areaList"
+          :options="areaList.filter(item => item.cityId == copyInfo.City.Value)"
           :selected="copyInfo.Area.Value"
           :disable="disable"
           @emitItem="(item) => emitSelectItem('Area', item)"
