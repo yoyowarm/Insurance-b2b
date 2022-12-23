@@ -229,7 +229,7 @@ export default {
       await this.$store.dispatch('underwrite/UpdateUnderwritePlaceQuotation', payload)
     },
     async updateUnderwriteActivityQuotation(payload) {
-      await this.$store.dispatch('underwrite/updateUnderwriteActivityQuotation', payload)
+      await this.$store.dispatch('underwrite/UpdateUnderwriteActivityQuotation', payload)
     }
   }
 }
