@@ -40,6 +40,8 @@
             @updateValue="(e) => updateInfo('prefixNumber', e)"
             @blurInput="phoneVerify('prefixNumber')"
             :disable="disable"
+            numberOnly
+            hasZero
           />
           <Input
             placeholder="輸入號碼"
@@ -48,8 +50,11 @@
             @blurInput="phoneVerify('Mobile')"
             :disable="disable"
             :maxLength="copyInfo.numberType ? 10 : 8"
+            numberOnly
+            hasZero
           />
         </div>
+        <div class="absolute -bottom-7 text-gray-500" slot="input-right">{{copyInfo.numberType ? '手機範例: 0988111222' : '市話範例: 02 22334455'}}</div>
       </InputGroup>
       <InputGroup class="w-full" title="國籍" :disable="disable" lgTitle mid dash>
         <SwitchInput
