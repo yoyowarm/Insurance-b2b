@@ -141,22 +141,22 @@ export default {
             const additionTerms = { ...this.$store.state[type].additionTerms }
             const data = { ...additionTerms[item.additionTermId] }
             if (item.additionTermId == 'PL005') {//建築物承租人火災附加條款
-
               item.additionTermValue.map(value => {
                 data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : (value.itemId == 'value1' ? Number(value.itemValue) / 10000 : value.itemValue))
               })
-              this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
+
             } else if (['PL040', 'PL049', 'PL016'].includes(item.additionTermId)) {
               item.additionTermValue.map(value => {
                 data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : Number(value.itemValue) / 10000)
               })
-              this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
             } else {
               item.additionTermValue.map(value => {
                 data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : value.itemValue)
               })
-              this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
             }
+            this.$nextTick(() => {
+              this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
+            })
           }
         })
       }
