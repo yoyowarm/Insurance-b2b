@@ -99,7 +99,7 @@ export default {
         payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
         payload.remark = this.remark.text
         this.$store.dispatch('activity/updatedUnderwriteQuotationData', payload)
-        await this.questionnaireCoefficient(true)
+        if (this.quotationData.questionnaire) { await this.questionnaireCoefficient(true) }
         this.openAudit = true
       }
     },
@@ -206,7 +206,7 @@ export default {
         payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
         payload.remark = this.remark.text
         this.$store.dispatch('place/updatedUnderwriteQuotationData', payload)
-        await this.questionnaireCoefficient(true)
+        if (this.quotationData.questionnaire) { await this.questionnaireCoefficient(true) }
         this.openAudit = true
       }
     },
@@ -223,7 +223,7 @@ export default {
       }
       this.$store.dispatch('common/updatedCalculateModel', true)
       this.$store.dispatch(`${type}/updatedUnderwriteQuotationIsChange`, true)
-      await this.questionnaireCoefficient(true)
+      if (this.quotationData.questionnaire) { await this.questionnaireCoefficient(true) }
     },
     async updateUnderwritePlaceQuotation(payload) {
       await this.$store.dispatch('underwrite/UpdateUnderwritePlaceQuotation', payload)
