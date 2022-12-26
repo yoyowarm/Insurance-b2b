@@ -440,6 +440,8 @@ export default {
       if(this.InsuranceActive == 1) {
         if(this.quotationData.questionnaire) {
           obj.questionnaire = this.questionnaireMapping(this.questionnaire)
+        } else {
+          obj.questionnaire = null
         }
         obj.orderNo = this.orderNo
         obj.mainOrderNo = this.mainOrderNo

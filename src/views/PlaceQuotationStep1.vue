@@ -100,7 +100,7 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
-         <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient.toString().includes('%') ? insuranceAmountListData.parameter.underwriteCoefficient : insuranceAmountListData.parameter.underwriteCoefficient + '%'}})</Button>
+         <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
@@ -686,7 +686,7 @@ export default {
     quotationMapping() {
       const data = {
         policyAttachmentId: this.uuid,
-        questionnaire: this.InsuranceActive !==0 ? this.questionnaire : null,
+        questionnaire: this.questionnaireFinished ? this.questionnaire : null,
         renewal: {isRenewal: this.renewal.IsRenewal, insuranceNumber: this.renewal.InsuranceNumber},
         insuranceRecord: {
           lastYear: {
