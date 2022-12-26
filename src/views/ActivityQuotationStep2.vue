@@ -9,7 +9,7 @@
         :info.sync="InsuranedData"
         :nationalities="nationalities"
         :cityList="countyList"
-        :areaList="InsuranedAreaList.filter(item => item.cityId == InsuranedData.City.Value)"
+        :areaList="InsuranedAreaList"
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         quotationType="activity"
@@ -51,7 +51,7 @@
         :info.sync="ApplicantData"
         :nationalities="nationalities"
         :cityList="countyList"
-        :areaList="ApplicantAreaList.filter(item => item.cityId == ApplicantData.City.Value)"
+        :areaList="ApplicantAreaList"
          @checkID="() =>checkID('Applicant')"
          @getDetail="(type) =>insuredOrApplicantDetail('Applicant',type)"
          type="ApplicantData"
@@ -261,21 +261,21 @@ export default {
       districts.data.content.map(item => {
         this.countyList.push({
           ...item,
-          Value: item.cityId,
+          Value: `${item.cityId}`,
           Text: item.cityName
         })
         item.countyDistricts.map(subItem => {
           this.InsuranedAreaList.push({
             ...subItem,
             cityCode: item.cityCode,
-            cityId: item.cityId,
+            cityId: `${item.cityId}`,
             Value: subItem.areaId,
             Text: subItem.areaName
           })
           this.ApplicantAreaList.push({
             ...subItem,
             cityCode: item.cityCode,
-            cityId: item.cityId,
+            cityId: `${item.cityId}`,
             Value: subItem.areaId,
             Text: subItem.areaName
           })
@@ -370,11 +370,7 @@ export default {
     prevStep() {
       if(this.InsuranceActive !== 0 || this.orderNo) {
         const data = {
-          ...this.quotationData,
-            applicant: {},
-            insuraned: {},
-            internalControlData: {},
-            relationText: '',
+          ...JSON.parse(JSON.stringify(this.activityQuotation)),
           }
         this.$store.dispatch('activity/updatedQuotationData', data)
       }
@@ -469,7 +465,6 @@ export default {
     if(!this.internalControlData.issuerNumber) {
       this.internalControl = {...this.internalControl,issuerNumber: this.userInfo.userid}
     }
-    console.log(this.InsuranceActive)
   },
 }
 </script>

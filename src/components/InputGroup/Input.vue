@@ -65,6 +65,10 @@ export default {
     negative: {
       type: Boolean,
       default: false
+    },
+    hasZero: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -98,14 +102,15 @@ export default {
     updateValue (value) {
       let inputValue = value
       if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3) {
-        if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false) {
+        if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false && (this.hasZero && inputValue != 0)) {
           this.$emit('updateValue', '')
           this.$refs.input.value = ''
           return
-        } 
+        }
+        
         const regex = new RegExp(/^0{0,}/, 'g');
         const regex2 = new RegExp(/\./, 'g');
-        inputValue = inputValue ? inputValue.replace(regex, '') : ''
+        if(!this.hasZero)inputValue = inputValue ? inputValue.replace(regex, '') : ''
         inputValue = inputValue ? inputValue.replace(regex2, '') : ''
         this.$nextTick(() => {
           this.$refs.input.value = inputValue

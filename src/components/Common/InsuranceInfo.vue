@@ -26,13 +26,13 @@
           checkedText="手機"
           uncheckedText="市話"
           :disable="disable"
-          @updateValue="(e) =>updateInfo('numberType', e)"
+          @updateValue="(e) =>{updateInfo('numberType', e);updateInfo('prefixNumber', '');updateInfo('Mobile', '')}"
         />
       </InputGroup>
       <InputGroup class="w-full" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
         <div slot="input" class="flex flex-row">
           <Input
-            v-if="!copyInfo.numberType"
+            v-show="!copyInfo.numberType"
             class="w-28 border-r-2"
             placeholder="區碼"
             :maxLength="4"
@@ -40,6 +40,8 @@
             @updateValue="(e) => updateInfo('prefixNumber', e)"
             @blurInput="phoneVerify('prefixNumber')"
             :disable="disable"
+            numberOnly
+            hasZero
           />
           <Input
             placeholder="輸入號碼"
@@ -48,8 +50,11 @@
             @blurInput="phoneVerify('Mobile')"
             :disable="disable"
             :maxLength="copyInfo.numberType ? 10 : 8"
+            numberOnly
+            hasZero
           />
         </div>
+        <div class="absolute -bottom-7 text-gray-500" slot="input-right">{{copyInfo.numberType ? '手機範例: 0988111222' : '市話範例: 02 22334455'}}</div>
       </InputGroup>
       <InputGroup class="w-full" title="國籍" :disable="disable" lgTitle mid dash>
         <SwitchInput
@@ -103,7 +108,7 @@
         <Select
           slot="input"
           defaultText="選擇區域"
-          :options="areaList"
+          :options="areaList.filter(item => item.cityId == copyInfo.City.Value)"
           :selected="copyInfo.Area.Value"
           :disable="disable"
           @emitItem="(item) => emitSelectItem('Area', item)"
@@ -264,10 +269,6 @@ export default {
         })
       }
     },
-    'copyInfo.numberType'() {
-      this.updateInfo('prefixNumber', '')
-      this.updateInfo('Mobile', '')
-    }
   },
   methods: {
     emitSelectItem(key, item) {
@@ -281,7 +282,6 @@ export default {
       const isPhone = new RegExp(/^09+\d{0,8}/g)
       const isTelephone = new RegExp(/^0+[2-8]{1}.*/)
 
-      console.log(type,this.copyInfo.numberType, isTelephone.test(this.copyInfo[type]),this.copyInfo[type])
       if(!isNumber.test(this.copyInfo[type]) ||
         (type == 'Mobile' && this.copyInfo.numberType && !isPhone.test(this.copyInfo[type])) ||
         (type == 'prefixNumber' && !this.copyInfo.numberType && !isTelephone.test(this.copyInfo[type]))

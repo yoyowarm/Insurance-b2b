@@ -3,7 +3,7 @@
     <header class="header">
       <DynamicLink type="router" path="/" class="flex items-end">
         <img class="logo" src="../assets/images/logo.png" alt="">
-        <div class="title md:text-xl sm:text-sm"><span>公共責任保險報價系統</span></div>
+        <div class="title md:text-xl sm:text-sm"><span>公共意外責任保險報價系統</span></div>
         <img class="mobile-logo" src="../assets/images/mobile_logo.png" alt="">
       </DynamicLink>
       <div class="user">

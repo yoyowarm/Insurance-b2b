@@ -107,8 +107,8 @@ export default {
       this.$store.dispatch('quotationStep1/updatedTarget', copyTarget)
 
     },
-    step1InitAssignValue(type) {
-      console.log(this.quotationData)
+    async step1InitAssignValue(type) {
+      console.log(this.quotationData, type)
       if (Object.keys(this.quotationData).length == 0) return
       const quotationType = type == 'place' ? 'placeInsureInfo' : 'activityInsureInfo'
       if (type == 'place' && this.quotationData[quotationType].renewal.isRenewal) {//訂單續保
@@ -129,6 +129,10 @@ export default {
       if (this.quotationData[quotationType].otherIndustryName && this.quotationData[quotationType].insureType == '其他(混合類別)') {
         this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData[quotationType].otherIndustryName)
       }
+      const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
+      this.additionTermsList = data.data.content.additionTermsDetails.filter(i => i[type == 'place' ? 'isPlaceEnable' : 'isActivityEnable'])
+      this.termsInit()
+
       if (this.quotationData[quotationType].additionTerms.length > 0 && this.additionTermsList.length > 0) {//附加條款
         this.quotationData[quotationType].additionTerms.map(item => {//建議條款
           const target = this.additionTermsList.find(i => i.additionTermId === item.additionTermId)
@@ -141,7 +145,6 @@ export default {
             const additionTerms = { ...this.$store.state[type].additionTerms }
             const data = { ...additionTerms[item.additionTermId] }
             if (item.additionTermId == 'PL005') {//建築物承租人火災附加條款
-
               item.additionTermValue.map(value => {
                 data[value.itemId] = (value.itemValue == 'false') ? false : ((value.itemValue == 'true') ? true : (value.itemId == 'value1' ? Number(value.itemValue) / 10000 : value.itemValue))
               })
@@ -157,6 +160,10 @@ export default {
               })
               this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
             }
+
+            // this.$nextTick(() => {
+            this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
+            // })
           }
         })
       }
@@ -282,9 +289,9 @@ export default {
           City: this.quotationData.insuraned.cityId ? this.countyList.find(i => i.Value == this.quotationData.insuraned.cityId) : { Text: '選擇縣市', Value: '', },
           Area: this.quotationData.insuraned.areaId ? this.InsuranedAreaList.find(i => i.areaId == this.quotationData.insuraned.areaId) : { Text: '選擇區域', Value: '', },
           subAddress: this.quotationData.insuraned.subAddress,
-          numberType: !this.quotationData.insuraned.mobile || /^09/.test(this.quotationData.insuraned.mobile) ? true : false,
-          prefixNumber: this.quotationData.insuraned.mobile ? (/^09/.test(this.quotationData.insuraned.mobile) ? '' : this.quotationData.insuraned.mobile.toString().slice(0, 2)) : '',
-          Mobile: this.quotationData.insuraned.mobile ? (/^09/.test(this.quotationData.insuraned.mobile) ? this.quotationData.insuraned.mobile : this.quotationData.insuraned.mobile.toString().slice(2,)) : '',
+          numberType: !this.quotationData.insuraned.mobile || this.quotationData.insuraned.mobile.match(/^09/g) ? true : false,
+          prefixNumber: this.quotationData.insuraned.mobile ? (this.quotationData.insuraned.mobile.match(/^09/g) ? '' : this.quotationData.insuraned.mobile.slice(0, 2)) : '',
+          Mobile: this.quotationData.insuraned.mobile ? (this.quotationData.insuraned.mobile.match(/^09/g) ? this.quotationData.insuraned.mobile : this.quotationData.insuraned.mobile.slice(2,)) : '',
           IsForeignRegister: this.quotationData.insuraned.isForeignRegister,
           RegisterNationality: this.quotationData.insuraned.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) : { Text: '', Value: '' }) : { Text: '', Value: '' },
           Profession: this.quotationData.insuraned.isProfession,
@@ -296,7 +303,7 @@ export default {
         if (this.IDRegex(Insuraned.ID)[1]) {
           Insuraned.CorporateRequired = true
         }
-        this.$store.dispatch(`${type}/updatedInsuraned`, Insuraned)
+
       }
 
       const Applicant = {}//被保人
@@ -310,9 +317,8 @@ export default {
           City: this.quotationData.applicant.cityId ? this.countyList.find(i => i.Value == this.quotationData.applicant.cityId) : { Text: '選擇縣市', Value: '', },
           Area: this.quotationData.applicant.areaId ? this.ApplicantAreaList.find(i => i.areaId == this.quotationData.applicant.areaId) : { Text: '選擇區域', Value: '', },
           subAddress: this.quotationData.applicant.subAddress,
-          numberType: !this.quotationData.insuraned.mobile || /^09/.test(this.quotationData.insuraned.mobile) ? true : false,
-          prefixNumber: this.quotationData.insuraned.mobile ? (/^09/.test(this.quotationData.insuraned.mobile) ? '' : this.quotationData.insuraned.mobile.toString().slice(0, 2)) : '',
-          Mobile: this.quotationData.insuraned.mobile ? (/^09/.test(this.quotationData.insuraned.mobile) ? this.quotationData.insuraned.mobile : this.quotationData.insuraned.mobile.toString().slice(2,)) : '',
+          numberType: !this.quotationData.applicant.mobile || this.quotationData.applicant.mobile.match(/^09/g) ? true : false,
+
           IsForeignRegister: this.quotationData.applicant.isForeignRegister,
           RegisterNationality: this.quotationData.applicant.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) ? this.nationalities.find(i => i.Text == this.quotationData.applicant.registerNationality) : { Text: '', Value: '' }) : { Text: '', Value: '' },
           Profession: this.quotationData.applicant.isProfession,
@@ -320,10 +326,12 @@ export default {
           overseasOrDomestic: Boolean(this.quotationData.applicant.overseasOrDomestic),
           IsProOrNot: this.quotationData.applicant.isProOrNot,
         })
+        Applicant.prefixNumber = this.quotationData.applicant.mobile ? (this.quotationData.applicant.mobile.match(/^09/g) ? '' : this.quotationData.applicant.mobile.toString().slice(0, 2)) : ''
+        Applicant.Mobile = this.quotationData.applicant.mobile ? (this.quotationData.applicant.mobile.match(/^09/g) ? this.quotationData.applicant.mobile : this.quotationData.applicant.mobile.toString().slice(2,)) : ''
         if (this.IDRegex(Applicant.ID)[1]) {
           Applicant.CorporateRequired = true
         }
-        this.$store.dispatch(`${type}/updatedApplicant`, Applicant)
+
       }
       if (this.quotationData.policyTransfer && Object.keys(this.quotationData.policyTransfer).length > 0) {
         this.policyTransferData = {
@@ -352,6 +360,10 @@ export default {
           businessSourceCode: this.businessSource.find(i => i.Value == this.quotationData.internalControlData.businessSourceCode),
         }
       }
+      this.$nextTick(() => {
+        this.$store.dispatch(`${type}/updatedInsuraned`, Insuraned)
+        this.$store.dispatch(`${type}/updatedApplicant`, Applicant)
+      })
     },
   }
 }

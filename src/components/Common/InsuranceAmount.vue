@@ -260,7 +260,7 @@ export default {
             perBodyAmount: this.data.perBodyAmount? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) : 0,
             perAccidentBodyAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 5 : 0,
             perAccidentFinanceAmount: this.data.perBodyAmount? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) : 0,
-            insuranceTotalAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 11 : 0,
+            insuranceTotalAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 12 : 0,
             selfInflictedAmount: this.data.selfInflictedAmount
           })
         }

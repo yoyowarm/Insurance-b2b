@@ -68,7 +68,7 @@
       <div class="flex flex-col sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
+        <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient.toString().includes('%') ? insuranceAmountListData.parameter.underwriteCoefficient : insuranceAmountListData.parameter.underwriteCoefficient + '%'}})</Button>
       </div>
       <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
     </div>
@@ -342,9 +342,9 @@ export default {
         this.termsInit()
       }
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
-        this.step1InitAssignValue('activity')
+        await this.step1InitAssignValue('activity')
         this.AssignQuestionnaire('activity')
-        await this.questionnaireCoefficient(this.InsuranceActive == 7)
+        if(this.quotationData.questionnaire){await this.questionnaireCoefficient(this.InsuranceActive == 7)}
         if(this.InsuranceActive == 7) {
           if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true) //核保時，如果有保額，鎖著輸入欄位
           if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('activity/updatedUnderwriteQuotationIsChange',true) //核保時，如果沒有保額，預設為核保單變更
@@ -420,9 +420,6 @@ export default {
           }
         })
       this.termsData = terms
-      this.$nextTick(() => {
-        this.$store.dispatch('activity/clearAdditionTerms')
-      })
       if(!this.quotationData.activityInsureInfo) return
       this.additionTermsList.map(item => {//自訂條款
           const target = this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
@@ -578,22 +575,6 @@ export default {
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
               ...this.quotationData,
-              activityInsureInfo: {
-                additionTerms: [],
-                fileAttachments: [],
-                insuranceBeginDate: '',
-                insuranceEndDate: '',
-                insuranceRecord: {
-                  lastYear:{status:false},
-                  previousYear:{status:false},
-                },
-                insureType: '',
-                otherIndustryName: '',
-                activityInfo: [],
-                remark: '',
-                renewal: {isRenewal: false},
-                insuranceAmounts: [],
-              }
             }
             this.$store.dispatch('activity/updatedQuotationData',data)
           }
@@ -635,7 +616,7 @@ export default {
     quotationMapping() {
       const data = {
         policyAttachmentId: this.uuid,
-        questionnaire: null,
+        questionnaire: this.InsuranceActive !==0 ? this.questionnaire : null,
         insurancePeriod: {
           startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
           startHour: this.period.startDate.hour,
@@ -716,6 +697,13 @@ export default {
       }
       if(this.questionnaireFinished) {
         this.questionnaireMapping(data)
+      }
+      if(this.InsuranceActive !==0) {
+        data.applicant = JSON.parse(JSON.stringify(this.quotationData.applicant))
+        data.insuraned = JSON.parse(JSON.stringify(this.quotationData.insuraned))
+        data.internalControlData = JSON.parse(JSON.stringify(this.quotationData.internalControlData))
+        data.relationText = this.quotationData.relationText
+        data.policyTransfer = JSON.parse(JSON.stringify(this.quotationData.policyTransfer))
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
       console.log(data)

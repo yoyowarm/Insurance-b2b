@@ -107,6 +107,7 @@ export default {
     return {
       historyDialog: false,
       openDialog: false,
+      correct:false,
       quotationData: {
         insuranceAmounts: [{
           parameter: {
@@ -173,6 +174,7 @@ export default {
   methods: {
     async copyQuotation() {
       if(this.InsuranceActive == 6) return
+      this.correct = true
       this.$store.dispatch('common/updateOrderNo', {orderNo:this.orderNo,mainOrderNo: this.mainOrderNo})
       await this.quotationDetail()
       this.$store.dispatch(`place/updatedInsuranceActive`,1)
@@ -253,6 +255,7 @@ export default {
     }
   },
   destroyed() {
+    if(this.correct) return
     this.$store.dispatch('place/clearAll')
     this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo:''})
     this.$store.dispatch('common/updatedCalculateModel', false)

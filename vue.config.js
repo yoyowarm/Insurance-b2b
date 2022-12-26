@@ -22,7 +22,7 @@ module.exports = {
     config
       .plugin('html')
       .tap(args => {
-        args[0].title = "公共責任保險報價系統";
+        args[0].title = "公共意外責任保險報價系統";
         return args;
       })
   },

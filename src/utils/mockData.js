@@ -214,7 +214,7 @@ export const quotationListTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '2-6'
+        size: '3-6'
       },
       {
         text: '報價日期',
@@ -923,7 +923,7 @@ export const amountListTable = () => {
       },
       {
         name: 'PL016獨立承攬人責任附加條款',
-        content: ['承攬工程合約金額少於 2 須另行報價'],
+        content: ['承攬工程合約金額超過 2 須另行報價'],
         id: '2',
         operate: ''
       },

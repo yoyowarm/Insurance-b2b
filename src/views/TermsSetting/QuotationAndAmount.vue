@@ -109,6 +109,7 @@ import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import { amountListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
+import { numFormat} from '@/utils/regex'
 export default {
   components: {
     FormTitle,
@@ -159,7 +160,7 @@ export default {
                   if(!isNaN(text)) {
                     const target = this.quotationList.find(term => term.id == text)
                     return target
-                      ? text = `<span class="text-main">${target.amount}元</span>`
+                      ? text = `<span class="text-main">${numFormat(target.amount)}元</span>`
                       : text
                   } else {
                     return text
