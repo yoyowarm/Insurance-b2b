@@ -386,11 +386,7 @@ export default {
     prevStep() {
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
         const data = {
-          ...this.quotationData,
-            applicant: {},
-            insuraned: {},
-            internalControlData: {},
-            relationText: '',
+          ...JSON.parse(JSON.stringify(this.placeQuotation)),
           }
         this.$store.dispatch('place/updatedQuotationData', data)
       }

@@ -495,9 +495,6 @@ export default {
           }
         })
       this.termsData = terms
-      this.$nextTick(() => {
-        this.$store.dispatch('activity/clearAdditionTerms')
-      })
       if(!this.quotationData.placeInsureInfo) return
       this.additionTermsList.map(item => {//自訂條款
           const target = this.quotationData.placeInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
@@ -544,7 +541,7 @@ export default {
         this.termsInit()
       }
       if((this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) ) {//報價明細更正、複製時塞資料
-        this.step1InitAssignValue('place')
+        await this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')
         await this.questionnaireCoefficient(this.InsuranceActive == 7)
         if(this.InsuranceActive == 7) {
@@ -689,7 +686,7 @@ export default {
     quotationMapping() {
       const data = {
         policyAttachmentId: this.uuid,
-        questionnaire: null,
+        questionnaire: this.InsuranceActive !==0 ? this.questionnaire : null,
         renewal: {isRenewal: this.renewal.IsRenewal, insuranceNumber: this.renewal.InsuranceNumber},
         insuranceRecord: {
           lastYear: {
@@ -768,6 +765,13 @@ export default {
       
       if(this.questionnaireFinished) {
         this.questionnaireMapping(data)
+      }
+      if(this.InsuranceActive !==0) {
+        data.applicant = JSON.parse(JSON.stringify(this.quotationData.applicant))
+        data.insuraned = JSON.parse(JSON.stringify(this.quotationData.insuraned))
+        data.internalControlData = JSON.parse(JSON.stringify(this.quotationData.internalControlData))
+        data.relationText = this.quotationData.relationText
+        data.policyTransfer = JSON.parse(JSON.stringify(this.quotationData.policyTransfer))
       }
       this.$store.dispatch('place/updatePlaceQuotation', data)
       console.log(data)

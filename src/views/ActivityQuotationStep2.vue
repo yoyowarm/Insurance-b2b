@@ -370,11 +370,7 @@ export default {
     prevStep() {
       if(this.InsuranceActive !== 0 || this.orderNo) {
         const data = {
-          ...this.quotationData,
-            applicant: {},
-            insuraned: {},
-            internalControlData: {},
-            relationText: '',
+          ...JSON.parse(JSON.stringify(this.activityQuotation)),
           }
         this.$store.dispatch('activity/updatedQuotationData', data)
       }
@@ -469,7 +465,6 @@ export default {
     if(!this.internalControlData.issuerNumber) {
       this.internalControl = {...this.internalControl,issuerNumber: this.userInfo.userid}
     }
-    console.log(this.InsuranceActive)
   },
 }
 </script>

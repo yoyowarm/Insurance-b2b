@@ -342,7 +342,7 @@ export default {
         this.termsInit()
       }
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
-        this.step1InitAssignValue('activity')
+        await this.step1InitAssignValue('activity')
         this.AssignQuestionnaire('activity')
         await this.questionnaireCoefficient(this.InsuranceActive == 7)
         if(this.InsuranceActive == 7) {
@@ -420,9 +420,6 @@ export default {
           }
         })
       this.termsData = terms
-      this.$nextTick(() => {
-        this.$store.dispatch('activity/clearAdditionTerms')
-      })
       if(!this.quotationData.activityInsureInfo) return
       this.additionTermsList.map(item => {//自訂條款
           const target = this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
@@ -578,22 +575,6 @@ export default {
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
               ...this.quotationData,
-              activityInsureInfo: {
-                additionTerms: [],
-                fileAttachments: [],
-                insuranceBeginDate: '',
-                insuranceEndDate: '',
-                insuranceRecord: {
-                  lastYear:{status:false},
-                  previousYear:{status:false},
-                },
-                insureType: '',
-                otherIndustryName: '',
-                activityInfo: [],
-                remark: '',
-                renewal: {isRenewal: false},
-                insuranceAmounts: [],
-              }
             }
             this.$store.dispatch('activity/updatedQuotationData',data)
           }
@@ -635,7 +616,7 @@ export default {
     quotationMapping() {
       const data = {
         policyAttachmentId: this.uuid,
-        questionnaire: null,
+        questionnaire: this.InsuranceActive !==0 ? this.questionnaire : null,
         insurancePeriod: {
           startDate: `${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}`,
           startHour: this.period.startDate.hour,
@@ -716,6 +697,13 @@ export default {
       }
       if(this.questionnaireFinished) {
         this.questionnaireMapping(data)
+      }
+      if(this.InsuranceActive !==0) {
+        data.applicant = JSON.parse(JSON.stringify(this.quotationData.applicant))
+        data.insuraned = JSON.parse(JSON.stringify(this.quotationData.insuraned))
+        data.internalControlData = JSON.parse(JSON.stringify(this.quotationData.internalControlData))
+        data.relationText = this.quotationData.relationText
+        data.policyTransfer = JSON.parse(JSON.stringify(this.quotationData.policyTransfer))
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
       console.log(data)
