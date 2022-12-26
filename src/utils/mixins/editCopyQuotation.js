@@ -290,7 +290,8 @@ export default {
           Area: this.quotationData.insuraned.areaId ? this.InsuranedAreaList.find(i => i.areaId == this.quotationData.insuraned.areaId) : { Text: '選擇區域', Value: '', },
           subAddress: this.quotationData.insuraned.subAddress,
           numberType: !this.quotationData.insuraned.mobile || this.quotationData.insuraned.mobile.match(/^09/g) ? true : false,
-
+          prefixNumber: this.quotationData.insuraned.mobile ? (this.quotationData.insuraned.mobile.match(/^09/g) ? '' : this.quotationData.insuraned.mobile.slice(0, 2)) : '',
+          Mobile: this.quotationData.insuraned.mobile ? (this.quotationData.insuraned.mobile.match(/^09/g) ? this.quotationData.insuraned.mobile : this.quotationData.insuraned.mobile.slice(2,)) : '',
           IsForeignRegister: this.quotationData.insuraned.isForeignRegister,
           RegisterNationality: this.quotationData.insuraned.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) ? this.nationalities.find(i => i.Text == this.quotationData.insuraned.registerNationality) : { Text: '', Value: '' }) : { Text: '', Value: '' },
           Profession: this.quotationData.insuraned.isProfession,
@@ -299,8 +300,6 @@ export default {
           IsProOrNot: this.quotationData.insuraned.isProOrNot,
           activityName: this.quotationData.insuraned.activityName,
         })
-        Insuraned.prefixNumber = this.quotationData.insuraned.mobile ? (this.quotationData.insuraned.mobile.match(/^09/g) ? '' : this.quotationData.insuraned.mobile.slice(0, 2)) : ''
-        Insuraned.Mobile = this.quotationData.insuraned.mobile ? (this.quotationData.insuraned.mobile.match(/^09/g) ? this.quotationData.insuraned.mobile : this.quotationData.insuraned.mobile.slice(2,)) : ''
         if (this.IDRegex(Insuraned.ID)[1]) {
           Insuraned.CorporateRequired = true
         }

@@ -26,13 +26,13 @@
           checkedText="手機"
           uncheckedText="市話"
           :disable="disable"
-          @updateValue="(e) =>updateInfo('numberType', e)"
+          @updateValue="(e) =>{updateInfo('numberType', e);updateInfo('prefixNumber', '');updateInfo('Mobile', '')}"
         />
       </InputGroup>
       <InputGroup class="w-full" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
         <div slot="input" class="flex flex-row">
           <Input
-            v-if="!copyInfo.numberType"
+            v-show="!copyInfo.numberType"
             class="w-28 border-r-2"
             placeholder="區碼"
             :maxLength="4"
@@ -269,10 +269,6 @@ export default {
         })
       }
     },
-    'copyInfo.numberType'() {
-      this.updateInfo('prefixNumber', '')
-      this.updateInfo('Mobile', '')
-    }
   },
   methods: {
     emitSelectItem(key, item) {
@@ -286,7 +282,6 @@ export default {
       const isPhone = new RegExp(/^09+\d{0,8}/g)
       const isTelephone = new RegExp(/^0+[2-8]{1}.*/)
 
-      console.log(type,this.copyInfo.numberType, isTelephone.test(this.copyInfo[type]),this.copyInfo[type])
       if(!isNumber.test(this.copyInfo[type]) ||
         (type == 'Mobile' && this.copyInfo.numberType && !isPhone.test(this.copyInfo[type])) ||
         (type == 'prefixNumber' && !this.copyInfo.numberType && !isTelephone.test(this.copyInfo[type]))
