@@ -384,12 +384,10 @@ export default {
       }
     },
     prevStep() {
-      if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
-        const data = {
-          ...JSON.parse(JSON.stringify(this.placeQuotation)),
-          }
-        this.$store.dispatch('place/updatedQuotationData', data)
-      }
+      const data = {
+        ...JSON.parse(JSON.stringify(this.placeQuotation)),
+        }
+      this.$store.dispatch('place/updatedQuotationData', data)
       this.$router.push('/place-quotation/step1')
     },
     async verifyFinal() {

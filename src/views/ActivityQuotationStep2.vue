@@ -368,12 +368,10 @@ export default {
       }
     },
     prevStep() {
-      if(this.InsuranceActive !== 0 || this.orderNo) {
-        const data = {
-          ...JSON.parse(JSON.stringify(this.activityQuotation)),
-          }
-        this.$store.dispatch('activity/updatedQuotationData', data)
-      }
+      const data = {
+        ...JSON.parse(JSON.stringify(this.activityQuotation)),
+        }
+      this.$store.dispatch('activity/updatedQuotationData', data)
       this.$router.push('/activity-quotation/step1')
     },
     async verifyFinal() {

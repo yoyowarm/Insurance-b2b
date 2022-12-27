@@ -420,9 +420,14 @@ export default {
           }
         })
       this.termsData = terms
-      if(!this.quotationData.activityInsureInfo) return
+      if(this.InsuranceActive !==0 && !this.quotationData.activityInsureInfo) return
       this.additionTermsList.map(item => {//自訂條款
-          const target = this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId)
+          let target = null
+          if(this.InsuranceActive ==0) {
+            target = this.quotationData.additionTerms.find(i => i.additionTermId === item.additionTermId)
+          } else {
+            target = this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId && i.additionTermName === item.additionTermName)
+          }
           if (!target) {
             const copyTerms = { ...this.termsData }
             copyTerms[item.additionTermName].selected = false
