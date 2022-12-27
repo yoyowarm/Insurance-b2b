@@ -332,9 +332,9 @@ export default {
         this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
       } else {
         data.MainOrderNo = this.MainOrderNo
-        data.UnderwriteDirection = this.verifyStatus == 2 ? null : this.verifyStatus
-        data.NGroup = this.NGroup
-        data.Level = this.layer == '7' ? null : this.layer
+        data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
+        data.GroupName = this.NGroup == '選擇公司單位' ? '' : this.NGroup
+        data.Level = this.layer == '7' ? '' : this.layer
         const quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
         this.quotationList = [...quotationList.data.content.underwrites.map(item => {
           return {
@@ -392,6 +392,10 @@ export default {
         Value: i,
         Text: i
       }
+    })
+    this.NGroupLists.unshift({
+      Value: '',
+      Text: '全部'
     })
   }
 }
