@@ -68,7 +68,7 @@
         <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
           <Button @click.native="getQuotationList" class="absolute -top-5 w-32">查詢</Button>
         </div>
-        <div class="column-6 p-3 pb-6">
+        <div v-if="currentTag == 0" class="column-6 p-3 pb-6">
           <InputGroup class="w-full" noMt>
             <Select
               slot="input"
@@ -76,6 +76,35 @@
               :options="stateList"
               :selected="stateSelected.Value.toString()"
               @emitItem="e => stateSelected = e"
+            />
+          </InputGroup>
+        </div>
+        <div v-else class="column-6 pb-6">
+          <InputGroup class="w-full" noMt>
+            <Select
+              slot="input"
+              defaultText="選擇狀態"
+              :options="verifyStatusLists"
+              :selected="(verifyStatus).toString()"
+              @emitItem="(item) => verifyStatus = item.Value"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" noMt>
+            <Select
+              slot="input"
+              defaultText="選擇公司單位"
+              :options="NGroupLists"
+              :selected="(NGroup).toString()"
+              @emitItem="(item) => NGroup = item.Value"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" noMt>
+            <Select
+              slot="input"
+              defaultText="選擇階級"
+              :options="layerLists"
+              :selected="(layer).toString()"
+              @emitItem="(item) => layer = item.Value"
             />
           </InputGroup>
         </div>
@@ -216,6 +245,23 @@ export default {
         9: '已出單',
         99: '取消'
       },
+      verifyStatus: 2,//審核狀態
+      verifyStatusLists: [
+        {Text: '全部',Value:2},
+        {Text: '核保中',Value:1},
+        {Text: '待確認審核結果',Value:0},
+      ],//審核狀態列表
+      NGroup: '',//公司
+      NGroupLists: [],//公司列表
+      layer: '7',//階級
+      layerLists: [
+        {Text: '全部',Value: '7'},
+        {Text: '第二階',Value: '2'},
+        {Text: '第三階',Value: '3'},
+        {Text: '第四階',Value: '4'},
+        {Text: '第五階',Value: '5'},
+        {Text: '第六階',Value: '6'},
+      ],//階級列表
     }
   },
   computed: {
@@ -286,6 +332,9 @@ export default {
         this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
       } else {
         data.MainOrderNo = this.MainOrderNo
+        data.UnderwriteDirection = this.verifyStatus == 2 ? null : this.verifyStatus
+        data.NGroup = this.NGroup
+        data.Level = this.layer == '7' ? null : this.layer
         const quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
         this.quotationList = [...quotationList.data.content.underwrites.map(item => {
           return {
@@ -337,6 +386,13 @@ export default {
     await this.getQuotationList()
     const data = await this.$store.dispatch('quotation/GetQuotationState')
     this.quotationState = data.data.content
+    const group = await this.$store.dispatch('resource/GetTaianNGroup')
+    this.NGroupLists = group.data.content.map(i => {
+      return {
+        Value: i,
+        Text: i
+      }
+    })
   }
 }
 </script>
