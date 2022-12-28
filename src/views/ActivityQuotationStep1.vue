@@ -30,7 +30,9 @@
         :data.sync="insuranceAmountListData"
         :countyAmount="countyAmount"
         :infoList="activityInfo"
-        :disable="calculateModel"/>
+        :disable="calculateModel"
+        :createOder.sync="createOder"
+      />
     </CommonBoard>
     <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest).length > 0">
       <TermsList
@@ -177,6 +179,7 @@ export default {
       openQuestionnaire: false,
       openFormula: false,
       openAudit: false,
+      createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
     }
   },
   computed: {
@@ -424,9 +427,9 @@ export default {
       this.additionTermsList.map(item => {//自訂條款
           let target = null
           if(this.InsuranceActive ==0) {
-            target = this.quotationData.additionTerms.find(i => i.additionTermId === item.additionTermId)
+            target = Object.keys(this.quotationData).length > 0 && this.quotationData.additionTerms.find(i => i.additionTermId === item.additionTermId) ? this.quotationData.additionTerms.find(i => i.additionTermId === item.additionTermId) : null
           } else {
-            target = this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId && i.additionTermName === item.additionTermName)
+            target = Object.keys(this.quotationData).length > 0 && this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId && i.additionTermName === item.additionTermName)
           }
           if (!target) {
             const copyTerms = { ...this.termsData }
