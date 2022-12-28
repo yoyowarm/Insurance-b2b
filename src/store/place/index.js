@@ -460,6 +460,9 @@ export default {
     UPDATED_REMARK_TEXT(state, data) {
       state.remark.text = data
     },
+    UPDATED_REMARK_FILELIST(state, data) {
+      state.remark.fileList = data
+    },
     UPDATED_QUESTIONNAIRE(state, data) {
       state.questionnaire = data
     },
@@ -579,6 +582,9 @@ export default {
     },
     updatedRemark({ commit }, data) {
       commit('UPDATED_REMARK_TEXT', data)
+    },
+    updatedFileList({ commit }, data) {
+      commit('UPDATED_REMARK_FILELIST', data)
     },
     updatedQuestionnaire({ commit }, data) {
       commit('UPDATED_QUESTIONNAIRE', data)

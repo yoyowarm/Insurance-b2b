@@ -229,8 +229,12 @@ export default {
           },
         }
       }
+      if (this.quotationData.attachmentId) {
+        this.$store.dispatch(`${type}/updatedUUID`, this.quotationData.attachmentId)
+      }
       if (this.quotationData[quotationType].fileAttachments && this.quotationData[quotationType].fileAttachments.length > 0) {//附件
         this.attachmentList = this.quotationData[quotationType].fileAttachments
+        this.$store.dispatch(`${type}/updatedFileList`, this.quotationData[quotationType].fileAttachments)
       }
       if (this.quotationData[quotationType][`${type}Info`].length > 0) {//處所活動資訊
         if (type == 'place') {
