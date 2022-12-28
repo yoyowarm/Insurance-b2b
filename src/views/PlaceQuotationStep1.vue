@@ -497,7 +497,7 @@ export default {
           }
         })
       this.termsData = terms
-      if(this.InsuranceActive !==0 && !this.quotationData.placeInsureInfo) return
+      if((this.InsuranceActive !==0 && !this.quotationData.placeInsureInfo)) return
       this.additionTermsList.map(item => {//自訂條款
           let target = null
           if(this.InsuranceActive ==0) {
@@ -505,7 +505,7 @@ export default {
           } else {
             target = Object.keys(this.quotationData).length > 0 && this.quotationData.placeInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId && i.additionTermName === item.additionTermName)
           }
-          if (!target) {
+          if (!target && !['758A','911','PL013'].includes(item.additionTermId)) {
             const copyTerms = { ...this.termsData }
             copyTerms[item.additionTermName].selected = false
             this.$store.dispatch(`place/updatedTerms`, copyTerms)
