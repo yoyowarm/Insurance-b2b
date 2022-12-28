@@ -114,6 +114,10 @@ export default {
     type: {
       type: String,
       default: ''
+    },
+    createOder: {
+      type: Boolean,
+      default: true
     }
   },
   data() {
@@ -153,14 +157,20 @@ export default {
       immediate: true
     },
     'data.amountType': {
-      handler(val, odlVal) {
-        if (!odlVal || val.Value !== odlVal.Value) {
-          if(val.Value == '2' && odlVal && odlVal.Value !== '2') {
-            this.assignAmount('',true)
-          } else if(val.Value == '1' && odlVal && odlVal.Value !== '1') {
+      handler(val, oldVal) {
+        if (!oldVal || val.Value != oldVal.Value) {
+          if(val.Value == '2' && oldVal && oldVal.Value !== '2') {
+            if(this.createOder) {
+              this.assignAmount()
+              this.$emit('update:createOder',false)
+            }
+          } else if(val.Value == '1' && oldVal && oldVal.Value !== '1') {
             this.updatedValue('mergeSingleAmount','')
           } else {
-            this.assignAmount()
+            if(this.createOder) {
+              this.assignAmount()
+              this.$emit('update:createOder',false)
+            }
           }
         }
       },

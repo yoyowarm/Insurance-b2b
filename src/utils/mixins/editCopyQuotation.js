@@ -63,6 +63,7 @@ export default {
     quotationDataArrangement(data) {
       console.log(data)
       if (this.InsuranceActive === 0) return
+      this.createOder = false
       const obj = {
         step1ViewModel: data.step1ViewModel,
         step2ViewModel: data.step2ViewModel,
@@ -203,7 +204,8 @@ export default {
             perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
             selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
           }
-        }, 10)
+        }, 50)
+
       }
       if (this.quotationData[quotationType].insuranceBeginDate) {//保險期間
         this.periodData = {
