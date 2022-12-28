@@ -62,8 +62,8 @@ export default {
       questionList: [
         '是否有出口規劃',
         '是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)',
-        '是否有人員管制計畫',
         '是否有疏散標示',
+        '是否有人員管制計畫',
         '是否有緊急照明',
         '是否有緊急廣播',
         '是否有安全門',
@@ -74,8 +74,8 @@ export default {
       questionListID: [
         'hasExit',
         'hasEvacuationPlan',
-        'hasPersonnelControl',
         'hasEvacuationSign',
+        'hasPersonnelControl',
         'hasUrgentLight',
         'hasUrgentBroadcast',
         'hasSafetyDoor',

@@ -17,7 +17,7 @@
         <Input
           slot="input"
           :value="data.perBodyAmount.toString() == '0' ? '' : data.perBodyAmount"
-          @updateValue="(e) => updatedValue('perBodyAmount',e)"
+          @updateValue="(e) =>{ updatedValue('perBodyAmount',e)}"
           placeholder="請輸入金額"
           :disableWhite="data.amountType.Value != 2 || disable"
           numberOnly
@@ -159,27 +159,18 @@ export default {
     'data.amountType': {
       handler(val, oldVal) {
         if (!oldVal || val.Value != oldVal.Value) {
+          if(Number(val.Value) > 2) {
+            this.assignAmount()
+          }
           if(val.Value == '2' && oldVal && oldVal.Value !== '2') {
-            if(this.createOder) {
-              this.assignAmount()
-              this.$emit('update:createOder',false)
-            }
+            this.assignAmount()
+            this.$emit('update:createOder',false)
           } else if(val.Value == '1' && oldVal && oldVal.Value !== '1') {
             this.updatedValue('mergeSingleAmount','')
           } else {
-            if(this.createOder) {
-              this.assignAmount()
-              this.$emit('update:createOder',false)
-            }
+            this.assignAmount()
+            this.$emit('update:createOder',false)
           }
-        }
-      },
-      immediate: true
-    },
-    'data.perBodyAmount': {
-      handler(val, odlVal) {
-        if (!odlVal || val.toString() !== odlVal.toString()) {
-          this.assignAmount(val)
         }
       },
       immediate: true
@@ -237,10 +228,22 @@ export default {
   },
   methods: {
     updatedValue(key, e) {
-      this.$emit('update:data', {
-        ...this.data,
-        [key]: e
-      })
+      if(key == 'perBodyAmount') {
+        this.$emit('update:data', {
+          ...this.data,
+          perBodyAmount: e? Number(e.toString().replace(/,/g, '')) : 0,
+          perAccidentBodyAmount: e ? Number(e.toString().replace(/,/g, '')) * 5 : 0,
+          perAccidentFinanceAmount: e? Number(e.toString().replace(/,/g, '')) : 0,
+          insuranceTotalAmount: e ? Number(e.toString().replace(/,/g, '')) * 12 : 0,
+          selfInflictedAmount: this.data.selfInflictedAmount
+        })
+        return
+      } else {
+        this.$emit('update:data', {
+          ...this.data,
+          [key]: e
+        })
+      }
     },
     assignAmount(value,reset) {
       if(reset) {
@@ -261,16 +264,6 @@ export default {
             perAccidentBodyAmount: this.amountMinimum.perAccidentBodyAmount,
             perAccidentFinanceAmount: this.amountMinimum.perAccidentFinanceAmount,
             insuranceTotalAmount: this.amountMinimum.insuranceTotalAmount,
-            selfInflictedAmount: this.data.selfInflictedAmount
-          })
-        }
-        if((this.data.amountType.Value == 2 || (Number(this.data.amountType.Value) == 2) && value)) {
-          this.$emit('update:data', {
-            ...this.data,
-            perBodyAmount: this.data.perBodyAmount? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) : 0,
-            perAccidentBodyAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 5 : 0,
-            perAccidentFinanceAmount: this.data.perBodyAmount? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) : 0,
-            insuranceTotalAmount: this.data.perBodyAmount ? Number(this.data.perBodyAmount.toString().replace(/,/g, '')) * 12 : 0,
             selfInflictedAmount: this.data.selfInflictedAmount
           })
         }
