@@ -431,7 +431,7 @@ export default {
           } else {
             target = Object.keys(this.quotationData).length > 0 && this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId && i.additionTermName === item.additionTermName)
           }
-          if (!target) {
+          if (!target && !['758A','911','PL013'].includes(item.additionTermId)) {
             const copyTerms = { ...this.termsData }
             copyTerms[item.additionTermName].selected = false
             this.$store.dispatch(`place/updatedTerms`, copyTerms)
