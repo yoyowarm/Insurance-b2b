@@ -33,7 +33,7 @@
               @updateValue="(e) => ApplicantName = e"
             />
           </InputGroup>
-          <InputGroup v-if="currentTag ==1" class="w-full" title="關聯號">
+          <InputGroup class="w-full" title="關聯號">
             <Input
               slot="input"
               placeholder="輸入關聯號"
@@ -307,6 +307,7 @@ export default {
         ApplicantName: this.ApplicantName,
         InsuredName: this.InsuredName,
         IOffIcer: this.IOffIcer,
+        MainOrderNo: this.MainOrderNo,
       }
       if(this.startDate.year !== '' && this.startDate.month !== '' && this.startDate.day !== '') {
         data.QuotationDateBegin = `${Number(this.startDate.year)+1911}-${this.startDate.month}-${this.startDate.day}`
@@ -331,7 +332,6 @@ export default {
         ]
         this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
       } else {
-        data.MainOrderNo = this.MainOrderNo
         data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
         data.GroupName = this.NGroup == '選擇公司單位' ? '' : this.NGroup
         data.Level = this.layer == '7' ? '' : this.layer

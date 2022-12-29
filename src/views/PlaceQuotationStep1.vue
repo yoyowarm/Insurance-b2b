@@ -504,7 +504,7 @@ export default {
       if((this.InsuranceActive !==0 && !this.quotationData.placeInsureInfo)) return
       this.additionTermsList.map(item => {//自訂條款
           let target = null
-          if(this.InsuranceActive ==0) {
+          if(this.InsuranceActive ==0 && !this.orderNo) {
             target = Object.keys(this.quotationData).length > 0 && this.quotationData.additionTerms.find(i => i.additionTermId === item.additionTermId) ? this.quotationData.additionTerms.find(i => i.additionTermId === item.additionTermId) : null
           } else {
             target = Object.keys(this.quotationData).length > 0 && this.quotationData.placeInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId && i.additionTermName === item.additionTermName)
