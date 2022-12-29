@@ -103,7 +103,10 @@
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
          <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
-      <Button @click.native="nextStep" class="my-8 mt-0 w-48 md:w-64 ">下一步</Button>
+      <div class="flex flex-row">
+        <Button @click.native="nextStep" class="my-4 w-40 md:w-64" :class="{'mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-4 w-40 md:w-64" @click.native="updateUnderwrite(3)">不予核保</Button>
+      </div>
     </div>
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -213,6 +216,7 @@ export default {
       openFormula: false,
       openAudit: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
+      underwriteStatus: {}
     }
   },
   computed: {
@@ -554,6 +558,8 @@ export default {
         if(this.InsuranceActive == 7) {
           if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true)//核保時，如果有保額，鎖著輸入欄位
           if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('place/updatedUnderwriteQuotationIsChange',true)//核保時，如果沒有保額，預設為核保單變更
+          const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
+          this.underwriteStatus = underwriteStatus.data.content
         }
       }
     },
@@ -809,6 +815,15 @@ export default {
         } else data.questionnaire.part1.businessEndDate = null
         return data
     },
+    async updateUnderwrite(type) {
+      await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
+      this.$store.dispatch('common/updatedCalculateModel', false)
+      this.$store.dispatch(`place/updatedInsuranceActive`,0)
+      this.$router.push('/quotation-ist')
+      this.$store.dispatch('place/clearAll')
+      this.$store.dispatch('place/updatedUUID', '')
+      this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+    }
   },
   async mounted() {
     await this.pageInit()
