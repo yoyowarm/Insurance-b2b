@@ -301,7 +301,7 @@ export default {
     async getQuotationList() {
       const data = {
         Skip: (this.currentPage-1)*10,
-        Take: 10,
+        Take: 5,
         QuotationListState: this.stateSelected.Value == '0' ? '' : this.stateSelected.Value,
         Type: this.typeSelected.Value == '0' ? '' : this.typeSelected.Value,
         ApplicantName: this.ApplicantName,

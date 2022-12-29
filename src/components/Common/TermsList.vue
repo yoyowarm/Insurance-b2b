@@ -86,6 +86,11 @@ export default {
       this.copyTerms[additionTermName].selected = e
        this.$emit('update:terms', this.copyTerms)
     }
+  },
+  mounted() {
+    if(this.termsLists.length > 3) {
+      this.switchBtn = false
+    } 
   }
 }
 </script>
