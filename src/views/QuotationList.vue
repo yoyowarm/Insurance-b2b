@@ -69,7 +69,7 @@
           <Button @click.native="getQuotationList" class="absolute -top-5 w-32">查詢</Button>
         </div>
         <div v-if="currentTag == 0" class="column-6 p-3 pb-6">
-          <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" title="報價單狀態">
             <Select
               slot="input"
               defaultText="選擇狀態"
@@ -80,7 +80,7 @@
           </InputGroup>
         </div>
         <div v-else class="column-6 pb-6">
-          <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" title="核保狀態">
             <Select
               slot="input"
               defaultText="選擇狀態"
@@ -89,7 +89,7 @@
               @emitItem="(item) => verifyStatus = item.Value"
             />
           </InputGroup>
-          <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" title="公司單位">
             <Select
               slot="input"
               defaultText="選擇公司單位"
@@ -98,7 +98,7 @@
               @emitItem="(item) => NGroup = item.Value"
             />
           </InputGroup>
-          <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" title="核保階級">
             <Select
               slot="input"
               defaultText="選擇階級"
