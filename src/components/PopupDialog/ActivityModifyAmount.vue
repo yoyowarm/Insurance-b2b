@@ -9,8 +9,8 @@
       <span>被保險人：{{insuranedName}}</span>
     </div>
     <div class="column-2 mb-4">
-      <InputGroup title="附加條款加費係數">
-        <Input slot="input" class="w-full" decimalPoint :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
+      <InputGroup title="附加條款加費係數" :disable="fixAdditionTermCoefficient">
+        <Input slot="input" class="w-full" decimalPoint :disable="fixAdditionTermCoefficient" :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
       </InputGroup>
       <InputGroup title="AGG>AOA*2係數">
         <Input slot="input" class="w-full" decimalPoint :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
@@ -89,6 +89,10 @@ export default {
     insideCalculateAmount: {
       type: Object,
       default: () => {}
+    },
+    fixAdditionTermCoefficient: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

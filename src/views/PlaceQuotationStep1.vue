@@ -121,6 +121,7 @@
       :premium="insuranceAmountListData.amount"
       :insideCalculateAmount="parameter"
       :hasHexTypeBasicAmount="industry.typeName == '己類'"
+      :fixAdditionTermCoefficient="Object.keys(terms).filter(key => terms[key].selected).every(key => ['758A','911','PL013','PL052'].includes(key.split(' ')[0]))"
       @auditCalculateAmount="placeAuditCalculateAmount"
       @updateParameter="updateParameter"
     />

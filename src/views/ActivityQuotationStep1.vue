@@ -89,6 +89,7 @@
       :sizeCofficient="insuranceAmountListData.parameter.sizeParameter"
       :premium="insuranceAmountListData.amount"
       :insideCalculateAmount="parameter"
+      :fixAdditionTermCoefficient="Object.keys(terms).filter(key => terms[key].selected).every(key => ['758A','911','PL013','PL052'].includes(key.split(' ')[0]))"
       @auditCalculateAmount="activityAuditCalculateAmount"
       @updateParameter="updateParameter"
     />
