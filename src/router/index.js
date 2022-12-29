@@ -251,20 +251,6 @@ router.beforeEach((to, from, next) => {
     store.dispatch('common/updateOrderNo', '')
     store.dispatch('common/updatedCalculateModel', false)
   }
-  if (to.path.includes('place-quotation') && !from.path.includes('place-quotation')) {
-    Popup.create({
-      hasHtml: true,
-      htmlText: '<p>目前測試中請先使用舊版B2B進行報價！</p>',
-    })
-    next()
-  }
-  if (to.path.includes('activity-quotation') && !from.path.includes('activity-quotation')) {
-    Popup.create({
-      hasHtml: true,
-      htmlText: '<p>目前測試中請先使用舊版B2B進行報價！</p>',
-    })
-    next()
-  }
   next()
 })
 export default router
