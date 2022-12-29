@@ -34,6 +34,10 @@ export default {
       type: Boolean,
       default: false
     },
+    decimalPoint4: {
+      type: Boolean,
+      default: false
+    },
     slotIcon: {
       type: Boolean,
       default: false
@@ -101,7 +105,7 @@ export default {
     },
     updateValue (value) {
       let inputValue = value
-      if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3) {
+      if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3 && !this.decimalPoint4) {
         if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false && (this.hasZero && inputValue != 0)) {
           this.$emit('updateValue', '')
           this.$refs.input.value = ''
@@ -156,6 +160,19 @@ export default {
           inputValue = value
         } else {
           inputValue = value.slice(0, value.length -3)
+        }
+      }
+      if(this.decimalPoint4) {
+        const regex = new RegExp(/^[0-9]+.?[0-9]{0,4}$/, 'g');
+        const regex2 = new RegExp(/^0+[0-9]{1,}/, 'g');
+          
+        if(regex2.test(value)) {
+          inputValue = value.replace(regex2, '')
+        }
+        if(regex.test(inputValue)) {
+          inputValue = value
+        } else {
+          inputValue = value.slice(0, value.length -4)
         }
       }
       this.$emit('updateValue', inputValue)

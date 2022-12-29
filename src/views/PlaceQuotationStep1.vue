@@ -105,7 +105,7 @@
       </div>
       <div class="flex flex-row">
         <Button @click.native="nextStep" class="my-4 w-40 md:w-64" :class="{'mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-4 w-40 md:w-64" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="false && underwriteStatus.underwriteDirection == 1" class="my-4 w-40 md:w-64" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
