@@ -68,13 +68,27 @@ export default {
     disable: {
       type: Boolean,
       default: false
-    }
+    },
+    questionnaire: {
+      type: Object,
+      default: () => ({})
+    },
   },
   methods: {
     updateValue(e,type,index) {
       const copyInfoList = [...this.infoList]
       copyInfoList[index][type] = e
       this.$emit('update:infoList', copyInfoList)
+      if(type == 'squareFeet') {
+        let total = 0
+        const arr = []
+        this.infoList.map(item => {
+          total += Number(item.squareFeet)
+          arr.push(Number(item.squareFeet))
+        })
+        arr.reduce((a,b) => a>b?a:b)
+        this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,part1:{...this.questionnaire.part1,area: arr[0], totalArea: total}})
+      }
     }
   }
 }

@@ -1,4 +1,5 @@
 import { mapState } from 'vuex'
+import { quotation } from '@/utils/dataTemp'
 
 export default {
   data() {
@@ -31,6 +32,7 @@ export default {
                 hours: this.quotationData.questionnaire.part1.businessEndDate.split('T')[1].split(':')[0],
                 minutes: this.quotationData.questionnaire.part1.businessEndDate.split('T')[1].split(':')[1],
               } : { hours: '00', minutes: '00' },
+              businessType: this.quotationData.placeInsureInfo.displayInsureType
             },
             part2: {
               ...this.quotationData.questionnaire.part2,
@@ -70,6 +72,8 @@ export default {
         }
 
         this.$store.dispatch(`${type}/updatedQuestionnaire`, data)
+      } else if (type == 'place') {
+        this.$store.dispatch(`${type}/updatedQuestionnaire`, { ...quotation().questionnaire, part1: { ...quotation().questionnaire.part1, businessType: this.quotationData.placeInsureInfo.displayInsureType } })
       }
     },
     AssignQuestionnaireToManagement(data, type) {

@@ -53,6 +53,7 @@
         @removeItem="(index) => $store.dispatch('place/deletePlaceInfo',index)"
         :countyList="countyList"
         :disable="calculateModel || InsuranceActive == 7"
+        :questionnaire="questionnaire"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
@@ -439,7 +440,9 @@ export default {
         if (!audit &&coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
-        this.insuranceAmountListData = {
+
+        setTimeout(() => {
+          this.insuranceAmountListData = {
           ...this.insuranceAmountListData,
           parameter: {
             ...this.insuranceAmountListData.parameter,
@@ -448,6 +451,7 @@ export default {
             : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
           }
         }
+        }, 100)
     },
     termsInit() {
       const terms = {}
