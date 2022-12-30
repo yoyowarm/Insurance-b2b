@@ -94,7 +94,7 @@
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
         <div class="flex flex-row justify-center items-center relative">
-          <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
+          <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="underwriteLevel && insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
             <font-awesome-icon class="text-xl text-main ml-5" icon="info-circle" />
           </div>
           <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
@@ -218,7 +218,8 @@ export default {
       openFormula: false,
       openAudit: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
-      underwriteStatus: {}
+      underwriteStatus: {},
+      underwriteLevel: null
     }
   },
   computed: {
@@ -529,7 +530,11 @@ export default {
       const places = await this.$store.dispatch('resource/PlacesSetting')
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
+      const underwriteLevel = await this.$store.dispatch('underwriteLevelSetting/GetUserUnderwriteLevel')
       await this.getAttachmentList()
+      if(underwriteLevel.data.content.underwriteLevel) {
+        this.underwriteLevel = underwriteLevel.data.content.underwriteLevel
+      }
       places.data.content.map(item => {
         if(!this.industryType.includes(item.typeName)) {
           this.industryType.push(item.typeName)
