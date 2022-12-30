@@ -26,8 +26,10 @@ export default {
   methods: {
     async checkPreventOccupy() {
       //要保人電話
-      const number = await this.$store.dispatch('verify/CheckPreventOccupy', { Type: 1, Text: this.ApplicantData.Mobile, InsuranedId: this.InsuranedData.ID, ApplicantId: this.ApplicantData.ID })
-      this.verifyInvadeResult.push(number.data.content)
+      if ((this.Applicant.numberType && this.ApplicantData.Mobile) || (this.ApplicantData.Mobile && this.Applicant.prefixNumber && !this.Applicant.numberType)) {
+        const number = await this.$store.dispatch('verify/CheckPreventOccupy', { Type: 1, Text: !this.Applicant.numberType ? `${this.Applicant.prefixNumber}${this.ApplicantData.Mobile}` : this.ApplicantData.Mobile, InsuranedId: this.InsuranedData.ID, ApplicantId: this.ApplicantData.ID })
+        this.verifyInvadeResult.push(number.data.content)
+      }
       //要保人eMail
       if (this.policyTransfer.transferType == 1) {
         this.policyTransfer.transferDetails.map(async item => {
@@ -174,7 +176,7 @@ export default {
       if (!this.Applicant.Name) {
         this.requestFile.push('未填寫要保險人名稱')
       }
-      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && (!this.Applicant.Mobile || (!this.Insuraned.prefixNumber && !this.Insuraned.numberType))) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && (!this.Applicant.Mobile || (!this.Applicant.prefixNumber && !this.Applicant.numberType))) {
         this.requestFile.push('未填寫要保險人電話')
       }
       if (this.Applicant.IsForeigner && !this.Applicant.Nationality.Value) {

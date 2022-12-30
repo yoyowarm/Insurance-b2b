@@ -355,6 +355,7 @@ export default {
             cancel: '否',
             confirm: true
           }).then(async() => {
+            await this.checkPreventOccupy()
              await this.verifyFinal()
           })
         } else if (this.InsuranceActive ==7) {
@@ -363,6 +364,7 @@ export default {
           }
           this.$router.push('/activity-quotation/step3')
         } else {
+          await this.checkPreventOccupy()
            await this.verifyFinal()
         }
       }
