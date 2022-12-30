@@ -356,7 +356,7 @@ export default {
             confirm: true
           }).then(async() => {
             await this.checkPreventOccupy()
-             await this.verifyFinal()
+            await this.verifyResultPopup()
           })
         } else if (this.InsuranceActive ==7) {
           if(this.underwriteQuotationIsChange) {
@@ -365,7 +365,7 @@ export default {
           this.$router.push('/activity-quotation/step3')
         } else {
           await this.checkPreventOccupy()
-           await this.verifyFinal()
+           await this.verifyResultPopup()
         }
       }
     },
@@ -377,6 +377,7 @@ export default {
       this.$router.push('/activity-quotation/step1')
     },
     async verifyFinal() {
+      console.log(this.verifyResult, this.verifyInvadeResult)
       if(this.verifyResult.length === 0 && this.verifyInvadeResult.length === 0) {
         await this.quotationMapping()
         this.$router.push('/activity-quotation/step3')
