@@ -276,7 +276,7 @@ export const quotationLisMobileTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '3-6'
+        size: '1-6'
       },
       {
         text: '報價日期',

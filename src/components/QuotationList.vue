@@ -37,9 +37,9 @@
               <span class="download whitespace-no-wrap" :class="{'ml-16': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo,'audit')}">審核</span>
             </div>
           </div>
-          <div class="text-gray-600 bg-gray-100 md:bg-white md:p-1 md:rounded-b-xl text-center md:text-left  min-h-4 flex flex-col" :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`">
-            <span class="whitespace-no-wrap">{{item.insuranceBeginTime.split('T')[0]}}<span class="text-sm ml-1">起</span></span>
-            <span class="whitespace-no-wrap">{{item.insuranceEndTime.split('T')[0]}}<span class="text-sm ml-1">迄</span></span>
+          <div class="text-gray-600  md:bg-white md:p-1 rounded-b-xl md:text-left  min-h-4 flex flex-col" :class="{ 'bg-gray-100  text-center text-sm':windowWidth <= 600}" :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`">
+            <span :class="{'whitespace-no-wrap':windowWidth > 600, 'text-xs':windowWidth <= 600}">{{item.insuranceBeginTime.split('T')[0]}}<span class="text-sm ml-1">起</span></span>
+            <span :class="{'whitespace-no-wrap':windowWidth > 600, 'text-xs':windowWidth <= 600}">{{item.insuranceEndTime.split('T')[0]}}<span class="text-sm ml-1">迄</span></span>
           </div>
           </template>
       </TableGroup>
