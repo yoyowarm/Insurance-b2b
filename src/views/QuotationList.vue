@@ -288,6 +288,14 @@ export default {
       } else {
         this.getQuotationList()
       }
+    },
+    stateSelected: {
+      async handler(val,old) {
+        if(this.currentTag == 0 && val.Value !== old.Value) {
+          await this.getQuotationList()
+        }
+      },
+      deep: true
     }
   },
   methods: {
