@@ -100,13 +100,13 @@
           <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
         </div>
       <div class="flex flex-col justify-center items-center  sm:flex-row">
-        <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
-        <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
-         <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
+        <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
+         <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-40" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <div class="flex flex-row">
-        <Button @click.native="nextStep" class="my-4 w-40 md:w-64" :class="{'mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
-        <Button v-if="false && underwriteStatus.underwriteDirection == 1" class="my-4 w-40 md:w-64" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button @click.native="nextStep" class="my-4  w-56 md:w-42" :class="{'mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
+        <Button v-if="false && underwriteStatus.underwriteDirection == 1" class="my-4  w-56 md:w-42" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
@@ -781,11 +781,11 @@ export default {
             ...item,
             amountType: item.amountType.Value,
             selfInflictedAmount: item.selfInflictedAmount.Value,
-            perBodyAmount: item.perBodyAmount * 10000,
-            perAccidentBodyAmount: item.perAccidentBodyAmount * 10000,
-            perAccidentFinanceAmount: item.perAccidentFinanceAmount * 10000,
-            insuranceTotalAmount: item.insuranceTotalAmount * 10000,
-            mergeSingleAmount: item.mergeSingleAmount * 10000,
+            perBodyAmount: Number(item.perBodyAmount.toString().replace(/,/g,'')) * 10000,
+            perAccidentBodyAmount: Number(item.perAccidentBodyAmount.toString().replace(/,/g,'')) * 10000,
+            perAccidentFinanceAmount: Number(item.perAccidentFinanceAmount.toString().replace(/,/g,'')) * 10000,
+            insuranceTotalAmount: Number(item.insuranceTotalAmount.toString().replace(/,/g,'')) * 10000,
+            mergeSingleAmount: Number(item.mergeSingleAmount.toString().replace(/,/g,'')) * 10000,
           }
         })],
       }
