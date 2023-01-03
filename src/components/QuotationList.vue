@@ -22,7 +22,7 @@
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4 mr-9 mt-5 ml-1" v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))">- -</div>
             <div v-else class="flex items-center mr-7 mt-1" :class="{'absolute flex-row top-12': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
-              <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600, 'ml-16': windowWidth <= 600}" v-if="!tableData.rows[0].isFinishQuotation" @click.stop="copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')">更正</span>
+              <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600, 'ml-16': windowWidth <= 600, 'disable': item.stateText == '核保中'}" v-if="!tableData.rows[0].isFinishQuotation" @click.stop="() => { if(item.stateText !== '核保中')copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')}">更正</span>
               <span class="download whitespace-no-wrap" :class="{'ml-16': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
             </div>
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">

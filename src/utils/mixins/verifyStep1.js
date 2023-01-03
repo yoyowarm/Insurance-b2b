@@ -127,6 +127,12 @@ export default {
             this.requestFile.push(`處所${index + 1}未輸入處所坪數`)
           }
         })
+        if (!this.industry.Value) {
+          this.requestFile.push('未選擇投保行業')
+        }
+        if (this.industry.Value == 106 && !this.industryText) {
+          this.requestFile.push('未輸入其他行業')
+        }
         if (this.InsuranceActive !== 7 && ['丙類', '丁類', '戊類', '己類'].includes(this.industry.typeName)) {
           if (this.industry.typeName == '丙類' && this.placeInfo.some(i => Number(i.squareFeet) > 100) && !this.questionnaireFinished) {
             this.requestFile.push('必填詢問表')
@@ -134,7 +140,7 @@ export default {
             this.requestFile.push('必填詢問表')
           }
         }
-        if (this.InsuranceActive !== 7 && this.industry.itemName.includes('類處所')) {
+        if (this.InsuranceActive !== 7 && this.industry.Value && this.industry.itemName.includes('類處所')) {
           this.requestFile.push('必填詢問表')
         }
         if (Object.keys(this.period.startDate).some(key => isNaN(this.period.startDate[key])) || Object.keys(this.period.endDate).some(key => isNaN(this.period.endDate[key]))) {
@@ -187,12 +193,7 @@ export default {
           }
         })
       }
-      if (!this.industry.Value) {
-        this.requestFile.push('未選擇投保行業')
-      }
-      if (this.industry.Value == 106 && !this.industryText) {
-        this.requestFile.push('未輸入其他行業')
-      }
+
       if (!this.period.startDate.year || !this.period.startDate.month || !this.period.startDate.day || isNaN(this.period.startDate.hour)) {
         this.requestFile.push('未選擇起保日')
       }
