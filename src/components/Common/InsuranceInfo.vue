@@ -29,7 +29,7 @@
           @updateValue="(e) =>{updateInfo('numberType', e);updateInfo('prefixNumber', '');updateInfo('Mobile', '')}"
         />
       </InputGroup>
-      <InputGroup class="w-full" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
+      <InputGroup class="w-full phone" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
         <div slot="input" class="flex flex-row">
           <Input
             v-show="!copyInfo.numberType"
@@ -144,7 +144,7 @@
       
     </div>
     <div class="column-5 dashed-border pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" dash lgTitle mid :wrap="marginTop(560)" :disable="disable">
+      <InputGroup class="w-full" :whitespaceNormal="windowWidth <= 600 " title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" dash lgTitle mid :wrap="marginTop(560)" :disable="disable">
         <SwitchInput
           slot="input"
           :id="`${type}IsPolitician`"
@@ -240,6 +240,7 @@ export default {
   },
   data () {
     return {
+      windowWidth: window.innerWidth,
       numberType: true,
       copyInfo: {
         ...this.info
@@ -343,6 +344,11 @@ export default {
   @media only screen and (min-width: 1180px) and (max-width: 1614px) {
     .address {
       @apply col-span-2;
+    }
+  }
+  @media (max-width: 560px) {
+    .phone {
+      @apply mb-4
     }
   }
 </style>

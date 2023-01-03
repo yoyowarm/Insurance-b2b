@@ -65,7 +65,7 @@
       <div :key="`row1${index}`" class="column-6 pb-3 mb-2">
         <InputGroup class="w-full" title="每日人數" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Input v-if="editModel" slot="input" class="w-full relative text-main" value="1000"/>
-          <div v-else slot="input" class=" pr-24 relative">
+          <div v-else slot="input" class="w-full relative">
             {{item.dailyPeople}}人
           </div>
       </InputGroup>
