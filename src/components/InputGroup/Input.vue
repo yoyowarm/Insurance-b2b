@@ -98,7 +98,7 @@ export default {
       if(this.numberOnly && Boolean(Number(this.syncValue)) == false && !this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
-      } else if(this.numberOnly && this.value.toString().match(/[0-9]/g) &&  Boolean(Number(this.syncValue.match(/[0-9]/g).join(''))) == false && this.numberFormat) {
+      } else if(this.numberOnly  &&  Boolean(Number(this.syncValue.replace(/,/g, ''))) == false && this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
       }

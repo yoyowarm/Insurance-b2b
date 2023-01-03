@@ -543,11 +543,11 @@ export default {
             }
           })],
           amountType: Number(this.insuranceAmountList[0].amountType.Value) > 1 ? 2 : this.insuranceAmountList[0].amountType.Value,
-          perBodyAmount: this.insuranceAmountList[0].perBodyAmount * 10000,
-          perAccidentBodyAmount: this.insuranceAmountList[0].perAccidentBodyAmount * 10000,
-          perAccidentFinanceAmount: this.insuranceAmountList[0].perAccidentFinanceAmount * 10000,
-          insuranceTotalAmount: this.insuranceAmountList[0].insuranceTotalAmount * 10000,
-          mergeSingleAmount: this.insuranceAmountList[0].mergeSingleAmount * 10000,
+          perBodyAmount: Number(this.insuranceAmountList[0].perBodyAmount.toString().replace(/,/g, '')) * 10000,
+          perAccidentBodyAmount: Number(this.insuranceAmountList[0].perAccidentBodyAmount.toString().replace(/,/g, '')) * 10000,
+          perAccidentFinanceAmount: Number(this.insuranceAmountList[0].perAccidentFinanceAmount.toString().replace(/,/g, '')) * 10000,
+          insuranceTotalAmount: Number(this.insuranceAmountList[0].insuranceTotalAmount.toString().replace(/,/g, '')) * 10000,
+          mergeSingleAmount: Number(this.insuranceAmountList[0].mergeSingleAmount.toString().replace(/,/g, '')) * 10000,
           selfInflictedAmount: this.insuranceAmountList[0].selfInflictedAmount.Value,
           remark: this.remark.text,
         }

@@ -122,7 +122,7 @@ export default {
             if (this.requestFile.includes(`處所${index + 1}未選擇縣市`)) return
             this.requestFile.push(`處所${index + 1}未選擇縣市`)
           }
-          if (item.squareFeet == 0) {
+          if (item.squareFeet == 0 || isNaN(item.squareFeet)) {
             if (this.requestFile.includes(`處所${index + 1}未輸入處所坪數`)) return
             this.requestFile.push(`處所${index + 1}未輸入處所坪數`)
           }
