@@ -414,11 +414,7 @@ export default {
             }
           }) : this.insuranceAmountListData
         }
-        if(res.data.content.questionnaire) {
-          this.$store.dispatch(`place/updateQuestionnaireFinished`, true)
-          this.AssignQuestionnaire('place')
-          await this.questionnaireCoefficient()
-        }
+        
         this.$store.dispatch(`place/updatedQuotationData`,data)
         if(res.data.content.placeInsureInfo) {
           this.step1InitAssignValue('place')
@@ -434,6 +430,11 @@ export default {
             selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
           }
         })
+        }
+        if(res.data.content.questionnaire) {
+          this.$store.dispatch(`place/updateQuestionnaireFinished`, true)
+          this.AssignQuestionnaire('place')
+          await this.questionnaireCoefficient()
         }
         this.$store.dispatch(`place/updatedInsuranceActive`, 4)
       }
