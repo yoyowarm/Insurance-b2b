@@ -59,7 +59,7 @@
             />
           </InputGroup>
           <InputGroup class="w-full" title="報價日期">
-            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
+            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起" formerYears/>
           </InputGroup>
           <!-- <InputGroup class="w-full" noMt>
             <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
