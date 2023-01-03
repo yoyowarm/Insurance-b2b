@@ -16,7 +16,7 @@
     </header>
     <div class="flex body bg-main-gray" ref="body" :class="{'mb-20': paginationPage && innerWidth < 771}" @scroll="handleScroll">
       <LeftNavigation :class="{'open':openMenu }" :openMenu.sync="openMenu" :scrollY="scrollY"/>
-      <div class="right-block">
+      <div class="right-block" :class="{'mb-8':paginationPage}">
         <router-view/>
       </div>
     </div>
