@@ -99,12 +99,12 @@
           <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
         </div>
       <div class="flex flex-col sm:flex-row">
-        <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="calculateAmount" disabled class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
          <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
       </div>
       <div class="flex flex-row">
-        <Button @click.native="nextStep" class="my-4 w-40 md:w-64" :class="{'mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
+        <Button @click.native="nextStep" disabled class="my-4 w-40 md:w-64" :class="{'mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-4 w-40 md:w-64" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
