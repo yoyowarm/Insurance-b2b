@@ -178,7 +178,7 @@ export default {
       },
       hoursOptions () {
         const arr = []
-        for (let i = 0; i <= 24; i++) {
+        for (let i = 0; i <= 23; i++) {
           arr.push({
             Text: `${i}點`,
             Value: i
