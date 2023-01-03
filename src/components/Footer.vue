@@ -11,10 +11,9 @@
       </span>
     </div>
     
-    
     <div class="flex flex-row w-full" v-if="pagination">
       <Select :options="pageNumber" :selected="currentPage.toString()" @emitItem="e=> emitSelectItem(e)" class="select" defaultText="選擇頁面"/>
-      <span class="text-white cursor-pointer text-center ml-10" @click="scrollTo">
+      <span class="text-white cursor-pointer text-center ml-4 w-16" @click="scrollTo">
         <font-awesome-icon :icon="['fas','arrow-up']" /><br>
         <span>回頂端</span>
       </span>

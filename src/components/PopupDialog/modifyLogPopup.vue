@@ -122,6 +122,11 @@ export default {
   },
   mounted() {
     this.modifyLogTable.rows = this.modifyLogData
+    if(this.windowWidth <= 600) {
+      this.modifyLogTable.head[2].size = '3-6'
+    } else {
+      this.modifyLogTable.head[2].size = '5-6'
+    }
   }
 }
 </script>

@@ -22,7 +22,7 @@
             </div>
           </template>
         </div>
-        <div v-else class="item" :key="index" @click="$emit('review',item)">
+        <div v-else class="item" :class="{'bg-gray-200 px-3 mb-4 rounded-2xl': windowWidth <= 600}" :key="index" @click="$emit('review',item)">
           <div class="" :class="{'column-2-wide' : column2, 'column-3-wide': column3}">
             <template v-for="(headItem,headIndex) in head">
               <div :key="`${headItem.value}-${headIndex}`" >

@@ -10,12 +10,13 @@
       <div class="px-6">
         <TableGroup :data="historyTable" class="mb-4" :slotName="slotArray" scrollX >
           <template v-for="(item,index) in historyTable.rows">
-            <div :key="`operate-${index}`" :slot="`operate-${index}`">
+            <div :key="`operate-${index}`" :slot="`operate-${index}`" class="flex justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl  min-h-4">
               <span class="text-main">{{item.action}}</span>
             </div>
           </template>
         </TableGroup>
       </div>
+      <WindowResizeListener @resize="handleResize"/>
     </div>
     <div class="mask-bg" @click="$emit('update:open',false)"/>
   </div>
@@ -23,6 +24,7 @@
 
 <script>
 import TableGroup from '@/components/TableGroup'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   props: {
     open: {
@@ -35,15 +37,24 @@ export default {
     },
   },
   components: {
-    TableGroup
+    TableGroup,
+    WindowResizeListener
   },
   watch: {
     historyData (val) {
       this.historyTable.rows = val
     },
+    windowWidth(val) {
+      if(val <= 600) {
+        this.historyTable.head[2].size = '3-6'
+      } else {
+        this.historyTable.head[2].size = '6-6'
+      }
+    }
   },
    data () {
     return {
+      windowWidth: window.innerWidth,
       value: false,
       historyTable: {
         head: [
@@ -80,12 +91,20 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     show () {
       this.value = true
     }
   },
   mounted() {
     this.historyTable.rows = this.historyData
+    if(this.windowWidth <= 600) {
+      this.historyTable.head[2].size = '3-6'
+    } else {
+      this.historyTable.head[2].size = '6-6'
+    }
   }
 }
 </script>
