@@ -39,8 +39,8 @@ export default {
     async AddActivityQuotation(_, quotation) {
       return await AddActivityQuotation(quotation)
     },
-    async GetQuotationList(_, { Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, MainOrderNo }) {
-      return await GetQuotationList({ Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, MainOrderNo })
+    async GetQuotationList(_, { Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, InsuredName, MainOrderNo }) {
+      return await GetQuotationList({ Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, InsuredName, MainOrderNo })
     },
     async GetQuotationState() {
       return await GetQuotationState()

@@ -4,8 +4,8 @@ export const AddPlaceQuotation = (data) => request('post', '/Quotation/AddPlaceQ
 //新增活動報價
 export const AddActivityQuotation = (data) => request('post', '/Quotation/AddActivityQuotation', data)
 //取得報價明細
-export const GetQuotationList = ({ Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, MainOrderNo
-}) => request('get', '/Quotation/GetQuotationList', { Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, MainOrderNo })
+export const GetQuotationList = ({ Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, InsuredName, MainOrderNo
+}) => request('get', '/Quotation/GetQuotationList', { Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, InsuredName, MainOrderNo })
 //取得所有報價狀態
 export const GetQuotationState = () => request('get', '/Quotation/GetQuotationsState')
 //取得續保資訊
