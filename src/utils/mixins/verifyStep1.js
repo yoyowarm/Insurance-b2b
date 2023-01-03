@@ -140,7 +140,7 @@ export default {
             this.requestFile.push('必填詢問表')
           }
         }
-        if (this.InsuranceActive !== 7 && this.industry.Value && this.industry.itemName.includes('類處所')) {
+        if (this.InsuranceActive !== 7 && this.industry.Value && this.industry.itemName.includes('類處所') && !this.questionnaireFinished) {
           this.requestFile.push('必填詢問表')
         }
         if (Object.keys(this.period.startDate).some(key => isNaN(this.period.startDate[key])) || Object.keys(this.period.endDate).some(key => isNaN(this.period.endDate[key]))) {
