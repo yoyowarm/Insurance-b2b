@@ -107,6 +107,7 @@ export default {
     width: 80%;
     height: 87%;
     z-index: 100;
+    overflow: auto;
     @apply bg-white rounded-2xl;
     .header {
       .date {

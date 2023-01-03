@@ -92,14 +92,14 @@
         </InputGroup>
       </div>
     </CommonBoard>
-    <div class="flex flex-col justify-center items-center w-full mt-8">
+    <div class="flex flex-col justify-center items-center  w-full mt-8">
         <div class="flex flex-row justify-center items-center relative">
           <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="underwriteLevel && insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
             <font-awesome-icon class="text-xl text-main ml-5" icon="info-circle" />
           </div>
           <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
         </div>
-      <div class="flex flex-col sm:flex-row">
+      <div class="flex flex-col justify-center items-center  sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-48 md:w-32 sm:mr-4" outline>更正</Button>
          <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{insuranceAmountListData.parameter.underwriteCoefficient}})</Button>
@@ -387,7 +387,7 @@ export default {
       if(res.data.code ==1) {
         const data = {
           ...res.data.content,
-          insuranceAmounts: res.data.content.insuranceAmounts.map((item,index) => {
+          insuranceAmounts: res.data.content.insuranceAmounts ? res.data.content.insuranceAmounts.map((item,index) => {
             return {
               ...item,
               // eslint-disable-next-line no-prototype-builtins
@@ -412,17 +412,17 @@ export default {
                 amount: '',
               }
             }
-          })
+          }) : this.insuranceAmountListData
         }
         if(res.data.content.questionnaire) {
           this.$store.dispatch(`place/updateQuestionnaireFinished`, true)
+          this.AssignQuestionnaire('place')
+          await this.questionnaireCoefficient()
         }
         this.$store.dispatch(`place/updatedQuotationData`,data)
-        this.step1InitAssignValue('place')
-        this.AssignQuestionnaire('place')
-        this.$store.dispatch(`place/updatedInsuranceActive`, 4)
-        
-        this.$nextTick(async () => {
+        if(res.data.content.placeInsureInfo) {
+          this.step1InitAssignValue('place')
+          this.$nextTick(async () => {
           this.insuranceAmountListData = {
             ...this.quotationData.insuranceAmounts[0],
             amountType: {Value: this.quotationData.insuranceAmounts[0].amountType, Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType]},
@@ -433,9 +433,9 @@ export default {
             perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
             selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
           }
-          await this.questionnaireCoefficient()
-
         })
+        }
+        this.$store.dispatch(`place/updatedInsuranceActive`, 4)
       }
     },
     async questionnaireCoefficient(audit = false) {

@@ -148,7 +148,7 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '不合格',Value: '不合格'})"
         />
     </div>
-    <div class="column-5 mt-3 ml-8">
+    <div class="column-5 mt-3 ml-8" :class="{'mb-6':windowWidth< 600}">
       <InputGroup lgTitle title="被保險人之經營業務性質" mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.room.selected">
         <Input
           slot="input"
@@ -168,10 +168,10 @@
           :disabled="disable"
           @updateValue="(e) =>updateValue(e,'room.selected')"
         />
-        <span slot="input-right" class="absolute sm:-right-80 -bottom-8 sm:bottom-4 text-lg">如係屬飯店、旅館者，請說明其房間數目</span>
+        <span slot="input-right" class="absolute sm:-right-80 -bottom-8 sm:bottom-4 text-lg" :class="{'-bottom-14':windowWidth< 600}">如係屬飯店、旅館者，請說明其房間數目</span>
       </InputGroup>
     </div>
-    <div class="column-5 mb-3 ml-8">
+    <div class="column-5 mb-3 ml-8" :class="{'mb-6':windowWidth< 600}">
       <InputGroup noMt mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.seat.selected" >
         <Input
           slot="input"
@@ -191,7 +191,7 @@
           :disabled="disable"
           @updateValue="(e) =>updateValue(e,'seat.selected')"
         />
-        <span slot="input-right" class="absolute sm:-right-78 -bottom-8 sm:bottom-4 text-lg">屬戲院、音樂廳者，請說明其座位數目</span>
+        <span slot="input-right" class="absolute sm:-right-78 -bottom-8 sm:bottom-4 text-lg" :class="{'-bottom-14':windowWidth< 600}">屬戲院、音樂廳者，請說明其座位數目</span>
       </InputGroup>
     </div>
     <div class="column-4 my-3">
@@ -272,6 +272,7 @@
         <div class="text-lg">樓梯是否有止滑條</div>
     </div>
   </div>
+  <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -282,6 +283,7 @@ import Input from '@/components/InputGroup/Input'
 import RadioInput from '@/components/Radio'
 import Checkbox from '@/components/Checkbox'
 import Select from '@/components/Select'
+import WindowResizeListener from '@/components/WindowResizeListener'
 
 export default {
   components: {
@@ -291,6 +293,7 @@ export default {
     RadioInput,
     Checkbox,
     Select,
+    WindowResizeListener
   },
   props:{
     data: {
@@ -318,6 +321,7 @@ export default {
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       parkingList: [
         {
           Value: '自有停車場',
@@ -335,6 +339,9 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     updateValue(e,type) {
       const arr = ['hasAntiSlip', 'hasSwimmingPool', 'hasCarpet', 'hasMechineParkingDevice']
       if(type.includes('.')) {

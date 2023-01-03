@@ -344,7 +344,7 @@ export default {
       }
     },
     async getBusinessSource() {
-      const businessSource = await this.$store.dispatch('resource/BusinessSourceByTaianUser', { employeeId: this.internalControl.issuerNumber })
+      const businessSource = await this.$store.dispatch('resource/BusinessSourceByTaianUser', this.internalControl.issuerNumber)
       if(businessSource.data.content.length > 0) {
         this.businessSource = businessSource.data.content.map(item => {
         return {
