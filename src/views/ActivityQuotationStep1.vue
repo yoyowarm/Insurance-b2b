@@ -216,6 +216,7 @@ export default {
       },
       set(val) {
         this.$store.dispatch('activity/updatedActivityInfo', val)
+        this.updatePeriod()
       }
     },
     periodData: {
@@ -248,7 +249,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedInsuranceAmountList', [value])
-        this.updatePeriod()
       }
     },
     average() {
