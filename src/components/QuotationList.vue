@@ -7,7 +7,8 @@
             <font-awesome-icon :icon="['fas','plus-circle']"  class="download" :class="{'disable': tableData.rows[0].isFinishQuotation}"/>
             <span class="download ml-1" :class="{'disable': tableData.rows[0].isFinishQuotation}">新增序號</span>
           </div>
-          <span v-if="currentTag == 0" @click="() =>{if(!tableData.rows[0].isFinishQuotation){copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'updateQuotation')}}" class="download text-base ml-4" :class="{'disable': tableData.rows[0].isFinishQuotation}"><font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span></span>
+          <span v-if="currentTag == 0" @click="() =>{if(!tableData.rows[0].isFinishQuotation){copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'updateQuotation')}}" class="download text-base ml-4 mr-2" :class="{'disable': tableData.rows[0].isFinishQuotation}"><font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span></span>
+          <span class="text-white px-2 leading-none rounded-xl text-sm flex justify-center items-center" :class="{'bg-green-700': tableData.rows[0].type == 1, 'bg-red-500':tableData.rows[0].type == 2}">{{tableData.rows[0].type == 1 ? '處所':'活動'}}</span>
         </div>
         <div class="flex flex-row" :class="{'ml-4': windowWidth <= 600}">
           <span :class="{'ml-0 mr-4': windowWidth <= 600, 'ml-4 mr-4': windowWidth > 600}">關聯號{{tableData.rows[0].mainOrderNo}}-<span :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>

@@ -231,11 +231,6 @@ export const quotationListTable = () => {
         value: 'companyDepartment',
         size: '2-6'
       },
-      {
-        text: '類型',
-        value: 'typeText',
-        size: '1-6'
-      },
     ],
     rows: []
   }
@@ -297,11 +292,6 @@ export const quotationLisMobileTable = () => {
         text: '總分公司單位',
         value: 'companyDepartment',
         size: '2-6'
-      },
-      {
-        text: '類型',
-        value: 'typeText',
-        size: '1-6'
       },
       {
         text: '報價單操作',
@@ -380,11 +370,6 @@ export const auditListTable = () => {
         text: '核保人員',
         value: 'underwriteEmployee',
         size: '2-6'
-      },
-      {
-        text: '類型',
-        value: 'typeText',
-        size: '1-6'
       },
     ],
     rows: []
