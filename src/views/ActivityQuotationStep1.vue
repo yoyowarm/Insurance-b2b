@@ -207,6 +207,7 @@ export default {
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.activity.quotationData,
+      userInfo: state => state.home.userInfo,
     }),
     activityInfoList: {
       get () {
@@ -765,6 +766,9 @@ export default {
     await this.pageInit()
     this.termsInit()
     this.updatePeriod()
+    if(this.InsuranceActive !== 7) {
+      this.$store.dispatch('activity/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
+    }
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
     }

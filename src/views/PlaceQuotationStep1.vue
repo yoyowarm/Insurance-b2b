@@ -243,6 +243,7 @@ export default {
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.place.quotationData,
+      userInfo: state => state.home.userInfo,
     }),
     placeInfoList: {
       get () {
@@ -844,6 +845,9 @@ export default {
     // if(this.InsuranceActive == 0) {
     //   this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
     // }
+    if(this.InsuranceActive !== 7) {
+      this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
+    }
     if(!this.period.startDate.year && !this.period.startDate.month && !this.period.startDate.day && !this.period.startDate.hour) {
       let date = {
         startDate: {
