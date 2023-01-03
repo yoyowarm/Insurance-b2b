@@ -108,6 +108,12 @@ export default {
     },
     verifyRequired(type, calculate) {
       this.requestFile = []
+      if (!this.industry.Value) {
+        this.requestFile.push('未選擇投保行業')
+      }
+      if (this.industry.Value == 106 && !this.industryText) {
+        this.requestFile.push('未輸入其他行業')
+      }
       if (type == 'place') {
         if (this.renewal.IsRenewal && !this.renewal.InsuranceNumber) {
           this.requestFile.push('未輸入續保號碼')
@@ -127,12 +133,8 @@ export default {
             this.requestFile.push(`處所${index + 1}未輸入處所坪數`)
           }
         })
-        if (!this.industry.Value) {
-          this.requestFile.push('未選擇投保行業')
-        }
-        if (this.industry.Value == 106 && !this.industryText) {
-          this.requestFile.push('未輸入其他行業')
-        }
+
+
         if (this.InsuranceActive !== 7 && ['丙類', '丁類', '戊類', '己類'].includes(this.industry.typeName)) {
           if (this.industry.typeName == '丙類' && this.placeInfo.some(i => Number(i.squareFeet) > 100) && !this.questionnaireFinished) {
             this.requestFile.push('必填詢問表')
