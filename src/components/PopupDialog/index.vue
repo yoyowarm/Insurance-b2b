@@ -103,8 +103,8 @@ export default {
       }
     }
     .header {
-      height: 50px;
-      @apply flex items-center justify-center relative bg-main w-full rounded-t-2xl text-white text-lg;
+      min-height: 50px;
+      @apply flex items-center justify-center px-12 py-1 relative bg-main w-full rounded-t-2xl text-white text-lg;
     }
     .icon {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;
