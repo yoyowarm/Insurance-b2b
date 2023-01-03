@@ -179,6 +179,7 @@ import { Popup } from '@/utils/popups'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { numFormat } from '@/utils/regex'
+import { quotation } from '@/utils/dataTemp'
 export default {
   mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire,audit],
   components: {
@@ -392,6 +393,7 @@ export default {
               // eslint-disable-next-line no-prototype-builtins
               selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
               fixed: false,
+              amount: item.amount ? item.amount : '',
               insuranceTotalAmount: item.insuranceTotalAmount ? item.insuranceTotalAmount/10000 : '',
               mergeSingleAmount: item.mergeSingleAmount ? item.mergeSingleAmount/10000 : '',
               perAccidentBodyAmount: item.perAccidentBodyAmount ? item.perAccidentBodyAmount/10000 : '',
@@ -791,11 +793,11 @@ export default {
         this.questionnaireMapping(data)
       }
       if(this.InsuranceActive !==0) {
-        data.applicant = JSON.parse(JSON.stringify(this.quotationData.applicant))
-        data.insuraned = JSON.parse(JSON.stringify(this.quotationData.insuraned))
-        data.internalControlData = JSON.parse(JSON.stringify(this.quotationData.internalControlData))
+        data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
+        data.insuraned = this.quotationData.insuraned ? JSON.parse(JSON.stringify(this.quotationData.insuraned)) : quotation().Insuraned
+        data.internalControlData = this.quotationData.internalControlData ? JSON.parse(JSON.stringify(this.quotationData.internalControlData)) : quotation().internalControlData
         data.relationText = this.quotationData.relationText
-        data.policyTransfer = JSON.parse(JSON.stringify(this.quotationData.policyTransfer))
+        data.policyTransfer = this.quotationData.policyTransfer ? JSON.parse(JSON.stringify(this.quotationData.policyTransfer)) : quotation().policyTransfer
       }
       this.$store.dispatch('place/updatePlaceQuotation', data)
       console.log(data)

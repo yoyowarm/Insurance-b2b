@@ -145,6 +145,7 @@ import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
 import { numFormat } from '@/utils/regex'
+import { quotation } from '@/utils/dataTemp'
 export default {
   mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire, audit],
   components: {
@@ -720,11 +721,11 @@ export default {
         this.questionnaireMapping(data)
       }
       if(this.InsuranceActive !==0) {
-        data.applicant = JSON.parse(JSON.stringify(this.quotationData.applicant))
-        data.insuraned = JSON.parse(JSON.stringify(this.quotationData.insuraned))
-        data.internalControlData = JSON.parse(JSON.stringify(this.quotationData.internalControlData))
+        data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
+        data.insuraned = this.quotationData.insuraned ? JSON.parse(JSON.stringify(this.quotationData.insuraned)) : quotation().Insuraned
+        data.internalControlData = this.quotationData.internalControlData ? JSON.parse(JSON.stringify(this.quotationData.internalControlData)) : quotation().internalControlData
         data.relationText = this.quotationData.relationText
-        data.policyTransfer = JSON.parse(JSON.stringify(this.quotationData.policyTransfer))
+        data.policyTransfer = this.quotationData.policyTransfer ? JSON.parse(JSON.stringify(this.quotationData.policyTransfer)) : quotation().policyTransfer
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
       console.log(data)
