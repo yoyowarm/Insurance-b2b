@@ -13,7 +13,7 @@
         <Input slot="input" class="w-full" decimalPoint5 :disable="fixAdditionTermCoefficient" :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
       </InputGroup>
       <InputGroup title="AGG>AOA*2係數">
-        <Input slot="input" class="w-full" decimalPoint :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
+        <Input slot="input" class="w-full" decimalPoint5 :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4">
@@ -23,7 +23,7 @@
     </div>
     <div class="w-full mb-4">
       <InputGroup title="規模係數">
-        <Input slot="input" class="w-full" decimalPoint :value="copySizeCofficient" @updateValue="e => {copySizeCofficient = e; copyPremium = ''}"/>
+        <Input slot="input" class="w-full" decimalPoint5 :value="copySizeCofficient" @updateValue="e => {copySizeCofficient = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4 relative">

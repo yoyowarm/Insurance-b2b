@@ -85,6 +85,7 @@ export default {
     height: 80px;
     border-top:5px solid #B3112C;
     border-bottom: 1px solid #e0e0e0;
+    z-index: 20;
      @apply flex justify-between items-center px-5 pb-3 cursor-pointer fixed top-0 w-screen bg-white z-10
   }
   .header .logo {
@@ -141,6 +142,7 @@ export default {
     .header {
       height: 50px;
       box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.32);
+      z-index:9999;
       @apply fixed w-full bg-white top-0 pb-0
     }
     .body {

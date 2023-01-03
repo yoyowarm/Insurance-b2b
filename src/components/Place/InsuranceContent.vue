@@ -115,19 +115,19 @@
     <template v-for="(item, index) in info.placeInfo">
       <FormTitle :key="`title${index}`" :title="`處所資料-處所${index+1}`" classList="text-xl" />
       <div :key="`row${index}`" class="column-6 pb-3 mb-4">
-        <InputGroup class="w-full" :title="`處所${index+1}-持有狀態`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
+        <InputGroup class="w-full" :title="`持有狀態`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Select v-if="editModel" slot="input" defaultText="自有"/>
-          <div v-else slot="input" class="w-full pr-24 relative">
+          <div v-else slot="input" class="w-full relative">
             {{item.holdState == 0 ? '承租' : '自有'}}
           </div>
       </InputGroup>
-      <InputGroup class="w-full" :title="`處所${index+1}-坪數`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
+      <InputGroup class="w-full" :title="`坪數`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
           <Input v-if="editModel" slot="input" class="w-full relative text-main" value="500"/>
           <div v-else slot="input" class="w-full relative">
             {{item.squareFeet}}
           </div>
       </InputGroup>
-      <InputGroup class="w-full" :title="`處所${index+1}-經營業務處所`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
+      <InputGroup class="w-full" :title="`經營業務處所`" :noMt="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="台北市"/>
         <div v-else slot="input" class="w-full relative">
           {{item.city}}

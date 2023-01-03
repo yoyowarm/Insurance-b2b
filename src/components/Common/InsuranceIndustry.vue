@@ -147,7 +147,7 @@ export default {
     margin: 0px auto;
     left: 0px;
     right: 0px;
-    @apply absolute text-main cursor-pointer bg-white z-10 text-center -bottom-13 flex justify-center items-center ;
+    @apply absolute z-0 text-main cursor-pointer bg-white z-10 text-center -bottom-13 flex justify-center items-center ;
   }
 }
 .gap-important {

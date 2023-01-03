@@ -77,7 +77,7 @@
       </InputGroup>
     </div>
     <div class="column-6 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" autoHeight title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" :wrap="marginTop(560)" borderBtn :editModel="editModel">
+      <InputGroup class="w-full col-span-2 md:col-span-1" whitespaceNormal autoHeight title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" :wrap="marginTop(560)" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="是"/>
         <div v-else slot="input" class="w-full pr-24 relative">
           {{info.isPolitician ? '是' : '否'}}
