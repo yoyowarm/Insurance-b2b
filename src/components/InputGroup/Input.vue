@@ -34,7 +34,7 @@ export default {
       type: Boolean,
       default: false
     },
-    decimalPoint4: {
+    decimalPoint5: {
       type: Boolean,
       default: false
     },
@@ -73,7 +73,11 @@ export default {
     hasZero: {
       type: Boolean,
       default: false
-    }
+    },
+    decimalPoint3: {
+      type: Boolean,
+      default: false
+    },
   },
   computed: {
     syncValue: {
@@ -105,7 +109,7 @@ export default {
     },
     updateValue (value) {
       let inputValue = value
-      if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3 && !this.decimalPoint4) {
+      if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3 && !this.decimalPoint5) {
         if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false && (this.hasZero && inputValue != 0)) {
           this.$emit('updateValue', '')
           this.$refs.input.value = ''
@@ -162,8 +166,8 @@ export default {
           inputValue = value.slice(0, value.length -3)
         }
       }
-      if(this.decimalPoint4) {
-        const regex = new RegExp(/^[0-9]+.?[0-9]{0,4}$/, 'g');
+      if(this.decimalPoint5) {
+        const regex = new RegExp(/^[0-9]+.?[0-9]{0,5}$/, 'g');
         const regex2 = new RegExp(/^0+[0-9]{1,}/, 'g');
           
         if(regex2.test(value)) {
