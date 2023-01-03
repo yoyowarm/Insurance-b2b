@@ -9,18 +9,19 @@
       <div class="body">
         <TableGroup :data="modifyLogTable" class="mb-4" :slotName="slotArray" scrollX >
           <template v-for="(item,index) in modifyLogTable.rows">
-            <div :key="`modifyDetails-${index}`" :slot="`modifyDetails-${index}`">
+            <div :key="`modifyDetails-${index}`" :slot="`modifyDetails-${index}`" :class="{'text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl  min-h-4': windowWidth <= 600}">
               <template v-for="(detail,index2) in item.modifyDetails ">
-                <div :key="`modifyDetails-${index}-${index2}`" class="flex">
+                <div :key="`modifyDetails-${index}-${index2}`" class="flex" :class="{'flex-col': windowWidth <= 600, 'border-t-2 pt-2':index2 >0 && windowWidth <= 600}">
                   <div class="mr-2">{{detail.field}}</div>
-                  <span v-if="detail.originData" class="mr-2">{{detail.originData}}</span>
-                  <span class="mr-3">改為</span>
+                  <span v-if="detail.originData" :class="{'mr-2': windowWidth > 600}">{{detail.originData}}<p v-if="windowWidth <= 600">改為</p></span>
+                  <span v-if="windowWidth > 600" class="mr-3">改為</span>
                   <div class="text-main">{{detail.modifyData}}</div>
                 </div>
             </template>
             </div>
           </template>
         </TableGroup>
+        <WindowResizeListener @resize="handleResize"/>
       </div>
     </div>
     <div class="mask-bg" @click="() =>{$emit('cancel');$emit('update:open', false)}"/>
@@ -29,9 +30,11 @@
 
 <script>
 import TableGroup from '@/components/TableGroup'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
-    TableGroup
+    TableGroup,
+    WindowResizeListener
   },
   props: {
     open: {
@@ -61,6 +64,7 @@ export default {
   },
    data () {
     return {
+      windowWidth: window.innerWidth,
       value: false,
       modifyLogTable: {
         head: [
@@ -88,6 +92,13 @@ export default {
     modifyLogData (val) {
       this.modifyLogTable.rows = val
     },
+    windowWidth(val) {
+      if(val <=600) {
+        this.modifyLogTable.head[2].size = '3-6'
+      } else {
+        this.modifyLogTable.head[2].size = '5-6'
+      }
+    }
   },
   computed: {
     slotArray () {
@@ -102,6 +113,9 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     show () {
       this.value = true
     }
