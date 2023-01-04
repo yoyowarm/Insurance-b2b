@@ -279,6 +279,7 @@ export default {
     },
     async currentTag(val,oldVal) {
       if(val !== oldVal) {
+        this.$route.query.tag = val
         await this.getQuotationList()
       }
     },

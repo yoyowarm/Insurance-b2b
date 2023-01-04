@@ -31,8 +31,8 @@
               <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
           </div>
-          <div v-if="currentTag == 1" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99}">
-            <div class="flex items-center mr-7 mt-1" :class="{'absolute flex-row mr-0 top-12': windowWidth <= 600, 'flex-col': windowWidth > 600}">
+          <div v-if="currentTag == 1" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-auto bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99}">
+            <div class="flex items-center  mt-1" :class="{' flex-row justify-center mr-0 ': windowWidth <= 600, 'flex-col mr-7': windowWidth > 600}">
               <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
               <span class="download whitespace-no-wrap" :class="{'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo,'audit')}">審核</span>
             </div>
@@ -60,7 +60,7 @@ import DownloadFile from '@/components/PopupDialog/DownloadFile.vue'
 import Button from '@/components/Button'
 import HistoryPopup from '@/components/PopupDialog/historyPopup'
 import ModifyLogPopup from '@/components/PopupDialog/modifyLogPopup'
-import { quotationListTable, quotationLisMobileTable, auditListTable } from '@/utils/mockData'
+import { quotationListTable, quotationLisMobileTable, auditListTable, auditListMobileTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
 import WindowResizeListener from '@/components/WindowResizeListener'
@@ -112,8 +112,18 @@ export default {
           if(this.windowWidth > 600) {
             arr.push({head: this.currentTag == 0 ? quotationListTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
           } else {
-            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListMobileTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
           }
+        }
+      })
+      arr.map(item => {
+        if(item.rows[0].applicantName === item.rows[0].insuredName) {
+          if(this.windowWidth <= 600) {
+            item.head[1].text = '要/被保險人'
+            item.head[1].colSpan = true
+            item.head.splice(2,1)
+          }
+          
         }
       })
       return arr

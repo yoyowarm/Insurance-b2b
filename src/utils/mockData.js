@@ -380,6 +380,84 @@ export const auditListTable = () => {
   }
 }
 
+export const auditListMobileTable = () => {
+  return {
+    head: [
+      {
+        text: '序號',
+        value: 'serialNo',
+        size: '1-6'
+      },
+      {
+        text: '要保人',
+        value: 'applicantName',
+        size: '2-6'
+      },
+      {
+        text: '被保人',
+        value: 'insuredName',
+        size: '2-6'
+      },
+      {
+        text: '保費',
+        value: 'insuranceAmount',
+        size: '2-6'
+      },
+      {
+        text: '狀態',
+        value: 'underwriteStateText',
+        size: '2-6'
+      },
+      {
+        text: '待確認人員',
+        value: 'waitConfirmEmployeeName',
+        size: '3-6'
+      },
+      {
+        text: '核保結果',
+        value: 'underwriteResultStateText',
+        size: '2-6'
+      },
+
+      {
+        text: '保險期間',
+        value: 'ConvergeStartDate',
+        size: '3-6',
+        hidden: true
+      },
+      {
+        text: '報價日期',
+        value: 'quotationDate',
+        size: '2-6',
+        hidden: true
+      },
+      {
+        text: '經手人',
+        value: 'iOfficerName',
+        size: '2-6'
+      },
+      {
+        text: '總分公司單位',
+        value: 'companyDepartment',
+        size: '2-6',
+        noWrap: true
+      },
+      {
+        text: '核保人員',
+        value: 'underwriteEmployee',
+        size: '2-6'
+      },
+      {
+        text: '',
+        value: 'edit',
+        size: '1-6',
+        hidden: true
+      },
+    ],
+    rows: []
+  }
+}
+
 export const planDetail = () => {
   return {
     list: [
