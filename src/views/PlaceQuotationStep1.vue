@@ -94,7 +94,7 @@
     </CommonBoard>
     <div class="flex flex-col justify-center items-center  w-full mt-8">
         <div class="flex flex-row justify-center items-center relative">
-          <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="underwriteLevel && insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
+          <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="underwriteLevel && insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保' && InsuranceActive == 7">
             <font-awesome-icon class="text-xl text-main ml-5" icon="info-circle" />
           </div>
           <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
