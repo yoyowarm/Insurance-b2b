@@ -66,7 +66,7 @@
           </InputGroup> -->
         </div>
         <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
-          <Button @click.native="getQuotationList" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
+          <Button @click.native="getQuotationList(true)" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
         <div v-if="currentTag == 0" class="column-6 p-3 pb-6">
           <InputGroup class="w-full" title="報價單狀態">
@@ -306,9 +306,12 @@ export default {
       if(this.currentPage === page || page < 1) return
       this.$store.dispatch('app/updatedCurrentPage',page)
     },
-    async getQuotationList() {
+    async getQuotationList(reset) {
+      if(reset) {
+        this.$store.dispatch('app/updatedCurrentPage',1)
+      }
       const data = {
-        Skip: (this.currentPage-1)*10,
+        Skip:  (this.currentPage-1)*5,
         Take: 5,
         QuotationListState: this.stateSelected.Value == '0' ? '' : this.stateSelected.Value,
         Type: this.typeSelected.Value == '0' ? '' : this.typeSelected.Value,

@@ -11,6 +11,7 @@
           <Input
             slot="input"
             placeholder="輸入人數"
+            inputmode="tel"
             :value="info.number"
             :disable="disable"
             @updateValue="(e) =>updateValue(e,'number',index)"
@@ -52,7 +53,7 @@
       </div>
       <div :key="`column${index}`" class="column-5 dashed-border mt-4  w-full">
         <div class="col-span-1 flex flex-row">
-          <InputGroup class="mr-3" title="活動開始日期" :disable="disable">
+          <InputGroup class="mr-3 w-32" title="活動開始日期" :disable="disable">
             <Select
               slot="input"
               defaultText="選擇民國年"
@@ -63,7 +64,7 @@
               :ref="`startDate-year-${index}`"
             />
           </InputGroup>
-          <InputGroup :disable="disable">
+          <InputGroup :disable="disable" class="w-32">
             <Select
               slot="input"
               defaultText="選擇月份"
@@ -76,7 +77,7 @@
           </InputGroup>
         </div>
         <div class="col-span-1 flex flex-row">
-          <InputGroup class="mr-3" :disable="disable">
+          <InputGroup class="mr-3 w-32" :noMt="windowWidth <= 600" :disable="disable">
             <Select
               slot="input"
               defaultText="選擇日期"
@@ -87,7 +88,7 @@
               :ref="`startDate-day-${index}`"
             />
           </InputGroup>
-          <InputGroup :disable="disable">
+          <InputGroup :disable="disable" :noMt="windowWidth <= 600" class="w-32">
             <Select
               slot="input"
               defaultText="選擇小時"
@@ -100,7 +101,7 @@
           </InputGroup>
         </div>
         <div class="col-span-1 flex flex-row">
-          <InputGroup class="mr-3" title="活動結束日期" :disable="disable">
+          <InputGroup class="mr-3 w-32" title="活動結束日期" :disable="disable">
             <Select
               slot="input"
               defaultText="選擇民國年"
@@ -111,7 +112,7 @@
               :ref="`endDate-year-${index}`"
             />
           </InputGroup>
-          <InputGroup :disable="disable">
+          <InputGroup :disable="disable" class="w-32">
             <Select
               slot="input"
               defaultText="選擇月份"
@@ -124,7 +125,7 @@
           </InputGroup>
         </div>
         <div class="col-span-1 flex flex-row">
-          <InputGroup class="mr-3" :disable="disable">
+          <InputGroup class="mr-3 w-32" :noMt="windowWidth <= 600" :disable="disable">
             <Select
               slot="input"
               defaultText="選擇日期"
@@ -135,7 +136,7 @@
               :ref="`endDate-day-${index}`"
             />
           </InputGroup>
-          <InputGroup :disable="disable">
+          <InputGroup :disable="disable" :noMt="windowWidth <= 600" class="w-32">
             <Select
               slot="input"
               defaultText="選擇小時"
@@ -163,6 +164,7 @@
     <div class="flex justify-center mt-6">
       <Button :disabled="disable" @click.native="$emit('addItem')" outline>新增活動場次</Button>
     </div>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -173,13 +175,15 @@ import Select from '@/components/Select'
 import FormTitle from '@/components/FormTitle'
 import Button from '@/components/Button/index.vue'
 import { Popup } from '@/utils/popups'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
     InputGroup,
     Input,
     Select,
     FormTitle,
-    Button
+    Button,
+    WindowResizeListener
   },
   props: {
     infoList: {
@@ -201,6 +205,7 @@ export default {
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       copyInfoList: []
     }
   },
@@ -259,6 +264,9 @@ export default {
 		},
 	},
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     startDay(index) {
       if(!this.copyInfoList[index]) return
       return this.copyInfoList[index].startDate.year && this.copyInfoList[index].startDate.month && this.copyInfoList[index].startDate.month !== '選擇月份'

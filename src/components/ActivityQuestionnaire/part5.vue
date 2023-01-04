@@ -11,7 +11,7 @@
         :disabled="disable"
         @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="disable || !data.sheet1.part5.hasFireHydrant">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
@@ -50,7 +50,7 @@
         :disabled="disable"
         @updateValue="(e) =>updateValue(e,'fireExtinguisher')"
       />
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-16 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
@@ -81,7 +81,7 @@
     </div>
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full sm:pl-24 mt-4 text-lg">二氧化碳</span>
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
@@ -112,7 +112,7 @@
     </div>
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full sm:pl-24 mt-4 text-lg">ABC乾粉</span>
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
@@ -143,7 +143,7 @@
     </div>
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full w-40 sm:pl-24 mt-4 text-lg">海龍(halon)</span>
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
@@ -198,6 +198,7 @@
         />
       </InputGroup>
     </div>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -207,13 +208,15 @@ import FormTitle from '@/components/FormTitle.vue'
 import Checkbox from '@/components/Checkbox'
 import Input from '@/components/InputGroup/Input'
 import RadioInput from '@/components/Radio'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
     FormTitle,
     InputGroup,
     Checkbox,
     Input,
-    RadioInput
+    RadioInput,
+    WindowResizeListener
   },
   props:{
     data: {
@@ -227,6 +230,7 @@ export default {
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       questionList: [
         '活動處所消防安全措施是否有編組並實施消防設備性能測試與訓練',
         '是否已架設消防設備',
@@ -242,6 +246,9 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     updateValue(e,type) {
       const arr = ['hasDeviceTestAndTraining',
         'hasErectFireDevice',
