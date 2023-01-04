@@ -291,12 +291,14 @@ export const quotationLisMobileTable = () => {
       {
         text: '總分公司單位',
         value: 'companyDepartment',
-        size: '2-6'
+        size: '2-6',
+        noWrap: true
       },
       {
         text: '報價單操作',
         value: 'edit',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: []

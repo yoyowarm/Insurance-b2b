@@ -25,9 +25,9 @@
         <div v-else class="item" :class="{'bg-gray-200 px-3 mb-4 rounded-2xl': windowWidth <= 600}" :key="index" @click="$emit('review',item)">
           <div class="" :class="{'column-2-wide' : column2, 'column-3-wide': column3}">
             <template v-for="(headItem,headIndex) in head">
-              <div :key="`${headItem.value}-${headIndex}`" >
+              <div :key="`${headItem.value}-${headIndex}`" :class="{'hidden': headItem.hidden, 'whitespace-no-wrap' :headItem.noWrap}">
                 <span class="text-gray-100 bg-main rounded-t-xl text-center p-1 text-sm hidden">{{headItem.text}}</span>
-                <div v-if="$slots[`${headItem.value}-${index}`] && ((!item.mainOrderNo && item.newSerialNo && (headItem.text !== '報價單操作' || headItem.text !== '操作')) || !item.mainOrderNo)" :key="`${headItem.text}-${headIndex}`" :class="[scrollX ? '' :'truncate']">
+                <div v-if="$slots[`${headItem.value}-${index}`] && (((headItem.text !== '報價單操作' || headItem.text !== '操作')) || !item.mainOrderNo)" :key="`${headItem.text}-${headIndex}`" :class="[scrollX ? '' :'truncate']">
                   <slot :name="`${headItem.value}-${index}`"/>
                 </div>
                 <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`"  :class="[,scrollX ? '' :'truncate']">
@@ -47,7 +47,7 @@
             </template>
           </div>
           <template v-for="(headItem,headIndex) in head">
-            <div :key="`${headItem.value}-${headIndex}-2`" v-if="item.mainOrderNo && !item.newSerialNo && (headItem.text == '報價單操作' || headItem.text == '操作')">
+            <div :key="`${headItem.value}-${headIndex}-2`" v-if=" (headItem.text == '報價單操作' || headItem.text == '操作')">
               <slot :name="`${headItem.value}-${index}`"/>
             </div>
           </template>
