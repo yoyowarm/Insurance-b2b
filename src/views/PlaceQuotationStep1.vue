@@ -406,6 +406,7 @@ export default {
               perAccidentBodyAmount: item.perAccidentBodyAmount ? item.perAccidentBodyAmount/10000 : '',
               perAccidentFinanceAmount: item.perAccidentFinanceAmount ? item.perAccidentFinanceAmount/10000 : '',
               perBodyAmount: item.perBodyAmount ? item.perBodyAmount/10000 : '',
+              selfInflictedAmount: item.selfInflictedAmount ? this.selfPayList.find(item => item.Value == item.selfInflictedAmount) : { Value: 2500, Text: '2,500元' },
               parameter: {
                 basicFee: '',
                 finalHC: '',
@@ -425,7 +426,9 @@ export default {
         this.$store.dispatch(`place/updatedQuotationData`,data)
         if(res.data.content.placeInsureInfo) {
           this.step1InitAssignValue('place')
-          this.$nextTick(async () => {
+          
+        }
+        setTimeout(() => {
           this.insuranceAmountListData = {
             ...this.quotationData.insuranceAmounts[0],
             amountType: {Value: this.quotationData.insuranceAmounts[0].amountType, Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType]},
@@ -434,10 +437,10 @@ export default {
             perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
             perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
             perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-            selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+            selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ,
           }
-        })
-        }
+        }, 1000);
+        
         if(res.data.content.questionnaire) {
           this.$store.dispatch(`place/updateQuestionnaireFinished`, true)
           this.AssignQuestionnaire('place')

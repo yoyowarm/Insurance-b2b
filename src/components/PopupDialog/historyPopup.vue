@@ -10,7 +10,7 @@
       <div class="px-2">
         <TableGroup :data="historyTable" class="mb-4" :slotName="slotArray" scrollX >
           <template v-for="(item,index) in historyTable.rows">
-            <div :key="`operate-${index}`" :slot="`operate-${index}`" class="flex justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl  min-h-4">
+            <div :key="`operate-${index}`" :slot="`operate-${index}`" class="flex custom-column">
               <span class="text-main">{{item.action}}</span>
             </div>
           </template>
@@ -158,5 +158,8 @@ export default {
       @apply bg-white rounded-2xl;
 
     }
+  }
+  .custom-column {
+    @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
   }
 </style>
