@@ -22,7 +22,7 @@
     <div class="flex w-full">
       <TableGroup v-if="currentTag == 0" class="w-full" :data="membersListTable" :slotName="memberSlotArray" column2 scrollX>
         <template v-for="(item,index) in membersListTable.rows">
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap">
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap mt-2">
             <Button class="mr-2" @click.native="callDialog(0,'帳號明細','',item)" outline>明細</Button>
             <Button class="mr-2" @click.native="callDialog(1,'編輯帳號', '儲存編輯',item)" outline>編輯</Button>
             <Button outline @click.native="callDialog(2,'刪除帳號', '確認刪除',item)">刪除</Button>
@@ -31,10 +31,10 @@
       </TableGroup>
       <TableGroup v-else class="w-full" :data="groupListTable" :slotName="groupSlotArray" column2 scrollX>
         <template v-for="(item,index) in groupListTable.rows">
-          <div :slot="`permissionsList-${index}`" :key="`permissionsList-${index}`" class="text-gray-700">
+          <div :slot="`permissionsList-${index}`" :key="`permissionsList-${index}`" class="text-gray-700" :class="{' bg-gray-100 rounded-b-xl': windowWidth <= 600}">
             <span v-for="(subPermission,subIndex) in item.permissions" :key="`${subPermission.subPermissionName}-${index}`">{{subPermission.subPermissionName}}<span v-if="item.permissions.length -1 !== subIndex">、</span></span>
           </div>
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap mt-2">
             <Button class="mr-2" @click.native="callDialog(3,'群組明細','',item)" outline>明細</Button>
             <Button class="mr-2" @click.native="callDialog(4,'編輯群組', '儲存編輯',item)" outline>編輯</Button>
             <Button outline @click.native="callDialog(5,'刪除群組', '確認刪除',item)">刪除</Button>
@@ -179,7 +179,7 @@ import Button from '@/components/Button'
 import FormTitle from '@/components/FormTitle.vue'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
-import { membersListTable, groupListTable } from '@/utils/mockData'
+import { membersListTable,groupListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
 export default {
@@ -202,7 +202,7 @@ export default {
     return {
       windowWidth: window.innerWidth,
       membersListTable: membersListTable(),
-      groupListTable: groupListTable(),
+      groupListTable:groupListTable(),
       openDialog: false,
       dialog: {
         title: '',
@@ -268,6 +268,12 @@ export default {
         await this.$store.dispatch('resource/PermissionSettingUsers')
       } else {
         await this.groupInit()
+      }
+      console.log(this.groupListTable)
+       if(this.windowWidth <= 600) {
+        this.groupListTable.head[1].size = '2-6'
+      } else {
+        this.groupListTable.head[1].size = '6-6'
       }
     }
   },

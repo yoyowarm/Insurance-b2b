@@ -51,7 +51,7 @@
           </div>
         </template>
       </TableGroup>
-      <Pagination :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
+      <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
     </CommonBoard>
     <ActivityQuestionnaire
       type="activity"

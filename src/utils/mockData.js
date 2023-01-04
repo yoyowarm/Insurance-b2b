@@ -276,12 +276,14 @@ export const quotationLisMobileTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       },
       {
         text: '報價日期',
         value: 'quotationDate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
       {
         text: '經手人',
@@ -578,7 +580,8 @@ export const membersListTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '4-6'
+        size: '4-6',
+        hidden: true
       },
     ],
     rows: []
@@ -601,7 +604,8 @@ export const groupListTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '3-6'
+        size: '3-6',
+        hidden: true
       },
     ],
     rows: [
@@ -630,27 +634,32 @@ export const categoryListTable = () => {
       {
         text: '顯示名稱',
         value: 'displayItemName',
-        size: '5-6'
+        size: '5-6',
+        hidden: true
       },
       {
         text: '危險代號',
         value: 'dangerCode',
-        size: '5-6'
+        size: '5-6',
+        hidden: true
       },
       {
         text: '應另行報價',
         value: 'hasQuotation',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       },
       {
         text: '隱藏/顯示',
         value: 'isEnable',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       },
       {
         text: '操作',
         value: 'operate',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       }
     ],
     rows: [

@@ -1,5 +1,5 @@
 <template>
-  <div class="left-nav relative bg-main" :class="{'open':openMenu }">
+  <div class="left-nav relative bg-main overflow-auto" :class="{'open':openMenu }">
     <div class="user-mobile">
       <div class="flex items-start relative">
         <span class="name">{{userInfo.sub}}</span>
