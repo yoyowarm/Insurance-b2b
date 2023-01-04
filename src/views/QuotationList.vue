@@ -408,6 +408,7 @@ export default {
       Value: '',
       Text: '全部'
     })
+    if(this.$route.query.tag == 1) {this.currentTag =1}
   }
 }
 </script>

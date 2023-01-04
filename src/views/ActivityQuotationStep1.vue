@@ -765,7 +765,7 @@ export default {
         await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
-        this.$router.push('/quotation-ist')
+        this.$router.push('/quotation-ist?tag=1')
         this.$store.dispatch('place/clearAll')
         this.$store.dispatch('place/updatedUUID', '')
         this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
