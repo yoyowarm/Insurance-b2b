@@ -41,6 +41,9 @@
             <span :class="{'whitespace-no-wrap':windowWidth > 600}">{{item.insuranceBeginTime.split('T')[0]}}起</span>
             <span :class="{'whitespace-no-wrap':windowWidth > 600}">{{item.insuranceEndTime.split('T')[0]}}迄</span>
           </div>
+          <div class="text-gray-600  md:bg-white md:p-1 rounded-b-xl md:text-left  min-h-4 flex flex-col" :class="{ 'bg-gray-100  text-center':windowWidth <= 600}" :slot="`quotationDate-${index}`" :key="`quotationDate-${index}`">
+            <span :class="{'whitespace-no-wrap':windowWidth > 600}">{{item.quotationDate}}</span>
+          </div>
           </template>
       </TableGroup>
     </template>
@@ -94,6 +97,7 @@ export default {
   computed: {
     ...mapState({
       'orderNo': state => state.common.orderNo,
+      userInfo: state => state.home.userInfo
     }),
     listData () {
       const arr = []
@@ -103,11 +107,12 @@ export default {
           target.rows.push(item)
           target.slotArray.push(`edit-${target.rows.length-1}`)
           target.slotArray.push(`ConvergeStartDate-${target.rows.length-1}`)
+          target.slotArray.push(`quotationDate-${target.rows.length-1}`)
         } else {
           if(this.windowWidth > 600) {
-            arr.push({head: this.currentTag == 0 ? quotationListTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationListTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
           } else {
-            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
           }
         }
       })
