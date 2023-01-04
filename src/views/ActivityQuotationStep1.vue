@@ -74,7 +74,7 @@
       </div>
       <div class="flex flex-row">
         <Button @click.native="nextStep" class="my-4 w-56 md:w-42" :class="{'md:mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
-        <Button v-if="false && underwriteStatus.underwriteDirection == 1" class="my-4 w-56 md:w-42" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-4 w-56 md:w-42" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
@@ -754,13 +754,22 @@ export default {
       return data
     },
     async updateUnderwrite(type) {
-      await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
-      this.$store.dispatch('common/updatedCalculateModel', false)
-      this.$store.dispatch(`place/updatedInsuranceActive`,0)
-      this.$router.push('/quotation-ist')
-      this.$store.dispatch('place/clearAll')
-      this.$store.dispatch('place/updatedUUID', '')
-      this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+      Popup.create({
+        hasHtml: true,
+				maskClose: false,
+				confirm: true,
+				ok: '是',
+				cancel: '否',
+				htmlText: `<p>確定此報價單不予核保？</p>`,
+      }).then(async() => {
+        await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
+        this.$store.dispatch('common/updatedCalculateModel', false)
+        this.$store.dispatch(`place/updatedInsuranceActive`,0)
+        this.$router.push('/quotation-ist')
+        this.$store.dispatch('place/clearAll')
+        this.$store.dispatch('place/updatedUUID', '')
+        this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+      })
     }
   },
   async mounted() {
