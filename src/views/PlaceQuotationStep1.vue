@@ -383,7 +383,14 @@ export default {
       }
     },
     async renewInfo() {
-      const res = await this.$store.dispatch('quotation/GetRenewInfo', this.renewal.InsuranceNumber)
+      let res = null
+      try {
+        res = await this.$store.dispatch('quotation/GetRenewInfo', this.renewal.InsuranceNumber)
+      } catch (error) {
+        Popup.create({hasHtml:true,htmlText:'無此續保單號'})
+        return
+      }
+
       if(res.data.code ==1) {
         const data = {
           ...res.data.content,
