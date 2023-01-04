@@ -91,7 +91,7 @@
       </InputGroup>
     </div>
     <div class="column-6 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full col-span-6" title="客戶屬性" borderBtn :editModel="editModel">
+      <InputGroup class="w-full col-span-6" title="客戶屬性" borderBtn :editModel="editModel" popupRight>
         <Select v-if="editModel" slot="input" defaultText="非專業"/>
         <div v-else slot="input" class="w-full relative">
           {{info.isProOrNot ? '專業' : '非專業'}}

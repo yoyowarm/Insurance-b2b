@@ -18,7 +18,7 @@
       </InputGroup>
     </div>
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="處所數量" :disable="type == 'place'">
+      <InputGroup class="col-span-2" title="處所數量" :disable="type == 'place'" popupRight>
         <Input
           slot="input"
           placeholder="請輸入數量"

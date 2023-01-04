@@ -166,7 +166,7 @@
       </InputGroup>
     </div>
     <div class="column-5 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" title="客戶屬性" lgTitle mid :disable="disable">
+      <InputGroup class="w-full" title="客戶屬性" lgTitle mid :disable="disable" popupRight>
         <SwitchInput
           slot="input"
           :id="`${type}IsProOrNot`"

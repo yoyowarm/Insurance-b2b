@@ -2,7 +2,10 @@
   <div class="input-group" :class="{'w70': $slots.suffix}">
       <div class="input-title mt" :class="{'justify-between': $slots.right, 'h0': noMt, 'wrap':wrap, 'h-auto': autoHeight}">
         <div class="text-gray-800 " :class="{'text-lg': lgTitle, 'whitespace-no-wrap': !whitespaceNormal}">{{title}}<slot name="title"/></div>
-        <div class="slot" v-if="$slots.right">
+        <div class="slot" @click="slotRight = !slotRight" v-if="$slots.right">
+          <slot name="right"/>
+        </div>
+        <div v-if="slotRight && popupRight" @click="slotRight = !slotRight" class="popup">
           <slot name="right"/>
         </div>
       </div>
@@ -94,6 +97,15 @@ export default {
     whitespaceNormal: {
       type: Boolean,
       default: false
+    },
+    popupRight: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      slotRight: false
     }
   },
   computed: {
@@ -214,5 +226,13 @@ export default {
 }
   .w70 {
     width: 70%;
+  }
+  .popup {
+    @apply absolute top-0 right-0 z-10 bg-white border border-gray-200 rounded-lg shadow-lg;
+  }
+  @media  screen and (min-width: 601px) {
+    .popup {
+      @apply hidden;
+    }
   }
 </style>
