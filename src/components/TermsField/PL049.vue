@@ -2,7 +2,7 @@
 	<div>
 		<FormTitle title="承租人借用人責任附加條款(保額外加)" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
-      <span class="text-main ml-2" slot="right">*必填</span>
+      <span class="text-main ml-2 whitespace-no-wrap" slot="right">*必填</span>
     </FormTitle>	
     <FormTitle title="本附加條款之每一意外事故及保險期間累計保險金額最高以新台幣" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-5 ">
