@@ -39,13 +39,13 @@
       <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
         <Button @click.native="getQuestionnaireList" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
       </div>
-      <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX column3 boldFont>
+      <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX boldFont>
         <template v-for="(item,index) in questionnaireList.rows">
-          <div :slot="`createTime-${index}`" :key="`createTime-${index}`" class="mr-7 mt-1 font-semibold">
+          <div :slot="`createTime-${index}`" :key="`createTime-${index}`" class="mr-7 mt-1 font-semibold custom-column">
             <span v-if="windowWidth > 600">{{item.createTime.split('T')[0] +' '+ item.createTime.split('T')[1]}}</span>
             <span v-else>{{item.createTime.split('T')[0]}}<br>{{item.createTime.split('T')[1]}}</span>
           </div>
-          <div :slot="`operate-${index}`" :key="`operate-${index}`"  class="flex items-center mr-7 mt-1" :class="{'flex-col': windowWidth > 600, 'flex-row ml-2': windowWidth <= 600}">
+          <div :slot="`operate-${index}`" :key="`operate-${index}`"  class="flex items-center mr-7 mt-1 custom-column" :class="{'flex-col': windowWidth > 600, 'flex-row ': windowWidth <= 600}">
               <span class="download mb-3" @click="downloadFile(item.serialNo,item.questionnaireType)">列印</span>
               <span class="download mb-3" :class="{'ml-5': windowWidth <= 600}" @click="getQuestionnaire(item.serialNo,item.questionnaireType)">更正</span>
           </div>
@@ -186,6 +186,13 @@ export default {
     async currentPage(val) {
       await this.getQuestionnaireList(val)
     },
+    windowWidth(val) {
+      if(val <= 600) {
+        this.questionnaireList.head[9].text = ''
+      } else {
+        this.questionnaireList.head[9].text = '操作'
+      }
+    }
   },
   methods: {
     handleResize () {
@@ -362,6 +369,11 @@ export default {
       Value: '',
       Text: '全部'
     })
+    if(this.windowWidth <= 600) {
+        this.questionnaireList.head[9].text = ''
+      } else {
+        this.questionnaireList.head[9].text = '操作'
+      }
   }
 }
 </script>
@@ -374,5 +386,10 @@ export default {
       color: #C4C4C4;
       @apply cursor-not-allowed
     }
+  }
+  @media (max-width: 600px) {
+    .custom-column {
+    @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
+  }
   }
 </style>

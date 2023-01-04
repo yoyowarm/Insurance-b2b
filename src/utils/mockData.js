@@ -845,7 +845,8 @@ export const questionnaireList = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: []
