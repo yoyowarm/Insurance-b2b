@@ -10,6 +10,7 @@
           slot="input"
           placeholder="請輸入金額"
           :value="data.PL005.value1.toString()"
+          inputmode="tel"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
           numberFormat
@@ -22,6 +23,7 @@
         <Input
           slot="input"
           placeholder="請輸入數量"
+          inputmode="tel"
           :value="data.PL005.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly

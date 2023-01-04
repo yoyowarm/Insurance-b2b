@@ -60,7 +60,7 @@
     </div>
     <div class="column-5 my-3">
       <InputGroup lgTitle title="距鄰近建築物" mid :disable="disable">
-        <Input slot="input" unit="公尺" :disable="disable" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離" numberOnly/>
+        <Input slot="input" inputmode="tel"  unit="公尺" :disable="disable" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離" numberOnly/>
       </InputGroup>
     </div>
      <div class="flex flex-col my-3">
@@ -153,6 +153,7 @@
         <Input
           slot="input"
           class="w-full"
+          inputmode="tel" 
           :value="data.part2.room.value"
           :disable="disable || !data.part2.room.selected"
           @updateValue="(e) => updateValue(e,'room.value')"
@@ -176,6 +177,7 @@
         <Input
           slot="input"
           class="w-full"
+          inputmode="tel" 
           :value="data.part2.seat.value"
           :disable="disable || !data.part2.seat.selected"
           @updateValue="(e) => updateValue(e,'seat.value')"
@@ -196,13 +198,13 @@
     </div>
     <div class="column-4 my-3">
       <InputGroup lgTitle mid title="營業處所總樓層數，地上樓層數" :disable="disable">
-        <Input slot="input" :disable="disable" :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
+        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup lgTitle mid title="營業處所總樓層數，地下樓層數" dash :disable="disable">
-        <Input slot="input" :disable="disable" :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
+        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup lgTitle mid title="使用到樓層" :disable="disable">
-        <Input slot="input" :disable="disable" :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
+        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
       </InputGroup>
     </div>
     
@@ -219,6 +221,7 @@
       <InputGroup lgTitle mid title="救生員人數" :disable="disable || !data.part2.hasSwimmingPool">
         <Input
           slot="input"
+          inputmode="tel" 
           :value="data.part2.lifeguardAmount"
           numberOnly
           @updateValue="(e) => updateValue(e,'lifeguardAmount')"

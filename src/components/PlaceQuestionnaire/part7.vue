@@ -16,6 +16,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.hasFireHydrant"
             :value="data.part7.hydrantIndoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
@@ -28,6 +29,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.hasFireHydrant"
             :value="data.part7.hydrantOutdoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
@@ -52,6 +54,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.foam.indoor"
             @updateValue="(e) => updateValue(e,'foam.indoor')"
@@ -64,6 +67,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.foam.outdoor"
             @updateValue="(e) => updateValue(e,'foam.outdoor')"
@@ -81,6 +85,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.carbonDioxide.indoor"
             @updateValue="(e) => updateValue(e,'carbonDioxide.indoor')"
@@ -93,6 +98,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.carbonDioxide.outdoor"
             @updateValue="(e) => updateValue(e,'carbonDioxide.outdoor')"
@@ -110,6 +116,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.abc.indoor"
             @updateValue="(e) => updateValue(e,'abc.indoor')"
@@ -122,6 +129,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.abc.outdoor"
             @updateValue="(e) => updateValue(e,'abc.outdoor')"
@@ -139,6 +147,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.halon.indoor"
             @updateValue="(e) => updateValue(e,'halon.indoor')"

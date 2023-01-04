@@ -60,6 +60,7 @@
           <Input
             slot="input"
             placeholder="輸入排序"
+            inputmode="tel" 
             :value="item.sort"
             :disable="disable || item.transferOriginalType"
             @updateValue="(e) =>updateValue(index, 'sort', e)"

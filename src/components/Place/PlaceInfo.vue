@@ -21,6 +21,7 @@
         <InputGroup title="處所坪數" :disable="disable">
           <Input
             slot="input"
+            inputmode="tel"
             placeholder="輸入坪數"
             :value="info.squareFeet.toString()"
             numberOnly

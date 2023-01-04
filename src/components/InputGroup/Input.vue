@@ -6,6 +6,7 @@
       :class="{'pr-9': slotIcon, disable,'disable-white': disableWhite, 'pr-8': unit.length > 0}"
       :placeholder="placeholder"
       :maxLength="inputMaxLength"
+      :inputmode="inputmode"
       v-model="syncValue"
       ref="input"
       @blur="()=>{ $emit('blurInput');valueFormat()}">
@@ -78,6 +79,10 @@ export default {
       type: Boolean,
       default: false
     },
+    inputmode: {
+      type: String,
+      default: ''
+    }
   },
   computed: {
     syncValue: {

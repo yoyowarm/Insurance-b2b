@@ -17,6 +17,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.hasFireHydrant"
             :value="data.sheet1.part5.hydrantIndoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
@@ -29,6 +30,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.hasFireHydrant"
             :value="data.sheet1.part5.hydrantOutdoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
@@ -54,6 +56,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.foam.indoor"
             @updateValue="(e) => emitSelectItem('foam','indoor',e)"
@@ -66,6 +69,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.foam.outdoor"
             @updateValue="(e) => emitSelectItem('foam','outdoor',e)"
@@ -83,6 +87,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.carbonDioxide.indoor"
             @updateValue="(e) => emitSelectItem('carbonDioxide','indoor',e)"
@@ -95,6 +100,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.carbonDioxide.outdoor"
             @updateValue="(e) => emitSelectItem('carbonDioxide','outdoor',e)"
@@ -112,6 +118,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.abc.indoor"
             @updateValue="(e) => emitSelectItem('abc','indoor',e)"
@@ -124,6 +131,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.abc.outdoor"
             @updateValue="(e) => emitSelectItem('abc','outdoor',e)"
@@ -141,6 +149,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.sheet1.part5.fireExtinguisher"
             :value="data.sheet1.part5.halon.indoor"
             @updateValue="(e) => emitSelectItem('halon','indoor',e)"

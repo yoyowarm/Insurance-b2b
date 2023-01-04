@@ -10,25 +10,25 @@
     </div>
     <div class="column-2 mb-4">
       <InputGroup title="附加條款加費係數" :disable="fixAdditionTermCoefficient">
-        <Input slot="input" class="w-full" decimalPoint5 :disable="fixAdditionTermCoefficient" :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :disable="fixAdditionTermCoefficient" :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
       </InputGroup>
       <InputGroup title="AGG>AOA*2係數">
-        <Input slot="input" class="w-full" decimalPoint5 :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4">
       <InputGroup title="期間係數">
-        <Input slot="input" class="w-full" decimalPoint :value="copyPeriodParameter" @updateValue="e => {copyPeriodParameter = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint :value="copyPeriodParameter" @updateValue="e => {copyPeriodParameter = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4">
       <InputGroup title="規模係數">
-        <Input slot="input" class="w-full" decimalPoint5 :value="copySizeCofficient" @updateValue="e => {copySizeCofficient = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :value="copySizeCofficient" @updateValue="e => {copySizeCofficient = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4 relative">
       <InputGroup title="保費" disable>
-        <div slot="input" class="w-full pr-24 relative">
+        <div slot="input" inputmode="tel"  class="w-full pr-24 relative">
           <Input class="w-full" disable numberFormat :value="copyPremium"/>
         </div>
       </InputGroup>

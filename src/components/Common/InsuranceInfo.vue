@@ -35,6 +35,7 @@
             v-show="!copyInfo.numberType"
             class="w-28 border-r-2"
             placeholder="區碼"
+            inputmode="tel" 
             :maxLength="4"
             :value="copyInfo.prefixNumber"
             @updateValue="(e) => updateInfo('prefixNumber', e)"
@@ -45,6 +46,7 @@
           />
           <Input
             placeholder="輸入號碼"
+            inputmode="tel" 
             :value="copyInfo.Mobile"
             @updateValue="(e) => updateInfo('Mobile', e)"
             @blurInput="phoneVerify('Mobile')"

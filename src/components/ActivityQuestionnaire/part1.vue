@@ -15,6 +15,7 @@
           slot="input"
           numberOnly
           placeholder="輸入人數"
+          inputmode="tel" 
           :maxLength="7"
           :disable="disable"
           :value="data.sheet1.part1.joinPersonAmount"
@@ -26,6 +27,7 @@
           slot="input"
           numberOnly
           placeholder="輸入人數"
+          inputmode="tel" 
           :maxLength="7"
           :disable="disable"
           :value="data.sheet1.part1.ruleCapacity"
@@ -91,6 +93,7 @@
         <Input
           slot="input"
           placeholder="輸入天數"
+          inputmode="tel" 
           :maxLength="7"
           :disable="disable"
           :value="data.sheet1.part1.activityDays"

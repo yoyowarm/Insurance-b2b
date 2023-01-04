@@ -12,6 +12,7 @@
             <Input
               slot="input"
               placeholder="請輸入金額"
+              inputmode="tel" 
               :value="data.PL023.value1.toString()"
               @updateValue="(e) =>updateValue(e,'value1')"
               numberOnly
@@ -25,6 +26,7 @@
             <Input
               slot="input"
               placeholder="請輸入金額"
+              inputmode="tel" 
               :value="data.PL023.value2.toString()"
               @updateValue="(e) =>updateValue(e,'value2')"
               numberOnly
@@ -38,6 +40,7 @@
             <Input
               slot="input"
               placeholder="請輸入金額"
+              inputmode="tel" 
               :value="data.PL023.value3.toString()"
               @updateValue="(e) =>updateValue(e,'value3')"
               numberOnly
@@ -54,6 +57,7 @@
             <Input
               slot="input"
               placeholder="請輸入金額"
+              inputmode="tel" 
               :value="data.PL023.value4.toString()"
               @updateValue="(e) =>updateValue(e,'value4')"
               numberOnly
@@ -67,6 +71,7 @@
             <Input
               slot="input"
               placeholder="請輸入金額"
+              inputmode="tel" 
               :value="data.PL023.value5.toString()"
               @updateValue="(e) =>updateValue(e,'value5')"
               numberOnly
@@ -80,6 +85,7 @@
             <Input
               slot="input"
               placeholder="請輸入金額"
+              inputmode="tel" 
               :value="data.PL023.value6.toString()"
               @updateValue="(e) =>updateValue(e,'value6')"
               numberOnly

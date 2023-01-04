@@ -10,6 +10,7 @@
         <Input
           slot="input"
           placeholder="請輸入金額"
+          inputmode="tel" 
           :value="data.PL049.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly

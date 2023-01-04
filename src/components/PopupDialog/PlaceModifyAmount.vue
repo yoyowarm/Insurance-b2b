@@ -10,30 +10,30 @@
     </div>
     <div class="column-2 mb-4">
       <InputGroup title="附加條款加費係數" :disable="fixAdditionTermCoefficient">
-        <Input slot="input" class="w-full" decimalPoint5 :disable="fixAdditionTermCoefficient" :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :disable="fixAdditionTermCoefficient" :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
       </InputGroup>
       <InputGroup title="AGG>AOA*2係數">
-        <Input slot="input" class="w-full" decimalPoint5 :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4" v-if="hasHexTypeBasicAmount">
       <InputGroup title="己類基本純保費" >
-        <Input slot="input" class="w-full" decimalPoint :value="hexTypeBasicAmount" @updateValue="e => {hexTypeBasicAmount = e; copyPremium = ''}" unit="元"/>
+        <Input slot="input" inputmode="tel"  class="w-full" decimalPoint :value="hexTypeBasicAmount" @updateValue="e => {hexTypeBasicAmount = e; copyPremium = ''}" unit="元"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4">
       <InputGroup title="多處所係數">
-        <Input slot="input" class="w-full" decimalPoint5 :value="copyMutiSizeParameter" @updateValue="e => {copyMutiSizeParameter = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :value="copyMutiSizeParameter" @updateValue="e => {copyMutiSizeParameter = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4">
       <InputGroup title="規模係數">
-        <Input slot="input" class="w-full" decimalPoint5 :value="copySizeCofficient" @updateValue="e => {copySizeCofficient = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :value="copySizeCofficient" @updateValue="e => {copySizeCofficient = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4 relative">
       <InputGroup title="保費" disable>
-        <div slot="input" class="w-full pr-24 relative">
+        <div slot="input" inputmode="tel"  class="w-full pr-24 relative">
           <Input class="w-full" disable numberFormat :value="copyPremium"/>
         </div>
       </InputGroup>

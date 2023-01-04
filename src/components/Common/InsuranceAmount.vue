@@ -16,6 +16,7 @@
       <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
+          inputmode="tel"
           :value="data.perBodyAmount.toString() == '0' ? '' : data.perBodyAmount"
           @updateValue="(e) =>{ updatedValue('perBodyAmount',e)}"
           placeholder="請輸入金額"
@@ -27,6 +28,7 @@
       <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故體傷責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
+          inputmode="tel"
           :value="data.perAccidentBodyAmount.toString() == '0' ? '' : data.perAccidentBodyAmount"
           @updateValue="(e) => updatedValue('perAccidentBodyAmount',e)"
           placeholder="請輸入金額"
@@ -38,6 +40,7 @@
       <InputGroup v-if="data.amountType.Value != 1" title="每一意外事故財物損失責任金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
+          inputmode="tel"
           :value="data.perAccidentFinanceAmount.toString() == '0' ? '' : data.perAccidentFinanceAmount"
           @updateValue="(e) => updatedValue('perAccidentFinanceAmount',e)"
           placeholder="請輸入金額"
@@ -49,6 +52,7 @@
       <InputGroup v-if="data.amountType.Value != 1" title="本保險契約之最高賠償金額" :disableWhite="data.amountType.Value != 2 || disable">
         <Input
           slot="input"
+          inputmode="tel"
           :value="data.insuranceTotalAmount.toString() == '0' ? '' : data.insuranceTotalAmount"
           @updateValue="(e) => updatedValue('insuranceTotalAmount',e)"
           placeholder="請輸入金額"
@@ -60,6 +64,7 @@
       <InputGroup v-if="data.amountType.Value == 1" title="單一限額" :disableWhite="disable">
         <Input
           slot="input"
+          inputmode="tel"
           :value="numFormat(data.mergeSingleAmount)"
           @updateValue="(e) => updatedValue('mergeSingleAmount',e)"
           placeholder="請輸入金額"
