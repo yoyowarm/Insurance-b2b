@@ -61,7 +61,7 @@
               placeholder="輸入要保人姓名"
             />
           </InputGroup>
-          <Button class="copy-button">查詢</Button>
+          <Button class="copy-button"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
         <TableGroup :data="quotationListTable" :slotName="slotArray">
           <template v-for="(item,index) in quotationListTable.rows">

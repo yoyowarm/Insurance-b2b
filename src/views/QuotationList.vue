@@ -66,7 +66,7 @@
           </InputGroup> -->
         </div>
         <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
-          <Button @click.native="getQuotationList" class="absolute -top-5 w-32">查詢</Button>
+          <Button @click.native="getQuotationList" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
         <div v-if="currentTag == 0" class="column-6 p-3 pb-6">
           <InputGroup class="w-full" title="報價單狀態">

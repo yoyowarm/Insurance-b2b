@@ -37,7 +37,7 @@
         </InputGroup>
       </div>
       <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
-        <Button @click.native="getQuestionnaireList" class="absolute -top-5 w-32">查詢</Button>
+        <Button @click.native="getQuestionnaireList" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
       </div>
       <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX column3 boldFont>
         <template v-for="(item,index) in questionnaireList.rows">

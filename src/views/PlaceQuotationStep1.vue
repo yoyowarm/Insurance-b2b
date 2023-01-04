@@ -17,7 +17,7 @@
         <InputGroup class="w-ful" :disable="!renewal.IsRenewal || calculateModel">
         <div slot="input" class="w-full pr-24 relative">
           <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal|| calculateModel"/>
-          <Button v-if="InsuranceActive !== 7" class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel">查詢</Button>
+          <Button v-if="InsuranceActive !== 7" class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
       </InputGroup>
       </div>

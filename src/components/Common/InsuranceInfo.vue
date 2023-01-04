@@ -4,13 +4,13 @@
       <InputGroup class=" w-full mb-2.5" title="姓名" lgTitle mid :disable="disable">
         <div slot="input" class="w-full pr-24 relative">
           <Input slot="input" placeholder="輸入名稱" :value="copyInfo.Name" @updateValue="(e) => updateInfo('Name', e)" :disable="disable"/>
-          <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.Name) {$emit('getDetail', 'Name')}}" :disable="disable">查詢</Button>
+          <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.Name) {$emit('getDetail', 'Name')}}" :disable="disable"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
       </InputGroup>
       <InputGroup class=" w-full mb-2.5" title="統編/身分證" lgTitle mid :disable="disable">
         <div slot="input" class="w-full pr-24 relative" :disable="disable">
           <Input placeholder="輸入號碼" :value="copyInfo.ID" @updateValue="(e) => updateInfo('ID', e)" @blurInput="idVerify" :disable="disable"/>
-          <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.ID) {$emit('getDetail', 'ID')}}" :disable="disable">查詢</Button>
+          <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.ID) {$emit('getDetail', 'ID')}}" :disable="disable"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
       </InputGroup>
       <InputGroup v-if="quotationType == 'activity'" class="w-full mb-2.5" title="活動名稱" lgTitle mid :disable="disable || (InsuranceActive == 1 || InsuranceActive > 2)">
