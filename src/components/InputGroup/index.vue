@@ -2,10 +2,10 @@
   <div class="input-group" :class="{'w70': $slots.suffix}">
       <div class="input-title mt" :class="{'justify-between': $slots.right, 'h0': noMt, 'wrap':wrap, 'h-auto': autoHeight}">
         <div class="text-gray-800 " :class="{'text-lg': lgTitle, 'whitespace-no-wrap': !whitespaceNormal}">{{title}}<slot name="title"/></div>
-        <div class="slot" @click="slotRight = !slotRight" v-if="$slots.right">
+        <div class="slot" @click="() => {slotRight = !slotRight; $emit('slotRightPopup')}" v-if="$slots.right">
           <slot name="right"/>
         </div>
-        <div v-if="slotRight && popupRight" @click="slotRight = !slotRight" class="popup">
+        <div v-if="slotRight && popupRight" @click="() => {slotRight = !slotRight; $emit('slotRightPopup')}" class="popup">
           <slot name="right"/>
         </div>
       </div>
@@ -212,7 +212,7 @@ export default {
       @apply whitespace-normal;
     }
   }
-  @media (max-width: 1126px) {
+  @media (max-width: 1130px) {
   .input-title {
     width: 100%;
     .slot {
@@ -228,9 +228,9 @@ export default {
     width: 70%;
   }
   .popup {
-    @apply absolute top-0 right-0 z-10 bg-white border border-gray-200 rounded-lg shadow-lg;
+    @apply absolute top-0 left-0 right-0 z-10 bg-white border border-gray-200 rounded-lg shadow-lg;
   }
-  @media  screen and (min-width: 601px) {
+  @media  screen and (min-width:  601px) {
     .popup {
       @apply hidden;
     }
