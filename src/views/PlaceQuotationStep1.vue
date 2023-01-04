@@ -400,7 +400,7 @@ export default {
               // eslint-disable-next-line no-prototype-builtins
               selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
               fixed: false,
-              amount: item.amount ? item.amount : '',
+              amountType: {Value: item.amountType? item.amountType : 0, Text: item.amountType?  this.amountList[item.amountType] : '依各縣市規定'},
               insuranceTotalAmount: item.insuranceTotalAmount ? item.insuranceTotalAmount/10000 : '',
               mergeSingleAmount: item.mergeSingleAmount ? item.mergeSingleAmount/10000 : '',
               perAccidentBodyAmount: item.perAccidentBodyAmount ? item.perAccidentBodyAmount/10000 : '',
@@ -426,20 +426,19 @@ export default {
         this.$store.dispatch(`place/updatedQuotationData`,data)
         if(res.data.content.placeInsureInfo) {
           this.step1InitAssignValue('place')
-          
         }
-        setTimeout(() => {
-          this.insuranceAmountListData = {
-            ...this.quotationData.insuranceAmounts[0],
-            amountType: {Value: this.quotationData.insuranceAmounts[0].amountType, Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType]},
-            insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
-            mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
-            perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
-            perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
-            perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-            selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ,
-          }
-        }, 1000);
+        // setTimeout(() => {
+        //   this.insuranceAmountListData = {
+        //     ...this.quotationData.insuranceAmounts[0],
+        //     amountType: this.quotationData.insuranceAmounts[0].amountType,
+        //     insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
+        //     mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
+        //     perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
+        //     perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
+        //     perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
+        //     selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ,
+        //   }
+        // }, 1000);
         
         if(res.data.content.questionnaire) {
           this.$store.dispatch(`place/updateQuestionnaireFinished`, true)

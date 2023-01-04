@@ -353,7 +353,7 @@ export default {
             serialNo: item.serialNo.toString(),
             underwriteStateText: item.underwriteState === 0 ? '核保中' : '待確認核保結果',
             underwriteResultStateText: item.underwriteResultState === 0 ? '核保中' : (item.underwriteResultState === 1 ? '完成核保' : '不予核保'),
-            quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
+            quotationDate: item.quotationDate? item.quotationDate.split(' ')[0] : '',
           }
         })]
         this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))

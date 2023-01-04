@@ -184,25 +184,25 @@ export default {
         this.insuranceAmountListData = {
           ...this.quotationData.insuranceAmounts[0],
           amount: this.InsuranceActive == 7 && this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
-          amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
+          amountType: typeof this.quotationData.insuranceAmounts[0].amountType == 'number' ? { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType } : this.quotationData.insuranceAmounts[0].amountType,
           insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
           mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
           perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
           perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
           perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-          selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+          selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? this.quotationData.insuranceAmounts[0].selfInflictedAmount : this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
         }
         setTimeout(() => {
           this.insuranceAmountListData = {
             ...this.quotationData.insuranceAmounts[0],
             amount: this.InsuranceActive == 7 && this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
-            amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
+            amountType: typeof this.quotationData.insuranceAmounts[0].amountType == 'number' ? { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType } : this.quotationData.insuranceAmounts[0].amountType,
             insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
             mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
             perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
             perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
             perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-            selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+            selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? this.quotationData.insuranceAmounts[0].selfInflictedAmount : this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
           }
         }, 50)
 
