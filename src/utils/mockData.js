@@ -297,7 +297,7 @@ export const quotationLisMobileTable = () => {
         noWrap: true
       },
       {
-        text: '報價單操作',
+        text: '',
         value: 'edit',
         size: '2-6',
         hidden: true
@@ -353,7 +353,7 @@ export const auditListTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '2-6'
+        size: '3-6'
       },
       {
         text: '報價日期',

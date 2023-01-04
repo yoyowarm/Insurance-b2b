@@ -62,6 +62,9 @@ export default {
 				this.copyTerms = {
 					...val
 				}
+        if(Object.keys(this.terms).filter(key => this.terms[key].selected).length > 3) {
+          this.switchBtn = false
+        }
 			},
 			deep: true
     },
@@ -88,9 +91,9 @@ export default {
     }
   },
   mounted() {
-    if(this.termsLists.length > 3) {
+    if(Object.keys(this.terms).filter(key => this.terms[key].selected).length > 3) {
       this.switchBtn = false
-    } 
+    }
   }
 }
 </script>
