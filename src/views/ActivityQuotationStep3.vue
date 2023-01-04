@@ -22,7 +22,7 @@
       @getQuotationDetail="quotationDetail"
       type="activity"
     />
-    <div class="flex flex-row justify-center items-center w-full mt-8">
+    <div class="button-group">
       <Button v-if="InsuranceActive !== 7"  @click.native="packHome" class="my-8 w-40 md:w-64 mr-5">儲存報價單</Button>
       <Button v-if="(PolicyStatus == 0 || PolicyStatus == 1 || PolicyStatus == 2 || PolicyStatus == 6 || PolicyStatus == 7) && InsuranceActive !== 6 && InsuranceActive !== 7" @click.native="copyQuotation" class="my-8 w-40 md:w-64 mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-8 w-40 md:w-64 ">確認核保</Button>
@@ -275,5 +275,10 @@ export default {
 </script>
 
 <style scoped lang="postcss">
-  
+  .button-group {
+    @apply flex flex-row justify-center items-center w-full mt-8
+  }
+  @media screen and (max-width: 600px) {
+    @apply flex flex-col
+  }
 </style>
