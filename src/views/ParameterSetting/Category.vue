@@ -14,7 +14,7 @@
         </InputGroup>
       </div>
       <div class="flex w-full">
-        <TableGroup class="w-full" :data="categoryListTable" :slotName="slotArray" column2 scrollX>
+        <TableGroup class="w-full" :data="categoryListTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in categoryListTable.rows">
           <div :slot="`weight-${index}`" :key="`weight${index}`" class="flex whitespace-no-wrap">
             <Input :value="item.weight.toString()" @updateValue="e =>{ item.weight = e}" class="md:mr-4 weight-input w-full sm:w-24" :disable="!item.edit"/>

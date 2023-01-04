@@ -32,7 +32,7 @@
       <div class="flex w-full" v-if="currentTag==0 || currentTag==1">
         <TableGroup class="w-full" :data="termsListTable" :slotName="slotArray" scrollX>
           <template v-for="(item,index) in termsListTable.rows">
-            <div :slot="`isSuggest-${index}`" :key="`isSuggest${index}`" class="flex whitespace-no-wrap">
+            <div :slot="`isSuggest-${index}`" :key="`isSuggest${index}`" class="flex whitespace-no-wrap custom-column ">
               <span @click="updateTerm(!item.isSuggest,item.id)" class="pr-3" :class="{'cursor-pointer text-main': item.isSuggest, 'cursor-pointer text-gray-300': !item.isSuggest}">是</span>
               <span class="text-gray-300 pr-3">/</span>
               <span @click="updateTerm(!item.isSuggest,item.id)" :class="{'text-main': !item.isSuggest, 'cursor-pointer text-gray-300': item.isSuggest}">否</span>
@@ -220,4 +220,9 @@ export default {
     min-height: 400px;
   }
 }
+@media (max-width: 600px) {
+    .custom-column {
+    @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
+  }
+  }
 </style>

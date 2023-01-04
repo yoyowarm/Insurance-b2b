@@ -133,12 +133,7 @@ export default {
       @apply pt-3;
     }
   }
-  .table-body.scrollX .item:first-child {
-    > div {
-      border-top: 0px;
-      @apply pt-0;
-    }
-  }
+
   .link {
     color: #1076EE
   }

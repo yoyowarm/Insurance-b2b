@@ -5,10 +5,10 @@
       <div class="flex w-full">
         <TableGroup class="w-full" :data="amountListTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in amountListTable.rows">
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap custom-column">
             <Button @click.native="() => {dialog.type = index; openDialog = true}" class="w-full sm:w-24" outline>編輯</Button>
           </div>
-          <div :slot="`content-${index}`" :key="`content${index}`" class="flex flex-col">
+          <div :slot="`content-${index}`" :key="`content${index}`" class="flex flex-col custom-column">
               <template v-for="(contentText,copyIndex) in item.content">
                 <div class="" :key="`content-${copyIndex}`">
                   <div v-html="Array.isArray(contentText) ? contentText.join('') : contentText"></div>
@@ -94,6 +94,7 @@
         </div>
       </PopupDialog>
       <LoadingScreen :isLoading="loading.length > 0"/>
+      <WindowResizeListener @resize="handleResize"/>
     </CommonBoard>
   </div>
 </template>
@@ -110,6 +111,7 @@ import LoadingScreen from '@/components/LoadingScreen.vue'
 import { amountListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { numFormat} from '@/utils/regex'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
     FormTitle,
@@ -119,10 +121,12 @@ export default {
     PopupDialog,
     InputGroup,
     Input,
-    LoadingScreen
+    LoadingScreen,
+    WindowResizeListener
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       amountList: amountListTable(),
       openDialog: false,
       dialog: {
@@ -182,9 +186,21 @@ export default {
         this.copyQuotationList = [...val]
       },
       deep: true
+    },
+    windowWidth(val) {
+      if(val <= 600) {
+        this.amountList.head[2].text = ''
+        this.amountList.head[1].size = '2-6'
+      } else {
+        this.amountList.head[2].text = '操作'
+        this.amountList.head[1].size = '6-6'
+      }
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     async submitEdit() {
       const data = [...this.copyQuotationList]
       await this.$store.dispatch('additionTermSetting/editAdditionTermQuotation', data)
@@ -198,6 +214,13 @@ export default {
   },
   async mounted() {
     await this.getQuotationsList()
+    if(this.windowWidth <= 600) {
+        this.amountList.head[2].text = ''
+        this.amountList.head[1].size = '2-6'
+      } else {
+        this.amountList.head[2].text = '操作'
+        this.amountList.head[1].size = '6-6'
+      }
   },
 }
 </script>
@@ -209,5 +232,10 @@ export default {
   }
   .weight-input {
     @apply rounded-full w-4/6 h-full border-2 border-gray-300 text-center
+  }
+  @media (max-width: 600px) {
+    .custom-column {
+    @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
+  }
   }
 </style>

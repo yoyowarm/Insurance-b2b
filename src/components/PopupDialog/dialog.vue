@@ -74,7 +74,7 @@ export default {
   }
   .dialog {
     position: fixed;
-    top: 5%;
+    top: 10%;
     left: 0;
     right:0;
     margin: 0 auto;

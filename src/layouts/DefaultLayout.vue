@@ -53,7 +53,7 @@ export default {
       'userInfo': state => state.home.userInfo,
     }),
     paginationPage() {
-      return ['/parameterSetting/news-setting','/questionnaire-management','/quotation/list', '/product/list', '/news/list', '/quotation-ist'].includes(this.$route.path)
+      return ['/parameterSetting/news-setting','/parameterSetting/document-download-setting','/parameterSetting/news-setting','/questionnaire-management','/quotation/list', '/product/list', '/news/list', '/quotation-ist'].includes(this.$route.path)
     },
     innerWidth() {
       return window.innerWidth

@@ -575,7 +575,8 @@ export const membersListTable = () => {
       {
         text: 'E-mail',
         value: 'email',
-        size: '5-6'
+        size: '5-6',
+        hidden: true
       },
       {
         text: '操作',
@@ -599,7 +600,8 @@ export const groupListTable = () => {
       {
         text: '權限列表',
         value: 'permissionsList',
-        size: '6-6'
+        size: '6-6',
+        hidden: true
       },
       {
         text: '操作',
@@ -699,7 +701,8 @@ export const minimumAmountTable = () => {
       {
         text: '',
         value: 'operate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: [
@@ -757,7 +760,8 @@ export const weightListTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       }
     ],
     rows: [
@@ -782,7 +786,8 @@ export const basicPremiumTable = () => {
       {
         text: '',
         value: 'operate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: [
@@ -882,7 +887,8 @@ export const quoteSeparatelyTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: []
@@ -906,7 +912,8 @@ export const amountListTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       },
 
     ],

@@ -9,7 +9,7 @@
     </div>
     <TableGroup :data="productListTable" :slotName="slotArray" scrollX boldFont>
       <template v-for="(item,index) in productListTable.rows">
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap">
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap justify-center md:justify-start">
             <Button outline class="mr-3" @click.native="callDialog(1,'編輯文件','儲存文件',item)">編輯</Button>
             <Button @click.native="callDialog(2,'刪除文件','確認刪除',item)">刪除</Button>
           </div>
@@ -111,7 +111,8 @@ export default {
           {
             text: '操作',
             value: 'operate',
-            size: '2-6'
+            size: '2-6',
+            hidden: true
           },
         ],
         rows: []
@@ -145,6 +146,13 @@ export default {
       this.$store.dispatch('app/updatedCurrentPage',page)
       await this.getProducts(page)
     },
+    windowWidth(val) {
+      if(val <= 600) {
+        this.productListTable.head[2].text = ''
+      } else {
+        this.productListTable.head[2].text = '操作'
+      }
+    }
   },
   methods: {
     handleResize () {
@@ -226,6 +234,11 @@ export default {
     this.$store.dispatch('app/updatedCurrentPage',1)
     await this.getCategories()
     await this.getProducts('',1)
+    if(this.windowWidth <= 600) {
+        this.productListTable.head[2].text = ''
+      } else {
+        this.productListTable.head[2].text = '操作'
+      }
   }
 }
 </script>

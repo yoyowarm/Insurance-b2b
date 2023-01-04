@@ -11,30 +11,30 @@
       <div class="flex w-full">
         <TableGroup class="w-full" :data="quoteSeparatelyTable" :slotName="slotArray" scrollX>
         <template v-for="(item,index) in quoteSeparatelyTable.rows">
-          <div :slot="`name-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`name-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap custom-column pr-3">
             {{levelText[item.level]}}
           </div>
-          <div :slot="`perBodyAmount-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`perBodyAmount-${index}`" :key="`slot1${index}`" class="flex whitespace-no-wrap custom-column pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
               <Input slot="input" placeholder="請輸入金額" :value="item.perBodyAmount.toString()" @updateValue="(e) =>updatedAmount('perBodyAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
-          <div :slot="`perAccidentBodyAmount-${index}`" :key="`slot2${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`perAccidentBodyAmount-${index}`" :key="`slot2${index}`" class="flex whitespace-no-wrap custom-column pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
               <Input slot="input" placeholder="請輸入金額" :value="item.perAccidentBodyAmount.toString()" @updateValue="(e) =>updatedAmount('perAccidentBodyAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
-          <div :slot="`perAccidentFinanceAmount-${index}`" :key="`slot3${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`perAccidentFinanceAmount-${index}`" :key="`slot3${index}`" class="flex whitespace-no-wrap custom-column pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
               <Input slot="input" placeholder="請輸入金額" :value="item.perAccidentFinanceAmount.toString()" @updateValue="(e) =>updatedAmount('perAccidentFinanceAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
-          <div :slot="`insuranceTotalAmount-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`insuranceTotalAmount-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap custom-column pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
               <Input slot="input" placeholder="請輸入金額" :value="item.insuranceTotalAmount.toString()" @updateValue="(e) =>updatedAmount('insuranceTotalAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
           </div>
-          <div :slot="`perBodyAmountPlusPerAccidentBodyAmount-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap pr-3">
+          <div :slot="`perBodyAmountPlusPerAccidentBodyAmount-${index}`" :key="`slot4${index}`" class="flex whitespace-no-wrap custom-column pr-3">
             <InputGroup class="-mt-2 w-full" noMt :disable="!item.edit">
               <Input slot="input" placeholder="請輸入金額" :value="item.perBodyAmountPlusPerAccidentBodyAmount.toString()" @updateValue="(e) =>updatedAmount('perBodyAmountPlusPerAccidentBodyAmount',index, e)" unit="萬元" :disable="!item.edit" numberOnly/>
             </InputGroup>
@@ -47,6 +47,7 @@
       </div>
     </CommonBoard>
     <LoadingScreen :isLoading="loading.length > 0"/>
+      <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -61,6 +62,7 @@ import Button from '@/components/Button'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import { quoteSeparatelyTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
     FormTitle,
@@ -70,10 +72,12 @@ export default {
     InputGroup,
     Input,
     Button,
-    LoadingScreen
+    LoadingScreen,
+    WindowResizeListener
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       quoteSeparately: quoteSeparatelyTable(),
       openDialog: false,
       dialog: {
@@ -93,6 +97,15 @@ export default {
         4: '總公司科處主管上限',
         5: '總公司部室主管上限',
         6: '協理、副總上限',
+      }
+    }
+  },
+  watch: {
+    windowWidth(val) {
+      if(val <= 600) {
+        this.quoteSeparately.head[6].text = ''
+      } else {
+        this.quoteSeparately.head[6].text = '操作'
       }
     }
   },
@@ -122,6 +135,9 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     async editSwitch(index) {
       const value = !this.quoteSeparatelyTable.rows[index].edit
       this.quoteSeparatelyTable = Object.assign(this.quoteSeparatelyTable, {
@@ -186,6 +202,11 @@ export default {
   },
   async mounted() {
     await this.getInsuranceQuotationAmountSetting()
+    if(this.windowWidth <= 600) {
+        this.quoteSeparately.head[6].text = ''
+      } else {
+        this.quoteSeparately.head[6].text = '操作'
+      }
   }
 }
 </script>
@@ -198,5 +219,10 @@ export default {
   .menu {
     top: -39px;
     @apply absolute
+  }
+  @media (max-width: 600px) {
+    .custom-column {
+    @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
+  }
   }
 </style>
