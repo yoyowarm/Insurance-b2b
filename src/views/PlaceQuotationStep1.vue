@@ -424,6 +424,7 @@ export default {
         }
         
         this.$store.dispatch(`place/updatedQuotationData`,data)
+        this.$store.dispatch(`place/updatedInsuranceActive`, 4)
         if(res.data.content.placeInsureInfo) {
           this.step1InitAssignValue('place')
         }
@@ -445,7 +446,6 @@ export default {
           this.AssignQuestionnaire('place')
           await this.questionnaireCoefficient()
         }
-        this.$store.dispatch(`place/updatedInsuranceActive`, 4)
       }
     },
     async questionnaireCoefficient(audit = false) {
