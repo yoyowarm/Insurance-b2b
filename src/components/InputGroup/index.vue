@@ -240,7 +240,8 @@ export default {
       white-space: nowrap;
       width: 320px;
       &.whitespaceRight {
-        @apply whitespace-normal overflow-visible absolute left-14;
+        width:170px;
+        @apply whitespace-normal overflow-visible absolute left-14 ;
       }
     }
   }
