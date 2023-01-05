@@ -142,7 +142,7 @@ export default {
             copyTerms[target.additionTermName].selected = true
 
             this.$store.dispatch(`${type}/updatedTerms`, copyTerms)
-
+            console.log(target, this.termsData)
           }
           if (item.additionTermValue) {//建議條款細項
             const additionTerms = { ...this.$store.state[type].additionTerms }
