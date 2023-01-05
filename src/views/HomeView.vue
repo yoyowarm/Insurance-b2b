@@ -367,13 +367,35 @@ export default {
       @apply p-2 py-1
     }
     .fail {
-      @apply absolute left-0 right-0 mx-auto
+      @apply  left-0 right-0 mx-auto
+    }
+
+  }
+  @media (min-width: 771px) and (max-width: 912px) {
+    .dashboardGroup {
+      @apply flex-wrap
+    }
+    .dashboard {
+      width: 200px;
+    }
+    .dashboard img { 
+      width: 46px;
+      height: 100%
+    }
+    .dashboard>>>.board {
+      @apply py-1
     }
     .success {
-      margin-right:3%
+      margin-right: 0px
     }
+    .fail, .success, .warn, .finish {
+      width: 48%;
+    }
+    .fail, .warn {
+      margin-right: 2%
+    }
+    
   }
-
   @media screen and (max-width: 640px) {
     .dashboardGroup {
       @apply flex-wrap
