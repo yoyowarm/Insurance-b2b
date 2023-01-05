@@ -47,7 +47,7 @@
         <RadioInput :disabled="disable" text="是" id="hasPusher" :value="data.part3.hasPusher === true" @updateValue="updateValue(true, 'hasPusher')"/>
         <RadioInput :disabled="disable" class="mx-2" text="否" id="hasPusher2" :value="data.part3.hasPusher === false" @updateValue="updateValue(false, 'hasPusher')"/>
       </div>
-      <div class="text-lg">使用堆高機</div>
+      <div class="text-lg">是否使用堆高機</div>
     </div>
     <FormTitle lgTitle title="戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
