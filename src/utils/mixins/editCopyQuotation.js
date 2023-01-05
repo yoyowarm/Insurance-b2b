@@ -135,13 +135,13 @@ export default {
       this.termsInit()
 
       if (this.quotationData[quotationType].additionTerms.length > 0 && this.additionTermsList.length > 0) {//附加條款
+        const copyTerms = { ...this.termsData }
         this.quotationData[quotationType].additionTerms.map(item => {//建議條款
           const target = this.additionTermsList.find(i => i.additionTermId === item.additionTermId)
           if (target) {
-            const copyTerms = { ...this.termsData }
+
             copyTerms[target.additionTermName].selected = true
 
-            this.$store.dispatch(`${type}/updatedTerms`, copyTerms)
             console.log(target, this.termsData)
           }
           if (item.additionTermValue) {//建議條款細項
@@ -169,6 +169,7 @@ export default {
             // })
           }
         })
+        this.$store.dispatch(`${type}/updatedTerms`, copyTerms)
       }
       if (type == 'place' && this.quotationData[quotationType].insuranceRecord.lastYear.status) {//投保紀錄
         this.InsuranceRecordTable = {
