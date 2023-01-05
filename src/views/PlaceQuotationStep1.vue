@@ -425,6 +425,11 @@ export default {
         
         this.$store.dispatch(`place/updatedQuotationData`,data)
         this.$store.dispatch(`place/updatedInsuranceActive`, 4)
+        if(res.data.content.questionnaire) {
+          this.$store.dispatch(`place/updateQuestionnaireFinished`, true)
+          this.AssignQuestionnaire('place')
+          await this.questionnaireCoefficient()
+        }
         if(res.data.content.placeInsureInfo) {
           this.step1InitAssignValue('place')
         }
@@ -440,12 +445,6 @@ export default {
         //     selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ,
         //   }
         // }, 1000);
-        
-        if(res.data.content.questionnaire) {
-          this.$store.dispatch(`place/updateQuestionnaireFinished`, true)
-          this.AssignQuestionnaire('place')
-          await this.questionnaireCoefficient()
-        }
       }
     },
     async questionnaireCoefficient(audit = false) {
