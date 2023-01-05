@@ -139,10 +139,7 @@ export default {
         this.quotationData[quotationType].additionTerms.map(item => {//建議條款
           const target = this.additionTermsList.find(i => i.additionTermId === item.additionTermId)
           if (target) {
-
             copyTerms[target.additionTermName].selected = true
-
-            console.log(target, this.termsData)
           }
           if (item.additionTermValue) {//建議條款細項
             const additionTerms = { ...this.$store.state[type].additionTerms }

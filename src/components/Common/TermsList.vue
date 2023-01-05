@@ -62,7 +62,6 @@ export default {
 				this.copyTerms = {
 					...val
 				}
-        console.log(val)
         if(Object.keys(this.terms).filter(key => this.terms[key].selected).length > 3) {
           this.switchBtn = false
         }
