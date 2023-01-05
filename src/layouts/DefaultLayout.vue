@@ -100,7 +100,7 @@ export default {
   }
   
   .menu {
-    @apply hidden cursor-pointer 
+    @apply hidden cursor-pointer mr-3
   }
   
   .body {

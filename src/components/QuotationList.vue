@@ -27,7 +27,7 @@
             </div>
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
-              <Button v-if="false" class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
+              <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
               <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
           </div>
@@ -118,12 +118,9 @@ export default {
       })
       arr.map(item => {
         if(item.rows[0].applicantName === item.rows[0].insuredName) {
-          if(this.windowWidth <= 600) {
-            item.head[1].text = '要/被保險人'
-            item.head[1].colSpan = true
-            item.head.splice(2,1)
-          }
-          
+          item.head[1].text = '要/被保險人'
+          item.head[1].colSpan = true
+          item.head.splice(2,1)
         }
       })
       return arr

@@ -23,10 +23,10 @@
         </InputGroup>
       </div>
       <div class="column-6 pb-6">
-        <InputGroup class="w-full" title="詢問表製作日期">
+        <InputGroup class="w-full col-span-2 sm:col-span-1" title="詢問表製作日期">
           <DatePicker slot="input" formerYears :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
         </InputGroup>
-        <InputGroup class="w-full" >
+        <InputGroup class="w-full col-span-2 sm:col-span-1" :noMt="windowWidth <= 600">
           <DatePicker slot="input" formerYears :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄"/>
         </InputGroup>
         <InputGroup class="w-full" border0>

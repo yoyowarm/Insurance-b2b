@@ -336,11 +336,6 @@ export const auditListTable = () => {
         size: '2-6'
       },
       {
-        text: '待確認人員',
-        value: 'waitConfirmEmployeeName',
-        size: '3-6'
-      },
-      {
         text: '核保結果',
         value: 'underwriteResultStateText',
         size: '2-6'
@@ -407,11 +402,6 @@ export const auditListMobileTable = () => {
         text: '狀態',
         value: 'underwriteStateText',
         size: '2-6'
-      },
-      {
-        text: '待確認人員',
-        value: 'waitConfirmEmployeeName',
-        size: '3-6'
       },
       {
         text: '核保結果',

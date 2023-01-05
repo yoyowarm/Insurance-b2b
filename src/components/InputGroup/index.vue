@@ -1,11 +1,11 @@
 <template>
-  <div class="input-group" :class="{'w70': $slots.suffix}">
+  <div class="input-group" :class="inputGroupClass">
       <div class="input-title mt" :class="{'justify-between': $slots.right, 'h0': noMt, 'wrap':wrap, 'h-auto': autoHeight}">
         <div class="text-gray-800 " :class="{'text-lg': lgTitle, 'whitespace-no-wrap': !whitespaceNormal}">{{title}}<slot name="title"/></div>
-        <div class="slot" @click="() => {slotRight = !slotRight; $emit('slotRightPopup')}" v-if="$slots.right">
+        <div class="slot" :class="{'whitespaceRight':whitespaceRight}" @click="() => {slotRight = !slotRight; $emit('slotRightPopup')}" v-if="$slots.right">
           <slot name="right"/>
         </div>
-        <div v-if="slotRight && popupRight" @click="() => {slotRight = !slotRight; $emit('slotRightPopup')}" class="popup">
+        <div v-if="slotRight && popupRight"  @click="() => {slotRight = !slotRight; $emit('slotRightPopup')}" class="popup">
           <slot name="right"/>
         </div>
       </div>
@@ -101,6 +101,14 @@ export default {
     popupRight: {
       type: Boolean,
       default: false
+    },
+    widthClass: {
+      type: String,
+      default: ''
+    },
+    whitespaceRight: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -109,6 +117,16 @@ export default {
     }
   },
   computed: {
+    inputGroupClass() {
+      let className = ''
+      if(this.$slots.suffix) {
+        className += 'w70 '
+      }
+      if(this.widthClass) {
+        className += `${this.widthClass} `
+      }
+      return className
+    },
     childClass() {
       let childClass = ''
       if (this.dash) {
@@ -221,6 +239,9 @@ export default {
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 320px;
+      &.whitespaceRight {
+        @apply whitespace-normal overflow-visible absolute left-14;
+      }
     }
   }
 }

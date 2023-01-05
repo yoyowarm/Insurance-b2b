@@ -58,7 +58,7 @@
               @emitItem="e => typeSelected = e"
             />
           </InputGroup>
-          <InputGroup class="w-full" title="報價日期">
+          <InputGroup class="w-full col-span-2 md:col-span-1" title="報價日期">
             <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起" formerYears/>
           </InputGroup>
           <!-- <InputGroup class="w-full" noMt>

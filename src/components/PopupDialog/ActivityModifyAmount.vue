@@ -36,7 +36,7 @@
     </div>
     <div class="w-full flex justify-center mt-8">
       <Button  class="w-40 mr-8" @click.native="() => {openDialog = false}" outline>取消</Button>
-      <Button  class="w-40" :disabled="!copyPremium" @click.native="() => {$emit('updateParameter','activity');openDialog = false}">確認核壓保費</Button>
+      <Button  class="w-40" :disabled="!copyPremium" @click.native="() => {$emit('updateParameter','activity');openDialog = false}"><span class="whitespace-no-wrap">確認核壓保費</span></Button>
     </div>
   </PopupDialog>
 </template>
