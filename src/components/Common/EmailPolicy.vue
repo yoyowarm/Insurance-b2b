@@ -18,7 +18,7 @@
     <template v-for="(item,index) in eletric.transferDetails">
       <FormTitle title="寄送資訊" :key="index + '寄送資訊'" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
-      <div v-if="eletric.transferDetails.length > 1" class=" ml-2" :class="{'cursor-pointer': !disable}" slot="right" @click="() => {if(!disable){remoteInfo(index)}}">
+      <div v-if="eletric.transferDetails.length > 1" class=" ml-2" :class="{'cursor-pointer': !disable}" slot="right" @click="() => {if(!disable && eletric.transferType == 1){remoteInfo(index)}}">
         <font-awesome-icon icon="times-circle" class="text-2xl" :class="{'text-main': !disable, 'text-gray-500': disable}"/>
       </div>
     </FormTitle>
