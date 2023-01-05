@@ -19,6 +19,7 @@
       :orderNo="orderNo"
       :infoList="quotationData.activityInsureInfo.activityInfo"
       :countyAmount="countyAmount"
+      :InsuranceActive="InsuranceActive"
       @getQuotationDetail="quotationDetail"
       type="activity"
     />
