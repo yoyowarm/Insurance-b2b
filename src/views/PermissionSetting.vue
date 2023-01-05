@@ -22,8 +22,8 @@
     <div class="flex w-full">
       <TableGroup v-if="currentTag == 0" class="w-full" :data="membersListTable" :slotName="memberSlotArray" column2 scrollX>
         <template v-for="(item,index) in membersListTable.rows">
-          <div :slot="`email-${index}`" :key="`email${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap mt-2">
-            {{item.email}}}
+          <div :slot="`email-${index}`" :key="`email${index}`" class="flex justify-center sm:justify-start whitespace-no-wrap mt-2">
+            {{item.email}}
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap mt-2">
             <Button class="mr-2" @click.native="callDialog(0,'帳號明細','',item)" outline>明細</Button>
@@ -246,7 +246,7 @@ export default {
     }),
     memberSlotArray () {
       const arr = []
-      const slotArr = ['permissionsList','operate']
+      const slotArr = ['permissionsList','operate', 'email']
       for (let i = 0; i < this.membersListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -256,7 +256,7 @@ export default {
     },
     groupSlotArray () {
       const arr = []
-      const slotArr = ['permissionsList','operate', 'email']
+      const slotArr = ['permissionsList','operate']
       for (let i = 0; i < this.groupListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -418,7 +418,8 @@ export default {
         return {
           ...item,
           Text:  `(${item.employeeNumber})${item.employeeName}`,
-          Value: item.employeeNumber
+          Value: item.employeeNumber,
+          email: item.email ? item.email : '- -',
         }
       })
       this.groupsList = groupsList.data.content.map(item => {
@@ -455,6 +456,7 @@ export default {
           ...item,
           employeeStatus: item.employeeStatus == 1 ? '啟用' : '停用',
           groupId: this.groupsList.find(i => i.Text === item.groupName).Value.toString(),
+          email: item.email ? item.email : '- -',
         }
       })
       this.$store.dispatch('app/updatedCurrentPage',page ? page: 1)

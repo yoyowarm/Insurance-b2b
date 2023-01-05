@@ -27,28 +27,28 @@
             <template v-for="(headItem,headIndex) in head">
               <div :key="`${headItem.value}-${headIndex}`" :class="{'hidden': headItem.hidden, 'whitespace-no-wrap' :headItem.noWrap, 'col-span-2': headItem.colSpan}">
                 <span class="text-gray-100 bg-main rounded-t-xl text-center p-1 text-sm hidden">{{headItem.text}}</span>
-                <div v-if="$slots[`${headItem.value}-${index}`] && (!headItem.hidden)" :key="`${headItem.text}-${headIndex}`" :class="[scrollX ? '' :'truncate']">
+                <div v-if="$slots[`${headItem.value}-${index}`] && (!headItem.hidden)" :key="`${headItem.text}-${headIndex}`" :class="[scrollX ? '' :'break-all']">
                   <slot :name="`${headItem.value}-${index}`"/>
                 </div>
-                <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`"  :class="[,scrollX ? '' :'truncate']">
+                <div v-if="!$slots[`${headItem.value}-${index}`]" :key="`${headItem.text}-${headIndex}`"  :class="[,scrollX ? '' :'break-all']">
                   <DynamicLink v-if="item.link && headItem.value === 'Title'" type="router" :path="item.link">
-                    <span class="link bg-gray-100" :class="{'font-semibold': boldFont}">{{item[headItem.value]}}</span>
+                    <span class="link bg-gray-100" :class="{'font-semibold': boldFont}">{{item[headItem.value] }}</span>
                   </DynamicLink>
                   <a v-else-if="item.Url && headItem.value === urlKey" :href="item.Url" download>
-                    <span class="link bg-gray-100" :class="{'font-semibold': boldFont}">{{item[headItem.value]}}</span>
+                    <span class="link bg-gray-100" :class="{'font-semibold': boldFont}">{{item[headItem.value] ?item[headItem.value] : '- -'}}</span>
                   </a>
-                  <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer bg-gray-100" @click="$emit('popup', index)">{{item[headItem.value]}}</span>
+                  <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer bg-gray-100" @click="$emit('popup', index)">{{item[headItem.value] ?item[headItem.value] : '- -'}}</span>
                   <span class="text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl  min-h-4" v-else-if="item.class && headItem.value === statusKey" :class="item.class" v-html="item[headItem.value]">
                     {{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}
                   </span>
-                  <span class="text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl  min-h-4" :class="{'font-semibold': boldFont}" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}</span>
+                  <span class="text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl  min-h-4" :class="{'font-semibold': boldFont}" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : '- -'}}</span>
                 </div>
               </div>
             </template>
           </div>
           <template v-for="(headItem,headIndex) in head">
             <span :key="`${headItem.value}-${headIndex}-3`" v-if=" (headItem.hidden) && headItem.text" class="w-full text-gray-100 bg-main rounded-t-xl text-center p-1 text-sm hidden">{{headItem.text}}</span>
-            <div :key="`${headItem.value}-${headIndex}-2`" v-if=" (headItem.hidden)" class="text-gray-600 bg-gray-100 text-center p-1 pt-2   min-h-4" :class="{'rounded-b-xl': headItem.text, 'rounded-xl': !headItem.text}">
+            <div :key="`${headItem.value}-${headIndex}-2`" v-if=" (headItem.hidden)" class="text-gray-600 bg-gray-100 text-center p-1 pt-2" :class="{'rounded-b-xl': headItem.text, 'rounded-xl': !headItem.text}">
               <slot :name="`${headItem.value}-${index}`"/>
             </div>
           </template>

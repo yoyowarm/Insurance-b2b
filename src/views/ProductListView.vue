@@ -2,7 +2,7 @@
   <CommonBoard class="product-list">
     <TableGroup :data="productListTable" :slotName="slotArray" boldFont>
       <template v-for="(item,index) in productListTable.rows">
-        <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap custom-column">
+        <div :slot="`title-${index}`" :key="`title${index}`" class="flex custom-column">
           <span @click="download(item)" class="link">{{item.title}}</span>
         </div>
       </template>

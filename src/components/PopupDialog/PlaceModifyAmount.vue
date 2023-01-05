@@ -37,7 +37,7 @@
           <Input class="w-full" disable numberFormat :value="copyPremium"/>
         </div>
       </InputGroup>
-      <Button class="absolute right-0 top-8 w-16 md:w-20 h-full" style="height: 50px" @click.native="calculateAmount">試算</Button>
+      <Button class="absolute right-0 top-8 w-16 md:w-20 h-full" style="height: 50px" @click.native="calculateAmount"><span class="whitespace-no-wrap">試算</span></Button>
     </div>
     <div class="w-full flex justify-center mt-8">
       <Button  class="w-40 mr-8" @click.native="() => {openDialog = false}" outline>取消</Button>

@@ -129,7 +129,7 @@ export default {
     @apply text-lg font-bold mt-1 cursor-pointer mr-2
   }
   .mask-bg {
-    z-index:999;
+    z-index:20;
     @apply hidden inset-0 bg-black opacity-75 w-screen h-screen 
   }
   
