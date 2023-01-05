@@ -288,7 +288,7 @@ export default {
         await this.$store.dispatch('resource/Nationality'),
         await this.$store.dispatch('resource/BusinessSource'),
         await this.$store.dispatch('resource/Relationships'),
-        await this.$store.dispatch('resource/Districts')
+        await this.$store.dispatch('resource/Districts'),
       ])
       const nationalities = result[0]
       const businessSource = result[1]
@@ -338,10 +338,12 @@ export default {
           Text: item.name
         }
       })
+      
 
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
         this.step2InitAssignValue('place')
       }
+      await this.getBusinessSource()
     },
     async getBusinessSource() {
       const businessSource = await this.$store.dispatch('resource/BusinessSourceByTaianUser', this.internalControl.issuerNumber)
