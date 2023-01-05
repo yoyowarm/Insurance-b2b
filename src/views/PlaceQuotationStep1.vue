@@ -583,6 +583,7 @@ export default {
           if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('place/updatedUnderwriteQuotationIsChange',true)//核保時，如果沒有保額，預設為核保單變更
           const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
           this.underwriteStatus = underwriteStatus.data.content
+          await this.calculateAmount(false)
         }
       }
     },
@@ -593,7 +594,7 @@ export default {
       }
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
-    async calculateAmount() {
+    async calculateAmount(open) {
       if(this.InsuranceActive == 7) {
         this.placeAuditCalculateAmount({
         additionTermCoefficientParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.additionTermCoefficientParameter,
@@ -602,7 +603,7 @@ export default {
         sizeCofficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.sizeParameter,
         hexTypeBasicAmount: '',
         type: 'audit'
-      })
+      },open)
         return
       }
       this.verifyRequired('place', true)

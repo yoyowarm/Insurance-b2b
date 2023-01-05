@@ -38,7 +38,7 @@ export default {
     }
   }
   .mask-bg {
-    @apply inset-0 bg-black opacity-75 w-screen h-screen z-20 overflow-hidden fixed
+    @apply inset-0 bg-black opacity-75 w-screen h-screen z-40 overflow-hidden fixed
   }
   svg path,
   svg rect{

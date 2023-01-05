@@ -5,7 +5,7 @@ export default {
     }
   },
   methods: {
-    async activityAuditCalculateAmount(data) {
+    async activityAuditCalculateAmount(data, open = true) {
       this.parameter = {}
       this.verifyRequired('activity', true)
       if (this.requestFile.length === 0 &&
@@ -99,11 +99,12 @@ export default {
         payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
         payload.remark = this.remark.text
         this.$store.dispatch('activity/updatedUnderwriteQuotationData', payload)
+        this.$store.dispatch('activity/updatedParameter', this.parameter.parameter)
         if (this.quotationData.questionnaire) { await this.questionnaireCoefficient(true) }
-        this.openAudit = true
+        if (open) this.openAudit = true
       }
     },
-    async placeAuditCalculateAmount(data) {
+    async placeAuditCalculateAmount(data, open = true) {
       this.parameter = {}
       this.verifyRequired('place', true)
       if (this.requestFile.length === 0 &&
@@ -206,8 +207,9 @@ export default {
         payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
         payload.remark = this.remark.text
         this.$store.dispatch('place/updatedUnderwriteQuotationData', payload)
+        this.$store.dispatch('place/updatedParameter', this.parameter.parameter)
         if (this.quotationData.questionnaire) { await this.questionnaireCoefficient(true) }
-        this.openAudit = true
+        if (open) this.openAudit = true
       }
     },
     async updateParameter(type) {

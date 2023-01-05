@@ -108,25 +108,25 @@
     <PopupDialog
       :open.sync="openFormula"
     >
-    <ul v-if="lists[selectedIndex] && lists[selectedIndex].parameter.amount">
-      <li>處所基本費率:{{lists[selectedIndex] ?lists[selectedIndex].parameter.basicFee: ''}}</li>
-      <li>高保額係數:{{lists[selectedIndex]? lists[selectedIndex].parameter.finalHC: ''}}</li>
-      <li>規模細數:{{lists[selectedIndex]?lists[selectedIndex].parameter.sizeParameter: ''}}</li>
-      <li>自負額係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.selfInflictedParameter:''}}</li>
-      <li>短期費率:{{lists[selectedIndex]?lists[selectedIndex].parameter.shortPeriodParameter:''}}</li>
-      <li>附加費用率:{{lists[selectedIndex]?lists[selectedIndex].parameter.additionalCostParameter:''}}</li>
-      <li>多處所係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.mutiSizeParameter: ''}}</li>
-      <li>期間係數:{{lists[selectedIndex]?lists[selectedIndex].periodParameter : ''}}</li>
-      <li v-if="lists[selectedIndex] && lists[selectedIndex].parameter.underwriteCoefficient">核保加減費系數:{{lists[selectedIndex].parameter.underwriteCoefficient}}</li>
-      <li>附加險條款費用係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.additionTermCoefficientParameter: ''}}</li>
-      <li v-if="lists[selectedIndex] && lists[selectedIndex].parameter.termPL005Fee">PL005:{{lists[selectedIndex].parameter.termPL005Fee}}</li>
-      <li v-if="lists[selectedIndex] && lists[selectedIndex].parameter.termPL058Fee">PL058:{{lists[selectedIndex].parameter.termPL058Fee}}</li>
-      <li>AGG > AOA *2係數:{{lists[selectedIndex]?lists[selectedIndex].parameter.aggAOACoefficient: ''}}</li>
-      <li>總保費:{{lists[selectedIndex]?lists[selectedIndex].parameter.amount: ''}}</li>
+    <ul v-if="parameter.amount">
+      <li>處所基本費率:{{parameter.basicFee}}</li>
+      <li>高保額係數:{{parameter.finalHC}}</li>
+      <li>規模細數:{{parameter.sizeParameter}}</li>
+      <li>自負額係數:{{parameter.selfInflictedParameter}}</li>
+      <li>短期費率:{{parameter.shortPeriodParameter}}</li>
+      <li>附加費用率:{{parameter.additionalCostParameter}}</li>
+      <li>多處所係數:{{parameter.mutiSizeParameter}}</li>
+      <li>期間係數:{{parameter.periodParameter}}</li>
+      <li v-if="parameter.underwriteCoefficient">核保加減費系數:{{parameter.underwriteCoefficient}}</li>
+      <li>附加險條款費用係數:{{parameter.additionTermCoefficientParameter}}</li>
+      <li v-if="parameter.termPL005Fee">PL005:{{parameter.termPL005Fee}}</li>
+      <li v-if="parameter.termPL058Fee">PL058:{{parameter.termPL058Fee}}</li>
+      <li>AGG > AOA *2係數:{{parameter.aggAOACoefficient}}</li>
+      <li>總保費:{{parameter.amount}}</li>
     </ul>
-    <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.mutiSizeParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模細數(${lists[selectedIndex].parameter.sizeParameter})*多處所係數(${lists[selectedIndex].parameter.mutiSizeParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${lists[selectedIndex].parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))*短期費率(${lists[selectedIndex].parameter.shortPeriodParameter})/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter})+PL005(${lists[selectedIndex].parameter.termPL005Fee})+PL058(${lists[selectedIndex].parameter.termPL058Fee}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
+    <p v-if="parameter.mutiSizeParameter > 0">{{`(處所基本費率(${parameter.basicFee})*高保額係數(${parameter.finalHC})*規模細數(${parameter.sizeParameter})*多處所係數(${parameter.mutiSizeParameter})*(1+自負額係數(${parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${parameter.aggAOACoefficient}))*短期費率(${parameter.shortPeriodParameter})/(1-附加費用率(${parameter.additionalCostParameter})+PL005(${parameter.termPL005Fee})+PL058(${parameter.termPL058Fee}))=總保費(${parameter.amount})`}}</p>
 
-    <p v-if="lists[selectedIndex] && lists[selectedIndex].parameter.periodParameter > 0">{{`(處所基本費率(${lists[selectedIndex].parameter.basicFee})*高保額係數(${lists[selectedIndex].parameter.finalHC})*規模係數(${lists[selectedIndex].parameter.sizeParameter})*期間係數(${lists[selectedIndex].parameter.periodParameter})*(1+自負額係數(${lists[selectedIndex].parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${lists[selectedIndex].parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${lists[selectedIndex].parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${lists[selectedIndex].parameter.aggAOACoefficient}))/(1-附加費用率(${lists[selectedIndex].parameter.additionalCostParameter})+PL005(${lists[selectedIndex].parameter.termPL005Fee})+PL058(${lists[selectedIndex].parameter.termPL058Fee}))=總保費(${lists[selectedIndex].parameter.amount})`}}</p>
+    <p v-if="parameter.periodParameter > 0">{{`(處所基本費率(${parameter.basicFee})*高保額係數(${parameter.finalHC})*規模係數(${parameter.sizeParameter})*期間係數(${parameter.periodParameter})*(1+自負額係數(${parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${parameter.aggAOACoefficient}))/(1-附加費用率(${parameter.additionalCostParameter})+PL005(${parameter.termPL005Fee})+PL058(${parameter.termPL058Fee}))=總保費(${parameter.amount})`}}</p>
     </PopupDialog>
     <div v-if="!viewModel && !copyLists.some(item => item.isSelected)" class="flex flex-row justify-center mt-8">
       <!-- <Button @click.native="addAmount" outline>新增保費額度</Button> -->
@@ -188,6 +188,10 @@ export default {
     InsuranceActive: {
       type: Number,
       default: 0
+    },
+    parameter: {
+      type: Object,
+      default: () => {}
     }
   },
   data() {
@@ -256,8 +260,8 @@ export default {
       deep: true
     },
     openFormula: {
-      async handler() {
-        await this.getAmount(0)
+       handler() {
+        console.log(this.lists)
       }
     }
   },

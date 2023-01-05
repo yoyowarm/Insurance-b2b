@@ -140,7 +140,9 @@ export default {
           if (target) {
             const copyTerms = { ...this.termsData }
             copyTerms[target.additionTermName].selected = true
+
             this.$store.dispatch(`${type}/updatedTerms`, copyTerms)
+
           }
           if (item.additionTermValue) {//建議條款細項
             const additionTerms = { ...this.$store.state[type].additionTerms }

@@ -20,6 +20,7 @@
       :infoList="quotationData.activityInsureInfo.activityInfo"
       :countyAmount="countyAmount"
       :InsuranceActive="InsuranceActive"
+      :parameter="parameter"
       @getQuotationDetail="quotationDetail"
       type="activity"
     />
@@ -140,6 +141,7 @@ export default {
       mainOrderNo: state => state.common.mainOrderNo,
       InsuranceActive: state => state.activity.InsuranceActive,
       PolicyStatus: state => state.activity.PolicyStatus,
+      parameter: state => state.activity.parameter,
 
     }),
     InsuranedData: {

@@ -7,6 +7,7 @@ export default {
     InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增序號,4:續保,5:報價明細,6:查看取消序號報價單,7:審核
     PolicyStatus: 0,//99取消,9已出單,8完成報價,7已核保,6請洽核保,2核保中,1待核保,0新增、複製
     quotationData: {},
+    parameter: {},
     underwriteQuotationData: {},
     underwriteQuotationIsChange: false,
     renewal: {//是否續保
@@ -510,6 +511,9 @@ export default {
     },
     UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE(state, data) {
       state.underwriteQuotationIsChange = data
+    },
+    UPDATED_PARAMETER(state, data) {
+      state.parameter = data
     }
   },
   actions: {
@@ -540,6 +544,7 @@ export default {
       commit('UPDATED_POLICY_TRANSFER', quotation().policyTransfer)
       commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', false)
       commit('UPDATED_POLICY_STATUS', 0)
+      commit('UPDATED_PARAMETER', {})
     },
     addPlaceInfo({ commit }) {
       commit('ADD_PLACE_INFO')
@@ -636,6 +641,9 @@ export default {
     },
     updatedUnderwriteQuotationIsChange({ commit }, data) {
       commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', data)
+    },
+    updatedParameter({ commit }, data) {
+      commit('UPDATED_PARAMETER', data)
     }
   }
 }
