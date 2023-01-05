@@ -190,7 +190,7 @@ export default {
           perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
           perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
           perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-          selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? this.quotationData.insuranceAmounts[0].selfInflictedAmount : this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+          selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? this.quotationData.insuranceAmounts[0].selfInflictedAmount : (this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount) ? this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount) : ''),
         }
         setTimeout(() => {
           this.insuranceAmountListData = {
@@ -202,7 +202,7 @@ export default {
             perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
             perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
             perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-            selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? this.quotationData.insuranceAmounts[0].selfInflictedAmount : this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+            selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? this.quotationData.insuranceAmounts[0].selfInflictedAmount : (this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount) ? this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount) : ''),
           }
         }, 50)
 
