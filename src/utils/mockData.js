@@ -227,7 +227,7 @@ export const quotationListTable = () => {
         size: '2-6'
       },
       {
-        text: '總分公司單位',
+        text: '公司單位',
         value: 'companyDepartment',
         size: '2-6'
       },
@@ -291,7 +291,7 @@ export const quotationLisMobileTable = () => {
         size: '2-6'
       },
       {
-        text: '總分公司單位',
+        text: '公司單位',
         value: 'companyDepartment',
         size: '2-6',
         noWrap: true
@@ -366,7 +366,7 @@ export const auditListTable = () => {
         size: '2-6'
       },
       {
-        text: '總分公司單位',
+        text: '公司單位',
         value: 'companyDepartment',
         size: '2-6'
       },
@@ -437,7 +437,7 @@ export const auditListMobileTable = () => {
         size: '2-6'
       },
       {
-        text: '總分公司單位',
+        text: '公司單位',
         value: 'companyDepartment',
         size: '2-6',
         noWrap: true
