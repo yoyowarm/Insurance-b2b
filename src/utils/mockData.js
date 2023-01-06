@@ -343,7 +343,7 @@ export const auditListTable = () => {
       {
         text: '操作',
         value: 'edit',
-        size: '1-6'
+        size: '3-6'
       },
       {
         text: '保險期間',
@@ -440,7 +440,7 @@ export const auditListMobileTable = () => {
       {
         text: '',
         value: 'edit',
-        size: '1-6',
+        size: '2-6',
         hidden: true
       },
     ],
