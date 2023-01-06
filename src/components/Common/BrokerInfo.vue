@@ -4,6 +4,7 @@
       <Input
         slot="input"
         :disable="disable"
+        class="w-full"
         placeholder="輸入代號"
         :value="data.issuerNumber"
         @updateValue="(e) => updateValue(e,'issuerNumber')"
