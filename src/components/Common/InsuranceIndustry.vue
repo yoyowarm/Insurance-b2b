@@ -114,6 +114,7 @@ export default {
         if(this.type == 'place') {
            this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,part1:{...this.questionnaire.part1, businessType: list.displayItemName}})
         }
+        this.$emit('initTerm')
       }
     },
     updatedIndustryText(e) {

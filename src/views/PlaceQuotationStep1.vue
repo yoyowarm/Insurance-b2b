@@ -38,6 +38,7 @@
         :disable="calculateModel"
         :questionnaire="questionnaire"
         :isRenewal="renewal.IsRenewal"
+        @initTerm="initTerm"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
@@ -296,13 +297,6 @@ export default {
     },
   },
   watch:{
-    industry: async function(val,old) {
-      console.log(val,old)
-      if(old && val.dangerSeq === old.dangerSeq) return
-      const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
-      this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isPlaceEnable)
-      this.termsInit()
-    },
     openQuestionnaire: async function(val) {
       if(!val && this.questionnaireFinished) {
         await this.questionnaireCoefficient()
@@ -467,6 +461,11 @@ export default {
           }
         }
         }, 100)
+    },
+    async initTerm() {
+      const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
+      this.additionTermsList = data.data.content.additionTermsDetails.filter(i => i.isPlaceEnable)
+      this.termsInit()
     },
     termsInit() {
       const terms = {}

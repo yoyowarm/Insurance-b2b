@@ -32,6 +32,7 @@
         :infoList="activityInfo"
         :disable="calculateModel"
         :createOder.sync="createOder"
+        @initTerm="initTerm"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest).length > 0">
@@ -307,11 +308,6 @@ export default {
       },
       deep: true
     },
-    industry: async function(val) {
-      const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
-      this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isActivityEnable)
-      this.termsInit()
-    },
     openQuestionnaire: async function(val) {
       if(!val && this.questionnaireFinished) {
         await this.questionnaireCoefficient()
@@ -384,6 +380,11 @@ export default {
             : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
           }
         }
+    },
+    async initTerm() {
+      const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
+      this.additionTermsList = data.data.content.additionTermsDetails.filter(i => i.isActivityEnable)
+      this.termsInit()
     },
     termsInit() {
       const terms = {}
