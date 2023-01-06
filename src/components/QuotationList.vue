@@ -4,10 +4,20 @@
       <div class="flex mb-2" :class="{'flex-row': windowWidth > 600, 'flex-col': windowWidth <= 600}" :key="index+'tableOderNo'">
         <div class="flex flex-row"  :class="{'ml-4': windowWidth <= 600}">
           <div v-if="currentTag == 0" @click="() => {if(!tableData.rows[0].isFinishQuotation) {copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'addSerialNo')}}">
-            <font-awesome-icon :icon="['fas','plus-circle']"  class="download" :class="{'disable': tableData.rows[0].isFinishQuotation}"/>
-            <span class="download ml-1" :class="{'disable': tableData.rows[0].isFinishQuotation}">新增序號</span>
+            <font-awesome-icon :icon="['fas','plus-circle']"  class="download" :class="{'disable': tableData.rows[0].isFinishQuotation || (tableData.rows[0].iofficer !==userInfo.userid)}"/>
+            <span
+              class="download ml-1"
+              :class="{'disable': tableData.rows[0].isFinishQuotation || (tableData.rows[0].iofficer !==userInfo.userid)}">
+              新增序號
+            </span>
           </div>
-          <span v-if="currentTag == 0" @click="() =>{if(!tableData.rows[0].isFinishQuotation){copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'updateQuotation')}}" class="download text-base ml-4 mr-2" :class="{'disable': tableData.rows[0].isFinishQuotation}"><font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span></span>
+          <span
+            v-if="currentTag == 0"
+            @click="() =>{if(!tableData.rows[0].isFinishQuotation){copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'updateQuotation')}}"
+            class="download text-base ml-4 mr-2"
+            :class="{'disable': tableData.rows[0].isFinishQuotation || (tableData.rows[0].iofficer !==userInfo.userid)}">
+            <font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span>
+          </span>
           <span class="text-white p-2 leading-none rounded-xl text-sm flex justify-center items-center" :class="{'bg-green-700': tableData.rows[0].type == 1, 'bg-red-500':tableData.rows[0].type == 2}">{{tableData.rows[0].type == 1 ? '處所':'活動'}}</span>
         </div>
         <div class="flex flex-row" :class="{'ml-4': windowWidth <= 600}">
@@ -22,13 +32,17 @@
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4 mr-9 mt-5 ml-1" v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))">- -</div>
             <div v-else class="flex items-center mx-2 mt-1" :class="{'absolute flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
-              <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600, 'disable': item.stateText == '核保中'}" v-if="!tableData.rows[0].isFinishQuotation" @click.stop="() => { if(item.stateText !== '核保中')copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')}">更正</span>
+              <span
+                class="download whitespace-no-wrap"
+                :class="{'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600, 'disable': item.stateText == '核保中' || (item.iofficer !==userInfo.userid )}"
+                v-if="!tableData.rows[0].isFinishQuotation"
+                @click.stop="() => { if(item.stateText !== '核保中')copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')}">更正</span>
               <span class="download whitespace-no-wrap" :class="{'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
             </div>
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
               <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
-              <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
+              <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7 || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
             </div>
           </div>
           <div v-if="currentTag == 1" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-auto bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99}">
