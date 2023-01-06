@@ -127,7 +127,7 @@ export default {
           this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
         }
       }
-      if (this.quotationData[quotationType].otherIndustryName && this.quotationData[quotationType].insureType == '其他(混合類別)') {
+      if (this.quotationData[quotationType].otherIndustryName) {
         this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData[quotationType].otherIndustryName)
       }
       const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)

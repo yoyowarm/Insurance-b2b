@@ -160,7 +160,9 @@ export default {
 
     }
   }
-  .custom-column {
+  @media (max-width: 600px) {
+    .custom-column {
     @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
+  }
   }
 </style>

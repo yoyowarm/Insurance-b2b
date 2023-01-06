@@ -96,7 +96,7 @@ export default {
               : this.insuranceAmountListData.parameter,
           }
         }
-        payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
+        payload.insureIndustryOtherText = this.industry.Text
         payload.remark = this.remark.text
         this.$store.dispatch('activity/updatedUnderwriteQuotationData', payload)
         this.$store.dispatch('activity/updatedParameter', this.parameter.parameter)
@@ -204,7 +204,7 @@ export default {
           isRenewal: this.renewal.isRenewal,
           insuranceNumber: this.renewal.InsuranceNumber,
         }
-        payload.insureIndustryOtherText = this.industry.Value == 106 ? this.industryText : this.industry.Text
+        payload.insureIndustryOtherText = this.industryText
         payload.remark = this.remark.text
         this.$store.dispatch('place/updatedUnderwriteQuotationData', payload)
         this.$store.dispatch('place/updatedParameter', this.parameter.parameter)
