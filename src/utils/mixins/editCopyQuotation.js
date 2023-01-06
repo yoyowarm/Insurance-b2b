@@ -130,9 +130,11 @@ export default {
       if (this.quotationData[quotationType].otherIndustryName && this.quotationData[quotationType].insureType == '其他(混合類別)') {
         this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData[quotationType].otherIndustryName)
       }
-      const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
-      this.additionTermsList = data.data.content.additionTermsDetails.filter(i => i[type == 'place' ? 'isPlaceEnable' : 'isActivityEnable'])
-      this.termsInit()
+      if (this.additionTermsList.length == 0) {
+        const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
+        this.additionTermsList = data.data.content.additionTermsDetails.filter(i => i[type == 'place' ? 'isPlaceEnable' : 'isActivityEnable'])
+        this.termsInit()
+      }
 
       if (this.quotationData[quotationType].additionTerms.length > 0 && this.additionTermsList.length > 0) {//附加條款
         const copyTerms = { ...this.termsData }

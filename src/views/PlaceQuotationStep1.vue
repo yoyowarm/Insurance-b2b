@@ -297,6 +297,7 @@ export default {
   },
   watch:{
     industry: async function(val,old) {
+      console.log(val,old)
       if(old && val.dangerSeq === old.dangerSeq) return
       const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
       this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isPlaceEnable)
