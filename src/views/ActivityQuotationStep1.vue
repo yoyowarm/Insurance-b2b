@@ -9,7 +9,16 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry type="activity" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText" :disable="calculateModel"/>
+      <InsuranceIndustry
+        type="activity"
+        :industryList="industryList"
+        :industryType="industryType"
+        :selected="industry"
+        :industryText="industryText"
+        :searchText="searchText"
+        :disable="calculateModel"
+        @initTerm="initTerm"
+      />
     </CommonBoard>
     <CommonBoard class="w-full relative activeInfo" title="活動資料">
       <span slot="icon" class="average ">參加活動每日平均人數：{{Math.round(average.person.toFixed(2))}}人  總計活動天數：{{average.day}}天</span>
@@ -32,7 +41,7 @@
         :infoList="activityInfo"
         :disable="calculateModel"
         :createOder.sync="createOder"
-        @initTerm="initTerm"
+        
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest).length > 0">
