@@ -154,8 +154,7 @@ export default {
       windowWidth: window.innerWidth,
       currentTag: 0,
       itemLists:[
-        { text: '報價明細', value: 0 },
-        { text: '核保明細', value: 1 }
+        { text: '報價明細', value: 0 }
       ],
       open: false,
       downloadQuotation: {},
@@ -399,6 +398,10 @@ export default {
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
     await this.getQuotationList()
+    const level = await this.$store.dispatch('underwrite/GetEmployeeUnderwriteLevel')
+    if(level.data.content) {
+      this.itemLists.push({ text: '核保明細', value: 1 })
+    }
     const data = await this.$store.dispatch('quotation/GetQuotationState')
     this.quotationState = data.data.content
     const group = await this.$store.dispatch('resource/GetTaianNGroup')
