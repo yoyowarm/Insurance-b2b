@@ -1,7 +1,7 @@
 import { mapState } from 'vuex'
 import { quotationStep1 } from '@/utils/dataTemp'
 import { formatDate } from '@/utils/dateFormat'
-import { IDRegex } from '@/utils/regex'
+import { IDRegex, numFormat } from '@/utils/regex'
 export default {
   data() {
     return {
@@ -190,7 +190,7 @@ export default {
           perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
           perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
           perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-          selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? this.quotationData.insuranceAmounts[0].selfInflictedAmount : (this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount) ? this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount) : ''),
+          selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? { Value: this.quotationData.insuranceAmounts[0].selfInflictedAmount, Text: `${numFormat(this.quotationData.insuranceAmounts[0].selfInflictedAmount)}元` } : { Value: 2500, Text: '2,500元' },
         }
         setTimeout(() => {
           this.insuranceAmountListData = {
@@ -202,7 +202,7 @@ export default {
             perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
             perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
             perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-            selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? this.quotationData.insuranceAmounts[0].selfInflictedAmount : (this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount) ? this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount) : ''),
+            selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ? { Value: this.quotationData.insuranceAmounts[0].selfInflictedAmount, Text: `${numFormat(this.quotationData.insuranceAmounts[0].selfInflictedAmount)}元` } : { Value: 2500, Text: '2,500元' },
           }
         }, 50)
 
