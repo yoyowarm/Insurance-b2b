@@ -402,7 +402,7 @@ export default {
               perAccidentBodyAmount: item.perAccidentBodyAmount ? item.perAccidentBodyAmount/10000 : '',
               perAccidentFinanceAmount: item.perAccidentFinanceAmount ? item.perAccidentFinanceAmount/10000 : '',
               perBodyAmount: item.perBodyAmount ? item.perBodyAmount/10000 : '',
-              selfInflictedAmount: item.selfInflictedAmount ? this.selfPayList.find(item => item.Value == item.selfInflictedAmount) : { Value: 2500, Text: '2,500元' },
+              selfInflictedAmount: item.selfInflictedAmount ? {Value:item.selfInflictedAmount, Text: `${numFormat(item.selfInflictedAmount)}元`} : { Value: 2500, Text: '2,500元' },
               parameter: {
                 basicFee: '',
                 finalHC: '',
@@ -429,18 +429,6 @@ export default {
         if(res.data.content.placeInsureInfo) {
           this.step1InitAssignValue('place')
         }
-        // setTimeout(() => {
-        //   this.insuranceAmountListData = {
-        //     ...this.quotationData.insuranceAmounts[0],
-        //     amountType: this.quotationData.insuranceAmounts[0].amountType,
-        //     insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
-        //     mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
-        //     perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
-        //     perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
-        //     perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-        //     selfInflictedAmount: this.quotationData.insuranceAmounts[0].selfInflictedAmount ,
-        //   }
-        // }, 1000);
       }
     },
     async questionnaireCoefficient(audit = false) {
