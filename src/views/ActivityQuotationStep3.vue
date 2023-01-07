@@ -200,8 +200,8 @@ export default {
       }
        this.$store.dispatch(`activity/updatedQuotationData`,this.quotationData)
     },
-    packHome(updateUnderwrite) {
-      this.$router.push(`/quotation-ist?tag=${updateUnderwrite ? 1 : 0}`)
+    packHome(updateUnderwrite = false) {
+      this.$router.push(`/quotation-ist?tag=${updateUnderwrite == true ? 1 : ''}`)
       this.$store.dispatch('activity/clearAll')
       this.$store.dispatch('activity/updatedUUID', '')
       this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})

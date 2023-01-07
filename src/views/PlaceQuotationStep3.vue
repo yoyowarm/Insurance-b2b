@@ -216,8 +216,8 @@ export default {
       console.log(this.quotationData)
       this.$store.dispatch(`place/updatedQuotationData`,this.quotationData)
     },
-    packHome(updateUnderwrite) {
-      this.$router.push(`/quotation-ist?tag=${updateUnderwrite ? 1 : 0}` )
+    packHome(updateUnderwrite = false) {
+      this.$router.push(`/quotation-ist?tag=${updateUnderwrite == true ? 1 : ''}` )
       this.$store.dispatch('place/clearAll')
       this.$store.dispatch('place/updatedUUID', '')
       this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
