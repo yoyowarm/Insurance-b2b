@@ -34,7 +34,7 @@
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-3 md:my-8 w-64 "
         style="background: #DB9F2C">
-        開始核保
+        送出核保
       </Button>
        <Button
         v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
@@ -221,7 +221,7 @@ export default {
         confirm: true,
         ok: '確定',
         cancel: '取消',
-        htmlText: `<p>${key? '完成報價' : '開始核保' }後將無法改動報價內容，確定完成報價？</p>`,
+        htmlText: `<p>${key? '完成報價' : '送出核保' }後將無法改動報價內容，確定完成報價？</p>`,
       }).then(async () => {
         if(key) {
           await this.$store.dispatch('quotation/FinishQuotation', {orderNo: this.orderNo})

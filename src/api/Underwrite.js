@@ -20,7 +20,7 @@ export const UpdateUnderwriteActivityQuotation = (data) => {//核保更新活動
   return request('patch', '/Underwrite/UpdateUnderwriteActivityQuotation', data)
 }
 
-export const BeginUnderwriting = (data) => {//開始核保
+export const BeginUnderwriting = (data) => {//送出核保
   return request('post', '/Underwrite/BeginUnderwriting', data)
 }
 

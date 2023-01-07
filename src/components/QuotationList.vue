@@ -8,7 +8,7 @@
             <span
               class="download ml-1"
               :class="{'disable': tableData.rows[0].isFinishQuotation || (tableData.rows[0].iofficer !==userInfo.userid)}">
-              新增序號
+              新增方案
             </span>
           </div>
           <span

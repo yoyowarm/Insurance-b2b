@@ -22,7 +22,7 @@ export const AddInsuranceProject = (data) => request('post', '/Quotation/AddInsu
 export const GetInsuranceProjectAmount = (data) => request('post', '/Quotation/GetInsuranceProjectAmount', data)
 //完成報價
 export const FinishQuotation = (data) => request('post', '/Quotation/FinishQuotation', data)
-//開始核保
+//送出核保
 export const BeginUnderwriting = (data) => request('post', '/Quotation/BeginUnderwriting', data)
 //修改處所報價 核保
 export const EditPlaceQuotation = (data) => request('patch', '/Quotation/EditPlaceQuotation', data)
