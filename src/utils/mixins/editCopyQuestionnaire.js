@@ -13,6 +13,7 @@ export default {
   methods: {
     AssignQuestionnaire(type) {
       if (this.quotationData.questionnaire) {
+        this.$store.dispatch(`${type}/updateQuestionnaireFinished`, true)
         let data = null
         if (type === 'place') {
           data = {
