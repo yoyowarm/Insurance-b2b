@@ -565,7 +565,6 @@ export default {
       if(this.industry.Value) {
         const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
         this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isPlaceEnable)
-        this.termsInit()
       }
       if((this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) ) {//報價明細更正、複製時塞資料
         await this.step1InitAssignValue('place')
@@ -853,7 +852,6 @@ export default {
   },
   async mounted() {
     await this.pageInit()
-    this.termsInit()
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())
     }
