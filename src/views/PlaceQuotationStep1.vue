@@ -435,8 +435,7 @@ export default {
     async questionnaireCoefficient(audit = false) {
       let data = {questionnaire: null,}
         const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
-        if (!audit &&coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
-          debugger
+        if (!audit &&coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient && this.insuranceAmountListData.amount) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
 
@@ -567,7 +566,6 @@ export default {
       if((this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) ) {//報價明細更正、複製時塞資料
         await this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')
-        console.log(this.quotationData.questionnaire)
         if(this.quotationData.questionnaire){await this.questionnaireCoefficient(this.InsuranceActive == 7)}
         if(this.InsuranceActive == 7) {
           if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true)//核保時，如果有保額，鎖著輸入欄位
