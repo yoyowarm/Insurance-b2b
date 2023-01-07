@@ -380,15 +380,17 @@ export default {
         if (!audit && coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient && this.insuranceAmountListData.amount) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
-        this.insuranceAmountListData = {
-          ...this.insuranceAmountListData,
-          parameter: {
-            ...this.insuranceAmountListData.parameter,
-            underwriteCoefficient: Number(coefficient.data.content.questionnaireCoefficient) > 0 
-            ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
-            : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+        this.$nextTick(() => {
+          this.insuranceAmountListData = {
+            ...this.insuranceAmountListData,
+            parameter: {
+              ...this.insuranceAmountListData.parameter,
+              underwriteCoefficient: Number(coefficient.data.content.questionnaireCoefficient) > 0 
+              ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
+              : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+            }
           }
-        }
+        })
     },
     async initTerm() {
       const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
