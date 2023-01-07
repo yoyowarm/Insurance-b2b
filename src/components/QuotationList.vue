@@ -167,6 +167,7 @@ export default {
       this.$store.dispatch('common/updateOrderNo', {orderNo:item.orderNo,mainOrderNo: item.mainOrderNo})
     },
     async copyQuotation(type,orderNo,mainOrderNo,update) {
+      this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/clearAll`)
       this.$store.dispatch('common/updateOrderNo', {orderNo,mainOrderNo})
       await this.quotationDetail(type,orderNo,mainOrderNo)
       if(update == 'updateQuotation') {

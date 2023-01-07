@@ -567,7 +567,6 @@ export default {
         await this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')
         if(this.quotationData.questionnaire){await this.questionnaireCoefficient(this.InsuranceActive == 7)}
-        await this.questionnaireCoefficient(this.InsuranceActive == 7)
         if(this.InsuranceActive == 7) {
           if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true)//核保時，如果有保額，鎖著輸入欄位
           if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('place/updatedUnderwriteQuotationIsChange',true)//核保時，如果沒有保額，預設為核保單變更
