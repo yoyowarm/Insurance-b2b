@@ -32,7 +32,7 @@
       </InputGroup>
     </div>
     <div class="w-full mb-4 relative">
-      <InputGroup title="保費" disable>
+      <InputGroup title="基本純保費" disable>
         <div slot="input" inputmode="tel"  class="w-full pr-24 relative">
           <Input class="w-full" disable numberFormat :value="copyPremium"/>
         </div>

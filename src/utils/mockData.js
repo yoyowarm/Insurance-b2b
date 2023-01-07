@@ -847,7 +847,7 @@ export const basicPremiumTable = () => {
         size: '2-6'
       },
       {
-        text: '基礎保費',
+        text: '基本純保費',
         value: 'basicPremium',
         size: '5-6'
       },

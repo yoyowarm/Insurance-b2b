@@ -80,7 +80,7 @@
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/minimumAmount'}">縣市最低保額</span>
           </DynamicLink>
           <DynamicLink v-if="permissions.includes('BasicPremium')" type="router" path="/parameterSetting/basic-premium-setting" @click.native="$emit('update:openMenu', false)">
-            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/basic-premium-setting'}">基本保費</span>
+            <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/basic-premium-setting'}">基本純保費</span>
           </DynamicLink>
           <DynamicLink v-if="permissions.includes('QuoteInsuranceAmount')" type="router" path="/parameterSetting/quote-separately" @click.native="$emit('update:openMenu', false)">
             <span class="text-white text-lg font-bold" :class="{'pagination': path !== '/parameterSetting/quote-separately'}">另行報價保額</span>
