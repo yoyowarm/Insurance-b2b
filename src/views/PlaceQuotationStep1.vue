@@ -435,6 +435,7 @@ export default {
     async questionnaireCoefficient(audit = false) {
       let data = {questionnaire: null,}
         const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
+        debugger
         if (!audit &&coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
