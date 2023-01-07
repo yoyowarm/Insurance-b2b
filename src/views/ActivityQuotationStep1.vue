@@ -364,6 +364,7 @@ export default {
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
         await this.step1InitAssignValue('activity')
         this.AssignQuestionnaire('activity')
+        console.log(this.quotationData.questionnaire)
         if(this.quotationData.questionnaire){await this.questionnaireCoefficient(this.InsuranceActive == 7)}
         if(this.InsuranceActive == 7) {
           if(this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('common/updatedCalculateModel',true) //核保時，如果有保額，鎖著輸入欄位
@@ -384,9 +385,9 @@ export default {
           ...this.insuranceAmountListData,
           parameter: {
             ...this.insuranceAmountListData.parameter,
-            underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
+            underwriteCoefficient: Number(coefficient.data.content.questionnaireCoefficient) > 0 
             ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
-            : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+            : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
           }
         }
     },
