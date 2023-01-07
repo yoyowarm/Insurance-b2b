@@ -65,8 +65,7 @@ export default {
                   month: this.quotationData.questionnaire.sheet1.part1.beginDateTime.split('T')[0].split('-')[1],
                   day: this.quotationData.questionnaire.sheet1.part1.beginDateTime.split('T')[0].split('-')[2],
                   hours: this.quotationData.questionnaire.sheet1.part1.beginDateTime.split('T')[1].split(':')[0],
-                  minutes: this.quotationData.questionnaire.sheet1.part1.beginDateTime.split('T')[1].split(':')[1],
-                } : { year: '', month: '', day: '', hours: '0', minutes: '0', },
+                } : { year: '', month: '', day: '', hours: '0' },
               }
             }
           }
@@ -129,8 +128,7 @@ export default {
                 month: copyData.sheet1.part1.beginDateTime.split('T')[0].split('-')[1],
                 day: copyData.sheet1.part1.beginDateTime.split('T')[0].split('-')[2],
                 hours: copyData.sheet1.part1.beginDateTime.split('T')[1].split(':')[0],
-                minutes: copyData.sheet1.part1.beginDateTime.split('T')[1].split(':')[1],
-              } : { year: '', month: '', day: '', hours: '0', minutes: '0', },
+              } : { year: '', month: '', day: '', hours: '0' },
             },
             part3: {
               afterActivityHasAccessByTransportation: copyData.sheet1.part3.afterActivityHasAccessByTransportation ? '是' : '否',

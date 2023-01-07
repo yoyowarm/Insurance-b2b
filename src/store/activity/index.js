@@ -223,7 +223,6 @@ export default {
             month: '',
             day: '',
             hours: '0',
-            minutes: '0',
           },
           activityDays: '',//活動天數
           hasActivityIndoor: false,//是否有室內活動

@@ -68,7 +68,7 @@
         </div>
       </div>
       <div class="column-3">
-        <InputGroup lgTitle title="活動開始時間" :disable="disable">
+        <InputGroup class="col-span-2" lgTitle title="活動開始時間" :disable="disable">
           <Select
             slot="input"
             :options="hoursOptions"
@@ -76,16 +76,6 @@
             :selected="data.sheet1.part1.beginDateTime.hours"
             @emitItem="(e) => emitSelectItem('beginDateTime','hours', e.Value)"
             defaultText="- - 點"
-          />
-        </InputGroup>
-        <InputGroup :disable="disable">
-          <Select
-            slot="input"
-            defaultText="- - 分"
-            :disable="disable"
-            :selected="data.sheet1.part1.beginDateTime.minutes"
-            @emitItem="(e) => emitSelectItem('beginDateTime','minutes', e.Value)"
-            :options="minutesOptions"
           />
         </InputGroup>
       </div>

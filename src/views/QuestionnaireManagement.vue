@@ -286,7 +286,7 @@ export default {
     activityQuestionnaireMapping(data) {
       let copyData = JSON.parse(JSON.stringify(data))
       if(Object.keys(copyData.sheet1.part1.beginDateTime).every(key => copyData.sheet1.part1.beginDateTime[key] !== '')) {
-        copyData.sheet1.part1.beginDateTime = `${Number(copyData.sheet1.part1.beginDateTime.year)+1911}-${copyData.sheet1.part1.beginDateTime.month}-${copyData.sheet1.part1.beginDateTime.day} ${copyData.sheet1.part1.beginDateTime.hours}:${copyData.sheet1.part1.beginDateTime.minutes}`
+        copyData.sheet1.part1.beginDateTime = `${Number(copyData.sheet1.part1.beginDateTime.year)+1911}-${copyData.sheet1.part1.beginDateTime.month}-${copyData.sheet1.part1.beginDateTime.day} ${copyData.sheet1.part1.beginDateTime.hours}:00`
       } else {
         copyData.sheet1.part1.beginDateTime = null
       }
