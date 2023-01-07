@@ -78,8 +78,8 @@
         <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
       </div>
       <div class="flex flex-col justify-center items-center sm:flex-row">
-        <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
-        <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
+        <Button @click.native="calculateAmount" :disabled="calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
         <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-56" outline>填寫詢問表({{ underwriteCoefficient }})</Button>
       </div>
       <div class="flex flex-col justify-center items-center sm:flex-row">
@@ -319,7 +319,7 @@ export default {
       deep: true
     },
     openQuestionnaire: async function(val) {
-      if(!val && this.questionnaireFinished) {
+      if(!val && this.questionnaireFinished && this.InsuranceActive !==7) {
         await this.questionnaireCoefficient()
       }
     }
