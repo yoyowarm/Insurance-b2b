@@ -80,7 +80,7 @@
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="calculateAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-56" outline>填寫詢問表({{ insuranceAmountListData.parameter.underwriteCoefficient }})</Button>
+        <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-56" outline>填寫詢問表({{ underwriteCoefficient }})</Button>
       </div>
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="nextStep" class="my-4 w-56 md:w-42" :class="{'md:mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
@@ -196,7 +196,8 @@ export default {
       openAudit: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
       underwriteStatus: {},
-      underwriteLevel: null
+      underwriteLevel: null,
+      underwriteCoefficient: '0%'
     }
   },
   computed: {
@@ -381,6 +382,9 @@ export default {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
         this.$nextTick(() => {
+          this.underwriteCoefficient = Number(coefficient.data.content.questionnaireCoefficient) > 0 
+              ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
+              : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
           this.insuranceAmountListData = {
             ...this.insuranceAmountListData,
             parameter: {
