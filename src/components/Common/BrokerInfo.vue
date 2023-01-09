@@ -23,7 +23,7 @@
     <InputGroup title="統計代號" :disable="disable">
       <Input slot="input" :disable="disable" placeholder="輸入統計代號" :value="data.statisticsCode" @updateValue="(e) => updateValue(e,'statisticsCode')"/>
     </InputGroup>
-    <InputGroup title="登入證字號(登錄ID)" :disable="disable">
+    <InputGroup title="登錄證字號(登錄ID)" :disable="disable">
       <Input slot="input" :disable="disable" placeholder="輸入號碼" :value="data.loginIdNumber" @updateValue="(e) => updateValue(e,'loginIdNumber')"/>
     </InputGroup>
   </div>
