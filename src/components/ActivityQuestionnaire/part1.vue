@@ -19,6 +19,7 @@
           :maxLength="7"
           :disable="disable"
           :value="data.sheet1.part1.joinPersonAmount"
+          numberFormat
           @updateValue="(e) => updateValue(e,'joinPersonAmount')"
         />
       </InputGroup>
@@ -30,6 +31,7 @@
           inputmode="tel" 
           :maxLength="7"
           :disable="disable"
+          numberFormat
           :value="data.sheet1.part1.ruleCapacity"
           @updateValue="(e) => updateValue(e,'ruleCapacity')"
         />
@@ -86,6 +88,7 @@
           inputmode="tel" 
           :maxLength="7"
           :disable="disable"
+          numberFormat
           :value="data.sheet1.part1.activityDays"
           @updateValue="(e) => updateValue(e,'activityDays')"
         />

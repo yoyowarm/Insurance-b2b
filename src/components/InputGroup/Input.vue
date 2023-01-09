@@ -102,7 +102,6 @@ export default {
           this.decimalPoint5 ?
             6:
             0
-      console.log(this.syncValue.toString().match(/,/g), this.syncValue.toString().match(/\./g))
       return this.numberFormat ?
         this.maxLength + commaLength + pointLength :
         this.maxLength

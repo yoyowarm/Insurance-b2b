@@ -228,6 +228,7 @@ export default {
       set(val) {
         this.$store.dispatch('activity/updatedActivityInfo', val)
         this.updatePeriod()
+        this.updatedQuestionnaire()
       }
     },
     periodData: {
@@ -650,6 +651,25 @@ export default {
           hour: arr[arr.length - 1].endDate.hour
         }
       }
+    },
+    updatedQuestionnaire() {
+      let joinPersonAmount = 0
+      this.activityInfoList.map(item => {
+        joinPersonAmount += Number(item.number.toString().replace(/,/g, '')) * Number(item.day.toString().replace(/,/g, ''))
+      })
+      let data = JSON.parse(JSON.stringify(this.questionnaire))
+      data = {
+        ...data,
+        sheet1: {
+          ...data.sheet1,
+          part1: {
+            ...data.sheet1.part1,
+            activityDays: this.average.day,
+          joinPersonAmount
+          }
+        }
+      }
+      this.$store.dispatch('activity/updatedQuestionnaire', data)
     },
     quotationMapping() {
       const data = {
