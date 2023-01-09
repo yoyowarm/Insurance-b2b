@@ -7,15 +7,16 @@
       <InsuranceInfoFin :info="quotationData.applicant" type="ApplicantData"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="投保資料">
-      <InsuranceContent :info="quotationData.placeInsureInfo"/>
+      <InsuranceContent :info="quotationData.placeInsureInfo? quotationData.placeInsureInfo : {}"/>
     </CommonBoard>
     <InsuranceAmountListFin
       :lists.sync="quotationData.insuranceAmounts"
       :orderNo="orderNo"
-      :infoList="quotationData.placeInsureInfo.placeInfo"
+      :infoList="quotationData.placeInsureInfo ? quotationData.placeInsureInfo.placeInfo : []"
       :countyAmount="countyAmount"
       :InsuranceActive="InsuranceActive"
       :parameter="parameter"
+      :underwriteCoefficient="underwriteCoefficient"
       @getQuotationDetail="quotationDetail"
       type="place"
     />
@@ -87,11 +88,12 @@ import ViewModelSticker from '@/components/viewModelSticker'
 import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 // import routeChange from '@/utils/mixins/routeChange'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
 export default {
-  // mixins: [routeChange],
+  mixins: [editCopyQuestionnaire],
   components: {
     CommonBoard,
     Button,
@@ -110,27 +112,28 @@ export default {
       historyDialog: false,
       openDialog: false,
       correct:false,
-      quotationData: {
-        insuranceAmounts: [{
-          parameter: {
-            basicFee: '',
-            finalHC: '',
-            sizeParameter: '',
-            selfInflictedParameter: '',
-            shortPeriodParameter: '',
-            additionalCostParameter: '',
-            mutiSizeParameter: '',
-            additionTermCoefficientParameter: '',
-            aggAOACoefficient: '',
-            amount: '',
-          }
-        }],
-        placeInsureInfo:{
-          placeInfo: [],
-        }
-      },
+      // quotationData: {
+      //   insuranceAmounts: [{
+      //     parameter: {
+      //       basicFee: '',
+      //       finalHC: '',
+      //       sizeParameter: '',
+      //       selfInflictedParameter: '',
+      //       shortPeriodParameter: '',
+      //       additionalCostParameter: '',
+      //       mutiSizeParameter: '',
+      //       additionTermCoefficientParameter: '',
+      //       aggAOACoefficient: '',
+      //       amount: '',
+      //     }
+      //   }],
+      //   placeInsureInfo:{
+      //     placeInfo: [],
+      //   }
+      // },
       underwriteStatus: {},
-      countyAmount: []
+      countyAmount: [],
+      underwriteCoefficient: ''
     }
   },
   computed: {
@@ -148,6 +151,8 @@ export default {
       InsuranceActive: state => state.place.InsuranceActive,
       PolicyStatus: state => state.place.PolicyStatus,
       parameter: state => state.place.parameter,
+      quotationData: state => state.place.quotationData,
+      questionnaire: state => state.place.questionnaire,
     }),
     InsuranedData: {
       get() {
@@ -185,7 +190,7 @@ export default {
     },
     async quotationDetail() {
       const detail = await this.$store.dispatch('quotation/GetPlaceQuotationDetail', {orderno: this.orderNo,mainOrderNo: this.mainOrderNo})
-      this.quotationData = {
+      const quotationData = {
         ...detail.data.content,
         insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
           return {
@@ -213,8 +218,8 @@ export default {
           }
         })
       }
-      console.log(this.quotationData)
-      this.$store.dispatch(`place/updatedQuotationData`,this.quotationData)
+      console.log(quotationData)
+      this.$store.dispatch(`place/updatedQuotationData`,quotationData)
     },
     packHome(updateUnderwrite = false) {
       this.$router.push(`/quotation-ist?tag=${updateUnderwrite == true ? 1 : ''}` )
@@ -246,6 +251,13 @@ export default {
       this.packHome(true)
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
+    },
+    async questionnaireCoefficient() {
+      let data = {questionnaire: this.quotationData.questionnaire}
+        const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.placeQuestionnaireMapping(data).questionnaire)
+        this.underwriteCoefficient = Number(coefficient.data.content.questionnaireCoefficient) > 0 
+              ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
+              : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
     }
   },
   async mounted() {
@@ -255,6 +267,10 @@ export default {
     if(this.InsuranceActive == 7) {
       const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
       this.underwriteStatus = underwriteStatus.data.content
+    }
+    if(this.quotationData.questionnaire) {
+      this.AssignQuestionnaire('place')
+      await this.questionnaireCoefficient()
     }
   },
   destroyed() {

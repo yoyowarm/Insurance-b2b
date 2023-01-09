@@ -99,7 +99,7 @@
       <div class="button-group">
         <Button class="h-12" :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('insurance', item)" outline>預覽要保書</Button>
         <Button class=" h-12" :class="{'mr-6': windowWidth > 750}" @click.native="downloadFile('', item)" outline>預覽報價單</Button>
-        <Button class="h-12" @click.native="downloadFile('questionnaire', item)" outline>預覽詢問表</Button>
+        <Button class="h-12" :class="{'col-span-2':underwriteCoefficient}" @click.native="downloadFile('questionnaire', item)" outline>預覽詢問表<span v-if="underwriteCoefficient">({{underwriteCoefficient}})</span></Button>
         <!-- <Button :class="{'mr-6': windowWidth > 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="AddInsuranceProject(index)" outline>保存</Button> -->
         <!-- <Button :class="{'col-span-2': windowWidth < 750}" v-if="!copyLists.some(item => item.isSelected)" @click.native="updateInsuranceProject(index)" outline>編輯投保資料</Button> -->
         <Button v-if="viewModel && editModel">修改保費</Button>
@@ -192,6 +192,10 @@ export default {
     parameter: {
       type: Object,
       default: () => {}
+    },
+    underwriteCoefficient: {
+      type: String,
+      default: ''
     }
   },
   data() {

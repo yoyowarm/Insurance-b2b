@@ -435,7 +435,7 @@ export default {
     },
     async questionnaireCoefficient(audit = false) {
       let data = {questionnaire: null,}
-        const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
+        const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.placeQuestionnaireMapping(data).questionnaire)
         if (!audit &&coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient && this.insuranceAmountListData.amount) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
@@ -668,7 +668,7 @@ export default {
           remark: this.remark.text,
         }
         if(this.questionnaireFinished || this.quotationData.questionnaire) {
-          this.questionnaireMapping(data)
+          this.placeQuestionnaireMapping(data)
         }
         this.$store.dispatch('common/updatedCalculateModel',true)
         const res = await this.$store.dispatch('quotation/GetPlaceInsuranceProjectAmount',{data})
@@ -793,7 +793,7 @@ export default {
       }
       
       if(this.questionnaireFinished) {
-        this.questionnaireMapping(data)
+        this.placeQuestionnaireMapping(data)
       }
       if(this.InsuranceActive !==0) {
         data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
@@ -804,32 +804,6 @@ export default {
       }
       this.$store.dispatch('place/updatePlaceQuotation', data)
       console.log(data)
-    },
-    questionnaireMapping(data) {
-      data.questionnaire = JSON.parse(JSON.stringify(this.questionnaire))
-      data.questionnaire = {
-          ...data.questionnaire,
-          part2: {
-            ...this.questionnaire.part2,
-            buildingNature: this.questionnaire.part2.buildingNature.Value,
-            nearbyBuildingNature: this.questionnaire.part2.nearbyBuildingNature.Value,
-            securityCheck: this.questionnaire.part2.securityCheck.Value,
-            room: {...this.questionnaire.part2.room,roomAmount: this.questionnaire.part2.room.value},
-            seat: {...this.questionnaire.part2.seat,seatAmount: this.questionnaire.part2.seat.value},
-          }
-        }
-        if(Object.keys(this.questionnaire.part1.createTime).every(key => this.questionnaire.part1.createTime[key] !== '')) {
-          data.questionnaire.part1.createTime = `${Number(this.questionnaire.part1.createTime.year)+1911}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`
-        } else data.questionnaire.part1.createTime = null
-
-        if(Object.keys(this.questionnaire.part1.businessStartDate).every(key => this.questionnaire.part1.businessStartDate[key])) {
-          data.questionnaire.part1.businessStartDate = `${this.questionnaire.part1.businessStartDate.hours}:${this.questionnaire.part1.businessStartDate.minutes}`
-        } else data.questionnaire.part1.businessStartDate = null
-
-        if(Object.keys(this.questionnaire.part1.businessEndDate).every(key => this.questionnaire.part1.businessEndDate[key])) {
-          data.questionnaire.part1.businessEndDate = `${this.questionnaire.part1.businessEndDate.hours}:${this.questionnaire.part1.businessEndDate.minutes}`
-        } else data.questionnaire.part1.businessEndDate = null
-        return data
     },
     async updateUnderwrite(type) {
       Popup.create({

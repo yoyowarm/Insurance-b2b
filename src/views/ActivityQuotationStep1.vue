@@ -377,7 +377,7 @@ export default {
     },
     async questionnaireCoefficient(audit) {
       let data = {questionnaire: null,}
-        const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
+        const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.activityQuestionnaireMapping(data).questionnaire)
         if (!audit && coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient && this.insuranceAmountListData.amount) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
@@ -569,7 +569,7 @@ export default {
           remark: this.remark.text,
         }
         if(this.questionnaireFinished || this.quotationData.questionnaire) {
-          this.questionnaireMapping(data)
+          this.activityQuestionnaireMapping(data)
         }
         this.$store.dispatch('common/updatedCalculateModel',true)
         const res = await this.$store.dispatch('quotation/GetActivityInsuranceProjectAmount',{data})
@@ -754,7 +754,7 @@ export default {
           })]
       }
       if(this.questionnaireFinished) {
-        this.questionnaireMapping(data)
+        this.activityQuestionnaireMapping(data)
       }
       if(this.InsuranceActive !==0) {
         data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
@@ -765,29 +765,6 @@ export default {
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
       console.log(data)
-    },
-    questionnaireMapping(data) {
-      data.questionnaire = JSON.parse(JSON.stringify(this.questionnaire))
-      if(Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key] !== '')) {
-        data.questionnaire.sheet1.part1.beginDateTime = `${Number(data.questionnaire.sheet1.part1.beginDateTime.year)+1911}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:00`
-      } else {
-        data.questionnaire.sheet1.part1.beginDateTime = null
-      }
-      if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
-        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = true
-      } else if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '否'){
-        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = false
-      } else if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation !== true && data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation !== false){
-        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = null
-      }
-      if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '是'){
-        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = true
-      } else if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '否'){
-        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = false
-      } else if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation !== true && data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation !== false){
-        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = null
-      }
-      return data
     },
     async updateUnderwrite(type) {
       Popup.create({
