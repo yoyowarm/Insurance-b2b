@@ -95,7 +95,14 @@ export default {
     },
     inputMaxLength() {
       const commaLength = this.syncValue && this.syncValue.toString().match(/,/g) ? this.syncValue.toString().match(/,/g).length : 0
-      const pointLength = this.syncValue && this.syncValue.toString().match(/\./g) ? this.syncValue.toString().match(/\./g).length + 2 : 0
+      const pointLength = this.decimalPoint ?
+        2:
+        this.decimalPoint3 ?
+          4:
+          this.decimalPoint5 ?
+            6:
+            0
+      console.log(this.syncValue.toString().match(/,/g), this.syncValue.toString().match(/\./g))
       return this.numberFormat ?
         this.maxLength + commaLength + pointLength :
         this.maxLength
@@ -144,18 +151,19 @@ export default {
         const regex = new RegExp(/^[0-9]+.?[0-9]{0,2}$/, 'g');
         const regex2 = new RegExp(/^0+[0-9]{1,}/, 'g');
         const regex3 = new RegExp(/[0-9]{0,}/, 'g')
-          
-        if(regex2.test(value)) {
+        const regex4 = new RegExp(/,/, 'g');
+        inputValue = inputValue.replace(regex4, '')
+        if(regex2.test(inputValue)) {
           inputValue = value.replace(regex2, '')
         }
-        if(!regex3.test(value)) {
+        if(!regex3.test(inputValue)) {
           inputValue = value.replace(regex3, '')
         }
         if(regex.test(inputValue)) {
           inputValue = value
         } else {
-          inputValue = value.slice(0, value.length -2)
-          this.$refs.input.value = value.slice(0, value.length -2)
+          inputValue = inputValue.slice(0, inputValue.length -2)
+          this.$refs.input.value = inputValue.slice(0, inputValue.length -2)
         }
       }
       if(this.decimalPoint3) {

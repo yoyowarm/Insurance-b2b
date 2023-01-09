@@ -26,7 +26,8 @@
             :value="info.squareFeet.toString()"
             numberOnly
             numberFormat
-            :maxLength="7"
+            decimalPoint
+            :maxLength="9"
             :disable="disable"
             @updateValue="(e) =>updateValue(e,'squareFeet',index)"
           />
