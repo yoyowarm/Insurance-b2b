@@ -817,14 +817,13 @@ export default {
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
     }
-    Popup.create({
-				hasHtml: true,
-				maskClose: false,
-				htmlText:'<p>先填寫詢問表後，再點選試算保費</p>'
-			})
-    // if(this.InsuranceActive == 0) {
-    //   this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
-    // }
+    if(this.InsuranceActive !==7) {
+      Popup.create({
+          hasHtml: true,
+          maskClose: false,
+          htmlText:'<p>先填寫詢問表後，再點選試算保費</p>'
+        })
+    }
   },
   beforeDestroy() {
     this.$store.dispatch('common/updatedCalculateModel',false)

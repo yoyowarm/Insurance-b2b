@@ -152,7 +152,9 @@ export default {
     review(e,table) {
       if(this.currentTag == 1) return
       this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedPolicyStatus`,e.item.policyStatus)
-      if((e.item.stateText !== '取消' && e.item.insuranceAmount) && !table.some(i => i.stateText == '完成報價')) {
+      if (e.item.stateText == '核保中') {
+        this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,8)
+      } else if((e.item.stateText !== '取消' && e.item.insuranceAmount) && !table.some(i => i.stateText == '完成報價')) {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,5)
       } else {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,6)
