@@ -51,14 +51,14 @@ export const MobileRegex = (mobile, phoneOnly = false) => {
 		return '手機號碼不可重複'
 	}
 	if (isPhone.test(mobile) && isPhoneContinuous.includes(mobile)) {
-		return '手機號碼不可連續'
+		return '電話異常，請確認是否繼續完成報價'
 	}
 
 	if (!phoneOnly && isTelephoneRepeat.test(mobile)) {
 		return '電話號碼不可重複'
 	}
 	if (!phoneOnly && isTelephone.test(mobile) && isTelephoneContinuous.map(item => mobile.includes(item)).some(i => i === true)) {
-		return '電話號碼不可連續'
+		return '電話異常，請確認是否繼續完成報價'
 	}
 }
 export const isPhone = (mobile) => {
