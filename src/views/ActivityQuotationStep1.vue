@@ -107,7 +107,7 @@
       :open.sync="openFormula"
     >
       <ul v-if="insuranceAmountListData.parameter.amount">
-        <li>處所基本費率:{{insuranceAmountListData.parameter.basicFee}}</li>
+        <li>活動基本純保費:{{insuranceAmountListData.parameter.basicFee}}</li>
         <li>高保額係數:{{insuranceAmountListData.parameter.finalHC}}</li>
         <li>規模係數:{{insuranceAmountListData.parameter.sizeParameter}}</li>
         <li>自負額係數:{{insuranceAmountListData.parameter.selfInflictedParameter}}</li>
@@ -121,7 +121,7 @@
         <li>AGG > AOA *2係數:{{insuranceAmountListData.parameter.aggAOACoefficient}}</li>
         <li>總保費:{{insuranceAmountListData.parameter.amount}}</li>
       </ul>
-      <p v-if="insuranceAmountListData.parameter.amount">{{`(處所基本費率(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模係數(${insuranceAmountListData.parameter.sizeParameter})*期間係數(${insuranceAmountListData.parameter.periodParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter})*(1+核保加減費系數(${insuranceAmountListData.parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter})+PL005(${insuranceAmountListData.parameter.termPL005Fee})+PL058(${insuranceAmountListData.parameter.termPL058Fee}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
+      <p v-if="insuranceAmountListData.parameter.amount">{{`(活動基本純保費(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模係數(${insuranceAmountListData.parameter.sizeParameter})*期間係數(${insuranceAmountListData.parameter.periodParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter})*(1+核保加減費系數(${insuranceAmountListData.parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter})+PL005(${insuranceAmountListData.parameter.termPL005Fee})+PL058(${insuranceAmountListData.parameter.termPL058Fee}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
       <div v-else>尚未試算保費</div>
     </PopupDialog>
   </div>
