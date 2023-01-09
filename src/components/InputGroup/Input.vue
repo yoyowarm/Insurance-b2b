@@ -192,8 +192,23 @@ export default {
         }
       }
       this.$emit('updateValue', inputValue)
+      this.$refs.input.selectionEnd = inputValue.length
+      this.$refs.input.selectionStart = inputValue.length
+    },
+    resetPosition() {
+      if(!this.syncValue || this.syncValue.length == 0 || this.syncValue.length == 1) {
+        this.$refs.input.selectionEnd = 1
+        this.$refs.input.selectionStart = 1
+        return
+      }
     }
-  }
+  },
+  mounted() {
+    document.addEventListener('selectionchange', this.resetPosition);
+  },
+  destroyed() {
+    document.removeEventListener('selectionchange', this.resetPosition);
+  },
 }
 </script>
 
