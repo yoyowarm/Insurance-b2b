@@ -5,7 +5,7 @@
         <div slot="left" class="absolute left-12">
           <Checkbox
           :id="`title${index}`"
-          text="同上"
+          text="同要保人通訊地址"
           :value="sameAs[index]"
           @updateValue="(e) =>copyAddress(e,index)"
           />
@@ -96,10 +96,10 @@ export default {
       const newLists = [...this.lists]
       const Insuraned = JSON.parse(JSON.stringify(this.Insuraned))
       this.sameAs[index] = e
-      Insuraned.City = newLists[index].city
-      Insuraned.Area = newLists[index].area
-      Insuraned.subAddress = newLists[index].subAddress
-      this.$store.dispatch('place/updatedInsuraned', Insuraned)
+      if(newLists[index].city.Value !== Insuraned.City.Value) return
+      newLists[index].area = Insuraned.Area 
+      newLists[index].subAddress = Insuraned.subAddress
+      this.$emit('update:lists', newLists)
     },
   }
 }

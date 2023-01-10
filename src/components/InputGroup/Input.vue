@@ -9,7 +9,8 @@
       :inputmode="inputmode"
       v-model="syncValue"
       ref="input"
-      @blur="()=>{ $emit('blurInput');valueFormat()}">
+      @blur="()=>{ $emit('blurInput');valueFormat()}"
+      @keyup.delete="() => {deleteEvent()}">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
   </div>
@@ -84,12 +85,23 @@ export default {
       default: ''
     }
   },
+  data() {
+    return {
+      deleted: false
+    }
+  },
   computed: {
     syncValue: {
       get() {
         return this.numberFormat ? this.numFormat(this.value) : this.value
       },
       set (value) {
+        if(this.deleted)  {
+          if(value.toString().length == 1) {
+            this.$refs.input.value = ''
+          }
+          return
+        }
         this.updateValue(value)
       }
     },
@@ -119,7 +131,7 @@ export default {
       }
     },
     updateValue (value) {
-      let inputValue = value
+      let inputValue = value.replace(/,/g, '')
       if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3 && !this.decimalPoint5) {
         if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false && (this.hasZero && inputValue != 0)) {
           this.$emit('updateValue', '')
@@ -192,22 +204,14 @@ export default {
         }
       }
       this.$emit('updateValue', inputValue)
-      this.$refs.input.selectionEnd = inputValue.length
-      this.$refs.input.selectionStart = inputValue.length
+
     },
-    resetPosition() {
-      if(!this.syncValue || this.syncValue.length == 0 || this.syncValue.length == 1) {
-        this.$refs.input.selectionEnd = 1
-        this.$refs.input.selectionStart = 1
-        return
-      }
+    deleteEvent() {
+      this.deleted = true
+      setTimeout(() => {
+        this.deleted = false
+      }, 180)
     }
-  },
-  mounted() {
-    document.addEventListener('selectionchange', this.resetPosition);
-  },
-  destroyed() {
-    document.removeEventListener('selectionchange', this.resetPosition);
   },
 }
 </script>
