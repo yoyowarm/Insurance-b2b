@@ -147,7 +147,7 @@ export default {
         }
       }
       if(this.decimalPoint) {
-        const regex = new RegExp(/^[0-9]+.?[0-9]{0,2}$/, 'g');
+        const regex = new RegExp(/^[0-9]+.?[0-9]{0,1}$/, 'g');
         const regex2 = new RegExp(/^0+[0-9]{1,}/, 'g');
         const regex3 = new RegExp(/[0-9]{0,}/, 'g')
         const regex4 = new RegExp(/,/, 'g');
