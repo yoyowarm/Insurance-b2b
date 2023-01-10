@@ -5,6 +5,14 @@
         <div v-if="index !== 0" slot="left" class="flex items-end mr-3" @click="$emit('removeItem',index)">
           <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
         </div>
+        <div v-if="index !== 0" slot="left" class="absolute left-32">
+          <Checkbox
+          :id="`title${index}`"
+          text="同上"
+          :value="sameAs[index]"
+          @updateValue="(e) =>copyAddress(e,index)"
+          />
+        </div>
       </FormTitle>
       <div :key="index" class="column-5 relative">
         <InputGroup title="每日人數" :disable="disable">
@@ -174,6 +182,7 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
 import FormTitle from '@/components/FormTitle'
 import Button from '@/components/Button/index.vue'
+import Checkbox from '@/components/Checkbox'
 import { Popup } from '@/utils/popups'
 import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
@@ -183,7 +192,8 @@ export default {
     Select,
     FormTitle,
     Button,
-    WindowResizeListener
+    WindowResizeListener,
+    Checkbox
   },
   props: {
     infoList: {
@@ -206,15 +216,18 @@ export default {
   data() {
     return {
       windowWidth: window.innerWidth,
-      copyInfoList: []
+      copyInfoList: [],
+      sameAs: []
     }
   },
   watch: {
     infoList: {
       handler(val) {
+        this.sameAs = []
         this.copyInfoList = val
         this.copyInfoList.map((_,index) => {
           this.assignDate(index)
+          this.sameAs.push(false)
         })
 
       },
@@ -308,6 +321,16 @@ export default {
       copyInfoList[index][type] = e
       this.$emit('update:infoList', copyInfoList)
     },
+    copyAddress(e,index) {
+      const copyInfoList = [...this.infoList]
+      this.sameAs[index] = e
+      if(e) {
+        copyInfoList[index].address = copyInfoList[index-1].address
+        copyInfoList[index].area = copyInfoList[index-1].area
+        copyInfoList[index].city = copyInfoList[index-1].city
+        this.$emit('update:infoList', copyInfoList)
+      }
+    },
     emitSelectItem(type,key, value, index) {
       const copyInfoList = [...this.infoList]
 			copyInfoList[index][type][key] = value
@@ -385,6 +408,7 @@ export default {
     this.copyInfoList.map((i,index) => {
       this.assignDate(index)
       this.updateDay(index)
+      this.sameAs.push(false)
     })
   }
 }
