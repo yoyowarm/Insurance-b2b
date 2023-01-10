@@ -128,8 +128,10 @@ export default {
           this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: target.itemName } })
         }
       } else if (this.industry.Value !== 106) {
-        this.$store.dispatch(`${type}/updatedIndustryText`, this.industry.Text)
-        this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: this.industry.Text } })
+        if (this.quotationData.questionnaire && this.quotationData.questionnaire.part1.businessType) {
+          this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData.questionnaire.part1.businessType)
+          this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: this.quotationData.questionnaire.part1.businessType } })
+        }
         const target = this.industryList.find(item => item.dangerSeq === 106)
         if (target) {
           this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
