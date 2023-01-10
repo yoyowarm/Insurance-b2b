@@ -10,7 +10,8 @@
       v-model="syncValue"
       ref="input"
       @blur="()=>{ $emit('blurInput');valueFormat()}"
-      @keyup.delete="() => {deleteEvent()}">
+      @keyup.delete="() => {deleteEvent()}"
+      @click="getSelection">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
   </div>
@@ -87,7 +88,11 @@ export default {
   },
   data() {
     return {
-      deleted: false
+      deleted: false,
+      selection: {
+        start: 0,
+        end: 0
+      }
     }
   },
   computed: {
@@ -131,7 +136,7 @@ export default {
       }
     },
     updateValue (value) {
-      let inputValue = value.replace(/,/g, '')
+      let inputValue = value
       if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3 && !this.decimalPoint5) {
         if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false && (this.hasZero && inputValue != 0)) {
           this.$emit('updateValue', '')
@@ -208,9 +213,17 @@ export default {
     },
     deleteEvent() {
       this.deleted = true
+      this.$refs.input.selectionStart = this.selection.start-2
+      this.$refs.input.selectionEnd = this.selection.end-2
       setTimeout(() => {
         this.deleted = false
       }, 180)
+    },
+    getSelection() {
+      if(this.syncValue.toString().length !== this.$refs.input.selectionEnd) {
+        this.selection.start = this.$refs.input.selectionStart
+        this.selection.end = this.$refs.input.selectionEnd
+      }
     }
   },
 }
