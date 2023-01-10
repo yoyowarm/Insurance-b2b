@@ -278,6 +278,7 @@ export default {
       },
       set(value) {
         this.$store.dispatch('place/updatedTerms', value)
+        this.checkPL005(value)
       }
     },
     remarkData: {
@@ -531,6 +532,17 @@ export default {
             this.$store.dispatch(`place/updatedTerms`, copyTerms)
           }
         })
+    },
+    checkPL005(terms) {
+      Object.keys(terms).map(key => {
+        if(key.includes('PL005') && terms[key].selected && this.placeInfo.every(i => i.holdState == false)) {
+          Popup.create({
+            headerText: '',
+            hasHtml: true,
+            htmlText: `${key}處所數量至少為1`,
+          })
+        }
+      })
     },
     async pageInit() {
       const places = await this.$store.dispatch('resource/PlacesSetting')
@@ -894,10 +906,17 @@ export default {
     }
     if(this.InsuranceActive !==7) {
       Popup.create({
-          hasHtml: true,
-          maskClose: false,
-          htmlText:'<p>先填寫詢問表後，再點選試算保費</p>'
-        })
+        hasHtml: true,
+        maskClose: false,
+        htmlText:'<p>先填寫詢問表後，再點選試算保費</p>'
+      })
+    }
+    if(this.InsuranceActive === 7) {
+      Popup.create({
+        hasHtml: true,
+        maskClose: false,
+        htmlText:'<p>如欲修正請下滑點擊更正鈕</p>'
+      })
     }
   },
   beforeDestroy() {
