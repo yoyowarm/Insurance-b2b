@@ -43,6 +43,7 @@
         @click.native="finishQuotation('FinishQuotation')"
         class="my-3 md:my-8 w-64 ">確認報價</Button>
       <template v-if="InsuranceActive == 7">
+        <Button  @click.native="copyQuotation(7)" class="my-3 md:my-8 w-64 md:mr-5">更正</Button>
         <Button v-if="(underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel != 6) || (underwriteStatus.underwriteDirection == 0 && underwriteStatus.isLastActionEditUnderwrite && underwriteStatus.employeeUnderwriteLevel != 6)" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(1)">向上核保</Button>
         <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(2)">完成核保</Button>
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(3)">不予核保</Button>
@@ -210,12 +211,12 @@ export default {
       this.$store.dispatch('activity/updatedUUID', '')
       this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
     },
-    async copyQuotation() {
+    async copyQuotation(InsuranceActive) {
       if(this.InsuranceActive == 6) return
       this.correct = true
       this.$store.dispatch('common/updateOrderNo', {orderNo:this.orderNo,mainOrderNo: this.mainOrderNo})
       await this.quotationDetail()
-      this.$store.dispatch(`activity/updatedInsuranceActive`,1)
+      this.$store.dispatch(`activity/updatedInsuranceActive`,InsuranceActive ? InsuranceActive : 1)
       this.$router.push(`/activity-quotation/step1`)
     },
     async finishQuotation(key) {
