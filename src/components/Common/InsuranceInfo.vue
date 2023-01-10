@@ -81,12 +81,15 @@
         <SwitchInput
           slot="input"
           :id="`${type}Profession`"
-          checkedText="特殊"
+          checkedText="特定"
           uncheckedText="一般"
           :value="copyInfo.Profession"
           :disable="disable"
           @updateValue="(e) =>updateInfo('Profession', e)"
         />
+        <div slot="right" class="cursor-pointer absolute left-24" @click="setDialog" >
+          <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
+        </div>
       </InputGroup>
       <InputGroup class="w-full" title="負責(代表)人" lgTitle mid v-if="copyInfo.CorporateRequired" :disable="disable">
         <Input slot="input" placeholder="輸入姓名" :value="copyInfo.CorporateName" @updateValue="(e) => updateInfo('CorporateName', e)" :disable="disable"/>
@@ -304,7 +307,13 @@ export default {
       } else {
         this.updateInfo('CorporateRequired', false)
       }
-    }
+    },
+    setDialog() {
+      Popup.create({
+        hasHtml: true,
+        htmlText: '律師/會計師/公證人(或其合夥人、受僱人)/不動產經紀人/當鋪、銀樓或融資從業人員/藝術品(骨董)交易商/買賣(交易)商/基金(協)會/宗教人士/匯款公司或外幣兌換所/虛擬貨幣發行者/軍火(製造)商/寶石及貴金屬交易商/外交使館(人員)/駐內外辦事處(人員)/外國政府單位(人員)/博弈產業(場所)人員。',
+      })
+    },
   }
 }
 </script>
