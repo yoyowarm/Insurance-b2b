@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="活動處所有關之消防及安全措施" class="my-3 text-lg"/>
+    <FormTitle title="1.活動處所有關之消防及安全措施" class="my-3 text-lg"/>
     <div class="flex flex-col sm:flex-row my-1">
       <Checkbox
         id="消防栓"
@@ -181,6 +181,7 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+      <span class="mr-2 text-lg">{{index+2}}.</span>
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part5[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part5[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
@@ -188,7 +189,7 @@
       <div class=" text-lg">{{item}}</div>
     </div>
     <div class="column-4 my-3 dashed-border">
-      <InputGroup lgTitle  mid title="其他安全防護措施" class="col-span-3" :disable="disable">
+      <InputGroup lgTitle  mid title="6.其他安全防護措施" class="col-span-3" :disable="disable">
         <Input
           slot="input"
           placeholder="輸入安裝地點"

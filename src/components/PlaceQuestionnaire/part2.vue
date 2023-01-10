@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="外牆建築材質" :disable="disable">
+      <InputGroup lgTitle title="1.外牆建築材質" :disable="disable">
         <Input slot="input" :maxLength="7" :disable="disable" :value="data.part2.wallMaterial" @updateValue="(e) => updateValue(e,'wallMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
       <InputGroup lgTitle title="樓地板建築材質" :disable="disable">
@@ -12,7 +12,7 @@
       </InputGroup>
     </div>
     <div class="flex flex-col my-3">
-      <FormTitle class="text-lg" title="營業處所建築性質"/>
+      <FormTitle class="text-lg" title="2.營業處所建築性質"/>
       <RadioInput
         slot="input"
         text="獨幢"
@@ -111,7 +111,7 @@
         />
     </div>
     <div class="flex flex-col my-3">
-      <FormTitle class="text-lg" title="建築物公共安全檢查經當地主管建築機關查核"/>
+      <FormTitle class="text-lg" title="3.建築物公共安全檢查經當地主管建築機關查核"/>
       <RadioInput
           slot="input"
           class="mb-2"
@@ -149,7 +149,7 @@
         />
     </div>
     <div class="column-5 mt-3 ml-8" :class="{'mb-6':windowWidth< 600}">
-      <InputGroup lgTitle title="被保險人之經營業務性質" mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.room.selected">
+      <InputGroup lgTitle title="4.被保險人之經營業務性質" mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.room.selected">
         <Input
           slot="input"
           class="w-full"
@@ -197,7 +197,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle mid title="營業處所總樓層數，地上樓層數" :disable="disable">
+      <InputGroup lgTitle mid title="5.營業處所總樓層數，地上樓層數" :disable="disable">
         <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup lgTitle mid title="營業處所總樓層數，地下樓層數" dash :disable="disable">
@@ -210,6 +210,7 @@
     
   <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
+        <span class="mr-2 text-lg">6.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasSwimmingPool" :value="data.part2.hasSwimmingPool === true" @updateValue="updateValue(true, 'hasSwimmingPool')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasSwimmingPool2" :value="data.part2.hasSwimmingPool === false" @updateValue="updateValue(false, 'hasSwimmingPool')"/>
@@ -232,6 +233,7 @@
     </div>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
+        <span class="mr-2 text-lg">7.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasMechineParkingDevice" :value="data.part2.hasMechineParkingDevice === true" @updateValue="updateValue(true, 'hasMechineParkingDevice')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasMechineParkingDevice2" :value="data.part2.hasMechineParkingDevice === false" @updateValue="updateValue(false, 'hasMechineParkingDevice')"/>
@@ -252,7 +254,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-4">
-      <InputGroup lgTitle mid title="地板為何種材質" :disable="disable">
+      <InputGroup lgTitle mid title="8.地板為何種材質" :disable="disable">
         <Input slot="input" :disable="disable" :value="data.part2.material"  @updateValue="(e) => updateValue(e,'material')" placeholder="輸入材質名稱"/>
       </InputGroup>
     </div>
@@ -268,6 +270,7 @@
   
     <div class="w-full my-4 dashed-border">
       <div class="w-full flex flex-row mt-4">
+        <span class="mr-2 text-lg">9.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasAntiSlip" :value="data.part2.hasAntiSlip === true" @updateValue="updateValue(true, 'hasAntiSlip')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasAntiSlip2" :value="data.part2.hasAntiSlip === false" @updateValue="updateValue(false, 'hasAntiSlip')"/>

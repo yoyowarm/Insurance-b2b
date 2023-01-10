@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="飯店、旅館、汽車旅館、招待所" class="my-3 text-lg"/>
+    <FormTitle title="1.飯店、旅館、汽車旅館、招待所" class="my-3 text-lg"/>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
         <div class=" flex flex-row justify-between">
@@ -41,7 +41,7 @@
         @updateValue="(e) =>updateFacility(e,list)"
       />
     </div> -->
-    <FormTitle lgTitle title="商場、百貨公司、超級市場" class="my-3 text-lg"/>
+    <FormTitle lgTitle title="2.商場、百貨公司、超級市場" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
       <div class="flex flex-row justify-between">
         <RadioInput :disabled="disable" text="是" id="hasPusher" :value="data.part3.hasPusher === true" @updateValue="updateValue(true, 'hasPusher')"/>
@@ -49,7 +49,7 @@
       </div>
       <div class="text-lg">是否使用堆高機</div>
     </div>
-    <FormTitle lgTitle title="戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3 text-lg"/>
+    <FormTitle lgTitle title="3.戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4">
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasFireOrDust" :value="data.part3.hasFireOrDust === true" @updateValue="updateValue(true, 'hasFireOrDust')"/>
@@ -65,6 +65,7 @@
       <div class="text-lg">表演者為專業或業餘</div>
     </div>
     <div class="w-full flex flex-row mt-4">
+      <span class="mr-2 text-lg">4.</span>
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasDangerousItem" :value="data.part3.hasDangerousItem === true" @updateValue="updateValue(true, 'hasDangerousItem')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasDangerousItem2" :value="data.part3.hasDangerousItem === false" @updateValue="updateValue(false, 'hasDangerousItem')"/>
@@ -72,6 +73,7 @@
       <div class="text-lg">使用、存放煙火爆竹或化學品等危險物品</div>
     </div>
     <div class="w-full flex flex-row mt-4 dashed-border">
+      <span class="mr-2 text-lg">5.</span>
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasBoiler" :value="data.part3.hasBoiler === true" @updateValue="updateValue(true, 'hasBoiler')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasBoiler2" :value="data.part3.hasBoiler === false" @updateValue="updateValue(false, 'hasBoiler')"/>

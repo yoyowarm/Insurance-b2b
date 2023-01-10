@@ -240,6 +240,7 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4" :class="{'dashed-border': index == questionList.length-1}" v-for="(item,index) in questionList" :key="item">
+      <span class="mr-2 text-lg">{{index+2}}.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
@@ -280,12 +281,12 @@ export default {
     return {
       windowWidth: window.innerWidth,
       questionList: [
-        '2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練？',
-        '3.是否有禁煙管制',
-        '4.是否有監視或預警系統',
-        '5.受信總機是否正常使用並有專人看守',
-        '6.是否隨時有清潔人員',
-        '7.走道或逃生路線是否堆放雜物'
+        '營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練？',
+        '是否有禁煙管制',
+        '是否有監視或預警系統',
+        '受信總機是否正常使用並有專人看守',
+        '是否隨時有清潔人員',
+        '走道或逃生路線是否堆放雜物'
       ],
       questionListID: [
         'hasEquipmentTestAndTrain',

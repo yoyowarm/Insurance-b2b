@@ -2,6 +2,7 @@
   <div>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
+        <span class="mr-2 text-lg">1.</span>
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasLossHistoryBeforeFiveYear" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === true" @updateValue="updateValue(true, 'hasLossHistoryBeforeFiveYear')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasLossHistoryBeforeFiveYear2" :value="data.sheet1.part7.hasLossHistoryBeforeFiveYear === false" @updateValue="updateValue(false, 'hasLossHistoryBeforeFiveYear')"/>
@@ -22,7 +23,7 @@
     </div>
     <div class="ml-2 mt-2 text-red-500 text-sm">*不論有無投保</div>
     <div class="column-4 my-3 border-solid border-b-2 pb-10">
-      <InputGroup lgTitle title="其他(未載於上述者請自行填寫)" class="col-span-4" :disable="disable">
+      <InputGroup lgTitle title="2.其他(未載於上述者請自行填寫)" class="col-span-4" :disable="disable">
         <Input
           slot="input"
           placeholder="輸入內容"
