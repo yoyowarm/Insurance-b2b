@@ -18,7 +18,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
-      <Address :lists.sync="placeInfoData" :cityList="countyList" :areaList="ApplicantAreaList" :disable="InsuranceActive == 7"/>
+      <Address :lists.sync="placeInfoData" :cityList="countyList" :areaList="ApplicantAreaList" :disable="InsuranceActive == 7" :Insuraned="InsuranedData"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
