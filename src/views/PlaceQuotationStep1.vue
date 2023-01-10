@@ -84,7 +84,7 @@
       />
     </CommonBoard>
     <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest && item.isEnable)" v-if="additionTermsList.filter(item => !item.isSuggest && item.isEnable).length > 0" :disable="calculateModel"/>
-    <CommonBoard class="w-full mt-5" title="備註">
+    <CommonBoard class="w-full mt-5" title="保單備註">
       <TextBox :value.sync="remarkData"/>
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
