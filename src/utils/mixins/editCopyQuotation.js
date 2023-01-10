@@ -121,8 +121,16 @@ export default {
       if (this.quotationData[quotationType].remark) {//備註
         this.$store.dispatch(`${type}/updatedRemark`, this.quotationData[quotationType].remark)
       }
-      if (this.quotationData[quotationType].insureType) {//投保行業
+      if (this.quotationData[quotationType].insureType) { //投保行業
         const target = this.industryList.find(item => item.itemName === this.quotationData[quotationType].insureType)
+        if (target) {
+          this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
+          this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: target.itemName } })
+        }
+      } else if (this.industry.Value !== 106) {
+        this.$store.dispatch(`${type}/updatedIndustryText`, this.industry.Text)
+        this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: this.industry.Text } })
+        const target = this.industryList.find(item => item.dangerSeq === 106)
         if (target) {
           this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
         }
