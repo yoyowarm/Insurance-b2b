@@ -311,31 +311,29 @@ export default {
 
 <style scoped lang="scss">
   .customer-attr {
-    @apply  flex items-center text-red-500 ml-3 absolute whitespace-no-wrap left-16
+    @apply  flex items-center text-red-500 ml-3  left-16
   }
   .address {
     @apply col-span-3;
   }
   @media (min-width: 771px) and (max-width: 1126px) {
     .customer-attr { 
-      width: calc(100vw - 350px);
       span {
         display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
         width: 100%
       }
     }
   }
    @media (max-width: 771px) {
      .customer-attr { 
-      width: calc(100vw - 150px);
       span {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        // white-space: nowrap;
         width: 100%
       }
      }

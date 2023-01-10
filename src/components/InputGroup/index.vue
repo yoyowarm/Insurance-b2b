@@ -252,7 +252,7 @@ export default {
   .popup {
     @apply absolute top-0 left-0 right-0 z-10 bg-white border border-gray-200 rounded-lg shadow-lg;
   }
-  @media  screen and (min-width:  601px) {
+  @media  screen and (min-width:  1130px) {
     .popup {
       @apply hidden;
     }
