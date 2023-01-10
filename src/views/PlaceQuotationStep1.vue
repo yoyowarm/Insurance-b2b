@@ -403,7 +403,7 @@ export default {
               perAccidentBodyAmount: item.perAccidentBodyAmount ? item.perAccidentBodyAmount/10000 : '',
               perAccidentFinanceAmount: item.perAccidentFinanceAmount ? item.perAccidentFinanceAmount/10000 : '',
               perBodyAmount: item.perBodyAmount ? item.perBodyAmount/10000 : '',
-              selfInflictedAmount: typeof item.selfInflictedAmount == 'number' ? {Value:item.selfInflictedAmount, Text: `${numFormat(item.selfInflictedAmount)}元`} : { Value: 2500, Text: '2,500元' },
+              selfInflictedAmount: item.selfInflictedAmount,
               parameter: {
                 basicFee: '',
                 finalHC: '',
