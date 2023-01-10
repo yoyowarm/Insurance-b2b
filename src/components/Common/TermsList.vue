@@ -97,7 +97,7 @@ export default {
           htmlText: `${additionTermName}處所數量至少為1`,
         })
         this.copyTerms[additionTermName].selected = false
-        console.log(this.$refs[additionTermName][0].$el)
+        this.$refs[additionTermName][0].$el.childNodes[0].checked = false
       } else {
         this.copyTerms[additionTermName].selected = e
          this.$emit('update:terms', this.copyTerms)
