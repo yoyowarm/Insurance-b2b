@@ -10,7 +10,7 @@
           :disableWhite="disable"
           defaultText="請選擇金額"/>
       </InputGroup>
-      <div v-if="amountMinimum.countyName && data.amountType.Value == 0" class="mt-10 col-span-2">處所行跨多縣市時，將採用最高縣市保額，目前採用 <span class="text-main">{{amountMinimum.countyName}}</span> 保額</div>
+      <div v-if="amountMinimum.countyName && data.amountType.Value == 0" class="mt-10 col-span-2">當有多個處所且跨縣市時，將採用最高縣市保額，目前採用 <span class="text-main">{{amountMinimum.countyName}}</span> 保額</div>
     </div>
     <div class="column-5 pt-5">
       <InputGroup v-if="data.amountType.Value != 1" title="每一個人體傷責任金額" :disableWhite="data.amountType.Value != 2 || disable">

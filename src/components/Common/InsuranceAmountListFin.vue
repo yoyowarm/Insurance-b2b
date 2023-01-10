@@ -13,7 +13,7 @@
             defaultText="請選擇金額"/>
             <div v-if="viewModel" slot="input">{{item.amountType ==0 ? '依各縣市規定' : (item.amountType ==1 ? '合併單一限額' : '自行輸入保額')}}</div>
         </InputGroup>
-        <div v-if="amountMinimum.countyName && item.amountType == 0" class="mt-10 col-span-2">處所行跨多縣市時，將採用最高縣市保額，目前採用 {{amountMinimum.countyName}} 費率</div>
+        <div v-if="amountMinimum.countyName && item.amountType == 0" class="mt-10 col-span-2">當有多個處所且跨縣市時，將採用最高縣市保額，目前採用 {{amountMinimum.countyName}} 保額</div>
       </div>
       <div class="column-5 pt-5" :class="{'dashed-border': !viewModel}">
         <InputGroup v-if="item.amountType != 1" title="每一個人體傷責任金額" :borderBtn="viewModel" :editModel="editModel" disableWhite>
