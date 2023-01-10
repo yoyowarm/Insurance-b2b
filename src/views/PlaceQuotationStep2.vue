@@ -363,6 +363,19 @@ export default {
       this.verifyRequired('place', this.InsuranceActive)
       await this.verifyUser()
       if(this.requestFile.length === 0) {
+        if(this.InsuranceActive == 4 && this.userInfo.userid !== this.internalControl.issuerNumber) {
+          Popup.create({
+              hasHtml: true,
+              htmlText: `目前填寫之經手人代號為 ${this.internalControl.issuerNumber}，若繼續報價後續操作應使用${this.internalControl.issuerNumber}帳號進行，<br>是否確認繼續？`,
+              ok: '是',
+              cancel: '否',
+              confirm: true
+            }).then(async() => {
+              await this.checkPreventOccupy()
+              await this.verifyResultPopup()
+            })
+          return
+        } 
         if(this.InsuranceActive ==1) {
           Popup.create({
             hasHtml: true,
