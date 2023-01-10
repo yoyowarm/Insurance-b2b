@@ -161,8 +161,8 @@ export default {
       if (this.Insuraned.IsForeignRegister && !this.Insuraned.RegisterNationality) {
         this.requestFile.push('被保險人未輸入登記/註冊地國籍')
       }
-      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Insuraned.Mobile && this.Insuraned.prefixNumber) {
-        if (MobileRegex(`${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`)) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Insuraned.Mobile && (this.Insuraned.numberType || (!this.Insuraned.numberType && this.Insuraned.prefixNumber))) {
+        if (MobileRegex(`${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`) != undefined) {
           this.requestFile.push('被保險人' + MobileRegex(`${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`))
         }
       }
@@ -200,8 +200,8 @@ export default {
       if (this.Applicant.CorporateRequired && !this.Applicant.CorporateName) {
         this.requestFile.push('未填寫要保險負責人')
       }
-      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Applicant.Mobile && this.Applicant.prefixNumber) {
-        if (MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`)) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Applicant.Mobile && (this.Applicant.numberType || (!this.Applicant.numberType && this.Applicant.prefixNumber))) {
+        if (MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`) != undefined) {
           this.requestFile.push('要保險人' + MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`))
         }
       }
