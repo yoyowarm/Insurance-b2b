@@ -1,5 +1,6 @@
 <template>
   <div class="w-full">
+    <span slot="icon" class="average ">參加活動每日平均人數：{{Math.round(average.person.toFixed(2))}}人  <span v-if="windowWidth <= 600"><br>總計活動天數：{{average.day}}天</span><span v-if="windowWidth > 600">總計活動天數：{{average.day}}天</span></span>
     <template v-for="(info,index) in infoList">
       <FormTitle :key="`title${index}`" :title="`場次${index+1}`" classList="text-xl text-gray-700 my-3">
         <div v-if="index !== 0" slot="left" class="flex items-end mr-3" @click="$emit('removeItem',index)">
@@ -211,7 +212,11 @@ export default {
     disable: {
       type: Boolean,
       default: false
-    }
+    },
+    average: {
+      type: Object,
+      default: () => ({})
+    },
   },
   data() {
     return {
@@ -415,5 +420,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-  
+    .average { 
+    @apply text-base mt-1  text-gray-700  font-semibold
+  }
+    
 </style>

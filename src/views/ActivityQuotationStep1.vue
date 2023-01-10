@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CommonBoard class="w-full mt-16 sm:mt-8" title="投保行業">
+    <CommonBoard class="w-full mt-16 mb-8 sm:mt-8" title="投保行業">
       <template slot="right">
         <Button class="text-base absolute right-5 top-16 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
@@ -21,7 +21,9 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full relative activeInfo" title="活動資料">
-      <span slot="icon" class="average ">參加活動每日平均人數：{{Math.round(average.person.toFixed(2))}}人  總計活動天數：{{average.day}}天</span>
+      <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
+        <Input slot="input" class="max-w-full" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
+      </InputGroup>
       <ActivityInfo
         :infoList.sync="activityInfoList"
         @addItem="$store.dispatch('activity/addActivityInfo')"
@@ -29,6 +31,7 @@
         :countyList="countyList"
         :areaList="areaList"
         :disable="calculateModel || InsuranceActive == 7"
+        :average="average"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
@@ -220,6 +223,7 @@ export default {
       mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.activity.quotationData,
       userInfo: state => state.home.userInfo,
+      'Insuraned': state => state.activity.Insuraned,
     }),
     activityInfoList: {
       get () {
@@ -795,6 +799,14 @@ export default {
         this.$store.dispatch('place/updatedUUID', '')
         this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
       })
+    },
+    updatedActivityName(e) {
+      const copyInsuraned = JSON.parse(JSON.stringify(this.Insuraned))
+      const copyQuestionnaire = JSON.parse(JSON.stringify(this.questionnaire))
+      copyInsuraned.activityName = e
+      copyQuestionnaire.sheet1.part1.name = e
+      this.$store.dispatch('activity/updatedInsuraned', copyInsuraned)
+      this.$store.dispatch('activity/updatedQuestionnaire', copyQuestionnaire)
     }
   },
   async mounted() {
@@ -831,17 +843,10 @@ export default {
   .industry-input-group {
     position: absolute!important;
   }
-  
-  .average {
-    @apply text-base mt-1 absolute  text-gray-700 ml-28
-  }
     
   @media screen and (max-width: 519px) {
     .activeInfo {
       @apply mt-8
-    }
-    .average {
-      @apply -top-6 text-sm
     }
   }
 </style>
