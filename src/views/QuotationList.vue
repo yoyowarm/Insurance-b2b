@@ -340,7 +340,7 @@ export default {
           }
         })
         ]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
       } else {
         data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
         data.GroupName = this.NGroup == '選擇公司單位' ? '' : this.NGroup
@@ -358,7 +358,7 @@ export default {
             underwriteEmployee: item.underwriteEmployee ? item.underwriteEmployee : '- -',
           }
         })]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
       }
       
     },
