@@ -21,7 +21,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full relative activeInfo" title="活動資料">
-      <InputGroup slot="right" class="industry-input-group w-56 sm:w-80 ml-28" bgColor="white" noMt>
+      <InputGroup slot="right" class="industry-input-group w-56 sm:w-80 ml-24" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
       </InputGroup>
       <ActivityInfo
@@ -52,6 +52,7 @@
         :terms.sync="termsData"
         :termsLists="additionTermsList.filter(item => item.isSuggest)"
         :disable="calculateModel"
+        :holdState="false"
       />
     </CommonBoard>
     <TermConditions type="activity" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => item.isSuggest)" v-if="additionTermsList.filter(item => item.isSuggest).length > 0" :disable="calculateModel"/>
@@ -61,6 +62,7 @@
         :termsLists="additionTermsList.filter(item => !item.isSuggest)"
         :disable="calculateModel"
         :more="true"
+        :holdState="false"
       />
     </CommonBoard>
     <TermConditions type="activity" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest)" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0" :disable="calculateModel"/>
@@ -249,7 +251,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedTerms', value)
-        this.checkPL005(value)
       }
     },
     remarkData: {
@@ -477,17 +478,6 @@ export default {
             this.$store.dispatch(`place/updatedTerms`, copyTerms)
           }
         })
-    },
-    checkPL005(terms) {
-      Object.keys(terms).map(key => {
-        if(key.includes('PL005') && terms[key].selected && (!this.additionTerms.PL005.value2 || this.additionTerms.PL005.value2 == 0)) {
-          Popup.create({
-            headerText: '',
-            hasHtml: true,
-            htmlText: `${key}處所數量至少為1`,
-          })
-        }
-      })
     },
     correctAmount() {
       this.insuranceAmountListData = {

@@ -153,6 +153,9 @@ export default {
         }
       }
       if (type == 'activity') {
+        if (!this.Insuraned.activityName) {
+          this.requestFile.push('未填寫活動名稱')
+        }
         if (!this.period.endDate.year || !this.period.endDate.month || !this.period.endDate.day || isNaN(this.period.endDate.hour)) {
           this.requestFile.push('未選擇結束日')
         }

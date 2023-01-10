@@ -123,11 +123,6 @@ export default {
     verifyRequired(type, InsuranceActive) {
       this.requestFile = []
       //被保險人
-      if (type == 'activity') {
-        if (!this.Insuraned.activityName) {
-          this.requestFile.push('未填寫活動名稱')
-        }
-      }
       if (!this.Insuraned.ID) {
         this.requestFile.push('未填寫被保險人統編/身分證')
       }

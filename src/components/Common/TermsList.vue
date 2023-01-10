@@ -46,6 +46,10 @@ export default {
     more: {
       type: Boolean,
       default: false
+    },
+    holdState: {
+      type: Boolean,
+      default: false
     }
   },
   data(){
@@ -86,8 +90,17 @@ export default {
       
     },
     updateTerms(additionTermName, e) {
-      this.copyTerms[additionTermName].selected = e
-       this.$emit('update:terms', this.copyTerms)
+      if(additionTermName.includes('PL005') && this.holdState) {
+        Popup.create({
+          headerText: '',
+          hasHtml: true,
+          htmlText: `${additionTermName}處所數量至少為1`,
+        })
+        this.copyTerms[additionTermName].selected = false
+      } else {
+        this.copyTerms[additionTermName].selected = e
+         this.$emit('update:terms', this.copyTerms)
+      }
     }
   },
   mounted() {

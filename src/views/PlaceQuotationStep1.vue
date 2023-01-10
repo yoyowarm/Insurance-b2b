@@ -72,6 +72,7 @@
         :terms.sync="termsData"
         :termsLists="additionTermsList.filter(item => item.isSuggest && item.isEnable)"
         :disable="calculateModel"
+        :holdState="placeInfo.every(i => i.holdState == false)"
       />
     </CommonBoard>
     <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => item.isSuggest && item.isEnable)" v-if="additionTermsList.filter(item => item.isSuggest && item.isEnable).length > 0" :disable="calculateModel"/>
@@ -81,6 +82,7 @@
         :termsLists="additionTermsList.filter(item => !item.isSuggest && item.isEnable)"
         :disable="calculateModel"
         :more="true"
+        :holdState="placeInfo.every(i => i.holdState == false)"
       />
     </CommonBoard>
     <TermConditions type="place" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest && item.isEnable)" v-if="additionTermsList.filter(item => !item.isSuggest && item.isEnable).length > 0" :disable="calculateModel"/>
@@ -278,7 +280,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('place/updatedTerms', value)
-        this.checkPL005(value)
       }
     },
     remarkData: {
@@ -533,17 +534,7 @@ export default {
           }
         })
     },
-    checkPL005(terms) {
-      Object.keys(terms).map(key => {
-        if(key.includes('PL005') && terms[key].selected && this.placeInfo.every(i => i.holdState == false)) {
-          Popup.create({
-            headerText: '',
-            hasHtml: true,
-            htmlText: `${key}處所數量至少為1`,
-          })
-        }
-      })
-    },
+
     async pageInit() {
       const places = await this.$store.dispatch('resource/PlacesSetting')
       const districts = await this.$store.dispatch('resource/Districts')
