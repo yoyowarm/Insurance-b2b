@@ -138,6 +138,7 @@ export default {
       arr.map(item => {
         if(item.rows[0].applicantName === item.rows[0].insuredName) {
           item.head[1].text = '要/被保險人'
+          item.head[1].size = '4-6'
           item.head[1].colSpan = true
           item.head.splice(2,1)
         }
