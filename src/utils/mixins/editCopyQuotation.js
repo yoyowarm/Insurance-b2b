@@ -258,6 +258,9 @@ export default {
           })
         }
         if (type == 'activity') {
+          if (this.quotationData.insuraned && this.quotationData.insuraned.activityName) {
+            this.updatedActivityName(this.quotationData.insuraned.activityName)
+          }
           this.activityInfoList = this.quotationData[quotationType][`${type}Info`].map(item => {
             return {
               ...item,
