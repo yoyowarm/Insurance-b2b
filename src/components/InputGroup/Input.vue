@@ -11,6 +11,8 @@
       ref="input"
       @blur="()=>{ $emit('blurInput');valueFormat()}"
       @keyup.delete="() => {deleteEvent()}"
+      @keyup.right="() => {selection.start++;selection.end++}"
+      @keyup.left="() => {selection.start--;selection.end--}"
       @click="getSelection">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
@@ -213,17 +215,11 @@ export default {
     },
     deleteEvent() {
       this.deleted = true
-      this.$refs.input.selectionStart = this.selection.start-2
-      this.$refs.input.selectionEnd = this.selection.end-2
       setTimeout(() => {
         this.deleted = false
       }, 180)
     },
     getSelection() {
-      if(this.syncValue.toString().length !== this.$refs.input.selectionEnd) {
-        this.selection.start = this.$refs.input.selectionStart
-        this.selection.end = this.$refs.input.selectionEnd
-      }
     }
   },
 }
