@@ -321,7 +321,7 @@ export default {
     },
     questionnaireMapping(data) {
       data = JSON.parse(JSON.stringify(this.questionnaire))
-      if(Object.keys(data.sheet1.part1.beginDateTime).every(key => data.sheet1.part1.beginDateTime[key] !== '')) {
+      if(data.sheet1.part1.beginDateTime && Object.keys(data.sheet1.part1.beginDateTime).every(key => data.sheet1.part1.beginDateTime[key] !== '')) {
         data.sheet1.part1.beginDateTime = `${Number(data.sheet1.part1.beginDateTime.year)+1911}-${data.sheet1.part1.beginDateTime.month}-${data.sheet1.part1.beginDateTime.day} ${data.sheet1.part1.beginDateTime.hours}:00`
       } else {
         data.sheet1.part1.beginDateTime = null
@@ -378,7 +378,6 @@ export default {
       this.$router.push('/activity-quotation/step1')
     },
     async verifyFinal() {
-      console.log(this.verifyResult, this.verifyInvadeResult)
       if(this.verifyResult.length === 0 && this.verifyInvadeResult.length === 0) {
         await this.quotationMapping()
         this.$router.push('/activity-quotation/step3')

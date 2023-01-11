@@ -88,6 +88,7 @@ export const ObjCompare = (obj1, obj2) => {
 }
 
 export const numFormat = (num) => {
+	if (!num) return
 	return num.toString().replace(/,/g, '').replace(/\B(?=(\d{3})+(?!\d))/g, ',')
 }
 
