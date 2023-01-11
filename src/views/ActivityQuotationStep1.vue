@@ -734,7 +734,7 @@ export default {
           }
         })],
         insureIndustrySeq: this.industry.Value,
-        insureIndustryOtherText: this.industry.Text,
+        insureIndustryOtherText: this.industryText,
         remark: this.remark.text,
         insuranceAmounts:[...this.insuranceAmountList.map(item => {
           delete item.amount
