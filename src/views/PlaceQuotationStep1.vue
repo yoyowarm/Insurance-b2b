@@ -37,7 +37,7 @@
         :searchText="searchText"
         :disable="calculateModel"
         :questionnaire="questionnaire"
-        :isRenewal="renewal.IsRenewal"
+        :isRenewal="renewal.IsRenewal || InsuranceActive == 7"
         @initTerm="initTerm"
       />
     </CommonBoard>

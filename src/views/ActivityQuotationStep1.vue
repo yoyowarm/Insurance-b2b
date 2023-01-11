@@ -17,6 +17,7 @@
         :industryText="industryText"
         :searchText="searchText"
         :disable="calculateModel"
+        :isRenewal="InsuranceActive == 7"
         @initTerm="initTerm"
       />
     </CommonBoard>
