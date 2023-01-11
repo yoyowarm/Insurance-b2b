@@ -9,34 +9,34 @@
       <span>被保險人：{{insuranedName}}</span>
     </div>
     <div class="column-2 mb-4">
-      <InputGroup title="附加條款加費係數">
-        <Input slot="input" class="w-full" decimalPoint :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
+      <InputGroup title="附加條款加費係數" :disable="fixAdditionTermCoefficient">
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :disable="fixAdditionTermCoefficient" :value="copyAdditionTermCoefficientParameter" @updateValue="e => {copyAdditionTermCoefficientParameter = e; copyPremium = ''}"/>
       </InputGroup>
       <InputGroup title="AGG>AOA*2係數">
-        <Input slot="input" class="w-full" decimalPoint :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :value="copyAggAOACoefficient" @updateValue="e => {copyAggAOACoefficient = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4">
       <InputGroup title="期間係數">
-        <Input slot="input" class="w-full" decimalPoint :value="copyPeriodParameter" @updateValue="e => {copyPeriodParameter = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint :value="copyPeriodParameter" @updateValue="e => {copyPeriodParameter = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4">
       <InputGroup title="規模係數">
-        <Input slot="input" class="w-full" decimalPoint :value="copySizeCofficient" @updateValue="e => {copySizeCofficient = e; copyPremium = ''}"/>
+        <Input slot="input" inputmode="decimal" class="w-full" decimalPoint5 :value="copySizeCofficient" @updateValue="e => {copySizeCofficient = e; copyPremium = ''}"/>
       </InputGroup>
     </div>
     <div class="w-full mb-4 relative">
-      <InputGroup title="保費" disable>
-        <div slot="input" class="w-full pr-24 relative">
+      <InputGroup title="基本純保費" disable>
+        <div slot="input" inputmode="tel"  class="w-full pr-24 relative">
           <Input class="w-full" disable numberFormat :value="copyPremium"/>
         </div>
       </InputGroup>
-      <Button class="absolute right-0 top-8 w-16 md:w-20 h-full" style="height: 50px" @click.native="calculateAmount">試算</Button>
+      <Button class="absolute right-0 top-8 w-16 md:w-20 h-full" style="height: 50px" @click.native="calculateAmount"><span class="whitespace-no-wrap">試算</span></Button>
     </div>
     <div class="w-full flex justify-center mt-8">
       <Button  class="w-40 mr-8" @click.native="() => {openDialog = false}" outline>取消</Button>
-      <Button  class="w-40" :disabled="!copyPremium" @click.native="() => {$emit('updateParameter','activity');openDialog = false}">確認核壓保費</Button>
+      <Button  class="w-40" :disabled="!copyPremium" @click.native="() => {$emit('updateParameter','activity');openDialog = false}"><span class="whitespace-no-wrap">確認核壓保費</span></Button>
     </div>
   </PopupDialog>
 </template>
@@ -89,6 +89,10 @@ export default {
     insideCalculateAmount: {
       type: Object,
       default: () => {}
+    },
+    fixAdditionTermCoefficient: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

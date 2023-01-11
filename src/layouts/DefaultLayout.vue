@@ -16,7 +16,7 @@
     </header>
     <div class="flex body bg-main-gray" ref="body" :class="{'mb-20': paginationPage && innerWidth < 771}" @scroll="handleScroll">
       <LeftNavigation :class="{'open':openMenu }" :openMenu.sync="openMenu" :scrollY="scrollY"/>
-      <div class="right-block">
+      <div class="right-block" :class="{'mb-8':paginationPage}">
         <router-view/>
       </div>
     </div>
@@ -53,7 +53,7 @@ export default {
       'userInfo': state => state.home.userInfo,
     }),
     paginationPage() {
-      return ['/quotation/list', '/product/list', '/news/list'].includes(this.$route.path)
+      return ['/parameterSetting/news-setting','/parameterSetting/document-download-setting','/parameterSetting/news-setting','/questionnaire-management','/quotation/list', '/product/list', '/news/list', '/quotation-ist'].includes(this.$route.path)
     },
     innerWidth() {
       return window.innerWidth
@@ -85,7 +85,8 @@ export default {
     height: 80px;
     border-top:5px solid #B3112C;
     border-bottom: 1px solid #e0e0e0;
-     @apply flex justify-between items-center px-5 pb-3 cursor-pointer fixed top-0 w-screen bg-white z-10
+    z-index: 20;
+     @apply flex justify-between items-center px-5 pb-3 cursor-pointer fixed top-0 w-screen bg-white 
   }
   .header .logo {
     max-width: 489px;
@@ -99,7 +100,7 @@ export default {
   }
   
   .menu {
-    @apply hidden cursor-pointer 
+    @apply hidden cursor-pointer mr-3
   }
   
   .body {
@@ -128,7 +129,8 @@ export default {
     @apply text-lg font-bold mt-1 cursor-pointer mr-2
   }
   .mask-bg {
-    @apply hidden inset-0 bg-black opacity-75 w-screen h-screen z-20
+    z-index:20;
+    @apply hidden inset-0 bg-black opacity-75 w-screen h-screen 
   }
   
   @media screen and (max-width: 970px) {
@@ -141,6 +143,7 @@ export default {
     .header {
       height: 50px;
       box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.32);
+      z-index:30;
       @apply fixed w-full bg-white top-0 pb-0
     }
     .body {

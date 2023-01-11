@@ -23,10 +23,10 @@
         </InputGroup>
       </div>
       <div class="column-6 pb-6">
-        <InputGroup class="w-full" title="詢問表製作日期">
+        <InputGroup class="w-full col-span-2 sm:col-span-1" title="詢問表製作日期">
           <DatePicker slot="input" formerYears :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
         </InputGroup>
-        <InputGroup class="w-full" >
+        <InputGroup class="w-full col-span-2 sm:col-span-1" :noMt="windowWidth <= 600">
           <DatePicker slot="input" formerYears :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄"/>
         </InputGroup>
         <InputGroup class="w-full" border0>
@@ -37,21 +37,21 @@
         </InputGroup>
       </div>
       <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
-        <Button @click.native="getQuestionnaireList" class="absolute -top-5 w-32">查詢</Button>
+        <Button @click.native="getQuestionnaireList" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
       </div>
-      <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX column3 boldFont>
+      <TableGroup :data="questionnaireList" :slotName="slotArray" scrollX boldFont>
         <template v-for="(item,index) in questionnaireList.rows">
-          <div :slot="`createTime-${index}`" :key="`createTime-${index}`" class="mr-7 mt-1 font-semibold">
+          <div :slot="`createTime-${index}`" :key="`createTime-${index}`" class="mr-7 mt-1 font-semibold custom-column">
             <span v-if="windowWidth > 600">{{item.createTime.split('T')[0] +' '+ item.createTime.split('T')[1]}}</span>
             <span v-else>{{item.createTime.split('T')[0]}}<br>{{item.createTime.split('T')[1]}}</span>
           </div>
-          <div :slot="`operate-${index}`" :key="`operate-${index}`"  class="flex items-center mr-7 mt-1" :class="{'flex-col': windowWidth > 600, 'flex-row ml-2': windowWidth <= 600}">
+          <div :slot="`operate-${index}`" :key="`operate-${index}`"  class="flex items-center mr-7 mt-1 custom-column" :class="{'flex-col': windowWidth > 600, 'flex-row ': windowWidth <= 600}">
               <span class="download mb-3" @click="downloadFile(item.serialNo,item.questionnaireType)">列印</span>
               <span class="download mb-3" :class="{'ml-5': windowWidth <= 600}" @click="getQuestionnaire(item.serialNo,item.questionnaireType)">更正</span>
           </div>
         </template>
       </TableGroup>
-      <Pagination :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
+      <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
     </CommonBoard>
     <ActivityQuestionnaire
       type="activity"
@@ -186,6 +186,13 @@ export default {
     async currentPage(val) {
       await this.getQuestionnaireList(val)
     },
+    windowWidth(val) {
+      if(val <= 600) {
+        this.questionnaireList.head[9].text = ''
+      } else {
+        this.questionnaireList.head[9].text = '操作'
+      }
+    }
   },
   methods: {
     handleResize () {
@@ -279,7 +286,7 @@ export default {
     activityQuestionnaireMapping(data) {
       let copyData = JSON.parse(JSON.stringify(data))
       if(Object.keys(copyData.sheet1.part1.beginDateTime).every(key => copyData.sheet1.part1.beginDateTime[key] !== '')) {
-        copyData.sheet1.part1.beginDateTime = `${Number(copyData.sheet1.part1.beginDateTime.year)+1911}-${copyData.sheet1.part1.beginDateTime.month}-${copyData.sheet1.part1.beginDateTime.day} ${copyData.sheet1.part1.beginDateTime.hours}:${copyData.sheet1.part1.beginDateTime.minutes}`
+        copyData.sheet1.part1.beginDateTime = `${Number(copyData.sheet1.part1.beginDateTime.year)+1911}-${copyData.sheet1.part1.beginDateTime.month}-${copyData.sheet1.part1.beginDateTime.day} ${copyData.sheet1.part1.beginDateTime.hours}:00`
       } else {
         copyData.sheet1.part1.beginDateTime = null
       }
@@ -362,6 +369,11 @@ export default {
       Value: '',
       Text: '全部'
     })
+    if(this.windowWidth <= 600) {
+        this.questionnaireList.head[9].text = ''
+      } else {
+        this.questionnaireList.head[9].text = '操作'
+      }
   }
 }
 </script>
@@ -374,5 +386,10 @@ export default {
       color: #C4C4C4;
       @apply cursor-not-allowed
     }
+  }
+  @media (max-width: 600px) {
+    .custom-column {
+    @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
+  }
   }
 </style>

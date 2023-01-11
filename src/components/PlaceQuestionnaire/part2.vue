@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="外牆建築材質" :disable="disable">
+      <InputGroup lgTitle title="1.外牆建築材質" :disable="disable">
         <Input slot="input" :maxLength="7" :disable="disable" :value="data.part2.wallMaterial" @updateValue="(e) => updateValue(e,'wallMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
       <InputGroup lgTitle title="樓地板建築材質" :disable="disable">
@@ -12,7 +12,7 @@
       </InputGroup>
     </div>
     <div class="flex flex-col my-3">
-      <FormTitle class="text-lg" title="營業處所建築性質"/>
+      <FormTitle class="text-lg" title="2.營業處所建築性質"/>
       <RadioInput
         slot="input"
         text="獨幢"
@@ -60,7 +60,7 @@
     </div>
     <div class="column-5 my-3">
       <InputGroup lgTitle title="距鄰近建築物" mid :disable="disable">
-        <Input slot="input" unit="公尺" :disable="disable" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離" numberOnly/>
+        <Input slot="input" inputmode="tel"  unit="公尺" :disable="disable" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離" numberOnly/>
       </InputGroup>
     </div>
      <div class="flex flex-col my-3">
@@ -111,7 +111,7 @@
         />
     </div>
     <div class="flex flex-col my-3">
-      <FormTitle class="text-lg" title="建築物公共安全檢查經當地主管建築機關查核"/>
+      <FormTitle class="text-lg" title="3.建築物公共安全檢查經當地主管建築機關查核"/>
       <RadioInput
           slot="input"
           class="mb-2"
@@ -148,11 +148,12 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '不合格',Value: '不合格'})"
         />
     </div>
-    <div class="column-5 mt-3 ml-8">
-      <InputGroup lgTitle title="被保險人之經營業務性質" mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.room.selected">
+    <div class="column-5 mt-3 ml-8" :class="{'mb-6':windowWidth< 600}">
+      <InputGroup lgTitle title="4.被保險人之經營業務性質" mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.room.selected">
         <Input
           slot="input"
           class="w-full"
+          inputmode="tel" 
           :value="data.part2.room.value"
           :disable="disable || !data.part2.room.selected"
           @updateValue="(e) => updateValue(e,'room.value')"
@@ -168,14 +169,15 @@
           :disabled="disable"
           @updateValue="(e) =>updateValue(e,'room.selected')"
         />
-        <span slot="input-right" class="absolute sm:-right-80 -bottom-8 sm:bottom-4 text-lg">如係屬飯店、旅館者，請說明其房間數目</span>
+        <span slot="input-right" class="absolute sm:-right-80 -bottom-8 sm:bottom-4 text-lg" :class="{'-bottom-14':windowWidth< 600}">如係屬飯店、旅館者，請說明其房間數目</span>
       </InputGroup>
     </div>
-    <div class="column-5 mb-3 ml-8">
+    <div class="column-5 mb-3 ml-8" :class="{'mb-6':windowWidth< 600}">
       <InputGroup noMt mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.seat.selected" >
         <Input
           slot="input"
           class="w-full"
+          inputmode="tel" 
           :value="data.part2.seat.value"
           :disable="disable || !data.part2.seat.selected"
           @updateValue="(e) => updateValue(e,'seat.value')"
@@ -191,23 +193,24 @@
           :disabled="disable"
           @updateValue="(e) =>updateValue(e,'seat.selected')"
         />
-        <span slot="input-right" class="absolute sm:-right-78 -bottom-8 sm:bottom-4 text-lg">屬戲院、音樂廳者，請說明其座位數目</span>
+        <span slot="input-right" class="absolute sm:-right-78 -bottom-8 sm:bottom-4 text-lg" :class="{'-bottom-14':windowWidth< 600}">屬戲院、音樂廳者，請說明其座位數目</span>
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle mid title="營業處所總樓層數，地上樓層數" :disable="disable">
-        <Input slot="input" :disable="disable" :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
+      <InputGroup lgTitle mid title="5.營業處所總樓層數，地上樓層數" :disable="disable">
+        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup lgTitle mid title="營業處所總樓層數，地下樓層數" dash :disable="disable">
-        <Input slot="input" :disable="disable" :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
+        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup lgTitle mid title="使用到樓層" :disable="disable">
-        <Input slot="input" :disable="disable" :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
+        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
       </InputGroup>
     </div>
     
   <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
+        <span class="mr-2 text-lg">6.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasSwimmingPool" :value="data.part2.hasSwimmingPool === true" @updateValue="updateValue(true, 'hasSwimmingPool')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasSwimmingPool2" :value="data.part2.hasSwimmingPool === false" @updateValue="updateValue(false, 'hasSwimmingPool')"/>
@@ -219,6 +222,7 @@
       <InputGroup lgTitle mid title="救生員人數" :disable="disable || !data.part2.hasSwimmingPool">
         <Input
           slot="input"
+          inputmode="tel" 
           :value="data.part2.lifeguardAmount"
           numberOnly
           @updateValue="(e) => updateValue(e,'lifeguardAmount')"
@@ -229,6 +233,7 @@
     </div>
     <div class="w-full my-4">
       <div class="w-full flex flex-row mt-4">
+        <span class="mr-2 text-lg">7.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasMechineParkingDevice" :value="data.part2.hasMechineParkingDevice === true" @updateValue="updateValue(true, 'hasMechineParkingDevice')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasMechineParkingDevice2" :value="data.part2.hasMechineParkingDevice === false" @updateValue="updateValue(false, 'hasMechineParkingDevice')"/>
@@ -249,7 +254,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-4">
-      <InputGroup lgTitle mid title="地板為何種材質" :disable="disable">
+      <InputGroup lgTitle mid title="8.地板為何種材質" :disable="disable">
         <Input slot="input" :disable="disable" :value="data.part2.material"  @updateValue="(e) => updateValue(e,'material')" placeholder="輸入材質名稱"/>
       </InputGroup>
     </div>
@@ -265,6 +270,7 @@
   
     <div class="w-full my-4 dashed-border">
       <div class="w-full flex flex-row mt-4">
+        <span class="mr-2 text-lg">9.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasAntiSlip" :value="data.part2.hasAntiSlip === true" @updateValue="updateValue(true, 'hasAntiSlip')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasAntiSlip2" :value="data.part2.hasAntiSlip === false" @updateValue="updateValue(false, 'hasAntiSlip')"/>
@@ -272,6 +278,7 @@
         <div class="text-lg">樓梯是否有止滑條</div>
     </div>
   </div>
+  <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -282,6 +289,7 @@ import Input from '@/components/InputGroup/Input'
 import RadioInput from '@/components/Radio'
 import Checkbox from '@/components/Checkbox'
 import Select from '@/components/Select'
+import WindowResizeListener from '@/components/WindowResizeListener'
 
 export default {
   components: {
@@ -291,6 +299,7 @@ export default {
     RadioInput,
     Checkbox,
     Select,
+    WindowResizeListener
   },
   props:{
     data: {
@@ -318,6 +327,7 @@ export default {
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       parkingList: [
         {
           Value: '自有停車場',
@@ -335,6 +345,9 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     updateValue(e,type) {
       const arr = ['hasAntiSlip', 'hasSwimmingPool', 'hasCarpet', 'hasMechineParkingDevice']
       if(type.includes('.')) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CommonBoard class="w-full mt-16 sm:mt-8" title="投保行業">
+    <CommonBoard class="w-full mt-16 mb-8 sm:mt-8" title="投保行業">
       <template slot="right">
         <Button class="text-base absolute right-5 top-16 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
@@ -9,10 +9,21 @@
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
-      <InsuranceIndustry type="activity" :industryList="industryList" :industryType="industryType" :selected="industry" :industryText="industryText" :searchText="searchText" :disable="calculateModel"/>
+      <InsuranceIndustry
+        type="activity"
+        :industryList="industryList"
+        :industryType="industryType"
+        :selected="industry"
+        :industryText="industryText"
+        :searchText="searchText"
+        :disable="calculateModel"
+        @initTerm="initTerm"
+      />
     </CommonBoard>
-    <CommonBoard class="w-full" title="活動資料">
-      <span slot="icon" class="text-base mt-1 absolute text-gray-700 ml-28">參加活動每日平均人數：{{Math.round(average.person.toFixed(2))}}人  總計活動天數：{{average.day}}天</span>
+    <CommonBoard class="w-full relative activeInfo" title="活動資料">
+      <InputGroup slot="right" class="industry-input-group w-56 sm:w-80 ml-24" bgColor="white" noMt>
+        <Input slot="input" class="max-w-full" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
+      </InputGroup>
       <ActivityInfo
         :infoList.sync="activityInfoList"
         @addItem="$store.dispatch('activity/addActivityInfo')"
@@ -20,6 +31,7 @@
         :countyList="countyList"
         :areaList="areaList"
         :disable="calculateModel || InsuranceActive == 7"
+        :average="average"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
@@ -32,6 +44,7 @@
         :infoList="activityInfo"
         :disable="calculateModel"
         :createOder.sync="createOder"
+        
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest).length > 0">
@@ -39,6 +52,7 @@
         :terms.sync="termsData"
         :termsLists="additionTermsList.filter(item => item.isSuggest)"
         :disable="calculateModel"
+        :holdState="false"
       />
     </CommonBoard>
     <TermConditions type="activity" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => item.isSuggest)" v-if="additionTermsList.filter(item => item.isSuggest).length > 0" :disable="calculateModel"/>
@@ -48,10 +62,11 @@
         :termsLists="additionTermsList.filter(item => !item.isSuggest)"
         :disable="calculateModel"
         :more="true"
+        :holdState="false"
       />
     </CommonBoard>
     <TermConditions type="activity" :terms.sync="termsData" :termsLists="additionTermsList.filter(item => !item.isSuggest)" v-if="additionTermsList.filter(item => !item.isSuggest).length > 0" :disable="calculateModel"/>
-    <CommonBoard class="w-full mt-5" title="備註">
+    <CommonBoard class="w-full mt-5" title="保單備註">
       <TextBox :value.sync="remarkData"/>
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
@@ -62,19 +77,19 @@
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
       <div class="flex flex-row justify-center items-center relative">
-        <div class="cursor-pointer absolute top-2 ml-72" @click="openFormula = true" v-if="insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保'">
+        <div class="cursor-pointer absolute top-2  -right-6" @click="openFormula = true" v-if="underwriteLevel && insuranceAmountListData.amount && insuranceAmountListData.amount!== '請洽核保' && InsuranceActive == 7">
           <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
         </div>
         <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
       </div>
-      <div class="flex flex-col sm:flex-row">
-        <Button @click.native="calculateAmount" disabled class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
-        <Button @click.native="correctAmount" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
-        <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-42" outline>填寫詢問表({{ insuranceAmountListData.parameter.underwriteCoefficient }})</Button>
+      <div class="flex flex-col justify-center items-center sm:flex-row">
+        <Button @click.native="calculateAmount" :disabled="calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
+        <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-56" outline>{{InsuranceActive == 7?'查看詢問表':'填寫詢問表'}}({{ underwriteCoefficient }})</Button>
       </div>
-      <div class="flex flex-row">
-        <Button @click.native="nextStep" disabled class="my-4 w-40 md:w-64" :class="{'mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-4 w-40 md:w-64" @click.native="updateUnderwrite(3)">不予核保</Button>
+      <div class="flex flex-col justify-center items-center sm:flex-row">
+        <Button @click.native="nextStep" class="my-4 w-56 md:w-42" :class="{'md:mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-4 w-56 md:w-42" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
@@ -89,6 +104,7 @@
       :sizeCofficient="insuranceAmountListData.parameter.sizeParameter"
       :premium="insuranceAmountListData.amount"
       :insideCalculateAmount="parameter"
+      :fixAdditionTermCoefficient="Object.keys(terms).filter(key => terms[key].selected).every(key => ['758A','911','PL013','PL052'].includes(key.split(' ')[0]))"
       @auditCalculateAmount="activityAuditCalculateAmount"
       @updateParameter="updateParameter"
     />
@@ -96,7 +112,7 @@
       :open.sync="openFormula"
     >
       <ul v-if="insuranceAmountListData.parameter.amount">
-        <li>處所基本費率:{{insuranceAmountListData.parameter.basicFee}}</li>
+        <li>活動基本純保費:{{insuranceAmountListData.parameter.basicFee}}</li>
         <li>高保額係數:{{insuranceAmountListData.parameter.finalHC}}</li>
         <li>規模係數:{{insuranceAmountListData.parameter.sizeParameter}}</li>
         <li>自負額係數:{{insuranceAmountListData.parameter.selfInflictedParameter}}</li>
@@ -110,7 +126,7 @@
         <li>AGG > AOA *2係數:{{insuranceAmountListData.parameter.aggAOACoefficient}}</li>
         <li>總保費:{{insuranceAmountListData.parameter.amount}}</li>
       </ul>
-      <p v-if="insuranceAmountListData.parameter.amount">{{`(處所基本費率(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模係數(${insuranceAmountListData.parameter.sizeParameter})*期間係數(${insuranceAmountListData.parameter.periodParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter})*(1+核保加減費系數(${insuranceAmountListData.parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter})+PL005(${insuranceAmountListData.parameter.termPL005Fee})+PL058(${insuranceAmountListData.parameter.termPL058Fee}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
+      <p v-if="insuranceAmountListData.parameter.amount">{{`(活動基本純保費(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模係數(${insuranceAmountListData.parameter.sizeParameter})*期間係數(${insuranceAmountListData.parameter.periodParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter})*(1+核保加減費系數(${insuranceAmountListData.parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter})+PL005(${insuranceAmountListData.parameter.termPL005Fee})+PL058(${insuranceAmountListData.parameter.termPL058Fee}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
       <div v-else>尚未試算保費</div>
     </PopupDialog>
   </div>
@@ -144,6 +160,7 @@ import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
 import { numFormat } from '@/utils/regex'
+import { quotation } from '@/utils/dataTemp'
 export default {
   mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire, audit],
   components: {
@@ -183,7 +200,9 @@ export default {
       openFormula: false,
       openAudit: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
-      underwriteStatus: {}
+      underwriteStatus: {},
+      underwriteLevel: null,
+      underwriteCoefficient: '0%'
     }
   },
   computed: {
@@ -205,6 +224,8 @@ export default {
       orderNo: state => state.common.orderNo,
       mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.activity.quotationData,
+      userInfo: state => state.home.userInfo,
+      'Insuraned': state => state.activity.Insuraned,
     }),
     activityInfoList: {
       get () {
@@ -212,6 +233,8 @@ export default {
       },
       set(val) {
         this.$store.dispatch('activity/updatedActivityInfo', val)
+        this.updatePeriod()
+        this.updatedQuestionnaire()
       }
     },
     periodData: {
@@ -244,7 +267,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedInsuranceAmountList', [value])
-        this.updatePeriod()
       }
     },
     average() {
@@ -303,13 +325,8 @@ export default {
       },
       deep: true
     },
-    industry: async function(val) {
-      const data = await this.$store.dispatch('resource/AdditionTermsType', val.dangerSeq)
-      this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isActivityEnable)
-      this.termsInit()
-    },
     openQuestionnaire: async function(val) {
-      if(!val && this.questionnaireFinished) {
+      if(!val && this.questionnaireFinished && this.InsuranceActive !==7) {
         await this.questionnaireCoefficient()
       }
     }
@@ -319,7 +336,11 @@ export default {
       const activity = await this.$store.dispatch('resource/ActivitiesSetting')
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
+      const underwriteLevel = await this.$store.dispatch('underwriteLevelSetting/GetUserUnderwriteLevel')
       await this.getAttachmentList()
+      if(underwriteLevel.data.content.underwriteLevel) {
+        this.underwriteLevel = underwriteLevel.data.content.underwriteLevel
+      }
       activity.data.content.map(item => {
         if(!this.industryType.includes(item.typeName)) {
           this.industryType.push(item.typeName)
@@ -346,7 +367,6 @@ export default {
       if(this.industry.Value) {
         const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
         this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isActivityEnable)
-        this.termsInit()
       }
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
         await this.step1InitAssignValue('activity')
@@ -357,24 +377,35 @@ export default {
           if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('activity/updatedUnderwriteQuotationIsChange',true) //核保時，如果沒有保額，預設為核保單變更
           const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
           this.underwriteStatus = underwriteStatus.data.content
+          await this.calculateAmount(false)
         }
       }
     },
     async questionnaireCoefficient(audit) {
       let data = {questionnaire: null,}
-        const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.questionnaireMapping(data).questionnaire)
-        if (!audit && coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient) {
+        const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.activityQuestionnaireMapping(data).questionnaire)
+        if (!audit && coefficient.data.content.questionnaireCoefficient !== this.insuranceAmountListData.parameter.underwriteCoefficient && this.insuranceAmountListData.amount) {
           this.correctAmount()//如果核保加減費系數不同更正保費
         }
-        this.insuranceAmountListData = {
-          ...this.insuranceAmountListData,
-          parameter: {
-            ...this.insuranceAmountListData.parameter,
-            underwriteCoefficient: coefficient.data.content.questionnaireCoefficient > 0 
-            ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
-            : (coefficient.data.content.questionnaireCoefficient < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+        this.$nextTick(() => {
+          this.underwriteCoefficient = Number(coefficient.data.content.questionnaireCoefficient) > 0 
+              ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
+              : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+          this.insuranceAmountListData = {
+            ...this.insuranceAmountListData,
+            parameter: {
+              ...this.insuranceAmountListData.parameter,
+              underwriteCoefficient: Number(coefficient.data.content.questionnaireCoefficient) > 0 
+              ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
+              : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
+            }
           }
-        }
+        })
+    },
+    async initTerm() {
+      const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
+      this.additionTermsList = data.data.content.additionTermsDetails.filter(i => i.isActivityEnable)
+      this.termsInit()
     },
     termsInit() {
       const terms = {}
@@ -432,7 +463,7 @@ export default {
       if(this.InsuranceActive !==0 && !this.quotationData.activityInsureInfo) return
       this.additionTermsList.map(item => {//自訂條款
           let target = null
-          if(this.InsuranceActive ==0) {
+          if(this.InsuranceActive ==0 && !this.orderNo) {
             target = Object.keys(this.quotationData).length > 0 && this.quotationData.additionTerms.find(i => i.additionTermId === item.additionTermId) ? this.quotationData.additionTerms.find(i => i.additionTermId === item.additionTermId) : null
           } else {
             target = Object.keys(this.quotationData).length > 0 && this.quotationData.activityInsureInfo.additionTerms.find(i => i.additionTermId === item.additionTermId && i.additionTermName === item.additionTermName)
@@ -455,7 +486,7 @@ export default {
       }
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
-    async calculateAmount() {
+    async calculateAmount(open) {
       if(this.InsuranceActive == 7) {
         this.activityAuditCalculateAmount({
         additionTermCoefficientParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.additionTermCoefficientParameter,
@@ -463,7 +494,7 @@ export default {
         periodParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.periodParameter,
         sizeCofficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.sizeParameter,
         type: 'audit'
-      })
+      },open)
         return
       }
       this.verifyRequired('activity', true)
@@ -535,16 +566,16 @@ export default {
             }
           })],
           amountType: Number(this.insuranceAmountList[0].amountType.Value) > 1 ? 2 : this.insuranceAmountList[0].amountType.Value,
-          perBodyAmount: this.insuranceAmountList[0].perBodyAmount * 10000,
-          perAccidentBodyAmount: this.insuranceAmountList[0].perAccidentBodyAmount * 10000,
-          perAccidentFinanceAmount: this.insuranceAmountList[0].perAccidentFinanceAmount * 10000,
-          insuranceTotalAmount: this.insuranceAmountList[0].insuranceTotalAmount * 10000,
-          mergeSingleAmount: this.insuranceAmountList[0].mergeSingleAmount * 10000,
+          perBodyAmount: Number(this.insuranceAmountList[0].perBodyAmount.toString().replace(/,/g, '')) * 10000,
+          perAccidentBodyAmount: Number(this.insuranceAmountList[0].perAccidentBodyAmount.toString().replace(/,/g, '')) * 10000,
+          perAccidentFinanceAmount: Number(this.insuranceAmountList[0].perAccidentFinanceAmount.toString().replace(/,/g, '')) * 10000,
+          insuranceTotalAmount: Number(this.insuranceAmountList[0].insuranceTotalAmount.toString().replace(/,/g, '')) * 10000,
+          mergeSingleAmount: Number(this.insuranceAmountList[0].mergeSingleAmount.toString().replace(/,/g, '')) * 10000,
           selfInflictedAmount: this.insuranceAmountList[0].selfInflictedAmount.Value,
           remark: this.remark.text,
         }
         if(this.questionnaireFinished || this.quotationData.questionnaire) {
-          this.questionnaireMapping(data)
+          this.activityQuestionnaireMapping(data)
         }
         this.$store.dispatch('common/updatedCalculateModel',true)
         const res = await this.$store.dispatch('quotation/GetActivityInsuranceProjectAmount',{data})
@@ -627,6 +658,25 @@ export default {
         }
       }
     },
+    updatedQuestionnaire() {
+      let joinPersonAmount = 0
+      this.activityInfoList.map(item => {
+        joinPersonAmount += Number(item.number.toString().replace(/,/g, '')) * Number(item.day.toString().replace(/,/g, ''))
+      })
+      let data = JSON.parse(JSON.stringify(this.questionnaire))
+      data = {
+        ...data,
+        sheet1: {
+          ...data.sheet1,
+          part1: {
+            ...data.sheet1.part1,
+            activityDays: this.average.day,
+          joinPersonAmount
+          }
+        }
+      }
+      this.$store.dispatch('activity/updatedQuestionnaire', data)
+    },
     quotationMapping() {
       const data = {
         policyAttachmentId: this.uuid,
@@ -685,11 +735,11 @@ export default {
             ...item,
             amountType: Number(item.amountType.Value) > 1 ? 2 : item.amountType.Value,
             selfInflictedAmount: item.selfInflictedAmount.Value,
-            perBodyAmount: item.perBodyAmount * 10000,
-            perAccidentBodyAmount: item.perAccidentBodyAmount * 10000,
-            perAccidentFinanceAmount: item.perAccidentFinanceAmount * 10000,
-            insuranceTotalAmount: item.insuranceTotalAmount * 10000,
-            mergeSingleAmount: item.mergeSingleAmount * 10000,
+            perBodyAmount: Number(item.perBodyAmount.toString().replace(/,/g,'')) * 10000,
+            perAccidentBodyAmount: Number(item.perAccidentBodyAmount.toString().replace(/,/g,'')) * 10000,
+            perAccidentFinanceAmount: Number(item.perAccidentFinanceAmount.toString().replace(/,/g,'')) * 10000,
+            insuranceTotalAmount: Number(item.insuranceTotalAmount.toString().replace(/,/g,'')) * 10000,
+            mergeSingleAmount: Number(item.mergeSingleAmount.toString().replace(/,/g,'')) * 10000,
           }
         })],
         activityInfo: [...this.activityInfo.map(item => {
@@ -710,61 +760,68 @@ export default {
           })]
       }
       if(this.questionnaireFinished) {
-        this.questionnaireMapping(data)
+        this.activityQuestionnaireMapping(data)
       }
       if(this.InsuranceActive !==0) {
-        data.applicant = JSON.parse(JSON.stringify(this.quotationData.applicant))
-        data.insuraned = JSON.parse(JSON.stringify(this.quotationData.insuraned))
-        data.internalControlData = JSON.parse(JSON.stringify(this.quotationData.internalControlData))
+        data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
+        data.insuraned = this.quotationData.insuraned ? JSON.parse(JSON.stringify(this.quotationData.insuraned)) : quotation().Insuraned
+        data.internalControlData = this.quotationData.internalControlData ? JSON.parse(JSON.stringify(this.quotationData.internalControlData)) : quotation().internalControlData
         data.relationText = this.quotationData.relationText
-        data.policyTransfer = JSON.parse(JSON.stringify(this.quotationData.policyTransfer))
+        data.policyTransfer = this.quotationData.policyTransfer ? JSON.parse(JSON.stringify(this.quotationData.policyTransfer)) : quotation().policyTransfer
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
       console.log(data)
     },
-    questionnaireMapping(data) {
-      data.questionnaire = JSON.parse(JSON.stringify(this.questionnaire))
-      if(Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key] !== '')) {
-        data.questionnaire.sheet1.part1.beginDateTime = `${Number(data.questionnaire.sheet1.part1.beginDateTime.year)+1911}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:${data.questionnaire.sheet1.part1.beginDateTime.minutes}`
-      } else {
-        data.questionnaire.sheet1.part1.beginDateTime = null
-      }
-      if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '是'){
-        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = true
-      } else if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation == '否'){
-        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = false
-      } else if(data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation !== true && data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation !== false){
-        data.questionnaire.sheet1.part3.afterActivityHasAccessByTransportation = null
-      }
-      if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '是'){
-        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = true
-      } else if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation == '否'){
-        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = false
-      } else if(data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation !== true && data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation !== false){
-        data.questionnaire.sheet1.part3.useRoadHasAccessByTransportation = null
-      }
-      return data
-    },
     async updateUnderwrite(type) {
-      await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
-      this.$store.dispatch('common/updatedCalculateModel', false)
-      this.$store.dispatch(`place/updatedInsuranceActive`,0)
-      this.$router.push('/quotation-ist')
-      this.$store.dispatch('place/clearAll')
-      this.$store.dispatch('place/updatedUUID', '')
-      this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+      Popup.create({
+        hasHtml: true,
+				maskClose: false,
+				confirm: true,
+				ok: '是',
+				cancel: '否',
+				htmlText: `<p>確定此報價單不予核保？</p>`,
+      }).then(async() => {
+        await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
+        this.$store.dispatch('common/updatedCalculateModel', false)
+        this.$store.dispatch(`place/updatedInsuranceActive`,0)
+        this.$router.push('/quotation-ist?tag=1')
+        this.$store.dispatch('place/clearAll')
+        this.$store.dispatch('place/updatedUUID', '')
+        this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
+      })
+    },
+    updatedActivityName(e) {
+      const copyInsuraned = JSON.parse(JSON.stringify(this.Insuraned))
+      const copyQuestionnaire = JSON.parse(JSON.stringify(this.questionnaire))
+      copyInsuraned.activityName = e
+      copyQuestionnaire.sheet1.part1.name = e
+      this.$store.dispatch('activity/updatedInsuraned', copyInsuraned)
+      this.$store.dispatch('activity/updatedQuestionnaire', copyQuestionnaire)
     }
   },
   async mounted() {
     await this.pageInit()
-    this.termsInit()
     this.updatePeriod()
+    if(this.InsuranceActive !== 7) {
+      this.$store.dispatch('activity/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
+    }
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
     }
-    // if(this.InsuranceActive == 0) {
-    //   this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
-    // }
+    if(this.InsuranceActive !==7) {
+      Popup.create({
+          hasHtml: true,
+          maskClose: false,
+          htmlText:'<p>先填寫詢問表後，再點選試算保費</p>'
+        })
+    }
+    if(this.InsuranceActive === 7) {
+      Popup.create({
+        hasHtml: true,
+        maskClose: false,
+        htmlText:'<p>如欲修正請下滑點擊更正鈕</p>'
+      })
+    }
   },
   beforeDestroy() {
     this.$store.dispatch('common/updatedCalculateModel',false)
@@ -776,5 +833,10 @@ export default {
   .industry-input-group {
     position: absolute!important;
   }
-  
+    
+  @media screen and (max-width: 519px) {
+    .activeInfo {
+      @apply mt-8
+    }
+  }
 </style>

@@ -26,8 +26,10 @@ export default {
   methods: {
     async checkPreventOccupy() {
       //要保人電話
-      const number = await this.$store.dispatch('verify/CheckPreventOccupy', { Type: 1, Text: this.ApplicantData.Mobile, InsuranedId: this.InsuranedData.ID, ApplicantId: this.ApplicantData.ID })
-      this.verifyInvadeResult.push(number.data.content)
+      if ((this.Applicant.numberType && this.ApplicantData.Mobile) || (this.ApplicantData.Mobile && this.Applicant.prefixNumber && !this.Applicant.numberType)) {
+        const number = await this.$store.dispatch('verify/CheckPreventOccupy', { Type: 1, Text: !this.Applicant.numberType ? `${this.Applicant.prefixNumber}${this.ApplicantData.Mobile}` : this.ApplicantData.Mobile, InsuranedId: this.InsuranedData.ID, ApplicantId: this.ApplicantData.ID })
+        this.verifyInvadeResult.push(number.data.content)
+      }
       //要保人eMail
       if (this.policyTransfer.transferType == 1) {
         this.policyTransfer.transferDetails.map(async item => {
@@ -121,11 +123,6 @@ export default {
     verifyRequired(type, InsuranceActive) {
       this.requestFile = []
       //被保險人
-      if (type == 'activity') {
-        if (!this.Insuraned.activityName) {
-          this.requestFile.push('未填寫活動名稱')
-        }
-      }
       if (!this.Insuraned.ID) {
         this.requestFile.push('未填寫被保險人統編/身分證')
       }
@@ -159,8 +156,8 @@ export default {
       if (this.Insuraned.IsForeignRegister && !this.Insuraned.RegisterNationality) {
         this.requestFile.push('被保險人未輸入登記/註冊地國籍')
       }
-      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Insuraned.Mobile && this.Insuraned.prefixNumber) {
-        if (MobileRegex(`${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`)) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Insuraned.Mobile && (this.Insuraned.numberType || (!this.Insuraned.numberType && this.Insuraned.prefixNumber))) {
+        if (MobileRegex(`${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`) != undefined) {
           this.requestFile.push('被保險人' + MobileRegex(`${this.Insuraned.prefixNumber}${this.Insuraned.Mobile}`))
         }
       }
@@ -174,7 +171,7 @@ export default {
       if (!this.Applicant.Name) {
         this.requestFile.push('未填寫要保險人名稱')
       }
-      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && (!this.Applicant.Mobile || (!this.Insuraned.prefixNumber && !this.Insuraned.numberType))) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && (!this.Applicant.Mobile || (!this.Applicant.prefixNumber && !this.Applicant.numberType))) {
         this.requestFile.push('未填寫要保險人電話')
       }
       if (this.Applicant.IsForeigner && !this.Applicant.Nationality.Value) {
@@ -198,8 +195,8 @@ export default {
       if (this.Applicant.CorporateRequired && !this.Applicant.CorporateName) {
         this.requestFile.push('未填寫要保險負責人')
       }
-      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Applicant.Mobile && this.Applicant.prefixNumber) {
-        if (MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`)) {
+      if (['L9', 'F1', 'CG'].includes(this.internalControlData.businessSourceCode.Value) && this.Applicant.Mobile && (this.Applicant.numberType || (!this.Applicant.numberType && this.Applicant.prefixNumber))) {
+        if (MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`) != undefined) {
           this.requestFile.push('要保險人' + MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`))
         }
       }

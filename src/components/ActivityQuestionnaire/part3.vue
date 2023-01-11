@@ -1,6 +1,7 @@
 <template>
   <div class="w-full my-4 dashed-border">
     <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+      <span class="mr-2 text-lg">{{index+1}}.</span>
       <div class="flex flex-row justify-between">
         <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}`" :value="data.sheet1.part3[questionListID[index]] === '是'" @updateValue="updateValue('是', questionListID[index])"/>
         <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.sheet1.part3[questionListID[index]] === '否'" @updateValue="updateValue('否', questionListID[index])"/>

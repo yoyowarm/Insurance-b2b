@@ -27,7 +27,7 @@
     <CommonBoard class="w-full" title="最新消息">
       <img slot="icon" class="w-7 h-8 mr-1" src="../assets/images/icon_sms.png" alt="">
       <template slot="right">
-        <DynamicLink type="router" path="/news/list" class="more">
+        <DynamicLink type="router" path="/news/list" class="more ">
             <div class="flex items-end h-full">
               <img src="../assets/images/icon_expand_circle_down.png" alt="">
               <span class="text-base text-main">查看更多</span>
@@ -36,7 +36,7 @@
       </template>
       <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray" boldFont>
         <template v-for="(item,index) in newsListTable.rows">
-          <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
+          <div :slot="`title-${index}`" :key="`title${index}`" class="flex  whitespace-no-wrap custom-column">
             <span @click="popup(item)" class="link">{{item.title}}</span>
           </div>
         </template>
@@ -52,7 +52,7 @@
         <img slot="icon" class="w-7 h-8 mr-1" src="../assets/images/icon_work_outline.png" alt="">
         <template slot="right">
           <DynamicLink type="router" path="/product/list" class="more">
-            <div class="flex items-end h-full">
+            <div class="flex items-end h-full ">
               <img src="../assets/images/icon_expand_circle_down.png" alt="">
               <span class="text-base text-main">查看更多</span>
             </div>
@@ -60,7 +60,7 @@
         </template>
         <TableGroup :data="productListTable" urlKey="ProductName" :slotName="productSlotArray" boldFont>
           <template v-for="(item,index) in productListTable.rows">
-            <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
+            <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap custom-column">
               <span @click="downloadProduct(item)" class="link">{{item.title}}</span>
             </div>
           </template>
@@ -358,6 +358,7 @@ export default {
   .mobile-more {
     @apply hidden
   }
+  
   @media screen and (max-width: 1179px) {
     .dashboard {
       @apply mx-auto
@@ -366,13 +367,35 @@ export default {
       @apply p-2 py-1
     }
     .fail {
-      @apply absolute left-0 right-0 mx-auto
+      @apply  left-0 right-0 mx-auto
+    }
+
+  }
+  @media (min-width: 771px) and (max-width: 912px) {
+    .dashboardGroup {
+      @apply flex-wrap
+    }
+    .dashboard {
+      width: 200px;
+    }
+    .dashboard img { 
+      width: 46px;
+      height: 100%
+    }
+    .dashboard>>>.board {
+      @apply py-1
     }
     .success {
-      margin-right:3%
+      margin-right: 0px
     }
+    .fail, .success, .warn, .finish {
+      width: 48%;
+    }
+    .fail, .warn {
+      margin-right: 2%
+    }
+    
   }
-
   @media screen and (max-width: 640px) {
     .dashboardGroup {
       @apply flex-wrap
@@ -393,6 +416,7 @@ export default {
     .fail, .success, .warn, .finish {
       width: 100%;
     }
+    
   }
 
   @media (max-width: 600px) {
@@ -405,5 +429,8 @@ export default {
     .mobile-more {
       @apply block
     }
+    .custom-column {
+    @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
+  }
   }
 </style>

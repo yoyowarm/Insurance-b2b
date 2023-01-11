@@ -75,14 +75,15 @@
         <Part9 :data.sync="questionnaireData" :disable="audit"/>
         <div class="fixed-button" v-if="!audit">
           <div class="flex justify-center w-full px-3">
-            <Button outline class="h-12 w-52 mr-3" @click.native="clearQuestionnaire">清除資料</Button>
-            <Button v-if="questionnaireType == 0" class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('activity/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">填寫完成</Button>
-            <Button v-if="questionnaireType == 1" class="h-12 w-52 mr-3" @click.native="() =>{$emit('addQuestionnaire',2);$emit('update:open' ,false)}">新增詢問表</Button>
-            <Button v-if="questionnaireType == 2" class="h-12 w-52 mr-3" @click.native="() =>{$emit('updateQuestionnaire',2);$emit('update:open' ,false)}">更新詢問表</Button>
-            <Button v-if="orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">列印詢問表</Button>
+            <Button outline class="h-12 w-52 mr-3" @click.native="clearQuestionnaire">{{(windowWidth > 600) ? '清除資料' : '清除'}}</Button>
+            <Button v-if="questionnaireType == 0" class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('activity/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">{{(windowWidth > 600) ? '填寫完成' : '完成'}}</Button>
+            <Button v-if="questionnaireType == 1" class="h-12 w-52 mr-3" @click.native="() =>{$emit('addQuestionnaire',2);$emit('update:open' ,false)}">{{(windowWidth > 600) ? '新增詢問表' : '新增'}}</Button>
+            <Button v-if="questionnaireType == 2" class="h-12 w-52 mr-3" @click.native="() =>{$emit('updateQuestionnaire',2);$emit('update:open' ,false)}">{{(windowWidth > 600) ? '更新詢問表' : '更新'}}</Button>
+            <Button v-if="orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">{{(windowWidth > 600) ? '列印詢問表' : '列印'}}</Button>
           </div>
         </div>
       </div>
+      <WindowResizeListener @resize="handleResize"/>
     </div>
     <div class="mask-bg" @click="$emit('ok')"/>
   </div>
@@ -104,6 +105,7 @@ import Part7 from '@/components/ActivityQuestionnaire/part7'
 import Part8 from '@/components/ActivityQuestionnaire/part8'
 import Part9 from '@/components/ActivityQuestionnaire/part9'
 import FileSaver from 'file-saver'
+import WindowResizeListener from '@/components/WindowResizeListener'
 import { quotation } from '@/utils/dataTemp'
 export default {
   components: {
@@ -120,7 +122,8 @@ export default {
     Part7,
     Part8,
     Part9,
-    Select
+    Select,
+    WindowResizeListener
   },
   props: {
     open: {
@@ -194,6 +197,7 @@ export default {
   },
    data () {
     return {
+      windowWidth: window.innerWidth,
       value: false,
       formList: [
         { Value: '1', Text: '(一)活動場所-活動性質與場所'},
@@ -225,6 +229,9 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     emitSelectItem(e) {
       if(this.$refs[e.Value]) {
         this.$refs[e.Value].scrollIntoView({behavior: "smooth"})

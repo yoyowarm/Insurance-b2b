@@ -22,19 +22,22 @@
     <div class="flex w-full">
       <TableGroup v-if="currentTag == 0" class="w-full" :data="membersListTable" :slotName="memberSlotArray" column2 scrollX>
         <template v-for="(item,index) in membersListTable.rows">
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap">
+          <div :slot="`email-${index}`" :key="`email${index}`" class="flex justify-center sm:justify-start whitespace-no-wrap mt-2">
+            {{item.email}}
+          </div>
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap mt-2">
             <Button class="mr-2" @click.native="callDialog(0,'帳號明細','',item)" outline>明細</Button>
             <Button class="mr-2" @click.native="callDialog(1,'編輯帳號', '儲存編輯',item)" outline>編輯</Button>
             <Button outline @click.native="callDialog(2,'刪除帳號', '確認刪除',item)">刪除</Button>
         </div>
         </template>
       </TableGroup>
-      <TableGroup v-else class="w-full" :data="groupListTable" :slotName="groupSlotArray" column2 scrollX>
+      <TableGroup v-else class="w-full" :data="groupListTable" :slotName="groupSlotArray" scrollX>
         <template v-for="(item,index) in groupListTable.rows">
-          <div :slot="`permissionsList-${index}`" :key="`permissionsList-${index}`" class="text-gray-700">
+          <div :slot="`permissionsList-${index}`" :key="`permissionsList-${index}`" class="text-gray-700" :class="{' bg-gray-100 rounded-b-xl': windowWidth <= 600}">
             <span v-for="(subPermission,subIndex) in item.permissions" :key="`${subPermission.subPermissionName}-${index}`">{{subPermission.subPermissionName}}<span v-if="item.permissions.length -1 !== subIndex">、</span></span>
           </div>
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex justify-between sm:justify-start whitespace-no-wrap mt-2">
             <Button class="mr-2" @click.native="callDialog(3,'群組明細','',item)" outline>明細</Button>
             <Button class="mr-2" @click.native="callDialog(4,'編輯群組', '儲存編輯',item)" outline>編輯</Button>
             <Button outline @click.native="callDialog(5,'刪除群組', '確認刪除',item)">刪除</Button>
@@ -179,7 +182,7 @@ import Button from '@/components/Button'
 import FormTitle from '@/components/FormTitle.vue'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
-import { membersListTable, groupListTable } from '@/utils/mockData'
+import { membersListTable,groupListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
 export default {
@@ -202,7 +205,7 @@ export default {
     return {
       windowWidth: window.innerWidth,
       membersListTable: membersListTable(),
-      groupListTable: groupListTable(),
+      groupListTable:groupListTable(),
       openDialog: false,
       dialog: {
         title: '',
@@ -243,7 +246,7 @@ export default {
     }),
     memberSlotArray () {
       const arr = []
-      const slotArr = ['permissionsList','operate']
+      const slotArr = ['permissionsList','operate', 'email']
       for (let i = 0; i < this.membersListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -268,6 +271,28 @@ export default {
         await this.$store.dispatch('resource/PermissionSettingUsers')
       } else {
         await this.groupInit()
+      }
+      console.log(this.groupListTable)
+       if(this.windowWidth <= 600) {
+        this.groupListTable.head[1].size = '2-6'
+      } else {
+        this.groupListTable.head[1].size = '6-6'
+      }
+      if(this.windowWidth <= 600) {
+        this.membersListTable.head[5].text = ''
+        this.groupListTable.head[2].text = ''
+      } else {
+        this.membersListTable.head[5].text = '操作'
+        this.groupListTable.head[2].text = '操作'
+      }
+    },
+    windowWidth(val) {
+      if(val <= 600) {
+        this.membersListTable.head[5].text = ''
+        this.groupListTable.head[2].text = ''
+      } else {
+        this.membersListTable.head[5].text = '操作'
+        this.groupListTable.head[2].text = '操作'
       }
     }
   },
@@ -393,7 +418,8 @@ export default {
         return {
           ...item,
           Text:  `(${item.employeeNumber})${item.employeeName}`,
-          Value: item.employeeNumber
+          Value: item.employeeNumber,
+          email: item.email ? item.email : '- -',
         }
       })
       this.groupsList = groupsList.data.content.map(item => {
@@ -430,6 +456,7 @@ export default {
           ...item,
           employeeStatus: item.employeeStatus == 1 ? '啟用' : '停用',
           groupId: this.groupsList.find(i => i.Text === item.groupName).Value.toString(),
+          email: item.email ? item.email : '- -',
         }
       })
       this.$store.dispatch('app/updatedCurrentPage',page ? page: 1)
@@ -439,6 +466,13 @@ export default {
   },
   async mounted() {
     await this.pageInit()
+    if(this.windowWidth <= 600) {
+        this.membersListTable.head[5].text = ''
+        this.groupListTable.head[2].text = ''
+      } else {
+        this.membersListTable.head[5].text = '操作'
+        this.groupListTable.head[2].text = '操作'
+      }
   }
 }
 </script>
@@ -456,5 +490,8 @@ export default {
   li {
     @apply my-3
   }
+}
+.table-body .item span{
+  display: inline;
 }
 </style>

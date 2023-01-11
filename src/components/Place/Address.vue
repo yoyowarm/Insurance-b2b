@@ -1,7 +1,16 @@
 <template>
   <div class="w-full">
     <template v-for="(item,index) in lists">
-      <FormTitle :title="`處所${index+1}`" :key="`title${index}`" class="mb-2"/>
+      <FormTitle :title="`處所${index+1}`" :key="`title${index}`" class="mb-2 relative">
+        <div slot="left" class="absolute left-12">
+          <Checkbox
+          :id="`title${index}`"
+          text="同要保人通訊地址"
+          :value="sameAs[index]"
+          @updateValue="(e) =>copyAddress(e,index)"
+          />
+        </div>
+      </FormTitle>
       <div class="column-5 mb-6" :key="`body${index}`">
         <InputGroup dash noMt disable>
           <Select
@@ -41,6 +50,7 @@ import FormTitle from '@/components/FormTitle.vue'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
+import Checkbox from '@/components/Checkbox'
 export default {
   props: {
     lists: {
@@ -59,19 +69,38 @@ export default {
       type: Boolean,
       default: false
     },
+    Insuraned: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data() {
+    return {
+      sameAs: []
+    }
   },
   components: {
     FormTitle,
     InputGroup,
     Input,
-    Select
+    Select,
+    Checkbox
   },
   methods: {
     updateInfo(type, item,index) {
       const newLists = [...this.lists]
       newLists[index][type] = item
       this.$emit('update:lists', newLists)
-    }
+    },
+    copyAddress(e,index) {
+      const newLists = [...this.lists]
+      const Insuraned = JSON.parse(JSON.stringify(this.Insuraned))
+      this.sameAs[index] = e
+      if(newLists[index].city.Value !== Insuraned.City.Value) return
+      newLists[index].area = Insuraned.Area 
+      newLists[index].subAddress = Insuraned.subAddress
+      this.$emit('update:lists', newLists)
+    },
   }
 }
 </script>

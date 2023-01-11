@@ -18,50 +18,51 @@
     <template v-for="(item,index) in eletric.transferDetails">
       <FormTitle title="寄送資訊" :key="index + '寄送資訊'" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
-      <div v-if="eletric.transferDetails.length > 1" class=" ml-2" :class="{'cursor-pointer': !disable}" slot="right" @click="() => {if(!disable){remoteInfo(index)}}">
+      <div v-if="eletric.transferDetails.length > 1" class=" ml-2" :class="{'cursor-pointer': !disable}" slot="right" @click="() => {if(!disable && eletric.transferType == 1){remoteInfo(index)}}">
         <font-awesome-icon icon="times-circle" class="text-2xl" :class="{'text-main': !disable, 'text-gray-500': disable}"/>
       </div>
     </FormTitle>
       <div class="column-3 pb-3 mb-4" :key="index">
-        <InputGroup class="w-full" title="寄送方式" :disable="disable">
+        <InputGroup class="w-full" title="寄送方式" :disable="disable || eletric.transferType == 2">
           <SwitchInput
             slot="input"
             :id="index + 'email'"
             checkedText="Email"
             uncheckedText="手機"
             :value="item.transferDetailType"
-            :disable="disable"
+            :disable="disable || eletric.transferType == 2"
             @updateValue="(e) =>updateValue(index, 'transferDetailType', e)"
           />
         </InputGroup>
-        <InputGroup class="w-full" title="寄送資料" :disable="disable">
+        <InputGroup class="w-full" title="寄送資料" :disable="disable || eletric.transferType == 2">
           <Input
             slot="input"
             placeholder="輸入寄送資料"
             :value="item.transferInfo"
-            :disable="disable"
+            :disable="disable || eletric.transferType == 2"
             @updateValue="(e) =>updateValue(index, 'transferInfo', e)"
           />
         </InputGroup>
       </div>
       <div class="column-3 pb-3 mb-4 dashed-border " :key="index+'column2'">
-        <InputGroup class="w-full" title="保單" dash :disable="disable">
+        <InputGroup class="w-full" title="保單" dash :disable="disable || eletric.transferType == 2">
           <SwitchInput
             slot="input"
             :id="index + '正本'"
             checkedText="副本"
             uncheckedText="正本"
-            :disable="disable"
+            :disable="disable || eletric.transferType == 2"
             :value="item.transferOriginalType"
             @updateValue="(e) =>updateValue(index, 'transferOriginalType', e)"
           />
         </InputGroup>
-        <InputGroup class="w-full" title="保單正本排序" :disable="disable || item.transferOriginalType">
+        <InputGroup class="w-full" title="保單正本排序" :disable="disable || item.transferOriginalType || eletric.transferType == 2">
           <Input
             slot="input"
             placeholder="輸入排序"
+            inputmode="tel" 
             :value="item.sort"
-            :disable="disable || item.transferOriginalType"
+            :disable="disable || item.transferOriginalType || eletric.transferType == 2"
             @updateValue="(e) =>updateValue(index, 'sort', e)"
             numberOnly
           />
@@ -69,7 +70,7 @@
       </div>
     </template>
     <div class="flex justify-center items-center mb-3 mt-6">
-      <Button @click.native="addItem" outline :disabled="disable">新增寄送資訊</Button>
+      <Button @click.native="addItem" outline :disabled="disable || eletric.transferType == 2">新增寄送資訊</Button>
     </div>
     <FormTitle classList="text-xl text-gray-700" title="紙本保單">
       <Checkbox

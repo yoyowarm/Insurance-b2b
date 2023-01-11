@@ -1,9 +1,18 @@
 <template>
   <div class="w-full">
+    <span slot="icon" class="average ">參加活動每日平均人數：{{Math.round(average.person.toFixed(2))}}人  <span v-if="windowWidth <= 600"><br>總計活動天數：{{average.day}}天</span><span v-if="windowWidth > 600">總計活動天數：{{average.day}}天</span></span>
     <template v-for="(info,index) in infoList">
       <FormTitle :key="`title${index}`" :title="`場次${index+1}`" classList="text-xl text-gray-700 my-3">
         <div v-if="index !== 0" slot="left" class="flex items-end mr-3" @click="$emit('removeItem',index)">
           <font-awesome-icon icon="times-circle" class="text-2xl text-main" />
+        </div>
+        <div v-if="index !== 0" slot="left" class="absolute left-32">
+          <Checkbox
+          :id="`title${index}`"
+          text="同上"
+          :value="sameAs[index]"
+          @updateValue="(e) =>copyAddress(e,index)"
+          />
         </div>
       </FormTitle>
       <div :key="index" class="column-5 relative">
@@ -11,6 +20,7 @@
           <Input
             slot="input"
             placeholder="輸入人數"
+            inputmode="tel"
             :value="info.number"
             :disable="disable"
             @updateValue="(e) =>updateValue(e,'number',index)"
@@ -52,7 +62,7 @@
       </div>
       <div :key="`column${index}`" class="column-5 dashed-border mt-4  w-full">
         <div class="col-span-1 flex flex-row">
-          <InputGroup class="mr-3" title="活動開始日期" :disable="disable">
+          <InputGroup class="mr-3 w-32" title="活動開始日期" :disable="disable">
             <Select
               slot="input"
               defaultText="選擇民國年"
@@ -63,7 +73,7 @@
               :ref="`startDate-year-${index}`"
             />
           </InputGroup>
-          <InputGroup :disable="disable">
+          <InputGroup :disable="disable" class="w-32">
             <Select
               slot="input"
               defaultText="選擇月份"
@@ -76,7 +86,7 @@
           </InputGroup>
         </div>
         <div class="col-span-1 flex flex-row">
-          <InputGroup class="mr-3" :disable="disable">
+          <InputGroup class="mr-3 w-32" :noMt="windowWidth <= 600" :disable="disable">
             <Select
               slot="input"
               defaultText="選擇日期"
@@ -87,7 +97,7 @@
               :ref="`startDate-day-${index}`"
             />
           </InputGroup>
-          <InputGroup :disable="disable">
+          <InputGroup :disable="disable" :noMt="windowWidth <= 600" class="w-32">
             <Select
               slot="input"
               defaultText="選擇小時"
@@ -100,7 +110,7 @@
           </InputGroup>
         </div>
         <div class="col-span-1 flex flex-row">
-          <InputGroup class="mr-3" title="活動結束日期" :disable="disable">
+          <InputGroup class="mr-3 w-32" title="活動結束日期" :disable="disable">
             <Select
               slot="input"
               defaultText="選擇民國年"
@@ -111,7 +121,7 @@
               :ref="`endDate-year-${index}`"
             />
           </InputGroup>
-          <InputGroup :disable="disable">
+          <InputGroup :disable="disable" class="w-32">
             <Select
               slot="input"
               defaultText="選擇月份"
@@ -124,7 +134,7 @@
           </InputGroup>
         </div>
         <div class="col-span-1 flex flex-row">
-          <InputGroup class="mr-3" :disable="disable">
+          <InputGroup class="mr-3 w-32" :noMt="windowWidth <= 600" :disable="disable">
             <Select
               slot="input"
               defaultText="選擇日期"
@@ -135,7 +145,7 @@
               :ref="`endDate-day-${index}`"
             />
           </InputGroup>
-          <InputGroup :disable="disable">
+          <InputGroup :disable="disable" :noMt="windowWidth <= 600" class="w-32">
             <Select
               slot="input"
               defaultText="選擇小時"
@@ -163,6 +173,7 @@
     <div class="flex justify-center mt-6">
       <Button :disabled="disable" @click.native="$emit('addItem')" outline>新增活動場次</Button>
     </div>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -172,14 +183,18 @@ import Input from '@/components/InputGroup/Input.vue'
 import Select from '@/components/Select'
 import FormTitle from '@/components/FormTitle'
 import Button from '@/components/Button/index.vue'
+import Checkbox from '@/components/Checkbox'
 import { Popup } from '@/utils/popups'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
     InputGroup,
     Input,
     Select,
     FormTitle,
-    Button
+    Button,
+    WindowResizeListener,
+    Checkbox
   },
   props: {
     infoList: {
@@ -197,19 +212,27 @@ export default {
     disable: {
       type: Boolean,
       default: false
-    }
+    },
+    average: {
+      type: Object,
+      default: () => ({})
+    },
   },
   data() {
     return {
-      copyInfoList: []
+      windowWidth: window.innerWidth,
+      copyInfoList: [],
+      sameAs: []
     }
   },
   watch: {
     infoList: {
       handler(val) {
+        this.sameAs = []
         this.copyInfoList = val
         this.copyInfoList.map((_,index) => {
           this.assignDate(index)
+          this.sameAs.push(false)
         })
 
       },
@@ -259,6 +282,9 @@ export default {
 		},
 	},
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     startDay(index) {
       if(!this.copyInfoList[index]) return
       return this.copyInfoList[index].startDate.year && this.copyInfoList[index].startDate.month && this.copyInfoList[index].startDate.month !== '選擇月份'
@@ -299,6 +325,16 @@ export default {
       const copyInfoList = [...this.infoList]
       copyInfoList[index][type] = e
       this.$emit('update:infoList', copyInfoList)
+    },
+    copyAddress(e,index) {
+      const copyInfoList = [...this.infoList]
+      this.sameAs[index] = e
+      if(e) {
+        copyInfoList[index].address = copyInfoList[index-1].address
+        copyInfoList[index].area = copyInfoList[index-1].area
+        copyInfoList[index].city = copyInfoList[index-1].city
+        this.$emit('update:infoList', copyInfoList)
+      }
     },
     emitSelectItem(type,key, value, index) {
       const copyInfoList = [...this.infoList]
@@ -377,11 +413,15 @@ export default {
     this.copyInfoList.map((i,index) => {
       this.assignDate(index)
       this.updateDay(index)
+      this.sameAs.push(false)
     })
   }
 }
 </script>
 
 <style scoped lang="scss">
-  
+    .average { 
+    @apply text-base mt-1  text-gray-700  font-semibold
+  }
+    
 </style>

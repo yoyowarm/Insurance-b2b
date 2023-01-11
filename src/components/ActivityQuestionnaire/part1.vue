@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="column-4 my-3">
-      <InputGroup class="col-span-2" lgTitle title="活動名稱" :disable="disable || InsuranceActive== 1 || InsuranceActive > 2">
+      <InputGroup class="col-span-2" lgTitle title="1.活動名稱" :disable="disable || InsuranceActive== 1 || InsuranceActive > 2">
         <Input
           slot="input"
           placeholder="輸入活動名稱"
@@ -10,24 +10,28 @@
           @updateValue="(e) => updateValue(e,'name')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="參加活動人數" :disable="disable">
+      <InputGroup lgTitle title="2.參加活動人數" :disable="disable">
         <Input
           slot="input"
           numberOnly
           placeholder="輸入人數"
+          inputmode="tel" 
           :maxLength="7"
           :disable="disable"
           :value="data.sheet1.part1.joinPersonAmount"
+          numberFormat
           @updateValue="(e) => updateValue(e,'joinPersonAmount')"
         />
       </InputGroup>
-      <InputGroup lgTitle title="活動處所規定容留人數" :disable="disable">
+      <InputGroup lgTitle title="3.活動處所規定容留人數" :disable="disable">
         <Input
           slot="input"
           numberOnly
           placeholder="輸入人數"
+          inputmode="tel" 
           :maxLength="7"
           :disable="disable"
+          numberFormat
           :value="data.sheet1.part1.ruleCapacity"
           @updateValue="(e) => updateValue(e,'ruleCapacity')"
         />
@@ -36,7 +40,7 @@
     <div class="column-4 my-3">
       <div class="col-span-2">
         <div class="column-3 w-full">
-          <InputGroup lgTitle title="活動開始日期" :disable="disable">
+          <InputGroup lgTitle title="4.活動開始日期" :disable="disable">
             <Select
               slot="input"
               :options="yearOptions"
@@ -66,7 +70,7 @@
         </div>
       </div>
       <div class="column-3">
-        <InputGroup lgTitle title="活動開始時間" :disable="disable">
+        <InputGroup class="col-span-2" lgTitle title="活動開始時間" :disable="disable">
           <Select
             slot="input"
             :options="hoursOptions"
@@ -76,30 +80,22 @@
             defaultText="- - 點"
           />
         </InputGroup>
-        <InputGroup :disable="disable">
-          <Select
-            slot="input"
-            defaultText="- - 分"
-            :disable="disable"
-            :selected="data.sheet1.part1.beginDateTime.minutes"
-            @emitItem="(e) => emitSelectItem('beginDateTime','minutes', e.Value)"
-            :options="minutesOptions"
-          />
-        </InputGroup>
       </div>
       <InputGroup lgTitle title="活動天數" :disable="disable">
         <Input
           slot="input"
           placeholder="輸入天數"
+          inputmode="tel" 
           :maxLength="7"
           :disable="disable"
+          numberFormat
           :value="data.sheet1.part1.activityDays"
           @updateValue="(e) => updateValue(e,'activityDays')"
         />
       </InputGroup>
     </div>
     <div class="flex my-3">
-      <InputGroup lgTitle title="活動型態" class="col-span-3" inputLeftClass="ml-20" :disable="disable">
+      <InputGroup lgTitle title="5.活動型態" class="col-span-3" inputLeftClass="ml-20" :disable="disable">
         <Checkbox
           slot="input-left"
           class="absolute -left-20 bottom-4 text-lg"
@@ -143,7 +139,7 @@
       </InputGroup>
     </div>
     <div class="column-4 my-3">
-      <InputGroup lgTitle title="活動處所及鄰近使用性質說明" class="col-span-4" :disable="disable">
+      <InputGroup lgTitle title="6.活動處所及鄰近使用性質說明" class="col-span-4" :disable="disable">
         <Input
           slot="input"
           placeholder="輸入內容"
@@ -154,6 +150,7 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4 mb-6">
+      <span class="mr-2 text-lg">7.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasStage" :value="data.sheet1.part1.hasStage === true" @updateValue="updateValue(true, 'hasStage')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasStage2" :value="data.sheet1.part1.hasStage === false" @updateValue="updateValue(false, 'hasStage')"/>
@@ -161,6 +158,7 @@
         <div class=" text-lg">是否有舞台搭建</div>
     </div>
     <div class="w-full flex flex-row mt-4 mb-6">
+      <span class="mr-2 text-lg">8.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasWaterPool" :value="data.sheet1.part1.hasWaterPool === true" @updateValue="updateValue(true, 'hasWaterPool')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasWaterPool2" :value="data.sheet1.part1.hasWaterPool === false" @updateValue="updateValue(false, 'hasWaterPool')"/>
@@ -168,6 +166,7 @@
         <div class=" text-lg">是否有水池(如:游泳池、噴泉)</div>
     </div>
     <div class="w-full flex flex-row mt-4 mb-6">
+      <span class="mr-2 text-lg">9.</span>
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="isWaterArea" :value="data.sheet1.part1.isWaterArea === true" @updateValue="updateValue(true, 'isWaterArea')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="isWaterArea2" :value="data.sheet1.part1.isWaterArea === false" @updateValue="updateValue(false, 'isWaterArea')"/>
@@ -250,7 +249,7 @@ export default {
       },
       hoursOptions () {
         const arr = []
-        for (let i = 0; i <= 24; i++) {
+        for (let i = 0; i <= 23; i++) {
           arr.push({
             Text: `${i}點`,
             Value: i

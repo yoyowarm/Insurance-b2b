@@ -4,9 +4,10 @@ export default {
   namespaced: true,
   state: {
     uuid: '',
-    InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增序號,4:續保,5:報價明細,6:查看取消序號報價單,7:審核
+    InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增方案,4:續保,5:報價明細,6:查看取消序號報價單,7:審核,8:查看核保中報價單
     PolicyStatus: 0,//99取消,9已出單,8完成報價,7已核保,6請洽核保,2核保中,1待核保,0新增、複製
     quotationData: {},
+    parameter: {},
     underwriteQuotationData: {},
     underwriteQuotationIsChange: false,
     renewal: {//是否續保
@@ -274,7 +275,6 @@ export default {
       part8: {
         hasMedicalSiteAndPersons: null,//是否設置醫療站並配置醫護人員
         hasProtectDevice: null,//是否有防護或緊急設備
-        hasDisasterProtectPlan: null,//是否有災害防護計畫
         hasEmergencyManagementPlan: null,//是否有緊急應變計畫(包含應變人員編組和指定職責，如關鍵設備留守人員、警戒人員、醫療救護編組、消防編組等)
       },
       part9: {
@@ -510,6 +510,9 @@ export default {
     },
     UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE(state, data) {
       state.underwriteQuotationIsChange = data
+    },
+    UPDATED_PARAMETER(state, data) {
+      state.parameter = data
     }
   },
   actions: {
@@ -540,6 +543,7 @@ export default {
       commit('UPDATED_POLICY_TRANSFER', quotation().policyTransfer)
       commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', false)
       commit('UPDATED_POLICY_STATUS', 0)
+      commit('UPDATED_PARAMETER', {})
     },
     addPlaceInfo({ commit }) {
       commit('ADD_PLACE_INFO')
@@ -636,6 +640,9 @@ export default {
     },
     updatedUnderwriteQuotationIsChange({ commit }, data) {
       commit('UPDATED_UNDERWRITE_QUOTATION_IS_CHANGE', data)
+    },
+    updatedParameter({ commit }, data) {
+      commit('UPDATED_PARAMETER', data)
     }
   }
 }

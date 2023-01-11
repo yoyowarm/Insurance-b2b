@@ -1,7 +1,7 @@
 import { mapState } from 'vuex'
 import { quotationStep1 } from '@/utils/dataTemp'
 import { formatDate } from '@/utils/dateFormat'
-import { IDRegex } from '@/utils/regex'
+import { IDRegex, numFormat } from '@/utils/regex'
 export default {
   data() {
     return {
@@ -121,13 +121,23 @@ export default {
       if (this.quotationData[quotationType].remark) {//備註
         this.$store.dispatch(`${type}/updatedRemark`, this.quotationData[quotationType].remark)
       }
-      if (this.quotationData[quotationType].insureType) {//投保行業
+      if (this.quotationData[quotationType].insureType) { //投保行業
         const target = this.industryList.find(item => item.itemName === this.quotationData[quotationType].insureType)
+        if (target) {
+          this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
+          this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: target.itemName } })
+        }
+      } else if (this.industry.Value !== 106) {
+        if (this.quotationData.questionnaire && this.quotationData.questionnaire.part1.businessType) {
+          this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData.questionnaire.part1.businessType)
+          this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: this.quotationData.questionnaire.part1.businessType } })
+        }
+        const target = this.industryList.find(item => item.dangerSeq === 106)
         if (target) {
           this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
         }
       }
-      if (this.quotationData[quotationType].otherIndustryName && this.quotationData[quotationType].insureType == '其他(混合類別)') {
+      if (this.quotationData[quotationType].otherIndustryName) {
         this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData[quotationType].otherIndustryName)
       }
       const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
@@ -135,12 +145,11 @@ export default {
       this.termsInit()
 
       if (this.quotationData[quotationType].additionTerms.length > 0 && this.additionTermsList.length > 0) {//附加條款
+        const copyTerms = { ...this.termsData }
         this.quotationData[quotationType].additionTerms.map(item => {//建議條款
           const target = this.additionTermsList.find(i => i.additionTermId === item.additionTermId)
           if (target) {
-            const copyTerms = { ...this.termsData }
             copyTerms[target.additionTermName].selected = true
-            this.$store.dispatch(`${type}/updatedTerms`, copyTerms)
           }
           if (item.additionTermValue) {//建議條款細項
             const additionTerms = { ...this.$store.state[type].additionTerms }
@@ -167,6 +176,7 @@ export default {
             // })
           }
         })
+        this.$store.dispatch(`${type}/updatedTerms`, copyTerms)
       }
       if (type == 'place' && this.quotationData[quotationType].insuranceRecord.lastYear.status) {//投保紀錄
         this.InsuranceRecordTable = {
@@ -184,25 +194,25 @@ export default {
         this.insuranceAmountListData = {
           ...this.quotationData.insuranceAmounts[0],
           amount: this.InsuranceActive == 7 && this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
-          amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
+          amountType: typeof this.quotationData.insuranceAmounts[0].amountType == 'number' ? { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType } : this.quotationData.insuranceAmounts[0].amountType,
           insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
           mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
           perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
           perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
           perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-          selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+          selfInflictedAmount: typeof this.quotationData.insuranceAmounts[0].selfInflictedAmount == 'number' ? { Value: this.quotationData.insuranceAmounts[0].selfInflictedAmount, Text: `${numFormat(this.quotationData.insuranceAmounts[0].selfInflictedAmount)}元` } : { Value: 2500, Text: '2,500元' },
         }
         setTimeout(() => {
           this.insuranceAmountListData = {
             ...this.quotationData.insuranceAmounts[0],
             amount: this.InsuranceActive == 7 && this.quotationData.insuranceAmounts[0].insuranceAmount ? `NT$${this.quotationData.insuranceAmounts[0].insuranceAmount}` : '',
-            amountType: { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType },
+            amountType: typeof this.quotationData.insuranceAmounts[0].amountType == 'number' ? { Text: this.amountList[this.quotationData.insuranceAmounts[0].amountType], Value: this.quotationData.insuranceAmounts[0].amountType } : this.quotationData.insuranceAmounts[0].amountType,
             insuranceTotalAmount: this.quotationData.insuranceAmounts[0].insuranceTotalAmount,
             mergeSingleAmount: this.quotationData.insuranceAmounts[0].mergeSingleAmount,
             perAccidentBodyAmount: this.quotationData.insuranceAmounts[0].perAccidentBodyAmount,
             perAccidentFinanceAmount: this.quotationData.insuranceAmounts[0].perAccidentFinanceAmount,
             perBodyAmount: this.quotationData.insuranceAmounts[0].perBodyAmount,
-            selfInflictedAmount: this.selfPayList.find(item => item.Value == this.quotationData.insuranceAmounts[0].selfInflictedAmount),
+            selfInflictedAmount: typeof this.quotationData.insuranceAmounts[0].selfInflictedAmount == 'number' ? { Value: this.quotationData.insuranceAmounts[0].selfInflictedAmount, Text: `${numFormat(this.quotationData.insuranceAmounts[0].selfInflictedAmount)}元` } : { Value: 2500, Text: '2,500元' },
           }
         }, 50)
 
@@ -248,6 +258,9 @@ export default {
           })
         }
         if (type == 'activity') {
+          if (this.quotationData.insuraned && this.quotationData.insuraned.activityName) {
+            this.updatedActivityName(this.quotationData.insuraned.activityName)
+          }
           this.activityInfoList = this.quotationData[quotationType][`${type}Info`].map(item => {
             return {
               ...item,

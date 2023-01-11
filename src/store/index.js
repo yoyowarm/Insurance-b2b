@@ -58,6 +58,7 @@ const vuexLocal = new VuexPersistence({
         quotationData: state.place.quotationData,
         underwriteQuotationData: state.place.underwriteQuotationData,
         underwriteQuotationIsChange: state.place.underwriteQuotationIsChange,
+        parameter: state.place.parameter,
       },
       activity: {
         uuid: state.activity.uuid,
@@ -83,6 +84,7 @@ const vuexLocal = new VuexPersistence({
         quotationData: state.activity.quotationData,
         underwriteQuotationData: state.activity.underwriteQuotationData,
         underwriteQuotationIsChange: state.activity.underwriteQuotationIsChange,
+        parameter: state.activity.parameter,
       },
       common: {
         viewModel: state.common.viewModel,

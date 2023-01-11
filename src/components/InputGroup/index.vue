@@ -1,8 +1,11 @@
 <template>
-  <div class="input-group" :class="{'w70': $slots.suffix}">
+  <div class="input-group" :class="inputGroupClass">
       <div class="input-title mt" :class="{'justify-between': $slots.right, 'h0': noMt, 'wrap':wrap, 'h-auto': autoHeight}">
-        <div class="text-gray-800 whitespace-no-wrap" :class="{'text-lg': lgTitle}">{{title}}<slot name="title"/></div>
-        <div class="slot" v-if="$slots.right">
+        <div class="text-gray-800 " :class="{'text-lg': lgTitle, 'whitespace-no-wrap': !whitespaceNormal}">{{title}}<slot name="title"/></div>
+        <div class="slot" :class="{'whitespaceRight':whitespaceRight}" @click="() => {slotRight = !slotRight; $emit('slotRightPopup')}" v-if="$slots.right">
+          <slot name="right"/>
+        </div>
+        <div v-if="slotRight && popupRight"  @click="() => {slotRight = !slotRight; $emit('slotRightPopup')}" class="popup">
           <slot name="right"/>
         </div>
       </div>
@@ -91,8 +94,39 @@ export default {
       type: String,
       default: ''
     },
+    whitespaceNormal: {
+      type: Boolean,
+      default: false
+    },
+    popupRight: {
+      type: Boolean,
+      default: false
+    },
+    widthClass: {
+      type: String,
+      default: ''
+    },
+    whitespaceRight: {
+      type: Boolean,
+      default: false
+    }
+  },
+  data() {
+    return {
+      slotRight: false
+    }
   },
   computed: {
+    inputGroupClass() {
+      let className = ''
+      if(this.$slots.suffix) {
+        className += 'w70 '
+      }
+      if(this.widthClass) {
+        className += `${this.widthClass} `
+      }
+      return className
+    },
     childClass() {
       let childClass = ''
       if (this.dash) {
@@ -196,7 +230,7 @@ export default {
       @apply whitespace-normal;
     }
   }
-  @media (max-width: 1126px) {
+  @media (max-width: 1130px) {
   .input-title {
     width: 100%;
     .slot {
@@ -205,10 +239,22 @@ export default {
       text-overflow: ellipsis;
       white-space: nowrap;
       width: 320px;
+      &.whitespaceRight {
+        width:170px;
+        @apply whitespace-normal overflow-visible absolute left-14 ;
+      }
     }
   }
 }
   .w70 {
     width: 70%;
+  }
+  .popup {
+    @apply absolute top-0 left-0 right-0 z-10 bg-white border border-gray-200 rounded-lg shadow-lg;
+  }
+  @media  screen and (min-width:  1130px) {
+    .popup {
+      @apply hidden;
+    }
   }
 </style>

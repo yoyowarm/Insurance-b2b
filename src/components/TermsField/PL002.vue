@@ -21,10 +21,11 @@
         />
       </InputGroup>
     </div>
-    <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="車位種類和數量">
+    <div class="column-4 mt-4">
+      <InputGroup class="col-span-2" widthClass="w55" title="車位種類和數量">
         <Input
           slot="input"
+          inputmode="tel"
           placeholder="請輸入數量"
           :value="data.PL002.value3.toString()"
           @updateValue="(e) =>updateValue(e,'value3')"
@@ -34,11 +35,12 @@
         <span class="absolute -right-22 bottom-3" slot="suffix">平面式車位</span>
       </InputGroup>
     </div>
-    <div class="column-5">
-      <InputGroup class="col-span-2" noMt>
+    <div class="column-4">
+      <InputGroup class="col-span-2" widthClass="w55" noMt>
         <Input
           slot="input"
           placeholder="請輸入數量"
+          inputmode="tel"
           :value="data.PL002.value4.toString()"
           @updateValue="(e) =>updateValue(e,'value4')"
           numberOnly
@@ -47,11 +49,12 @@
         <span class="absolute -right-30 bottom-3" slot="suffix">室內機械式車位</span>
       </InputGroup>
     </div>
-    <div class="column-5">
-      <InputGroup class="col-span-2" noMt>
+    <div class="column-4">
+      <InputGroup class="col-span-2" widthClass="w55" noMt>
         <Input
           slot="input"
           placeholder="請輸入數量"
+          inputmode="tel"
           :value="data.PL002.value5.toString()"
           @updateValue="(e) =>updateValue(e,'value5')"
           numberOnly
@@ -96,5 +99,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-	
+	.w55 {
+    width: 55%;
+  }
 </style>

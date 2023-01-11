@@ -9,7 +9,7 @@
     </div>
     <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray" scrollX boldFont>
       <template v-for="(item,index) in newsListTable.rows">
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap">
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap justify-center md:justify-start">
             <Button outline class="mr-3" @click.native="callDialog(1,'編輯消息','儲存編輯',item)">編輯</Button>
             <Button @click.native="callDialog(2,'刪除消息','確認刪除',item)">刪除</Button>
           </div>
@@ -113,6 +113,7 @@ import { NewsPopup } from '@/utils/popups'
 import { mapState } from 'vuex'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import { VueEditor } from "vue2-editor";
+
 export default {
   components:{
     CommonBoard,
@@ -205,7 +206,8 @@ export default {
           {
             text: '操作',
             value: 'operate',
-            size: '2-6'
+            size: '2-6',
+            hidden:true
           },
         ],
         rows: []
@@ -253,6 +255,13 @@ export default {
     async currentPage() {
       await this.getNews()
     },
+    windowWidth(val) {
+      if(val <= 600) {
+        this.newsListTable.head[5].text = ''
+      } else {
+        this.newsListTable.head[5].text = '操作'
+      }
+    }
   },
   methods: {
     handleResize () {
@@ -359,6 +368,11 @@ export default {
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
     await this.getNews()
+    if(this.windowWidth <= 600) {
+        this.newsListTable.head[5].text = ''
+      } else {
+        this.newsListTable.head[5].text = '操作'
+      }
   }
 }
 </script>

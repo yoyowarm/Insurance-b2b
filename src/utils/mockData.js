@@ -227,14 +227,9 @@ export const quotationListTable = () => {
         size: '2-6'
       },
       {
-        text: '總分公司單位',
+        text: '公司單位',
         value: 'companyDepartment',
         size: '2-6'
-      },
-      {
-        text: '類型',
-        value: 'typeText',
-        size: '1-6'
       },
     ],
     rows: []
@@ -281,12 +276,14 @@ export const quotationLisMobileTable = () => {
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '3-6'
+        size: '1-6',
+        hidden: true
       },
       {
         text: '報價日期',
         value: 'quotationDate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
       {
         text: '經手人',
@@ -294,19 +291,16 @@ export const quotationLisMobileTable = () => {
         size: '2-6'
       },
       {
-        text: '總分公司單位',
+        text: '公司單位',
         value: 'companyDepartment',
-        size: '2-6'
+        size: '2-6',
+        noWrap: true
       },
       {
-        text: '類型',
-        value: 'typeText',
-        size: '1-6'
-      },
-      {
-        text: '報價單操作',
+        text: '',
         value: 'edit',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: []
@@ -342,11 +336,6 @@ export const auditListTable = () => {
         size: '2-6'
       },
       {
-        text: '待確認人員',
-        value: 'waitConfirmEmployeeName',
-        size: '3-6'
-      },
-      {
         text: '核保結果',
         value: 'underwriteResultStateText',
         size: '2-6'
@@ -354,12 +343,12 @@ export const auditListTable = () => {
       {
         text: '操作',
         value: 'edit',
-        size: '1-6'
+        size: '3-6'
       },
       {
         text: '保險期間',
         value: 'ConvergeStartDate',
-        size: '2-6'
+        size: '3-6'
       },
       {
         text: '報價日期',
@@ -372,7 +361,7 @@ export const auditListTable = () => {
         size: '2-6'
       },
       {
-        text: '總分公司單位',
+        text: '公司單位',
         value: 'companyDepartment',
         size: '2-6'
       },
@@ -381,10 +370,78 @@ export const auditListTable = () => {
         value: 'underwriteEmployee',
         size: '2-6'
       },
+    ],
+    rows: []
+  }
+}
+
+export const auditListMobileTable = () => {
+  return {
+    head: [
       {
-        text: '類型',
-        value: 'typeText',
+        text: '序號',
+        value: 'serialNo',
         size: '1-6'
+      },
+      {
+        text: '要保人',
+        value: 'applicantName',
+        size: '2-6'
+      },
+      {
+        text: '被保人',
+        value: 'insuredName',
+        size: '2-6'
+      },
+      {
+        text: '保費',
+        value: 'insuranceAmount',
+        size: '2-6'
+      },
+      {
+        text: '狀態',
+        value: 'underwriteStateText',
+        size: '2-6'
+      },
+      {
+        text: '核保結果',
+        value: 'underwriteResultStateText',
+        size: '2-6'
+      },
+
+      {
+        text: '保險期間',
+        value: 'ConvergeStartDate',
+        size: '3-6',
+        hidden: true
+      },
+      {
+        text: '報價日期',
+        value: 'quotationDate',
+        size: '2-6',
+        hidden: true
+      },
+      {
+        text: '經手人',
+        value: 'iOfficerName',
+        size: '2-6'
+      },
+      {
+        text: '公司單位',
+        value: 'companyDepartment',
+        size: '2-6',
+        noWrap: true
+      },
+      {
+        text: '核保人員',
+        value: 'underwriteEmployee',
+        size: '2-6'
+      },
+      {
+        text: '',
+        value: 'edit',
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: []
@@ -586,12 +643,14 @@ export const membersListTable = () => {
       {
         text: 'E-mail',
         value: 'email',
-        size: '5-6'
+        size: '5-6',
+        hidden: true
       },
       {
         text: '操作',
         value: 'operate',
-        size: '4-6'
+        size: '4-6',
+        hidden: true
       },
     ],
     rows: []
@@ -609,12 +668,14 @@ export const groupListTable = () => {
       {
         text: '權限列表',
         value: 'permissionsList',
-        size: '6-6'
+        size: '6-6',
+        hidden: true
       },
       {
         text: '操作',
         value: 'operate',
-        size: '3-6'
+        size: '3-6',
+        hidden: true
       },
     ],
     rows: [
@@ -643,27 +704,32 @@ export const categoryListTable = () => {
       {
         text: '顯示名稱',
         value: 'displayItemName',
-        size: '5-6'
+        size: '5-6',
+        hidden: true
       },
       {
         text: '危險代號',
         value: 'dangerCode',
-        size: '5-6'
+        size: '5-6',
+        hidden: true
       },
       {
         text: '應另行報價',
         value: 'hasQuotation',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       },
       {
         text: '隱藏/顯示',
         value: 'isEnable',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       },
       {
         text: '操作',
         value: 'operate',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       }
     ],
     rows: [
@@ -703,7 +769,8 @@ export const minimumAmountTable = () => {
       {
         text: '',
         value: 'operate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: [
@@ -761,7 +828,8 @@ export const weightListTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       }
     ],
     rows: [
@@ -779,14 +847,15 @@ export const basicPremiumTable = () => {
         size: '2-6'
       },
       {
-        text: '基礎保費',
+        text: '基本純保費',
         value: 'basicPremium',
         size: '5-6'
       },
       {
         text: '',
         value: 'operate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: [
@@ -844,7 +913,8 @@ export const questionnaireList = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: []
@@ -886,7 +956,8 @@ export const quoteSeparatelyTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '2-6'
+        size: '2-6',
+        hidden: true
       },
     ],
     rows: []
@@ -910,7 +981,8 @@ export const amountListTable = () => {
       {
         text: '操作',
         value: 'operate',
-        size: '1-6'
+        size: '1-6',
+        hidden: true
       },
 
     ],

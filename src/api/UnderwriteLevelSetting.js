@@ -40,6 +40,12 @@ export const DeleteUnderwriteLevel = (id) => {//刪除核保階級設定
   return request('delete', `/UnderwriteLevelSetting/DeleteUnderwriteLevel?id=${id}`)
 }
 
+export const GetUserUnderwriteLevel = () => {//取得使用者的核保階級
+  return request('get', '/UnderwriteLevelSetting/GetUserUnderwriteLevel')
+}
+
+
+
 
 
 

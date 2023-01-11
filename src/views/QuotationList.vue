@@ -33,7 +33,7 @@
               @updateValue="(e) => ApplicantName = e"
             />
           </InputGroup>
-          <InputGroup v-if="currentTag ==1" class="w-full" title="關聯號">
+          <InputGroup class="w-full" title="關聯號">
             <Input
               slot="input"
               placeholder="輸入關聯號"
@@ -58,18 +58,18 @@
               @emitItem="e => typeSelected = e"
             />
           </InputGroup>
-          <InputGroup class="w-full" title="報價日期">
-            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起"/>
+          <InputGroup class="w-full col-span-2 md:col-span-1" title="報價日期">
+            <DatePicker slot="input" :dateObject="startDate" @emitDateItem="(e) => startDate = e" suffix="起" formerYears/>
           </InputGroup>
           <!-- <InputGroup class="w-full" noMt>
             <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
           </InputGroup> -->
         </div>
         <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
-          <Button @click.native="getQuotationList" class="absolute -top-5 w-32">查詢</Button>
+          <Button @click.native="getQuotationList(true)" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
         <div v-if="currentTag == 0" class="column-6 p-3 pb-6">
-          <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" title="報價單狀態">
             <Select
               slot="input"
               defaultText="選擇狀態"
@@ -80,7 +80,7 @@
           </InputGroup>
         </div>
         <div v-else class="column-6 pb-6">
-          <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" title="核保狀態">
             <Select
               slot="input"
               defaultText="選擇狀態"
@@ -89,7 +89,7 @@
               @emitItem="(item) => verifyStatus = item.Value"
             />
           </InputGroup>
-          <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" title="公司單位">
             <Select
               slot="input"
               defaultText="選擇公司單位"
@@ -98,7 +98,7 @@
               @emitItem="(item) => NGroup = item.Value"
             />
           </InputGroup>
-          <InputGroup class="w-full" noMt>
+          <InputGroup class="w-full" title="核保階級">
             <Select
               slot="input"
               defaultText="選擇階級"
@@ -154,8 +154,7 @@ export default {
       windowWidth: window.innerWidth,
       currentTag: 0,
       itemLists:[
-        { text: '報價明細', value: 0 },
-        { text: '核保明細', value: 1 }
+        { text: '報價明細', value: 0 }
       ],
       open: false,
       downloadQuotation: {},
@@ -279,6 +278,7 @@ export default {
     },
     async currentTag(val,oldVal) {
       if(val !== oldVal) {
+        this.$route.query.tag = val
         await this.getQuotationList()
       }
     },
@@ -288,6 +288,14 @@ export default {
       } else {
         this.getQuotationList()
       }
+    },
+    stateSelected: {
+      async handler(val,old) {
+        if(this.currentTag == 0 && val.Value !== old.Value) {
+          await this.getQuotationList()
+        }
+      },
+      deep: true
     }
   },
   methods: {
@@ -298,15 +306,19 @@ export default {
       if(this.currentPage === page || page < 1) return
       this.$store.dispatch('app/updatedCurrentPage',page)
     },
-    async getQuotationList() {
+    async getQuotationList(reset) {
+      if(reset) {
+        this.$store.dispatch('app/updatedCurrentPage',1)
+      }
       const data = {
-        Skip: (this.currentPage-1)*10,
-        Take: 10,
+        Skip:  (this.currentPage-1)*5,
+        Take: 5,
         QuotationListState: this.stateSelected.Value == '0' ? '' : this.stateSelected.Value,
         Type: this.typeSelected.Value == '0' ? '' : this.typeSelected.Value,
         ApplicantName: this.ApplicantName,
         InsuredName: this.InsuredName,
         IOffIcer: this.IOffIcer,
+        MainOrderNo: this.MainOrderNo,
       }
       if(this.startDate.year !== '' && this.startDate.month !== '' && this.startDate.day !== '') {
         data.QuotationDateBegin = `${Number(this.startDate.year)+1911}-${this.startDate.month}-${this.startDate.day}`
@@ -324,14 +336,12 @@ export default {
             InsurancePremiums: item.InsurancePremiums ? item.InsurancePremiums : '- -',
             insuranceAmount: item.insuranceAmount && item.policyStatus !==2 && item.policyStatus !==6 ? item.insuranceAmount : '- -',
             quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
-            typeText: item.type === 1 ? '處所' : item.type === 2 ? '活動' : '',
             stateText: this.stateText[item.policyStatus]
           }
         })
         ]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
       } else {
-        data.MainOrderNo = this.MainOrderNo
         data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
         data.GroupName = this.NGroup == '選擇公司單位' ? '' : this.NGroup
         data.Level = this.layer == '7' ? '' : this.layer
@@ -342,9 +352,13 @@ export default {
             serialNo: item.serialNo.toString(),
             underwriteStateText: item.underwriteState === 0 ? '核保中' : '待確認核保結果',
             underwriteResultStateText: item.underwriteResultState === 0 ? '核保中' : (item.underwriteResultState === 1 ? '完成核保' : '不予核保'),
+            quotationDate: item.quotationDate? item.quotationDate.split(' ')[0] : '',
+            insuranceAmount: item.insuranceAmount ? item.insuranceAmount : '- -',
+            waitConfirmEmployeeName: item.waitConfirmEmployeeName ? item.waitConfirmEmployeeName : '- -',
+            underwriteEmployee: item.underwriteEmployee ? item.underwriteEmployee : '- -',
           }
         })]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
       }
       
     },
@@ -384,6 +398,10 @@ export default {
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
     await this.getQuotationList()
+    const level = await this.$store.dispatch('underwrite/GetEmployeeUnderwriteLevel')
+    if(level.data.content) {
+      this.itemLists.push({ text: '核保明細', value: 1 })
+    }
     const data = await this.$store.dispatch('quotation/GetQuotationState')
     this.quotationState = data.data.content
     const group = await this.$store.dispatch('resource/GetTaianNGroup')
@@ -397,6 +415,7 @@ export default {
       Value: '',
       Text: '全部'
     })
+    if(this.$route.query.tag == 1) {this.currentTag =1}
   }
 }
 </script>

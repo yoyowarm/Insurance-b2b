@@ -10,12 +10,13 @@
         :value="data.part7.hasFireHydrant"
         @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="!data.part7.hasFireHydrant">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.hasFireHydrant"
             :value="data.part7.hydrantIndoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
@@ -28,6 +29,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.hasFireHydrant"
             :value="data.part7.hydrantOutdoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
@@ -46,12 +48,13 @@
         :value="data.part7.fireExtinguisher"
         @updateValue="(e) =>updateValue(e,'fireExtinguisher')"
       />
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-16 w-40" :disable="!data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.foam.indoor"
             @updateValue="(e) => updateValue(e,'foam.indoor')"
@@ -64,6 +67,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.foam.outdoor"
             @updateValue="(e) => updateValue(e,'foam.outdoor')"
@@ -75,12 +79,13 @@
     </div>
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full sm:pl-24 mt-4 text-lg">二氧化碳</span>
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.carbonDioxide.indoor"
             @updateValue="(e) => updateValue(e,'carbonDioxide.indoor')"
@@ -93,6 +98,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.carbonDioxide.outdoor"
             @updateValue="(e) => updateValue(e,'carbonDioxide.outdoor')"
@@ -104,12 +110,13 @@
     </div>
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full sm:pl-24 mt-4 text-lg">ABC乾粉</span>
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.abc.indoor"
             @updateValue="(e) => updateValue(e,'abc.indoor')"
@@ -122,6 +129,7 @@
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="!data.part7.fireExtinguisher"
             :value="data.part7.abc.outdoor"
             @updateValue="(e) => updateValue(e,'abc.outdoor')"
@@ -133,12 +141,13 @@
     </div>
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full w-40 sm:pl-24 mt-4 text-lg">海龍(halon)</span>
-      <div class="flex">
+      <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
+            inputmode="tel" 
             :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.halon.indoor"
             @updateValue="(e) => updateValue(e,'halon.indoor')"
@@ -231,12 +240,14 @@
       </InputGroup>
     </div>
     <div class="w-full flex flex-row mt-4" :class="{'dashed-border': index == questionList.length-1}" v-for="(item,index) in questionList" :key="item">
+      <span class="mr-2 text-lg">{{index+2}}.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}`" :value="data.part7[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part7[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
       </div>
         <div class=" text-lg">{{item}}</div>
     </div>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -246,13 +257,15 @@ import FormTitle from '@/components/FormTitle.vue'
 import Checkbox from '@/components/Checkbox'
 import Input from '@/components/InputGroup/Input'
 import RadioInput from '@/components/Radio'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
   components: {
     FormTitle,
     InputGroup,
     Checkbox,
     Input,
-    RadioInput
+    RadioInput,
+    WindowResizeListener
   },
   props:{
     data: {
@@ -266,13 +279,14 @@ export default {
   },
   data() {
     return {
+      windowWidth: window.innerWidth,
       questionList: [
-        '2.營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練？',
-        '3.是否有禁煙管制',
-        '4.是否有監視或預警系統',
-        '5.受信總機是否正常使用並有專人看守',
-        '6.是否隨時有清潔人員',
-        '7.走道或逃生路線是否堆放雜物'
+        '營業處所有關之消防及安全措施是否有編組並定期實施消防設備性能測試與訓練？',
+        '是否有禁煙管制',
+        '是否有監視或預警系統',
+        '受信總機是否正常使用並有專人看守',
+        '是否隨時有清潔人員',
+        '走道或逃生路線是否堆放雜物'
       ],
       questionListID: [
         'hasEquipmentTestAndTrain',
@@ -285,6 +299,9 @@ export default {
     }
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     updateValue(e,type) {
       const arr = [
         'hasPusher',

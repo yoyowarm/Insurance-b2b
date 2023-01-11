@@ -2,6 +2,7 @@
   <div class="w-full my-4">
     <div class="w-full my-4 dashed-border">
       <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+        <span v-if="index <= 4" class="mr-2 text-lg">{{index+1}}.</span>
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}222`" :value="data.part6[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}22`" :value="data.part6[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>

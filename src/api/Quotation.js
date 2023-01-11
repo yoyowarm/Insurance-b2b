@@ -4,8 +4,8 @@ export const AddPlaceQuotation = (data) => request('post', '/Quotation/AddPlaceQ
 //新增活動報價
 export const AddActivityQuotation = (data) => request('post', '/Quotation/AddActivityQuotation', data)
 //取得報價明細
-export const GetQuotationList = ({ Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName
-}) => request('get', '/Quotation/GetQuotationList', { Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName })
+export const GetQuotationList = ({ Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, InsuredName, MainOrderNo, IOffIcer
+}) => request('get', '/Quotation/GetQuotationList', { Skip, Take, QuotationListState, Type, QuotationDateBegin, QuotationDateEnd, ApplicantName, InsuredName, MainOrderNo, IOffIcer })
 //取得所有報價狀態
 export const GetQuotationState = () => request('get', '/Quotation/GetQuotationsState')
 //取得續保資訊
@@ -22,7 +22,7 @@ export const AddInsuranceProject = (data) => request('post', '/Quotation/AddInsu
 export const GetInsuranceProjectAmount = (data) => request('post', '/Quotation/GetInsuranceProjectAmount', data)
 //完成報價
 export const FinishQuotation = (data) => request('post', '/Quotation/FinishQuotation', data)
-//開始核保
+//送出核保
 export const BeginUnderwriting = (data) => request('post', '/Quotation/BeginUnderwriting', data)
 //修改處所報價 核保
 export const EditPlaceQuotation = (data) => request('patch', '/Quotation/EditPlaceQuotation', data)

@@ -1,7 +1,7 @@
 <template>
 	<div class="mb-3">
-		<FormTitle :title="data.additionTermName" classList="text-xl text-gray-700">
-      <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
+		<FormTitle :title="data.additionTermName" classList="text-lg text-gray-700">
+      <font-awesome-icon class="text-lg text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>	
     <div class="column-6">
       <InputGroup title="起訖地" borderBtn>

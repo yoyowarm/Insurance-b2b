@@ -4,17 +4,14 @@
       <InputGroup class=" w-full mb-2.5" title="姓名" lgTitle mid :disable="disable">
         <div slot="input" class="w-full pr-24 relative">
           <Input slot="input" placeholder="輸入名稱" :value="copyInfo.Name" @updateValue="(e) => updateInfo('Name', e)" :disable="disable"/>
-          <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.Name) {$emit('getDetail', 'Name')}}" :disable="disable">查詢</Button>
+          <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.Name) {$emit('getDetail', 'Name')}}" :disable="disable"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
       </InputGroup>
       <InputGroup class=" w-full mb-2.5" title="統編/身分證" lgTitle mid :disable="disable">
         <div slot="input" class="w-full pr-24 relative" :disable="disable">
           <Input placeholder="輸入號碼" :value="copyInfo.ID" @updateValue="(e) => updateInfo('ID', e)" @blurInput="idVerify" :disable="disable"/>
-          <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.ID) {$emit('getDetail', 'ID')}}" :disable="disable">查詢</Button>
+          <Button class="absolute right-0 -top-1 w-16 h-full" style="height: 46px" @click.native="() => { if(copyInfo.ID) {$emit('getDetail', 'ID')}}" :disable="disable"><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
-      </InputGroup>
-      <InputGroup v-if="quotationType == 'activity'" class="w-full mb-2.5" title="活動名稱" lgTitle mid :disable="disable || (InsuranceActive == 1 || InsuranceActive > 2)">
-        <Input slot="input" placeholder="輸入活動名稱" :value="copyInfo.activityName" @updateValue="(e) => updateInfo('activityName', e)" :disable="disable || (InsuranceActive == 1 || InsuranceActive > 2)"/>
       </InputGroup>
     </div>
     <div class="column-5 pt-6 pb-3 mb-4">
@@ -29,12 +26,13 @@
           @updateValue="(e) =>{updateInfo('numberType', e);updateInfo('prefixNumber', '');updateInfo('Mobile', '')}"
         />
       </InputGroup>
-      <InputGroup class="w-full" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
+      <InputGroup class="w-full phone" :title="copyInfo.numberType ? '手機': '市話'" lgTitle mid :disable="disable">
         <div slot="input" class="flex flex-row">
           <Input
             v-show="!copyInfo.numberType"
             class="w-28 border-r-2"
             placeholder="區碼"
+            inputmode="tel" 
             :maxLength="4"
             :value="copyInfo.prefixNumber"
             @updateValue="(e) => updateInfo('prefixNumber', e)"
@@ -45,6 +43,7 @@
           />
           <Input
             placeholder="輸入號碼"
+            inputmode="tel" 
             :value="copyInfo.Mobile"
             @updateValue="(e) => updateInfo('Mobile', e)"
             @blurInput="phoneVerify('Mobile')"
@@ -82,12 +81,15 @@
         <SwitchInput
           slot="input"
           :id="`${type}Profession`"
-          checkedText="特殊"
+          checkedText="特定"
           uncheckedText="一般"
           :value="copyInfo.Profession"
           :disable="disable"
           @updateValue="(e) =>updateInfo('Profession', e)"
         />
+        <div slot="right" class="cursor-pointer absolute left-24" @click="setDialog" >
+          <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
+        </div>
       </InputGroup>
       <InputGroup class="w-full" title="負責(代表)人" lgTitle mid v-if="copyInfo.CorporateRequired" :disable="disable">
         <Input slot="input" placeholder="輸入姓名" :value="copyInfo.CorporateName" @updateValue="(e) => updateInfo('CorporateName', e)" :disable="disable"/>
@@ -144,7 +146,7 @@
       
     </div>
     <div class="column-5 dashed-border pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" dash lgTitle mid :wrap="marginTop(560)" :disable="disable">
+      <InputGroup class="w-full" :whitespaceNormal="windowWidth <= 600 " title="是否為國內、外或國際組織之重要政治性職務人士(含家庭成員或密切關係者)" dash lgTitle mid :wrap="marginTop(560)" :disable="disable">
         <SwitchInput
           slot="input"
           :id="`${type}IsPolitician`"
@@ -166,7 +168,7 @@
       </InputGroup>
     </div>
     <div class="column-5 pt-6 pb-3 mb-4">
-      <InputGroup class="w-full" title="客戶屬性" lgTitle mid :disable="disable">
+      <InputGroup class="w-full" title="客戶屬性" lgTitle mid :disable="disable" popupRight>
         <SwitchInput
           slot="input"
           :id="`${type}IsProOrNot`"
@@ -240,6 +242,7 @@ export default {
   },
   data () {
     return {
+      windowWidth: window.innerWidth,
       numberType: true,
       copyInfo: {
         ...this.info
@@ -304,38 +307,42 @@ export default {
       } else {
         this.updateInfo('CorporateRequired', false)
       }
-    }
+    },
+    setDialog() {
+      Popup.create({
+        hasHtml: true,
+        htmlText: '律師/會計師/公證人(或其合夥人、受僱人)/不動產經紀人/當鋪、銀樓或融資從業人員/藝術品(骨董)交易商/買賣(交易)商/基金(協)會/宗教人士/匯款公司或外幣兌換所/虛擬貨幣發行者/軍火(製造)商/寶石及貴金屬交易商/外交使館(人員)/駐內外辦事處(人員)/外國政府單位(人員)/博弈產業(場所)人員。',
+      })
+    },
   }
 }
 </script>
 
 <style scoped lang="scss">
   .customer-attr {
-    @apply  flex items-center text-red-500 ml-3 absolute whitespace-no-wrap left-16
+    @apply  flex items-center text-red-500 ml-3  left-16
   }
   .address {
     @apply col-span-3;
   }
   @media (min-width: 771px) and (max-width: 1126px) {
     .customer-attr { 
-      width: calc(100vw - 350px);
       span {
         display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        // overflow: hidden;
+        // text-overflow: ellipsis;
+        // white-space: nowrap;
         width: 100%
       }
     }
   }
    @media (max-width: 771px) {
      .customer-attr { 
-      width: calc(100vw - 150px);
       span {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
-        white-space: nowrap;
+        // white-space: nowrap;
         width: 100%
       }
      }
@@ -343,6 +350,11 @@ export default {
   @media only screen and (min-width: 1180px) and (max-width: 1614px) {
     .address {
       @apply col-span-2;
+    }
+  }
+  @media (max-width: 560px) {
+    .phone {
+      @apply mb-4
     }
   }
 </style>

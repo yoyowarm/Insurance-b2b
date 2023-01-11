@@ -18,6 +18,7 @@
         <Input
           slot="input"
           placeholder="請輸入數量"
+          inputmode="tel"
           :value="data.PL003.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
@@ -31,6 +32,7 @@
         <Input
           slot="input"
           placeholder="請輸入數量"
+          inputmode="tel"
           :value="data.PL003.value3.toString()"
           @updateValue="(e) =>updateValue(e,'value3')"
           numberOnly
@@ -44,6 +46,7 @@
         <Input
           slot="input"
           placeholder="請輸入數量"
+          inputmode="tel"
           :value="data.PL003.value4.toString()"
           @updateValue="(e) =>updateValue(e,'value4')"
           numberOnly
@@ -57,6 +60,7 @@
         <Input
           slot="input"
           placeholder="請輸入數量"
+          inputmode="tel"
           :value="data.PL003.value5.toString()"
           @updateValue="(e) =>updateValue(e,'value5')"
           numberOnly

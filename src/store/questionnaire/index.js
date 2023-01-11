@@ -148,7 +148,6 @@ export default {
       part8: {
         hasMedicalSiteAndPersons: null,//是否設置醫療站並配置醫護人員
         hasProtectDevice: null,//是否有防護或緊急設備
-        hasDisasterProtectPlan: null,//是否有災害防護計畫
         hasEmergencyManagementPlan: null,//是否有緊急應變計畫(包含應變人員編組和指定職責，如關鍵設備留守人員、警戒人員、醫療救護編組、消防編組等)
       },
       part9: {
@@ -171,7 +170,6 @@ export default {
             month: '',
             day: '',
             hours: '0',
-            minutes: '0',
           },
           activityDays: '',//活動天數
           hasActivityIndoor: false,//是否有室內活動

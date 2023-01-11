@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FormTitle title="基本保費 參數設定" class="text-lg mb-14"/>
+    <FormTitle title="基本純保費 參數設定" class="text-lg mb-14"/>
     <CommonBoard class="category rotate">
       <NavMenu
         class="menu"

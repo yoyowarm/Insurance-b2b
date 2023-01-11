@@ -18,7 +18,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
-      <Address :lists.sync="placeInfoData" :cityList="countyList" :areaList="ApplicantAreaList" :disable="InsuranceActive == 7"/>
+      <Address :lists.sync="placeInfoData" :cityList="countyList" :areaList="ApplicantAreaList" :disable="InsuranceActive == 7" :Insuraned="InsuranedData"/>
     </CommonBoard>
     <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
@@ -64,8 +64,8 @@
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button v-if="InsuranceActive!==2" @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
-      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActiveText[InsuranceActive] }}</Button>
+      <Button v-if="InsuranceActive!==2" @mousedown.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
+      <Button @mousedown.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActiveText[InsuranceActive] }}</Button>
     </div>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -121,7 +121,7 @@ export default {
         0:'產生報價單',
         1:'更正報價單',
         2:'修改要被保人',
-        3: '新增序號',
+        3: '新增方案',
         4: '下一步',
         7: '下一步',
       }
@@ -271,8 +271,8 @@ export default {
           Area: this.ApplicantAreaList.find(i => i.areaId == detailData.areaId)? this.ApplicantAreaList.find(i => i.areaId == detailData.areaId): { Text: '', Value: '' } ,
           subAddress: detailData.subAddress,
           numberType: !detailData.mobile || /^09/.test(detailData.mobile) ? true : false,
-          prefixNumber: detailData.mobile ? (/^09/.test(detailData.mobile) ? detailData.mobile.toString().slice(0,4,): detailData.mobile.toString().slice(0,2)) : '',
-          Mobile: detailData.mobile ? (/^09/.test(detailData.mobile) ? detailData.mobile.toString().slice(4,): detailData.mobile.toString().slice(2,)) : '',
+          prefixNumber: detailData.mobile ? (detailData.mobile.match(/^09/g) ? '' : detailData.mobile.slice(0, 2)) : '',
+          Mobile: detailData.mobile ? (detailData.mobile.match(/^09/g) ? detailData.mobile : detailData.mobile.slice(2,)) : '',
           IsForeignRegister: detailData.isForeignRegister,
           RegisterNationality: detailData.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == detailData.registerNationality)?this.nationalities.find(i => i.Text == detailData.registerNationality):{Text: '', Value: ''}) : { Text: '', Value: '' },
           Profession: detailData.isProfession,
@@ -288,7 +288,7 @@ export default {
         await this.$store.dispatch('resource/Nationality'),
         await this.$store.dispatch('resource/BusinessSource'),
         await this.$store.dispatch('resource/Relationships'),
-        await this.$store.dispatch('resource/Districts')
+        await this.$store.dispatch('resource/Districts'),
       ])
       const nationalities = result[0]
       const businessSource = result[1]
@@ -338,13 +338,15 @@ export default {
           Text: item.name
         }
       })
+      
 
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
         this.step2InitAssignValue('place')
       }
+      await this.getBusinessSource()
     },
     async getBusinessSource() {
-      const businessSource = await this.$store.dispatch('resource/BusinessSourceByTaianUser', { employeeId: this.internalControl.issuerNumber })
+      const businessSource = await this.$store.dispatch('resource/BusinessSourceByTaianUser', this.internalControl.issuerNumber)
       if(businessSource.data.content.length > 0) {
         this.businessSource = businessSource.data.content.map(item => {
         return {
@@ -361,6 +363,19 @@ export default {
       this.verifyRequired('place', this.InsuranceActive)
       await this.verifyUser()
       if(this.requestFile.length === 0) {
+        if(this.InsuranceActive == 4 && this.userInfo.userid !== this.internalControl.issuerNumber) {
+          Popup.create({
+              hasHtml: true,
+              htmlText: `目前填寫之經手人代號為 ${this.internalControl.issuerNumber}，若繼續報價後續操作應使用${this.internalControl.issuerNumber}帳號進行，<br>是否確認繼續？`,
+              ok: '是',
+              cancel: '否',
+              confirm: true
+            }).then(async() => {
+              await this.checkPreventOccupy()
+              await this.verifyResultPopup()
+            })
+          return
+        } 
         if(this.InsuranceActive ==1) {
           Popup.create({
             hasHtml: true,

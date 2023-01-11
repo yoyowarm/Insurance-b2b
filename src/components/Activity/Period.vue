@@ -2,7 +2,7 @@
 	<div class="flex">
 		<div class="column-6 w-full">
 			<div class="col-span-3 flex flex-row">
-				<InputGroup class="mr-3" title="保險開始日期" :disable="disable">
+				<InputGroup class="mr-3 w-32" title="保險開始日期" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇民國年"
@@ -13,7 +13,7 @@
             ref="startDate-year"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" :disable="disable">
+				<InputGroup class="mr-3 w-32" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇月份"
@@ -24,7 +24,7 @@
             ref="startDate-month"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" :disable="disable">
+				<InputGroup class="mr-3 w-32" :disable="disable" v-if="windowWidth > 600">
 					<Select
 						slot="input"
 						defaultText="選擇日期"
@@ -35,7 +35,7 @@
             ref="startDate-day"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-4" :disable="disable">
+				<InputGroup class="mr-4 w-32" :disable="disable" v-if="windowWidth > 600">
 					<Select
 						slot="input"
 						defaultText="選擇小時"
@@ -47,8 +47,32 @@
 					/>
 				</InputGroup>
 			</div>
+      <div class="col-span-3 flex flex-row" v-if="windowWidth <= 600">
+        <InputGroup class="mr-3 w-32" noMt :disable="disable" >
+					<Select
+						slot="input"
+						defaultText="選擇日期"
+						:options="startDayOptions"
+						:selected="`${copyPeriod.startDate.day}`"
+            :disable="disable"
+						@emitItem="(e) => emitSelectItem('startDate','day', e.Value)"
+            ref="startDate-day"
+					/>
+				</InputGroup>
+				<InputGroup class="mr-4 w-32"  noMt :disable="disable">
+					<Select
+						slot="input"
+						defaultText="選擇小時"
+						:options="hourOptions"
+						:selected="`${copyPeriod.startDate.hour}`"
+            :disable="disable"
+						@emitItem="(e) => emitSelectItem('startDate','hour', e.Value)"
+            ref="startDate-hour"
+					/>
+				</InputGroup>
+      </div>
 			<div class="col-span-3 flex flex-row">
-				<InputGroup class="mr-3" title="保險結束日期" :disable="disable">
+				<InputGroup class="mr-3 w-32" title="保險結束日期" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇民國年"
@@ -59,7 +83,7 @@
             ref="endDate-year"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" :disable="disable">
+				<InputGroup class="mr-3 w-32" :disable="disable">
 					<Select
 						slot="input"
 						defaultText="選擇月份"
@@ -70,7 +94,7 @@
             ref="endDate-month"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-3" :disable="disable">
+				<InputGroup class="mr-3 w-32" :disable="disable" v-if="windowWidth > 600">
 					<Select
 						slot="input"
 						defaultText="選擇日期"
@@ -81,7 +105,7 @@
             ref="endDate-day"
 					/>
 				</InputGroup>
-				<InputGroup class="mr-4" :disable="disable">
+				<InputGroup class="mr-4 w-32" :disable="disable" v-if="windowWidth > 600">
 					<Select
 						slot="input"
 						defaultText="選擇小時"
@@ -93,6 +117,31 @@
 					/>
 				</InputGroup>
 			</div>
+      <div class="col-span-3 flex flex-row" v-if="windowWidth <= 600">
+        <InputGroup class="mr-3 w-32" noMt :disable="disable" >
+					<Select
+						slot="input"
+						defaultText="選擇日期"
+						:options="endDayOptions"
+						:selected="`${copyPeriod.endDate.day}`"
+            :disable="disable"
+						@emitItem="(e) => emitSelectItem('endDate','day', e.Value)"
+            ref="endDate-day"
+					/>
+				</InputGroup>
+				<InputGroup class="mr-4 w-32" noMt :disable="disable">
+					<Select
+						slot="input"
+						defaultText="選擇小時"
+						:options="hourOptions"
+						:selected="`${copyPeriod.endDate.hour}`"
+            :disable="disable"
+						@emitItem="(e) => emitSelectItem('endDate','hour', e.Value)"
+            ref="endDate-hour"
+					/>
+				</InputGroup>
+      </div>
+      <WindowResizeListener @resize="handleResize"/>
 		</div>
 	</div>
 </template>
@@ -101,10 +150,12 @@
 import InputGroup from '@/components/InputGroup'
 import Select from '@/components/Select'
 import { Popup } from '@/utils/popups'
+import WindowResizeListener from '@/components/WindowResizeListener'
 export default {
 	components: {
 		InputGroup,
-		Select
+		Select,
+    WindowResizeListener
 	},
 	props: {
 		period: {
@@ -118,6 +169,7 @@ export default {
 	},
 	data () {
      return {
+      windowWidth: window.innerWidth,
 			copyPeriod: {
 				...this.period
 			},
@@ -204,6 +256,9 @@ export default {
 		},
 	},
 	methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
 		emitSelectItem(type,key, value) {
       const CHKey = {
         year: '選擇民國年',

@@ -79,7 +79,9 @@ module.exports = {
         900: '#1e3a8a',
       },
       // yellow: colors.amber,
-      // green: colors.emerald,
+      green: {
+        700: '#2F855A'
+      },
 
       // indigo: colors.indigo,
       // purple: colors.violet,

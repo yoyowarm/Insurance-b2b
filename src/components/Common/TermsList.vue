@@ -10,6 +10,7 @@
           :value="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
           :disabled="disable || item.disable"
           @updateValue="(e) =>updateTerms(item.additionTermName, e)"
+          :ref="item.additionTermName"
         />
         <p class="ml-1 cursor-pointer" @click="setDialog(item,true)">{{item.additionTermName}}</p>
       </div>
@@ -46,6 +47,10 @@ export default {
     more: {
       type: Boolean,
       default: false
+    },
+    holdState: {
+      type: Boolean,
+      default: false
     }
   },
   data(){
@@ -62,6 +67,9 @@ export default {
 				this.copyTerms = {
 					...val
 				}
+        if(Object.keys(this.terms).filter(key => this.terms[key].selected).length > 3) {
+          this.switchBtn = false
+        }
 			},
 			deep: true
     },
@@ -80,11 +88,25 @@ export default {
           htmlText: Descriptions.data.content.descriptions.map(i => i.replace(' ','　')).join('<br>'),
         })
       }
-      
     },
     updateTerms(additionTermName, e) {
-      this.copyTerms[additionTermName].selected = e
-       this.$emit('update:terms', this.copyTerms)
+      if(additionTermName.includes('PL005') && this.holdState) {
+        Popup.create({
+          headerText: '',
+          hasHtml: true,
+          htmlText: `${additionTermName}處所數量至少為1`,
+        })
+        this.copyTerms[additionTermName].selected = false
+        this.$refs[additionTermName][0].$el.childNodes[0].checked = false
+      } else {
+        this.copyTerms[additionTermName].selected = e
+         this.$emit('update:terms', this.copyTerms)
+      }
+    }
+  },
+  mounted() {
+    if(Object.keys(this.terms).filter(key => this.terms[key].selected).length > 3) {
+      this.switchBtn = false
     }
   }
 }

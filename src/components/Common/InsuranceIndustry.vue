@@ -20,7 +20,7 @@
                 @updateValue="(e) => updateIndustry(e, list)"
                 :disabled="calculateModel"
               />
-              <InputGroup v-if="list.dangerSeq == 106" class="ml-3 sm:w-64" noMt :disable="!selected.Text.includes('其他')" :key="`Industry${list.dangerSeq}`">
+              <InputGroup v-if="list.dangerSeq == 106" class=" sm:w-64" title="需填寫可判斷之行業種類" :disable="!selected.Text.includes('其他')" :key="`Industry${list.dangerSeq}`" :lgTitle="windowWidth > 600">
                 <Input
                   slot="input"
                   placeholder="輸入行業名稱"
@@ -37,6 +37,7 @@
           </div>
       </div>
     </template>
+    <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -45,13 +46,15 @@ import FormTitle from '@/components/FormTitle'
 import RadioInput from '@/components/Radio'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input'
+import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
 export default {
   components: {
     FormTitle,
     RadioInput,
     InputGroup,
-    Input
+    Input,
+    WindowResizeListener
   },
   props: {
     industryList: {
@@ -92,6 +95,7 @@ export default {
   },
   data () {
     return {
+      windowWidth: window.innerWidth,
       switchList: []
     }
   },
@@ -101,6 +105,9 @@ export default {
     }),
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     switchBtn(index) {
       this.$set(this.switchList,index,!this.switchList[index])
     },
@@ -114,6 +121,7 @@ export default {
         if(this.type == 'place') {
            this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,part1:{...this.questionnaire.part1, businessType: list.displayItemName}})
         }
+        this.$emit('initTerm')
       }
     },
     updatedIndustryText(e) {
@@ -147,7 +155,7 @@ export default {
     margin: 0px auto;
     left: 0px;
     right: 0px;
-    @apply absolute text-main cursor-pointer bg-white z-10 text-center -bottom-13 flex justify-center items-center ;
+    @apply absolute z-0 text-main cursor-pointer bg-white z-10 text-center -bottom-13 flex justify-center items-center ;
   }
 }
 .gap-important {

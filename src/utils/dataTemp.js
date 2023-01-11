@@ -112,7 +112,8 @@ export const quotationStep1 = () => {
 
 export const quotation = () => {
   return {
-    InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增序號,4:續保
+    InsuranceActive: 0,//0:新增、複製,1:更改,2:更改要被保人,3:新增方案,4:續保
+    parameter: {},
     renewal: {//是否續保
       IsRenewal: false,
       InsuranceNumber: '',
@@ -282,7 +283,6 @@ export const quotation = () => {
             month: '',
             day: '',
             hours: '0',
-            minutes: '0',
           },
           activityDays: '',//活動天數
           hasActivityIndoor: false,//是否有室內活動
@@ -543,7 +543,6 @@ export const quotation = () => {
       part8: {
         hasMedicalSiteAndPersons: null,//是否設置醫療站並配置醫護人員
         hasProtectDevice: null,//是否有防護或緊急設備
-        hasDisasterProtectPlan: null,//是否有災害防護計畫
         hasEmergencyManagementPlan: null,//是否有緊急應變計畫(包含應變人員編組和指定職責，如關鍵設備留守人員、警戒人員、醫療救護編組、消防編組等)
       },
       part9: {

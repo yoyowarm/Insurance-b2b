@@ -62,8 +62,8 @@
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
-      <Button v-if="InsuranceActive!==2" @click.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
-      <Button @click.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActiveText[InsuranceActive] }}</Button>
+      <Button v-if="InsuranceActive!==2" @mousedown.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
+      <Button @mousedown.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActiveText[InsuranceActive] }}</Button>
     </div>
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
@@ -116,7 +116,7 @@ export default {
         0:'產生報價單',
         1:'更正報價單',
         2:'修改要被保人',
-        3: '新增序號',
+        3: '新增方案',
         4: '下一步',
         7: '下一步',
       }
@@ -231,8 +231,8 @@ export default {
           Area: this.ApplicantAreaList.find(i => i.areaId == detailData.areaId)? this.ApplicantAreaList.find(i => i.areaId == detailData.areaId): { Text: '', Value: '' } ,
           subAddress: detailData.subAddress,
           numberType: !detailData.mobile || /^09/.test(detailData.mobile) ? true : false,
-          prefixNumber: detailData.mobile ? (/^09/.test(detailData.mobile) ? detailData.mobile.toString().slice(0,4,): detailData.mobile.toString().slice(0,2)) : '',
-          Mobile: detailData.mobile ? (/^09/.test(detailData.mobile) ? detailData.mobile.toString().slice(4,): detailData.mobile.toString().slice(2,)) : '',
+          prefixNumber: detailData.mobile ? (detailData.mobile.match(/^09/g) ? '' : detailData.mobile.slice(0, 2)) : '',
+          Mobile: detailData.mobile ? (detailData.mobile.match(/^09/g) ? detailData.mobile : detailData.mobile.slice(2,)) : '',
           IsForeignRegister: detailData.isForeignRegister,
           RegisterNationality: detailData.registerNationality !== '本國' ? (this.nationalities.find(i => i.Text == detailData.registerNationality)?this.nationalities.find(i => i.Text == detailData.registerNationality):{Text: '', Value: ''}) : { Text: '', Value: '' },
           Profession: detailData.isProfession,
@@ -252,7 +252,7 @@ export default {
         await this.$store.dispatch('resource/Nationality'),
         await this.$store.dispatch('resource/BusinessSource'),
         await this.$store.dispatch('resource/Relationships'),
-        await this.$store.dispatch('resource/Districts')
+        await this.$store.dispatch('resource/Districts'),
       ])
       const nationalities = result[0]
       const businessSource = result[1]
@@ -305,9 +305,10 @@ export default {
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
         this.step2InitAssignValue('activity')
       }
+      await this.getBusinessSource()
     },
     async getBusinessSource() {
-      const businessSource = await this.$store.dispatch('resource/BusinessSourceByTaianUser', { employeeId: this.internalControl.issuerNumber })
+      const businessSource = await this.$store.dispatch('resource/BusinessSourceByTaianUser', this.internalControl.issuerNumber)
       if(businessSource.data.content.length > 0) {
         this.businessSource = businessSource.data.content.map(item => {
         return {
@@ -321,7 +322,7 @@ export default {
     questionnaireMapping(data) {
       data = JSON.parse(JSON.stringify(this.questionnaire))
       if(Object.keys(data.sheet1.part1.beginDateTime).every(key => data.sheet1.part1.beginDateTime[key] !== '')) {
-        data.sheet1.part1.beginDateTime = `${Number(data.sheet1.part1.beginDateTime.year)+1911}-${data.sheet1.part1.beginDateTime.month}-${data.sheet1.part1.beginDateTime.day} ${data.sheet1.part1.beginDateTime.hours}:${data.sheet1.part1.beginDateTime.minutes}`
+        data.sheet1.part1.beginDateTime = `${Number(data.sheet1.part1.beginDateTime.year)+1911}-${data.sheet1.part1.beginDateTime.month}-${data.sheet1.part1.beginDateTime.day} ${data.sheet1.part1.beginDateTime.hours}:00`
       } else {
         data.sheet1.part1.beginDateTime = null
       }
@@ -355,7 +356,8 @@ export default {
             cancel: '否',
             confirm: true
           }).then(async() => {
-             await this.verifyFinal()
+            await this.checkPreventOccupy()
+            await this.verifyResultPopup()
           })
         } else if (this.InsuranceActive ==7) {
           if(this.underwriteQuotationIsChange) {
@@ -363,7 +365,8 @@ export default {
           }
           this.$router.push('/activity-quotation/step3')
         } else {
-           await this.verifyFinal()
+          await this.checkPreventOccupy()
+           await this.verifyResultPopup()
         }
       }
     },
@@ -375,6 +378,7 @@ export default {
       this.$router.push('/activity-quotation/step1')
     },
     async verifyFinal() {
+      console.log(this.verifyResult, this.verifyInvadeResult)
       if(this.verifyResult.length === 0 && this.verifyInvadeResult.length === 0) {
         await this.quotationMapping()
         this.$router.push('/activity-quotation/step3')

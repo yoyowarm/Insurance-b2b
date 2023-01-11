@@ -60,6 +60,7 @@ export default {
         background: url('../../assets/images/radio_button.png') no-repeat;
         background-size: 18px;
         margin: auto 0;
+        margin-top: 5px;
         @apply inline-block align-middle bg-no-repeat;
         &.disabled {
           background: url('../../assets/images/radio_disable.png') no-repeat;
@@ -82,7 +83,7 @@ export default {
     }
   }
   .radio {
-    @apply flex items-center
+    @apply flex items-start
   }
 
 </style>

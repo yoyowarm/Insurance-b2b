@@ -6,9 +6,12 @@
       :class="{'pr-9': slotIcon, disable,'disable-white': disableWhite, 'pr-8': unit.length > 0}"
       :placeholder="placeholder"
       :maxLength="inputMaxLength"
+      :inputmode="inputmode"
       v-model="syncValue"
       ref="input"
-      @blur="()=>{ $emit('blurInput');valueFormat()}">
+      @blur="()=>{ $emit('blurInput');valueFormat()}"
+      @keyup.delete="() => {deleteEvent()}"
+      @click="getSelection">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
   </div>
@@ -31,6 +34,10 @@ export default {
       default: false
     },
     decimalPoint: {
+      type: Boolean,
+      default: false
+    },
+    decimalPoint5: {
       type: Boolean,
       default: false
     },
@@ -69,6 +76,23 @@ export default {
     hasZero: {
       type: Boolean,
       default: false
+    },
+    decimalPoint3: {
+      type: Boolean,
+      default: false
+    },
+    inputmode: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      deleted: false,
+      selection: {
+        start: 0,
+        end: 0
+      }
     }
   },
   computed: {
@@ -77,12 +101,24 @@ export default {
         return this.numberFormat ? this.numFormat(this.value) : this.value
       },
       set (value) {
+        if(this.deleted)  {
+          if(value.toString().length == 1) {
+            this.$refs.input.value = ''
+          }
+          return
+        }
         this.updateValue(value)
       }
     },
     inputMaxLength() {
       const commaLength = this.syncValue && this.syncValue.toString().match(/,/g) ? this.syncValue.toString().match(/,/g).length : 0
-      const pointLength = this.syncValue && this.syncValue.toString().match(/\./g) ? this.syncValue.toString().match(/\./g).length + 2 : 0
+      const pointLength = this.decimalPoint ?
+        2:
+        this.decimalPoint3 ?
+          4:
+          this.decimalPoint5 ?
+            6:
+            0
       return this.numberFormat ?
         this.maxLength + commaLength + pointLength :
         this.maxLength
@@ -94,14 +130,14 @@ export default {
       if(this.numberOnly && Boolean(Number(this.syncValue)) == false && !this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
-      } else if(this.numberOnly && this.value.toString().match(/[0-9]/g) &&  Boolean(Number(this.syncValue.match(/[0-9]/g).join(''))) == false && this.numberFormat) {
+      } else if(this.numberOnly  &&  Boolean(Number(this.syncValue.replace(/,/g, ''))) == false && this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
       }
     },
     updateValue (value) {
       let inputValue = value
-      if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3) {
+      if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3 && !this.decimalPoint5) {
         if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false && (this.hasZero && inputValue != 0)) {
           this.$emit('updateValue', '')
           this.$refs.input.value = ''
@@ -128,21 +164,22 @@ export default {
         }
       }
       if(this.decimalPoint) {
-        const regex = new RegExp(/^[0-9]+.?[0-9]{0,2}$/, 'g');
+        const regex = new RegExp(/^[0-9]+.?[0-9]{0,1}$/, 'g');
         const regex2 = new RegExp(/^0+[0-9]{1,}/, 'g');
         const regex3 = new RegExp(/[0-9]{0,}/, 'g')
-          
-        if(regex2.test(value)) {
+        const regex4 = new RegExp(/,/, 'g');
+        inputValue = inputValue.replace(regex4, '')
+        if(regex2.test(inputValue)) {
           inputValue = value.replace(regex2, '')
         }
-        if(!regex3.test(value)) {
+        if(!regex3.test(inputValue)) {
           inputValue = value.replace(regex3, '')
         }
         if(regex.test(inputValue)) {
           inputValue = value
         } else {
-          inputValue = value.slice(0, value.length -2)
-          this.$refs.input.value = value.slice(0, value.length -2)
+          inputValue = inputValue.slice(0, inputValue.length -2)
+          this.$refs.input.value = inputValue.slice(0, inputValue.length -2)
         }
       }
       if(this.decimalPoint3) {
@@ -158,9 +195,37 @@ export default {
           inputValue = value.slice(0, value.length -3)
         }
       }
+      if(this.decimalPoint5) {
+        const regex = new RegExp(/^[0-9]+.?[0-9]{0,5}$/, 'g');
+        const regex2 = new RegExp(/^0+[0-9]{1,}/, 'g');
+          
+        if(regex2.test(value)) {
+          inputValue = value.replace(regex2, '')
+        }
+        if(regex.test(inputValue)) {
+          inputValue = value
+        } else {
+          inputValue = value.slice(0, value.length -4)
+        }
+      }
       this.$emit('updateValue', inputValue)
+
+    },
+    deleteEvent() {
+      this.deleted = true
+      this.$refs.input.selectionStart = this.selection.start-2
+      this.$refs.input.selectionEnd = this.selection.end-2
+      setTimeout(() => {
+        this.deleted = false
+      }, 180)
+    },
+    getSelection() {
+      if(this.syncValue.toString().length !== this.$refs.input.selectionEnd) {
+        this.selection.start = this.$refs.input.selectionStart
+        this.selection.end = this.$refs.input.selectionEnd
+      }
     }
-  }
+  },
 }
 </script>
 

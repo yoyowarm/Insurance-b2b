@@ -2,13 +2,14 @@
 	<div>
 		<FormTitle title="裝卸搬運責任附加條款" classList="text-xl text-gray-700">
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
-      <span class="text-main ml-2" slot="right">*必填</span>
+      <span class="text-main ml-2 whitespace-no-wrap" slot="right">*必填</span>
     </FormTitle>	
     <div class="column-5 mt-4">
       <InputGroup class="col-span-2" title="每一意外事故財損責任之保險金額">
         <Input
           slot="input"
           placeholder="請輸入金額"
+          inputmode="tel" 
           :value="data.PL022.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
@@ -22,6 +23,7 @@
         <Input
           slot="input"
           placeholder="請輸入金額"
+          inputmode="tel" 
           :value="data.PL022.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly

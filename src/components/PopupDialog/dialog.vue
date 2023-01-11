@@ -74,7 +74,7 @@ export default {
   }
   .dialog {
     position: fixed;
-    top: 5%;
+    top: 10%;
     left: 0;
     right:0;
     margin: 0 auto;
@@ -112,7 +112,8 @@ export default {
 
   @media (max-width: 770px) {
     .dialog {
-      width: 90%;
+      width: 80%;
+      top:10%;
       @apply bg-white rounded-2xl;
 
     }

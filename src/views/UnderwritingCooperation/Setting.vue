@@ -9,7 +9,7 @@
       </div>
       <TableGroup :data="cooperationListTable" :slotName="slotArray" scrollX boldFont>
         <template v-for="(item,index) in cooperationListTable.rows">
-          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap">
+          <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex flex-row whitespace-no-wrap justify-center md:justify-start">
             <Button outline class="mr-3" @click.native="() => {openDialog = true; cooperation = JSON.parse(JSON.stringify(item)); type = 1}">編輯</Button>
             <Button @click.native="() => {openDialog = true;cooperation = JSON.parse(JSON.stringify(item)), type = 2}">刪除</Button>
           </div>
@@ -36,6 +36,7 @@
       </div>
     </PopupDialog>
     <LoadingScreen :isLoading="loading.length > 0"/>
+      <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
@@ -48,6 +49,7 @@ import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import InputGroup from '@/components/InputGroup'
 import Input from '@/components/InputGroup/Input.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
+import WindowResizeListener from '@/components/WindowResizeListener'
 import { mapState } from 'vuex'
 export default {
   components: {
@@ -58,10 +60,12 @@ export default {
     PopupDialog,
     InputGroup,
     Input,
-    LoadingScreen
+    LoadingScreen,
+    WindowResizeListener
   },
   data () {
     return {
+      windowWidth: window.innerWidth,
       openDialog: false,
       cooperation: {
         name: '',
@@ -83,11 +87,21 @@ export default {
           {
             text: '操作',
             value: 'operate',
-            size: '2-6'
+            size: '2-6',
+            hidden:true
           },
         ],
         rows: []
       },
+    }
+  },
+  watch: {
+    windowWidth(val) {
+      if(val <= 600) {
+        this.cooperationListTable.head[2].text = ''
+      } else {
+        this.cooperationListTable.head[2].text = '操作'
+      }
     }
   },
   computed: {
@@ -106,6 +120,9 @@ export default {
     },
   },
   methods: {
+    handleResize () {
+      this.windowWidth = window.innerWidth
+    },
     async confirmDialog (type) {
       if(type == 'add') {
         console.log(this.cooperation)
@@ -131,6 +148,11 @@ export default {
   },
   async mounted () {
     await this.getGroups()
+    if(this.windowWidth <= 600) {
+        this.cooperationListTable.head[2].text = ''
+      } else {
+        this.cooperationListTable.head[2].text = '操作'
+      }
   }
 }
 </script>

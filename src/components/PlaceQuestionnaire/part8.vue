@@ -1,6 +1,7 @@
 <template>
   <div class="w-full my-4 dashed-border">
       <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+        <span class="mr-2 text-lg">{{index+1}}.</span>
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}111`" :value="data.part8[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}21`" :value="data.part8[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
@@ -32,13 +33,11 @@ export default {
         '是否設置醫療站並配置醫護人員',
         '是否有緊急應變計劃（包含應變人員編組和指定職責，如關鍵設備留守操作人員、警戒人員、醫療救護編組、消防編組等）',
         '是否有防護或緊急設備',
-        '是否有災害防護計畫',
       ],
       questionListID: [
         'hasMedicalSiteAndPersons',
         'hasEmergencyManagementPlan',
         'hasProtectDevice',
-        'hasDisasterProtectPlan',
       ]
     }
   },

@@ -2,7 +2,7 @@
   <CommonBoard class="w-full">
     <TableGroup :data="newsListTable" @popup="popup" :slotName="newsSlotArray" boldFont>
       <template v-for="(item,index) in newsListTable.rows">
-          <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap">
+          <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap custom-column">
             <span @click="popup(item)" class="link">{{item.title}}</span>
           </div>
         </template>
@@ -117,5 +117,10 @@ export default {
   .link {
     color: #1076EE;
     @apply cursor-pointer
+  }
+  @media (max-width: 600px) {
+    .custom-column {
+    @apply justify-center text-gray-600 bg-gray-100 text-center p-1 rounded-b-xl font-semibold;
+  }
   }
 </style>
