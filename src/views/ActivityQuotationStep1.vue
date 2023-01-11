@@ -605,7 +605,6 @@ export default {
           this.openAudit = true
         }
       }
-      this.updatePeriod()
     },
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
