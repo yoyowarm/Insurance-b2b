@@ -22,8 +22,8 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full relative activeInfo" title="活動資料">
-      <InputGroup slot="right" class="industry-input-group w-56 sm:w-80 ml-24" bgColor="white" noMt>
-        <Input slot="input" class="max-w-full" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
+      <InputGroup slot="right" class="industry-input-group w-56 sm:w-80 ml-24" :bgColor="!calculateModel ? 'white' : ''" :disable="calculateModel" noMt>
+        <Input slot="input" class="max-w-full" :disable="calculateModel" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
       </InputGroup>
       <ActivityInfo
         :infoList.sync="activityInfoList"

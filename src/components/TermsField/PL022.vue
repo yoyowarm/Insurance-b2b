@@ -5,11 +5,12 @@
       <span class="text-main ml-2 whitespace-no-wrap" slot="right">*必填</span>
     </FormTitle>	
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="每一意外事故財損責任之保險金額">
+      <InputGroup class="col-span-2" title="每一意外事故財損責任之保險金額" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入金額"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL022.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
@@ -19,11 +20,12 @@
       </InputGroup>
     </div>
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="保險期間內之最高賠償金額">
+      <InputGroup class="col-span-2" title="保險期間內之最高賠償金額" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入金額"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL022.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
@@ -49,6 +51,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

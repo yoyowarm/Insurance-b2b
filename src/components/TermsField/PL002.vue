@@ -4,29 +4,32 @@
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>	
     <div class="column-5 mt-4 dashed-border">
-      <InputGroup class="col-span-2" title="停車場收費">
+      <InputGroup class="col-span-2" title="停車場收費" :disable="disable">
         <SwitchInput
           slot="input"
           id="停車場收費"
+          :disable="disable"
           :value="data.PL002.value1"
           @updateValue="(e) =>updateValue(e,'value1')"
         />
       </InputGroup>
-      <InputGroup class="col-span-2" title="代客停車">
+      <InputGroup class="col-span-2" title="代客停車" :disable="disable">
         <SwitchInput
           slot="input"
           id="代客停車"
+          :disable="disable"
           :value="data.PL002.value2"
           @updateValue="(e) =>updateValue(e,'value2')"
         />
       </InputGroup>
     </div>
     <div class="column-4 mt-4">
-      <InputGroup class="col-span-2" widthClass="w55" title="車位種類和數量">
+      <InputGroup class="col-span-2" widthClass="w55" title="車位種類和數量" :disable="disable">
         <Input
           slot="input"
           inputmode="tel"
           placeholder="請輸入數量"
+          :disable="disable"
           :value="data.PL002.value3.toString()"
           @updateValue="(e) =>updateValue(e,'value3')"
           numberOnly
@@ -36,11 +39,12 @@
       </InputGroup>
     </div>
     <div class="column-4">
-      <InputGroup class="col-span-2" widthClass="w55" noMt>
+      <InputGroup class="col-span-2" widthClass="w55" noMt :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入數量"
           inputmode="tel"
+          :disable="disable"
           :value="data.PL002.value4.toString()"
           @updateValue="(e) =>updateValue(e,'value4')"
           numberOnly
@@ -50,11 +54,12 @@
       </InputGroup>
     </div>
     <div class="column-4">
-      <InputGroup class="col-span-2" widthClass="w55" noMt>
+      <InputGroup class="col-span-2" widthClass="w55" noMt :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入數量"
           inputmode="tel"
+          :disable="disable"
           :value="data.PL002.value5.toString()"
           @updateValue="(e) =>updateValue(e,'value5')"
           numberOnly
@@ -82,6 +87,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

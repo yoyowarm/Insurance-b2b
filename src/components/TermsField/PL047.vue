@@ -5,10 +5,11 @@
       <span class="text-main ml-2 whitespace-no-wrap" slot="right">*必填</span>
     </FormTitle>	
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="對象">
+      <InputGroup class="col-span-2" title="對象" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入對象"
+          :disable="disable"
           :value="data.PL047.value1"
           @updateValue="(e) =>updateValue(e,'value1')"
         />
@@ -31,6 +32,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

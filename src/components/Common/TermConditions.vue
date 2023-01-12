@@ -1,24 +1,24 @@
 <template>
   <div class="column-2 term">
     <CommonBoard class="w-full h-full" v-for="item in termConditionsList" :key="item.additionTermName">
-      <PL002 v-if="item.additionTermId === 'PL002'" :data.sync="additionTerms"/>
-      <PL003 v-if="item.additionTermId === 'PL003'" :data.sync="additionTerms"/>
-      <PL004 v-if="item.additionTermId === 'PL004'" :data.sync="additionTerms"/>
-      <PL005 v-if="item.additionTermId === 'PL005'" :data.sync="additionTerms" :type="type"/>
-      <PL007 v-if="item.additionTermId === 'PL007'" :data.sync="additionTerms"/>
-      <PL016 v-if="item.additionTermId === 'PL016'" :data.sync="additionTerms"/>
-      <PL022 v-if="item.additionTermId === 'PL022'" :data.sync="additionTerms"/>
-      <PL023 v-if="item.additionTermId === 'PL023'" :data.sync="additionTerms"/>
-      <PL028 v-if="item.additionTermId === 'PL028'" :data.sync="additionTerms"/>
-      <PL035 v-if="item.additionTermId === 'PL035'" :data.sync="additionTerms"/>
-      <PL040 v-if="item.additionTermId === 'PL040'" :data.sync="additionTerms"/>
-      <PL041 v-if="item.additionTermId === 'PL041'" :data.sync="additionTerms"/>
-      <PL043 v-if="item.additionTermId === 'PL043'" :data.sync="additionTerms"/>
-      <PL047 v-if="item.additionTermId === 'PL047'" :data.sync="additionTerms"/>
-      <PL049 v-if="item.additionTermId === 'PL049'" :data.sync="additionTerms"/>
-      <PL053 v-if="item.additionTermId === 'PL053'" :data.sync="additionTerms"/>
-      <PL055 v-if="item.additionTermId === 'PL055'" :data.sync="additionTerms"/>
-      <PL058 v-if="item.additionTermId === 'PL058'" :data.sync="additionTerms"/>
+      <PL002 v-if="item.additionTermId === 'PL002'" :data.sync="additionTerms" :disable="disable"/>
+      <PL003 v-if="item.additionTermId === 'PL003'" :data.sync="additionTerms" :disable="disable"/>
+      <PL004 v-if="item.additionTermId === 'PL004'" :data.sync="additionTerms" :disable="disable"/>
+      <PL005 v-if="item.additionTermId === 'PL005'" :data.sync="additionTerms" :type="type" :disable="disable"/>
+      <PL007 v-if="item.additionTermId === 'PL007'" :data.sync="additionTerms" :disable="disable"/>
+      <PL016 v-if="item.additionTermId === 'PL016'" :data.sync="additionTerms" :disable="disable"/>
+      <PL022 v-if="item.additionTermId === 'PL022'" :data.sync="additionTerms" :disable="disable"/>
+      <PL023 v-if="item.additionTermId === 'PL023'" :data.sync="additionTerms" :disable="disable"/>
+      <PL028 v-if="item.additionTermId === 'PL028'" :data.sync="additionTerms" :disable="disable"/>
+      <PL035 v-if="item.additionTermId === 'PL035'" :data.sync="additionTerms" :disable="disable"/>
+      <PL040 v-if="item.additionTermId === 'PL040'" :data.sync="additionTerms" :disable="disable"/>
+      <PL041 v-if="item.additionTermId === 'PL041'" :data.sync="additionTerms" :disable="disable"/>
+      <PL043 v-if="item.additionTermId === 'PL043'" :data.sync="additionTerms" :disable="disable"/>
+      <PL047 v-if="item.additionTermId === 'PL047'" :data.sync="additionTerms" :disable="disable"/>
+      <PL049 v-if="item.additionTermId === 'PL049'" :data.sync="additionTerms" :disable="disable"/>
+      <PL053 v-if="item.additionTermId === 'PL053'" :data.sync="additionTerms" :disable="disable"/>
+      <PL055 v-if="item.additionTermId === 'PL055'" :data.sync="additionTerms" :disable="disable"/>
+      <PL058 v-if="item.additionTermId === 'PL058'" :data.sync="additionTerms" :disable="disable"/>
     </CommonBoard>
   </div>
 </template>
@@ -84,6 +84,10 @@ export default {
     type: {
       type: String,
       default: () => ''
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   computed: {

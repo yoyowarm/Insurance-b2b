@@ -5,11 +5,12 @@
       <span class="text-main ml-2 whitespace-no-wrap" slot="right">*必填</span>
     </FormTitle>	
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="保險金額:每一意外事故">
+      <InputGroup class="col-span-2" title="保險金額:每一意外事故" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入金額"
           :value="data.PL005.value1.toString()"
+          :disable="disable"
           inputmode="tel"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
@@ -19,7 +20,7 @@
       </InputGroup>
     </div>
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="處所數量" :disable="type == 'place'" whitespaceRight popupRight>
+      <InputGroup class="col-span-2" title="處所數量" :disable="type == 'place' || disable" whitespaceRight popupRight>
         <Input
           slot="input"
           placeholder="請輸入數量"
@@ -28,7 +29,7 @@
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
           numberFormat
-          :disable="type == 'place'"
+          :disable="type == 'place' || disable"
         />
         <span slot="right" class="ml-2 text-sm text-red-500"><font-awesome-icon class="mr-1" icon="exclamation-circle" />請輸入承租處所的數量</span>
         <span class="absolute right-2 bottom-3" slot="suffix">處</span>
@@ -55,6 +56,10 @@ export default {
     type: {
       type: String,
       default: ''
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

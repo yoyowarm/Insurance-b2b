@@ -5,20 +5,22 @@
       <span class="text-main ml-2 whitespace-no-wrap" slot="right">*必填</span>
     </FormTitle>	
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="起訖地">
+      <InputGroup class="col-span-2" title="起訖地" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入起訖地"
+          :disable="disable"
           :value="data.PL041.value1"
           @updateValue="(e) =>updateValue(e,'value1')"
         />
       </InputGroup>
     </div>
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="車牌號碼">
+      <InputGroup class="col-span-2" title="車牌號碼" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入車牌號碼"
+          :disable="disable"
           :value="data.PL041.value2"
           @updateValue="(e) =>updateValue(e,'value2')"
         />
@@ -41,6 +43,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

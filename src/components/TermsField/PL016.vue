@@ -5,11 +5,12 @@
       <span class="text-main ml-2 whitespace-no-wrap" slot="right">*必填</span>
     </FormTitle>	
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="承攬工程合約金額少於">
+      <InputGroup class="col-span-2" title="承攬工程合約金額少於" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入金額"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL016.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
@@ -35,6 +36,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

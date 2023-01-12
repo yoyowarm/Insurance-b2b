@@ -6,11 +6,12 @@
     </FormTitle>	
     <FormTitle title="每一保管箱財損責任之保險金額" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-5 mt-2">
-      <InputGroup class="col-span-2" title="新台幣">
+      <InputGroup class="col-span-2" title="新台幣" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入金額"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL043.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
@@ -21,11 +22,12 @@
     </div>
     <FormTitle title="每一意外事故財損責任之保險金額" classList="text-lg text-gray-700 mt-3"/>
     <div class="column-5 mt-2">
-      <InputGroup class="col-span-2" title="新台幣">
+      <InputGroup class="col-span-2" title="新台幣" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入金額"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL043.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
@@ -36,11 +38,12 @@
     </div>
     <FormTitle title="保險期間內之最高賠償金額" classList="text-lg text-gray-700 mt-3"/>
     <div class="column-5 mt-2">
-      <InputGroup class="col-span-2" title="新台幣">
+      <InputGroup class="col-span-2" title="新台幣" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入金額"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL043.value3.toString()"
           @updateValue="(e) =>updateValue(e,'value3')"
           numberOnly
@@ -66,6 +69,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {
