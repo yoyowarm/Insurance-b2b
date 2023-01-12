@@ -5,7 +5,7 @@
         <div slot="left" class="absolute left-12">
           <Checkbox
           :id="`title${index}`"
-          text="同要保人通訊地址"
+          text="同被保人通訊地址"
           :value="sameAs[index]"
           @updateValue="(e) =>copyAddress(e,index)"
           />
