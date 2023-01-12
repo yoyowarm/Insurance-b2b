@@ -60,7 +60,7 @@
     </div>
     <div class="column-5 my-3">
       <InputGroup lgTitle title="距鄰近建築物" mid :disable="disable">
-        <Input slot="input" inputmode="tel"  unit="公尺" :disable="disable" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離" numberOnly/>
+        <Input slot="input" inputmode="tel" hasZero  unit="公尺" :disable="disable" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離" numberOnly/>
       </InputGroup>
     </div>
      <div class="flex flex-col my-3">
@@ -159,6 +159,7 @@
           @updateValue="(e) => updateValue(e,'room.value')"
           placeholder="房間數目"
           numberOnly
+          hasZero
           />
         <Checkbox
           id="selected"
@@ -183,6 +184,7 @@
           @updateValue="(e) => updateValue(e,'seat.value')"
           placeholder="座位數目"
           numberOnly
+          hasZero
         />
         <Checkbox
           id="selected1"
@@ -198,13 +200,13 @@
     </div>
     <div class="column-4 my-3">
       <InputGroup lgTitle mid title="5.營業處所總樓層數，地上樓層數" :disable="disable">
-        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
+        <Input slot="input" inputmode="tel"  :disable="disable" hasZero :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup lgTitle mid title="營業處所總樓層數，地下樓層數" dash :disable="disable">
-        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
+        <Input slot="input" inputmode="tel"  :disable="disable" hasZero :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup lgTitle mid title="使用到樓層" :disable="disable">
-        <Input slot="input" inputmode="tel"  :disable="disable" :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
+        <Input slot="input" inputmode="tel"  :disable="disable" hasZero :value="data.part2.useFloors" numberOnly @updateValue="(e) => updateValue(e,'useFloors')" placeholder="輸入層數"/>
       </InputGroup>
     </div>
     
@@ -228,6 +230,7 @@
           @updateValue="(e) => updateValue(e,'lifeguardAmount')"
           placeholder="輸入人數"
           :disable="disable || !data.part2.hasSwimmingPool"
+          hasZero
         />
       </InputGroup>
     </div>

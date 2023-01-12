@@ -22,6 +22,7 @@
             :value="data.sheet1.part5.hydrantIndoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -35,6 +36,7 @@
             :value="data.sheet1.part5.hydrantOutdoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -61,6 +63,7 @@
             :value="data.sheet1.part5.foam.indoor"
             @updateValue="(e) => emitSelectItem('foam','indoor',e)"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -74,6 +77,7 @@
             :value="data.sheet1.part5.foam.outdoor"
             @updateValue="(e) => emitSelectItem('foam','outdoor',e)"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -92,6 +96,7 @@
             :value="data.sheet1.part5.carbonDioxide.indoor"
             @updateValue="(e) => emitSelectItem('carbonDioxide','indoor',e)"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -105,6 +110,7 @@
             :value="data.sheet1.part5.carbonDioxide.outdoor"
             @updateValue="(e) => emitSelectItem('carbonDioxide','outdoor',e)"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -123,6 +129,7 @@
             :value="data.sheet1.part5.abc.indoor"
             @updateValue="(e) => emitSelectItem('abc','indoor',e)"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -136,6 +143,7 @@
             :value="data.sheet1.part5.abc.outdoor"
             @updateValue="(e) => emitSelectItem('abc','outdoor',e)"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -154,6 +162,7 @@
             :value="data.sheet1.part5.halon.indoor"
             @updateValue="(e) => emitSelectItem('halon','indoor',e)"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>

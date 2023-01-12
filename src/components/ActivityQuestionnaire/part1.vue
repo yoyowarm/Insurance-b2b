@@ -20,6 +20,7 @@
           :disable="disable"
           :value="data.sheet1.part1.joinPersonAmount"
           numberFormat
+          hasZero
           @updateValue="(e) => updateValue(e,'joinPersonAmount')"
         />
       </InputGroup>
@@ -32,6 +33,7 @@
           :maxLength="7"
           :disable="disable"
           numberFormat
+          hasZero
           :value="data.sheet1.part1.ruleCapacity"
           @updateValue="(e) => updateValue(e,'ruleCapacity')"
         />
@@ -89,6 +91,7 @@
           :maxLength="7"
           :disable="disable"
           numberFormat
+          hasZero
           :value="data.sheet1.part1.activityDays"
           @updateValue="(e) => updateValue(e,'activityDays')"
         />
