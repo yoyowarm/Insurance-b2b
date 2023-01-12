@@ -10,7 +10,7 @@
           <Select :options="formList" slot="input" defaultText="選擇表單區塊"  @emitItem="e=> emitSelectItem(e)" />
         </InputGroup>
       </div>
-      <div class="body">
+      <div class="body" ref="body" @scroll="scroll">
         <div class="flex flex-row flex-wrap mb-2" v-if="QuestionnaireManagement" >
           <div class="flex flex-row items-center mr-4">
             <span class="mr-2 mt-2">被保險人姓名</span>
@@ -82,6 +82,10 @@
             <Button v-if="orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">{{(windowWidth > 600) ? '列印詢問表' : '列印'}}</Button>
           </div>
         </div>
+        <span v-if="scrollBottom" class="text-main cursor-pointer text-center ml-4 w-16 absolute z-30 bottom-24 right-4" @click="scrollTo">
+          <font-awesome-icon :icon="['fas','arrow-up']" /><br>
+          <span>回頂端</span>
+      </span>
       </div>
       <WindowResizeListener @resize="handleResize"/>
     </div>
@@ -198,6 +202,7 @@ export default {
    data () {
     return {
       windowWidth: window.innerWidth,
+      scrollBottom: false,
       value: false,
       formList: [
         { Value: '1', Text: '(一)活動場所-活動性質與場所'},
@@ -232,6 +237,13 @@ export default {
     handleResize () {
       this.windowWidth = window.innerWidth
     },
+    scroll(e) {
+      if(e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
+        this.scrollBottom = true
+      } else {
+        this.scrollBottom = false
+      }
+    },
     emitSelectItem(e) {
       if(this.$refs[e.Value]) {
         this.$refs[e.Value].scrollIntoView({behavior: "smooth"})
@@ -247,6 +259,11 @@ export default {
         this.clearFunc()
       } else {
         this.$store.dispatch('activity/updatedQuestionnaire', {...quotation().activityQuestionnaire,userId:this.$store.state.home.userInfo.userid})
+      }
+    },
+    scrollTo() {
+      if(this.$refs.body) {
+        this.$refs.body.scrollTo({top: 0, behavior: 'smooth'})
       }
     }
   }
