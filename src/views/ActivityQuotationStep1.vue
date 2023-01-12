@@ -21,10 +21,12 @@
         @initTerm="initTerm"
       />
     </CommonBoard>
-    <CommonBoard class="w-full relative activeInfo" title="活動資料">
-      <InputGroup slot="right" class="industry-input-group w-56 sm:w-80 ml-24" :bgColor="!calculateModel ? 'white' : ''" :disable="calculateModel" noMt>
+    <FormTitle title="活動名稱" classList="text-gray-800 font-bold my-2 sm:my-5" class="title" >
+      <InputGroup slot="left" class="industry-input-group w-56 sm:w-80 ml-24 mb-3" :bgColor="!calculateModel ? 'white' : ''" :disable="calculateModel" noMt>
         <Input slot="input" class="max-w-full" :disable="calculateModel" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
       </InputGroup>
+    </FormTitle>
+    <CommonBoard class="w-full relative activeInfo" title="活動資料">
       <ActivityInfo
         :infoList.sync="activityInfoList"
         @addItem="$store.dispatch('activity/addActivityInfo')"
@@ -156,6 +158,7 @@ import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import ActivityModifyAmount from '@/components/PopupDialog/ActivityModifyAmount'
+import FormTitle from '@/components/FormTitle'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
@@ -181,7 +184,8 @@ export default {
     FileUpload,
     LoadingScreen,
     PopupDialog,
-    ActivityModifyAmount
+    ActivityModifyAmount,
+    FormTitle
   },
   data () {
     return {
@@ -836,7 +840,15 @@ export default {
     
   @media screen and (max-width: 519px) {
     .activeInfo {
-      @apply mt-8
+      @apply mt-2
+    }
+  }
+  .title {
+    font-size: 22px
+  }
+  @media screen and (max-width: 600px) {
+    .title {
+      font-size: 18px
     }
   }
 </style>
