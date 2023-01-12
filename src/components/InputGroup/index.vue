@@ -202,7 +202,7 @@ export default {
     }
   }
   .mt {
-    @apply h-5;
+    height: auto;
     &.h0 {
       @apply h-0;
     } 
