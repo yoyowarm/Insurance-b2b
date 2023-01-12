@@ -200,7 +200,7 @@ export default {
           this.requestFile.push('要保險人' + MobileRegex(`${this.Applicant.prefixNumber}${this.Applicant.Mobile}`))
         }
       }
-      if (!this.Relation.Value) {
+      if (!this.Relation.Value || this.Relation.Value == '選擇關係') {
         this.requestFile.push('未選擇關係')
       }
       if (this.internalControlData.businessSourceCode.Value == '請選擇業務來源') {
