@@ -229,7 +229,7 @@ export default {
                 this.requestFile.push(`${target.additionTermName}條款未填寫完成或金額不能為0`)
               }
               if (!this.additionTerms[target.additionTermId].value2) {
-                this.requestFile.push(`${target.additionTermName}處所數量至少為1`)
+                this.requestFile.push(`${target.additionTermName}承租處所數量至少為1`)
               }
             } else if (target.additionTermId == 'PL058') {
               if (!this.additionTerms[target.additionTermId].value1) {
