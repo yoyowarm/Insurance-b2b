@@ -5,9 +5,11 @@
         <div slot="left" class="absolute left-12">
           <Checkbox
           :id="`title${index}`"
-          text="同要保人通訊地址"
-          :value="sameAs[index]"
+          text="同被保人通訊地址"
+          :value="Insuraned.City.Value == item.city.Value && sameAs[index]"
           @updateValue="(e) =>copyAddress(e,index)"
+          :disabled="Insuraned.City.Value !== item.city.Value"
+          :checked="Insuraned.City.Value == item.city.Value && sameAs[index]"
           />
         </div>
       </FormTitle>

@@ -2,11 +2,11 @@
   <CommonBoard class="w-full" title="出單方式(二擇一)">
     <FormTitle classList="text-xl text-gray-700" class="mb-6" title="電子保單">
       <Checkbox
-        class="my-1.5"
+        class="my-1.5 disabled"
         id="ePolicy"
         :checked="eletric.transferType == 1"
         :value="eletric.transferType == 1"
-        :disabled="disable || eletric.transferType == 1"
+        disabled
         @updateValue="(e) =>{ if(eletric.transferType !== 1){updateValue('', 'transferType', 1)}}"
         slot="left"
       />
@@ -78,7 +78,7 @@
         id="paper"
         :checked="eletric.transferType == 2"
         :value="eletric.transferType == 2"
-        :disabled="eletric.transferType == 2 || InsuranceActive == 7"
+        :disabled=" InsuranceActive == 7"
         @updateValue="(e) =>{ if(eletric.transferType !== 2){updateValue('', 'transferType', 2)}}"
         slot="left"
       />

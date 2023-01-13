@@ -89,6 +89,7 @@
         />
         <div slot="right" class="cursor-pointer absolute left-24" @click="setDialog" >
           <font-awesome-icon class="text-xl text-main ml-1" icon="info-circle" />
+          <span class="text-lg text-main ml-1">特定職業參考</span>
         </div>
       </InputGroup>
       <InputGroup class="w-full" title="負責(代表)人" lgTitle mid v-if="copyInfo.CorporateRequired" :disable="disable">

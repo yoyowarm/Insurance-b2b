@@ -6,11 +6,12 @@
     </FormTitle>	
     <FormTitle title="本附加條款之每一意外事故及保險期間累計保險金額最高以新台幣" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-5 ">
-      <InputGroup class="col-span-2" noMt>
+      <InputGroup class="col-span-2" noMt :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入金額"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL049.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
@@ -36,6 +37,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

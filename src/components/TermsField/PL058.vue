@@ -6,11 +6,12 @@
     </FormTitle>	
     <FormTitle title="年度購提液化石油氣總數量" classList="text-lg text-gray-700 mt-3"/>
      <div class="column-5 mt-2">
-      <InputGroup class="col-span-2" noMt>
+      <InputGroup class="col-span-2" noMt :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入數量"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL058.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
@@ -36,6 +37,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

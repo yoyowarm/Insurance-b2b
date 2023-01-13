@@ -94,7 +94,7 @@ export default {
         Popup.create({
           headerText: '',
           hasHtml: true,
-          htmlText: `${additionTermName}處所數量至少為1`,
+          htmlText: `${additionTermName}承租處所數量至少為1`,
         })
         this.copyTerms[additionTermName].selected = false
         this.$refs[additionTermName][0].$el.childNodes[0].checked = false

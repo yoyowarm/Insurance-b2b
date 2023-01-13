@@ -8,11 +8,12 @@
       <div class="flex flex-col">
         <FormTitle title="住院慰問金費用保險金額" classList="text-lg text-gray-700 mt-3"/>
         <div class="flex flex-row mt-2">
-          <InputGroup class="col-span-2" title="每一個人">
+          <InputGroup class="col-span-2" title="每一個人" :disable="disable">
             <Input
               slot="input"
               placeholder="請輸入金額"
               inputmode="tel" 
+              :disable="disable"
               :value="data.PL023.value1.toString()"
               @updateValue="(e) =>updateValue(e,'value1')"
               numberOnly
@@ -22,11 +23,12 @@
           </InputGroup>
         </div>
         <div class="flex flex-row mt-2">
-          <InputGroup class="col-span-2" title="每一意外事故">
+          <InputGroup class="col-span-2" title="每一意外事故" :disable="disable">
             <Input
               slot="input"
               placeholder="請輸入金額"
               inputmode="tel" 
+              :disable="disable"
               :value="data.PL023.value2.toString()"
               @updateValue="(e) =>updateValue(e,'value2')"
               numberOnly
@@ -36,11 +38,12 @@
           </InputGroup>
         </div>
         <div class="flex flex-row mt-2">
-          <InputGroup class="col-span-2" title="保險期間內最高賠償金額">
+          <InputGroup class="col-span-2" title="保險期間內最高賠償金額" :disable="disable">
             <Input
               slot="input"
               placeholder="請輸入金額"
               inputmode="tel" 
+              :disable="disable"
               :value="data.PL023.value3.toString()"
               @updateValue="(e) =>updateValue(e,'value3')"
               numberOnly
@@ -53,11 +56,12 @@
       <div class="flex flex-col">
         <FormTitle title="奠儀慰問金費用保險金額" classList="text-lg text-gray-700 mt-3"/>
         <div class="flex flex-row mt-2">
-          <InputGroup class="col-span-2" title="每一個人">
+          <InputGroup class="col-span-2" title="每一個人" :disable="disable">
             <Input
               slot="input"
               placeholder="請輸入金額"
               inputmode="tel" 
+              :disable="disable"
               :value="data.PL023.value4.toString()"
               @updateValue="(e) =>updateValue(e,'value4')"
               numberOnly
@@ -67,11 +71,12 @@
           </InputGroup>
         </div>
         <div class="flex flex-row mt-2">
-          <InputGroup class="col-span-2" title="每一意外事故">
+          <InputGroup class="col-span-2" title="每一意外事故" :disable="disable">
             <Input
               slot="input"
               placeholder="請輸入金額"
               inputmode="tel" 
+              :disable="disable"
               :value="data.PL023.value5.toString()"
               @updateValue="(e) =>updateValue(e,'value5')"
               numberOnly
@@ -81,11 +86,12 @@
           </InputGroup>
         </div>
         <div class="flex flex-row mt-2">
-          <InputGroup class="col-span-2" title="保險期間內最高賠償金額">
+          <InputGroup class="col-span-2" title="保險期間內最高賠償金額" :disable="disable">
             <Input
               slot="input"
               placeholder="請輸入金額"
               inputmode="tel" 
+              :disable="disable"
               :value="data.PL023.value6.toString()"
               @updateValue="(e) =>updateValue(e,'value6')"
               numberOnly
@@ -113,6 +119,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

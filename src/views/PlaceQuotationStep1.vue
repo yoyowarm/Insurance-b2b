@@ -5,19 +5,19 @@
         <Button class="text-base" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
       <div class="column-5">
-        <InputGroup class="item" title="是否續保" dash :disabled="calculateModel">
+        <InputGroup class="item" title="是否續保" dash disabled>
           <SwitchInput
             slot="input"
             id="IsRenewal"
             :value="renewal.IsRenewal"
-            :disabled="calculateModel"
+            disabled
             @updateValue="(e) =>$store.dispatch('place/updatedRenewal', Object.assign(renewal, {IsRenewal: e}))"
           />
         </InputGroup>
-        <InputGroup class="w-ful" :disable="!renewal.IsRenewal || calculateModel">
+        <InputGroup class="w-ful" disable>
         <div slot="input" class="w-full pr-24 relative">
-          <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" :disable="!renewal.IsRenewal|| calculateModel"/>
-          <Button v-if="InsuranceActive !== 7" class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" :disabled="!renewal.IsRenewal|| calculateModel"><span class="whitespace-no-wrap">查詢</span></Button>
+          <Input placeholder="輸入保單號碼" :value="renewal.InsuranceNumber" @updateValue="(e) => $store.dispatch('place/updatedRenewal', Object.assign(renewal, {InsuranceNumber: e}))" disable/>
+          <Button v-if="InsuranceActive !== 7" class="absolute right-0 -top-1 w-16 md:w-20 h-full" style="height: 50px" @click.native="renewInfo" disabled><span class="whitespace-no-wrap">查詢</span></Button>
         </div>
       </InputGroup>
       </div>
@@ -37,7 +37,7 @@
         :searchText="searchText"
         :disable="calculateModel"
         :questionnaire="questionnaire"
-        :isRenewal="renewal.IsRenewal"
+        :isRenewal="renewal.IsRenewal || InsuranceActive == 7"
         @initTerm="initTerm"
       />
     </CommonBoard>
@@ -45,7 +45,7 @@
       <Period :period.sync="periodData" :disable="calculateModel"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="投保紀錄">
-      <InsuranceRecord :data.sync="InsuranceRecordTable" :disable="calculateModel"/>
+      <InsuranceRecord :data.sync="InsuranceRecordTable" disable/>
     </CommonBoard>
     <CommonBoard class="w-full" :title="`處所資料 數量:${placeInfoList.length}`">
       <PlaceInfo

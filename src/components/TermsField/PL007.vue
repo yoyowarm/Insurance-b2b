@@ -4,11 +4,12 @@
       <font-awesome-icon class="text-xl text-gray-700 mr-1" :icon="['far', 'clipboard']" slot="left"/>
     </FormTitle>	
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="學員">
+      <InputGroup class="col-span-2" title="學員" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入人數"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL007.value1.toString()"
           @updateValue="(e) =>updateValue(e,'value1')"
           numberOnly
@@ -18,11 +19,12 @@
       </InputGroup>
     </div>
     <div class="column-5 mt-4">
-      <InputGroup class="col-span-2" title="幼兒">
+      <InputGroup class="col-span-2" title="幼兒" :disable="disable">
         <Input
           slot="input"
           placeholder="請輸入人數"
           inputmode="tel" 
+          :disable="disable"
           :value="data.PL007.value2.toString()"
           @updateValue="(e) =>updateValue(e,'value2')"
           numberOnly
@@ -48,6 +50,10 @@ export default {
     data: {
       type: Object,
       default: () => ({})
+    },
+    disable: {
+      type: Boolean,
+      default: () => false
     }
   },
   methods: {

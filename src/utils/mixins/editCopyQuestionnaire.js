@@ -152,22 +152,22 @@ export default {
           seat: { ...this.questionnaire.part2.seat, seatAmount: this.questionnaire.part2.seat.value },
         }
       }
-      if (Object.keys(this.questionnaire.part1.createTime).every(key => this.questionnaire.part1.createTime[key] !== '')) {
+      if (this.questionnaire.part1.createTime && Object.keys(this.questionnaire.part1.createTime).every(key => this.questionnaire.part1.createTime[key] !== '')) {
         data.questionnaire.part1.createTime = `${Number(this.questionnaire.part1.createTime.year) + 1911}-${this.questionnaire.part1.createTime.month}-${this.questionnaire.part1.createTime.day}`
       } else data.questionnaire.part1.createTime = null
 
-      if (Object.keys(this.questionnaire.part1.businessStartDate).every(key => this.questionnaire.part1.businessStartDate[key])) {
+      if (this.questionnaire.part1.businessStartDate && Object.keys(this.questionnaire.part1.businessStartDate).every(key => this.questionnaire.part1.businessStartDate[key])) {
         data.questionnaire.part1.businessStartDate = `${this.questionnaire.part1.businessStartDate.hours}:${this.questionnaire.part1.businessStartDate.minutes}`
       } else data.questionnaire.part1.businessStartDate = null
 
-      if (Object.keys(this.questionnaire.part1.businessEndDate).every(key => this.questionnaire.part1.businessEndDate[key])) {
+      if (this.questionnaire.part1.businessEndDate && Object.keys(this.questionnaire.part1.businessEndDate).every(key => this.questionnaire.part1.businessEndDate[key])) {
         data.questionnaire.part1.businessEndDate = `${this.questionnaire.part1.businessEndDate.hours}:${this.questionnaire.part1.businessEndDate.minutes}`
       } else data.questionnaire.part1.businessEndDate = null
       return data
     },
     activityQuestionnaireMapping(data) {
       data.questionnaire = data.questionnaire ? data.questionnaire : JSON.parse(JSON.stringify(this.questionnaire))
-      if (Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key] !== '')) {
+      if (data.questionnaire.sheet1.part1.beginDateTime && Object.keys(data.questionnaire.sheet1.part1.beginDateTime).every(key => data.questionnaire.sheet1.part1.beginDateTime[key] !== '')) {
         data.questionnaire.sheet1.part1.beginDateTime = `${Number(data.questionnaire.sheet1.part1.beginDateTime.year) + 1911}-${data.questionnaire.sheet1.part1.beginDateTime.month}-${data.questionnaire.sheet1.part1.beginDateTime.day} ${data.questionnaire.sheet1.part1.beginDateTime.hours}:00`
       } else {
         data.questionnaire.sheet1.part1.beginDateTime = null

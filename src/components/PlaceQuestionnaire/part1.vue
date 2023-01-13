@@ -36,7 +36,7 @@
         </div>
       </div>
       <InputGroup lgTitle title="3.員工人數"  :disable="disable">
-        <Input slot="input"  inputmode="tel"  :disable="disable" :maxLength="7" numberOnly placeholder="輸入人數" @updateValue="(e) => updateValue(e,'staffAmount')" :value="data.part1.staffAmount"/>
+        <Input slot="input"  inputmode="tel"  :disable="disable" :maxLength="7" hasZero numberOnly placeholder="輸入人數" @updateValue="(e) => updateValue(e,'staffAmount')" :value="data.part1.staffAmount"/>
       </InputGroup>
     </div>
     <div class="column-4 my-3">
@@ -85,18 +85,18 @@
         </InputGroup>
       </div>
       <InputGroup lgTitle title="5.基地面積" :disable="disable">
-        <Input slot="input" inputmode="tel"  :maxLength="7" :disable="disable" :value="data.part1.area" @updateValue="(e) => updateValue(e,'area')"  placeholder="輸入面積"/>
+        <Input slot="input" inputmode="tel" hasZero  :maxLength="7" :disable="disable" :value="data.part1.area" @updateValue="(e) => updateValue(e,'area')"  placeholder="輸入面積"/>
       </InputGroup>
       <InputGroup lgTitle title="總面積" :disable="disable">
-        <Input slot="input" inputmode="tel"  :maxLength="7" :disable="disable" :value="data.part1.totalArea" @updateValue="(e) => updateValue(e,'totalArea')" placeholder="輸入面積"/>
+        <Input slot="input" inputmode="tel" hasZero :maxLength="7" :disable="disable" :value="data.part1.totalArea" @updateValue="(e) => updateValue(e,'totalArea')" placeholder="輸入面積"/>
       </InputGroup>
     </div>
     <div class="column-4 my-3 dashed-border">
       <InputGroup lgTitle title="6.平均出入人數(人/天)" :disable="disable">
-        <Input slot="input" inputmode="tel"  :maxLength="7" :disable="disable" :value="data.part1.dailyAveragePersons" @updateValue="(e) => updateValue(e,'dailyAveragePersons')" placeholder="輸入人數" numberOnly/>
+        <Input slot="input" inputmode="tel" hasZero :maxLength="7" :disable="disable" :value="data.part1.dailyAveragePersons" @updateValue="(e) => updateValue(e,'dailyAveragePersons')" placeholder="輸入人數" numberOnly/>
       </InputGroup>
       <InputGroup lgTitle title="最高出入人數(人/天)" :disable="disable">
-        <Input slot="input" inputmode="tel" :maxLength="7" :disable="disable" :value="data.part1.singleDayHighestPersons" @updateValue="(e) => updateValue(e,'singleDayHighestPersons')" placeholder="輸入人數" numberOnly/>
+        <Input slot="input" inputmode="tel" hasZero :maxLength="7" :disable="disable" :value="data.part1.singleDayHighestPersons" @updateValue="(e) => updateValue(e,'singleDayHighestPersons')" placeholder="輸入人數" numberOnly/>
       </InputGroup>
     </div>
   </div>

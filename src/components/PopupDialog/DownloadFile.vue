@@ -9,8 +9,8 @@
       <div class="body">
         <div class="flex flex-row">
           <span class="mr-4">關聯號:<br>{{item.mainOrderNo}}</span>
-          <span class="mr-4">要保人:<br>{{item.insuredName}}</span>
-          <span>被保人:<br>{{item.applicantName}}</span>
+          <span class="mr-4">要保人:<br>{{item.applicantName}}</span>
+          <span>被保人:<br>{{item.insuredName}}</span>
         </div>
         <div class="downloadList">
           <div class="head">

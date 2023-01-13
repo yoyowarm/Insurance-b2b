@@ -21,6 +21,7 @@
             :value="data.part7.hydrantIndoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -34,6 +35,7 @@
             :value="data.part7.hydrantOutdoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -59,6 +61,7 @@
             :value="data.part7.foam.indoor"
             @updateValue="(e) => updateValue(e,'foam.indoor')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -72,6 +75,7 @@
             :value="data.part7.foam.outdoor"
             @updateValue="(e) => updateValue(e,'foam.outdoor')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -90,6 +94,7 @@
             :value="data.part7.carbonDioxide.indoor"
             @updateValue="(e) => updateValue(e,'carbonDioxide.indoor')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -103,6 +108,7 @@
             :value="data.part7.carbonDioxide.outdoor"
             @updateValue="(e) => updateValue(e,'carbonDioxide.outdoor')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -121,6 +127,7 @@
             :value="data.part7.abc.indoor"
             @updateValue="(e) => updateValue(e,'abc.indoor')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -134,6 +141,7 @@
             :value="data.part7.abc.outdoor"
             @updateValue="(e) => updateValue(e,'abc.outdoor')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>
@@ -152,6 +160,7 @@
             :value="data.part7.halon.indoor"
             @updateValue="(e) => updateValue(e,'halon.indoor')"
             numberOnly
+            hasZero
             unit="支"
           />
         </InputGroup>

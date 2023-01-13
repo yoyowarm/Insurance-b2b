@@ -11,6 +11,8 @@
       ref="input"
       @blur="()=>{ $emit('blurInput');valueFormat()}"
       @keyup.delete="() => {deleteEvent()}"
+      @keyup.right="setSelection"
+      @keyup.left="setSelection"
       @click="getSelection">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>
@@ -104,8 +106,8 @@ export default {
         if(this.deleted)  {
           if(value.toString().length == 1) {
             this.$refs.input.value = ''
+            return
           }
-          return
         }
         this.updateValue(value)
       }
@@ -127,15 +129,21 @@ export default {
   methods: {
     numFormat,
     valueFormat() {
-      if(this.numberOnly && Boolean(Number(this.syncValue)) == false && !this.numberFormat) {
+      if(!this.hasZero && this.numberOnly && Boolean(Number(this.syncValue)) == false && !this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
-      } else if(this.numberOnly  &&  Boolean(Number(this.syncValue.replace(/,/g, ''))) == false && this.numberFormat) {
+      } else if(!this.hasZero && this.numberOnly  &&  Boolean(Number(this.syncValue.replace(/,/g, ''))) == false && this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
       }
     },
+    setSelection() {
+      this.selection.start = this.$refs.input.selectionStart
+      this.selection.end = this.$refs.input.selectionEnd
+    },
     updateValue (value) {
+      this.selection.start = this.$refs.input.selectionStart
+      this.selection.end = this.$refs.input.selectionEnd
       let inputValue = value
       if(this.numberOnly && !this.decimalPoint && !this.decimalPoint3 && !this.decimalPoint5) {
         if(Boolean(Number(inputValue.toString().replace(/,/g, ''))) == false && (this.hasZero && inputValue != 0)) {
@@ -198,7 +206,6 @@ export default {
       if(this.decimalPoint5) {
         const regex = new RegExp(/^[0-9]+.?[0-9]{0,5}$/, 'g');
         const regex2 = new RegExp(/^0+[0-9]{1,}/, 'g');
-          
         if(regex2.test(value)) {
           inputValue = value.replace(regex2, '')
         }
@@ -208,22 +215,20 @@ export default {
           inputValue = value.slice(0, value.length -4)
         }
       }
+      
       this.$emit('updateValue', inputValue)
-
+      this.$refs.input.selectionStart = this.selection.start
+      this.$refs.input.selectionEnd = this.selection.end
     },
     deleteEvent() {
+      this.$refs.input.selectionStart = this.selection.start
+      this.$refs.input.selectionEnd = this.selection.end
       this.deleted = true
-      this.$refs.input.selectionStart = this.selection.start-2
-      this.$refs.input.selectionEnd = this.selection.end-2
       setTimeout(() => {
         this.deleted = false
       }, 180)
     },
     getSelection() {
-      if(this.syncValue.toString().length !== this.$refs.input.selectionEnd) {
-        this.selection.start = this.$refs.input.selectionStart
-        this.selection.end = this.$refs.input.selectionEnd
-      }
     }
   },
 }
