@@ -77,7 +77,7 @@
             <Button v-if="questionnaireType == 0" class="h-12 w-52 mr-3" @click.native="() =>{$store.dispatch('place/updateQuestionnaireFinished', true);$emit('update:open' ,false)}">{{(windowWidth > 600) ? '填寫完成' : '完成'}}</Button>
             <Button v-if="questionnaireType == 1" class="h-12 w-52 mr-3" @click.native="() =>{$emit('addQuestionnaire',1);$emit('update:open' ,false)}">{{(windowWidth > 600) ? '新增詢問表' : '新增'}}</Button>
             <Button v-if="questionnaireType == 2" class="h-12 w-52 mr-3" @click.native="() =>{$emit('updateQuestionnaire',1);$emit('update:open' ,false)}">{{(windowWidth > 600) ? '更新詢問表' : '更新'}}</Button>
-            <Button v-if="orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">{{(windowWidth > 600) ? '列印詢問表' : '列印'}}</Button>
+            <Button v-if="QuestionnaireManagement && orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">{{(windowWidth > 600) ? '列印詢問表' : '列印'}}</Button>
           </div>
         </div>
         <span v-if="scrollBottom" class="text-main cursor-pointer text-center ml-4 w-16 absolute z-30 bottom-24 right-4" @click="scrollTo">
