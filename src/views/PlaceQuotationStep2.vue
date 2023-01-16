@@ -506,6 +506,7 @@ export default {
     if(!this.internalControlData.issuerNumber) {
       this.internalControl = {...this.internalControl,issuerNumber: this.userInfo.userid}
     }
+    await this.getBusinessSource()
   },
 }
 </script>
