@@ -20,7 +20,7 @@
                 @updateValue="(e) => updateIndustry(e, list)"
                 :disabled="calculateModel"
               />
-              <InputGroup v-if="list.dangerSeq == 106" class=" sm:w-64" :disable="!selected.Text.includes('其他')" :key="`Industry${list.dangerSeq}`" :lgTitle="windowWidth > 600" popupRight>
+              <InputGroup v-if="list.dangerSeq == 106" class=" sm:w-64" :disable="!selected.Text.includes('其他') || calculateModel" :key="`Industry${list.dangerSeq}`" :lgTitle="windowWidth > 600" popupRight>
               <span slot="right" class="mr-8 text-sm sm:text-base md:text-lg text-red-500"><font-awesome-icon class="mr-1" icon="exclamation-circle" />需填寫可判斷之行業種類</span>
                 <Input
                   slot="input"
