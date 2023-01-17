@@ -254,6 +254,7 @@ export default {
   },
   async mounted() {
     await this.GetPlaceActivitieDangerCodes()
+    await this.getAllList(this.currentTag)
   }
 }
 </script>
