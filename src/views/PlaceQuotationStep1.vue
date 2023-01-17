@@ -581,6 +581,9 @@ export default {
           await this.calculateAmount(false)
         }
       }
+      if(this.questionnaireFinished) {
+        await this.questionnaireCoefficient()
+      }
     },
     correctAmount() {
       this.insuranceAmountListData = {
@@ -796,7 +799,7 @@ export default {
       }
       
       if(this.questionnaireFinished) {
-        this.placeQuestionnaireMapping(data)
+        data.questionnaire = this.placeQuestionnaireMapping({})
       }
       if(this.InsuranceActive !==0) {
         data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant

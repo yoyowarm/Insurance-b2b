@@ -385,6 +385,9 @@ export default {
           await this.calculateAmount(false)
         }
       }
+      if(this.questionnaireFinished) {
+        await this.questionnaireCoefficient()
+      }
     },
     async questionnaireCoefficient(audit) {
       let data = {questionnaire: null,}
@@ -764,7 +767,7 @@ export default {
           })]
       }
       if(this.questionnaireFinished) {
-        this.activityQuestionnaireMapping(data)
+        data.questionnaire = this.activityQuestionnaireMapping({})
       }
       if(this.InsuranceActive !==0) {
         data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
