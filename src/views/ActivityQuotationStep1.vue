@@ -22,7 +22,7 @@
       />
     </CommonBoard>
     <FormTitle title="活動名稱" classList="text-gray-800 font-bold my-2 sm:my-5" class="title" >
-      <InputGroup slot="left" class="industry-input-group w-56 sm:w-80 ml-24 mb-3" :bgColor="!calculateModel ? 'white' : ''" :disable="calculateModel" noMt>
+      <InputGroup slot="left" class="activity-name" :bgColor="!calculateModel ? 'white' : ''" :disable="calculateModel" noMt>
         <Input slot="input" class="max-w-full" :disable="calculateModel" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
       </InputGroup>
     </FormTitle>
@@ -840,7 +840,10 @@ export default {
   .industry-input-group {
     position: absolute!important;
   }
-    
+  .activity-name {
+    width: calc(100% - 350px);
+    @apply industry-input-group ml-24 mb-3
+  }
   @media screen and (max-width: 519px) {
     .activeInfo {
       @apply mt-2
@@ -849,7 +852,15 @@ export default {
   .title {
     font-size: 22px
   }
+  @media screen and (min-width: 601px) and (max-width: 770px) {
+    .activity-name {
+      width: calc(100% - 130px);
+    }
+  }
   @media screen and (max-width: 600px) {
+    .activity-name {
+      width: calc(100% - 130px);
+    }
     .title {
       font-size: 18px
     }
