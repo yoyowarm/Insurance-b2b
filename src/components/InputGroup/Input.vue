@@ -129,6 +129,7 @@ export default {
   methods: {
     numFormat,
     valueFormat() {
+      if(this.syncValue == undefined || this.syncValue == null) return
       if(!this.hasZero && this.numberOnly && Boolean(Number(this.syncValue)) == false && !this.numberFormat) {
         this.$emit('updateValue', '')
         this.$refs.input.value = ''
