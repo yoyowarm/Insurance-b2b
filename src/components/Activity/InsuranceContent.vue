@@ -4,7 +4,7 @@
       <InputGroup class="w-full col-span-2" title="投保行業" v-if="copyInfo.CorporateRequired || true" borderBtn :editModel="editModel">
          <Select v-if="editModel" slot="input" defaultText="心理輔導與家庭諮詢機構"/>
           <div v-else slot="input" class="w-full relative">
-            {{info.displayInsureType.includes('其他')? `${info.displayInsureType}(${info.otherIndustryName})`: info.displayInsureType}}
+            {{Object.keys(info).length > 0 ? (info.displayInsureType.includes('其他')? `${info.displayInsureType}(${info.otherIndustryName})`: info.displayInsureType): ''}}
           </div>
       </InputGroup>
       <div class="flex flex-row col-span-2">
@@ -185,7 +185,9 @@ export default {
     },
     info: {
       type: Object,
-      default: () => ({})
+      default: () => ({
+        displayInsureType: ''
+      })
     },
     nationalities: {
       type: Array,

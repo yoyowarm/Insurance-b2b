@@ -401,6 +401,7 @@ export default {
     prevStep() {
       const data = {
         ...JSON.parse(JSON.stringify(this.placeQuotation)),
+        placeInsureInfo: this.quotationData.placeInsureInfo
         }
       this.$store.dispatch('place/updatedQuotationData', data)
       this.$router.push('/place-quotation/step1')

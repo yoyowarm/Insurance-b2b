@@ -373,6 +373,7 @@ export default {
     prevStep() {
       const data = {
         ...JSON.parse(JSON.stringify(this.activityQuotation)),
+        activityInsureInfo: this.quotationData.activityInsureInfo
         }
       this.$store.dispatch('activity/updatedQuotationData', data)
       this.$router.push('/activity-quotation/step1')

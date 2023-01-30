@@ -799,7 +799,7 @@ export default {
       }
       
       if(this.questionnaireFinished) {
-        data.questionnaire = this.placeQuestionnaireMapping({})
+        data.questionnaire = this.placeQuestionnaireMapping({}).questionnaire
       }
       if(this.InsuranceActive !==0) {
         data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
