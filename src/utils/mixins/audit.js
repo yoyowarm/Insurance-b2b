@@ -1,3 +1,5 @@
+import { Popup } from "../popups"
+
 export default {
   data() {
     return {
@@ -80,6 +82,13 @@ export default {
         }
         this.$store.dispatch('common/updatedCalculateModel', true)
         const res = await this.$store.dispatch('underwrite/TrialBalanceActivityInsurance', payload)
+        if (res.data.code == 0) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: res.data.message,
+          })
+          return
+        }
         if (data.type == 'inside') {
           this.parameter = res.data.content
         } else {
@@ -180,6 +189,13 @@ export default {
         }
         this.$store.dispatch('common/updatedCalculateModel', true)
         const res = await this.$store.dispatch('underwrite/TrialBalancePlaceInsurance', payload)
+        if (res.data.code == 0) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: res.data.message,
+          })
+          return
+        }
         if (data.type == 'inside') {
           this.parameter = res.data.content
           this.parameter.parameter.hexTypeBasicAmount = data.hexTypeBasicAmount
