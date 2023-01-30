@@ -284,8 +284,8 @@ export default {
       this.activityInfoList.map(item => {
         totalPerson += Number(item.number.replace(/,/g, ''))* Number(item.day)
         if(!item.number) return
-        map1.set(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`, item.number)
-        map1.set(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`, item.number)
+        map1.set(`${Number(item.startDate.year)}/${Number(item.startDate.month)}/${Number(item.startDate.day)}`, item.number)
+        map1.set(`${Number(item.endDate.year)}/${Number(item.endDate.month)}/${Number(item.endDate.day)}`, item.number)
         let startDate = new Date(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`).getTime()
         let endDate = new Date(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`).getTime()
         let day = ((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1
