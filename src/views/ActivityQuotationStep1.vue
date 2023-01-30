@@ -82,6 +82,7 @@
         </div>
         <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
       </div>
+      <p v-if="InsuranceActive !== 7" class="mt-4 text-sm text-main">先填寫詢問表後，再點選試算保費</p>
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="calculateAmount" :disabled="calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
@@ -814,13 +815,6 @@ export default {
     }
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
-    }
-    if(this.InsuranceActive !==7) {
-      Popup.create({
-          hasHtml: true,
-          maskClose: false,
-          htmlText:'<p>先填寫詢問表後，再點選試算保費</p>'
-        })
     }
     if(this.InsuranceActive === 7) {
       Popup.create({
