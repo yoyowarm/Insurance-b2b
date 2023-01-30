@@ -23,7 +23,7 @@
     </CommonBoard>
     <FormTitle title="活動名稱" classList="text-gray-800 font-bold my-2 sm:my-5" class="title" >
       <InputGroup slot="left" class="activity-name" :bgColor="!calculateModel ? 'white' : ''" :disable="calculateModel" noMt>
-        <Input slot="input" class="max-w-full" :disable="calculateModel" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
+        <Input slot="input" class="w-full" :disable="calculateModel" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
       </InputGroup>
     </FormTitle>
     <CommonBoard class="w-full relative activeInfo" title="活動資料">
@@ -804,6 +804,11 @@ export default {
       copyQuestionnaire.sheet1.part1.name = e
       this.$store.dispatch('activity/updatedInsuraned', copyInsuraned)
       this.$store.dispatch('activity/updatedQuestionnaire', copyQuestionnaire)
+      if(Object.keys(this.quotationData).length > 0) {
+        const copyQuotationData = JSON.parse(JSON.stringify(this.quotationData))
+        copyQuotationData.insuraned.activityName = e
+        this.$store.dispatch('activity/updatedQuotationData', copyQuotationData)
+      }
     }
   },
   async mounted() {
