@@ -2,7 +2,7 @@
   <div>
     <CommonBoard class="w-full mt-16 mb-8 sm:mt-8" title="投保行業">
       <template slot="right">
-        <Button class="text-base absolute right-5 top-16 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
+        <Button class="text-base absolute right-5 top-2 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
       <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" :value="searchText" @updateValue="(e) => searchText = e" placeholder="輸入行業關鍵字" slotIcon>
@@ -21,20 +21,17 @@
         @initTerm="initTerm"
       />
     </CommonBoard>
-    <FormTitle title="活動名稱" classList="text-gray-800 font-bold my-2 sm:my-5" class="title" >
-      <InputGroup slot="left" class="activity-name" :bgColor="!calculateModel ? 'white' : ''" :disable="calculateModel" noMt>
-        <Input slot="input" class="w-full" :disable="calculateModel" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
-      </InputGroup>
-    </FormTitle>
     <CommonBoard class="w-full relative activeInfo" title="活動資料">
       <ActivityInfo
         :infoList.sync="activityInfoList"
         @addItem="$store.dispatch('activity/addActivityInfo')"
         @removeItem="(index) => $store.dispatch('activity/deleteActivityInfo',index)"
+        @updatedActivityName="updatedActivityName"
         :countyList="countyList"
         :areaList="areaList"
         :disable="calculateModel || InsuranceActive == 7"
         :average="average"
+        :activityName="Insuraned.activityName"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
@@ -158,7 +155,6 @@ import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import ActivityModifyAmount from '@/components/PopupDialog/ActivityModifyAmount'
-import FormTitle from '@/components/FormTitle'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
@@ -185,7 +181,6 @@ export default {
     LoadingScreen,
     PopupDialog,
     ActivityModifyAmount,
-    FormTitle
   },
   data () {
     return {
