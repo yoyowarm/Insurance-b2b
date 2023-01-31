@@ -401,14 +401,15 @@ export default {
       const tomorrow = new Date().setDate(new Date().getDate() + 1)
       
       if(!this.copyInfoList[index].startDate.year) {
-        this.copyInfoList[index].startDate.year = new Date(today).getFullYear() - 1911
-        this.copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear() - 1911
+        this.copyInfoList[index].startDate.year = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getFullYear() - 1911 :  new Date(today).getFullYear() - 1911
+        this.copyInfoList[index].endDate.year = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getFullYear() - 1911 :  new Date(today).getFullYear() - 1911
       }
       if(!this.copyInfoList[index].startDate.month) {
-        this.copyInfoList[index].startDate.month = new Date(today).getMonth() + 1
-        this.copyInfoList[index].endDate.month = new Date(tomorrow).getMonth() + 1
+        this.copyInfoList[index].startDate.month = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getMonth() + 1 :  new Date(today).getMonth() + 1
+        this.copyInfoList[index].endDate.month = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getMonth() + 1 :  new Date(today).getMonth() + 1
       }
       if(!this.copyInfoList[index].startDate.day) {
+        console.log(new Date(new Date().setHours(new Date().getHours()+3)).getHours())
         this.copyInfoList[index].startDate.day = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getDate() : new Date(today).getDate()
         this.copyInfoList[index].endDate.day = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getDate() : new Date(today).getDate()
       }
