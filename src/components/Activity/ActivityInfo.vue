@@ -345,6 +345,7 @@ export default {
       }
     },
     emitSelectItem(type,key, value, index) {
+      
       const copyInfoList = [...this.infoList]
 			copyInfoList[index][type][key] = value
       const hour = copyInfoList[index].startDate.hour.toString() == '24' ? '11:59' : `${copyInfoList[index].startDate.hour}:00`
@@ -383,6 +384,9 @@ export default {
               copyInfoList[index].endDate.day = copyInfoList[index].startDate.day
             }
         }
+      }
+      if(type == 'startDate' || type == 'endDate') {
+        this.$emit('updatedActivityTime')
       }
 			this.$emit('update:infoList', copyInfoList)
 		},

@@ -27,6 +27,7 @@
         @addItem="$store.dispatch('activity/addActivityInfo')"
         @removeItem="(index) => $store.dispatch('activity/deleteActivityInfo',index)"
         @updatedActivityName="updatedActivityName"
+        @updatedActivityTime="updatePeriod"
         :countyList="countyList"
         :areaList="areaList"
         :disable="calculateModel || InsuranceActive == 7"
@@ -234,7 +235,6 @@ export default {
       },
       set(val) {
         this.$store.dispatch('activity/updatedActivityInfo', val)
-        this.updatePeriod()
         this.updatedQuestionnaire()
       }
     },
@@ -809,7 +809,6 @@ export default {
   },
   async mounted() {
     await this.pageInit()
-    this.updatePeriod()
     if(this.InsuranceActive !== 7) {
       this.$store.dispatch('activity/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
     }
