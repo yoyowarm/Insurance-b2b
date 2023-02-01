@@ -809,6 +809,9 @@ export default {
   },
   async mounted() {
     await this.pageInit()
+    if(Object.keys(this.periodData.startDate).every(i => this.periodData.startDate[i] == '') && Object.keys(this.periodData.endDate).every(i => this.periodData.endDate[i] == '')) {
+      this.updatePeriod()
+    }
     if(this.InsuranceActive !== 7) {
       this.$store.dispatch('activity/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
     }
