@@ -373,7 +373,24 @@ export default {
     prevStep() {
       const data = {
         ...JSON.parse(JSON.stringify(this.activityQuotation)),
-        activityInsureInfo: this.quotationData.activityInsureInfo
+        activityInsureInfo: this.quotationData.activityInsureInfo,
+        insuranceAmounts: this.quotationData.insuranceAmounts ? this.quotationData.insuranceAmounts.map(item => {
+          return {
+            ...item,
+            insuranceTotalAmount: Number(item.insuranceTotalAmount)/10000,
+            perAccidentBodyAmount: Number(item.perAccidentBodyAmount)/10000,
+            perAccidentFinanceAmount: Number(item.perAccidentFinanceAmount)/10000,
+            perBodyAmount: Number(item.perBodyAmount)/10000,
+          }
+        }) : this.activityQuotation.insuranceAmounts.map(item => {
+          return {
+            ...item,
+            insuranceTotalAmount: Number(item.insuranceTotalAmount)/10000,
+            perAccidentBodyAmount: Number(item.perAccidentBodyAmount)/10000,
+            perAccidentFinanceAmount: Number(item.perAccidentFinanceAmount)/10000,
+            perBodyAmount: Number(item.perBodyAmount)/10000,
+          }
+        }),
         }
       this.$store.dispatch('activity/updatedQuotationData', data)
       this.$router.push('/activity-quotation/step1')

@@ -228,6 +228,7 @@ export default {
       quotationData: state => state.activity.quotationData,
       userInfo: state => state.home.userInfo,
       'Insuraned': state => state.activity.Insuraned,
+      activityQuotation: state => state.activity.activityQuotation,
     }),
     activityInfoList: {
       get () {
@@ -620,9 +621,16 @@ export default {
 
       if(this.requestFile.length === 0 && this.verifyResult.length === 0) {
           await this.quotationMapping()
+          console.log(this.quotationData)
+
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
-              ...this.quotationData,
+              ...this.activityQuotation,
+              applicant: this.quotationData.applicant,
+              insuraned: this.quotationData.insuraned,
+              relationText: this.quotationData.relationText,
+              internalControlData: this.quotationData.internalControlData,
+              policyTransfer: this.quotationData.policyTransfer,
             }
             this.$store.dispatch('activity/updatedQuotationData',data)
           }

@@ -250,6 +250,7 @@ export default {
       mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.place.quotationData,
       userInfo: state => state.home.userInfo,
+      placeQuotation: state => state.place.placeQuotation,
     }),
     placeInfoList: {
       get () {
@@ -359,23 +360,12 @@ export default {
           await this.quotationMapping()
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
-              ...this.quotationData,
-              placeInsureInfo: {
-                additionTerms: [],
-                fileAttachments: [],
-                insuranceBeginDate: '',
-                insuranceEndDate: '',
-                insuranceRecord: {
-                  lastYear:{status:false},
-                  previousYear:{status:false},
-                },
-                insureType: '',
-                otherIndustryName: '',
-                placeInfo: [],
-                remark: '',
-                renewal: {isRenewal: false},
-                insuranceAmounts: [],
-              }
+              ...this.placeQuotation,
+              applicant: this.quotationData.applicant,
+              insuraned: this.quotationData.insuraned,
+              relationText: this.quotationData.relationText,
+              internalControlData: this.quotationData.internalControlData,
+              policyTransfer: this.quotationData.policyTransfer,
             }
             this.$store.dispatch('place/updatedQuotationData',data)
           }
