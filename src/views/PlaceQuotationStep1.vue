@@ -91,7 +91,18 @@
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
         <InputGroup noMt :disable="calculateModel" v-for="(item,index) in 3" :key="item">
-          <FileUpload slot="input" :index="item" :id="`file${item}`" :attachment="attachmentList[index]" :uuid="uuid" @updatedFile="getAttachmentList" :disable="calculateModel"/>
+          <FileUpload
+            slot="input"
+            :index="item"
+            :id="`file${item}`"
+            :attachment="attachmentList[index]"
+            :uuid="uuid"
+            @updatedFile="getAttachmentList"
+            :policyAttachmentId="attachmentList[index] ? attachmentList[index].policyAttachmentId : ''"
+            :fileAttachmentId="attachmentList[index] ? attachmentList[index].id : ''"
+            :disable="calculateModel"
+            :verify="InsuranceActive == 7"
+            />
         </InputGroup>
       </div>
     </CommonBoard>
@@ -699,6 +710,7 @@ export default {
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
+      console.log(this.attachmentList) 
     },
     async clearAll() {
       this.$store.dispatch('place/clearAll')

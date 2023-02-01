@@ -1,6 +1,6 @@
 <template>
   <p v-if="fileName !== ''" class="text-blue-500 px-4 pr-5 text-lg truncate relative">
-    <span class="select-none">{{fileName}}</span>
+    <span @click="downloadFile" class="select-none">{{fileName}}</span>
     <font-awesome-icon @click="deleteFile" icon="times-circle" class="cursor-pointer text-lg text-main absolute right-2 top-1" />
   </p>
   <div v-else class="w-full">
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import FileSaver from 'file-saver'
 export default {
   props: {
     id: {
@@ -30,6 +31,18 @@ export default {
       type: String,
       default: ''
     },
+    policyAttachmentId: {
+      type: String,
+      default: ''
+    },
+    fileAttachmentId: {
+      type: [String,Number],
+      default: ''
+    },
+    verify: {
+      type: Boolean,
+      default: false
+    }
   },
   data() {
     return {
@@ -63,6 +76,16 @@ export default {
       if(res.data.code == 1) {
         this.fileName = ''
         this.$emit('updatedFile')
+      }
+    },
+    async downloadFile() {
+      if(this.verify && this.policyAttachmentId && this.fileAttachmentId) {
+        const res = await this.$store.dispatch('common/DownloadFile',{
+          policyAttachmentId: this.policyAttachmentId,
+          fileAttachmentId: this.fileAttachmentId
+        })
+        const blob = new Blob([res.data], {type: "application/octet-stream"});
+        FileSaver.saveAs(blob, `${this.fileName}`);
       }
     }
   },
