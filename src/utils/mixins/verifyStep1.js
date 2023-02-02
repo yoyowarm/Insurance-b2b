@@ -215,7 +215,7 @@ export default {
         if (item.amountType.Value == 2 && (item.insuranceTotalAmount == '0' || item.perAccidentBodyAmount == '0' || item.perAccidentFinanceAmount == '0' || item.perBodyAmount == '0')) {
           this.requestFile.push('保額不可為0')
         }
-        if (item.amountType.Value == 2 && (Number(item.insuranceTotalAmount) < (Number(item.perAccidentBodyAmount) + Number(item.perAccidentFinanceAmount)))) {
+        if (item.amountType.Value == 2 && (Number(item.insuranceTotalAmount.toString().replace(/,/g, '')) < (Number(item.perAccidentBodyAmount.toString().replace(/,/g, '')) + Number(item.perAccidentFinanceAmount.toString().replace(/,/g, ''))))) {
           this.requestFile.push('AGG不得小於AOA加總')
         }
       })
