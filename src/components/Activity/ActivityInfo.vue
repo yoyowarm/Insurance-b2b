@@ -1,5 +1,9 @@
 <template>
   <div class="w-full">
+    <InputGroup slot="right" lgTitle  class="activity-name mb-4" :bgColor="!disable ? 'white' : ''" :disable="disable">
+    <span slot="title" class="text-lg font-bold text-gray-800">活動名稱</span>
+      <Input slot="input" class="w-full" :disable="disable" :value="activityName" @updateValue="(e) => $emit('updatedActivityName',e)" placeholder="輸入活動名稱"/>
+    </InputGroup>
     <span slot="icon" class="average ">參加活動每日平均人數：{{Math.round(average.person.toFixed(2))}}人  <span v-if="windowWidth <= 600"><br>總計活動天數：{{average.day}}天</span><span v-if="windowWidth > 600">總計活動天數：{{average.day}}天</span></span>
     <template v-for="(info,index) in infoList">
       <FormTitle :key="`title${index}`" :title="`場次${index+1}`" classList="text-xl text-gray-700 my-3">
@@ -217,6 +221,10 @@ export default {
       type: Object,
       default: () => ({})
     },
+    activityName: {
+      type: String,
+      default: ''
+    }
   },
   data() {
     return {
@@ -337,6 +345,7 @@ export default {
       }
     },
     emitSelectItem(type,key, value, index) {
+      
       const copyInfoList = [...this.infoList]
 			copyInfoList[index][type][key] = value
       const hour = copyInfoList[index].startDate.hour.toString() == '24' ? '11:59' : `${copyInfoList[index].startDate.hour}:00`
@@ -376,6 +385,9 @@ export default {
             }
         }
       }
+      if(type == 'startDate' || type == 'endDate') {
+        this.$emit('updatedActivityTime')
+      }
 			this.$emit('update:infoList', copyInfoList)
 		},
     updateDay(index) {
@@ -389,14 +401,15 @@ export default {
       const tomorrow = new Date().setDate(new Date().getDate() + 1)
       
       if(!this.copyInfoList[index].startDate.year) {
-        this.copyInfoList[index].startDate.year = new Date(today).getFullYear() - 1911
-        this.copyInfoList[index].endDate.year = new Date(tomorrow).getFullYear() - 1911
+        this.copyInfoList[index].startDate.year = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getFullYear() - 1911 :  new Date(today).getFullYear() - 1911
+        this.copyInfoList[index].endDate.year = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getFullYear() - 1911 :  new Date(today).getFullYear() - 1911
       }
       if(!this.copyInfoList[index].startDate.month) {
-        this.copyInfoList[index].startDate.month = new Date(today).getMonth() + 1
-        this.copyInfoList[index].endDate.month = new Date(tomorrow).getMonth() + 1
+        this.copyInfoList[index].startDate.month = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getMonth() + 1 :  new Date(today).getMonth() + 1
+        this.copyInfoList[index].endDate.month = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getMonth() + 1 :  new Date(today).getMonth() + 1
       }
       if(!this.copyInfoList[index].startDate.day) {
+        console.log(new Date(new Date().setHours(new Date().getHours()+3)).getHours())
         this.copyInfoList[index].startDate.day = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getDate() : new Date(today).getDate()
         this.copyInfoList[index].endDate.day = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getDate() : new Date(today).getDate()
       }
@@ -423,5 +436,18 @@ export default {
     .average { 
     @apply text-base mt-1  text-gray-700  font-semibold
   }
-    
+  // .activity-name {
+  //   width: calc(100% - 350px);
+  //   @apply industry-input-group ml-24 mb-3
+  // }
+  // @media screen and (min-width: 601px) and (max-width: 770px) {
+  //   .activity-name {
+  //     width: calc(100% - 130px);
+  //   }
+  // }
+  // @media screen and (max-width: 600px) {
+  //   .activity-name {
+  //     width: calc(100% - 130px);
+  //   }
+  // }
 </style>

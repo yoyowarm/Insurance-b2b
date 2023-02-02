@@ -254,7 +254,8 @@ export default {
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
     },
     async questionnaireCoefficient() {
-      let data = {questionnaire: this.quotationData.questionnaire}
+      let data = {}
+      data.questionnaire = JSON.parse(JSON.stringify(this.questionnaire))
         const coefficient = await this.$store.dispatch('questionnaire/GetPlaceQuestionnaireCoefficient', this.placeQuestionnaireMapping(data).questionnaire)
         this.underwriteCoefficient = Number(coefficient.data.content.questionnaireCoefficient) > 0 
               ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`

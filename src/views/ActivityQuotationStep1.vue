@@ -2,7 +2,7 @@
   <div>
     <CommonBoard class="w-full mt-16 mb-8 sm:mt-8" title="投保行業">
       <template slot="right">
-        <Button class="text-base absolute right-5 top-16 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
+        <Button class="text-base absolute right-5 top-2 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
       <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" :value="searchText" @updateValue="(e) => searchText = e" placeholder="輸入行業關鍵字" slotIcon>
@@ -21,20 +21,18 @@
         @initTerm="initTerm"
       />
     </CommonBoard>
-    <FormTitle title="活動名稱" classList="text-gray-800 font-bold my-2 sm:my-5" class="title" >
-      <InputGroup slot="left" class="industry-input-group w-56 sm:w-80 ml-24 mb-3" :bgColor="!calculateModel ? 'white' : ''" :disable="calculateModel" noMt>
-        <Input slot="input" class="max-w-full" :disable="calculateModel" :value="Insuraned.activityName" @updateValue="(e) => updatedActivityName(e)" placeholder="輸入活動名稱"/>
-      </InputGroup>
-    </FormTitle>
     <CommonBoard class="w-full relative activeInfo" title="活動資料">
       <ActivityInfo
         :infoList.sync="activityInfoList"
         @addItem="$store.dispatch('activity/addActivityInfo')"
         @removeItem="(index) => $store.dispatch('activity/deleteActivityInfo',index)"
+        @updatedActivityName="updatedActivityName"
+        @updatedActivityTime="updatePeriod"
         :countyList="countyList"
         :areaList="areaList"
         :disable="calculateModel || InsuranceActive == 7"
         :average="average"
+        :activityName="Insuraned.activityName"
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
@@ -74,8 +72,24 @@
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
         <InputGroup noMt :disable="calculateModel" v-for="(item,index) in 3" :key="item">
-          <FileUpload slot="input" :index="item" :id="`activityFile${item}`" :uuid="uuid" :attachment="attachmentList[index]" @updatedFile="getAttachmentList" :disable="calculateModel"/>
+          <FileUpload
+            slot="input"
+            :index="item"
+            :id="`activityFile${item}`"
+            :uuid="uuid"
+            :attachment="attachmentList[index]"
+            :policyAttachmentId="attachmentList[index] ? attachmentList[index].policyAttachmentId : ''"
+            :fileAttachmentId="attachmentList[index] ? attachmentList[index].id : ''"
+            @updatedFile="getAttachmentList"
+            :disable="calculateModel"
+            :verify="InsuranceActive == 7"
+            />
         </InputGroup>
+      </div>
+      <div v-if="InsuranceActive == 7 && attachmentList.length > 0" class="w-full flex flex-row flex-wrap my-3">
+        <span v-for="item in attachmentList" :key="item.id" @click="downloadFile(item.policyAttachmentId,item.id, item.fileName)" class="text-blue-500 pr-5 text-lg truncate relative underline cursor-pointer">
+          {{ item.fileName }}
+        </span>
       </div>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
@@ -85,6 +99,7 @@
         </div>
         <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
       </div>
+      <p v-if="InsuranceActive !== 7" class="mt-4 text-sm text-main">先填寫詢問表後，再點選試算保費</p>
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="calculateAmount" :disabled="calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
@@ -158,13 +173,13 @@ import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import ActivityModifyAmount from '@/components/PopupDialog/ActivityModifyAmount'
-import FormTitle from '@/components/FormTitle'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
 import { numFormat } from '@/utils/regex'
 import { quotation } from '@/utils/dataTemp'
+import FileSaver from 'file-saver'
 export default {
   mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire, audit],
   components: {
@@ -185,7 +200,6 @@ export default {
     LoadingScreen,
     PopupDialog,
     ActivityModifyAmount,
-    FormTitle
   },
   data () {
     return {
@@ -231,6 +245,7 @@ export default {
       quotationData: state => state.activity.quotationData,
       userInfo: state => state.home.userInfo,
       'Insuraned': state => state.activity.Insuraned,
+      activityQuotation: state => state.activity.activityQuotation,
     }),
     activityInfoList: {
       get () {
@@ -238,7 +253,6 @@ export default {
       },
       set(val) {
         this.$store.dispatch('activity/updatedActivityInfo', val)
-        this.updatePeriod()
         this.updatedQuestionnaire()
       }
     },
@@ -284,8 +298,8 @@ export default {
       this.activityInfoList.map(item => {
         totalPerson += Number(item.number.replace(/,/g, ''))* Number(item.day)
         if(!item.number) return
-        map1.set(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`, item.number)
-        map1.set(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`, item.number)
+        map1.set(`${Number(item.startDate.year)}/${Number(item.startDate.month)}/${Number(item.startDate.day)}`, item.number)
+        map1.set(`${Number(item.endDate.year)}/${Number(item.endDate.month)}/${Number(item.endDate.day)}`, item.number)
         let startDate = new Date(`${item.startDate.year}/${item.startDate.month}/${item.startDate.day}`).getTime()
         let endDate = new Date(`${item.endDate.year}/${item.endDate.month}/${item.endDate.day}`).getTime()
         let day = ((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1
@@ -384,6 +398,9 @@ export default {
           this.underwriteStatus = underwriteStatus.data.content
           await this.calculateAmount(false)
         }
+      }
+      if(this.questionnaireFinished) {
+        await this.questionnaireCoefficient()
       }
     },
     async questionnaireCoefficient(audit) {
@@ -614,6 +631,7 @@ export default {
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
+      console.log(this.attachmentList)
     },
     async nextStep() {
       this.verifyResult = []
@@ -621,9 +639,16 @@ export default {
 
       if(this.requestFile.length === 0 && this.verifyResult.length === 0) {
           await this.quotationMapping()
+          console.log(this.quotationData)
+
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
-              ...this.quotationData,
+              ...this.activityQuotation,
+              applicant: this.quotationData.applicant,
+              insuraned: this.quotationData.insuraned,
+              relationText: this.quotationData.relationText,
+              internalControlData: this.quotationData.internalControlData,
+              policyTransfer: this.quotationData.policyTransfer,
             }
             this.$store.dispatch('activity/updatedQuotationData',data)
           }
@@ -731,7 +756,7 @@ export default {
           }
         })],
         insureIndustrySeq: this.industry.Value,
-        insureIndustryOtherText: this.industry.Text,
+        insureIndustryOtherText: this.industryText,
         remark: this.remark.text,
         insuranceAmounts:[...this.insuranceAmountList.map(item => {
           delete item.amount
@@ -764,7 +789,7 @@ export default {
           })]
       }
       if(this.questionnaireFinished) {
-        this.activityQuestionnaireMapping(data)
+        data.questionnaire = this.activityQuestionnaireMapping({}).questionnaire
       }
       if(this.InsuranceActive !==0) {
         data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
@@ -801,23 +826,33 @@ export default {
       copyQuestionnaire.sheet1.part1.name = e
       this.$store.dispatch('activity/updatedInsuraned', copyInsuraned)
       this.$store.dispatch('activity/updatedQuestionnaire', copyQuestionnaire)
+      if(Object.keys(this.quotationData).length > 0) {
+        const copyQuotationData = JSON.parse(JSON.stringify(this.quotationData))
+        copyQuotationData.insuraned.activityName = e
+        this.$store.dispatch('activity/updatedQuotationData', copyQuotationData)
+      }
+    },
+    async downloadFile(policyAttachmentId,fileAttachmentId,fileName) {
+      if(policyAttachmentId && fileAttachmentId) {
+        const res = await this.$store.dispatch('common/DownloadFile',{
+          policyAttachmentId,
+          fileAttachmentId
+        })
+        const blob = new Blob([res.data], {type: "application/octet-stream"});
+        FileSaver.saveAs(blob, `${fileName}`);
+      }
     }
   },
   async mounted() {
     await this.pageInit()
-    this.updatePeriod()
+    if(Object.keys(this.periodData.startDate).every(i => this.periodData.startDate[i] == '') && Object.keys(this.periodData.endDate).every(i => this.periodData.endDate[i] == '')) {
+      this.updatePeriod()
+    }
     if(this.InsuranceActive !== 7) {
       this.$store.dispatch('activity/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
     }
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
-    }
-    if(this.InsuranceActive !==7) {
-      Popup.create({
-          hasHtml: true,
-          maskClose: false,
-          htmlText:'<p>先填寫詢問表後，再點選試算保費</p>'
-        })
     }
     if(this.InsuranceActive === 7) {
       Popup.create({
@@ -837,7 +872,10 @@ export default {
   .industry-input-group {
     position: absolute!important;
   }
-    
+  .activity-name {
+    width: calc(100% - 350px);
+    @apply industry-input-group ml-24 mb-3
+  }
   @media screen and (max-width: 519px) {
     .activeInfo {
       @apply mt-2
@@ -846,7 +884,15 @@ export default {
   .title {
     font-size: 22px
   }
+  @media screen and (min-width: 601px) and (max-width: 770px) {
+    .activity-name {
+      width: calc(100% - 130px);
+    }
+  }
   @media screen and (max-width: 600px) {
+    .activity-name {
+      width: calc(100% - 130px);
+    }
     .title {
       font-size: 18px
     }

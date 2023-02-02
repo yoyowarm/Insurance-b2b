@@ -91,8 +91,24 @@
       <p class="text-sm mt-2">上傳附件 <span class="text-red-500">僅支援 word / excel / pdf / txt 檔案格式</span></p>
       <div class="column-6">
         <InputGroup noMt :disable="calculateModel" v-for="(item,index) in 3" :key="item">
-          <FileUpload slot="input" :index="item" :id="`file${item}`" :attachment="attachmentList[index]" :uuid="uuid" @updatedFile="getAttachmentList" :disable="calculateModel"/>
+          <FileUpload
+            slot="input"
+            :index="item"
+            :id="`file${item}`"
+            :attachment="attachmentList[index]"
+            :uuid="uuid"
+            @updatedFile="getAttachmentList"
+            :policyAttachmentId="attachmentList[index] ? attachmentList[index].policyAttachmentId : ''"
+            :fileAttachmentId="attachmentList[index] ? attachmentList[index].id : ''"
+            :disable="calculateModel"
+            :verify="InsuranceActive == 7"
+            />
         </InputGroup>
+      </div>
+      <div v-if="InsuranceActive == 7 && attachmentList.length > 0" class="w-full flex flex-row flex-wrap my-3">
+        <span v-for="item in attachmentList" :key="item.id" @click="downloadFile(item.policyAttachmentId,item.id, item.fileName)" class="text-blue-500 pr-5 text-lg truncate relative underline cursor-pointer">
+          {{ item.fileName }}
+        </span>
       </div>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center  w-full mt-8">
@@ -102,6 +118,7 @@
           </div>
           <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
         </div>
+        <p v-if="InsuranceActive !== 7" class="mt-4 text-sm text-main">先填寫詢問表後，再點選試算保費</p>
       <div class="flex flex-col justify-center items-center  sm:flex-row">
         <Button @click.native="calculateAmount" :disabled="calculateModel"  class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
@@ -183,6 +200,7 @@ import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
 import { numFormat } from '@/utils/regex'
 import { quotation } from '@/utils/dataTemp'
+import FileSaver from 'file-saver'
 export default {
   mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire,audit],
   components: {
@@ -249,6 +267,7 @@ export default {
       mainOrderNo: state => state.common.mainOrderNo,
       quotationData: state => state.place.quotationData,
       userInfo: state => state.home.userInfo,
+      placeQuotation: state => state.place.placeQuotation,
     }),
     placeInfoList: {
       get () {
@@ -358,23 +377,12 @@ export default {
           await this.quotationMapping()
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
-              ...this.quotationData,
-              placeInsureInfo: {
-                additionTerms: [],
-                fileAttachments: [],
-                insuranceBeginDate: '',
-                insuranceEndDate: '',
-                insuranceRecord: {
-                  lastYear:{status:false},
-                  previousYear:{status:false},
-                },
-                insureType: '',
-                otherIndustryName: '',
-                placeInfo: [],
-                remark: '',
-                renewal: {isRenewal: false},
-                insuranceAmounts: [],
-              }
+              ...this.placeQuotation,
+              applicant: this.quotationData.applicant,
+              insuraned: this.quotationData.insuraned,
+              relationText: this.quotationData.relationText,
+              internalControlData: this.quotationData.internalControlData,
+              policyTransfer: this.quotationData.policyTransfer,
             }
             this.$store.dispatch('place/updatedQuotationData',data)
           }
@@ -581,6 +589,9 @@ export default {
           await this.calculateAmount(false)
         }
       }
+      if(this.questionnaireFinished) {
+        await this.questionnaireCoefficient()
+      }
     },
     correctAmount() {
       this.insuranceAmountListData = {
@@ -705,6 +716,7 @@ export default {
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
+      console.log(this.attachmentList) 
     },
     async clearAll() {
       this.$store.dispatch('place/clearAll')
@@ -796,7 +808,7 @@ export default {
       }
       
       if(this.questionnaireFinished) {
-        this.placeQuestionnaireMapping(data)
+        data.questionnaire = this.placeQuestionnaireMapping({}).questionnaire
       }
       if(this.InsuranceActive !==0) {
         data.applicant = this.quotationData.applicant ? JSON.parse(JSON.stringify(this.quotationData.applicant)) : quotation().Applicant
@@ -825,6 +837,16 @@ export default {
         this.$store.dispatch('place/updatedUUID', '')
         this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
       })
+    },
+    async downloadFile(policyAttachmentId,fileAttachmentId,fileName) {
+      if(policyAttachmentId && fileAttachmentId) {
+        const res = await this.$store.dispatch('common/DownloadFile',{
+          policyAttachmentId,
+          fileAttachmentId
+        })
+        const blob = new Blob([res.data], {type: "application/octet-stream"});
+        FileSaver.saveAs(blob, `${fileName}`);
+      }
     }
   },
   async mounted() {
@@ -894,13 +916,6 @@ export default {
           }
         }
         this.periodData = date
-    }
-    if(this.InsuranceActive !==7) {
-      Popup.create({
-        hasHtml: true,
-        maskClose: false,
-        htmlText:'<p>先填寫詢問表後，再點選試算保費</p>'
-      })
     }
     if(this.InsuranceActive === 7) {
       Popup.create({

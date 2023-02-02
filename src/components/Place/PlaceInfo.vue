@@ -30,6 +30,7 @@
             :maxLength="9"
             :disable="disable"
             @updateValue="(e) =>updateValue(e,'squareFeet',index)"
+            @click.native="clearZero(index)"
           />
         </InputGroup>
         <InputGroup title="經營業務處所" :disable="disable">
@@ -105,6 +106,13 @@ export default {
         })
         arr.reduce((a,b) => a>b?a:b)
         this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,part1:{...this.questionnaire.part1,area: arr[0], totalArea: total}})
+      }
+    },
+    clearZero(index) {
+      const copyInfoList = [...this.infoList]
+      if(copyInfoList[index].squareFeet == '0') {
+        copyInfoList[index].squareFeet = ''
+        this.$emit('update:infoList', copyInfoList)
       }
     }
   }

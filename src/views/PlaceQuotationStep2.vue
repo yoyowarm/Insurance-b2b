@@ -401,6 +401,24 @@ export default {
     prevStep() {
       const data = {
         ...JSON.parse(JSON.stringify(this.placeQuotation)),
+        placeInsureInfo: this.quotationData.placeInsureInfo,
+        insuranceAmounts: this.quotationData.insuranceAmounts ? this.quotationData.insuranceAmounts.map(item => {
+          return {
+            ...item,
+            insuranceTotalAmount: Number(item.insuranceTotalAmount)/10000,
+            perAccidentBodyAmount: Number(item.perAccidentBodyAmount)/10000,
+            perAccidentFinanceAmount: Number(item.perAccidentFinanceAmount)/10000,
+            perBodyAmount: Number(item.perBodyAmount)/10000,
+          }
+        }) : this.placeQuotation.insuranceAmounts.map(item => {
+          return {
+            ...item,
+            insuranceTotalAmount: Number(item.insuranceTotalAmount)/10000,
+            perAccidentBodyAmount: Number(item.perAccidentBodyAmount)/10000,
+            perAccidentFinanceAmount: Number(item.perAccidentFinanceAmount)/10000,
+            perBodyAmount: Number(item.perBodyAmount)/10000,
+          }
+        }),
         }
       this.$store.dispatch('place/updatedQuotationData', data)
       this.$router.push('/place-quotation/step1')
@@ -506,6 +524,7 @@ export default {
     if(!this.internalControlData.issuerNumber) {
       this.internalControl = {...this.internalControl,issuerNumber: this.userInfo.userid}
     }
+    await this.getBusinessSource()
   },
 }
 </script>

@@ -8,16 +8,17 @@
         text="消防栓"
         :checked="data.part7.hasFireHydrant"
         :value="data.part7.hasFireHydrant"
+        :disabled="disable"
         @updateValue="(e) =>updateValue(e,'hasFireHydrant')"
       />
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
-        <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="!data.part7.hasFireHydrant">
+        <InputGroup noMt class="ml-12 sm:ml-32 w-40" :disable="disable || !data.part7.hasFireHydrant">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
             inputmode="tel" 
-            :disable="!data.part7.hasFireHydrant"
+            :disable="disable || !data.part7.hasFireHydrant"
             :value="data.part7.hydrantIndoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantIndoorAmount')"
             numberOnly
@@ -25,13 +26,13 @@
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.hasFireHydrant">
+        <InputGroup noMt class="ml-12 w-40" :disable="disable || !data.part7.hasFireHydrant">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
             inputmode="tel" 
-            :disable="!data.part7.hasFireHydrant"
+            :disable="disable || !data.part7.hasFireHydrant"
             :value="data.part7.hydrantOutdoorAmount"
             @updateValue="(e) => updateValue(e,'hydrantOutdoorAmount')"
             numberOnly
@@ -48,16 +49,17 @@
         text="滅火器：泡沫型"
         :checked="data.part7.fireExtinguisher"
         :value="data.part7.fireExtinguisher"
+        :disabled="disable"
         @updateValue="(e) =>updateValue(e,'fireExtinguisher')"
       />
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
-        <InputGroup noMt class="ml-12 sm:ml-16 w-40" :disable="!data.part7.fireExtinguisher">
+        <InputGroup noMt class="ml-12 sm:ml-16 w-40" :disable="disable || !data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
             inputmode="tel" 
-            :disable="!data.part7.fireExtinguisher"
+            :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.foam.indoor"
             @updateValue="(e) => updateValue(e,'foam.indoor')"
             numberOnly
@@ -65,13 +67,13 @@
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
+        <InputGroup noMt class="ml-12 w-40" :disable="disable || !data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
             inputmode="tel" 
-            :disable="!data.part7.fireExtinguisher"
+            :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.foam.outdoor"
             @updateValue="(e) => updateValue(e,'foam.outdoor')"
             numberOnly
@@ -84,13 +86,13 @@
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full sm:pl-24 mt-4 text-lg">二氧化碳</span>
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
-        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
             inputmode="tel" 
-            :disable="!data.part7.fireExtinguisher"
+            :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.carbonDioxide.indoor"
             @updateValue="(e) => updateValue(e,'carbonDioxide.indoor')"
             numberOnly
@@ -98,13 +100,13 @@
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
+        <InputGroup noMt class="ml-12 w-40" :disable="disable || !data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
             inputmode="tel" 
-            :disable="!data.part7.fireExtinguisher"
+            :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.carbonDioxide.outdoor"
             @updateValue="(e) => updateValue(e,'carbonDioxide.outdoor')"
             numberOnly
@@ -117,13 +119,13 @@
     <div class="flex flex-col sm:flex-row my-1">
       <span class="h-full sm:pl-24 mt-4 text-lg">ABC乾粉</span>
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
-        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="!data.part7.fireExtinguisher">
+        <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室內</span>
           <Input
             slot="input"
             placeholder="輸入數量"
             inputmode="tel" 
-            :disable="!data.part7.fireExtinguisher"
+            :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.abc.indoor"
             @updateValue="(e) => updateValue(e,'abc.indoor')"
             numberOnly
@@ -131,13 +133,13 @@
             unit="支"
           />
         </InputGroup>
-        <InputGroup noMt class="ml-12 w-40" :disable="!data.part7.fireExtinguisher">
+        <InputGroup noMt class="ml-12 w-40" :disable="disable || !data.part7.fireExtinguisher">
           <span slot="input-left" class="absolute -left-10 bottom-4 text-lg">室外</span>
           <Input
             slot="input"
             placeholder="輸入數量"
             inputmode="tel" 
-            :disable="!data.part7.fireExtinguisher"
+            :disable="disable || !data.part7.fireExtinguisher"
             :value="data.part7.abc.outdoor"
             @updateValue="(e) => updateValue(e,'abc.outdoor')"
             numberOnly

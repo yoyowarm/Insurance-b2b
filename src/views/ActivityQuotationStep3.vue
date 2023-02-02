@@ -147,7 +147,8 @@ export default {
       PolicyStatus: state => state.activity.PolicyStatus,
       parameter: state => state.activity.parameter,
       quotationData: state => state.activity.quotationData,
-      questionnaireData: state => state.activity.questionnaireData,
+      questionnaire: state => state.activity.questionnaire,
+      
     }),
     InsuranedData: {
       get() {
@@ -264,9 +265,9 @@ export default {
       })
     },
     async questionnaireCoefficient() {
-      let data = {questionnaire: this.quotationData.questionnaire,}
+      let data = {}
+      data.questionnaire = JSON.parse(JSON.stringify(this.questionnaire))
         const coefficient = await this.$store.dispatch('questionnaire/GetActivityQuestionnaireCoefficient', this.activityQuestionnaireMapping(data).questionnaire)
-        console.log(coefficient)
         this.underwriteCoefficient = Number(coefficient.data.content.questionnaireCoefficient) > 0 
               ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
               : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)

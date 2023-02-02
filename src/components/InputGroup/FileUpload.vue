@@ -1,7 +1,7 @@
 <template>
   <p v-if="fileName !== ''" class="text-blue-500 px-4 pr-5 text-lg truncate relative">
     <span class="select-none">{{fileName}}</span>
-    <font-awesome-icon @click="deleteFile" icon="times-circle" class="cursor-pointer text-lg text-main absolute right-2 top-1" />
+    <font-awesome-icon @click="deleteFile" icon="times-circle" class="cursor-pointer text-lg text-main absolute right-0 top-1" />
   </p>
   <div v-else class="w-full">
     <label :for="id" class="text-gray-400 pl-4 text-lg w-full cursor-pointer">
@@ -64,7 +64,7 @@ export default {
         this.fileName = ''
         this.$emit('updatedFile')
       }
-    }
+    },
   },
   mounted() {
     if(this.attachment.fileName) {
