@@ -237,15 +237,15 @@ export default {
           }
         }
          
-        if(data.part1.createTime && typeof data.part1.createTime == 'object' &&  Object.keys(data.part1.createTime).every(key => data.part1.createTime[key] !== '')) {
+        if(data.part1.createTime && typeof data.part1.createTime == 'object' &&  Object.keys(data.part1.createTime).every(key => data.part1.createTime[key] !== '' && !isNaN(data.part1.createTime[key]))) {
           data.part1.createTime = `${Number(data.part1.createTime.year)+1911}-${data.part1.createTime.month}-${data.part1.createTime.day}`
         } else if (!data.part1.createTime) {data.part1.createTime = null}
 
-        if(data.part1.businessStartDate && typeof data.part1.businessStartDate == 'object' &&  Object.keys(data.part1.businessStartDate).every(key => data.part1.businessStartDate[key] !== '')) {
+        if(data.part1.businessStartDate && typeof data.part1.businessStartDate == 'object' &&  Object.keys(data.part1.businessStartDate).every(key => data.part1.businessStartDate[key] !== '' && !isNaN(data.part1.businessStartDate[key]))) {
           data.part1.businessStartDate = `${data.part1.businessStartDate.hours}:${data.part1.businessStartDate.minutes}`
         } else if (!data.part1.businessStartDate )  {data.part1.businessStartDate  = null}
 
-        if(data.part1.businessEndDate && typeof data.part1.businessEndDate == 'object' && Object.keys(data.part1.businessEndDate).every(key => data.part1.businessEndDate[key] !== '') ) {
+        if(data.part1.businessEndDate && typeof data.part1.businessEndDate == 'object' && Object.keys(data.part1.businessEndDate).every(key => data.part1.businessEndDate[key] !== '' && !isNaN(data.part1.businessEndDate[key])) ) {
           data.part1.businessEndDate = `${data.part1.businessEndDate.hours}:${data.part1.businessEndDate.minutes}`
         } else if (!data.part1.businessEndDate)  {data.part1.businessEndDate = null} 
         return data
