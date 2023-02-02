@@ -405,6 +405,7 @@ export default {
        const obj = JSON.parse(JSON.stringify(this.activityQuotation))
       Object.assign(obj, {insuraned:{
         ...this.Insuraned,
+        isProfession: this.Insuraned.Profession,
         cityId: this.Insuraned.City.Value,
         city: this.Insuraned.City.Text,
         areaId: this.Insuraned.Area.Value,
@@ -420,6 +421,7 @@ export default {
       Object.assign(obj, {relationText:this.Relation.Text})
       Object.assign(obj, {applicant:{
         ...this.Applicant,
+        isProfession: this.Applicant.Profession,
         cityId: this.Applicant.City.Value,
         city: this.Applicant.City.Text,
         areaId:this.Applicant.Area.Value ,
