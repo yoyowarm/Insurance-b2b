@@ -86,6 +86,11 @@
             />
         </InputGroup>
       </div>
+      <div v-if="InsuranceActive == 7 && attachmentList.length > 0" class="w-full flex flex-row flex-wrap my-3">
+        <span v-for="item in attachmentList" :key="item.id" @click="downloadFile(item.policyAttachmentId,item.id, item.fileName)" class="text-blue-500 pr-5 text-lg truncate relative underline cursor-pointer">
+          {{ item.fileName }}
+        </span>
+      </div>
     </CommonBoard>
     <div class="flex flex-col justify-center items-center w-full mt-8">
       <div class="flex flex-row justify-center items-center relative">
@@ -174,6 +179,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { Popup } from '@/utils/popups'
 import { numFormat } from '@/utils/regex'
 import { quotation } from '@/utils/dataTemp'
+import FileSaver from 'file-saver'
 export default {
   mixins: [mixinVerify,editCopyQuotation,routeChange,editCopyQuestionnaire, audit],
   components: {
@@ -824,6 +830,16 @@ export default {
         const copyQuotationData = JSON.parse(JSON.stringify(this.quotationData))
         copyQuotationData.insuraned.activityName = e
         this.$store.dispatch('activity/updatedQuotationData', copyQuotationData)
+      }
+    },
+    async downloadFile(policyAttachmentId,fileAttachmentId,fileName) {
+      if(policyAttachmentId && fileAttachmentId) {
+        const res = await this.$store.dispatch('common/DownloadFile',{
+          policyAttachmentId,
+          fileAttachmentId
+        })
+        const blob = new Blob([res.data], {type: "application/octet-stream"});
+        FileSaver.saveAs(blob, `${fileName}`);
       }
     }
   },
