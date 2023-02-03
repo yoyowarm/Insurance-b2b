@@ -107,7 +107,8 @@
       </div>
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="nextStep" class="my-4 w-56 md:w-42" :class="{'md:mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-4 w-56 md:w-42" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="InsuranceActive == 7 && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))" class="my-2 sm:my-4  w-56 md:w-42" @click.native="updateUnderwrite(1)">向上核保</Button>
       </div>
     </div>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
@@ -808,7 +809,7 @@ export default {
 				confirm: true,
 				ok: '是',
 				cancel: '否',
-				htmlText: `<p>確定此報價單不予核保？</p>`,
+				htmlText: `<p>確定此報價單${type == 3 ? '不予核保': '向上核保'}？</p>`,
       }).then(async() => {
         await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
         this.$store.dispatch('common/updatedCalculateModel', false)
