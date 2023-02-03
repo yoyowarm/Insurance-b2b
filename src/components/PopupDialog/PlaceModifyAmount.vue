@@ -1,7 +1,7 @@
 <template>
   <PopupDialog
     :open.sync="openDialog"
-    headerText="修改保費-場所"
+    headerText="核保審核保費-場所"
     @cancel="() => {openDialog = false}"
   >
     <div class="flex flex-row">
@@ -32,7 +32,7 @@
       </InputGroup>
     </div>
     <div class="w-full mb-4 relative">
-      <InputGroup title="基本純保費" disable>
+      <InputGroup title="總保費" disable>
         <div slot="input" inputmode="tel"  class="w-full pr-24 relative">
           <Input class="w-full" disable numberFormat :value="copyPremium"/>
         </div>
