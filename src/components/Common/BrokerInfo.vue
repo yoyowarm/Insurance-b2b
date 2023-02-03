@@ -20,8 +20,8 @@
         @emitItem="(item) => updateValue(item, 'businessSourceCode')"
       />
     </InputGroup>
-    <InputGroup title="統計代號" :disable="disable">
-      <Input slot="input" :disable="disable" placeholder="輸入統計代號" :value="data.statisticsCode" @updateValue="(e) => updateValue(e,'statisticsCode')"/>
+    <InputGroup title="統計代號" :disable="disable || data.businessSourceCode.Text == '個人' || data.businessSourceCode.Text == '顧問'">
+      <Input slot="input" :disable="disable || data.businessSourceCode.Text == '個人' || data.businessSourceCode.Text == '顧問'" placeholder="輸入統計代號" :value="data.statisticsCode" @updateValue="(e) => updateValue(e,'statisticsCode')"/>
     </InputGroup>
     <InputGroup title="登錄證字號(登錄ID)" :disable="disable">
       <Input slot="input" :disable="disable" placeholder="輸入號碼" :value="data.loginIdNumber" @updateValue="(e) => updateValue(e,'loginIdNumber')"/>

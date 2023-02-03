@@ -167,6 +167,9 @@ export default {
         return this.internalControlData
       },
       set(value) {
+        if(value.businessSourceCode.Text == '個人' || value.businessSourceCode.Text == '顧問') {
+          value.businessSourceCode = ''
+        }
         this.$store.dispatch('activity/updateInternalControlData', value)
       }
     },
@@ -446,7 +449,7 @@ export default {
       Object.assign(obj, {internalControlData: {
         issuerNumber: this.internalControlData.issuerNumber,
         businessSourceCode: this.internalControlData.businessSourceCode.Value,
-        statisticsCode: this.internalControlData.statisticsCode,
+        statisticsCode: this.internalControlData.businessSourceCode.Text == '個人' || this.internalControlData.businessSourceCode.Text == '顧問'? '' :this.internalControlData.statisticsCode,
         loginIdNumber: this.internalControlData.loginIdNumber,}
       })
       delete obj.insuraned.City
