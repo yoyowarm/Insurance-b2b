@@ -173,7 +173,7 @@ export default {
       },
       set(value) {
         if(value.businessSourceCode.Text == '個人' || value.businessSourceCode.Text == '顧問') {
-          value.businessSourceCode = ''
+          value.statisticsCode = ''
         }
         this.$store.dispatch('place/updateInternalControlData', value)
       }
