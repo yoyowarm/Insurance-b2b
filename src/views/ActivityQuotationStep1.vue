@@ -397,7 +397,7 @@ export default {
           if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('activity/updatedUnderwriteQuotationIsChange',true) //核保時，如果沒有保額，預設為核保單變更
           const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
           this.underwriteStatus = underwriteStatus.data.content
-          await this.calculateAmount(false)
+           if(this.underwriteStatus.underwriteDirection == 1) {await this.calculateAmount(false)}
         }
       }
       if(this.questionnaireFinished) {
