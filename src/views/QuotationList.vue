@@ -333,7 +333,7 @@ export default {
           return {
             ...item,
             serialNo: item.serialNo.toString(),
-            daySettleDate: item.daySettleDate ? item.daySettleDate : '- -',
+            daySettleDate: item.daySettleDate ? item.daySettleDate.split('T')[0] : '- -',
             InsurancePremiums: item.InsurancePremiums ? item.InsurancePremiums : '- -',
             insuranceAmount: item.insuranceAmount && item.policyStatus !==2 && item.policyStatus !==6 ? item.insuranceAmount : '- -',
             quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
