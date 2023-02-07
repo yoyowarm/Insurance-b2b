@@ -178,7 +178,7 @@ export default {
             typeName: val == '選擇投保行業' ? '' : val
           })
           this.categoryListTable = {
-            head: this.currentTag ==0 || this.currentTag ==1 ? this.categoryListTable.head : underwritingCategoryListTable().head,
+            head: val ==0 || val ==1 ? categoryListTable().head : underwritingCategoryListTable().head,
             rows: data.data.content.placeActivityDetails
           }
           this.currentType = data.data.content.placeActivityDetails[0]
@@ -198,7 +198,7 @@ export default {
             typeName: val == '選擇投保行業' ? '' : val
           })
           this.categoryListTable = {
-            head: this.currentTag ==0 || this.currentTag ==1 ? this.categoryListTable.head : underwritingCategoryListTable().head,
+            head: this.currentTag ==0 || this.currentTag ==1 ? categoryListTable().head : underwritingCategoryListTable().head,
             rows: data.data.content.placeActivityDetails
           }
         }
@@ -218,7 +218,7 @@ export default {
     async editSwitch(index) {
       const value = !this.categoryListTable.rows[index].edit
       this.categoryListTable = Object.assign(this.categoryListTable, {
-        ...this.categoryListTable.heads,
+        ...categoryListTable().heads,
         rows: this.categoryListTable.rows.map((item, i) => {
           if(i === index) {
             return {
@@ -254,7 +254,7 @@ export default {
           typeName: this.currentType === '選擇投保行業' ? '' : this.currentType
         })
         this.categoryListTable = {
-          head: this.currentTag ==0 || this.currentTag ==1 ? this.categoryListTable.head : underwritingCategoryListTable().head,
+          head: this.currentTag ==0 || this.currentTag ==1 ? categoryListTable().head : underwritingCategoryListTable().head,
           rows: category.data.content.placeActivityDetails
         }
       }
@@ -265,7 +265,7 @@ export default {
             typeName: this.currentType == '選擇投保行業' ? '' : this.currentType
           })
       this.categoryListTable = {
-        head: val ==0 || val ==1 ? this.categoryListTable.head : underwritingCategoryListTable().head,
+        head: val ==0 || val ==1 ? categoryListTable().head : underwritingCategoryListTable().head,
         rows: data.data.content.placeActivityDetails
       }
       const type = await this.$store.dispatch(`resource/${val === 0 ||val === 2 ? 'PlaceTypes' :'ActivityTypes'}`)
