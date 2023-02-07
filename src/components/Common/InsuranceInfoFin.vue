@@ -32,7 +32,7 @@
       <InputGroup class="w-full" title="職業/行業別" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="一般"/>
         <div v-else slot="input" class="w-full relative">
-          {{info.isProfession ? '專業' : '一般'}}
+          {{info.isProfession ? '特定' : '一般'}}
         </div>
       </InputGroup>
     </div>

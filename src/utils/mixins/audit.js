@@ -105,7 +105,7 @@ export default {
               : this.insuranceAmountListData.parameter,
           }
         }
-        payload.insureIndustryOtherText = this.industry.Text
+        payload.insureIndustryOtherText = this.industryText
         payload.remark = this.remark.text
         this.$store.dispatch('activity/updatedUnderwriteQuotationData', payload)
         this.$store.dispatch('activity/updatedParameter', this.parameter.parameter)

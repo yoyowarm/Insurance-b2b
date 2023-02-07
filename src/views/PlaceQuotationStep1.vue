@@ -126,7 +126,7 @@
       </div>
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="nextStep" class="my-4  w-56 md:w-42" :class="{'md:mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-0 sm:my-4  w-56 md:w-42" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
@@ -586,10 +586,10 @@ export default {
           if(!this.quotationData.insuranceAmounts[0].insuranceAmount)this.$store.dispatch('place/updatedUnderwriteQuotationIsChange',true)//核保時，如果沒有保額，預設為核保單變更
           const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
           this.underwriteStatus = underwriteStatus.data.content
-          await this.calculateAmount(false)
+          if(this.underwriteStatus.underwriteDirection == 1) {await this.calculateAmount(false)}
         }
       }
-      if(this.questionnaireFinished) {
+      if(this.questionnaireFinished && !this.insuranceAmountListData.amount) {
         await this.questionnaireCoefficient()
       }
     },
@@ -827,7 +827,7 @@ export default {
 				confirm: true,
 				ok: '是',
 				cancel: '否',
-				htmlText: `<p>確定此報價單不予核保？</p>`,
+				htmlText: `<p>確定此報價單${type == 3 ? '不予核保': '向上核保'}？</p>`,
       }).then(async()=> {
         await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
         this.$store.dispatch('common/updatedCalculateModel', false)

@@ -65,21 +65,7 @@
             <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
           </InputGroup> -->
         </div>
-        <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
-          <Button @click.native="getQuotationList(true)" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
-        </div>
-        <div v-if="currentTag == 0" class="column-6 p-3 pb-6">
-          <InputGroup class="w-full" title="報價單狀態">
-            <Select
-              slot="input"
-              defaultText="選擇狀態"
-              :options="stateList"
-              :selected="stateSelected.Value.toString()"
-              @emitItem="e => stateSelected = e"
-            />
-          </InputGroup>
-        </div>
-        <div v-else class="column-6 pb-6">
+         <div v-if="currentTag == 1" class="column-6 pb-6">
           <InputGroup class="w-full" title="核保狀態">
             <Select
               slot="input"
@@ -108,6 +94,21 @@
             />
           </InputGroup>
         </div>
+        <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
+          <Button @click.native="getQuotationList(true)" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
+        </div>
+        <div v-if="currentTag == 0" class="column-6 p-3 pb-6">
+          <InputGroup class="w-full" title="報價單狀態">
+            <Select
+              slot="input"
+              defaultText="選擇狀態"
+              :options="stateList"
+              :selected="stateSelected.Value.toString()"
+              @emitItem="e => stateSelected = e"
+            />
+          </InputGroup>
+        </div>
+       
         <QuotationList :list="quotationList" :currentTag="currentTag" @updateQuotationList="getQuotationList"/>
         <Pagination v-if="windowWidth > 770" :totalPage="totalPage" :currentPage="currentPage" @changePage="changePage"/>
       </CommonBoard>
@@ -332,7 +333,7 @@ export default {
           return {
             ...item,
             serialNo: item.serialNo.toString(),
-            daySettleDate: item.daySettleDate ? item.daySettleDate : '- -',
+            daySettleDate: item.daySettleDate ? item.daySettleDate.split('T')[0] : '- -',
             InsurancePremiums: item.InsurancePremiums ? item.InsurancePremiums : '- -',
             insuranceAmount: item.insuranceAmount && item.policyStatus !==2 && item.policyStatus !==6 ? item.insuranceAmount : '- -',
             quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',

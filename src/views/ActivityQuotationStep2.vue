@@ -167,6 +167,9 @@ export default {
         return this.internalControlData
       },
       set(value) {
+        if(value.businessSourceCode.Text == '個人' || value.businessSourceCode.Text == '顧問') {
+          value.statisticsCode = ''
+        }
         this.$store.dispatch('activity/updateInternalControlData', value)
       }
     },
@@ -321,7 +324,7 @@ export default {
     },
     questionnaireMapping(data) {
       data = JSON.parse(JSON.stringify(this.questionnaire))
-      if(data.sheet1.part1.beginDateTime && Object.keys(data.sheet1.part1.beginDateTime).every(key => data.sheet1.part1.beginDateTime[key] !== '')) {
+      if(data.sheet1.part1.beginDateTime && Object.keys(data.sheet1.part1.beginDateTime).every(key => data.sheet1.part1.beginDateTime[key] !== '' && !isNaN(data.sheet1.part1.beginDateTime[key]))) {
         data.sheet1.part1.beginDateTime = `${Number(data.sheet1.part1.beginDateTime.year)+1911}-${data.sheet1.part1.beginDateTime.month}-${data.sheet1.part1.beginDateTime.day} ${data.sheet1.part1.beginDateTime.hours}:00`
       } else {
         data.sheet1.part1.beginDateTime = null
@@ -405,6 +408,7 @@ export default {
        const obj = JSON.parse(JSON.stringify(this.activityQuotation))
       Object.assign(obj, {insuraned:{
         ...this.Insuraned,
+        isProfession: this.Insuraned.Profession,
         cityId: this.Insuraned.City.Value,
         city: this.Insuraned.City.Text,
         areaId: this.Insuraned.Area.Value,
@@ -420,6 +424,7 @@ export default {
       Object.assign(obj, {relationText:this.Relation.Text})
       Object.assign(obj, {applicant:{
         ...this.Applicant,
+        isProfession: this.Applicant.Profession,
         cityId: this.Applicant.City.Value,
         city: this.Applicant.City.Text,
         areaId:this.Applicant.Area.Value ,
@@ -444,7 +449,7 @@ export default {
       Object.assign(obj, {internalControlData: {
         issuerNumber: this.internalControlData.issuerNumber,
         businessSourceCode: this.internalControlData.businessSourceCode.Value,
-        statisticsCode: this.internalControlData.statisticsCode,
+        statisticsCode: this.internalControlData.businessSourceCode.Text == '個人' || this.internalControlData.businessSourceCode.Text == '顧問'? '' :this.internalControlData.statisticsCode,
         loginIdNumber: this.internalControlData.loginIdNumber,}
       })
       delete obj.insuraned.City
