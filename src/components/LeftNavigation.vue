@@ -18,6 +18,12 @@
         <span class="text-white text-lg font-bold">報價明細</span>
       </div>
     </DynamicLink>
+    <DynamicLink v-if="isUnderwriter" type="router" path="/underwriting-list" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/underwriting-list'}">
+      <div class="icon quotation"/>
+        <span class="text-white text-lg font-bold">核保明細</span>
+      </div>
+    </DynamicLink>
     <DynamicLink v-if="permissions.includes('PlaceQuote')" type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/place-quotation/step')}">
       <div class="icon placeQuotation"/>
@@ -161,7 +167,8 @@ export default {
       showTerms: false,
       showUnderwriting: false,
       parameterSettingTop: 0,
-      SuggestTermSettingTop: 0
+      SuggestTermSettingTop: 0,
+      isUnderwriter: false,
     }
   },
   computed: {
@@ -178,6 +185,13 @@ export default {
       this.windowWidth = window.innerWidth
     },
   },
+  async mounted() {
+    const level = await this.$store.dispatch('underwrite/GetEmployeeUnderwriteLevel')
+    if(level.data.content) {
+      this.isUnderwriter = true
+    }
+  },
+  
 }
 </script>
 
