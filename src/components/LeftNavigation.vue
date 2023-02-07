@@ -18,7 +18,7 @@
         <span class="text-white text-lg font-bold">報價明細</span>
       </div>
     </DynamicLink>
-    <DynamicLink v-if="isUnderwriter" type="router" path="/underwriting-list" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink v-if="level > 0" type="router" path="/underwriting-list" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/underwriting-list'}">
       <div class="icon quotation"/>
         <span class="text-white text-lg font-bold">核保明細</span>
@@ -168,13 +168,13 @@ export default {
       showUnderwriting: false,
       parameterSettingTop: 0,
       SuggestTermSettingTop: 0,
-      isUnderwriter: false,
     }
   },
   computed: {
     ...mapState({
       userInfo: state => state.home.userInfo,
-      permissions: state => state.home.userInfo.permissions
+      permissions: state => state.home.userInfo.permissions,
+      level: state => state.home.level
     }),
     path() {
       return this.$route.path
@@ -184,12 +184,6 @@ export default {
     handleResize () {
       this.windowWidth = window.innerWidth
     },
-  },
-  async mounted() {
-    const level = await this.$store.dispatch('underwrite/GetEmployeeUnderwriteLevel')
-    if(level.data.content) {
-      this.isUnderwriter = true
-    }
   },
   
 }

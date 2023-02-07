@@ -126,13 +126,18 @@ export default {
         if (target) {
           this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
           this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: target.itemName } })
+        } else {
+          const target = this.industryList.find(item => item.dangerSeq === (type == 'place' ? 106 : 354))
+          if (target) {
+            this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
+          }
         }
-      } else if (this.industry.Value !== 106) {
+      } else if (this.industry.Value !== (type == 'place' ? 106 : 354)) {
         if (this.quotationData.questionnaire && this.quotationData.questionnaire.part1.businessType) {
           this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData.questionnaire.part1.businessType)
           this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: this.quotationData.questionnaire.part1.businessType } })
         }
-        const target = this.industryList.find(item => item.dangerSeq === 106)
+        const target = this.industryList.find(item => item.dangerSeq === (type == 'place' ? 106 : 354))
         if (target) {
           this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
         }

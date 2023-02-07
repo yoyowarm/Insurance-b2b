@@ -5,6 +5,7 @@ export default {
     userInfo: {
       permissions: []
     },
+    level: ''
   },
   getters: {
   },
@@ -14,11 +15,17 @@ export default {
     },
     SET_USER_INFO(state, userInfo) {
       state.userInfo = userInfo
+    },
+    SET_LEVEL(state, level) {
+      state.level = level
     }
   },
   actions: {
     setToken({ commit }, token) {
       commit('SET_TOKEN', token)
+    },
+    setLevel({ commit }, level) {
+      commit('SET_LEVEL', level)
     },
     // async refreshToken({ commit }, token) {
     //   const { data } = await refreshToken(token)

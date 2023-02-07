@@ -246,6 +246,7 @@ export default {
       userInfo: state => state.home.userInfo,
       'Insuraned': state => state.activity.Insuraned,
       activityQuotation: state => state.activity.activityQuotation,
+      level: state => state.home.level
     }),
     activityInfoList: {
       get () {
@@ -365,7 +366,7 @@ export default {
           this.industryType.push(item.typeName)
         }
       })
-      this.industryList = activity.data.content
+      this.industryList = activity.data.content.filter(item => item.canShowLevel <= this.level)
       districts.data.content.map(item => {
         this.countyList.push({
           ...item,

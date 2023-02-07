@@ -1,12 +1,13 @@
 <template>
   <div>
     <FormTitle title="投保行業 參數設定" class="text-lg mb-14"/>
-    <CommonBoard class="category">
+    <CommonBoard class="category rotate">
       <NavMenu
-        class="menu"
+        class="menu rotate"
         :itemLists="itemLists"
         :currentTag="currentTag"
         @updatedMenu="(e) => currentTag = e"
+        rotate
       />
       <div class="column-5 mb-4">
         <InputGroup noMt>
@@ -53,6 +54,11 @@
               <span class=" text-gray-300" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'cursor-pointer': item.edit, 'select-none': !item.edit}">隱藏</span>
             </div>
           </div>
+          <div :slot="`canShowLevel-${index}`" :key="`canShowLevel${index}`" class="flex whitespace-no-wrap">
+            <InputGroup :disable="!item.edit" noMt>
+              <Select slot="input" :disable="!item.edit" :selected="item.canShowLevel" :options="underwritingList" @emitItem="e=> {item.canShowLevel = e.Value}" defaultText="選擇階層"/>
+            </InputGroup>
+          </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
             <Button class="w-full sm:w-24" @click.native="editSwitch(index)" :outline="!item.edit"><span v-if="!item.edit">編輯</span><span v-else>儲存</span></Button>
           </div>
@@ -79,7 +85,7 @@ import Checkbox from '@/components/Checkbox'
 import Pagination from '@/components/pagination'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import LoadingScreen from '@/components/LoadingScreen.vue'
-import { categoryListTable } from '@/utils/mockData'
+import { categoryListTable,underwritingCategoryListTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 export default {
   components: {
@@ -110,7 +116,18 @@ export default {
       currentType: '',
       itemLists:[
         { text: '處所', value: 0 },
-        { text: '活動', value: 1 }
+        { text: '活動', value: 1 },
+        { text: '核保處所', value: 2 },
+        { text: '核保活動', value: 3 }
+      ],
+      underwritingList: [
+        { Text:'經手人', Value: 0 },
+        { Text:'分公司核保門檻', Value: 1 },
+        { Text:'分公司核保上限', Value: 2 },
+        { Text:'總公司核保上限', Value: 3 },
+        { Text:'總公司科處主管上限', Value: 4 },
+        { Text:'總公司部室主管上限', Value: 5 },
+        { Text:'協理、副總上限', Value: 6 },
       ],
       typeList: [],
       dangerCodeList: [],
@@ -143,7 +160,7 @@ export default {
     },
     slotArray () {
       const arr = []
-      const slotArr = [ 'weight','hasQuotation','displayItemName', 'isEnable', 'operate','dangerCode']
+      const slotArr = [ 'weight','hasQuotation','displayItemName', 'isEnable', 'operate','dangerCode', 'canShowLevel']
       for (let i = 0; i < this.categoryListTable.rows.length; i++) {
         slotArr.map(item => {
           arr.push(`${item}-${i}`)
@@ -156,6 +173,15 @@ export default {
     currentTag: {
       async handler(val,oldVal) {
         if(!isNaN(oldVal) && val !== oldVal) {
+          const data = await this.$store.dispatch('resource/PlaceActivities', {
+            placeActivityType: this.currentTag == 0 || this.currentTag == 2 ? 1 : 2,
+            typeName: val == '選擇投保行業' ? '' : val
+          })
+          this.categoryListTable = {
+            head: this.currentTag ==0 || this.currentTag ==1 ? this.categoryListTable.head : underwritingCategoryListTable().head,
+            rows: data.data.content.placeActivityDetails
+          }
+          this.currentType = data.data.content.placeActivityDetails[0]
           await this.getAllList(val)
         }
       },
@@ -168,11 +194,11 @@ export default {
           await this.getAllList(this.currentTag)
         } else {
           const data = await this.$store.dispatch('resource/PlaceActivities', {
-            placeActivityType: this.currentTag+1,
+            placeActivityType: this.currentTag == 0 || this.currentTag == 2 ? 1 : 2,
             typeName: val == '選擇投保行業' ? '' : val
           })
           this.categoryListTable = {
-            head: this.categoryListTable.head,
+            head: this.currentTag ==0 || this.currentTag ==1 ? this.categoryListTable.head : underwritingCategoryListTable().head,
             rows: data.data.content.placeActivityDetails
           }
         }
@@ -204,36 +230,45 @@ export default {
           }
         })
       })
+      
       if(!value) {
-        const data = {
-          seq: this.categoryListTable.rows[index].dangerSeq,
-          weight: this.categoryListTable.rows[index].weight,
-          hasQuotation: this.categoryListTable.rows[index].hasQuotation,
-          displayItemName: this.categoryListTable.rows[index].displayItemName,
-          dangerCode: this.categoryListTable.rows[index].dangerCode,
-          isEnable: this.categoryListTable.rows[index].isEnable
+        if(this.currentTag == 0 || this.currentTag == 1) {
+          const data = {
+            seq: this.categoryListTable.rows[index].dangerSeq,
+            weight: this.categoryListTable.rows[index].weight,
+            hasQuotation: this.categoryListTable.rows[index].hasQuotation,
+            displayItemName: this.categoryListTable.rows[index].displayItemName,
+            dangerCode: this.categoryListTable.rows[index].dangerCode,
+            isEnable: this.categoryListTable.rows[index].isEnable
+          }
+          await this.$store.dispatch('parameterSetting/updatePlacesActivity', data)
+        } else {
+          const data = {
+            seq: this.categoryListTable.rows[index].dangerSeq,
+            canShowLevel: this.categoryListTable.rows[index].canShowLevel
+          }
+           await this.$store.dispatch('parameterSetting/editPlaceActivitiesShowLevel', data)
         }
-        await this.$store.dispatch('parameterSetting/updatePlacesActivity', data)
         const category = await this.$store.dispatch('resource/PlaceActivities', {
-            placeActivityType: this.currentTag+1,
-            typeName: this.currentType === '選擇投保行業' ? '' : this.currentType
-          })
+          placeActivityType: this.currentTag == 0 || this.currentTag == 2 ? 1 : 2,
+          typeName: this.currentType === '選擇投保行業' ? '' : this.currentType
+        })
         this.categoryListTable = {
-          head: this.categoryListTable.head,
+          head: this.currentTag ==0 || this.currentTag ==1 ? this.categoryListTable.head : underwritingCategoryListTable().head,
           rows: category.data.content.placeActivityDetails
         }
       }
     },
     async getAllList(val) {
       const data = await this.$store.dispatch('resource/PlaceActivities', {
-            placeActivityType: this.currentTag+1,
+            placeActivityType: this.currentTag == 0 || this.currentTag == 2 ? 1 : 2,
             typeName: this.currentType == '選擇投保行業' ? '' : this.currentType
           })
       this.categoryListTable = {
-        head: this.categoryListTable.head,
+        head: val ==0 || val ==1 ? this.categoryListTable.head : underwritingCategoryListTable().head,
         rows: data.data.content.placeActivityDetails
       }
-      const type = await this.$store.dispatch(`resource/${val === 0 ? 'PlaceTypes' :'ActivityTypes'}`)
+      const type = await this.$store.dispatch(`resource/${val === 0 ||val === 2 ? 'PlaceTypes' :'ActivityTypes'}`)
       
       this.typeList = type.data.content.map(item => {
         return {
@@ -271,4 +306,19 @@ export default {
   .weight-input {
     @apply rounded-full h-full border-2 border-gray-300 text-center
   }
+
+  @media screen and (max-width: 600px) {
+  .category.rotate {
+    margin-top: 0;
+    padding-left: 50px;
+  }
+  .menu.rotate{
+    top: 20px;
+    left: -5px;
+    @apply absolute
+  }
+  >>> .board {
+    min-height: 400px;
+  }
+}
 </style>

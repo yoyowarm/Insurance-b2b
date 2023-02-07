@@ -738,6 +738,37 @@ export const categoryListTable = () => {
   }
 }
 
+export const underwritingCategoryListTable = () => {
+  return {
+    head: [
+      {
+        text: '投保行業',
+        value: 'typeName',
+        size: '1-6'
+      },
+      {
+        text: '行業名稱',
+        value: 'itemName',
+        size: '3-6'
+      },
+      {
+        text: '可顯示層級',
+        value: 'canShowLevel',
+        size: '6-6'
+      },
+      {
+        text: '操作',
+        value: 'operate',
+        size: '1-6',
+        hidden: true
+      }
+    ],
+    rows: [
+
+    ]
+  }
+}
+
 export const minimumAmountTable = () => {
   return {
     head: [
