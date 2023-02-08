@@ -20,7 +20,7 @@
     </DynamicLink>
     <DynamicLink v-if="level > 0" type="router" path="/underwriting-list" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/underwriting-list'}">
-      <div class="icon quotation"/>
+      <div class="icon underwriting"/>
         <span class="text-white text-lg font-bold">核保明細</span>
       </div>
     </DynamicLink>
@@ -235,6 +235,9 @@ export default {
       min-height: 40px;
       margin-bottom: 4px;
       @apply bg-no-repeat bg-center;
+      &.underwriting {
+        background-image: url('../assets/images/12.png');
+      }
       &.underwritingCooperation {
         background-image: url('../assets/images/11.png');
       }
@@ -287,6 +290,9 @@ export default {
     &:hover, &.active {
       background-color: #fafafa;
       .icon {
+        &.underwriting {
+          background-image: url('../assets/images/12r.png');
+        }
         &.underwritingCooperation {
           background-image: url('../assets/images/11r.png');
         }
@@ -371,6 +377,9 @@ export default {
         min-height: 40px;
         margin-bottom: 4px;
         @apply bg-no-repeat bg-center;
+        &.underwriting {
+          background-image: url('../assets/images/12b.png');
+        }
         &.underwritingCooperation {
           background-image: url('../assets/images/11b.png');
         }
@@ -425,6 +434,9 @@ export default {
       }
       &:hover, &.active {
         .icon {
+          &.underwriting {
+            background-image: url('../assets/images/12.png');
+          }
           &.underwritingCooperation {
             background-image: url('../assets/images/11.png');
           }
