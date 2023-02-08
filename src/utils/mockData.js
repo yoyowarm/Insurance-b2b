@@ -719,12 +719,12 @@ export const categoryListTable = () => {
         size: '1-6',
         hidden: true
       },
-      {
-        text: '隱藏/顯示',
-        value: 'isEnable',
-        size: '1-6',
-        hidden: true
-      },
+      // {
+      //   text: '隱藏/顯示',
+      //   value: 'isEnable',
+      //   size: '1-6',
+      //   hidden: true
+      // },
       {
         text: '操作',
         value: 'operate',

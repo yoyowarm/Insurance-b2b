@@ -45,7 +45,7 @@
               />
             </InputGroup>
           </div>
-          <div :slot="`isEnable-${index}`" :key="`isEnable${index}`" class="w-full flex sm:justify-center items-center whitespace-no-wrap">
+          <div v-if="false" :slot="`isEnable-${index}`" :key="`isEnable${index}`" class="w-full flex sm:justify-center items-center whitespace-no-wrap">
             <font-awesome-icon v-if="item.isEnable" @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" class="text-lg mr-2" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye']" />
             <font-awesome-icon v-else @click="() =>{ if(item.edit){item.isEnable = !item.isEnable}}" :class="{'text-main cursor-pointer': item.edit, 'select-none': !item.edit}" :icon="['fas','eye-slash']" />
             <div class="sm:hidden flex whitespace-no-wrap">
@@ -55,8 +55,8 @@
             </div>
           </div>
           <div :slot="`canShowLevel-${index}`" :key="`canShowLevel${index}`" class="flex whitespace-no-wrap">
-            <InputGroup :disable="!item.edit" noMt>
-              <Select slot="input" :disable="!item.edit" :selected="item.canShowLevel" :options="underwritingList" @emitItem="e=> {item.canShowLevel = e.Value}" defaultText="選擇階層"/>
+            <InputGroup :disable="!item.edit" noMt class="w-64">
+              <Select slot="input" class="w-full" :disable="!item.edit" :selected="item.canShowLevel" :options="underwritingList" @emitItem="e=> {item.canShowLevel = e.Value}" defaultText="選擇階層"/>
             </InputGroup>
           </div>
           <div :slot="`operate-${index}`" :key="`operate${index}`" class="flex whitespace-no-wrap">
@@ -122,12 +122,11 @@ export default {
       ],
       underwritingList: [
         { Text:'經手人', Value: 0 },
-        { Text:'分公司核保門檻', Value: 1 },
-        { Text:'分公司核保上限', Value: 2 },
-        { Text:'總公司核保上限', Value: 3 },
-        { Text:'總公司科處主管上限', Value: 4 },
-        { Text:'總公司部室主管上限', Value: 5 },
-        { Text:'協理、副總上限', Value: 6 },
+        { Text:'分公司核保', Value: 1 },
+        { Text:'總公司核保', Value: 2 },
+        { Text:'總公司科處主管', Value: 3 },
+        { Text:'總公司部室主管', Value: 4 },
+        { Text:'協理、副總', Value: 5 },
       ],
       typeList: [],
       dangerCodeList: [],
