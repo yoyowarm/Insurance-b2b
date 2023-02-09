@@ -280,7 +280,7 @@ export default {
     async currentTag(val,oldVal) {
       if(val !== oldVal) {
         this.$route.query.tag = val
-        await this.getQuotationList()
+        await this.getQuotationList(true)
       }
     },
     quotationStatus() {
@@ -371,11 +371,16 @@ export default {
         ]
         this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
       } else {
+        let quotationList = null
         data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
         data.GroupName = this.NGroup == '選擇公司單位' ? '' : this.NGroup
         data.Level = this.layer == '7' ? '' : this.layer
-        const quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
-        this.quotationList = [...quotationList.data.content.underwrites.map(item => {
+        if(this.currentTag == 1) {
+          quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
+        } else if (this.currentTag ==2) {
+          quotationList = await this.$store.dispatch('underwrite/GetUnderwriteReviewedList', data)
+        }
+        this.quotationList = [...quotationList.data.content[this.currentTag == 1 ? 'underwrites' : 'underwriteReviews'].map(item => {
           return {
             ...item,
             serialNo: item.serialNo.toString(),
