@@ -339,6 +339,7 @@ export default {
       if(reset) {
         this.$store.dispatch('app/updatedCurrentPage',1)
       }
+      this.quotationList = []
       const data = {
         Skip:  (this.currentPage-1)*5,
         Take: 5,
