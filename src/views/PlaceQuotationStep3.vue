@@ -246,14 +246,14 @@ export default {
         } else {
           await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
         }
-        this.packHome()
+        this.packHome(key? false: true)
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
       })
     },
     async updateUnderwrite(type) {
       await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
-      this.packHome(true)
+      this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
     },
