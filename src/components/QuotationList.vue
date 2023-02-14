@@ -252,7 +252,7 @@ export default {
 				cancel: '否',
 				htmlText: `<p>確定此報價單向上核保？</p>`,
       }).then(async() => {
-        await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: orderNo, processType: 1})
+        await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: orderNo})
       })
     },
     async processHistory(orderNo) {
