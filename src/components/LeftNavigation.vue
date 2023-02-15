@@ -18,6 +18,12 @@
         <span class="text-white text-lg font-bold">報價明細</span>
       </div>
     </DynamicLink>
+    <DynamicLink v-if="level > 0" type="router" path="/underwriting-list" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/underwriting-list'}">
+      <div class="icon underwriting"/>
+        <span class="text-white text-lg font-bold">核保明細</span>
+      </div>
+    </DynamicLink>
     <DynamicLink v-if="permissions.includes('PlaceQuote')" type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/place-quotation/step')}">
       <div class="icon placeQuotation"/>
@@ -161,13 +167,14 @@ export default {
       showTerms: false,
       showUnderwriting: false,
       parameterSettingTop: 0,
-      SuggestTermSettingTop: 0
+      SuggestTermSettingTop: 0,
     }
   },
   computed: {
     ...mapState({
       userInfo: state => state.home.userInfo,
-      permissions: state => state.home.userInfo.permissions
+      permissions: state => state.home.userInfo.permissions,
+      level: state => state.home.level
     }),
     path() {
       return this.$route.path
@@ -178,6 +185,7 @@ export default {
       this.windowWidth = window.innerWidth
     },
   },
+  
 }
 </script>
 
@@ -227,6 +235,9 @@ export default {
       min-height: 40px;
       margin-bottom: 4px;
       @apply bg-no-repeat bg-center;
+      &.underwriting {
+        background-image: url('../assets/images/12.png');
+      }
       &.underwritingCooperation {
         background-image: url('../assets/images/11.png');
       }
@@ -279,6 +290,9 @@ export default {
     &:hover, &.active {
       background-color: #fafafa;
       .icon {
+        &.underwriting {
+          background-image: url('../assets/images/12r.png');
+        }
         &.underwritingCooperation {
           background-image: url('../assets/images/11r.png');
         }
@@ -363,6 +377,9 @@ export default {
         min-height: 40px;
         margin-bottom: 4px;
         @apply bg-no-repeat bg-center;
+        &.underwriting {
+          background-image: url('../assets/images/12b.png');
+        }
         &.underwritingCooperation {
           background-image: url('../assets/images/11b.png');
         }
@@ -417,6 +434,9 @@ export default {
       }
       &:hover, &.active {
         .icon {
+          &.underwriting {
+            background-image: url('../assets/images/12.png');
+          }
           &.underwritingCooperation {
             background-image: url('../assets/images/11.png');
           }

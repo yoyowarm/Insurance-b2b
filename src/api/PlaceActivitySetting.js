@@ -8,3 +8,5 @@ export const PlaceActivities = ({ placeActivityType, typeName }) => request('get
 export const updatePlacesActivity = (data) => request('patch', '/PlaceActivitySetting/EditPlaceActivities', data)
 //取得活動處所危險代號清單
 export const GetPlaceActivitieDangerCodes = () => request('get', '/PlaceActivitySetting/GetPlaceActivitieDangerCodes')
+//編輯投保行業可顯示目標階級
+export const editPlaceActivitiesShowLevel = (data) => request('patch', '/PlaceActivitySetting/EditPlaceActivitiesShowLevel', data)

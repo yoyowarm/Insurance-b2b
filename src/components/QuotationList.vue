@@ -42,14 +42,15 @@
             </div>
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
-              <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
-              <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7 || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
+              <Button class="minButton whitespace-no-wrap" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
+              <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7 || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
+              <Button class="minButton whitespace-no-wrap" :disabled="isNaN(item.insuranceAmount)" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();updateUnderwrite(item.orderNo)}" v-if="!item.isFinishQuotation" outline>向上核保</Button>
             </div>
           </div>
-          <div v-if="currentTag == 1" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99}">
+          <div v-if="currentTag == 1 || currentTag == 2" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99}">
             <div class="flex items-center  mt-1" :class="{'absolute flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col mr-3': windowWidth > 600}">
               <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
-              <span class="download whitespace-no-wrap" :class="{'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo,'audit')}">審核</span>
+              <span v-if="currentTag == 1" class="download whitespace-no-wrap" :class="{'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo,'audit')}">審核</span>
             </div>
             <div class="flex" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
@@ -218,7 +219,7 @@ export default {
       }
       this.$store.dispatch(`${type == 1?'place' : 'activity'}/updatedQuotationData`,data)
     },
-    async finishQuotation(orderNo) {
+    async finishQuotation(orderNo) {//確認報價
       Popup.create({
         hasHtml: true,
 				maskClose: false,
@@ -240,6 +241,18 @@ export default {
             htmlText:res.data.message
           })
         }
+      })
+    },
+    async updateUnderwrite(orderNo) {//更新核保
+    Popup.create({
+        hasHtml: true,
+				maskClose: false,
+				confirm: true,
+				ok: '是',
+				cancel: '否',
+				htmlText: `<p>確定此報價單向上核保？</p>`,
+      }).then(async() => {
+        await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: orderNo})
       })
     },
     async processHistory(orderNo) {

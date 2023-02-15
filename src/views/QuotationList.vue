@@ -65,7 +65,7 @@
             <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
           </InputGroup> -->
         </div>
-         <div v-if="currentTag == 1" class="column-6 pb-6">
+         <div v-if="currentTag == 1 || currentTag == 2" class="column-6 pb-6">
           <InputGroup class="w-full" title="核保狀態">
             <Select
               slot="input"
@@ -280,7 +280,7 @@ export default {
     async currentTag(val,oldVal) {
       if(val !== oldVal) {
         this.$route.query.tag = val
-        await this.getQuotationList()
+        await this.getQuotationList(true)
       }
     },
     quotationStatus() {
@@ -297,7 +297,35 @@ export default {
         }
       },
       deep: true
-    }
+    },
+    '$route.path': {
+      async handler(val,old) {
+        if(val !== old) {
+          if(val == '/quotation-ist') {
+            this.currentTag = 0
+            this.itemLists = [{ text: '報價明細', value: 0 }]
+          } else {
+            this.currentTag = 1
+            this.itemLists = [{ text: '核保明細', value: 1 },{ text: '核保歷程', value: 2}]
+          }
+          this.ApplicantName = ''
+          this.InsuredName = ''
+          this.IOffIcer = ''
+          this.MainOrderNo= ''
+          this.startDate= {
+            year: '',
+            month: '',
+            day: ''
+          }
+          this.endDate ={
+            year: '',
+            month: '',
+            day: ''
+          }
+        }
+      },
+      deep: true
+    },
   },
   methods: {
     handleResize () {
@@ -311,6 +339,7 @@ export default {
       if(reset) {
         this.$store.dispatch('app/updatedCurrentPage',1)
       }
+      this.quotationList = []
       const data = {
         Skip:  (this.currentPage-1)*5,
         Take: 5,
@@ -343,11 +372,16 @@ export default {
         ]
         this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
       } else {
+        let quotationList = null
         data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
         data.GroupName = this.NGroup == '選擇公司單位' ? '' : this.NGroup
         data.Level = this.layer == '7' ? '' : this.layer
-        const quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
-        this.quotationList = [...quotationList.data.content.underwrites.map(item => {
+        if(this.currentTag == 1) {
+          quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
+        } else if (this.currentTag ==2) {
+          quotationList = await this.$store.dispatch('underwrite/GetUnderwriteReviewedList', data)
+        }
+        this.quotationList = [...quotationList.data.content[this.currentTag == 1 ? 'underwrites' : 'underwriteReviews'].map(item => {
           return {
             ...item,
             serialNo: item.serialNo.toString(),
@@ -399,10 +433,6 @@ export default {
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
     await this.getQuotationList()
-    const level = await this.$store.dispatch('underwrite/GetEmployeeUnderwriteLevel')
-    if(level.data.content) {
-      this.itemLists.push({ text: '核保明細', value: 1 })
-    }
     const data = await this.$store.dispatch('quotation/GetQuotationState')
     this.quotationState = data.data.content
     const group = await this.$store.dispatch('resource/GetTaianNGroup')
@@ -416,7 +446,10 @@ export default {
       Value: '',
       Text: '全部'
     })
-    if(this.$route.query.tag == 1) {this.currentTag =1}
+    if(this.$route.path == '/underwriting-list') {
+      this.currentTag =1
+      this.itemLists = [{ text: '核保明細', value: 1 },{ text: '核保歷程', value: 2}]
+    }
   }
 }
 </script>

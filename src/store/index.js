@@ -31,6 +31,7 @@ const vuexLocal = new VuexPersistence({
       home: {
         token: state.home.token,
         userInfo: state.home.userInfo,
+        level: state.home.level,
       },
       place: {
         uuid: state.place.uuid,

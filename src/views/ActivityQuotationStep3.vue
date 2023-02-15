@@ -207,7 +207,11 @@ export default {
        this.$store.dispatch(`activity/updatedQuotationData`,quotationData)
     },
     packHome(updateUnderwrite = false) {
-      this.$router.push(`/quotation-ist?tag=${updateUnderwrite == true ? 1 : ''}`)
+      if(updateUnderwrite) {
+        this.$router.push('/quotation-ist')
+      } else {
+        this.$router.push('/underwriting-list')
+      }
       this.$store.dispatch('activity/clearAll')
       this.$store.dispatch('activity/updatedUUID', '')
       this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
@@ -234,14 +238,14 @@ export default {
         } else {
           await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
         }
-        this.packHome()
+        this.packHome(key?false:true)
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`activity/updatedInsuranceActive`,0)
       })
     },
     async updateUnderwrite(type) {
       await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
-      this.packHome(true)
+      this.packHome(false)
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`activity/updatedInsuranceActive`,0)
     },

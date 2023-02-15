@@ -51,6 +51,17 @@ const routes = [
     ]
   },
   {
+    path: '/underwriting-list',
+    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
+    children: [
+      { //核保明細
+        path: '/underwriting-list',
+        name: 'underwritingList',
+        component: () => import(/* webpackChunkName: "about" */ '../views/QuotationList.vue')
+      },
+    ]
+  },
+  {
     path: '/place-quotation',
     component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
     children: [
@@ -222,7 +233,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const whitelist = ['/', '/news/list', '/product/list']
+  const whitelist = ['/', '/news/list', '/product/list', '/underwriting-list']
   // if (to.path === '/place-quotation/step3' && (!store.state.common.orderNo && !store.state.common.mainOrderNo)) {
   //   next({ name: 'quotationList' })
   // }

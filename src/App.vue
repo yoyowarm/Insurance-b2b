@@ -6,11 +6,17 @@
 
 <script>
 export default {
-  created() {
+  async created() {
     let params = (new URL(document.location)).searchParams
     const key = params.get("token");
     if (key) {
       this.$store.dispatch('home/setToken', key)
+    }
+    const level = await this.$store.dispatch('underwrite/GetEmployeeUnderwriteLevel')
+    if(level.data.content) {
+      this.$store.dispatch('home/setLevel', level.data.content)
+    } else {
+      this.$store.dispatch('home/setLevel', 0)
     }
   }
 }

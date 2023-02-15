@@ -9,7 +9,8 @@ import {
   UpdateUnderwriteProcess,
   GetEmployeeUnderwriteLevel,
   GetUnderwriteProcessHistory,
-  GetUnderwriteModifyLogs
+  GetUnderwriteModifyLogs,
+  GetUnderwriteReviewedList
 } from '@/api/Underwrite'
 export default {
   namespaced: true,
@@ -51,6 +52,9 @@ export default {
     },
     async GetUnderwriteModifyLogs(_, orderno) {
       return await GetUnderwriteModifyLogs(orderno)
+    },
+    async GetUnderwriteReviewedList(_, data) {
+      return await GetUnderwriteReviewedList(data)
     }
   }
 }

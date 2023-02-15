@@ -268,6 +268,7 @@ export default {
       quotationData: state => state.place.quotationData,
       userInfo: state => state.home.userInfo,
       placeQuotation: state => state.place.placeQuotation,
+      level: state => state.home.level
     }),
     placeInfoList: {
       get () {
@@ -557,7 +558,7 @@ export default {
           this.industryType.push(item.typeName)
         }
       })
-      this.industryList = places.data.content
+      this.industryList = places.data.content.filter(item => item.canShowLevel <= this.level)
       districts.data.content.map(item => {
         this.countyList.push({
           ...item,
