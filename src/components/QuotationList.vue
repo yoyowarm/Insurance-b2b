@@ -25,7 +25,7 @@
           <span>保單編號{{tableData.rows[0].policyNo}}</span>
         </div>
       </div>
-      <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3 @review="(e) =>review(e,tableData.rows)" class="mb-4" style="border-bottom: 1px solid #d1d5db">
+      <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3 @review="(e) =>review(e,tableData.rows, currentTag ==2)" class="mb-4" style="border-bottom: 1px solid #d1d5db">
         <template v-for="(item,index) in tableData.rows">
           <div v-if="currentTag == 0" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100 rounded-b-xl': windowWidth <= 600 && item.policyStatus !== 99}">
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4" v-if="item.policyStatus == 99 && !item.newSerialNo">- -</div>
@@ -151,10 +151,12 @@ export default {
     handleResize () {
       this.windowWidth = window.innerWidth
     },
-    review(e,table) {
+    review(e,table,InsuranceActive) {
       if(this.currentTag == 1) return
       this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedPolicyStatus`,e.item.policyStatus)
-      if (e.item.stateText == '核保中') {
+      if (InsuranceActive) {
+        this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,9)
+      } else if (e.item.stateText == '核保中') {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,8)
       } else if((e.item.stateText !== '取消' && e.item.insuranceAmount) && !table.some(i => i.stateText == '完成報價')) {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,5)

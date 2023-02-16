@@ -26,7 +26,7 @@
       type="activity"
     />
     <div class="button-group">
-      <Button v-if="InsuranceActive !== 7"  @click.native="packHome" class="my-3 md:my-8 w-64 mr-0 md:mr-5">儲存報價單</Button>
+      <Button v-if="InsuranceActive !== 7"  @click.native="packHome(InsuranceActive == 9 ? false : true)" class="my-3 md:my-8 w-64 mr-0 md:mr-5">儲存報價單</Button>
       <Button v-if="(PolicyStatus == 0 || PolicyStatus == 1 || PolicyStatus == 2 || PolicyStatus == 6 || PolicyStatus == 7) && InsuranceActive !== 6 && InsuranceActive !== 7 && InsuranceActive !== 8" @click.native="copyQuotation(1)" class="my-3 md:my-8 w-64 md:mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-3 md:my-8 w-64 ">確認核保</Button>
       <Button
@@ -210,7 +210,11 @@ export default {
       if(updateUnderwrite) {
         this.$router.push('/quotation-ist')
       } else {
-        this.$router.push('/underwriting-list')
+        if(this.InsuranceActive == 9) {
+          this.$router.push('/underwriting-list?tag=2')
+        } else {
+          this.$router.push('/underwriting-list')
+        }
       }
       this.$store.dispatch('activity/clearAll')
       this.$store.dispatch('activity/updatedUUID', '')
