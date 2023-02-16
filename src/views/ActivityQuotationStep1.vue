@@ -314,6 +314,16 @@ export default {
       average.person = totalPerson/map1.size
       average.day = map1.size
       return average
+    },
+    activityTime() {
+      const arr = []
+      this.activityInfoList.map(item => {
+        const i = JSON.parse(JSON.stringify(item))
+        arr.push({...i,timeSpace: new Date(`${Number(item.startDate.year)+1911}-${item.startDate.month}-${item.startDate.day} ${item.startDate.hour}:00`).getTime()})
+        arr.push({...i,timeSpace: new Date(`${Number(item.endDate.year)+1911}-${item.endDate.month}-${item.endDate.day} ${item.endDate.hour}:00`).getTime()})
+      })
+      arr.sort((a,b) => a.timeSpace - b.timeSpace)
+      return arr
     }
   },
   watch:{
@@ -325,12 +335,42 @@ export default {
         const startMinute = val.startDate.hour.toString() == '24' ? '59' : '00'
         const endHour = val.endDate.hour.toString() == '0' ? '00' : (val.endDate.hour.toString() == '24' ? '23' : val.endDate.hour.toString())
         const endMinute = val.endDate.hour.toString() == '24' ? '59' : '00'
-        const startTime = new Date(`${Number(val.startDate.year)+1911}-${val.startDate.month}-${val.startDate.day} ${startHour}:${startMinute}`).getTime()
-        const endTime = new Date(`${Number(val.endDate.year)+1911}-${val.endDate.month}-${val.endDate.day} ${endHour}:${endMinute}`).getTime()
+        const startTime = new Date(`${Number(val.startDate.year)+1911}/${val.startDate.month}/${val.startDate.day} ${startHour}:${startMinute}`).getTime()
+        const endTime = new Date(`${Number(val.endDate.year)+1911}/${val.endDate.month}/${val.endDate.day} ${endHour}:${endMinute}`).getTime()
         if(endTime - startTime > millisecond) {
           Popup.create({
             hasHtml: true,
             htmlText: '活動保期超過一年，請重新選擇',
+          })
+          this.periodData = {
+            ...this.periodData,
+            endDate: {
+              year: '',
+              month: '',
+              day: '',
+              hour: '',
+            }
+          }
+        }
+        if(startTime > this.activityTime[0].timeSpace ) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: '保期開始時間小於活動時間，請重新選擇',
+          })
+          this.periodData = {
+            ...this.periodData,
+            startDate: {
+              year: '',
+              month: '',
+              day: '',
+              hour: '',
+            }
+          }
+        }
+        if (endTime - this.activityTime[this.activityTime.length -1].timeSpace < -60000) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: '保期結束時間小於活動時間，請重新選擇',
           })
           this.periodData = {
             ...this.periodData,

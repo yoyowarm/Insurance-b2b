@@ -277,6 +277,16 @@ export default {
           this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
         }
       }
+      if(new Date(`${Number(this.copyPeriod.startDate.year)+1911}/${this.copyPeriod.startDate.month}/${this.copyPeriod.startDate.day} ${this.copyPeriod.startDate.hour}:00`).getTime() > new Date(`${Number(this.copyPeriod.endDate.year)+1911}/${this.copyPeriod.endDate.month}/${this.copyPeriod.endDate.day} ${this.copyPeriod.endDate.hour}:00`).getTime()) {
+        Popup.create({
+          hasHtml: true,
+          htmlText: '保險結束時間不能小於保險起始時間',
+        })
+        this.copyPeriod[type][key] = ''
+        if(this.$refs[`${type}-${key}`]) {
+          this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
+        }
+      }
 			this.$emit('update:period', this.copyPeriod)
 		}
    }
