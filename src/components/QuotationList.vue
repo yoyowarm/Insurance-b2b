@@ -255,6 +255,7 @@ export default {
 				htmlText: `<p>確定此報價單向上核保？</p>`,
       }).then(async() => {
         await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: orderNo})
+        this.$emit('updateQuotationList')
       })
     },
     async processHistory(orderNo) {
