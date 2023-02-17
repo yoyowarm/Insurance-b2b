@@ -118,10 +118,10 @@ export default {
           InsuranceNumber: this.quotationData[quotationType].renewal.insuranceNumber,
         })
       }
-      if (this.quotationData[quotationType].remark) {//備註
+      if (this.quotationData[quotationType] && this.quotationData[quotationType].remark) {//備註
         this.$store.dispatch(`${type}/updatedRemark`, this.quotationData[quotationType].remark)
       }
-      if (this.quotationData[quotationType].insureType) { //投保行業
+      if (this.quotationData[quotationType] && this.quotationData[quotationType].insureType) { //投保行業
         const target = this.industryList.find(item => item.itemName === this.quotationData[quotationType].insureType)
         if (target) {
           this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
@@ -133,7 +133,8 @@ export default {
           }
         }
       } else if (this.industry.Value !== (type == 'place' ? 106 : 354)) {
-        if (this.quotationData.questionnaire && this.quotationData.questionnaire.part1.businessType) {
+
+        if (type == 'place' && this.quotationData.questionnaire && this.quotationData.questionnaire.part1.businessType) {
           this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData.questionnaire.part1.businessType)
           this.$store.dispatch('place/updatedQuestionnaire', { ...this.questionnaire, part1: { ...this.questionnaire.part1, businessType: this.quotationData.questionnaire.part1.businessType } })
         }
@@ -142,7 +143,7 @@ export default {
           this.$store.dispatch(`${type}/updatedIndustry`, { ...target, Text: target.itemName, Value: target.dangerSeq })
         }
       }
-      if (this.quotationData[quotationType].otherIndustryName) {
+      if (this.quotationData[quotationType] && this.quotationData[quotationType].otherIndustryName) {
         this.$store.dispatch(`${type}/updatedIndustryText`, this.quotationData[quotationType].otherIndustryName)
       }
       const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
