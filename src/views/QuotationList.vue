@@ -441,6 +441,14 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
+    if(this.$route.path == '/underwriting-list') {
+      if(this.$route.query.tag == 2) {
+        this.currentTag =2
+      } else {
+        this.currentTag =1
+      }
+      this.itemLists = [{ text: '核保明細', value: 1 },{ text: '核保歷程', value: 2}]
+    }
     await this.getQuotationList()
     const data = await this.$store.dispatch('quotation/GetQuotationState')
     this.quotationState = data.data.content
@@ -455,14 +463,7 @@ export default {
       Value: '',
       Text: '全部'
     })
-    if(this.$route.path == '/underwriting-list') {
-      if(this.$route.query.tag == 2) {
-        this.currentTag =2
-      } else {
-        this.currentTag =1
-      }
-      this.itemLists = [{ text: '核保明細', value: 1 },{ text: '核保歷程', value: 2}]
-    }
+    
   }
 }
 </script>
