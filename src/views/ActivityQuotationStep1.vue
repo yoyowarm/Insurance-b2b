@@ -36,7 +36,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
-      <Period :period="periodData" :disable="calculateModel"/>
+      <Period :period="periodData" :disable="calculateModel" :activityTime="activityTime"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
       <InsuranceAmount
@@ -351,37 +351,7 @@ export default {
               hour: '',
             }
           }
-        }
-        if(startTime > this.activityTime[0].timeSpace ) {
-          Popup.create({
-            hasHtml: true,
-            htmlText: '保期開始時間小於活動時間，請重新選擇',
-          })
-          this.periodData = {
-            ...this.periodData,
-            startDate: {
-              year: '',
-              month: '',
-              day: '',
-              hour: '',
-            }
-          }
-        }
-        if (endTime - this.activityTime[this.activityTime.length -1].timeSpace < -60000) {
-          Popup.create({
-            hasHtml: true,
-            htmlText: '保期結束時間小於活動時間，請重新選擇',
-          })
-          this.periodData = {
-            ...this.periodData,
-            endDate: {
-              year: '',
-              month: '',
-              day: '',
-              hour: '',
-            }
-          }
-        }
+        } 
       },
       deep: true
     },

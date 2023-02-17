@@ -165,6 +165,10 @@ export default {
     disable: {
       type: Boolean,
       default: false
+    },
+    activityTime: {
+      type: Array,
+      default: () => ([])
     }
 	},
 	data () {
@@ -285,6 +289,36 @@ export default {
         this.copyPeriod[type][key] = ''
         if(this.$refs[`${type}-${key}`]) {
           this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
+        }
+      }
+      if(type == 'startDate') {
+        const startHour = this.copyPeriod.startDate.hour.toString() == '0' ? '00' : (this.copyPeriod.startDate.hour.toString() == '24' ? '23' : this.copyPeriod.startDate.hour.toString())
+        const startMinute = this.copyPeriod.startDate.hour.toString() == '24' ? '59' : '00'
+        const startTime = new Date(`${Number(this.copyPeriod.startDate.year)+1911}/${this.copyPeriod.startDate.month}/${this.copyPeriod.startDate.day} ${startHour}:${startMinute}`).getTime()
+        if(startTime > this.activityTime[0].timeSpace) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: '保期開始時間小於活動時間，請重新選擇',
+          })
+          this.copyPeriod[type][key] = CHKey[key]
+          if(this.$refs[`${type}-${key}`]) {
+            this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
+          }
+        }
+      }
+      if (type == 'endDate') {
+        const endHour = this.copyPeriod.endDate.hour.toString() == '0' ? '00' : (this.copyPeriod.endDate.hour.toString() == '24' ? '23' : this.copyPeriod.endDate.hour.toString())
+        const endMinute = this.copyPeriod.endDate.hour.toString() == '24' ? '59' : '00'
+        const endTime = new Date(`${Number(this.copyPeriod.endDate.year)+1911}/${this.copyPeriod.endDate.month}/${this.copyPeriod.endDate.day} ${endHour}:${endMinute}`).getTime()
+        if(endTime - this.activityTime[this.activityTime.length -1].timeSpace < -60000) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: '保期結束時間小於活動時間，請重新選擇',
+          })
+          this.copyPeriod[type][key] = CHKey[key]
+          if(this.$refs[`${type}-${key}`]) {
+            this.$refs[`${type}-${key}`].$el.lastChild.value = CHKey[key]
+          }
         }
       }
 			this.$emit('update:period', this.copyPeriod)
