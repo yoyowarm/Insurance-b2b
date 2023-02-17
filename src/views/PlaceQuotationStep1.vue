@@ -331,8 +331,8 @@ export default {
         const startMinute = this.period.startDate.hour.toString() == '24' ? '59' : '00'
         const endHour = this.period.endDate.hour.toString() == '0' ? '00' : (this.period.endDate.hour.toString() == '24' ? '23' : this.period.endDate.hour.toString())
         const endMinute = this.period.endDate.hour.toString() == '24' ? '59' : '00'
-        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}T${startHour}:${startMinute}:00`).getTime()
-        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}T${endHour}:${endMinute}:00`).getTime()
+        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${startHour}:${startMinute}:00`).getTime()
+        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${endHour}:${endMinute}:00`).getTime()
         const leapYear = ((Number(this.period.startDate.year) + 1911) %4 == 0) || ((Number(this.period.endDate.year) + 1911) %4 == 0) ? 366 : 365
         const overYear = ((endTime - startTime) / 86400000) > leapYear
         if (overYear) {

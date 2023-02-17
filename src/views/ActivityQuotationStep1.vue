@@ -319,8 +319,8 @@ export default {
       const arr = []
       this.activityInfoList.map(item => {
         const i = JSON.parse(JSON.stringify(item))
-        arr.push({...i,timeSpace: new Date(`${Number(item.startDate.year)+1911}-${item.startDate.month}-${item.startDate.day} ${item.startDate.hour}:00`).getTime()})
-        arr.push({...i,timeSpace: new Date(`${Number(item.endDate.year)+1911}-${item.endDate.month}-${item.endDate.day} ${item.endDate.hour}:00`).getTime()})
+        arr.push({...i,timeSpace: new Date(`${Number(item.startDate.year)+1911}/${item.startDate.month}/${item.startDate.day} ${item.startDate.hour == '24' ? '23': item.startDate.hour}:${item.startDate.hour == '24' ? '59': '00'}`).getTime()})
+        arr.push({...i,timeSpace: new Date(`${Number(item.endDate.year)+1911}/${item.endDate.month}/${item.endDate.day} ${item.endDate.hour == '24' ? '23': item.endDate.hour}:${item.endDate.hour == '24' ? '59': '00'}`).getTime()})
       })
       arr.sort((a,b) => a.timeSpace - b.timeSpace)
       return arr
