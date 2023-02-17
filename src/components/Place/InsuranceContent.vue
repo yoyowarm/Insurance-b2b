@@ -70,7 +70,7 @@
       <InputGroup class="w-full col-span-6" title="投保行業" v-if="copyInfo.CorporateRequired || true" borderBtn :editModel="editModel">
         <Select v-if="editModel" slot="input" defaultText="心理輔導與家庭諮詢機構"/>
         <div v-else slot="input" class="w-full relative">
-          {{info.displayInsureType.includes('其他')? `${info.displayInsureType}(${info.otherIndustryName})`: info.displayInsureType}}
+          {{info.displayInsureType.includes('其他')? `${info.displayInsureType}(${info.otherIndustryName})`: (info.otherIndustryName ? info.otherIndustryName : info.displayInsureType)}}
         </div>
       </InputGroup>
     </div>
