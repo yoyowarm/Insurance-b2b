@@ -410,7 +410,8 @@ export default {
            if(this.underwriteStatus.underwriteDirection == 1) {await this.calculateAmount(false)}
         }
       }
-      if(this.questionnaireFinished && !this.insuranceAmountListData.amount) {
+      
+      if(this.questionnaireFinished) {
         await this.questionnaireCoefficient()
       }
     },
@@ -642,7 +643,6 @@ export default {
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
-      console.log(this.attachmentList)
     },
     async nextStep() {
       this.verifyResult = []
@@ -650,11 +650,10 @@ export default {
 
       if(this.requestFile.length === 0 && this.verifyResult.length === 0) {
           await this.quotationMapping()
-          console.log(this.quotationData)
-
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
               ...this.activityQuotation,
+              activityInsureInfo: this.quotationData.activityInsureInfo,
               applicant: this.quotationData.applicant,
               insuraned: this.quotationData.insuraned,
               relationText: this.quotationData.relationText,
