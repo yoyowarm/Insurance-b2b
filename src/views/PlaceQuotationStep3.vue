@@ -38,7 +38,7 @@
         @click.native="finishQuotation('FinishQuotation')"
         class="my-3 md:my-8 w-64  md:mr-5">確認報價</Button>
         <Button
-        v-if="(PolicyStatus == 0 && InsuranceActive == 0) || (PolicyStatus == 7 && InsuranceActive == 5) && InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => item.insuranceAmount)"
+        v-if="(PolicyStatus == 7 || PolicyStatus == 8) &&InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts.length > 0 &&quotationData.insuranceAmounts.find(item => item.insuranceAmount)"
         @click.native="finishQuotation('up')"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-3 md:my-8 w-64 "

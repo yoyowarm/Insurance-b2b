@@ -335,7 +335,7 @@ export default {
         const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${endHour}:${endMinute}:00`).getTime()
         const leapYear = ((Number(this.period.startDate.year) + 1911) %4 == 0) || ((Number(this.period.endDate.year) + 1911) %4 == 0) ? 366 : 365
         const overYear = ((endTime - startTime) / 86400000) > leapYear
-        if (overYear) {
+         if (overYear) {
           Popup.create({hasHtml:true,htmlText:'保期不能超過一年'})
           this.$nextTick(() => {
             this.periodData = {
