@@ -153,9 +153,9 @@ export default {
         }
       }
       if (type == 'activity') {
-        if (this.InsuranceActive !== 7 && this.industry.Value && (this.industry.itemName == '其他') && !this.questionnaireFinished) {
-          this.requestFile.push('必填詢問表')
-        }
+        // if (this.InsuranceActive !== 7 && this.industry.Value && (this.industry.itemName == '其他') && !this.questionnaireFinished) {
+        //   this.requestFile.push('必填詢問表')
+        // }
         if (!this.Insuraned.activityName) {
           this.requestFile.push('未填寫活動名稱')
         }
