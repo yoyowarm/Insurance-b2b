@@ -394,7 +394,7 @@ export default {
           return {
             ...item,
             serialNo: item.serialNo.toString(),
-            underwriteStateText: this.currentTag ==1 ? item.underwriteState === 0 ? '核保中' : '待確認核保結果' : this.quotationStateText[item.quotationListState],
+            underwriteStateText: this.currentTag ==1 ? (item.underwriteState === 0 ? '待確認核保結果' : '核保中') : this.quotationStateText[item.quotationListState],
             quotationDate: item.quotationDate? item.quotationDate.split(' ')[0] : '',
             insuranceAmount: item.insuranceAmount ? item.insuranceAmount : '- -',
             waitConfirmEmployeeName: item.waitConfirmEmployeeName ? item.waitConfirmEmployeeName : '- -',
