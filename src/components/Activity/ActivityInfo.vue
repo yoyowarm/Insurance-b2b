@@ -419,7 +419,6 @@ export default {
         this.copyInfoList[index].endDate.month = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getMonth() + 1 :  new Date(today).getMonth() + 1
       }
       if(!this.copyInfoList[index].startDate.day) {
-        console.log(new Date(new Date().setHours(new Date().getHours()+3)).getHours())
         this.copyInfoList[index].startDate.day = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getDate() : new Date(today).getDate()
         this.copyInfoList[index].endDate.day = new Date(new Date().setHours(new Date().getHours()+3)).getHours() < 3 ? new Date(tomorrow).getDate() : new Date(today).getDate()
       }

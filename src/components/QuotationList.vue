@@ -44,7 +44,7 @@
               <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
               <Button class="minButton whitespace-no-wrap" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
               <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7 || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
-              <Button class="minButton whitespace-no-wrap" :disabled="isNaN(item.insuranceAmount)" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();updateUnderwrite(item.orderNo)}" v-if="!item.isFinishQuotation" outline>向上核保</Button>
+              <Button class="minButton whitespace-no-wrap" :disabled="isNaN(item.insuranceAmount) || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();updateUnderwrite(item.orderNo)}" v-if="!item.isFinishQuotation" outline>向上核保</Button>
             </div>
           </div>
           <div v-if="currentTag == 1 || currentTag == 2" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99}">
@@ -154,7 +154,9 @@ export default {
     review(e,table,InsuranceActive) {
       if(this.currentTag == 1) return
       this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedPolicyStatus`,e.item.policyStatus)
-      if (InsuranceActive) {
+      if (e.iofficer !== this.userInfo.userid && e.item.stateText == '已核保') {
+        this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,6)
+      } else if (InsuranceActive) {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,9)
       } else if (e.item.stateText == '核保中') {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,8)

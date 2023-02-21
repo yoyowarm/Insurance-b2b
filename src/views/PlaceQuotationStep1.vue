@@ -591,7 +591,7 @@ export default {
           if(this.underwriteStatus.underwriteDirection == 1) {await this.calculateAmount(false)}
         }
       }
-      if(this.questionnaireFinished) {
+      if(this.questionnaireFinished && this.InsuranceActive !==7) {
         await this.questionnaireCoefficient()
       }
     },
