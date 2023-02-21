@@ -411,7 +411,7 @@ export default {
         }
       }
       
-      if(this.questionnaireFinished) {
+      if(this.questionnaireFinished && this.InsuranceActive !==7) {
         await this.questionnaireCoefficient()
       }
     },
