@@ -336,11 +336,6 @@ export const auditListTable = () => {
         size: '2-6'
       },
       {
-        text: '核保結果',
-        value: 'underwriteResultStateText',
-        size: '2-6'
-      },
-      {
         text: '操作',
         value: 'edit',
         size: '3-6'

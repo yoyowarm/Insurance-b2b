@@ -13,6 +13,7 @@ export default {
   methods: {
     AssignQuestionnaire(type) {
       if (this.quotationData.questionnaire) {
+        console.log(this.quotationData.questionnaire)
         this.$store.dispatch(`${type}/updateQuestionnaireFinished`, true)
         let data = null
         if (type === 'place') {
@@ -26,12 +27,12 @@ export default {
                 day: this.quotationData.questionnaire.part1.createTime.split('T')[0].split('-')[2],
               } : { year: '', month: '', day: '', },
               businessStartDate: this.quotationData.questionnaire.part1.businessStartDate ? {
-                hours: this.quotationData.questionnaire.part1.businessStartDate.split('T')[1].split(':')[0],
-                minutes: this.quotationData.questionnaire.part1.businessStartDate.split('T')[1].split(':')[1],
+                hours: this.quotationData.questionnaire.part1.businessStartDate.includes('T') ? this.quotationData.questionnaire.part1.businessStartDate.split('T')[1].split(':')[0] : '00',
+                minutes: this.quotationData.questionnaire.part1.businessStartDate.includes('T') ? this.quotationData.questionnaire.part1.businessStartDate.split('T')[1].split(':')[1] : '00',
               } : { hours: '00', minutes: '00' },
               businessEndDate: this.quotationData.questionnaire.part1.businessEndDate ? {
-                hours: this.quotationData.questionnaire.part1.businessEndDate.split('T')[1].split(':')[0],
-                minutes: this.quotationData.questionnaire.part1.businessEndDate.split('T')[1].split(':')[1],
+                hours: this.quotationData.questionnaire.part1.businessEndDate.includes('T') ? this.quotationData.questionnaire.part1.businessEndDate.split('T')[1].split(':')[0] : '00',
+                minutes: this.quotationData.questionnaire.part1.businessEndDate.includes('T') ? this.quotationData.questionnaire.part1.businessEndDate.split('T')[1].split(':')[1] : '00',
               } : { hours: '00', minutes: '00' },
               businessType: this.quotationData.placeInsureInfo ? this.quotationData.placeInsureInfo.displayInsureType : ''
             },

@@ -331,11 +331,11 @@ export default {
         const startMinute = this.period.startDate.hour.toString() == '24' ? '59' : '00'
         const endHour = this.period.endDate.hour.toString() == '0' ? '00' : (this.period.endDate.hour.toString() == '24' ? '23' : this.period.endDate.hour.toString())
         const endMinute = this.period.endDate.hour.toString() == '24' ? '59' : '00'
-        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}-${this.period.startDate.month}-${this.period.startDate.day}T${startHour}:${startMinute}:00`).getTime()
-        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}-${this.period.endDate.month}-${this.period.endDate.day}T${endHour}:${endMinute}:00`).getTime()
+        const startTime = new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${startHour}:${startMinute}:00`).getTime()
+        const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${endHour}:${endMinute}:00`).getTime()
         const leapYear = ((Number(this.period.startDate.year) + 1911) %4 == 0) || ((Number(this.period.endDate.year) + 1911) %4 == 0) ? 366 : 365
         const overYear = ((endTime - startTime) / 86400000) > leapYear
-        if (overYear) {
+         if (overYear) {
           Popup.create({hasHtml:true,htmlText:'保期不能超過一年'})
           this.$nextTick(() => {
             this.periodData = {
@@ -379,6 +379,7 @@ export default {
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
               ...this.placeQuotation,
+              placeInsureInfo: this.quotationData.placeInsureInfo,
               applicant: this.quotationData.applicant,
               insuraned: this.quotationData.insuraned,
               relationText: this.quotationData.relationText,
@@ -590,7 +591,7 @@ export default {
           if(this.underwriteStatus.underwriteDirection == 1) {await this.calculateAmount(false)}
         }
       }
-      if(this.questionnaireFinished && !this.insuranceAmountListData.amount) {
+      if(this.questionnaireFinished) {
         await this.questionnaireCoefficient()
       }
     },
@@ -717,7 +718,6 @@ export default {
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
-      console.log(this.attachmentList) 
     },
     async clearAll() {
       this.$store.dispatch('place/clearAll')

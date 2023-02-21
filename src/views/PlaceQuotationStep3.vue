@@ -21,11 +21,11 @@
       type="place"
     />
     <div class="button-group">
-      <Button v-if="InsuranceActive !== 7"  @click.native="packHome" class="my-3 md:my-8 w-64 mr-0 md:mr-5">儲存報價單</Button>
+      <Button v-if="InsuranceActive !== 7"  @click.native="packHome(InsuranceActive == 9 ? false : true)" class="my-3 md:my-8 w-64 mr-0 md:mr-5">儲存報價單</Button>
       <Button v-if="(PolicyStatus == 0 || PolicyStatus == 1 || PolicyStatus == 2 || PolicyStatus == 6 || PolicyStatus == 7) && InsuranceActive !== 6 && InsuranceActive !== 7 && InsuranceActive !== 8" @click.native="copyQuotation(1)" class="my-3 md:my-8 w-64 md:mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-3 md:my-8 w-64 ">確認核保</Button>
       <Button
-        v-if="(PolicyStatus == 1 || PolicyStatus == 0) && InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
+        v-if="(PolicyStatus == 1 || PolicyStatus == 0) && InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-3 md:my-8 w-64 "
@@ -33,10 +33,18 @@
         送出核保
       </Button>
        <Button
-        v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
+        v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
-        class="my-3 md:my-8 w-64 ">確認報價</Button>
+        class="my-3 md:my-8 w-64  md:mr-5">確認報價</Button>
+        <Button
+        v-if="(PolicyStatus == 7 || PolicyStatus == 8) &&InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts && quotationData.insuranceAmounts.length > 0 &&quotationData.insuranceAmounts.find(item => item.insuranceAmount)"
+        @click.native="finishQuotation('up')"
+        :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
+        class="my-3 md:my-8 w-64 "
+        >
+        向上核保
+      </Button>
       <template v-if="InsuranceActive == 7">
         <Button  @click.native="copyQuotation(7)" class="my-3 md:my-8 w-64 md:mr-5">更正</Button>
         <Button v-if="(underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel != 6) || (underwriteStatus.underwriteDirection == 0 && underwriteStatus.isLastActionEditUnderwrite && underwriteStatus.employeeUnderwriteLevel != 6)" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(1)">向上核保</Button>
@@ -219,14 +227,17 @@ export default {
           }
         })
       }
-      console.log(quotationData)
       this.$store.dispatch(`place/updatedQuotationData`,quotationData)
     },
     packHome(updateUnderwrite = false) {
       if(updateUnderwrite) {
         this.$router.push('/quotation-ist')
       } else {
-        this.$router.push('/underwriting-list')
+        if(this.InsuranceActive == 9) {
+          this.$router.push('/underwriting-list?tag=2')
+        } else {
+          this.$router.push('/underwriting-list')
+        }
       }
       this.$store.dispatch('place/clearAll')
       this.$store.dispatch('place/updatedUUID', '')
@@ -239,14 +250,14 @@ export default {
         confirm: true,
         ok: '確定',
         cancel: '取消',
-        htmlText: `<p>${key? '完成報價' : '送出核保' }後將無法改動報價內容，確定完成報價？</p>`,
+        htmlText: `<p>${key && key !== 'up'? '完成報價' : (key == 'up' ? '向上核保':'送出核保') }後將無法改動報價內容，確定${key && key !== 'up'? '完成報價' : (key == 'up' ? '向上核保':'送出核保') }？</p>`,
       }).then(async () => {
-        if(key) {
+        if(key && key !== 'up') {
           await this.$store.dispatch('quotation/FinishQuotation', {orderNo: this.orderNo})
-        } else {
+        } else if (key == 'up' || !key) {
           await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
         }
-        this.packHome(key? false: true)
+        this.packHome(key && key !== 'up'? false: true)
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
       })

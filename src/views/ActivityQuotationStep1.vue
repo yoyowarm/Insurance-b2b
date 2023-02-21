@@ -36,7 +36,7 @@
       />
     </CommonBoard>
     <CommonBoard class="w-full" title="保險期間">
-      <Period :period="periodData" :disable="calculateModel"/>
+      <Period :period="periodData" :disable="calculateModel" :activityTime="activityTime"/>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
       <InsuranceAmount
@@ -314,6 +314,16 @@ export default {
       average.person = totalPerson/map1.size
       average.day = map1.size
       return average
+    },
+    activityTime() {
+      const arr = []
+      this.activityInfoList.map(item => {
+        const i = JSON.parse(JSON.stringify(item))
+        arr.push({...i,timeSpace: new Date(`${Number(item.startDate.year)+1911}/${item.startDate.month}/${item.startDate.day} ${item.startDate.hour == '24' ? '23': item.startDate.hour}:${item.startDate.hour == '24' ? '59': '00'}`).getTime()})
+        arr.push({...i,timeSpace: new Date(`${Number(item.endDate.year)+1911}/${item.endDate.month}/${item.endDate.day} ${item.endDate.hour == '24' ? '23': item.endDate.hour}:${item.endDate.hour == '24' ? '59': '00'}`).getTime()})
+      })
+      arr.sort((a,b) => a.timeSpace - b.timeSpace)
+      return arr
     }
   },
   watch:{
@@ -325,8 +335,8 @@ export default {
         const startMinute = val.startDate.hour.toString() == '24' ? '59' : '00'
         const endHour = val.endDate.hour.toString() == '0' ? '00' : (val.endDate.hour.toString() == '24' ? '23' : val.endDate.hour.toString())
         const endMinute = val.endDate.hour.toString() == '24' ? '59' : '00'
-        const startTime = new Date(`${Number(val.startDate.year)+1911}-${val.startDate.month}-${val.startDate.day} ${startHour}:${startMinute}`).getTime()
-        const endTime = new Date(`${Number(val.endDate.year)+1911}-${val.endDate.month}-${val.endDate.day} ${endHour}:${endMinute}`).getTime()
+        const startTime = new Date(`${Number(val.startDate.year)+1911}/${val.startDate.month}/${val.startDate.day} ${startHour}:${startMinute}`).getTime()
+        const endTime = new Date(`${Number(val.endDate.year)+1911}/${val.endDate.month}/${val.endDate.day} ${endHour}:${endMinute}`).getTime()
         if(endTime - startTime > millisecond) {
           Popup.create({
             hasHtml: true,
@@ -341,7 +351,7 @@ export default {
               hour: '',
             }
           }
-        }
+        } 
       },
       deep: true
     },
@@ -400,7 +410,8 @@ export default {
            if(this.underwriteStatus.underwriteDirection == 1) {await this.calculateAmount(false)}
         }
       }
-      if(this.questionnaireFinished && !this.insuranceAmountListData.amount) {
+      
+      if(this.questionnaireFinished) {
         await this.questionnaireCoefficient()
       }
     },
@@ -632,7 +643,6 @@ export default {
     async getAttachmentList() {
       const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
       this.attachmentList = AttachmentDetails.data.content
-      console.log(this.attachmentList)
     },
     async nextStep() {
       this.verifyResult = []
@@ -640,11 +650,10 @@ export default {
 
       if(this.requestFile.length === 0 && this.verifyResult.length === 0) {
           await this.quotationMapping()
-          console.log(this.quotationData)
-
           if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {
             const data = {
               ...this.activityQuotation,
+              activityInsureInfo: this.quotationData.activityInsureInfo,
               applicant: this.quotationData.applicant,
               insuraned: this.quotationData.insuraned,
               relationText: this.quotationData.relationText,

@@ -245,6 +245,15 @@ export default {
         9: '已出單',
         99: '取消'
       },
+      quotationStateText: {
+        1: '待核保',
+        2: '已核保',
+        3: '在15天內保單生效',
+        4: '已出單',
+        5: '核保中',
+        6: '請洽核保',
+        99: '取消'
+      },
       verifyStatus: 2,//審核狀態
       verifyStatusLists: [
         {Text: '全部',Value:2},
@@ -385,8 +394,7 @@ export default {
           return {
             ...item,
             serialNo: item.serialNo.toString(),
-            underwriteStateText: item.underwriteState === 0 ? '核保中' : '待確認核保結果',
-            underwriteResultStateText: item.underwriteResultState === 0 ? '核保中' : (item.underwriteResultState === 1 ? '完成核保' : '不予核保'),
+            underwriteStateText: this.currentTag ==1 ? item.underwriteState === 0 ? '核保中' : '待確認核保結果' : this.quotationStateText[item.quotationListState],
             quotationDate: item.quotationDate? item.quotationDate.split(' ')[0] : '',
             insuranceAmount: item.insuranceAmount ? item.insuranceAmount : '- -',
             waitConfirmEmployeeName: item.waitConfirmEmployeeName ? item.waitConfirmEmployeeName : '- -',
@@ -432,6 +440,14 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
+    if(this.$route.path == '/underwriting-list') {
+      if(this.$route.query.tag == 2) {
+        this.currentTag =2
+      } else {
+        this.currentTag =1
+      }
+      this.itemLists = [{ text: '核保明細', value: 1 },{ text: '核保歷程', value: 2}]
+    }
     await this.getQuotationList()
     const data = await this.$store.dispatch('quotation/GetQuotationState')
     this.quotationState = data.data.content
@@ -446,10 +462,7 @@ export default {
       Value: '',
       Text: '全部'
     })
-    if(this.$route.path == '/underwriting-list') {
-      this.currentTag =1
-      this.itemLists = [{ text: '核保明細', value: 1 },{ text: '核保歷程', value: 2}]
-    }
+    
   }
 }
 </script>

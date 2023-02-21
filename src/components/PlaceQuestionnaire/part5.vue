@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     updateValue(e,type) {
-      console.log(e,type)
       this.$emit('update:data',{
         ...this.data,
         part5: {

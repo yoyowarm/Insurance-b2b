@@ -385,6 +385,16 @@ export default {
             }
         }
       }
+     if(new Date(`${Number(copyInfoList[index].startDate.year)+1911}/${copyInfoList[index].startDate.month}/${copyInfoList[index].startDate.day} ${copyInfoList[index].startDate.hour}:00`).getTime() > new Date(`${Number(copyInfoList[index].endDate.year)+1911}/${copyInfoList[index].endDate.month}/${copyInfoList[index].endDate.day} ${copyInfoList[index].endDate.hour}:00`).getTime()) {
+        Popup.create({
+          hasHtml: true,
+          htmlText: '活動結束時間不得小於活動開始時間',
+        })
+        copyInfoList[index][type][key] = CHKey[key]
+        if(this.$refs[`${type}-${key}-${index}`]) {
+          this.$refs[`${type}-${key}-${index}`][0].$el.lastChild.value = CHKey[key]
+        }
+      }
       if(type == 'startDate' || type == 'endDate') {
         this.$emit('updatedActivityTime')
       }
