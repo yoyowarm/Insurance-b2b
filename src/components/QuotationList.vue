@@ -154,7 +154,7 @@ export default {
     review(e,table,InsuranceActive) {
       if(this.currentTag == 1) return
       this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedPolicyStatus`,e.item.policyStatus)
-      if (e.iofficer !== this.userInfo.userid && e.item.stateText == '已核保') {
+      if (e.item.iofficer !== this.userInfo.userid && e.item.stateText == '已核保') {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,6)
       } else if (InsuranceActive) {
         this.$store.dispatch(`${e.type == 1 ? 'place' : 'activity'}/updatedInsuranceActive`,9)
