@@ -25,7 +25,7 @@
       <Button v-if="(PolicyStatus == 0 || PolicyStatus == 1 || PolicyStatus == 2 || PolicyStatus == 6 || PolicyStatus == 7) && InsuranceActive !== 6 && InsuranceActive !== 7 && InsuranceActive !== 8" @click.native="copyQuotation(1)" class="my-3 md:my-8 w-64 md:mr-5">更正報價</Button>
       <Button v-if="viewModel" @click.native="openDialog = true" class="my-3 md:my-8 w-64 ">確認核保</Button>
       <Button
-        v-if="(PolicyStatus == 1 || PolicyStatus == 0) && InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
+        v-if="(PolicyStatus == 1 || PolicyStatus == 0) && InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && !item.insuranceAmount)"
         @click.native="finishQuotation()"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-3 md:my-8 w-64 "
@@ -33,12 +33,12 @@
         送出核保
       </Button>
        <Button
-        v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
+        v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
         class="my-3 md:my-8 w-64  md:mr-5">確認報價</Button>
         <Button
-        v-if="(PolicyStatus == 7 || PolicyStatus == 8) &&InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts.length > 0 &&quotationData.insuranceAmounts.find(item => item.insuranceAmount)"
+        v-if="(PolicyStatus == 7 || PolicyStatus == 8) &&InsuranceActive !== 7 && InsuranceActive !== 6 && quotationData.insuranceAmounts && quotationData.insuranceAmounts.length > 0 &&quotationData.insuranceAmounts.find(item => item.insuranceAmount)"
         @click.native="finishQuotation('up')"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected)"
         class="my-3 md:my-8 w-64 "
@@ -227,7 +227,6 @@ export default {
           }
         })
       }
-      console.log(quotationData)
       this.$store.dispatch(`place/updatedQuotationData`,quotationData)
     },
     packHome(updateUnderwrite = false) {
