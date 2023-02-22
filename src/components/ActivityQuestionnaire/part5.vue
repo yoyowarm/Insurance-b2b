@@ -1,7 +1,7 @@
 <template>
   <div>
     <FormTitle title="1.活動處所有關之消防及安全措施" class="my-3 text-lg"/>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col md:flex-row my-1 pl-6">
       <Checkbox
         id="消防栓"
         class="text-lg"
@@ -42,7 +42,7 @@
         </InputGroup>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col sm:flex-row my-1  pl-6">
       <Checkbox
         id="滅火器：泡沫型"
         class="text-lg"
@@ -83,7 +83,7 @@
         </InputGroup>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col sm:flex-row my-1  pl-6">
       <span class="h-full sm:pl-24 mt-4 text-lg">二氧化碳</span>
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
@@ -116,7 +116,7 @@
         </InputGroup>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col sm:flex-row my-1  pl-6">
       <span class="h-full sm:pl-24 mt-4 text-lg">ABC乾粉</span>
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
@@ -149,7 +149,7 @@
         </InputGroup>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col sm:flex-row my-1  pl-6">
       <span class="h-full w-40 sm:pl-24 mt-4 text-lg">海龍(halon)</span>
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.sheet1.part5.fireExtinguisher">
@@ -168,8 +168,8 @@
         </InputGroup>
       </div>
     </div>
-    <div class="ml-12 sm:ml-24 text-red-500 text-sm">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>
-    <div class="flex flex-col sm:flex-row my-3">
+    <div class="ml-12 sm:ml-24 text-red-500 text-sm  pl-6">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>
+    <div class="flex flex-col sm:flex-row my-3  pl-6">
       <Checkbox
         id="其他，請詳述之"
         class="text-lg"

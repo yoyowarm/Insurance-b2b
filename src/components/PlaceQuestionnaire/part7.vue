@@ -1,7 +1,7 @@
 <template>
   <div>
     <FormTitle title="1.營業處所相關之消防和安全措施" class="my-3 text-lg"/>
-    <div class="flex flex-col sm:flex-row my-1 pl-6">
+    <div class="flex flex-col md:flex-row my-1 pl-6">
       <Checkbox
         id="消防栓1"
         class="text-lg"
