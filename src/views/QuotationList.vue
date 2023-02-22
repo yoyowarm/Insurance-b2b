@@ -8,14 +8,35 @@
           :currentTag="currentTag"
           @updatedMenu="(e) => currentTag = e"
         />
-        <!-- <template slot="right" v-if="windowWidth > 770">
-          <div class="flex flex-row">
-            <span class="flex items-end h-full mr-4">
-              <span class="text-base text-main"><font-awesome-icon class="mr-1" icon="far fa-trash-alt" />清除過期報價單</span>
-            </span>
-            <span class="download text-base"><font-awesome-icon class="mr-1" icon="external-link-alt" /><span>匯出報價</span></span>
-          </div>
-        </template> -->
+        <div v-if="currentTag == 1 || currentTag == 2" class="column-6 pb-6">
+          <InputGroup class="w-full" title="核保狀態">
+            <Select
+              slot="input"
+              defaultText="選擇狀態"
+              :options="verifyStatusLists"
+              :selected="(verifyStatus).toString()"
+              @emitItem="(item) => verifyStatus = item.Value"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="公司單位">
+            <Select
+              slot="input"
+              defaultText="選擇公司單位"
+              :options="NGroupLists"
+              :selected="(NGroup).toString()"
+              @emitItem="(item) => NGroup = item.Value"
+            />
+          </InputGroup>
+          <InputGroup class="w-full" title="核保階級">
+            <Select
+              slot="input"
+              defaultText="選擇階級"
+              :options="layerLists"
+              :selected="(layer).toString()"
+              @emitItem="(item) => layer = item.Value"
+            />
+          </InputGroup>
+        </div>
         <div class="column-6 p-3 pb-6 ">
           <InputGroup class="w-full" title="被保險人姓名">
             <Input
@@ -64,35 +85,6 @@
           <!-- <InputGroup class="w-full" noMt>
             <DatePicker slot="input" :dateObject="endDate" @emitDateItem="(e) => endDate = e" suffix="迄" disabled/>
           </InputGroup> -->
-        </div>
-         <div v-if="currentTag == 1 || currentTag == 2" class="column-6 pb-6">
-          <InputGroup class="w-full" title="核保狀態">
-            <Select
-              slot="input"
-              defaultText="選擇狀態"
-              :options="verifyStatusLists"
-              :selected="(verifyStatus).toString()"
-              @emitItem="(item) => verifyStatus = item.Value"
-            />
-          </InputGroup>
-          <InputGroup class="w-full" title="公司單位">
-            <Select
-              slot="input"
-              defaultText="選擇公司單位"
-              :options="NGroupLists"
-              :selected="(NGroup).toString()"
-              @emitItem="(item) => NGroup = item.Value"
-            />
-          </InputGroup>
-          <InputGroup class="w-full" title="核保階級">
-            <Select
-              slot="input"
-              defaultText="選擇階級"
-              :options="layerLists"
-              :selected="(layer).toString()"
-              @emitItem="(item) => layer = item.Value"
-            />
-          </InputGroup>
         </div>
         <div class="w-full flex justify-center mt-6 border-dashed border-0 border-t-2 h-10 relative">
           <Button @click.native="getQuotationList(true)" class="absolute -top-5 w-32"><span class="whitespace-no-wrap">查詢</span></Button>
