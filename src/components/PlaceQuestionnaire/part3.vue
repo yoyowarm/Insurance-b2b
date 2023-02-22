@@ -1,8 +1,8 @@
 <template>
   <div>
-    <FormTitle title="1.飯店、旅館、汽車旅館、招待所" class="my-3 text-lg"/>
-    <div class="w-full my-4">
-      <div class="w-full flex flex-row mt-4">
+    <FormTitle title="1.飯店、旅館、汽車旅館、招待所" class="my-3 mb-0 text-lg"/>
+    <div class="w-full my-0 pl-6">
+      <div class="w-full flex flex-row mt-2">
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="selfOperated" :value="data.part3.selfOperated === true" @updateValue="updateValue(true, 'selfOperated')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="selfOperated2" :value="data.part3.selfOperated === false" @updateValue="updateValue(false, 'selfOperated')"/>
@@ -10,7 +10,7 @@
         <div class="text-lg">內部設施是否全數自行經營</div>
     </div>
   </div>
-    <div class="column-4 my-3">
+    <div class="column-4 my-3 pl-6">
       <InputGroup lgTitle title="填寫非自行經營之項目" class="col-span-3" :disable="disable || data.part3.selfOperated === true">
         <Input
           slot="input"
@@ -21,7 +21,7 @@
         />
       </InputGroup>
     </div>
-    <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
+    <div class="w-full flex flex-row mt-4 pl-6" v-for="(item,index) in questionList" :key="item">
       <div class="flex flex-row justify-between">
         <RadioInput :disabled="disable" text="是" :id="`${questionListID[index]}${index}`" :value="data.part3[questionListID[index]] === true" @updateValue="updateValue(true, questionListID[index])"/>
         <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID[index]}${index}2`" :value="data.part3[questionListID[index]] === false" @updateValue="updateValue(false, questionListID[index])"/>
@@ -42,7 +42,7 @@
       />
     </div> -->
     <FormTitle lgTitle title="2.商場、百貨公司、超級市場" class="my-3 text-lg"/>
-    <div class="w-full flex flex-row mt-4">
+    <div class="w-full flex flex-row mt-4 pl-6">
       <div class="flex flex-row justify-between">
         <RadioInput :disabled="disable" text="是" id="hasPusher" :value="data.part3.hasPusher === true" @updateValue="updateValue(true, 'hasPusher')"/>
         <RadioInput :disabled="disable" class="mx-2" text="否" id="hasPusher2" :value="data.part3.hasPusher === false" @updateValue="updateValue(false, 'hasPusher')"/>
@@ -50,14 +50,14 @@
       <div class="text-lg">是否使用堆高機</div>
     </div>
     <FormTitle lgTitle title="3.戲院、電影院、歌廳、舞廳、夜總會、理容院、按摩場所、MTV、KTV、酒店" class="my-3 text-lg"/>
-    <div class="w-full flex flex-row mt-4">
+    <div class="w-full flex flex-row mt-4 pl-6">
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasFireOrDust" :value="data.part3.hasFireOrDust === true" @updateValue="updateValue(true, 'hasFireOrDust')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasFireOrDust2" :value="data.part3.hasFireOrDust === false" @updateValue="updateValue(false, 'hasFireOrDust')"/>
       </div>
       <div class="text-lg">是否有特殊表演項目，涉及用火或粉塵表演</div>
     </div>
-    <div class="w-full flex flex-row mt-4">
+    <div class="w-full flex flex-row mt-4 pl-6">
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="isProfessional" :value="data.part3.isProfessional === true" @updateValue="updateValue(true, 'isProfessional')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="isProfessional2" :value="data.part3.isProfessional === false" @updateValue="updateValue(false, 'isProfessional')"/>

@@ -1,6 +1,6 @@
 <template>
   <div class="w-full my-4">
-    <div class="w-full my-4 dashed-border">
+    <div class="w-full ">
       <div class="w-full flex flex-row mt-4" v-for="(item,index) in questionList" :key="item">
         <span v-if="index <= 4" class="mr-2 text-lg">{{index+1}}.</span>
         <div class="flex flex-row justify-between">
@@ -10,6 +10,17 @@
         <div class=" text-lg">{{item}}</div>
     </div>
   </div>
+  <div class="w-full my-4 mt-2 dashed-border">
+    <div class=" text-lg">5. 是否有下列設備：</div>
+    <div class="w-full flex flex-row pl-6" :class="{'mt-2':index == 0, 'mt-4': index !==0}" v-for="(item,index) in questionList2" :key="item">
+        <div class="flex flex-row justify-between">
+          <RadioInput :disabled="disable" text="是" :id="`${questionListID2[index]}${index}222`" :value="data.part6[questionListID2[index]] === true" @updateValue="updateValue(true, questionListID2[index])"/>
+          <RadioInput :disabled="disable" class="mx-2" text="否" :id="`${questionListID2[index]}${index}22`" :value="data.part6[questionListID2[index]] === false" @updateValue="updateValue(false, questionListID2[index])"/>
+      </div>
+        <div class=" text-lg">{{item}}</div>
+    </div>
+  </div>
+
     <!-- <div class="flex flex-col mt-4 dashed-border">
       <FormTitle class="text-lg" title="如有下列設施，請勾選"/>
         <Checkbox
@@ -65,6 +76,8 @@ export default {
         '是否有疏散計畫(包含疏散路線、疏散指示、安全距離及避難場所)',
         '是否有疏散標示',
         '是否有人員管制計畫',
+      ],
+      questionList2: [
         '是否有緊急照明',
         '是否有緊急廣播',
         '是否有安全門',
@@ -72,17 +85,19 @@ export default {
         '是否有排煙設備',
         '是否有緊急電源'
       ],
-      questionListID: [
-        'hasExit',
-        'hasEvacuationPlan',
-        'hasEvacuationSign',
-        'hasPersonnelControl',
+      questionListID2: [
         'hasUrgentLight',
         'hasUrgentBroadcast',
         'hasSafetyDoor',
         'hasEscapeTrunk',
         'hasSmokeExhaust',
         'hasUrgentPower'
+      ],
+      questionListID: [
+        'hasExit',
+        'hasEvacuationPlan',
+        'hasEvacuationSign',
+        'hasPersonnelControl',
       ]
     }
   },

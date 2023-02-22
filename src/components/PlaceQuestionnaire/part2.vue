@@ -11,7 +11,7 @@
         <Input slot="input" :maxLength="7" :disable="disable" :value="data.part2.roofMaterial" @updateValue="(e) => updateValue(e,'roofMaterial')" placeholder="輸入材質名稱"/>
       </InputGroup>
     </div>
-    <div class="flex flex-col my-3">
+    <div class="flex flex-col my-3 tab">
       <FormTitle class="text-lg" title="2.營業處所建築性質"/>
       <RadioInput
         slot="input"
@@ -58,13 +58,13 @@
         @updateValue="(e) => updateRadio(e,'buildingNature', {Text: '其他',Value: '其他'})"
       />
     </div>
-    <div class="column-5 my-3">
+    <div class="column-5 my-3 pl-6">
       <InputGroup lgTitle title="距鄰近建築物" mid :disable="disable">
         <Input slot="input" inputmode="tel" hasZero  unit="公尺" :disable="disable" :value="data.part2.distanceOfBuilding" @updateValue="(e) => updateValue(e,'distanceOfBuilding')" placeholder="輸入距離" numberOnly/>
       </InputGroup>
     </div>
-     <div class="flex flex-col my-3">
-      <FormTitle class="text-lg" title="鄰近建物性質"/>
+     <div class="flex flex-col my-3 tab">
+      <FormTitle class="text-lg pl-6" title="鄰近建物性質"/>
       <RadioInput
         slot="input"
         class="mb-2"
@@ -110,7 +110,7 @@
           @updateValue="(e) => updateRadio(e,'nearbyBuildingNature', {Text: '其他',Value: '其他'})"
         />
     </div>
-    <div class="flex flex-col my-3">
+    <div class="flex flex-col my-3 tab">
       <FormTitle class="text-lg" title="3.建築物公共安全檢查經當地主管建築機關查核"/>
       <RadioInput
           slot="input"
@@ -148,8 +148,9 @@
           @updateValue="(e) => updateRadio(e,'securityCheck', {Text: '不合格',Value: '不合格'})"
         />
     </div>
-    <div class="column-5 mt-3 ml-8" :class="{'mb-6':windowWidth< 600}">
-      <InputGroup lgTitle title="4.被保險人之經營業務性質" mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.room.selected">
+    <FormTitle class="text-lg" title="4.被保險人之經營業務性質"/>
+    <div class="column-5 mt-0 ml-8 pl-6" :class="{'mb-6':windowWidth< 600}">
+      <InputGroup lgTitle noMt mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.room.selected">
         <Input
           slot="input"
           class="w-full"
@@ -173,7 +174,7 @@
         <span slot="input-right" class="absolute sm:-right-80 -bottom-8 sm:bottom-4 text-lg" :class="{'-bottom-14':windowWidth< 600}">如係屬飯店、旅館者，請說明其房間數目</span>
       </InputGroup>
     </div>
-    <div class="column-5 mb-3 ml-8" :class="{'mb-6':windowWidth< 600}">
+    <div class="column-5 mb-3 ml-8 pl-6" :class="{'mb-6':windowWidth< 600}">
       <InputGroup noMt mid class="mb-8 sm:mb-0" :border0="disable || !data.part2.seat.selected" >
         <Input
           slot="input"
@@ -198,11 +199,12 @@
         <span slot="input-right" class="absolute sm:-right-78 -bottom-8 sm:bottom-4 text-lg" :class="{'-bottom-14':windowWidth< 600}">屬戲院、音樂廳者，請說明其座位數目</span>
       </InputGroup>
     </div>
-    <div class="column-4 my-3">
-      <InputGroup lgTitle mid title="5.營業處所總樓層數，地上樓層數" :disable="disable">
+    <FormTitle class="text-lg" title="5.營業處所總樓層數"/>
+    <div class="column-4 my-3 mt-0 pl-6">
+      <InputGroup lgTitle mid title="地上樓層數" :disable="disable">
         <Input slot="input" inputmode="tel"  :disable="disable" hasZero :value="data.part2.floors" numberOnly @updateValue="(e) => updateValue(e,'floors')" placeholder="輸入層數"/>
       </InputGroup>
-      <InputGroup lgTitle mid title="營業處所總樓層數，地下樓層數" dash :disable="disable">
+      <InputGroup lgTitle mid title="地下樓層數" dash :disable="disable">
         <Input slot="input" inputmode="tel"  :disable="disable" hasZero :value="data.part2.underground" numberOnly @updateValue="(e) => updateValue(e,'underground')" placeholder="輸入層數"/>
       </InputGroup>
       <InputGroup lgTitle mid title="使用到樓層" :disable="disable">
@@ -210,7 +212,7 @@
       </InputGroup>
     </div>
     
-  <div class="w-full my-4">
+  <div class="w-full my-4 mb-0">
       <div class="w-full flex flex-row mt-4">
         <span class="mr-2 text-lg">6.</span>
         <div class=" flex flex-row justify-between">
@@ -220,7 +222,7 @@
       <div class="text-lg">營業處所是否有游泳池</div>
     </div>
   </div>
-    <div class="column-4 my-3">
+    <div class="column-4 my-3 mt-0 pl-6">
       <InputGroup lgTitle mid title="救生員人數" :disable="disable || !data.part2.hasSwimmingPool">
         <Input
           slot="input"
@@ -234,7 +236,7 @@
         />
       </InputGroup>
     </div>
-    <div class="w-full my-4">
+    <div class="w-full my-4 mb-0">
       <div class="w-full flex flex-row mt-4">
         <span class="mr-2 text-lg">7.</span>
         <div class=" flex flex-row justify-between">
@@ -244,7 +246,7 @@
         <div class="text-lg">營業處所是否有機械性停車設備</div>
     </div>
   </div>
-    <div class="column-4 my-3">
+    <div class="column-4 my-3 mt-0 pl-6">
       <InputGroup lgTitle mid title="停車設備種類" :disable="disable || !data.part2.hasMechineParkingDevice">
         <Select
           slot="input"
@@ -256,12 +258,13 @@
         />
       </InputGroup>
     </div>
-    <div class="column-4 my-4">
-      <InputGroup lgTitle mid title="8.地板為何種材質" :disable="disable">
+    <FormTitle class="text-lg" title="8.地板為何種材質"/>
+    <div class="column-4 my-4 mt-0 pl-6">
+      <InputGroup lgTitle mid noMt :disable="disable">
         <Input slot="input" :disable="disable" :value="data.part2.material"  @updateValue="(e) => updateValue(e,'material')" placeholder="輸入材質名稱"/>
       </InputGroup>
     </div>
-    <div class="w-full my-4">
+    <div class="w-full my-4 pl-6">
       <div class="w-full flex flex-row mt-4">
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasCarpet" :value="data.part2.hasCarpet === true" @updateValue="updateValue(true, 'hasCarpet')"/>
@@ -417,5 +420,8 @@ export default {
     .w10{
       width: 20%;
     }
+  }
+  .tab .radio {
+    @apply pl-6
   }
 </style>
