@@ -14,6 +14,7 @@
         type="InsuranedData"
         quotationType="activity"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
+        @updatedApplicant="updatedApplicant"
         :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :InsuranceActive="InsuranceActive"
       />
@@ -46,7 +47,7 @@
         }"
       />
       <InsuranceInfo
-        :disable="sameAsInsured || Relation.Value =='RL00' || InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
+        :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :marginTop="marginTop"
         :info.sync="ApplicantData"
         :nationalities="nationalities"
@@ -149,9 +150,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedInsuraned', value)
-        if(this.Relation.Value === 'RL00') {
-          this.ApplicantData = value
-        }
       }
     },
     ApplicantData: {
@@ -248,6 +246,14 @@ export default {
           data.activityName = this.InsuranedData.activityName
         }
         this.$store.dispatch(`activity/updated${type}`, data)
+      }
+    },
+    updatedApplicant(data) {
+      if(this.Relation.Value === 'RL00') {
+        this.ApplicantData = {
+          ...this.ApplicantData,
+          [data.key]: data.value
+        }
       }
     },
     async step2Init() {
