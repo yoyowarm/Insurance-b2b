@@ -465,7 +465,7 @@ export default {
         ...this.Applicant,
         cityId: this.Applicant.City.Value,
         city: this.Applicant.City.Text,
-        areaId: this.Applicant.Area.Value ,
+        areaId: this.Applicant.Area.Value,
         area: this.Applicant.Area.Text,
         Mobile: `${this.Applicant.prefixNumber}${this.Applicant.Mobile}`,
         zipCode: this.ApplicantAreaList.find(item => item.Value == this.Applicant.Area.Value).zipCode,

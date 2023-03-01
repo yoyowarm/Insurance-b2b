@@ -115,29 +115,6 @@ const routes = [
     ]
   },
   {
-    path: '/Office-audit',
-    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
-    children: [
-      { // 總公司核保
-        path: '/Office-audit',
-        name: 'Office-audit',
-        component: () => import(/* webpackChunkName: "about" */ '../views/OfficeAudit.vue')
-      },
-    ]
-  },
-  {
-    path: '/branch-audit',
-    component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
-    children: [
-      { //分公司核保
-        path: '/branch-audit',
-        name: 'branch-audit',
-        component: () => import(/* webpackChunkName: "about" */ '../views/BranchAudit.vue')
-      }
-    ]
-
-  },
-  {
     path: '/permissionSetting',
     component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
     children: [
