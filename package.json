@@ -10,7 +10,8 @@
     "build:uat": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build --mode uat",
     "mock": "cd mock && node index.js",
     "sitemap": "vue-cli-service sitemap",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open",
+    "cypress:runTest": "npx cypress run --component --record --key 091cb03d-a2af-4584-9b42-d50c68372343"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
