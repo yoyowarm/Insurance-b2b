@@ -30,7 +30,16 @@
             defaultText="選擇關係"
             :options="relationShips"
             :selected="Relation.Value"
-            @emitItem="(item) => $store.dispatch('place/updatedRelation', item)"
+            @emitItem="(item) => {$store.dispatch('place/updatedRelation', item);if(item.Value !== 'RL99'){$store.dispatch('place/updatedInputRelation', '')}}"
+          />
+        </InputGroup>
+        <InputGroup v-if="Relation.Value == 'RL99'" class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+          <Input
+            slot="input"
+            :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
+            placeholder="請輸入關係"
+            :value="InputRelation"
+            @updateValue="(e) => $store.dispatch('place/updatedInputRelation', e)"
           />
         </InputGroup>
       </div>
@@ -43,6 +52,7 @@
         slot="right"
         :checked="sameAsInsured"
         :value="sameAsInsured"
+        :disabled="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         @updateValue="(e) => {
           $store.dispatch('place/sameAsInsured', e);
           $store.dispatch('place/updatedRelation', {Text: '本人', Value: 'RL00'});
@@ -89,6 +99,7 @@ import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
+import Input from '@/components/InputGroup/Input.vue'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
@@ -106,6 +117,7 @@ export default {
     BrokerInfo,
     Address,
     EmailPolicy,
+    Input
   },
   data() {
     return {
@@ -133,6 +145,7 @@ export default {
       'loading': state => state.app.loading,
       'Insuraned': state => state.place.Insuraned,
       'Relation': state => state.place.Relation,
+      InputRelation: state => state.place.InputRelation,
       'Applicant': state => state.place.Applicant,
       'sameAsInsured': state => state.place.sameAsInsured,
       'InsuranceActive': state => state.place.InsuranceActive,
