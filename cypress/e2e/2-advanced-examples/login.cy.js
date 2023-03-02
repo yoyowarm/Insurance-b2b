@@ -2,12 +2,12 @@
 describe('Window', () => {
   it('cy.visit() - visit a remote url', () => {
     cy.request({
-      url: 'https://gcp.goodarc.com:10019/TaiianBuildingB2B_Frontend/Home/VerifyUser?eSaleId=G863&eSalePwd=Ting004/&eSaleName=鄒文婷&url=http://localhost:8080',
+      url: 'https://gcp.goodarc.com:10056/api/User/Login?eSaleId=H338&eSalePwd=Aann.009&url=http://localhost:8081',
       followRedirect: false, // turn off following redirects
     }).then((resp) => {
-      // redirect status code is 301
+      // redirect status code is 302
       expect(resp.status).to.eq(302);
-      expect(resp.redirectedToUrl).to.include('http://localhost:8080');
+      expect(resp.redirectedToUrl).to.include('http://localhost:8081');
       cy.visit(resp.redirectedToUrl)
     });
     it('cy.window() - get the global window object', () => {
