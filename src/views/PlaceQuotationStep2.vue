@@ -480,6 +480,7 @@ export default {
       }})
       Object.assign(obj, {relationId:this.Relation.Value})
       Object.assign(obj, {relationText:this.Relation.Text})
+      Object.assign(obj, {relationDescribe:this.InputRelation})
       Object.assign(obj, {applicant:{
         ...this.Applicant,
         cityId: this.Applicant.City.Value,

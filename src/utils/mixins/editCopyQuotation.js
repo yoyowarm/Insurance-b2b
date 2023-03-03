@@ -303,6 +303,9 @@ export default {
           this.$store.dispatch(`${type}/updatedRelation`, relation)
         }
       }
+      if (this.quotationData.relationDescribe) {//被保人與要保人關係描述欄位
+        this.$store.dispatch(`${type}/updatedInputRelation`, this.quotationData.relationDescribe)
+      }
       const Insuraned = {}//要保人
       if (Object.keys(this.quotationData.insuraned).length > 0) {
         Object.assign(Insuraned, {

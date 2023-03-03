@@ -383,6 +383,7 @@ export default {
               applicant: this.quotationData.applicant,
               insuraned: this.quotationData.insuraned,
               relationText: this.quotationData.relationText,
+              relationDescribe: this.quotationData.relationDescribe,
               internalControlData: this.quotationData.internalControlData,
               policyTransfer: this.quotationData.policyTransfer,
             }
@@ -816,6 +817,7 @@ export default {
         data.insuraned = this.quotationData.insuraned ? JSON.parse(JSON.stringify(this.quotationData.insuraned)) : quotation().Insuraned
         data.internalControlData = this.quotationData.internalControlData ? JSON.parse(JSON.stringify(this.quotationData.internalControlData)) : quotation().internalControlData
         data.relationText = this.quotationData.relationText
+        data.relationDescribe = this.quotationData.relationDescribe
         data.policyTransfer = this.quotationData.policyTransfer ? JSON.parse(JSON.stringify(this.quotationData.policyTransfer)) : quotation().policyTransfer
       }
       this.$store.dispatch('place/updatePlaceQuotation', data)
