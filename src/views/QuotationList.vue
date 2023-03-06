@@ -8,7 +8,7 @@
           :currentTag="currentTag"
           @updatedMenu="(e) => currentTag = e"
         />
-        <div v-if="currentTag == 1 || currentTag == 2" class="column-6 pb-6">
+        <div v-if="currentTag == 1 || currentTag == 2" class="column-6 p-3 pb-6">
           <InputGroup class="w-full" title="核保狀態">
             <Select
               slot="input"
