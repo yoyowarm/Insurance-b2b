@@ -5,6 +5,7 @@
         v-for="(item, index) in Object.keys(quotationState)"
         :key="index"
         class="dashboard md:mr-5 lg:mr-7"
+        @click.native="() =>{if(quotationStateText[item] === '15天有效'){return}$router.push({path:'/quotation-list', query:{type:quotationStateText[item]}})}"
         :class="{'fail' :item === 'waitUnderwriting', 'success': item === 'finishUnderwriting', 'warn': item === 'fifteenDaysEffectiveAmount', 'finish': item === 'alreadyIssueAmount'}">
         <div class="flex justify-start">
           <img v-if="item === 'waitUnderwriting'" :src="failIcon" alt="">

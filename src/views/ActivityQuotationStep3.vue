@@ -216,7 +216,7 @@ export default {
     },
     packHome(updateUnderwrite = false) {
       if(updateUnderwrite) {
-        this.$router.push('/quotation-ist')
+        this.$router.push('/quotation-list')
       } else {
         if(this.InsuranceActive == 9) {
           this.$router.push('/underwriting-list?tag=2')
