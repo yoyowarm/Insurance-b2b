@@ -78,11 +78,28 @@
         id="paper"
         :checked="eletric.transferType == 2"
         :value="eletric.transferType == 2"
-        :disabled=" InsuranceActive == 7"
+        :disabled="InsuranceActive == 7"
         @updateValue="(e) =>{ if(eletric.transferType !== 2){updateValue('', 'transferType', 2)}}"
         slot="left"
       />
     </FormTitle>
+    <div class="column-5 pb-3 mb-4 dashed-border">
+      <InputGroup class="w-full" title="保單正本份數" :disable="disable || InsuranceActive == 7">
+        <Input slot="input" :disable="disable || InsuranceActive == 7" class="w-full" placeholder="輸入份數" numberOnly :value="eletric.OriginalNumber" @updateValue="(e) => updateValue('OriginalNumber', e)"/>
+      </InputGroup>
+      <InputGroup class="w-full" title="保單副本份數" :disable="disable || InsuranceActive == 7">
+        <Input slot="input" :disable="disable || InsuranceActive == 7" class="w-full" placeholder="輸入份數" numberOnly hasZero :value="eletric.CopyNumber" @updateValue="(e) => updateValue('CopyNumber', e)"/>
+      </InputGroup>
+      <InputGroup class="w-full" title="是否需要證明書" :disable="disable">
+          <SwitchInput
+            slot="input"
+            :id="'是否需要證明書'"
+            :disable="disable"
+            :value="eletric.transferOriginalType"
+            @updateValue="(e) =>updateValue(index, 'transferOriginalType', e)"
+          />
+        </InputGroup>
+    </div>
   </CommonBoard>
 </template>
 

@@ -99,8 +99,8 @@ export const IDRegex = (id) => {
 }
 
 export const routeMatch = (path) => {
-	switch (path) {
-		case '/quotation-ist':
+	switch (path.split('?')[0]) {
+		case '/quotation-list':
 			return 'QuoteDetails'
 		case '/place-quotation/step1':
 		case '/place-quotation/step2':

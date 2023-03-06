@@ -302,7 +302,7 @@ export default {
     '$route.path': {
       async handler(val,old) {
         if(val !== old) {
-          if(val == '/quotation-ist') {
+          if(val == '/quotation-list') {
             this.currentTag = 0
             this.itemLists = [{ text: '報價明細', value: 0 }]
           } else {
@@ -432,6 +432,10 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
+    if(this.$route.query.type) {
+      const target = this.stateList.find(i => i.Text == this.$route.query.type)
+      this.stateSelected = target
+    } 
     if(this.$route.path == '/underwriting-list') {
       if(this.$route.query.tag == 2) {
         this.currentTag =2
