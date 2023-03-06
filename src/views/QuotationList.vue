@@ -342,8 +342,8 @@ export default {
       }
       this.quotationList = []
       const data = {
-        Skip:  (this.currentPage-1)*5,
-        Take: 5,
+        Skip:  (this.currentPage-1)*10,
+        Take: 10,
         QuotationListState: this.stateSelected.Value == '0' ? '' : this.stateSelected.Value,
         Type: this.typeSelected.Value == '0' ? '' : this.typeSelected.Value,
         ApplicantName: this.ApplicantName,
@@ -371,7 +371,7 @@ export default {
           }
         })
         ]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
       } else {
         let quotationList = null
         data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
@@ -393,7 +393,7 @@ export default {
             underwriteEmployee: item.underwriteEmployee ? item.underwriteEmployee : '- -',
           }
         })]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
       }
       
     },
