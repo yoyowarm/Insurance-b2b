@@ -70,7 +70,7 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <EmailPolicy  :eletric.sync="policyTransferData" :disable="InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
+    <EmailPolicy  :eletric.sync="policyTransferData" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
     <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
@@ -500,6 +500,7 @@ export default {
         loginIdNumber: this.internalControlData.loginIdNumber,}
       })
       Object.assign(obj,{policyTransfer : {
+        paperTransferDetails: this.policyTransferData.paperTransferDetails,
         transferType: this.policyTransferData.transferType,
         transferDetails:this.policyTransferData.transferType == 1 ? this.policyTransferData.transferDetails.map(i => {
           return {

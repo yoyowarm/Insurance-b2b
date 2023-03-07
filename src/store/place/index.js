@@ -127,7 +127,12 @@ export default {
           transferInfo: '',
           sort: 1
         }
-      ]
+      ],
+      paperTransferDetails: {
+        policyOriginalsAmount: 1,
+        policyCopiesAmount: 1,
+        needCertificate: true
+      }
     },
     industry: {//行業別
       Text: '選擇行業',

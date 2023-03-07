@@ -363,6 +363,7 @@ export default {
       }
       if (this.quotationData.policyTransfer && Object.keys(this.quotationData.policyTransfer).length > 0) {
         this.policyTransferData = {
+          paperTransferDetails: this.quotationData.policyTransfer.paperTransferDetails ? this.quotationData.policyTransfer.paperTransferDetails : { policyOriginalsAmount: 1, policyCopiesAmount: 1, needCertificate: true },
           transferType: this.quotationData.policyTransfer.transferType,
           transferDetails: this.quotationData.policyTransfer.transferDetails
             ? this.quotationData.policyTransfer.transferDetails.map(item => {

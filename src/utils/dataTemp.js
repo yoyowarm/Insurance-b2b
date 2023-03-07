@@ -261,7 +261,12 @@ export const quotation = () => {
           transferInfo: '',
           sort: 1
         }
-      ]
+      ],
+      paperTransferDetails: {
+        policyOriginalsAmount: 1,
+        policyCopiesAmount: 1,
+        needCertificate: true
+      }
     },
     industryText: '',
     remark: {//備註
