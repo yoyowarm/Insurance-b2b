@@ -64,11 +64,11 @@ export default {
     async PlaceActivities(_, { placeActivityType, typeName }) {
       return await PlaceActivities({ placeActivityType, typeName })
     },
-    async PlacesSetting() {
-      return await Places()
+    async PlacesSetting(_, quotationUnderwriteType) {
+      return await Places(quotationUnderwriteType)
     },
-    async ActivitiesSetting() {
-      return await Activities()
+    async ActivitiesSetting(_, quotationUnderwriteType) {
+      return await Activities(quotationUnderwriteType)
     },
     async TaianUsers() {
       return await TaianUsers()

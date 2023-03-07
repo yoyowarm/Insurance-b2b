@@ -364,7 +364,7 @@ export default {
   },
   methods: {
     async pageInit() {
-      const activity = await this.$store.dispatch('resource/ActivitiesSetting')
+      const activity = await this.$store.dispatch('resource/ActivitiesSetting',this.InsuranceActive == 7 ? 2:1)
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
       const underwriteLevel = await this.$store.dispatch('underwriteLevelSetting/GetUserUnderwriteLevel')
@@ -377,7 +377,7 @@ export default {
           this.industryType.push(item.typeName)
         }
       })
-      this.industryList = activity.data.content.filter(item => item.canShowLevel <= this.level)
+      this.industryList = this.InsuranceActive == 7 ? activity.data.content.filter(item => item.canShowLevel <= this.level) : activity.data.content
       districts.data.content.map(item => {
         this.countyList.push({
           ...item,
