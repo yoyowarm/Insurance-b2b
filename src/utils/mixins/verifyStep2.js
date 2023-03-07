@@ -226,14 +226,6 @@ export default {
           }
         })
       }
-      if (this.policyTransfer.transferType == 2) {
-        if (!this.policyTransfer.paperTransferDetails.policyOriginalsAmount) {
-          this.requestFile.push('未填寫紙本保單正本份數')
-        }
-        if (!this.policyTransfer.paperTransferDetails.policyCopiesAmount) {
-          this.requestFile.push('未填紙本寫保單副本份數')
-        }
-      }
       if (type == 'place' && InsuranceActive !== 2) {
         this.placeInfo.map(item => {
           if (item.area.Value == '選擇區域' || item.area.Text == '選擇區域') {

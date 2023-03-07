@@ -127,7 +127,7 @@ export default {
       paperTransferDetails: {
         policyOriginalsAmount: 1,
         policyCopiesAmount: 1,
-        needCertificate: true
+        needCertificate: false
       }
     },
     SerailNo: '',

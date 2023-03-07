@@ -265,7 +265,7 @@ export const quotation = () => {
       paperTransferDetails: {
         policyOriginalsAmount: 1,
         policyCopiesAmount: 1,
-        needCertificate: true
+        needCertificate: false
       }
     },
     industryText: '',

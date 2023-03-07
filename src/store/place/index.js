@@ -131,7 +131,7 @@ export default {
       paperTransferDetails: {
         policyOriginalsAmount: 1,
         policyCopiesAmount: 1,
-        needCertificate: true
+        needCertificate: false
       }
     },
     industry: {//行業別
