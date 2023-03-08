@@ -271,7 +271,7 @@ export default {
       this.openHistory = true
     },
     async modifyLogs(orderNo) {
-      const res = await this.$store.dispatch('underwrite/GetUnderwriteModifyLogs', orderNo)
+      const res = await this.$store.dispatch('underwrite/GetUnderwriteModifyLogs', {orderno:orderNo, quotationUnderwriteType : this.currentTag == 0 ? 1 : 2})
       this.modifyLogData = res.data.content.map(item => {
         return {
           ...item,

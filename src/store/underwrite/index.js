@@ -50,8 +50,8 @@ export default {
     async GetUnderwriteProcessHistory(_, orderno) {
       return await GetUnderwriteProcessHistory(orderno)
     },
-    async GetUnderwriteModifyLogs(_, orderno) {
-      return await GetUnderwriteModifyLogs(orderno)
+    async GetUnderwriteModifyLogs(_, { orderno, quotationUnderwriteType }) {
+      return await GetUnderwriteModifyLogs(orderno, quotationUnderwriteType)
     },
     async GetUnderwriteReviewedList(_, data) {
       return await GetUnderwriteReviewedList(data)
