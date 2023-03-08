@@ -2,7 +2,7 @@
   <div>
     <CommonBoard class="w-full mt-16 mb-8 sm:mt-8" title="投保行業">
       <template slot="right">
-        <Button class="text-base absolute right-5 top-2 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
+        <Button class="text-base absolute right-5 -top-18 sm:-top-12" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
       <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" :value="searchText" @updateValue="(e) => searchText = e" placeholder="輸入行業關鍵字" slotIcon>
