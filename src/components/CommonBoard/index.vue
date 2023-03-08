@@ -60,11 +60,12 @@ export default {
     z-index: 1;
     bottom:0px;
     background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(2px);
+    backdrop-filter: blur(1.5px);
     transition: all 0.2s ease-in-out;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.15);
     border: 4px solid #B3112C;
     text-shadow: 0.1em 0.1em 0.2em #333;
+    padding: 8px;
     cursor: pointer;
     @apply rounded-2xl flex justify-center align-middle items-center;
     &:hover {
