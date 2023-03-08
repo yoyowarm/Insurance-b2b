@@ -1,5 +1,5 @@
 <template>
-  <CommonBoard class="w-full" title="出單方式(二擇一)">
+  <CommonBoard :hasCover="hasCover" :coverText="coverText" class="w-full" title="出單方式(二擇一)">
     <FormTitle classList="text-xl text-gray-700" class="mb-6" title="電子保單">
       <Checkbox
         class="my-1.5 disabled"
@@ -126,7 +126,6 @@ import Input from '@/components/InputGroup/Input'
 import SwitchInput from '@/components/Switch'
 import Checkbox from '@/components/Checkbox'
 import Button from '@/components/Button'
-
 export default {
   components: {
     CommonBoard,
@@ -153,6 +152,14 @@ export default {
     InsuranceActive: {
       type: Number,
       default: 0
+    },
+    hasCover: {
+      type: Boolean,
+      default: false
+    },
+    coverText: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -185,7 +192,7 @@ export default {
         data.transferDetails[index][key] = value
       }
       this.$emit('update:eletric', data)
-    }
+    },
   }
 }
 </script>

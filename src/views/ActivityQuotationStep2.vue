@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CommonBoard class="w-full mb-7 relative" title="被保險人資料">
+    <CommonBoard :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" class="w-full mb-7 relative" title="被保險人資料">
       <div v-if="InsuranceActive === 1 || InsuranceActive == 3" class="customer-attr" slot="right">
         <span><font-awesome-icon class="mr-1" icon="exclamation-circle" />若需修訂保險人資訊，請至『列表頁面』點選『更正要被保人』按鈕</span>
       </div>
@@ -19,7 +19,7 @@
         :InsuranceActive="InsuranceActive"
       />
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
+    <CommonBoard :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
         <InputGroup class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
           <Select
@@ -42,7 +42,7 @@
         </InputGroup>
       </div>
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="要保險人資料">
+    <CommonBoard :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" class="w-full mb-7" title="要保險人資料">
       <Checkbox
         id="sameAsInsured"
         class="absolute ml-36"
@@ -68,8 +68,8 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <EmailPolicy :eletric.sync="policyTransferData" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
-    <CommonBoard class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+    <EmailPolicy :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" :eletric.sync="policyTransferData" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
+    <CommonBoard :hasCover="InsuranceActive == 1 || InsuranceActive == 3" :coverText="coverText" class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
@@ -117,6 +117,7 @@ export default {
   },
   data() {
     return {
+      coverText: '若需修訂要被保人資訊，請至『報價明細頁面』點選『更正要被保人』按鈕',
       windowWidth: window.innerWidth,
       nationalities: [],
       relationShips: [],
@@ -505,7 +506,7 @@ export default {
         const insert = await this.$store.dispatch('quotation/AddActivityQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: insert.data.content.orderNo.split('_')[0]})
       }
-    }
+    },
   },
   async mounted() {
     await this.step2Init() 
