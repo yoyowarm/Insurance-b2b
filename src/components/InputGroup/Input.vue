@@ -1,6 +1,7 @@
 <template>
   <div>
     <input
+      data-cy="input"
       type="text"
       class="placeholder:text-gray-400 text-xl rounded-full focus:outline-none w-full py-1.5 pl-3.5 pr-2"
       :class="{'pr-9': slotIcon, disable,'disable-white': disableWhite, 'pr-8': unit.length > 0}"

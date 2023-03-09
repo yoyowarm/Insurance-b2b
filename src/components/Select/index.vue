@@ -1,5 +1,5 @@
 <template>
-<div :class="{'search':search}" class="w-full my-1.5 ml-2 mr-2" ref="select">
+<div data-cy="select-group" :class="{'search':search}" class="w-full my-1.5 ml-2 mr-2" ref="select">
   <div v-if="search" class="custom-select" @click="()=> {open = true}" ref="custom-select">
     <span v-if="selected.length > 0" class="truncate">{{selected}}</span>
     <span v-else class="truncate">{{defaultText}}</span>
@@ -39,6 +39,7 @@
   
   <select
     v-if="!search"
+    data-cy="select"
     class="text-gray-800 bg-white text-xl focus:outline-none w-full"
     :class="{'appearance-none':hiddenArrow, 'editModel': editModel, disable, 'disable-white': disableWhite}"
     @change="(item) =>choiceItem({Value:item.target.value, Text: item.target.selectedOptions[0].dataset.text})">

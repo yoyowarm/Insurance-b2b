@@ -29,6 +29,7 @@
             decimalPoint
             :maxLength="9"
             :disable="disable"
+            data-cy="squareFeet"
             @updateValue="(e) =>updateValue(e,'squareFeet',index)"
             @click.native="clearZero(index)"
           />

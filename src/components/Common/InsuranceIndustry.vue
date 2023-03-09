@@ -19,6 +19,7 @@
                 :value="selected.itemName === list.itemName"
                 @updateValue="(e) => updateIndustry(e, list)"
                 :disabled="calculateModel"
+                :data-cy="'industry'+ index"
               />
               <InputGroup v-if="list.dangerSeq == 106 || list.dangerSeq == 354" class=" sm:w-64" :title="type == 'place'?'需填寫可判斷之行業種類，須填寫詢問表': '需填寫可判斷之活動行業種類'" :disable="!selected.Text.includes('其他') || calculateModel" :key="`Industry${list.dangerSeq}`" :lgTitle="windowWidth > 600" :wrap="windowWidth < 967">
                 <Input

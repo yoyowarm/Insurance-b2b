@@ -24,7 +24,7 @@
         <span class="text-white text-lg font-bold">核保明細</span>
       </div>
     </DynamicLink>
-    <DynamicLink v-if="permissions.includes('PlaceQuote')" type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink data-cy="place-quotation" v-if="permissions.includes('PlaceQuote')" type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/place-quotation/step')}">
       <div class="icon placeQuotation"/>
         <span class="text-white text-lg font-bold">場所報價</span>
