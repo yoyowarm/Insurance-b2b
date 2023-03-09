@@ -194,17 +194,12 @@ export const quotationListTable = () => {
       {
         text: '狀態',
         value: 'stateText',
-        size: '1-6'
+        size: '2-6'
       },
       {
         text: '報價單操作',
         value: 'edit',
         size: '3-6'
-      },
-      {
-        text: '出單保費',
-        value: 'InsurancePremiums',
-        size: '2-6'
       },
       {
         text: '日結日期',
@@ -261,11 +256,6 @@ export const quotationLisMobileTable = () => {
       {
         text: '狀態',
         value: 'stateText',
-        size: '1-6'
-      },
-      {
-        text: '出單保費',
-        value: 'InsurancePremiums',
         size: '2-6'
       },
       {

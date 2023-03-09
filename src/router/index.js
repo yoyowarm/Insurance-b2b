@@ -40,11 +40,11 @@ const routes = [
     ]
   },
   {
-    path: '/quotation-ist',
+    path: '/quotation-list',
     component: () => import(/* webpackChunkName: "about" */ '../layouts/DefaultLayout.vue'),
     children: [
       { //報價明細
-        path: '/quotation-ist',
+        path: '/quotation-list',
         name: 'quotationList',
         component: () => import(/* webpackChunkName: "about" */ '../views/QuotationList.vue')
       },

@@ -12,8 +12,8 @@
         <span class="text-white text-lg font-bold">回首頁</span>
       </div>
     </DynamicLink>
-    <DynamicLink v-if="permissions.includes('QuoteDetails')" type="router" path="/quotation-ist" @click.native="$emit('update:openMenu', false)">
-      <div class="nav-item" :class="{'active': path === '/quotation-ist'}">
+    <DynamicLink v-if="permissions.includes('QuoteDetails')" type="router" path="/quotation-list" @click.native="$emit('update:openMenu', false)">
+      <div class="nav-item" :class="{'active': path === '/quotation-list'}">
       <div class="icon quotation"/>
         <span class="text-white text-lg font-bold">報價明細</span>
       </div>

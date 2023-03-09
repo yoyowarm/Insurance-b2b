@@ -2,7 +2,7 @@
   <div>
     <CommonBoard class="w-full mt-16 mb-8 sm:mt-8" title="投保行業">
       <template slot="right">
-        <Button class="text-base absolute right-5 top-2 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
+        <Button class="text-base absolute right-5 -top-18 sm:-top-12" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
       <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" :value="searchText" @updateValue="(e) => searchText = e" placeholder="輸入行業關鍵字" slotIcon>
@@ -100,6 +100,7 @@
         <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
       </div>
       <p v-if="InsuranceActive !== 7" class="mt-4 text-sm text-main">先填寫詢問表後，再點選試算保費</p>
+      <p v-if="InsuranceActive == 7" class="mt-4 text-sm text-main">如欲修正請點擊更正鈕</p>
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="calculateAmount" :disabled="calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
@@ -363,7 +364,7 @@ export default {
   },
   methods: {
     async pageInit() {
-      const activity = await this.$store.dispatch('resource/ActivitiesSetting')
+      const activity = await this.$store.dispatch('resource/ActivitiesSetting',this.InsuranceActive == 7 ? 2:1)
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
       const underwriteLevel = await this.$store.dispatch('underwriteLevelSetting/GetUserUnderwriteLevel')
@@ -376,7 +377,7 @@ export default {
           this.industryType.push(item.typeName)
         }
       })
-      this.industryList = activity.data.content.filter(item => item.canShowLevel <= this.level)
+      this.industryList = this.InsuranceActive == 7 ? activity.data.content.filter(item => item.canShowLevel <= this.level) : activity.data.content
       districts.data.content.map(item => {
         this.countyList.push({
           ...item,
@@ -657,6 +658,7 @@ export default {
               applicant: this.quotationData.applicant,
               insuraned: this.quotationData.insuraned,
               relationText: this.quotationData.relationText,
+              relationDescribe: this.quotationData.relationDescribe,
               internalControlData: this.quotationData.internalControlData,
               policyTransfer: this.quotationData.policyTransfer,
             }
@@ -806,6 +808,7 @@ export default {
         data.insuraned = this.quotationData.insuraned ? JSON.parse(JSON.stringify(this.quotationData.insuraned)) : quotation().Insuraned
         data.internalControlData = this.quotationData.internalControlData ? JSON.parse(JSON.stringify(this.quotationData.internalControlData)) : quotation().internalControlData
         data.relationText = this.quotationData.relationText
+        data.relationDescribe = this.quotationData.relationDescribe
         data.policyTransfer = this.quotationData.policyTransfer ? JSON.parse(JSON.stringify(this.quotationData.policyTransfer)) : quotation().policyTransfer
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
@@ -863,13 +866,6 @@ export default {
     }
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
-    }
-    if(this.InsuranceActive === 7) {
-      Popup.create({
-        hasHtml: true,
-        maskClose: false,
-        htmlText:'<p>如欲修正請下滑點擊更正鈕</p>'
-      })
     }
   },
   beforeDestroy() {

@@ -117,7 +117,6 @@ export default {
           }
         }
       } else {
-        console.log(copyData)
         copyData = {
           ...copyData,
           sheet1: {
@@ -132,8 +131,8 @@ export default {
               } : { year: '', month: '', day: '', hours: '0' },
             },
             part3: {
-              afterActivityHasAccessByTransportation: copyData.sheet1.part3.afterActivityHasAccessByTransportation ? '是' : '否',
-              useRoadHasAccessByTransportation: copyData.sheet1.part3.useRoadHasAccessByTransportation ? '是' : '否',
+              afterActivityHasAccessByTransportation: typeof copyData.sheet1.part3.afterActivityHasAccessByTransportation === 'boolean' ? (copyData.sheet1.part3.afterActivityHasAccessByTransportation ? '是' : '否') : null,
+              useRoadHasAccessByTransportation: typeof copyData.sheet1.part3.useRoadHasAccessByTransportation === 'boolean' ? (copyData.sheet1.part3.useRoadHasAccessByTransportation ? '是' : '否') : null,
             }
           }
         }

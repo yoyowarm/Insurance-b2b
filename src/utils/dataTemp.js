@@ -217,6 +217,7 @@ export const quotation = () => {
       Text: '選擇關係',
       Value: '',
     },
+    InputRelation: '',//被保人與要保人之關係
     sameAsInsured: false,
     Applicant: {//要保險人資料
       ID: '',
@@ -260,7 +261,12 @@ export const quotation = () => {
           transferInfo: '',
           sort: 1
         }
-      ]
+      ],
+      paperTransferDetails: {
+        policyOriginalsAmount: 1,
+        policyCopiesAmount: 1,
+        needCertificate: false
+      }
     },
     industryText: '',
     remark: {//備註

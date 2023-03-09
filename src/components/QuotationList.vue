@@ -3,7 +3,7 @@
     <template v-for="(tableData,index) in listData">
       <div class="flex mb-2" :class="{'flex-row': windowWidth > 600, 'flex-col': windowWidth <= 600}" :key="index+'tableOderNo'">
         <div class="flex flex-row"  :class="{'ml-4': windowWidth <= 600}">
-          <div v-if="currentTag == 0" @click="() => {if(!tableData.rows[0].isFinishQuotation) {copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'addSerialNo')}}">
+          <div v-if="currentTag == 0" @click="() => {if(!tableData.rows[0].isFinishQuotation && (tableData.rows[0].iofficer==userInfo.userid)) {copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'addSerialNo')}}">
             <font-awesome-icon :icon="['fas','plus-circle']"  class="download" :class="{'disable': tableData.rows[0].isFinishQuotation || (tableData.rows[0].iofficer !==userInfo.userid)}"/>
             <span
               class="download ml-1"
@@ -13,7 +13,7 @@
           </div>
           <span
             v-if="currentTag == 0"
-            @click="() =>{if(!tableData.rows[0].isFinishQuotation){copyQuotation(tableData.rows[0].type,tableData.rows[0].orderNo,tableData.rows[0].mainOrderNo,'updateQuotation')}}"
+            @click="() =>{if(!tableData.rows[0].isFinishQuotation && (tableData.rows[0].iofficer==userInfo.userid)){copyQuotation(tableData.rows[0].type,tableData.rows[0].orderNo,tableData.rows[0].mainOrderNo,'updateQuotation')}}"
             class="download text-base ml-4 mr-2"
             :class="{'disable': tableData.rows[0].isFinishQuotation || (tableData.rows[0].iofficer !==userInfo.userid)}">
             <font-awesome-icon class="mr-1" :icon="['far','pen-to-square']" /><span>更正要被保人</span>
@@ -271,7 +271,7 @@ export default {
       this.openHistory = true
     },
     async modifyLogs(orderNo) {
-      const res = await this.$store.dispatch('underwrite/GetUnderwriteModifyLogs', orderNo)
+      const res = await this.$store.dispatch('underwrite/GetUnderwriteModifyLogs', {orderno:orderNo, quotationUnderwriteType : this.currentTag == 0 ? 1 : 2})
       this.modifyLogData = res.data.content.map(item => {
         return {
           ...item,

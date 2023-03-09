@@ -40,8 +40,8 @@ export const GetUnderwriteProcessHistory = (orderno) => {//取得核保歷程記
   return request('get', '/Underwrite/GetUnderwriteProcessHistory', { orderno })
 }
 
-export const GetUnderwriteModifyLogs = (orderno) => {//取得核保異動紀錄
-  return request('get', '/Underwrite/GetUnderwriteModifyLogs', { orderno })
+export const GetUnderwriteModifyLogs = (orderno, quotationUnderwriteType) => {//取得核保異動紀錄
+  return request('get', '/Underwrite/GetUnderwriteModifyLogs', { orderno, quotationUnderwriteType })
 }
 
 export const GetUnderwriteReviewedList = (data) => {//取得曾經審核過的報價單

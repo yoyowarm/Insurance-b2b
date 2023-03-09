@@ -119,6 +119,7 @@
           <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
         </div>
         <p v-if="InsuranceActive !== 7" class="mt-4 text-sm text-main">先填寫詢問表後，再點選試算保費</p>
+        <p v-if="InsuranceActive == 7" class="mt-4 text-sm text-main">如欲修正請點擊更正鈕</p>
       <div class="flex flex-col justify-center items-center  sm:flex-row">
         <Button @click.native="calculateAmount" :disabled="calculateModel"  class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
@@ -383,6 +384,7 @@ export default {
               applicant: this.quotationData.applicant,
               insuraned: this.quotationData.insuraned,
               relationText: this.quotationData.relationText,
+              relationDescribe: this.quotationData.relationDescribe,
               internalControlData: this.quotationData.internalControlData,
               policyTransfer: this.quotationData.policyTransfer,
             }
@@ -546,7 +548,7 @@ export default {
     },
 
     async pageInit() {
-      const places = await this.$store.dispatch('resource/PlacesSetting')
+      const places = await this.$store.dispatch('resource/PlacesSetting', this.InsuranceActive == 7 ? 2 : 1)
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
       const underwriteLevel = await this.$store.dispatch('underwriteLevelSetting/GetUserUnderwriteLevel')
@@ -559,7 +561,7 @@ export default {
           this.industryType.push(item.typeName)
         }
       })
-      this.industryList = places.data.content.filter(item => item.canShowLevel <= this.level)
+      this.industryList = this.InsuranceActive == 7 ? places.data.content.filter(item => item.canShowLevel <= this.level) : places.data.content
       districts.data.content.map(item => {
         this.countyList.push({
           ...item,
@@ -816,6 +818,7 @@ export default {
         data.insuraned = this.quotationData.insuraned ? JSON.parse(JSON.stringify(this.quotationData.insuraned)) : quotation().Insuraned
         data.internalControlData = this.quotationData.internalControlData ? JSON.parse(JSON.stringify(this.quotationData.internalControlData)) : quotation().internalControlData
         data.relationText = this.quotationData.relationText
+        data.relationDescribe = this.quotationData.relationDescribe
         data.policyTransfer = this.quotationData.policyTransfer ? JSON.parse(JSON.stringify(this.quotationData.policyTransfer)) : quotation().policyTransfer
       }
       this.$store.dispatch('place/updatePlaceQuotation', data)
@@ -914,13 +917,6 @@ export default {
           }
         }
         this.periodData = date
-    }
-    if(this.InsuranceActive === 7) {
-      Popup.create({
-        hasHtml: true,
-        maskClose: false,
-        htmlText:'<p>如欲修正請下滑點擊更正鈕</p>'
-      })
     }
   },
   beforeDestroy() {

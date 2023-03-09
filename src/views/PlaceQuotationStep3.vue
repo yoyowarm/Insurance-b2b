@@ -33,7 +33,7 @@
         送出核保
       </Button>
        <Button
-        v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && (InsuranceActive > 4 && InsuranceActive !== 6 && InsuranceActive !== 7)"
+        v-else-if="(PolicyStatus == 7 || PolicyStatus == 0) && quotationData.insuranceAmounts && quotationData.insuranceAmounts.length > 0 && quotationData.insuranceAmounts.find(item => !item.selected && item.insuranceAmount) && ( InsuranceActive !== 6 && InsuranceActive !== 7)"
         :disabled="quotationData.insuranceAmounts.some(item => item.isSelected) || quotationData.insuranceAmounts.filter(item => item.selected && item.insuranceAmount == '- -').length > 0"
         @click.native="finishQuotation('FinishQuotation')"
         class="my-3 md:my-8 w-64  md:mr-5">確認報價</Button>
@@ -228,7 +228,7 @@ export default {
     },
     packHome(updateUnderwrite = false) {
       if(updateUnderwrite) {
-        this.$router.push('/quotation-ist')
+        this.$router.push('/quotation-list')
       } else {
         if(this.InsuranceActive == 9) {
           this.$router.push('/underwriting-list?tag=2')
@@ -254,7 +254,7 @@ export default {
         } else if (key == 'up' || !key) {
           await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
         }
-        this.packHome(key && key !== 'up'? false: true)
+        this.packHome(key && key == 'up'? false: true)
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
       })

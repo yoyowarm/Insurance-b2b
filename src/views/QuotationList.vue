@@ -8,7 +8,7 @@
           :currentTag="currentTag"
           @updatedMenu="(e) => currentTag = e"
         />
-        <div v-if="currentTag == 1 || currentTag == 2" class="column-6 pb-6">
+        <div v-if="currentTag == 1 || currentTag == 2" class="column-6 p-3 pb-6">
           <InputGroup class="w-full" title="核保狀態">
             <Select
               slot="input"
@@ -302,7 +302,7 @@ export default {
     '$route.path': {
       async handler(val,old) {
         if(val !== old) {
-          if(val == '/quotation-ist') {
+          if(val == '/quotation-list') {
             this.currentTag = 0
             this.itemLists = [{ text: '報價明細', value: 0 }]
           } else {
@@ -342,8 +342,8 @@ export default {
       }
       this.quotationList = []
       const data = {
-        Skip:  (this.currentPage-1)*5,
-        Take: 5,
+        Skip:  (this.currentPage-1)*10,
+        Take: 10,
         QuotationListState: this.stateSelected.Value == '0' ? '' : this.stateSelected.Value,
         Type: this.typeSelected.Value == '0' ? '' : this.typeSelected.Value,
         ApplicantName: this.ApplicantName,
@@ -371,7 +371,7 @@ export default {
           }
         })
         ]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
       } else {
         let quotationList = null
         data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
@@ -393,7 +393,7 @@ export default {
             underwriteEmployee: item.underwriteEmployee ? item.underwriteEmployee : '- -',
           }
         })]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/5))
+        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
       }
       
     },
@@ -432,6 +432,10 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
+    if(this.$route.query.type) {
+      const target = this.stateList.find(i => i.Text == this.$route.query.type)
+      this.stateSelected = target
+    } 
     if(this.$route.path == '/underwriting-list') {
       if(this.$route.query.tag == 2) {
         this.currentTag =2
