@@ -30,7 +30,7 @@
         <span class="text-white text-lg font-bold">場所報價</span>
       </div>
     </DynamicLink>
-    <DynamicLink v-if="permissions.includes('ActivityQuote')" type="router" path="/activity-quotation/step1" @click.native="$emit('update:openMenu', false)">
+    <DynamicLink data-cy="activity-quotation" v-if="permissions.includes('ActivityQuote')" type="router" path="/activity-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/activity-quotation/step')}">
         <div class="icon activityQuotation"/>
         <span class="text-white text-lg font-bold">活動報價</span>

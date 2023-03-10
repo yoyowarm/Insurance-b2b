@@ -2,7 +2,7 @@
   <div class="w-full">
     <InputGroup slot="right" lgTitle  class="activity-name mb-4" :bgColor="!disable ? 'white' : ''" :disable="disable">
     <span slot="title" class="text-lg font-bold text-gray-800">活動名稱</span>
-      <Input slot="input" class="w-full" :disable="disable" :value="activityName" @updateValue="(e) => $emit('updatedActivityName',e)" placeholder="輸入活動名稱"/>
+      <Input data-cy="activityName" slot="input" class="w-full" :disable="disable" :value="activityName" @updateValue="(e) => $emit('updatedActivityName',e)" placeholder="輸入活動名稱"/>
     </InputGroup>
     <span slot="icon" class="average ">參加活動每日平均人數：{{Math.round(average.person.toFixed(2))}}人  <span v-if="windowWidth <= 600"><br>總計活動天數：{{average.day}}天</span><span v-if="windowWidth > 600">總計活動天數：{{average.day}}天</span></span>
     <template v-for="(info,index) in infoList">
@@ -22,6 +22,7 @@
       <div :key="index" class="column-5 relative">
         <InputGroup title="每日人數" :disable="disable">
           <Input
+            data-cy="number"
             slot="input"
             placeholder="輸入人數"
             inputmode="tel"
@@ -35,6 +36,7 @@
         </InputGroup>
         <InputGroup title="活動處所地址" dash :disable="disable">
           <Select
+            data-cy="county"
             slot="input"
             defaultText="選擇縣市"
             :options="countyList"
@@ -45,6 +47,7 @@
         </InputGroup>
         <InputGroup dash :disable="disable">
           <Select
+            data-cy="area"
             slot="input"
             defaultText="選擇區域"
             :options="areaList.filter(u => u.cityId == info.city.Value)"
@@ -55,6 +58,7 @@
         </InputGroup>
         <InputGroup class="col-span-2" :disable="disable">
           <Input
+            data-cy="address"
             slot="input"
             placeholder="輸入後續地址"
             class="w-full"
