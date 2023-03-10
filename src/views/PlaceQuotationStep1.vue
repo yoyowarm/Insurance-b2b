@@ -121,7 +121,7 @@
         <p v-if="InsuranceActive !== 7" class="mt-4 text-sm text-main">先填寫詢問表後，再點選試算保費</p>
         <p v-if="InsuranceActive == 7" class="mt-4 text-sm text-main">如欲修正請點擊更正鈕</p>
       <div class="flex flex-col justify-center items-center  sm:flex-row">
-        <Button @click.native="calculateAmount" :disabled="calculateModel"  class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="() => {calculateAmount(true,true)}" :disabled="calculateModel"  class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
          <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-56" outline>{{InsuranceActive == 7?'查看詢問表':'填寫詢問表'}}({{underwriteCoefficient}})</Button>
       </div>
@@ -604,9 +604,10 @@ export default {
       }
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
-    async calculateAmount(open) {
+    async calculateAmount(open = false, needGetOriginAdditionTerm = false) {
       if(this.InsuranceActive == 7) {
         this.placeAuditCalculateAmount({
+        needGetOriginAdditionTerm: needGetOriginAdditionTerm,
         additionTermCoefficientParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.additionTermCoefficientParameter,
         aggAOACoefficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.aggAOACoefficient,
         mutiSizeParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.mutiSizeParameter,
