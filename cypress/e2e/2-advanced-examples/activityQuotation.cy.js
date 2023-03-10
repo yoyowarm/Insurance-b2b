@@ -25,7 +25,6 @@ describe('Window', () => {
       cy.get(':nth-child(3) > :nth-child(2) > .input > [data-cy="select-group"] > [data-cy="select"]').select('仁愛區')
       cy.get('.address > .input > div.w-full > [data-cy="input"]').type('測試地址')
       cy.get('.title > .items-center > .flex').click()
-      cy.get('.title > .items-center > .flex').click()
       cy.get('.mt-8 > :nth-child(2)').click()
     });
   })
