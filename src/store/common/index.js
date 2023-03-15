@@ -16,6 +16,14 @@ export default {
     calculateModel: false,
     orderNo: '',
     mainOrderNo: '',
+    chatMessageList: [
+      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' }, { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
+      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
+      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
+      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
+      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
+      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
+    ],
   },
   getters: {
   },
@@ -32,6 +40,9 @@ export default {
     UPDATED_ORDER_NO(state, { orderNo, mainOrderNo }) {
       state.orderNo = orderNo
       state.mainOrderNo = mainOrderNo
+    },
+    UPDATED_CHAT_MESSAGE(state, chatMessageList) {
+      state.chatMessageList = chatMessageList
     }
   },
   actions: {
@@ -70,6 +81,9 @@ export default {
     },
     updateOrderNo({ commit }, { orderNo, mainOrderNo }) {
       commit('UPDATED_ORDER_NO', { orderNo, mainOrderNo })
+    },
+    updatedChatMessage({ commit }, chatMessageList) {
+      commit('UPDATED_CHAT_MESSAGE', chatMessageList)
     }
   }
 }

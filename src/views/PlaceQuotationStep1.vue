@@ -130,6 +130,8 @@
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
+    <img @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <PlaceModifyAmount
@@ -196,6 +198,7 @@ import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PlaceModifyAmount from '@/components/PopupDialog/PlaceModifyAmount'
+import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
 import { Popup } from '@/utils/popups'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
@@ -223,7 +226,8 @@ export default {
     InsuranceRecord,
     LoadingScreen,
     PopupDialog,
-    PlaceModifyAmount
+    PlaceModifyAmount,
+    QuotationCommentPopup
   },
   data () {
     return {
@@ -240,6 +244,7 @@ export default {
       openQuestionnaire: false,
       openFormula: false,
       openAudit: false,
+      openChat: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
       underwriteStatus: {},
       underwriteLevel: null,
@@ -269,7 +274,8 @@ export default {
       quotationData: state => state.place.quotationData,
       userInfo: state => state.home.userInfo,
       placeQuotation: state => state.place.placeQuotation,
-      level: state => state.home.level
+      level: state => state.home.level,
+      chatMessageList: state => state.common.chatMessageList
     }),
     placeInfoList: {
       get () {
@@ -932,6 +938,10 @@ export default {
 <style scoped lang="scss">
   .industry-input-group {
     position: absolute!important;
+  }
+
+  .chat-btn {
+    @apply fixed bottom-0 right-0 mr-4 mb-4 cursor-pointer w-16
   }
   
 </style>

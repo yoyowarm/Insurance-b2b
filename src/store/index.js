@@ -94,6 +94,7 @@ const vuexLocal = new VuexPersistence({
         editModel: state.common.editModel,
         orderNo: state.common.orderNo,
         mainOrderNo: state.common.mainOrderNo,
+        chatMessageList: state.common.chatMessageList,
       }
     }
   }

@@ -12,7 +12,7 @@
         <Button @click.native="() => {$emit('ok'); $emit('update:open', false)}">{{ok}}</Button>
       </div>
     </div>
-    <div class="mask-bg" @click="() =>{$emit('cancel');$emit('update:open', false)}"/>
+    <div class="mask-bg" @click="() =>{ if (maskClose) {$emit('cancel');$emit('update:open', false)}}"/>
   </div>
 </template>
 

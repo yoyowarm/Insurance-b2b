@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-for="(tableData,index) in listData">
-      <div class="flex mb-2" :class="{'flex-row': windowWidth > 600, 'flex-col': windowWidth <= 600}" :key="index+'tableOderNo'">
+      <div class="flex mb-2" :class="{'flex-row flex-wrap': windowWidth > 600, 'flex-col': windowWidth <= 600}" :key="index+'tableOderNo'">
         <div class="flex flex-row"  :class="{'ml-4': windowWidth <= 600}">
           <div v-if="currentTag == 0" @click="() => {if(!tableData.rows[0].isFinishQuotation && (tableData.rows[0].iofficer==userInfo.userid)) {copyQuotation(tableData.rows[0].type,'',tableData.rows[0].mainOrderNo,'addSerialNo')}}">
             <font-awesome-icon :icon="['fas','plus-circle']"  class="download" :class="{'disable': tableData.rows[0].isFinishQuotation || (tableData.rows[0].iofficer !==userInfo.userid)}"/>
@@ -23,6 +23,10 @@
         <div class="flex flex-row" :class="{'ml-4': windowWidth <= 600}">
           <span :class="{'ml-0 mr-4': windowWidth <= 600, 'ml-4 mr-4': windowWidth > 600}">關聯號{{tableData.rows[0].mainOrderNo}}<span  v-if="currentTag == 0" :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">-{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>
           <span v-if="currentTag == 0">保單編號{{tableData.rows[0].policyNo}}</span>
+        </div>
+        <div class=" comment-btn" @click="openChat = true">
+          <img src="../assets/images/comment.svg" width="20" alt="">
+          <span class="pl-1">討論版</span>
         </div>
       </div>
       <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3 @review="(e) =>review(e,tableData.rows, currentTag ==2)" class="mb-4" style="border-bottom: 1px solid #d1d5db">
@@ -67,6 +71,7 @@
           </template>
       </TableGroup>
     </template>
+    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
     <HistoryPopup :open.sync="openHistory" :historyData="historyData"/>
     <ModifyLogPopup :open.sync="openLog" :modifyLogData="modifyLogData"/>
     <DownloadFile :open.sync="open" :orderNo="orderNo" :item="downloadQuotation" headerText="列印文件"/>
@@ -80,6 +85,7 @@ import DownloadFile from '@/components/PopupDialog/DownloadFile.vue'
 import Button from '@/components/Button'
 import HistoryPopup from '@/components/PopupDialog/historyPopup'
 import ModifyLogPopup from '@/components/PopupDialog/modifyLogPopup'
+import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
 import { quotationListTable, quotationLisMobileTable, auditListTable, auditListMobileTable } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
@@ -101,7 +107,8 @@ export default {
     Button,
     WindowResizeListener,
     HistoryPopup,
-    ModifyLogPopup
+    ModifyLogPopup,
+    QuotationCommentPopup
   },
   data() {
     return {
@@ -109,6 +116,7 @@ export default {
       open: false,
       openHistory: false,
       openLog:false,
+      openChat: false,
       historyData: [],
       modifyLogData: [],
       downloadQuotation: {},
@@ -117,7 +125,8 @@ export default {
   computed: {
     ...mapState({
       'orderNo': state => state.common.orderNo,
-      userInfo: state => state.home.userInfo
+      userInfo: state => state.home.userInfo,
+      chatMessageList: state => state.common.chatMessageList
     }),
     listData () {
       const arr = []
@@ -299,5 +308,14 @@ export default {
     }
   .minButton {
     @apply text-sm p-1 px-2 mb-1
+  }
+
+  .comment-btn {
+    @apply flex flex-row flex-no-wrap w-20 text-main absolute right-5 cursor-pointer
+  }
+  @media (max-width: 600px) {
+    .comment-btn {
+      @apply relative justify-end w-full
+    }
   }
 </style>

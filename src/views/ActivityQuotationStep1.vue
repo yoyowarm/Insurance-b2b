@@ -111,6 +111,8 @@
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
+    <img @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <ActivityModifyAmount
@@ -174,6 +176,7 @@ import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import ActivityModifyAmount from '@/components/PopupDialog/ActivityModifyAmount'
+import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
@@ -201,6 +204,7 @@ export default {
     LoadingScreen,
     PopupDialog,
     ActivityModifyAmount,
+    QuotationCommentPopup
   },
   data () {
     return {
@@ -219,6 +223,7 @@ export default {
       openQuestionnaire: false,
       openFormula: false,
       openAudit: false,
+      openChat: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
       underwriteStatus: {},
       underwriteLevel: null,
@@ -247,7 +252,8 @@ export default {
       userInfo: state => state.home.userInfo,
       'Insuraned': state => state.activity.Insuraned,
       activityQuotation: state => state.activity.activityQuotation,
-      level: state => state.home.level
+      level: state => state.home.level,
+      chatMessageList: state => state.common.chatMessageList
     }),
     activityInfoList: {
       get () {
@@ -882,6 +888,9 @@ export default {
   .activity-name {
     width: calc(100% - 350px);
     @apply industry-input-group ml-24 mb-3
+  }
+  .chat-btn {
+    @apply fixed bottom-0 right-0 mr-4 mb-4 cursor-pointer w-16
   }
   @media screen and (max-width: 519px) {
     .activeInfo {
