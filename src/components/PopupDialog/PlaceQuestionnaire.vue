@@ -289,6 +289,7 @@ export default {
     max-width: 90vw;
     width: 100%;
     z-index: 100;
+    overflow-y: auto;
     @apply bg-white rounded-2xl;
     .header {
       height: 60px;
@@ -318,6 +319,7 @@ export default {
     .dialog {
       width: 90%;
       max-height: 80vh;
+      overflow-y: auto;
       @apply bg-white rounded-2xl;
       .header {
         height: 100px;
