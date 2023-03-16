@@ -115,11 +115,16 @@ export default {
     }
   },
   watch: {
-    open () {
+    open (val) {
       this.copyAdditionTermCoefficientParameter = this.additionTermCoefficientParameter
       this.copyAggAOACoefficient = this.aggAOACoefficient
       this.copyMutiSizeParameter = this.mutiSizeParameter
       this.copySizeCofficient = this.sizeCofficient !== 0 ? this.sizeCofficient : ''
+      if (val) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
       this.hexTypeBasicAmount = ''
     },
     additionTermCoefficientParameter (val) {

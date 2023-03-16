@@ -41,6 +41,13 @@ export default {
     WindowResizeListener
   },
   watch: {
+    open(val) {
+      if (val) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
+    },
     historyData (val) {
       this.historyTable.rows = val
     },
