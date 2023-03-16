@@ -334,7 +334,8 @@ export default {
         }
       }
       .body {
-        padding-bottom: 170px
+        padding-bottom: 170px;
+        overflow-x: hidden;
       }
     }
     
