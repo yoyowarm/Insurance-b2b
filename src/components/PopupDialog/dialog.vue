@@ -90,7 +90,6 @@ export default {
     max-width: 640px;
     width: 100%;
     z-index: 100;
-    overflow-y: auto;
     @apply bg-white rounded-2xl;
     &.fullScreen {
       top: 5%;

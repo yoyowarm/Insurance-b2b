@@ -163,7 +163,7 @@ export default {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;
     }
     .body {
-      overflow: scroll;
+      overflow-y: auto;
       max-height: 80vh;
       @apply  p-6
     }

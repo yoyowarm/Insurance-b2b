@@ -106,7 +106,7 @@ export default {
       @apply absolute top-3 my-auto right-3 text-3xl text-main cursor-pointer bg-white;
     }
     .body {
-      overflow: auto;
+      overflow-y: auto;
       max-height: 60vh;
       @apply  p-6 pt-2 text-gray-500
     }

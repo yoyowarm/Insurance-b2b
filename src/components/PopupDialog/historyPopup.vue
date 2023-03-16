@@ -133,7 +133,6 @@ export default {
     width: 80%;
     height: 87%;
     z-index: 100;
-    overflow: auto;
     @apply bg-white rounded-2xl;
     .header {
       .date {
@@ -148,7 +147,7 @@ export default {
       @apply absolute inset-y-0 right-3 my-auto text-3xl text-main cursor-pointer;
     }
     .body {
-      overflow: auto;
+      overflow-y: auto;
       max-height: 60vh;
       @apply  p-6 pt-2 text-gray-500
     }
