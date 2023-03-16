@@ -282,7 +282,7 @@ export default {
   }
   .dialog {
     position: fixed;
-    top: 6%;
+    top: 9%;
     left: 0;
     right:0;
     margin: 0 auto;
@@ -317,6 +317,7 @@ export default {
   @media (max-width: 770px) {
     .dialog {
       width: 90%;
+      max-height: 80vh;
       @apply bg-white rounded-2xl;
       .header {
         height: 100px;

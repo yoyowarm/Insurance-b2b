@@ -24,7 +24,7 @@
           <span :class="{'ml-0 mr-4': windowWidth <= 600, 'ml-4 mr-4': windowWidth > 600}">關聯號{{tableData.rows[0].mainOrderNo}}<span  v-if="currentTag == 0" :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">-{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>
           <span v-if="currentTag == 0">保單編號{{tableData.rows[0].policyNo}}</span>
         </div>
-        <div class=" comment-btn" @click="openChat = true">
+        <div v-if="false" class=" comment-btn" @click="openChat = true">
           <img src="../assets/images/comment.svg" width="20" alt="">
           <span class="pl-1">討論版</span>
         </div>

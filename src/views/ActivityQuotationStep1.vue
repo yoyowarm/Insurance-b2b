@@ -111,7 +111,7 @@
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
-    <img @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <img v-if="false" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
     <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
