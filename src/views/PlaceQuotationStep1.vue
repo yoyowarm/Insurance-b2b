@@ -56,6 +56,9 @@
         :disable="calculateModel || InsuranceActive == 7"
         :questionnaire="questionnaire"
       />
+      <InputGroup class="absolute right-0" noMt :disable="calculateModel" slot="right">
+        <FileUpload  slot="input" id="file-xlsddd" type="xls"/>
+      </InputGroup>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
       <InsuranceAmount
