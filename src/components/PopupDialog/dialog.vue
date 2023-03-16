@@ -90,6 +90,7 @@ export default {
     max-width: 640px;
     width: 100%;
     z-index: 100;
+    overflow: hidden;
     @apply bg-white rounded-2xl;
     &.fullScreen {
       top: 5%;
@@ -98,7 +99,7 @@ export default {
       height: auto;
       overflow: hidden;
       .body {
-        overflow-y: auto;
+        overflow-y: scroll;
         max-height: 100vh;
       }
     }
@@ -110,7 +111,7 @@ export default {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;
     }
     .body {
-      overflow: scroll;
+      overflow-y: scroll;
       max-height: 80vh;
       @apply  p-6
     }

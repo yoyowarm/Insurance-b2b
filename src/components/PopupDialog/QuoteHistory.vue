@@ -92,6 +92,7 @@ export default {
     width: 80%;
     height: 87%;
     z-index: 100;
+    overflow: hidden;
     @apply bg-white rounded-2xl;
     .header {
       .date {
@@ -106,7 +107,7 @@ export default {
       @apply absolute top-3 my-auto right-3 text-3xl text-main cursor-pointer bg-white;
     }
     .body {
-      overflow-y: auto;
+      overflow-y: scroll;
       max-height: 60vh;
       @apply  p-6 pt-2 text-gray-500
     }
