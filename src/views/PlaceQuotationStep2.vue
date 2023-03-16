@@ -68,7 +68,7 @@
       />
     </CommonBoard>
     <EmailPolicy :hasCover="InsuranceActive == 1 || InsuranceActive ==3" :coverText="coverText" :eletric.sync="policyTransferData" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
-    <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+    <CommonBoard :hasCover="InsuranceActive == 1 || InsuranceActive == 3" coverText="內控資料不可修改" class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
