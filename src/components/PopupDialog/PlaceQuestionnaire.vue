@@ -328,7 +328,6 @@ export default {
     .dialog {
       width: 90%;
       max-height: 80vh;
-      overflow-y: auto;
       @apply bg-white rounded-2xl;
       .header {
         height: 100px;
@@ -336,6 +335,9 @@ export default {
         >span {
           @apply -mt-5
         }
+      }
+      .body {
+        padding-bottom: 170px
       }
     }
     

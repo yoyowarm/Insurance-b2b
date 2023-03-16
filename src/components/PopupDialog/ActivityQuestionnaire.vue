@@ -333,6 +333,9 @@ export default {
           @apply -mt-5
         }
       }
+      .body {
+        padding-bottom: 170px
+      }
     }
     
   }
