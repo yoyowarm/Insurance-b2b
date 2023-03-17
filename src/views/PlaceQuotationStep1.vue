@@ -56,7 +56,7 @@
         :disable="calculateModel || InsuranceActive == 7"
         :questionnaire="questionnaire"
       />
-      <InputGroup class="absolute right-0" noMt :disable="calculateModel" slot="right">
+      <InputGroup class="absolute right-0 w-36" noMt :disable="calculateModel" slot="right">
         <FileUpload  slot="input" id="file-xlsddd" type="xls"/>
       </InputGroup>
     </CommonBoard>
