@@ -16,6 +16,7 @@ export default {
           orderNo: this.orderNo,
           insureIndustrySeq: this.industry.Value,
           activityUnderwriteInsuranceParameter: {
+            needGetOriginAdditionTerm: data.needGetOriginAdditionTerm ? true : false,
             additionTermCoefficient: data.additionTermCoefficientParameter == '' ? null : data.additionTermCoefficientParameter,
             aggaoaCoefficient: data.aggAOACoefficient == '' ? null : data.aggAOACoefficient,
             periodCoefficient: data.periodParameter == '' ? null : data.periodParameter,
@@ -122,6 +123,7 @@ export default {
           orderNo: this.orderNo,
           insureIndustrySeq: this.industry.Value,
           placeUnderwriteInsuranceParameter: {
+            needGetOriginAdditionTerm: data.needGetOriginAdditionTerm ? true : false,
             additionTermCoefficient: data.additionTermCoefficientParameter == '' ? null : data.additionTermCoefficientParameter,
             aggaoaCoefficient: data.aggAOACoefficient == '' ? null : data.aggAOACoefficient,
             mutiSizeCofficient: data.mutiSizeParameter == '' ? null : data.mutiSizeParameter,

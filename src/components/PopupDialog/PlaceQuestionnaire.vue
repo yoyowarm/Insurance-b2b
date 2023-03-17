@@ -48,7 +48,7 @@
         </div>
         <Part3 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="4">
-          <FormTitle class="text-lg"  title="(四)營業處所-器材使用"/>
+          <FormTitle class="text-lg mt-4"  title="(四)營業處所-器材使用"/>
         </div>
         <Part4 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="5">
@@ -64,9 +64,9 @@
         </div>
         <Part7 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
         <div class="column-4" ref="8">
-          <FormTitle class="text-lg"  title="(八)營業處所-緊急救護措施"/>
+          <FormTitle class="text-lg mt-4"  title="(八)營業處所-緊急救護措施"/>
         </div>
-        <Part8 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit"/>
+        <Part8 :data.sync="questionnaireData" :marginTop="marginTop" :disable="audit" />
         <div class="column-4" ref="9">
           <FormTitle class="text-lg"  title="(九)營業處所-其他考量"/>
         </div>
@@ -80,7 +80,7 @@
             <Button v-if="QuestionnaireManagement && orderNo || SerialNo" outline class="h-12 w-52" @click.native="downloadFile(orderNo,'insurance')">{{(windowWidth > 600) ? '列印詢問表' : '列印'}}</Button>
           </div>
         </div>
-        <span v-if="scrollBottom" class="text-main cursor-pointer text-center ml-4 w-16 absolute z-30 bottom-24 right-4" @click="scrollTo">
+        <span class="text-main cursor-pointer text-center ml-4 w-16 absolute z-30 bottom-24 right-4" @click="scrollTo">
           <font-awesome-icon :icon="['fas','arrow-up']" /><br>
           <span>回頂端</span>
       </span>
@@ -219,6 +219,15 @@ export default {
       ]
     }
   },
+  watch: {
+    open(val) {
+      if (val) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
+    }
+  },
   computed: {
     questionnaireData: {
       get() {
@@ -235,7 +244,7 @@ export default {
   },
   methods: {
     scroll(e) {
-      if(e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight) {
+      if(e.target.scrollHeight - e.target.scrollTop > 100) {
         this.scrollBottom = true
       } else {
         this.scrollBottom = false
@@ -282,13 +291,14 @@ export default {
   }
   .dialog {
     position: fixed;
-    top: 6%;
+    top: 9%;
     left: 0;
     right:0;
     margin: 0 auto;
     max-width: 90vw;
     width: 100%;
     z-index: 100;
+    overflow: hidden;
     @apply bg-white rounded-2xl;
     .header {
       height: 60px;
@@ -298,7 +308,7 @@ export default {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;
     }
     .body {
-      overflow: scroll;
+      overflow-y: scroll;
       max-height: 80vh;
       @apply  p-6 pb-20
     }
@@ -317,6 +327,7 @@ export default {
   @media (max-width: 770px) {
     .dialog {
       width: 90%;
+      max-height: 80vh;
       @apply bg-white rounded-2xl;
       .header {
         height: 100px;
@@ -324,6 +335,10 @@ export default {
         >span {
           @apply -mt-5
         }
+      }
+      .body {
+        padding-bottom: 170px;
+        overflow-x: hidden;
       }
     }
     

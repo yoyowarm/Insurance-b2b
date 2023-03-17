@@ -1,5 +1,5 @@
 <template>
-  <CommonBoard class="w-full" title="出單方式(二擇一)">
+  <CommonBoard :hasCover="hasCover" :coverText="coverText" class="w-full" title="出單方式(二擇一)">
     <FormTitle classList="text-xl text-gray-700" class="mb-6" title="電子保單">
       <Checkbox
         class="my-1.5 disabled"
@@ -78,11 +78,43 @@
         id="paper"
         :checked="eletric.transferType == 2"
         :value="eletric.transferType == 2"
-        :disabled=" InsuranceActive == 7"
+        :disabled="disable || InsuranceActive == 7"
         @updateValue="(e) =>{ if(eletric.transferType !== 2){updateValue('', 'transferType', 2)}}"
         slot="left"
       />
     </FormTitle>
+    <div class="column-5 pb-3 mb-4 dashed-border">
+      <InputGroup class="w-full" title="保單正本份數" :disable="disable || InsuranceActive == 7">
+        <Input
+          slot="input"
+          :disable="disable || InsuranceActive == 7"
+          class="w-full"
+          placeholder="輸入份數"
+          numberOnly
+          :value="eletric.paperTransferDetails.policyOriginalsAmount"
+          @updateValue="(e) => updateValue('','policyOriginalsAmount', e)"/>
+      </InputGroup>
+      <InputGroup class="w-full" title="保單副本份數" :disable="disable || InsuranceActive == 7">
+        <Input
+          slot="input"
+          :disable="disable || InsuranceActive == 7"
+          class="w-full"
+          placeholder="輸入份數"
+          numberOnly
+          hasZero
+          :value="eletric.paperTransferDetails.policyCopiesAmount"
+          @updateValue="(e) => updateValue('','policyCopiesAmount', e)"/>
+      </InputGroup>
+      <InputGroup class="w-full" title="是否需要證明書" :disable="disable">
+          <SwitchInput
+            slot="input"
+            :id="'是否需要證明書'"
+            :disable="disable"
+            :value="eletric.paperTransferDetails.needCertificate"
+            @updateValue="(e) =>updateValue('','needCertificate', e)"
+          />
+        </InputGroup>
+    </div>
   </CommonBoard>
 </template>
 
@@ -94,7 +126,6 @@ import Input from '@/components/InputGroup/Input'
 import SwitchInput from '@/components/Switch'
 import Checkbox from '@/components/Checkbox'
 import Button from '@/components/Button'
-
 export default {
   components: {
     CommonBoard,
@@ -121,6 +152,14 @@ export default {
     InsuranceActive: {
       type: Number,
       default: 0
+    },
+    hasCover: {
+      type: Boolean,
+      default: false
+    },
+    coverText: {
+      type: String,
+      default: ''
     }
   },
   methods: {
@@ -140,8 +179,11 @@ export default {
       this.$emit('update:eletric', data)
     },
     updateValue(index, key, value) {
+      console.log(index, key, value,this.eletric)
       const data = JSON.parse(JSON.stringify(this.eletric))
-      if(key == 'transferType') {
+      if (key == 'needCertificate' || key == 'policyOriginalsAmount' || key == 'policyCopiesAmount') {
+        data.paperTransferDetails[key] = value
+      } else if(key == 'transferType') {
         data.transferType = value
       } else {
         if(key == 'transferOriginalType' && value) {
@@ -150,7 +192,7 @@ export default {
         data.transferDetails[index][key] = value
       }
       this.$emit('update:eletric', data)
-    }
+    },
   }
 }
 </script>

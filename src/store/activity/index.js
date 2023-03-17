@@ -83,6 +83,7 @@ export default {
       Text: '選擇關係',
       Value: '',
     },
+    InputRelation: '',
     sameAsInsured: false,
     Applicant: {
       ID: '',
@@ -122,7 +123,12 @@ export default {
           transferInfo: '',
           sort: 1
         }
-      ]
+      ],
+      paperTransferDetails: {
+        policyOriginalsAmount: 1,
+        policyCopiesAmount: 1,
+        needCertificate: false
+      }
     },
     SerailNo: '',
     terms: {},
@@ -479,6 +485,9 @@ export default {
     UPDATED_RELATION(state, data) {
       state.Relation = data
     },
+    UPDATED_INPUT_RELATION(state, data) {
+      state.InputRelation = data
+    },
     UPDATED_UUID(state, data) {
       state.uuid = data
     },
@@ -509,6 +518,7 @@ export default {
       commit('UPDATED_INSURANED', quotation().Insuraned)
       commit('UPDATED_APPLICANT', quotation().Applicant)
       commit('UPDATED_RELATION', quotation().Relation)
+      commit('UPDATED_INPUT_RELATION', quotation().InputRelation)
       commit('UPDATED_ACTIVITY_INFO', quotation().activityInfo)
       commit('UPDATED_PERIOD', quotation().period)
       commit('UPDATED_TERMS', quotation().terms)
@@ -578,6 +588,9 @@ export default {
     },
     updatedRelation({ commit }, data) {
       commit('UPDATED_RELATION', data)
+    },
+    updatedInputRelation({ commit }, data) {
+      commit('UPDATED_INPUT_RELATION', data)
     },
     sameAsInsured({ commit }, sameAsInsured) {
       commit('SAME_AS_INSURED', sameAsInsured)

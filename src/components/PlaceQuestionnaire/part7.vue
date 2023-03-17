@@ -1,7 +1,7 @@
 <template>
   <div>
     <FormTitle title="1.營業處所相關之消防和安全措施" class="my-3 text-lg"/>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col md:flex-row my-1 pl-6">
       <Checkbox
         id="消防栓1"
         class="text-lg"
@@ -42,7 +42,7 @@
         </InputGroup>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col sm:flex-row my-1 pl-6">
       <Checkbox
         id="滅火器：泡沫型1"
         class="text-lg"
@@ -83,7 +83,7 @@
         </InputGroup>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col sm:flex-row my-1 pl-6">
       <span class="h-full sm:pl-24 mt-4 text-lg">二氧化碳</span>
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.part7.fireExtinguisher">
@@ -116,7 +116,7 @@
         </InputGroup>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col sm:flex-row my-1 pl-6">
       <span class="h-full sm:pl-24 mt-4 text-lg">ABC乾粉</span>
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.part7.fireExtinguisher">
@@ -149,7 +149,7 @@
         </InputGroup>
       </div>
     </div>
-    <div class="flex flex-col sm:flex-row my-1">
+    <div class="flex flex-col sm:flex-row my-1 pl-6">
       <span class="h-full w-40 sm:pl-24 mt-4 text-lg">海龍(halon)</span>
       <div class="flex" :class="{'flex-col': windowWidth < 600}">
         <InputGroup noMt class="ml-12 sm:ml-14 w-40" :disable="disable || !data.part7.fireExtinguisher">
@@ -169,7 +169,7 @@
       </div>
     </div>
     <div class="ml-12 sm:ml-24 text-red-500 text-sm">註：海龍(halon)滅火設備不適用在開放性或空氣流通處</div>
-    <div class="flex flex-col sm:flex-row my-3">
+    <div class="flex flex-col sm:flex-row my-3 pl-6">
       <Checkbox
         id="其他，請詳述之1"
         class="text-lg"
@@ -189,21 +189,21 @@
         />
       </InputGroup>
     </div>
-    <div class="w-full flex flex-row mt-4">
+    <div class="w-full flex flex-row mt-4 pl-6">
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasSprinkler" :value="data.part7.hasSprinkler === true" @updateValue="updateValue(true, 'hasSprinkler')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="sprinkle2" :value="data.part7.hasSprinkler === false" @updateValue="updateValue(false, 'hasSprinkler')"/>
       </div>
       <div class=" text-lg">是否有自動灑水系統</div>
     </div>
-    <div class="w-full flex flex-row mt-4">
+    <div class="w-full flex flex-row mt-4 pl-6">
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasGasExtinguishing" :value="data.part7.hasGasExtinguishing === true" @updateValue="updateValue(true, 'hasGasExtinguishing')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasGasExtinguishin2" :value="data.part7.hasGasExtinguishing === false" @updateValue="updateValue(false, 'hasGasExtinguishing')"/>
       </div>
       <div class=" text-lg">是否有氣體滅火系統</div>
     </div>
-    <div class="column-4 my-3">
+    <div class="column-4 my-3 pl-6">
       <InputGroup lgTitle title="氣體滅火系統安裝於何處" class="col-span-3" :disable="disable || !data.part7.hasGasExtinguishing">
         <Input
           slot="input"
@@ -214,14 +214,14 @@
         />
       </InputGroup>
     </div>
-    <div class="w-full flex flex-row mt-4">
+    <div class="w-full flex flex-row mt-4 pl-6">
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasFoamExtinguishing" :value="data.part7.hasFoamExtinguishing === true" @updateValue="updateValue(true, 'hasFoamExtinguishing')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasFoamExtinguishing2" :value="data.part7.hasFoamExtinguishing === false" @updateValue="updateValue(false, 'hasFoamExtinguishing')"/>
       </div>
       <div class="text-lg">是否有泡沫滅火系統</div>
     </div>
-    <div class="column-4 my-3">
+    <div class="column-4 my-3 pl-6">
       <InputGroup lgTitle title="泡沫滅火系統安裝於何處" class="col-span-3" :disable="disable || !data.part7.hasFoamExtinguishing">
         <Input
           slot="input"
@@ -232,14 +232,14 @@
         />
       </InputGroup>
     </div>
-    <div class="w-full flex flex-row mt-4">
+    <div class="w-full flex flex-row mt-4 pl-6">
         <div class=" flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="hasWaterMistExtinguishing" :value="data.part7.hasWaterMistExtinguishing === true" @updateValue="updateValue(true, 'hasWaterMistExtinguishing')"/>
           <RadioInput :disabled="disable" class="mx-2" text="否" id="hasWaterMistExtinguishing2" :value="data.part7.hasWaterMistExtinguishing === false" @updateValue="updateValue(false, 'hasWaterMistExtinguishing')"/>
       </div>
       <div class="text-lg">是否有水霧滅火系統</div>
     </div>
-    <div class="column-4 my-3">
+    <div class="column-4 my-3 pl-6">
       <InputGroup lgTitle title="水霧滅火系統安裝於何處" class="col-span-3" :disable="disable || !data.part7.hasWaterMistExtinguishing">
         <Input
           slot="input"

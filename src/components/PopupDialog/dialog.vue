@@ -12,7 +12,7 @@
         <Button @click.native="() => {$emit('ok'); $emit('update:open', false)}">{{ok}}</Button>
       </div>
     </div>
-    <div class="mask-bg" @click="() =>{$emit('cancel');$emit('update:open', false)}"/>
+    <div class="mask-bg" @click="() =>{ if (maskClose) {$emit('cancel');$emit('update:open', false)}}"/>
   </div>
 </template>
 
@@ -57,6 +57,15 @@ export default {
       value: false
     }
   },
+  watch: {
+    open(val) {
+      if (val) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
+    }
+  },
   methods: {
     show () {
       this.value = true
@@ -81,6 +90,7 @@ export default {
     max-width: 640px;
     width: 100%;
     z-index: 100;
+    overflow: hidden;
     @apply bg-white rounded-2xl;
     &.fullScreen {
       top: 5%;
@@ -89,7 +99,7 @@ export default {
       height: auto;
       overflow: hidden;
       .body {
-        overflow-y: auto;
+        overflow-y: scroll;
         max-height: 100vh;
       }
     }
@@ -101,7 +111,7 @@ export default {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;
     }
     .body {
-      overflow: scroll;
+      overflow-y: scroll;
       max-height: 80vh;
       @apply  p-6
     }
@@ -114,6 +124,7 @@ export default {
     .dialog {
       width: 80%;
       top:10%;
+      max-height: 80vh;
       @apply bg-white rounded-2xl;
 
     }

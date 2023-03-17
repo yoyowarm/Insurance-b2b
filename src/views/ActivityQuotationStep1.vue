@@ -2,7 +2,7 @@
   <div>
     <CommonBoard class="w-full mt-16 mb-8 sm:mt-8" title="投保行業">
       <template slot="right">
-        <Button class="text-base absolute right-5 top-2 sm:top-24" @click.native="clearAll" outline>清除全部資料</Button>
+        <Button class="text-base absolute right-5 -top-18 sm:-top-12" @click.native="clearAll" outline>清除全部資料</Button>
       </template>
       <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
         <Input slot="input" class="max-w-full" :value="searchText" @updateValue="(e) => searchText = e" placeholder="輸入行業關鍵字" slotIcon>
@@ -100,8 +100,9 @@
         <PaymentItem keyName="總保費試算共計" :value="insuranceAmountListData.amount? numFormat(insuranceAmountListData.amount) : 'NT$ - -'" :unit="insuranceAmountListData.amount!== '請洽核保'" totalStyle/>
       </div>
       <p v-if="InsuranceActive !== 7" class="mt-4 text-sm text-main">先填寫詢問表後，再點選試算保費</p>
+      <p v-if="InsuranceActive == 7" class="mt-4 text-sm text-main">如欲修正請點擊更正鈕</p>
       <div class="flex flex-col justify-center items-center sm:flex-row">
-        <Button @click.native="calculateAmount" :disabled="calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
+        <Button @click.native="() => {calculateAmount(true,true)}" :disabled="calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>試算</Button>
         <Button @click.native="correctAmount" :disabled="!calculateModel" class="my-2 sm:my-6 w-56 md:w-32 sm:mr-4" outline>更正</Button>
         <Button :disabled="calculateModel  && InsuranceActive !== 7" @click.native="() => { if(!calculateModel || InsuranceActive == 7) {openQuestionnaire = true}}" class="my-2 sm:my-6 w-56 md:w-56" outline>{{InsuranceActive == 7?'查看詢問表':'填寫詢問表'}}({{ underwriteCoefficient }})</Button>
       </div>
@@ -110,6 +111,8 @@
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
+    <img v-if="false" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <ActivityModifyAmount
@@ -173,6 +176,7 @@ import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import ActivityModifyAmount from '@/components/PopupDialog/ActivityModifyAmount'
+import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
 import { IndustryList, TermsLists } from '@/utils/mockData'
 import { mapState } from 'vuex'
 import { v4 as uuidv4 } from 'uuid';
@@ -200,6 +204,7 @@ export default {
     LoadingScreen,
     PopupDialog,
     ActivityModifyAmount,
+    QuotationCommentPopup
   },
   data () {
     return {
@@ -218,6 +223,7 @@ export default {
       openQuestionnaire: false,
       openFormula: false,
       openAudit: false,
+      openChat: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
       underwriteStatus: {},
       underwriteLevel: null,
@@ -246,7 +252,8 @@ export default {
       userInfo: state => state.home.userInfo,
       'Insuraned': state => state.activity.Insuraned,
       activityQuotation: state => state.activity.activityQuotation,
-      level: state => state.home.level
+      level: state => state.home.level,
+      chatMessageList: state => state.common.chatMessageList
     }),
     activityInfoList: {
       get () {
@@ -363,7 +370,7 @@ export default {
   },
   methods: {
     async pageInit() {
-      const activity = await this.$store.dispatch('resource/ActivitiesSetting')
+      const activity = await this.$store.dispatch('resource/ActivitiesSetting',this.InsuranceActive == 7 ? 2:1)
       const districts = await this.$store.dispatch('resource/Districts')
       const county = await this.$store.dispatch('resource/CountyMinimumSettings')
       const underwriteLevel = await this.$store.dispatch('underwriteLevelSetting/GetUserUnderwriteLevel')
@@ -376,7 +383,7 @@ export default {
           this.industryType.push(item.typeName)
         }
       })
-      this.industryList = activity.data.content.filter(item => item.canShowLevel <= this.level)
+      this.industryList = this.InsuranceActive == 7 ? activity.data.content.filter(item => item.canShowLevel <= this.level) : activity.data.content
       districts.data.content.map(item => {
         this.countyList.push({
           ...item,
@@ -520,9 +527,10 @@ export default {
       }
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
-    async calculateAmount(open) {
+    async calculateAmount(open = false, needGetOriginAdditionTerm = false) {
       if(this.InsuranceActive == 7) {
         this.activityAuditCalculateAmount({
+        needGetOriginAdditionTerm : needGetOriginAdditionTerm,
         additionTermCoefficientParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.additionTermCoefficientParameter,
         aggAOACoefficient: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.aggAOACoefficient,
         periodParameter: this.insuranceAmountListData.amount == 'NT$ - -' ? '' : this.insuranceAmountListData.parameter.periodParameter,
@@ -657,6 +665,7 @@ export default {
               applicant: this.quotationData.applicant,
               insuraned: this.quotationData.insuraned,
               relationText: this.quotationData.relationText,
+              relationDescribe: this.quotationData.relationDescribe,
               internalControlData: this.quotationData.internalControlData,
               policyTransfer: this.quotationData.policyTransfer,
             }
@@ -806,6 +815,7 @@ export default {
         data.insuraned = this.quotationData.insuraned ? JSON.parse(JSON.stringify(this.quotationData.insuraned)) : quotation().Insuraned
         data.internalControlData = this.quotationData.internalControlData ? JSON.parse(JSON.stringify(this.quotationData.internalControlData)) : quotation().internalControlData
         data.relationText = this.quotationData.relationText
+        data.relationDescribe = this.quotationData.relationDescribe
         data.policyTransfer = this.quotationData.policyTransfer ? JSON.parse(JSON.stringify(this.quotationData.policyTransfer)) : quotation().policyTransfer
       }
       this.$store.dispatch('activity/updateActivityQuotation', data)
@@ -823,7 +833,7 @@ export default {
         await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`place/updatedInsuranceActive`,0)
-        this.$router.push('/quotation-ist?tag=1')
+        this.$router.push('/underwriting-list')
         this.$store.dispatch('place/clearAll')
         this.$store.dispatch('place/updatedUUID', '')
         this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
@@ -864,13 +874,6 @@ export default {
     if(!this.uuid){
       this.$store.dispatch('activity/updatedUUID', uuidv4())
     }
-    if(this.InsuranceActive === 7) {
-      Popup.create({
-        hasHtml: true,
-        maskClose: false,
-        htmlText:'<p>如欲修正請下滑點擊更正鈕</p>'
-      })
-    }
   },
   beforeDestroy() {
     this.$store.dispatch('common/updatedCalculateModel',false)
@@ -885,6 +888,9 @@ export default {
   .activity-name {
     width: calc(100% - 350px);
     @apply industry-input-group ml-24 mb-3
+  }
+  .chat-btn {
+    @apply fixed bottom-0 right-0 mr-4 mb-4 cursor-pointer w-16
   }
   @media screen and (max-width: 519px) {
     .activeInfo {

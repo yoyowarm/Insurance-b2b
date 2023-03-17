@@ -303,6 +303,9 @@ export default {
           this.$store.dispatch(`${type}/updatedRelation`, relation)
         }
       }
+      if (this.quotationData.relationDescribe) {//被保人與要保人關係描述欄位
+        this.$store.dispatch(`${type}/updatedInputRelation`, this.quotationData.relationDescribe)
+      }
       const Insuraned = {}//要保人
       if (Object.keys(this.quotationData.insuraned).length > 0) {
         Object.assign(Insuraned, {
@@ -360,6 +363,7 @@ export default {
       }
       if (this.quotationData.policyTransfer && Object.keys(this.quotationData.policyTransfer).length > 0) {
         this.policyTransferData = {
+          paperTransferDetails: this.quotationData.policyTransfer.paperTransferDetails ? this.quotationData.policyTransfer.paperTransferDetails : { policyOriginalsAmount: 1, policyCopiesAmount: 1, needCertificate: false },
           transferType: this.quotationData.policyTransfer.transferType,
           transferDetails: this.quotationData.policyTransfer.transferDetails
             ? this.quotationData.policyTransfer.transferDetails.map(item => {

@@ -168,7 +168,7 @@
       </div>
         <div class=" text-lg">是否有水池(如:游泳池、噴泉)</div>
     </div>
-    <div class="w-full flex flex-row mt-4 mb-6">
+    <div class="w-full flex flex-row mt-4 mb-0">
       <span class="mr-2 text-lg">9.</span>
         <div class="flex flex-row justify-between">
           <RadioInput :disabled="disable" text="是" id="isWaterArea" :value="data.sheet1.part1.isWaterArea === true" @updateValue="updateValue(true, 'isWaterArea')"/>
@@ -176,7 +176,7 @@
       </div>
         <div class=" text-lg">是否為水域活動</div>
     </div>
-    <div class="column-4 my-3 dashed-border">
+    <div class="column-4 mb-3 dashed-border pl-6">
       <InputGroup lgTitle title="說明救生人員配置" class="col-span-3" :disable="disable || !data.sheet1.part1.isWaterArea">
         <Input
           slot="input"

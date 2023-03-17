@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CommonBoard class="w-full mb-7 relative" title="被保險人資料">
+    <CommonBoard :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" class="w-full mb-7 relative" title="被保險人資料">
       <div v-if="InsuranceActive === 1 || InsuranceActive == 3" class="customer-attr" slot="right">
         <span><font-awesome-icon class="mr-1" icon="exclamation-circle" />若需修訂保險人資訊，請至『列表頁面』點選『更正要被保人』按鈕</span>
       </div>
@@ -14,11 +14,12 @@
         type="InsuranedData"
         quotationType="activity"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
+        @updatedApplicant="updatedApplicant"
         :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :InsuranceActive="InsuranceActive"
       />
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
+    <CommonBoard :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
         <InputGroup class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
           <Select
@@ -27,12 +28,21 @@
             defaultText="選擇關係"
             :options="relationShips"
             :selected="Relation.Value"
-            @emitItem="(item) => $store.dispatch('activity/updatedRelation', item)"
+            @emitItem="(item) => {$store.dispatch('activity/updatedRelation', item);if(item.Value !== 'RL99'){$store.dispatch('activity/updatedInputRelation', '')}}"
+          />
+        </InputGroup>
+        <InputGroup v-if="Relation.Value == 'RL99'" class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+          <Input
+            slot="input"
+            :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
+            placeholder="請輸入關係"
+            :value="InputRelation"
+            @updateValue="(e) => $store.dispatch('activity/updatedInputRelation', e)"
           />
         </InputGroup>
       </div>
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="要保險人資料">
+    <CommonBoard :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" class="w-full mb-7" title="要保險人資料">
       <Checkbox
         id="sameAsInsured"
         class="absolute ml-36"
@@ -40,13 +50,14 @@
         slot="right"
         :checked="sameAsInsured"
         :value="sameAsInsured"
+        :disabled="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         @updateValue="(e) => {
           $store.dispatch('activity/sameAsInsured', e);
           $store.dispatch('activity/updatedRelation', {Text: '本人', Value: 'RL00'});
         }"
       />
       <InsuranceInfo
-        :disable="sameAsInsured || Relation.Value =='RL00' || InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
+        :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :marginTop="marginTop"
         :info.sync="ApplicantData"
         :nationalities="nationalities"
@@ -57,7 +68,7 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <EmailPolicy :eletric.sync="policyTransferData" :disable="InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
+    <EmailPolicy :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" :eletric.sync="policyTransferData" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
     <CommonBoard class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
@@ -85,6 +96,7 @@ import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
+import Input from '@/components/InputGroup/Input.vue'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
@@ -95,6 +107,7 @@ export default {
     Button,
     Checkbox,
     InputGroup,
+    Input,
     Select,
     InsuranceInfo,
     WindowResizeListener,
@@ -104,6 +117,7 @@ export default {
   },
   data() {
     return {
+      coverText: '若需修訂要被保人資訊，請至『報價明細頁面』點選『更正要被保人』按鈕',
       windowWidth: window.innerWidth,
       nationalities: [],
       relationShips: [],
@@ -127,6 +141,7 @@ export default {
       'loading': state => state.app.loading,
       'Insuraned': state => state.activity.Insuraned,
       'Relation': state => state.activity.Relation,
+      InputRelation: state => state.activity.InputRelation,
       'Applicant': state => state.activity.Applicant,
       'sameAsInsured': state => state.activity.sameAsInsured,
       'InsuranceActive': state => state.activity.InsuranceActive,
@@ -149,9 +164,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('activity/updatedInsuraned', value)
-        if(this.Relation.Value === 'RL00') {
-          this.ApplicantData = value
-        }
       }
     },
     ApplicantData: {
@@ -248,6 +260,14 @@ export default {
           data.activityName = this.InsuranedData.activityName
         }
         this.$store.dispatch(`activity/updated${type}`, data)
+      }
+    },
+    updatedApplicant(data) {
+      if(this.Relation.Value === 'RL00') {
+        this.ApplicantData = {
+          ...this.ApplicantData,
+          [data.key]: data.value
+        }
       }
     },
     async step2Init() {
@@ -422,6 +442,7 @@ export default {
       }})
       Object.assign(obj, {relationId:this.Relation.Value})
       Object.assign(obj, {relationText:this.Relation.Text})
+      Object.assign(obj, {relationDescribe:this.InputRelation})
       Object.assign(obj, {applicant:{
         ...this.Applicant,
         isProfession: this.Applicant.Profession,
@@ -437,6 +458,7 @@ export default {
         overseasOrDomestic: Number(this.Applicant.overseasOrDomestic)
       }})
       Object.assign(obj,{policyTransfer : {
+        paperTransferDetails: this.policyTransferData.paperTransferDetails,
         transferType: this.policyTransferData.transferType,
         transferDetails:this.policyTransferData.transferType == 1 ? this.policyTransferData.transferDetails.map(i => {
           return {
@@ -484,7 +506,7 @@ export default {
         const insert = await this.$store.dispatch('quotation/AddActivityQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: insert.data.content.orderNo.split('_')[0]})
       }
-    }
+    },
   },
   async mounted() {
     await this.step2Init() 

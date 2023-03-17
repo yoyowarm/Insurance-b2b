@@ -10,7 +10,7 @@
         <div class=" text-lg">被保險人過去五年是否有損失紀錄</div>
     </div>
   </div>
-    <div class="column-4 my-3">
+    <div class="column-4 my-3 pl-6">
       <InputGroup lgTitle title="請說明損失金額、次數及原因" class="col-span-3" :disable="disable || !data.sheet1.part7.hasLossHistoryBeforeFiveYear">
         <Input
           slot="input"

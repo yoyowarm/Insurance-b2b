@@ -53,7 +53,7 @@ export default {
       'userInfo': state => state.home.userInfo,
     }),
     paginationPage() {
-      return ['/termsSetting/quotationAndWeight','/parameterSetting/news-setting','/parameterSetting/document-download-setting','/parameterSetting/news-setting','/questionnaire-management','/quotation/list', '/product/list', '/news/list', '/quotation-ist'].includes(this.$route.path)
+      return ['/termsSetting/quotationAndWeight','/parameterSetting/news-setting','/parameterSetting/document-download-setting','/parameterSetting/news-setting','/questionnaire-management','/quotation/list', '/product/list', '/news/list', '/quotation-list', '/underwriting-list'].includes(this.$route.path)
     },
     innerWidth() {
       return window.innerWidth

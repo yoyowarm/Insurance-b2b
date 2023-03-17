@@ -280,6 +280,7 @@ export default {
     },
     updateInfo (key, value) {
       this.$emit('update:info', Object.assign(this.copyInfo, { [key]: value }))
+      this.$emit('updatedApplicant', {key, value})
     },
     phoneVerify(type) {
       const isNumber = new RegExp(/^\d/g)

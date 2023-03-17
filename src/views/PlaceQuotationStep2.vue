@@ -1,9 +1,6 @@
 <template>
   <div>
-    <CommonBoard class="w-full mb-7 relative" title="被保險人資料">
-      <div v-if="InsuranceActive == 1 || InsuranceActive == 3" class="customer-attr" slot="right">
-        <span><font-awesome-icon class="mr-1" icon="exclamation-circle" />若需修訂保險人資訊，請至『列表頁面』點選『更正要被保人』按鈕</span>
-      </div>
+    <CommonBoard :hasCover="InsuranceActive == 1 || InsuranceActive ==3" :coverText="coverText" class="w-full mb-7 relative" title="被保險人資料">
       <InsuranceInfo
         :marginTop="marginTop"
         :info.sync="InsuranedData"
@@ -13,14 +10,15 @@
         @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
+        @updatedApplicant="updatedApplicant"
         :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :InsuranceActive="InsuranceActive"
       />
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
+    <CommonBoard :hasCover="InsuranceActive == 1 || InsuranceActive ==3" :coverText="coverText" class="w-full mb-7" title="經營處所地址" v-if="InsuranceActive!==2">
       <Address :lists.sync="placeInfoData" :cityList="countyList" :areaList="ApplicantAreaList" :disable="InsuranceActive == 7" :Insuraned="InsuranedData"/>
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="被保人與要保人之關係">
+    <CommonBoard :hasCover="InsuranceActive == 1 || InsuranceActive ==3" :coverText="coverText" class="w-full mb-7" title="被保人與要保人之關係">
       <div class="column-5">
         <InputGroup class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
           <Select
@@ -29,12 +27,21 @@
             defaultText="選擇關係"
             :options="relationShips"
             :selected="Relation.Value"
-            @emitItem="(item) => $store.dispatch('place/updatedRelation', item)"
+            @emitItem="(item) => {$store.dispatch('place/updatedRelation', item);if(item.Value !== 'RL99'){$store.dispatch('place/updatedInputRelation', '')}}"
+          />
+        </InputGroup>
+        <InputGroup v-if="Relation.Value == 'RL99'" class="col-span-2 w-full mb-2.5" noMt :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+          <Input
+            slot="input"
+            :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
+            placeholder="請輸入關係"
+            :value="InputRelation"
+            @updateValue="(e) => $store.dispatch('place/updatedInputRelation', e)"
           />
         </InputGroup>
       </div>
     </CommonBoard>
-    <CommonBoard class="w-full mb-7" title="要保險人資料">
+    <CommonBoard :hasCover="InsuranceActive == 1 || InsuranceActive ==3" :coverText="coverText" class="w-full mb-7" title="要保險人資料">
       <Checkbox
         id="sameAsInsured"
         class="absolute ml-36"
@@ -42,13 +49,14 @@
         slot="right"
         :checked="sameAsInsured"
         :value="sameAsInsured"
+        :disabled="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         @updateValue="(e) => {
           $store.dispatch('place/sameAsInsured', e);
           $store.dispatch('place/updatedRelation', {Text: '本人', Value: 'RL00'});
         }"
       />
       <InsuranceInfo
-        :disable="sameAsInsured || Relation.Value =='RL00' || InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
+        :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7"
         :marginTop="marginTop"
         :info.sync="ApplicantData"
         :nationalities="nationalities"
@@ -59,8 +67,8 @@
          type="ApplicantData"
       />
     </CommonBoard>
-    <EmailPolicy  :eletric.sync="policyTransferData" :disable="InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
-    <CommonBoard class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+    <EmailPolicy :hasCover="InsuranceActive == 1 || InsuranceActive ==3" :coverText="coverText" :eletric.sync="policyTransferData" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
+    <CommonBoard :hasCover="InsuranceActive == 1 || InsuranceActive == 3" coverText="內控資料不可修改" class="w-full mb-7" title="內控資料"  v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
@@ -88,6 +96,7 @@ import routeChange from '@/utils/mixins/routeChange'
 import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
+import Input from '@/components/InputGroup/Input.vue'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
@@ -105,9 +114,11 @@ export default {
     BrokerInfo,
     Address,
     EmailPolicy,
+    Input
   },
   data() {
     return {
+      coverText:'若需修訂要被保人資訊，請至『報價明細頁面』點選『更正要被保人』按鈕',
       windowWidth: window.innerWidth,
       nationalities: [],
       relationShips: [],
@@ -132,6 +143,7 @@ export default {
       'loading': state => state.app.loading,
       'Insuraned': state => state.place.Insuraned,
       'Relation': state => state.place.Relation,
+      InputRelation: state => state.place.InputRelation,
       'Applicant': state => state.place.Applicant,
       'sameAsInsured': state => state.place.sameAsInsured,
       'InsuranceActive': state => state.place.InsuranceActive,
@@ -154,9 +166,6 @@ export default {
       },
       set(value) {
         this.$store.dispatch('place/updatedInsuraned', value)
-        if(this.Relation.Value === 'RL00') {
-          this.ApplicantData = value
-        }
       }
     },
     ApplicantData: {
@@ -283,6 +292,14 @@ export default {
           IsProOrNot: detailData.isProOrNot,
         })
         this.$store.dispatch(`place/updated${type}`, data)
+      }
+    },
+    updatedApplicant(data) {
+      if(this.Relation.Value === 'RL00') {
+        this.ApplicantData = {
+          ...this.ApplicantData,
+          [data.key]: data.value
+        }
       }
     },
     async step2Init() {
@@ -461,6 +478,7 @@ export default {
       }})
       Object.assign(obj, {relationId:this.Relation.Value})
       Object.assign(obj, {relationText:this.Relation.Text})
+      Object.assign(obj, {relationDescribe:this.InputRelation})
       Object.assign(obj, {applicant:{
         ...this.Applicant,
         cityId: this.Applicant.City.Value,
@@ -480,6 +498,7 @@ export default {
         loginIdNumber: this.internalControlData.loginIdNumber,}
       })
       Object.assign(obj,{policyTransfer : {
+        paperTransferDetails: this.policyTransferData.paperTransferDetails,
         transferType: this.policyTransferData.transferType,
         transferDetails:this.policyTransferData.transferType == 1 ? this.policyTransferData.transferDetails.map(i => {
           return {
@@ -519,7 +538,13 @@ export default {
         const insert = await this.$store.dispatch('quotation/AddPlaceQuotation', obj)
         this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: insert.data.content.orderNo.split('_')[0]})
       }
-    }
+    },
+    alertPopup() {
+      Popup.create({
+        hasHtml: true,
+        htmlText: '若需修訂要被保人資訊，請至『報價明細頁面』點選『更正要被保人』按鈕',
+      })
+    },
   },
   async mounted() {
     await this.step2Init() 
