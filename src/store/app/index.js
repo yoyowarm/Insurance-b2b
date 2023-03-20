@@ -46,9 +46,7 @@ export default {
       commit('UPDATED_APP_SETTING', data)
     },
     async makeGlobalSetting(_, payload) {
-      const data = (await makeGlobalSetting(payload)).data.content
-      console.log(data)
-      // commit('UPDATED_APP_SETTING', data)
+      await makeGlobalSetting(payload)
     }
   },
 }
