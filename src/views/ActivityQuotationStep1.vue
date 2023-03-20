@@ -111,8 +111,14 @@
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
-    <img v-if="false" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
-    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
+    <img v-if="appSetting.showMessagePlatform" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup
+      :open.sync="openChat"
+      :messageList="chatMessageList"
+      :quotationPage="true"
+      :mainOrderNo="InsuranceActive === 0 ? '' :mainOrderNo"
+      @updatedMessage="() => { getChatComment(mainOrderNo) }"
+    />
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <ActivityModifyAmount
@@ -253,7 +259,8 @@ export default {
       'Insuraned': state => state.activity.Insuraned,
       activityQuotation: state => state.activity.activityQuotation,
       level: state => state.home.level,
-      chatMessageList: state => state.common.chatMessageList
+      chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     activityInfoList: {
       get () {
@@ -861,12 +868,20 @@ export default {
         const blob = new Blob([res.data], {type: "application/octet-stream"});
         FileSaver.saveAs(blob, `${fileName}`);
       }
-    }
+    },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
   },
   async mounted() {
+    await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
     await this.pageInit()
     if(Object.keys(this.periodData.startDate).every(i => this.periodData.startDate[i] == '') && Object.keys(this.periodData.endDate).every(i => this.periodData.endDate[i] == '')) {
       this.updatePeriod()
+    }
+    if (this.InsuranceActive !== 0) {
+      await this.getChatComment(this.mainOrderNo)
     }
     if(this.InsuranceActive !== 7) {
       this.$store.dispatch('activity/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})

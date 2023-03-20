@@ -159,6 +159,7 @@ export default {
       policyTransfer: state => state.place.policyTransfer,
       underwriteQuotationData: state => state.place.underwriteQuotationData,
       underwriteQuotationIsChange: state => state.place.underwriteQuotationIsChange,
+      chatMessageList: state => state.common.chatMessageList,
     }),
     InsuranedData: {
       get() {
@@ -450,6 +451,7 @@ export default {
     },
     async quotationMapping() {
       const obj = JSON.parse(JSON.stringify(this.placeQuotation))
+      Object.assign(obj, { newMessageContents: this.chatMessageList.map(i => ({ content: i.content })) })
       if(this.InsuranceActive !==2) {
         Object.assign(obj, {placeInfo: [...this.placeInfo.map(item => {
           return {

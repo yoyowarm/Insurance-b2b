@@ -130,8 +130,14 @@
         <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
       </div>
     </div>
-    <img v-if="false" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
-    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
+    <img v-if="appSetting.showMessagePlatform" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup
+      :open.sync="openChat"
+      :messageList="chatMessageList"
+      :quotationPage="true"
+      :mainOrderNo="InsuranceActive === 0 ? '' : mainOrderNo"
+      @updatedMessage="() => { getChatComment (mainOrderNo)}"
+    />
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <PlaceModifyAmount
@@ -275,7 +281,8 @@ export default {
       userInfo: state => state.home.userInfo,
       placeQuotation: state => state.place.placeQuotation,
       level: state => state.home.level,
-      chatMessageList: state => state.common.chatMessageList
+      chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     placeInfoList: {
       get () {
@@ -858,9 +865,14 @@ export default {
         const blob = new Blob([res.data], {type: "application/octet-stream"});
         FileSaver.saveAs(blob, `${fileName}`);
       }
-    }
+    },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
   },
   async mounted() {
+    await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
     await this.pageInit()
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())
@@ -870,6 +882,9 @@ export default {
     // }
     if(this.InsuranceActive !== 7) {
       this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
+    }
+    if(this.InsuranceActive !== 0 ) {
+      await this.getChatComment(this.mainOrderNo)
     }
     if(!this.period.startDate.year && !this.period.startDate.month && !this.period.startDate.day && !this.period.startDate.hour) {
       let date = {

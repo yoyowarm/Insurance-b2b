@@ -307,6 +307,7 @@ export default {
     this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo:''})
     this.$store.dispatch('common/updatedCalculateModel', false)
     this.$store.dispatch('activity/updatedInsuranceActive', 0)
+    this.$store.dispatch('common/updatedChatMessage', [])
   }
 }
 </script>

@@ -3,15 +3,15 @@
     :open.sync="openDialog"
     headerText="報價討論版"
     :maskClose="false"
-    @cancel="() => { openDialog = false; $store.dispatch('common/updatedChatMessage', []) }"
+    @cancel="() => { openDialog = false }"
   > 
     <div class="relative pb-14 overflow-y-auto messageContent" ref="messageContent" @wheel="scrolledToBottom" @scroll="scrolling">
       <div class="commentItem" v-for="(i,index) in messageList" :key="index">
         <div class="flex flex-row items-center mb-2">
-          <p>{{ i.name }}</p>
-          <p class="text-xs text-gray-500 pl-2">{{ i.time }}</p>
+          <p>{{ i.eMployeeName }}({{ i.employeeId }})</p>
+          <p class="text-xs text-gray-500 pl-2">{{ i.messageTime.replace('T', ' ') }}</p>
         </div>
-        <p>{{ i.text }}</p>
+        <p>{{ i.content }}</p>
         
       </div>
       <div v-if="messageList.length === 0" class="text-gray-400 pointer-events-none">目前無最新留言</div>
@@ -30,6 +30,7 @@
 <script>
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import Input from '@/components/InputGroup/Input.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
     PopupDialog,
@@ -43,6 +44,14 @@ export default {
     messageList: {
       type: Array,
       default: () => []
+    },
+    mainOrderNo: {
+      type: String,
+      default: ''
+    },
+    quotationPage: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -60,7 +69,10 @@ export default {
       set(val) {
         this.$emit('update:open', val)
       }
-    }
+    },
+    ...mapState({
+      userInfo: state => state.home.userInfo,
+    })
   },
   watch: {
     messageList (val) {
@@ -87,14 +99,24 @@ export default {
     }
   },
   methods: {
-    sendMessage() {
+    async sendMessage() {
       if(this.message === '') return
+      if(!this.quotationPage || this.mainOrderNo !== '') {
+        await this.$store.dispatch('common/addCountents', {
+          mainOrderNo: this.mainOrderNo,
+          newMessageContents: [
+            {content: this.message}
+          ]
+        })
+        this.$emit('updatedMessage')
+      }
       const arr = JSON.parse(JSON.stringify(this.messageList))
       arr.push({
-        name: '我',
-        time: '2021/08/12 10:00',
-        text: this.message
-      } )
+        employeeId: this.userInfo.userid,
+        eMployeeName: this.userInfo.sub,
+        messageTime: new Date().toISOString(),
+        content: this.message
+      })
       this.$store.dispatch('common/updatedChatMessage', arr)
       this.message = ''
     },
