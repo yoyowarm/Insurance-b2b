@@ -24,7 +24,7 @@
           <span :class="{'ml-0 mr-4': windowWidth <= 600, 'ml-4 mr-4': windowWidth > 600}">關聯號{{tableData.rows[0].mainOrderNo}}<span  v-if="currentTag == 0" :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">-{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>
           <span v-if="currentTag == 0">保單編號{{tableData.rows[0].policyNo}}</span>
         </div>
-        <div v-if="false" class=" comment-btn" @click="openChat = true">
+        <div v-if="appSetting.showMessagePlatform" class=" comment-btn" @click="openChatComment(tableData.rows[0].mainOrderNo)">
           <img src="../assets/images/comment.svg" width="20" alt="">
           <span class="pl-1">討論版</span>
         </div>
@@ -71,7 +71,7 @@
           </template>
       </TableGroup>
     </template>
-    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
+    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList" :mainOrderNo="chatMainOrderNo" @updatedMessage="() =>{getChatComment(chatMainOrderNo)}"/>
     <HistoryPopup :open.sync="openHistory" :historyData="historyData"/>
     <ModifyLogPopup :open.sync="openLog" :modifyLogData="modifyLogData"/>
     <DownloadFile :open.sync="open" :orderNo="orderNo" :item="downloadQuotation" headerText="列印文件"/>
@@ -117,6 +117,7 @@ export default {
       openHistory: false,
       openLog:false,
       openChat: false,
+      chatMainOrderNo: '',
       historyData: [],
       modifyLogData: [],
       downloadQuotation: {},
@@ -126,7 +127,8 @@ export default {
     ...mapState({
       'orderNo': state => state.common.orderNo,
       userInfo: state => state.home.userInfo,
-      chatMessageList: state => state.common.chatMessageList
+      chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     listData () {
       const arr = []
@@ -288,7 +290,16 @@ export default {
         }
       })
       this.openLog = true
-    }
+    },
+    async openChatComment(mainOrderNo) {
+      await this.getChatComment(mainOrderNo)
+      this.openChat = true
+      this.chatMainOrderNo = mainOrderNo
+    },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
   }
 }
 </script>

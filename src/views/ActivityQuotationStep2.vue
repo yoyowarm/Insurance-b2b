@@ -157,6 +157,7 @@ export default {
       policyTransfer: state => state.activity.policyTransfer,
       underwriteQuotationData: state => state.activity.underwriteQuotationData,
       underwriteQuotationIsChange: state => state.activity.underwriteQuotationIsChange,
+      chatMessageList: state => state.common.chatMessageList,
     }),
     InsuranedData: {
       get() {
@@ -425,7 +426,8 @@ export default {
       }
     },
     async quotationMapping() {
-       const obj = JSON.parse(JSON.stringify(this.activityQuotation))
+      const obj = JSON.parse(JSON.stringify(this.activityQuotation))
+      Object.assign(obj, {newMessageContents: this.chatMessageList.map(i => ({ content:i.content}))})
       Object.assign(obj, {insuraned:{
         ...this.Insuraned,
         isProfession: this.Insuraned.Profession,
