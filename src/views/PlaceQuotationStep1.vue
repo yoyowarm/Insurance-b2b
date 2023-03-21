@@ -47,7 +47,7 @@
     <CommonBoard class="w-full" title="投保紀錄">
       <InsuranceRecord :data.sync="InsuranceRecordTable" disable/>
     </CommonBoard>
-    <CommonBoard class="w-full" :title="`處所資料 數量:${placeInfoList.length}`">
+    <CommonBoard class="w-full" :hasCover="uploadFile" :title="`處所資料 數量:${placeInfoList.length}`">
       <PlaceInfo
         :infoList.sync="placeInfoList"
         @addItem="$store.dispatch('place/addPlaceInfo')"
@@ -56,9 +56,13 @@
         :disable="calculateModel || InsuranceActive == 7"
         :questionnaire="questionnaire"
       />
-      <InputGroup class="absolute right-0 w-36" noMt :disable="calculateModel" slot="right">
-        <FileUpload  slot="input" id="file-xlsddd" type="xls"/>
-      </InputGroup>
+      <LoadingScreen slot="cover" :hasCover="false" :isLoading="uploadFile"/>
+      <div slot="right" class=" absolute right-0 w-36">
+        <label for="fileUpload" class="cursor-pointer">
+          <font-awesome-icon  class="mr-1 text-main text-base" :icon="['fa', 'cloud-arrow-up']" /><span class="text-base text-main">匯入處所資料</span>
+          <input id="fileUpload" type="file" name="fileUpload" ref="fileUpload" accept=".xlsx" class="w-full" @change="newFile">
+        </label>
+      </div>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
       <InsuranceAmount
@@ -214,6 +218,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { numFormat } from '@/utils/regex'
 import { quotation } from '@/utils/dataTemp'
 import FileSaver from 'file-saver'
+import { read, utils } from "xlsx";
 export default {
   mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire,audit],
   components: {
@@ -242,6 +247,7 @@ export default {
     return {
       numFormat,
       IsRenewal: false,
+      uploadFile: false,
       searchText: '',
       industryList:[],
       industryType:[],
@@ -873,6 +879,38 @@ export default {
       const data = await this.$store.dispatch('common/getContents', mainOrderNo)
       this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
     },
+    async newFile(e) {
+      this.uploadFile = true
+      const f = await (e.target.files[0]).arrayBuffer();
+      const wb = read(f)
+      const data = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+      let formatError = false
+      console.log(data)
+      const formateData = data.map(item => {
+        // eslint-disable-next-line no-prototype-builtins
+        if(item.hasOwnProperty('holdState') && item.hasOwnProperty('squareFeet') && item.hasOwnProperty('area') && item.hasOwnProperty('city') && item.hasOwnProperty('subAddress')) {
+          return {
+            ...item,
+            city: this.countyList.find(i => i.Text === item.city.replace('台','臺')),
+            area: this.areaList.find(i => i.Text === item.area),
+          }
+        } else {
+          formatError = true
+        }
+      })
+      setTimeout(() => {
+        this.uploadFile = false
+        if (formatError) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: `<p>檔案格式錯誤</p>`,
+          })
+        } else {
+          this.placeInfoList = formateData
+          this.$refs.fileUpload.value = ''
+        }
+      }, 1500);
+    }
   },
   async mounted() {
     await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
@@ -960,6 +998,9 @@ export default {
 
   .chat-btn {
     @apply fixed bottom-0 right-0 mr-4 mb-4 cursor-pointer w-16
+  }
+  [name="fileUpload"] {
+    display: none;
   }
   
 </style>
