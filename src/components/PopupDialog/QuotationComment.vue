@@ -6,13 +6,13 @@
     minHeight
     @cancel="() => { openDialog = false }"
   > 
-    <div class="relative pb-14 overflow-y-auto messageContent" ref="messageContent" @wheel="scrolledToBottom" @scroll="scrolling">
+    <div class="relative overflow-y-auto messageContent" ref="messageContent" @wheel="scrolledToBottom" @scroll="scrolling">
       <div class="commentItem" v-for="(i,index) in messageList" :key="index">
         <div class="flex flex-row items-center mb-2">
           <p>{{ i.eMployeeName }}({{ i.employeeId }})</p>
           <p class="text-xs text-gray-500 pl-2">{{ i.messageTime.replace('T', ' ').split('.')[0] }}</p>
         </div>
-        <p>{{ i.content }}</p>
+        <p><span class="text-main font-bold" v-if="i.content.match(/^\不予核保/)">不予核保</span>{{ i.content.match(/^\不予核保/) ? i.content.replace('不予核保', '') : i.content }}</p>
         
       </div>
       <div v-if="messageList.length === 0" class="text-gray-400 pointer-events-none">目前無最新留言</div>
@@ -153,8 +153,8 @@ export default {
 }
 
 .messageContent {
-  max-height: 65vh;
-  height: 65vh
+  max-height: 60vh;
+  height: 60vh
 }
 .commentItem {
   @apply border-dotted border-b-2 py-3
