@@ -856,7 +856,7 @@ export default {
         await this.$store.dispatch('common/addCountents', {
           mainOrderNo: this.mainOrderNo,
           newMessageContents: [
-            { content: this.underwritingReasons }
+            { content: '不予核保 ' + this.underwritingReasons }
           ]
         })
       }

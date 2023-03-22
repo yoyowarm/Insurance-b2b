@@ -6,7 +6,7 @@
           <font-awesome-icon icon="times-circle" />
         </div>
       </div>
-      <div class="body"><slot/></div>
+      <div class="body" :class="{ minHeight }"><slot/></div>
       <div v-if="confirm" class="flex w-full justify-around py-4">
         <Button outline @click.native="()=>{$emit('cancel');$emit('update:open', false)}">{{cancel}}</Button>
         <Button @click.native="() => {$emit('ok'); $emit('update:open', false)}">{{ok}}</Button>
@@ -48,6 +48,10 @@ export default {
       default: 'cancel'
     },
     fullScreen: {
+      type: Boolean,
+      default: false
+    },
+    minHeight: {
       type: Boolean,
       default: false
     }
@@ -101,7 +105,9 @@ export default {
       .body {
         overflow-y: scroll;
         max-height: 100vh;
+        
       }
+      
     }
     .header {
       height: 50px;
@@ -111,9 +117,12 @@ export default {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;
     }
     .body {
-      overflow-y: scroll;
-      max-height: 80vh;
-      @apply  p-6
+      overflow-y: hidden;
+      max-height: 70vh;
+      @apply  p-6;
+      &.minHeight {
+        height: 70vh;
+      }
     }
   }
   .mask-bg {

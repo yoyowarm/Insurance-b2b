@@ -3,13 +3,14 @@
     :open.sync="openDialog"
     headerText="報價討論版"
     :maskClose="false"
+    minHeight
     @cancel="() => { openDialog = false }"
   > 
     <div class="relative pb-14 overflow-y-auto messageContent" ref="messageContent" @wheel="scrolledToBottom" @scroll="scrolling">
       <div class="commentItem" v-for="(i,index) in messageList" :key="index">
         <div class="flex flex-row items-center mb-2">
           <p>{{ i.eMployeeName }}({{ i.employeeId }})</p>
-          <p class="text-xs text-gray-500 pl-2">{{ i.messageTime.replace('T', ' ') }}</p>
+          <p class="text-xs text-gray-500 pl-2">{{ i.messageTime.replace('T', ' ').split('.')[0] }}</p>
         </div>
         <p>{{ i.content }}</p>
         
@@ -76,7 +77,7 @@ export default {
   },
   watch: {
     messageList (val) {
-      if(val.length > 0 && this.$refs.messageContent.clientHeight === 720 && !this.scrollBottomed) {
+      if(val.length > 0 && !this.scrollBottomed) {
         this.hasNewMessages = true
       }
       if (this.scrollBottomed) {
@@ -122,7 +123,7 @@ export default {
     },
     scrollBottom() {
       this.$refs.messageContent.scrollTo({
-        top: this.$refs.messageContent.scrollHeight - 720,
+        top: this.$refs.messageContent.scrollHeight - this.$refs.messageContent.clientHeight,
         behavior: "smooth"
       } )
       this.scrollBottomed = true
@@ -152,7 +153,8 @@ export default {
 }
 
 .messageContent {
-  max-height: 720px;
+  max-height: 65vh;
+  height: 65vh
 }
 .commentItem {
   @apply border-dotted border-b-2 py-3

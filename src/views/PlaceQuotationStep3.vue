@@ -87,7 +87,7 @@
       :open.sync="openChat"
       :messageList="chatMessageList"
       :quotationPage="true"
-      :mainOrderNo="InsuranceActive === 0 ? '' : mainOrderNo"
+      :mainOrderNo="mainOrderNo"
       @updatedMessage="() => { getChatComment(mainOrderNo) }"
     />
     <PopupDialog
