@@ -153,8 +153,8 @@ export default {
 }
 
 .messageContent {
-  max-height: 60vh;
-  height: 60vh
+  max-height: 59vh;
+  height: 59vh
 }
 .commentItem {
   @apply border-dotted border-b-2 py-3
