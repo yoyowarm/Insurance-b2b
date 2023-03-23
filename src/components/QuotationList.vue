@@ -31,11 +31,11 @@
       </div>
       <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3 @review="(e) =>review(e,tableData.rows, currentTag ==2)" class="mb-4" style="border-bottom: 1px solid #d1d5db">
         <template v-for="(item,index) in tableData.rows">
-          <div v-if="currentTag == 0" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100 rounded-b-xl': windowWidth <= 600 && item.policyStatus !== 99}">
+          <div v-if="currentTag == 0" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-10 bg-gray-100 rounded-b-xl': windowWidth <= 600 && item.policyStatus !== 99}">
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4" v-if="item.policyStatus == 99 && !item.newSerialNo">- -</div>
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4 mr-9 mt-5 ml-1" v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))">- -</div>
-            <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4" v-if="item.policyStatus == 99 && item.newSerialNo">序號改為:{{item.newSerialNo}}</div>
-            <div v-else class="flex items-center mx-2 mt-1 mr-8" :class="{'absolute flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col': windowWidth > 600}">
+            <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4 mt-2" v-if="item.policyStatus == 99 && item.newSerialNo">序號改為:{{item.newSerialNo}}</div>
+            <div v-else class="flex items-center mx-2 mt-1" :class="{'ml-0 flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <span v-if="item.stateText !== '取消'" class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
               <span
                 class="download whitespace-no-wrap"
@@ -49,22 +49,28 @@
                 v-if="!tableData.rows[0].isFinishQuotation"
                >取消</span>
             </div>
-            <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
-              <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
-              <Button class="minButton whitespace-no-wrap" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
-              <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7 || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
-              <Button class="minButton whitespace-no-wrap" :disabled="isNaN(item.insuranceAmount) || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();updateUnderwrite(item.orderNo)}" v-if="!item.isFinishQuotation" outline>向上核保</Button>
-            </div>
+            
+          </div>
+          <div v-if="currentTag == 0 && item.policyStatus !== 99" :slot="`edit2-${index}`" :key="`edit2-${index}`" class="flex flex-row relative" :class="{ 'h-10 bg-gray-100 rounded-b-xl': windowWidth <= 600 && item.policyStatus !== 99 }">
+            <div class="flex" v-if="item.policyStatus !== 99" :class="{ 'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600 }">
+                <Button class="minButton whitespace-no-wrap" @click.native="(e) => { e.stopPropagation(); processHistory(item.orderNo) }" outline>查看歷程</Button>
+                <Button class="minButton whitespace-no-wrap" :class="{ 'ml-1': windowWidth <= 600 }" @click.native="(e) => { e.stopPropagation(); modifyLogs(item.orderNo) }" outline>異動比對</Button>
+                <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7 || (item.iofficer !== userInfo.userid && !['H318', 'H338'].includes(userInfo.userid))" :class="{ 'ml-1': windowWidth <= 600 }" @click.native="(e) => { e.stopPropagation(); finishQuotation(item.orderNo) }" v-if="!item.isFinishQuotation" outline>確認報價</Button>
+                <Button class="minButton whitespace-no-wrap" :disabled="isNaN(item.insuranceAmount) || (item.iofficer !== userInfo.userid && !['H318', 'H338'].includes(userInfo.userid))" :class="{ 'ml-1': windowWidth <= 600 }" @click.native="(e) => { e.stopPropagation(); updateUnderwrite(item.orderNo) }" v-if="!item.isFinishQuotation" outline>向上核保</Button>
+              </div>
           </div>
           <div v-if="currentTag == 1 || currentTag == 2" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99}">
             <div class="flex items-center  mt-1" :class="{'absolute flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col mr-3': windowWidth > 600}">
               <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
               <span v-if="currentTag == 1" class="download whitespace-no-wrap" :class="{'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo,'audit')}">審核</span>
             </div>
-            <div class="flex" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
-              <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
-              <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
-            </div>
+            
+          </div>
+          <div v-if="currentTag == 1 || currentTag == 2" :slot="`edit2-${index}`" :key="`edit2-${index}`" class="flex flex-row relative" :class="{ 'h-20 bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99 }">
+            <div class="flex" :class="{ 'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600 }">
+                <Button class="minButton whitespace-no-wrap" @click.native="(e) => { e.stopPropagation(); processHistory(item.orderNo) }" outline>查看歷程</Button>
+                <Button class="minButton whitespace-no-wrap" :class="{ 'ml-5': windowWidth <= 600 }" @click.native="(e) => { e.stopPropagation(); modifyLogs(item.orderNo) }" outline>異動比對</Button>
+              </div>
           </div>
           <div class="text-gray-600  md:bg-white md:p-1 rounded-b-xl md:text-left  min-h-4 flex flex-col" :class="{ 'bg-gray-100  text-center':windowWidth <= 600}" :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`">
             <span :class="{'whitespace-no-wrap':windowWidth > 600}">{{item.insuranceBeginTime.split('T')[0]}}起</span>
@@ -142,13 +148,14 @@ export default {
           const target = arr.find(i => i.rows.find(z => z.mainOrderNo === item.mainOrderNo))
           target.rows.push(item)
           target.slotArray.push(`edit-${target.rows.length-1}`)
+          target.slotArray.push(`edit2-${target.rows.length-1}`)
           target.slotArray.push(`ConvergeStartDate-${target.rows.length-1}`)
           target.slotArray.push(`quotationDate-${target.rows.length-1}`)
         } else {
           if(this.windowWidth > 600) {
-            arr.push({head: this.currentTag == 0 ? quotationListTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationListTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0','edit2-0', 'ConvergeStartDate-0', 'quotationDate-0']})
           } else {
-            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListMobileTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListMobileTable().head, rows: [item], slotArray: ['edit-0', 'edit2-0', 'ConvergeStartDate-0', 'quotationDate-0']})
           }
         }
       })

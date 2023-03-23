@@ -199,7 +199,12 @@ export const quotationListTable = () => {
       {
         text: '報價單操作',
         value: 'edit',
-        size: '3-6'
+        size: '2-6'
+      },
+      {
+        text: '功能選項',
+        value: 'edit2',
+        size: '2-6'
       },
       {
         text: '日結日期',
@@ -214,7 +219,7 @@ export const quotationListTable = () => {
       {
         text: '報價日期',
         value: 'quotationDate',
-        size: '2-6'
+        size: '3-6'
       },
       {
         text: '經手人',
@@ -289,6 +294,12 @@ export const quotationLisMobileTable = () => {
       {
         text: '',
         value: 'edit',
+        size: '2-6',
+        hidden: true
+      },
+      {
+        text: '',
+        value: 'edit2',
         size: '2-6',
         hidden: true
       },
