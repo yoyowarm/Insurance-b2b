@@ -35,14 +35,19 @@
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4" v-if="item.policyStatus == 99 && !item.newSerialNo">- -</div>
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4 mr-9 mt-5 ml-1" v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))">- -</div>
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4" v-if="item.policyStatus == 99 && item.newSerialNo">序號改為:{{item.newSerialNo}}</div>
-            <div v-else class="flex items-center mx-2 mt-1" :class="{'absolute flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col': windowWidth > 600}">
+            <div v-else class="flex items-center mx-2 mt-1 mr-8" :class="{'absolute flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <span v-if="item.stateText !== '取消'" class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
               <span
                 class="download whitespace-no-wrap"
                 :class="{'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600, 'disable': item.stateText == '核保中' || (item.iofficer !==userInfo.userid )}"
                 v-if="!tableData.rows[0].isFinishQuotation"
                 @click.stop="() => { if(item.stateText !== '核保中')copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')}">更正</span>
-              <span v-if="item.stateText !== '取消'" class="download whitespace-no-wrap" :class="{'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
+              <span v-if="item.stateText !== '取消'" class="download whitespace-no-wrap" :class="{ 'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
+              <span
+                class="download whitespace-no-wrap"
+                :class="{'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600, 'disable': item.stateText == '核保中' || (item.iofficer !==userInfo.userid )}"
+                v-if="!tableData.rows[0].isFinishQuotation"
+               >取消</span>
             </div>
             <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
