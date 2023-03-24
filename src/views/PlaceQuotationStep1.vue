@@ -898,14 +898,22 @@ export default {
       const wb = read(f)
       const data = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
       let formatError = false
-      console.log(data)
-      const formateData = data.map(item => {
+      let errorArr = []
+      const formateData = data.map((item,index) => {
+
         // eslint-disable-next-line no-prototype-builtins
         if(item.hasOwnProperty('holdState') && item.hasOwnProperty('squareFeet') && item.hasOwnProperty('area') && item.hasOwnProperty('city') && item.hasOwnProperty('subAddress')) {
-          return {
-            ...item,
-            city: this.countyList.find(i => i.Text === item.city.replace('台','臺')),
-            area: this.areaList.find(i => i.Text === item.area),
+          if(typeof item.holdState !== 'boolean') {errorArr.push(`第${index+1}列 持有狀態資料型態錯誤`)}
+          if(typeof item.squareFeet !== 'number') {errorArr.push(`第${index + 1}列 處所坪數資料型態錯誤`)}
+          if(typeof item.subAddress !== 'string') {errorArr.push(`第${index + 1}列 處所地址資料型態錯誤`)}
+          if(!this.countyList.find(i => i.Text === item.city.replace('台', '臺'))) {errorArr.push(`第${index + 1}列 縣市資料錯誤`)}
+          if(!this.areaList.find(i => i.Text === item.area)) {errorArr.push(`第${index + 1}列 鄉鎮市區資料錯誤`)}
+          if(!errorArr.includes(`第${index + 1}列`)) {
+            return {
+              ...item,
+              city: this.countyList.find(i => i.Text === item.city.replace('台','臺')),
+              area: this.areaList.find(i => i.Text === item.area),
+            }
           }
         } else {
           formatError = true
@@ -919,9 +927,17 @@ export default {
             htmlText: `<p>檔案格式錯誤</p>`,
           })
         } else {
-          this.placeInfoList = formateData
-          this.$refs.fileUpload.value = ''
+          if(errorArr.length > 0) {
+            Popup.create({
+              hasHtml: true,
+              htmlText: `<p>${errorArr.join('<br>')}</p>`,
+            })
+          } else {
+            this.placeInfoList = formateData
+          }
         }
+        this.$refs.fileUpload.value = ''
+        errorArr = []
       }, 1500);
     }
   },
