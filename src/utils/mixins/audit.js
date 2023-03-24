@@ -243,6 +243,7 @@ export default {
       }
       this.$store.dispatch('common/updatedCalculateModel', true)
       this.$store.dispatch(`${type}/updatedUnderwriteQuotationIsChange`, true)
+      this.$store.dispatch(`${type}/updatedParameter`, this.parameter.parameter)
       if (this.quotationData.questionnaire) { await this.questionnaireCoefficient(true) }
     },
     async updateUnderwritePlaceQuotation(payload) {
