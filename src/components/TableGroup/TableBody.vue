@@ -48,7 +48,7 @@
           </div>
           <template v-for="(headItem,headIndex) in head">
             <span :key="`${headItem.value}-${headIndex}-3`" v-if=" (headItem.hidden) && headItem.text" class="w-full text-gray-100 bg-main rounded-t-xl text-center p-1 text-sm hidden">{{headItem.text}}</span>
-            <div :key="`${headItem.value}-${headIndex}-2`" v-if=" (headItem.hidden)" class="text-gray-600 bg-gray-100 text-center p-1 pt-2" :class="{'rounded-b-xl': headItem.text, 'rounded-xl': !headItem.text}">
+            <div :key="`${headItem.value}-${headIndex}-2`" v-if=" (headItem.hidden) && $slots[`${headItem.value}-${index}`]" class="text-gray-600 bg-gray-100 text-center p-1 pt-2" :class="{'rounded-b-xl': headItem.text, 'rounded-xl': !headItem.text}">
               <slot :name="`${headItem.value}-${index}`"/>
             </div>
           </template>

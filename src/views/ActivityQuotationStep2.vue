@@ -76,6 +76,14 @@
       <Button v-if="InsuranceActive!==2" @mousedown.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
       <Button @mousedown.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActiveText[InsuranceActive] }}</Button>
     </div>
+    <img v-if="appSetting.showMessagePlatform" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup
+      :open.sync="openChat"
+      :messageList="chatMessageList"
+      :quotationPage="true"
+      :mainOrderNo="InsuranceActive === 0 ? '' : mainOrderNo"
+      @updatedMessage="() => { getChatComment(mainOrderNo) }"
+    />
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
@@ -97,6 +105,7 @@ import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
 import Input from '@/components/InputGroup/Input.vue'
+import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
@@ -114,9 +123,11 @@ export default {
     LoadingScreen,
     BrokerInfo,
     EmailPolicy,
+    QuotationCommentPopup
   },
   data() {
     return {
+      openChat: false,
       coverText: '若需修訂要被保人資訊，請至『報價明細頁面』點選『更正要被保人』按鈕',
       windowWidth: window.innerWidth,
       nationalities: [],
@@ -158,6 +169,7 @@ export default {
       underwriteQuotationData: state => state.activity.underwriteQuotationData,
       underwriteQuotationIsChange: state => state.activity.underwriteQuotationIsChange,
       chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     InsuranedData: {
       get() {
@@ -509,6 +521,10 @@ export default {
         this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: insert.data.content.orderNo.split('_')[0]})
       }
     },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
   },
   async mounted() {
     await this.step2Init() 
@@ -529,4 +545,7 @@ export default {
     @apply absolute left-28 top-1 text-xs text-main;
   }
 }
+.chat-btn {
+    @apply fixed bottom-0 right-0 mr-4 mb-4 cursor-pointer w-16
+  }
 </style>
