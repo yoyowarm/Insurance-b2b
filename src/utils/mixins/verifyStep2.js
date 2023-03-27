@@ -56,30 +56,6 @@ export default {
         })
       }
     },
-    async verifySalesInvade() {
-      //地址
-      const InsuranedAD = await this.$store.dispatch('verify/salesInvade', { value: `${this.Insuraned.City.placeholder}${this.Insuraned.Area.placeholder}${this.Insuraned.Street}`, salesInvadetype: 0 })
-      const ApplicantAD = await this.$store.dispatch('verify/salesInvade', { value: `${this.Applicant.City.placeholder}${this.Applicant.Area.placeholder}${this.Applicant.Street}`, salesInvadetype: 0 })
-      InsuranedAD.data.type = '被保人地址'
-      ApplicantAD.data.type = '要保人地址'
-      if (!InsuranedAD.data.IsSuccess) this.verifyResult.push(InsuranedAD.data)
-      if (!ApplicantAD.data.IsSuccess) this.verifyResult.push(ApplicantAD.data)
-      //手機
-      const InsuranedPhone = await this.$store.dispatch('verify/salesInvade', { value: this.Insuraned.Mobile, salesInvadetype: 2 })
-      const ApplicantPhone = await this.$store.dispatch('verify/salesInvade', { value: this.Applicant.Mobile, salesInvadetype: 2 })
-      InsuranedPhone.data.type = '被保人手機'
-      ApplicantPhone.data.type = '要保人手機'
-      if (!InsuranedPhone.data.IsSuccess) this.verifyResult.push(InsuranedPhone.data)
-      if (!ApplicantPhone.data.IsSuccess) this.verifyResult.push(ApplicantPhone.data)
-    },
-    async verifyIdOrRegisterNumberFormat() {
-      const InsuranedId = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', { input: this.Insuraned.Value, type: 1 })
-      const ApplicantId = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', { input: this.Applicant.Value, type: 1 })
-      InsuranedId.data.type = '被保人統編/身分證'
-      ApplicantId.data.type = '要保人統編/身分證'
-      if (!InsuranedId.data.IsSuccess) this.verifyResult.push(InsuranedId.data)
-      if (!ApplicantId.data.IsSuccess) this.verifyResult.push(ApplicantId.data)
-    },
     verifyResultPopup: async function () {
       let htmlText = ''
       this.verifyResult.map(item => {
@@ -242,7 +218,7 @@ export default {
         })
       }
     },
-    async verifyUser() {
+    async verifyUser() {//檢查經手人代號是否存在
       const checkUser = await this.$store.dispatch('resource/CheckTaianUserExist', {
         employeeId: this.internalControl.issuerNumber
       })

@@ -1,6 +1,4 @@
 import { mapState } from 'vuex'
-import { quotationStep1 } from '@/utils/dataTemp'
-import { formatDate } from '@/utils/dateFormat'
 import { IDRegex, numFormat } from '@/utils/regex'
 export default {
   data() {
@@ -24,90 +22,7 @@ export default {
       'step1Model': state => state.quotationStep1.step1Model,
     })
   },
-  watch: {
-    'targetSelect.roofList': function (val) {
-      if (this.InsuranceActive === 0) return
-      if (val.length > 0 && this.step1Model.step1ViewModel.Roof) {
-        const roof = this.targetSelect.roofList.find(item => item.Value == this.step1Model.step1ViewModel.Roof)
-        if (roof) {
-          roof.placeholder = roof.Text
-          roof.id = roof.Value
-          this.targetData = Object.assign({ ...this.targetData }, { roof })
-        }
-      }
-    },
-    'targetSelect.structureList': function (val) {
-      if (this.InsuranceActive === 0) return
-      if (val.length > 0 && this.step1Model.step1ViewModel.Structure) {
-        const structure = this.targetSelect.structureList.find(item => item.Value == this.step1Model.step1ViewModel.Structure)
-        if (structure) {
-          structure.placeholder = structure.Text
-          structure.id = structure.Value
-          this.targetData = Object.assign({ ...this.targetData }, { structure })
-        }
-      }
-    },
-    'targetSelect.areaList': function (val) {
-      if (this.InsuranceActive === 0) return
-      if (val.length > 0 && this.step1Model.step1ViewModel.Area) {
-        const Area = this.targetSelect.areaList.find(item => item.Value == this.step1Model.step1ViewModel.Area)
-        if (Area) {
-          Area.placeholder = Area.Text
-          Area.id = Area.Value
-          this.targetData = Object.assign({ ...this.targetData }, { Area })
-        }
-      }
-    }
-  },
   methods: {
-    quotationDataArrangement(data) {
-      console.log(data)
-      if (this.InsuranceActive === 0) return
-      this.createOder = false
-      const obj = {
-        step1ViewModel: data.step1ViewModel,
-        step2ViewModel: data.step2ViewModel,
-        InsuredCode: data.InsuredCode,
-        TypeNumber: data.TypeNumber,
-        InsuranceActive: this.InsuranceActive,
-        UserID: data.UserID,
-        OrderNo: data.OrderNo,
-        SerialNo: data.SerialNo,
-        CreateDate: formatDate(new Date())
-      }
-      this.$store.dispatch('quotationStep1/updatedStep1Model', obj)
-
-      const copyInfo = quotationStep1().info
-      Object.assign(copyInfo, {
-        IsRenewal: data.step1ViewModel.IsRenewal,
-        InsuranceNumber: data.step1ViewModel.InsuranceNumber,
-        startDate: {
-          year: data.step1ViewModel.StartDate.split('-')[0],
-          month: data.step1ViewModel.StartDate.split('-')[1],
-          day: data.step1ViewModel.StartDate.split('-')[2]
-        },
-        endDate: {
-          year: data.step1ViewModel.EndDate.split('-')[0],
-          month: data.step1ViewModel.EndDate.split('-')[1],
-          day: data.step1ViewModel.EndDate.split('-')[2]
-        },
-        IsMortgageNeeded: data.step1ViewModel.HasMortgage,
-        IOfficer: data.step1ViewModel.IOfficer,
-        LoginCode: data.step1ViewModel.LoginCode,
-      })
-      this.$store.dispatch('quotationStep1/updatedInfo', copyInfo)
-
-      const copyTarget = quotationStep1().target
-      Object.assign(copyTarget, {
-        address: data.step1ViewModel.Address,
-        Square: (data.step1ViewModel.Square).toString(),
-        TotalFloor: (data.step1ViewModel.TotalFloor).toString(),
-        HasFactoryOrStoreInBuilding: data.step1ViewModel.HasFactoryOrStoreInBuilding,
-        SpectificFloor: (data.step1ViewModel.SpectificFloor).toString(),
-      })
-      this.$store.dispatch('quotationStep1/updatedTarget', copyTarget)
-
-    },
     async step1InitAssignValue(type) {
       console.log(this.quotationData, type)
       if (Object.keys(this.quotationData).length == 0) return

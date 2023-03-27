@@ -7,7 +7,6 @@
         :nationalities="nationalities"
         :cityList="countyList"
         :areaList="InsuranedAreaList.filter(item => item.cityId == InsuranedData.City.Value)"
-        @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
         @updatedApplicant="updatedApplicant"
@@ -62,7 +61,6 @@
         :nationalities="nationalities"
         :cityList="countyList"
         :areaList="ApplicantAreaList.filter(item => item.cityId == ApplicantData.City.Value)"
-         @checkID="() =>checkID('Applicant')"
          @getDetail="(type) =>insuredOrApplicantDetail('Applicant',type)"
          type="ApplicantData"
       />
@@ -235,18 +233,6 @@ export default {
     },
     handleResize () {
       this.windowWidth = window.innerWidth
-    },
-    async checkID(type) {
-      console.log(type)
-      // const checkID = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', {input:this[type].ID, type:1})
-      // if(!checkID.data.IsSuccess) {
-      //   Popup.create({
-      //     hasHtml: true,
-      //     htmlText: checkID.data.Message,
-      //   })
-      // } else if (checkID.data.IsSuccess ) {
-      //   this.$store.dispatch(`quotationStep2/updated${type}`, {...this[`${type}Data`], ...{ CorporateRequired: checkID.data.Contain.IsRegister }})
-      // }
     },
     questionnaireMapping(data) {
       data = JSON.parse(JSON.stringify(data))

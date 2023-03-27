@@ -10,7 +10,6 @@
         :nationalities="nationalities"
         :cityList="countyList"
         :areaList="InsuranedAreaList"
-        @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         quotationType="activity"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
@@ -63,7 +62,6 @@
         :nationalities="nationalities"
         :cityList="countyList"
         :areaList="ApplicantAreaList"
-         @checkID="() =>checkID('Applicant')"
          @getDetail="(type) =>insuredOrApplicantDetail('Applicant',type)"
          type="ApplicantData"
       />
@@ -225,18 +223,6 @@ export default {
     },
     handleResize () {
       this.windowWidth = window.innerWidth
-    },
-    async checkID(type) {
-      console.log(type)
-      // const checkID = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', {input:this[type].ID, type:1})
-      // if(!checkID.data.IsSuccess) {
-      //   Popup.create({
-      //     hasHtml: true,
-      //     htmlText: checkID.data.Message,
-      //   })
-      // } else if (checkID.data.IsSuccess ) {
-      //   this.$store.dispatch(`quotationStep2/updated${type}`, {...this[`${type}Data`], ...{ CorporateRequired: checkID.data.Contain.IsRegister }})
-      // }
     },
     async insuredOrApplicantDetail (type,params) {
       const detail = await this.$store.dispatch(`quotation/Get${type}`, {[params== 'Name' ? 'name': 'id']: this[type][params]})
