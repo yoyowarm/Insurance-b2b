@@ -27,13 +27,6 @@ export default {
     setLevel({ commit }, level) {
       commit('SET_LEVEL', level)
     },
-    // async refreshToken({ commit }, token) {
-    //   const { data } = await refreshToken(token)
-    //   commit('SET_TOKEN', data)
-    // },
-    // async checkUser(_, token) {
-    //   return await checkUser(token)
-    // },
     updatedUserInfo({ commit }, userInfo) {
       commit('SET_USER_INFO', userInfo)
     }

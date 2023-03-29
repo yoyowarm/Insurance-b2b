@@ -208,8 +208,6 @@ export default {
       if (parentElement !== this.$refs['select'] &&
           parentElement !== this.$refs['custom-select'] &&
           parentElement !== this.$refs['custom-options']) {
-          // this.open = false
-          // this.searchText = ''
           this.startIndex = 0
           this.endIndex = 10
           this.scrollTop = 0

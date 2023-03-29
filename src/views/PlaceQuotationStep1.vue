@@ -947,9 +947,6 @@ export default {
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())
     }
-    // if(this.InsuranceActive == 0) {
-    //   this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
-    // }
     if(this.InsuranceActive !== 7) {
       this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
     }

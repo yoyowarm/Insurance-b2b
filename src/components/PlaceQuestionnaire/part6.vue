@@ -20,33 +20,15 @@
         <div class=" text-lg">{{item}}</div>
     </div>
   </div>
-
-    <!-- <div class="flex flex-col mt-4 dashed-border">
-      <FormTitle class="text-lg" title="如有下列設施，請勾選"/>
-        <Checkbox
-          v-for="(list,index) in facilityList" :key="`${list}${index}`"
-          class="text-lg mb-2"
-          :id="`${list}22`"
-          :text="list"
-          slot="input"
-          :checked="data.part6.facility.includes(list)"
-          :value="data.part6.facility.includes(list)"
-          @updateValue="(e) =>updateFacility(e,list)"
-        />
-    </div> -->
     <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
 
 <script>
-// import FormTitle from '@/components/FormTitle'
-// import Checkbox from '@/components/Checkbox'
 import WindowResizeListener from '@/components/WindowResizeListener'
 import RadioInput from '@/components/Radio'
 export default {
   components: {
-    // FormTitle,
-    // Checkbox,
     WindowResizeListener,
     RadioInput
   },
@@ -123,24 +105,6 @@ export default {
         }
       })
     },
-    // updateFacility(e,list) {
-    //   let arr = []
-    //   if(e && !this.data.part6.facility.includes(list)) {
-    //     arr.push(list)
-    //   }
-    //   if(!e && this.data.part6.facility.includes(list)) {
-    //     arr = [...this.data.part6.facility]
-    //     const index = arr.findIndex(item => item === list)
-    //     arr.splice(index,1)
-    //   }
-    //   this.$emit('update:data',{
-    //     ...this.data,
-    //     part6: {
-    //       ...this.data.part6,
-    //       facility: e ? [...this.data.part6.facility,...arr] : arr
-    //     }
-    //   })
-    // }
   }
 }
 </script>

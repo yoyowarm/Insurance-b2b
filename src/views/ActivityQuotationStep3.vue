@@ -119,7 +119,6 @@ import InsuranceContent from '@/components/Activity/InsuranceContent'
 import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
-// import routeChange from '@/utils/mixins/routeChange'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import { mapState } from 'vuex'
@@ -146,12 +145,6 @@ export default {
       correct: false,
       openChat: false,
       openReason: false,
-      // quotationData: {
-      //   insuranceAmounts: [],
-      //   activityInsureInfo: {
-      //     activityInfo: []
-      //   }
-      // },
       countyAmount: [],
       cityList: [],
       areaList:[],

@@ -226,18 +226,6 @@ export default {
             perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
             perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
             perBodyAmount: item.perBodyAmount/10000,
-            // parameter: {
-            //   basicFee: '',
-            //   finalHC: '',
-            //   sizeParameter: '',
-            //   selfInflictedParameter: '',
-            //   shortPeriodParameter: '',
-            //   additionalCostParameter: '',
-            //   mutiSizeParameter: '',
-            //   additionTermCoefficientParameter: '',
-            //   aggAOACoefficient: '',
-            //   amount: '',
-            // }
           }
         })
       }

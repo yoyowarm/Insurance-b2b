@@ -168,7 +168,6 @@ export default {
     @apply flex flex-col relative justify-end;
     .input {
       border: 1px solid #BFBFBF;
-      // max-height: 50px;
       min-height: 50px;
       @apply w-full rounded-full relative flex items-center;
       &.dash::after {

@@ -116,7 +116,6 @@ import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
-// import routeChange from '@/utils/mixins/routeChange'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
 export default {
@@ -141,25 +140,6 @@ export default {
       correct:false,
       openChat: false,
       openReason: false,
-      // quotationData: {
-      //   insuranceAmounts: [{
-      //     parameter: {
-      //       basicFee: '',
-      //       finalHC: '',
-      //       sizeParameter: '',
-      //       selfInflictedParameter: '',
-      //       shortPeriodParameter: '',
-      //       additionalCostParameter: '',
-      //       mutiSizeParameter: '',
-      //       additionTermCoefficientParameter: '',
-      //       aggAOACoefficient: '',
-      //       amount: '',
-      //     }
-      //   }],
-      //   placeInsureInfo:{
-      //     placeInfo: [],
-      //   }
-      // },
       underwriteStatus: {},
       countyAmount: [],
       underwriteCoefficient: '',

@@ -331,9 +331,6 @@ export default {
     .customer-attr { 
       span {
         display: block;
-        // overflow: hidden;
-        // text-overflow: ellipsis;
-        // white-space: nowrap;
         width: 100%
       }
     }
@@ -344,7 +341,6 @@ export default {
         display: block;
         overflow: hidden;
         text-overflow: ellipsis;
-        // white-space: nowrap;
         width: 100%
       }
      }

@@ -92,9 +92,7 @@ export default {
               this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
             }
 
-            // this.$nextTick(() => {
             this.$store.dispatch(`${type}/updateAdditionTerms`, { ...additionTerms, [item.additionTermId]: data })
-            // })
           }
         })
         this.$store.dispatch(`${type}/updatedTerms`, copyTerms)

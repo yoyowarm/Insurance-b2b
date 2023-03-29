@@ -78,14 +78,10 @@ module.exports = {
         800: '#1e40af',
         900: '#1e3a8a',
       },
-      // yellow: colors.amber,
       green: {
         700: '#2F855A'
       },
 
-      // indigo: colors.indigo,
-      // purple: colors.violet,
-      // pink: colors.pink,
       main: '#B3112C',
       'main-gray': '#fafafa',
       fail: '#EC4343',

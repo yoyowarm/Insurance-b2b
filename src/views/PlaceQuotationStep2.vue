@@ -104,7 +104,6 @@ import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
 import Input from '@/components/InputGroup/Input.vue'
 import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
-// import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
 export default {

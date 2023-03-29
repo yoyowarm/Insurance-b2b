@@ -101,16 +101,6 @@ export default {
         this.$store.dispatch(`${this.type}/updateAdditionTerms`, val)
       }
     },
-    // termConditionsList() {
-    //   const arr = []
-    //   Object.keys(this.copyTerms).map(key => {
-    //     const target = this.termsLists.find(item => item.additionTermId === key)
-    //     if (this.copyTerms[key].selected && target && this.termConditions.indexOf(target.TermID) !== -1) {
-    //       arr.push(target)
-    //     }
-    //   })
-    //   return arr
-    // }
   },
   watch: {
     terms: {

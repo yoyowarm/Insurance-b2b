@@ -30,8 +30,7 @@ const requestInterceptors = {
 
   reject(error) {
     store.dispatch('app/clearLoading')
-    // Do something with request error
-    console.log(error) // for debug
+    console.log(error)
     return Promise.reject(error)
   }
 }
@@ -39,13 +38,11 @@ const requestInterceptors = {
 const responseInterceptors = {
   fulfill(response) {
     store.dispatch('app/clearLoading')
-    // Do something with response data
     return response
   },
   reject(error) {
     store.dispatch('app/clearLoading')
-    // Do something with response error
-    console.log(error) // for debug
+    console.log(error)
     if (error.response) {
       switch (error.response.status) {
         case 400:
