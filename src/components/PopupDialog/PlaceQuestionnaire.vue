@@ -219,6 +219,15 @@ export default {
       ]
     }
   },
+  watch: {
+    open(val) {
+      if (val) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
+    }
+  },
   computed: {
     questionnaireData: {
       get() {
@@ -282,13 +291,14 @@ export default {
   }
   .dialog {
     position: fixed;
-    top: 6%;
+    top: 9%;
     left: 0;
     right:0;
     margin: 0 auto;
     max-width: 90vw;
     width: 100%;
     z-index: 100;
+    overflow: hidden;
     @apply bg-white rounded-2xl;
     .header {
       height: 60px;
@@ -298,7 +308,7 @@ export default {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;
     }
     .body {
-      overflow: scroll;
+      overflow-y: scroll;
       max-height: 80vh;
       @apply  p-6 pb-20
     }
@@ -317,6 +327,7 @@ export default {
   @media (max-width: 770px) {
     .dialog {
       width: 90%;
+      max-height: 80vh;
       @apply bg-white rounded-2xl;
       .header {
         height: 100px;
@@ -324,6 +335,10 @@ export default {
         >span {
           @apply -mt-5
         }
+      }
+      .body {
+        padding-bottom: 170px;
+        overflow-x: hidden;
       }
     }
     

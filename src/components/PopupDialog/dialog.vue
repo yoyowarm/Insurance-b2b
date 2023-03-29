@@ -6,13 +6,13 @@
           <font-awesome-icon icon="times-circle" />
         </div>
       </div>
-      <div class="body"><slot/></div>
+      <div class="body" :class="{ minHeight }"><slot/></div>
       <div v-if="confirm" class="flex w-full justify-around py-4">
         <Button outline @click.native="()=>{$emit('cancel');$emit('update:open', false)}">{{cancel}}</Button>
         <Button @click.native="() => {$emit('ok'); $emit('update:open', false)}">{{ok}}</Button>
       </div>
     </div>
-    <div class="mask-bg" @click="() =>{$emit('cancel');$emit('update:open', false)}"/>
+    <div class="mask-bg" @click="() =>{ if (maskClose) {$emit('cancel');$emit('update:open', false)}}"/>
   </div>
 </template>
 
@@ -50,11 +50,24 @@ export default {
     fullScreen: {
       type: Boolean,
       default: false
+    },
+    minHeight: {
+      type: Boolean,
+      default: false
     }
   },
    data () {
     return {
       value: false
+    }
+  },
+  watch: {
+    open(val) {
+      if (val) {
+        document.body.style.overflow = 'hidden'
+      } else {
+        document.body.style.overflow = 'auto'
+      }
     }
   },
   methods: {
@@ -81,6 +94,7 @@ export default {
     max-width: 640px;
     width: 100%;
     z-index: 100;
+    overflow: hidden;
     @apply bg-white rounded-2xl;
     &.fullScreen {
       top: 5%;
@@ -89,9 +103,11 @@ export default {
       height: auto;
       overflow: hidden;
       .body {
-        overflow-y: auto;
+        overflow-y: scroll;
         max-height: 100vh;
+        
       }
+      
     }
     .header {
       height: 50px;
@@ -101,9 +117,12 @@ export default {
       @apply absolute inset-y-0 my-auto right-0 mr-3 text-3xl cursor-pointer;
     }
     .body {
-      overflow: scroll;
-      max-height: 80vh;
-      @apply  p-6
+      overflow-y: hidden;
+      max-height: 70vh;
+      @apply  p-6;
+      &.minHeight {
+        height: 70vh;
+      }
     }
   }
   .mask-bg {
@@ -114,6 +133,7 @@ export default {
     .dialog {
       width: 80%;
       top:10%;
+      max-height: 80vh;
       @apply bg-white rounded-2xl;
 
     }

@@ -10,7 +10,6 @@
         :nationalities="nationalities"
         :cityList="countyList"
         :areaList="InsuranedAreaList"
-        @checkID="() =>checkID('Insuraned')"
         type="InsuranedData"
         quotationType="activity"
         @getDetail="(type) =>insuredOrApplicantDetail('Insuraned',type)"
@@ -63,19 +62,26 @@
         :nationalities="nationalities"
         :cityList="countyList"
         :areaList="ApplicantAreaList"
-         @checkID="() =>checkID('Applicant')"
          @getDetail="(type) =>insuredOrApplicantDetail('Applicant',type)"
          type="ApplicantData"
       />
     </CommonBoard>
     <EmailPolicy :hasCover="InsuranceActive ==1 || InsuranceActive == 3" :coverText="coverText" :eletric.sync="policyTransferData" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" class="mb-8" :InsuranceActive="InsuranceActive"/>
-    <CommonBoard :hasCover="InsuranceActive == 1 || InsuranceActive == 3" :coverText="coverText" class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
+    <CommonBoard class="w-full mb-7" title="內控資料" v-if="InsuranceActive!==2" :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7">
       <BrokerInfo :disable="InsuranceActive == 1 || InsuranceActive == 3 || InsuranceActive == 7" :brokerList="businessSource" :data.sync="internalControl" @getBusinessSource="getBusinessSource"/>
     </CommonBoard>
     <div class="flex flex-row justify-center items-center w-full mt-8">
       <Button v-if="InsuranceActive!==2" @mousedown.native="prevStep" class="my-8 mr-6 w-40 md:w-64 " outline>上一步</Button>
       <Button @mousedown.native="nextStep" class="my-8 w-40 md:w-64 ">{{ InsuranceActiveText[InsuranceActive] }}</Button>
     </div>
+    <img v-if="appSetting.showMessagePlatform" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup
+      :open.sync="openChat"
+      :messageList="chatMessageList"
+      :quotationPage="true"
+      :mainOrderNo="InsuranceActive === 0 ? '' : mainOrderNo"
+      @updatedMessage="() => { getChatComment(mainOrderNo) }"
+    />
     <WindowResizeListener @resize="handleResize"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
   </div>
@@ -97,6 +103,7 @@ import editCopyQuotation from '@/utils/mixins/editCopyQuotation'
 import audit from '@/utils/mixins/audit'
 import EmailPolicy from '@/components/Common/EmailPolicy'
 import Input from '@/components/InputGroup/Input.vue'
+import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
 // import { quotationStep2 } from '@/utils/dataTemp'
 import { Popup } from '@/utils/popups/index'
 import { mapState } from 'vuex'
@@ -114,9 +121,11 @@ export default {
     LoadingScreen,
     BrokerInfo,
     EmailPolicy,
+    QuotationCommentPopup
   },
   data() {
     return {
+      openChat: false,
       coverText: '若需修訂要被保人資訊，請至『報價明細頁面』點選『更正要被保人』按鈕',
       windowWidth: window.innerWidth,
       nationalities: [],
@@ -157,6 +166,8 @@ export default {
       policyTransfer: state => state.activity.policyTransfer,
       underwriteQuotationData: state => state.activity.underwriteQuotationData,
       underwriteQuotationIsChange: state => state.activity.underwriteQuotationIsChange,
+      chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     InsuranedData: {
       get() {
@@ -212,18 +223,6 @@ export default {
     },
     handleResize () {
       this.windowWidth = window.innerWidth
-    },
-    async checkID(type) {
-      console.log(type)
-      // const checkID = await this.$store.dispatch('verify/idOrRegisterNumberFormatOK', {input:this[type].ID, type:1})
-      // if(!checkID.data.IsSuccess) {
-      //   Popup.create({
-      //     hasHtml: true,
-      //     htmlText: checkID.data.Message,
-      //   })
-      // } else if (checkID.data.IsSuccess ) {
-      //   this.$store.dispatch(`quotationStep2/updated${type}`, {...this[`${type}Data`], ...{ CorporateRequired: checkID.data.Contain.IsRegister }})
-      // }
     },
     async insuredOrApplicantDetail (type,params) {
       const detail = await this.$store.dispatch(`quotation/Get${type}`, {[params== 'Name' ? 'name': 'id']: this[type][params]})
@@ -425,7 +424,8 @@ export default {
       }
     },
     async quotationMapping() {
-       const obj = JSON.parse(JSON.stringify(this.activityQuotation))
+      const obj = JSON.parse(JSON.stringify(this.activityQuotation))
+      Object.assign(obj, {newMessageContents: this.chatMessageList.map(i => ({ content:i.content}))})
       Object.assign(obj, {insuraned:{
         ...this.Insuraned,
         isProfession: this.Insuraned.Profession,
@@ -507,6 +507,10 @@ export default {
         this.$store.dispatch('common/updateOrderNo',{orderNo:insert.data.content.orderNo,mainOrderNo: insert.data.content.orderNo.split('_')[0]})
       }
     },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
   },
   async mounted() {
     await this.step2Init() 
@@ -527,4 +531,7 @@ export default {
     @apply absolute left-28 top-1 text-xs text-main;
   }
 }
+.chat-btn {
+    @apply fixed bottom-0 right-0 mr-4 mb-4 cursor-pointer w-16
+  }
 </style>

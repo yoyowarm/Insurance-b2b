@@ -8,6 +8,7 @@ import {
   GetActivityQuotationDocument,
   GetQuestionnaireDocument
 } from '@/api/File'
+import { getContents, addCountents } from '@/api/MessagePlatform'
 export default {
   namespaced: true,
   state: {
@@ -16,6 +17,8 @@ export default {
     calculateModel: false,
     orderNo: '',
     mainOrderNo: '',
+    chatMessageList: [
+    ],
   },
   getters: {
   },
@@ -32,6 +35,9 @@ export default {
     UPDATED_ORDER_NO(state, { orderNo, mainOrderNo }) {
       state.orderNo = orderNo
       state.mainOrderNo = mainOrderNo
+    },
+    UPDATED_CHAT_MESSAGE(state, chatMessageList) {
+      state.chatMessageList = chatMessageList
     }
   },
   actions: {
@@ -68,8 +74,17 @@ export default {
     async GetQuestionnaireDocument(_, { orderNo, placeActivityType }) {
       return await GetQuestionnaireDocument(orderNo, placeActivityType)
     },
+    async getContents(_, mainOrderNo) {
+      return await getContents(mainOrderNo)
+    },
+    async addCountents(_, data) {
+      return await addCountents(data)
+    },
     updateOrderNo({ commit }, { orderNo, mainOrderNo }) {
       commit('UPDATED_ORDER_NO', { orderNo, mainOrderNo })
+    },
+    updatedChatMessage({ commit }, chatMessageList) {
+      commit('UPDATED_CHAT_MESSAGE', chatMessageList)
     }
   }
 }

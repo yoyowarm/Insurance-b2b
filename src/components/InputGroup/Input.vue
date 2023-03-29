@@ -14,6 +14,7 @@
       @keyup.delete="() => {deleteEvent()}"
       @keyup.right="setSelection"
       @keyup.left="setSelection"
+      @keyup.enter="() => { $emit('enterInput') }"
       @click="getSelection">
     <div v-if="slotIcon"><slot/></div>
     <div v-if="unit" class="absolute right-4 bottom-3">{{unit}}</div>

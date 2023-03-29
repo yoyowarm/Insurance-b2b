@@ -49,7 +49,7 @@
         <Button  @click.native="copyQuotation(7)" class="my-3 md:my-8 w-64 md:mr-5">更正</Button>
         <Button v-if="(underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel != 6) || (underwriteStatus.underwriteDirection == 0 && underwriteStatus.isLastActionEditUnderwrite && underwriteStatus.employeeUnderwriteLevel != 6)" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(1)">向上核保</Button>
         <Button v-if="underwriteStatus.underwriteDirection == 1 && underwriteStatus.employeeUnderwriteLevel >= underwriteStatus.underwriteTargetLevel" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(2)">完成核保</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-3 md:my-8 w-64 md:mr-5" @click.native="openReason = true">不予核保</Button>
         <Button v-if="underwriteStatus.underwriteDirection == 0  && !underwriteStatus.isLastActionEditUnderwrite" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(4)">確認審核結果</Button>
       </template>
     </div>
@@ -81,6 +81,25 @@
       </InputGroup>
     </PopupDialog>
     <LoadingScreen :isLoading="loading.length > 0"/>
+    <img v-if="appSetting.showMessagePlatform" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup
+      :open.sync="openChat"
+      :messageList="chatMessageList"
+      :quotationPage="true"
+      :mainOrderNo="mainOrderNo"
+      @updatedMessage="() => { getChatComment(mainOrderNo) }"
+    />
+    <PopupDialog
+      :open.sync="openReason">
+      <div>
+        <p>確定此報價單不予核保?</p>
+        <textarea class="w-full mt-4 border-2 border-gray-400 rounded-lg p-3" rows=4 v-model="underwritingReasons" maxlength="2000" placeholder="不予核保原因說明，限制字數2000字以內（非必填）"></textarea>
+        <div class="flex justify-around w-full">
+          <Button class="w-1/4 mt-4" @click.native="openReason = false">取消</Button>
+          <Button class="w-1/4 mt-4" @click.native="updateUnderwrite(3)">確定</Button>
+        </div>
+      </div>
+    </PopupDialog>
   </div>
 </template>
 
@@ -96,6 +115,7 @@ import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
 import PopupDialog from '@/components/PopupDialog/dialog.vue'
 import LoadingScreen from '@/components/LoadingScreen.vue'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
+import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
 // import routeChange from '@/utils/mixins/routeChange'
 import { mapState } from 'vuex'
 import { Popup } from '@/utils/popups'
@@ -111,13 +131,16 @@ export default {
     PopupDialog,
     InputGroup,
     Input,
-    LoadingScreen
+    LoadingScreen,
+    QuotationCommentPopup
   },
   data() {
     return {
       historyDialog: false,
       openDialog: false,
       correct:false,
+      openChat: false,
+      openReason: false,
       // quotationData: {
       //   insuranceAmounts: [{
       //     parameter: {
@@ -139,7 +162,8 @@ export default {
       // },
       underwriteStatus: {},
       countyAmount: [],
-      underwriteCoefficient: ''
+      underwriteCoefficient: '',
+      underwritingReasons: '',
     }
   },
   computed: {
@@ -159,6 +183,8 @@ export default {
       parameter: state => state.place.parameter,
       quotationData: state => state.place.quotationData,
       questionnaire: state => state.place.questionnaire,
+      chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     InsuranedData: {
       get() {
@@ -260,6 +286,15 @@ export default {
       })
     },
     async updateUnderwrite(type) {
+      if (this.underwritingReasons && type ===3) {
+        await this.$store.dispatch('common/addCountents', {
+          mainOrderNo: this.mainOrderNo,
+          newMessageContents: [
+            { content: this.underwritingReasons }
+          ]
+        })
+      }
+      this.underwritingReasons = ''
       await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
       this.packHome()
         this.$store.dispatch('common/updatedCalculateModel', false)
@@ -272,9 +307,14 @@ export default {
         this.underwriteCoefficient = Number(coefficient.data.content.questionnaireCoefficient) > 0 
               ? `+${Number(coefficient.data.content.questionnaireCoefficient)*100}%`
               : (Number(coefficient.data.content.questionnaireCoefficient) < 0 ? `${Number(coefficient.data.content.questionnaireCoefficient)*100}%` : `0%`)
-    }
+    },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
   },
   async mounted() {
+    await this.getChatComment(this.mainOrderNo)
     await this.quotationDetail()
     const county = await this.$store.dispatch('resource/CountyMinimumSettings')
     this.countyAmount = county.data.content
@@ -293,6 +333,7 @@ export default {
     this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo:''})
     this.$store.dispatch('common/updatedCalculateModel', false)
     this.$store.dispatch('place/updatedInsuranceActive', 0)
+    this.$store.dispatch('common/updatedChatMessage', [])
   }
 }
 </script>
@@ -305,5 +346,8 @@ export default {
    .button-group {
       @apply flex flex-col mt-3
     }
+  }
+  .chat-btn {
+    @apply fixed bottom-0 right-0 mr-4 mb-4 cursor-pointer w-16
   }
 </style>

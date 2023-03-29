@@ -271,7 +271,7 @@ export default {
       'currentPage': state => state.app.currentPage,
       'totalPage': state => state.app.totalPage,
       'orderNo': state => state.common.orderNo,
-      'token': state => state.home.token,
+      'token': state => state.home.token
     }),
   },
   watch: {
@@ -281,6 +281,7 @@ export default {
     async currentTag(val,oldVal) {
       if(val !== oldVal) {
         this.$route.query.tag = val
+        await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
         await this.getQuotationList(true)
       }
     },
@@ -431,6 +432,7 @@ export default {
     },
   },
   async mounted() {
+    await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
     this.$store.dispatch('app/updatedCurrentPage',1)
     if(this.$route.query.type) {
       const target = this.stateList.find(i => i.Text == this.$route.query.type)
@@ -459,6 +461,9 @@ export default {
       Text: '全部'
     })
     
+  },
+  destroyed() {
+    this.$store.dispatch('common/updatedChatMessage', [])
   }
 }
 </script>

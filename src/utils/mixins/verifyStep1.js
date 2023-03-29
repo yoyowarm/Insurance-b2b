@@ -50,45 +50,6 @@ export default {
         this.verifyResult.push(allowStartDate.data)
       }
     },
-    async verifyTargetAmount() {
-      await this.SchemeSettingSelect.targetList.map(async (item, index) => {
-        if (item.HasCustomizedInput && this.SchemeSetting[`target${index + 1}`].amount) {
-          const subjectTotalAllow = await this.$store.dispatch('verify/subjectTotalAllow', {
-            Amount: this.SchemeSetting[`target${index + 1}`].amount,
-            ProgramID: this.selectedProgram.Value,
-            SubID: item.SubID
-          })
-          if (!subjectTotalAllow.data.IsSuccess) {
-            this.verifyResult.push(subjectTotalAllow.data)
-          }
-        }
-      })
-    },
-    async verifyLiabilityMinAndMAX() {
-      Object.keys(this.LiabilityInsurance).map(async item => {
-        if (this.LiabilityInsurance[item].choose) {
-          const liabilityMinAndMAX = await this.$store.dispatch('verify/liablityInsuredMinAndMAXOK', { InsuredNumber: this.LiabilityInsurance[item].insuredNumber, LiabilityID: this.LiabilityInsurance[item].LiabilityID, ProgramID: this.selectedProgram.Value })
-          if (!liabilityMinAndMAX.data.IsSuccess) {
-            this.verifyResult.push(liabilityMinAndMAX.data)
-          }
-        }
-      })
-    },
-    async verifyIOfficerIChannelIBroker() {
-      let Input = 0
-      const IOfficer = this.info.IOfficer
-      const IChannel = this.info.IChannel.id
-      const IBroker = this.info.IBroker.id
-      const LoginCode = this.info.LoginCode
-      if (IOfficer) Input++
-      if (IChannel) Input++
-      if (IBroker) Input++
-      if (LoginCode) Input++
-      const IOfficerIChannelIBroker = await this.$store.dispatch('verify/OfficerIChanneIBrokerOK', { Input, IOfficer, IChannel, IBroker, LoginCode })
-      if (!IOfficerIChannelIBroker.data.IsSuccess) {
-        this.verifyResult.push(IOfficerIChannelIBroker.data)
-      }
-    },
     verifyResultPopup: function () {
       let htmlText = ''
       this.verifyResult.map(item => {
@@ -118,11 +79,6 @@ export default {
         if (this.renewal.IsRenewal && !this.renewal.InsuranceNumber) {
           this.requestFile.push('未輸入續保號碼')
         }
-        // const startTime = new Date(`${Number(this.period.startDate.year) + 1911}/${this.period.startDate.month}/${this.period.startDate.day} ${this.period.startDate.hour}:00:00`).getTime()
-        // const endTime = new Date(`${Number(this.period.endDate.year) + 1911}/${this.period.endDate.month}/${this.period.endDate.day} ${this.period.endDate.hour}:00:00`).getTime()
-        // if (((endTime - startTime) / 1000 / 60 / 60 / 24) > 365) {
-        //   this.requestFile.push('保期不能超過一年')
-        // }
         this.placeInfo.map((item, index) => {
           if (!item.city || item.city.Text == '選擇縣市') {
             if (this.requestFile.includes(`處所${index + 1}未選擇縣市`)) return
@@ -153,9 +109,6 @@ export default {
         }
       }
       if (type == 'activity') {
-        // if (this.InsuranceActive !== 7 && this.industry.Value && (this.industry.itemName == '其他') && !this.questionnaireFinished) {
-        //   this.requestFile.push('必填詢問表')
-        // }
         if (!this.Insuraned.activityName) {
           this.requestFile.push('未填寫活動名稱')
         }
@@ -175,14 +128,6 @@ export default {
             if (this.requestFile.includes(`活動${index + 1}未選擇活動結束時間`)) return
             this.requestFile.push(`活動${index + 1}未選擇活動結束時間`)
           }
-          // if (!item.startDate.year || !item.startDate.month || !item.startDate.day || isNaN(item.startDate.hour)) {
-          //   if (this.requestFile.includes('未選擇活動起始日')) return
-          //   this.requestFile.push('未選擇活動開始日')
-          // }
-          // if (!item.endDate.year || !item.endDate.month || !item.endDate.day || isNaN(item.endDate.hour)) {
-          //   if (this.requestFile.includes('未選擇活動結束日')) return
-          //   this.requestFile.push('未選擇活動結束日')
-          // }
           if (!item.city.Value) {
             if (this.requestFile.includes(`活動${index + 1}未選擇縣市`)) return
             this.requestFile.push(`活動${index + 1}未選擇縣市`)
@@ -256,15 +201,6 @@ export default {
       if (!calculate && !this.insuranceAmountListData.amount) {
         this.requestFile.push('未試算保費')
       }
-      // Object.keys(this.terms).map(key => {
-      //   if (this.terms[key].selected && this.additionTerms[key.split(' ')[0]]) {
-      //     if (Object.keys(this.additionTerms[key.split(' ')[0]]).some(k => (!this.additionTerms[key.split(' ')[0]][k] && this.additionTerms[key.split(' ')[0]][k] !== false) || this.additionTerms[key.split(' ')[0]][k] === '0')) {
-      //       if (!this.requestFile.includes(`${key}條款未填寫完成或金額不能為0`)) {
-      //         this.requestFile.push(`${key}條款未填寫完成或金額不能為0`)
-      //       }
-      //     }
-      //   }
-      // })
     }
   },
 }
