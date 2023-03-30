@@ -58,7 +58,6 @@
         <Button v-if="underwriteStatus.underwriteDirection == 0  && !underwriteStatus.isLastActionEditUnderwrite" class="my-3 md:my-8 w-64 md:mr-5" @click.native="updateUnderwrite(4)">確認審核結果</Button>
       </template>
     </div>
-    <QuoteHistory :open.sync="historyDialog"/>
     <PopupDialog
       :open.sync="openDialog"
       headerText="修改保費-活動"
@@ -116,7 +115,6 @@ import Input from '@/components/InputGroup/Input'
 import InsuranceInfoFin from '@/components/Common/InsuranceInfoFin'
 import InsuranceAmountListFin from '@/components/Common/InsuranceAmountListFin.vue'
 import InsuranceContent from '@/components/Activity/InsuranceContent'
-import QuoteHistory from '@/components/PopupDialog/QuoteHistory'
 import editCopyQuestionnaire from '@/utils/mixins/editCopyQuestionnaire'
 import QuotationCommentPopup from '@/components/PopupDialog/QuotationComment.vue'
 // import routeChange from '@/utils/mixins/routeChange'
@@ -132,7 +130,6 @@ export default {
     InsuranceInfoFin,
     InsuranceAmountListFin,
     InsuranceContent,
-    QuoteHistory,
     LoadingScreen,
     PopupDialog,
     InputGroup,
@@ -141,7 +138,6 @@ export default {
   },
   data() {
     return {
-      historyDialog: false,
       openDialog: false,
       correct: false,
       openChat: false,
