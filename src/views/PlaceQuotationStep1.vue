@@ -954,11 +954,12 @@ export default {
       await this.getChatComment(this.mainOrderNo)
     }
     if(!this.period.startDate.year && !this.period.startDate.month && !this.period.startDate.day && !this.period.startDate.hour) {
+      const tomorrow = new Date().setDate(new Date().getDate() + 1)
       let date = {
         startDate: {
-          year: new Date().getFullYear()-1911,
-          month: new Date().getMonth() + 1,
-          day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
+          year: new Date().getHours() > 12 ?  new Date(tomorrow).getFullYear()-1911 : new Date().getFullYear()-1911,
+          month: new Date().getHours() > 12 ? new Date(tomorrow).getMonth() + 1 : new Date().getMonth() + 1,
+          day: new Date().getHours() > 12 ? new Date(tomorrow).getDate() : new Date().getDate(),
           hour: 12,
         }
       }
@@ -1001,11 +1002,11 @@ export default {
           date = {
             ...date,
             endDate: {
-                year: (new Date().getFullYear() + 1)-1911,
-                month: new Date().getMonth()+1,
-                day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
-                hour: 12
-              }
+              year: new Date().getHours() > 12 ? new Date(tomorrow).getFullYear() - 1910 : new Date().getFullYear() - 1910,
+              month: new Date().getHours() > 12 ? new Date(tomorrow).getMonth() + 1 : new Date().getMonth() + 1,
+              day: new Date().getHours() > 12 ? new Date(tomorrow).getDate() : new Date().getDate(),
+              hour: 12,
+            }
           }
         }
         this.periodData = date
