@@ -57,7 +57,7 @@
         :questionnaire="questionnaire"
       />
       <LoadingScreen slot="cover" :hasCover="false" :isLoading="uploadFile"/>
-      <div slot="right" class=" absolute right-0 w-36">
+      <div v-if="false" slot="right" class=" absolute right-0 w-36">
         <label for="fileUpload" class="cursor-pointer">
           <font-awesome-icon  class="mr-1 text-main text-base" :icon="['fa', 'cloud-arrow-up']" /><span class="text-base text-main">匯入處所資料</span>
           <input id="fileUpload" type="file" name="fileUpload" ref="fileUpload" accept=".xlsx" class="w-full" @change="newFile">
