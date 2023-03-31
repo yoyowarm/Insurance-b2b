@@ -46,7 +46,7 @@
               <span
                 class="download whitespace-no-wrap"
                 :class="{'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600, 'disable': item.stateText == '核保中' || (item.iofficer !==userInfo.userid )}"
-                v-if="!tableData.rows[0].isFinishQuotation"
+                v-if="!tableData.rows[0].isFinishQuotation && false"
                >取消</span>
             </div>
             
