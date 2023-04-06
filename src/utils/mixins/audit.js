@@ -108,6 +108,10 @@ export default {
         }
         payload.insureIndustryOtherText = this.industryText
         payload.remark = this.remark.text
+        payload.activityUnderwriteInsuranceParameter.additionTermCoefficient = res.data.content.parameter.additionTermCoefficientParameter
+        payload.activityUnderwriteInsuranceParameter.aggaoaCoefficient = res.data.content.parameter.aggAOACoefficient
+        payload.activityUnderwriteInsuranceParameter.periodCoefficient = res.data.content.parameter.periodParameter
+        payload.activityUnderwriteInsuranceParameter.sizeCofficient = res.data.content.parameter.sizeParameter
         this.$store.dispatch('activity/updatedUnderwriteQuotationData', payload)
         this.$store.dispatch('activity/updatedParameter', this.parameter.parameter)
         if (this.quotationData.questionnaire) { await this.questionnaireCoefficient(true) }
@@ -224,6 +228,11 @@ export default {
         }
         payload.insureIndustryOtherText = this.industryText
         payload.remark = this.remark.text
+        payload.placeUnderwriteInsuranceParameter.additionTermCoefficient = res.data.content.parameter.additionTermCoefficientParameter
+        payload.placeUnderwriteInsuranceParameter.aggaoaCoefficient = res.data.content.parameter.aggAOACoefficient
+        payload.placeUnderwriteInsuranceParameter.mutiSizeCofficient = res.data.content.parameter.mutiSizeParameter
+        payload.placeUnderwriteInsuranceParameter.sizeCofficient = res.data.content.parameter.sizeParameter
+        payload.placeUnderwriteInsuranceParameter.hexTypeBasicAmount = res.data.content.parameter.hexTypeBasicAmount
         this.$store.dispatch('place/updatedUnderwriteQuotationData', payload)
         this.$store.dispatch('place/updatedParameter', this.parameter.parameter)
         if (this.quotationData.questionnaire) { await this.questionnaireCoefficient(true) }

@@ -20,30 +20,14 @@
         <div class=" text-lg">{{item}}</div>
     </div>
   </div>
-    <!-- <div class="flex flex-col mt-4 dashed-border">
-      <FormTitle class="text-lg mb-2" title="如有下列設施，請勾選"/>
-        <Checkbox
-          class="text-md mb-2 text-lg"
-          v-for="(list,index) in facilityList" :key="`${list}${index}`"
-          :id="list"
-          :text="list"
-          slot="input"
-          :checked="data.sheet1.part4.facility.includes(list)"
-          :value="data.sheet1.part4.facility.includes(list)"
-          @updateValue="(e) =>updateFacility(e,list)"
-        />
-    </div> -->
   </div>
 </template>
 
 <script>
-// import FormTitle from '@/components/FormTitle'
-// import Checkbox from '@/components/Checkbox'
+
 import RadioInput from '@/components/Radio'
 export default {
   components: {
-    // FormTitle,
-    // Checkbox,
     RadioInput
   },
   props:{

@@ -108,11 +108,17 @@
       </div>
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="nextStep" class="my-4 w-56 md:w-42" :class="{'md:mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="openReason = true">不予核保</Button>
       </div>
     </div>
-    <img v-if="false" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
-    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
+    <img v-if="appSetting.showMessagePlatform" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup
+      :open.sync="openChat"
+      :messageList="chatMessageList"
+      :quotationPage="true"
+      :mainOrderNo="InsuranceActive === 0 ? '' :mainOrderNo"
+      @updatedMessage="() => { getChatComment(mainOrderNo) }"
+    />
     <Questionnaire type="activity" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <ActivityModifyAmount
@@ -150,6 +156,17 @@
       <p v-if="insuranceAmountListData.parameter.amount">{{`(活動基本純保費(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模係數(${insuranceAmountListData.parameter.sizeParameter})*期間係數(${insuranceAmountListData.parameter.periodParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter})*(1+核保加減費系數(${insuranceAmountListData.parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter})+PL005(${insuranceAmountListData.parameter.termPL005Fee})+PL058(${insuranceAmountListData.parameter.termPL058Fee}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
       <div v-else>尚未試算保費</div>
     </PopupDialog>
+    <PopupDialog
+        :open.sync="openReason">
+        <div>
+          <p>確定此報價單不予核保?</p>
+          <textarea class="w-full mt-4 border-2 border-gray-400 rounded-lg p-3" rows=4 v-model="underwritingReasons" maxlength="2000" placeholder="不予核保原因說明，限制字數2000字以內（非必填）"></textarea>
+          <div class="flex justify-around w-full">
+            <Button class="w-1/4 mt-4" @click.native="openReason = false">取消</Button>
+            <Button class="w-1/4 mt-4" @click.native="updateUnderwrite(3)">確定</Button>
+          </div>
+        </div>
+      </PopupDialog>
   </div>
 </template>
 
@@ -224,10 +241,12 @@ export default {
       openFormula: false,
       openAudit: false,
       openChat: false,
+      openReason: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
       underwriteStatus: {},
       underwriteLevel: null,
-      underwriteCoefficient: '0%'
+      underwriteCoefficient: '0%',
+      underwritingReasons: ''
     }
   },
   computed: {
@@ -253,7 +272,8 @@ export default {
       'Insuraned': state => state.activity.Insuraned,
       activityQuotation: state => state.activity.activityQuotation,
       level: state => state.home.level,
-      chatMessageList: state => state.common.chatMessageList
+      chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     activityInfoList: {
       get () {
@@ -822,22 +842,22 @@ export default {
       console.log(data)
     },
     async updateUnderwrite(type) {
-      Popup.create({
-        hasHtml: true,
-				maskClose: false,
-				confirm: true,
-				ok: '是',
-				cancel: '否',
-				htmlText: `<p>確定此報價單${type == 3 ? '不予核保': '向上核保'}？</p>`,
-      }).then(async() => {
-        await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
-        this.$store.dispatch('common/updatedCalculateModel', false)
-        this.$store.dispatch(`place/updatedInsuranceActive`,0)
-        this.$router.push('/underwriting-list')
-        this.$store.dispatch('place/clearAll')
-        this.$store.dispatch('place/updatedUUID', '')
-        this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
-      })
+      if (this.underwritingReasons) {
+        await this.$store.dispatch('common/addCountents', {
+          mainOrderNo: this.mainOrderNo,
+          newMessageContents: [
+            { content: '不予核保 ' +this.underwritingReasons }
+          ]
+        })
+      }
+      await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', { orderno: this.orderNo, processType: type })
+      this.underwritingReasons = ''
+      this.$store.dispatch('common/updatedCalculateModel', false)
+      this.$store.dispatch(`activity/updatedInsuranceActive`, 0)
+      this.$router.push('/underwriting-list')
+      this.$store.dispatch('activity/clearAll')
+      this.$store.dispatch('activity/updatedUUID', '')
+      this.$store.dispatch('common/updateOrderNo', { orderNo: '', mainOrderNo: '' })
     },
     updatedActivityName(e) {
       const copyInsuraned = JSON.parse(JSON.stringify(this.Insuraned))
@@ -861,12 +881,20 @@ export default {
         const blob = new Blob([res.data], {type: "application/octet-stream"});
         FileSaver.saveAs(blob, `${fileName}`);
       }
-    }
+    },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
   },
   async mounted() {
+    await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
     await this.pageInit()
     if(Object.keys(this.periodData.startDate).every(i => this.periodData.startDate[i] == '') && Object.keys(this.periodData.endDate).every(i => this.periodData.endDate[i] == '')) {
       this.updatePeriod()
+    }
+    if (this.InsuranceActive !== 0) {
+      await this.getChatComment(this.mainOrderNo)
     }
     if(this.InsuranceActive !== 7) {
       this.$store.dispatch('activity/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})

@@ -8,7 +8,7 @@
       <slot name="right"/>
     </div>
     <div class="board shadow-main" :class="{'mt-0': $slots.icon,'selected': selected}"><slot/></div>
-    <div v-if="hasCover" class="cover" @click="$emit('clickCover')">{{ coverText }}</div>
+    <div v-if="hasCover" class="cover" @click="$emit('clickCover')">{{ coverText }}<slot name="cover"/></div>
 	</div>
 </template>
 

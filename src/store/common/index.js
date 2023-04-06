@@ -8,6 +8,7 @@ import {
   GetActivityQuotationDocument,
   GetQuestionnaireDocument
 } from '@/api/File'
+import { getContents, addCountents } from '@/api/MessagePlatform'
 export default {
   namespaced: true,
   state: {
@@ -17,12 +18,6 @@ export default {
     orderNo: '',
     mainOrderNo: '',
     chatMessageList: [
-      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' }, { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
-      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
-      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
-      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
-      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
-      { name: '陳惠君(G234)', time: '2023.03.10 17:43', text: '留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字留言文字。' },
     ],
   },
   getters: {
@@ -78,6 +73,12 @@ export default {
     },
     async GetQuestionnaireDocument(_, { orderNo, placeActivityType }) {
       return await GetQuestionnaireDocument(orderNo, placeActivityType)
+    },
+    async getContents(_, mainOrderNo) {
+      return await getContents(mainOrderNo)
+    },
+    async addCountents(_, data) {
+      return await addCountents(data)
     },
     updateOrderNo({ commit }, { orderNo, mainOrderNo }) {
       commit('UPDATED_ORDER_NO', { orderNo, mainOrderNo })

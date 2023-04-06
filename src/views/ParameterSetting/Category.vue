@@ -211,8 +211,6 @@ export default {
     },
     async changePage(page) {
       if(this.currentPage === page || page < 1) return
-      console.log(page)
-      // this.$store.dispatch('app/updatedCurrentPage',page)
     },
     async editSwitch(index) {
       const value = !this.categoryListTable.rows[index].edit

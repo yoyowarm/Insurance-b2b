@@ -494,9 +494,6 @@ export default {
         }
       }
     }
-    // .nav-item.parameterSetting-menu {
-    //   height: 230px;
-    // }
     .left-nav.open {
       @apply left-0
     }

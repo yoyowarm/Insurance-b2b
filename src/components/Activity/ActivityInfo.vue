@@ -445,18 +445,4 @@ export default {
     .average { 
     @apply text-base mt-1  text-gray-700  font-semibold
   }
-  // .activity-name {
-  //   width: calc(100% - 350px);
-  //   @apply industry-input-group ml-24 mb-3
-  // }
-  // @media screen and (min-width: 601px) and (max-width: 770px) {
-  //   .activity-name {
-  //     width: calc(100% - 130px);
-  //   }
-  // }
-  // @media screen and (max-width: 600px) {
-  //   .activity-name {
-  //     width: calc(100% - 130px);
-  //   }
-  // }
 </style>

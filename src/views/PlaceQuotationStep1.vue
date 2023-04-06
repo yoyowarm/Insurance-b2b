@@ -47,7 +47,7 @@
     <CommonBoard class="w-full" title="投保紀錄">
       <InsuranceRecord :data.sync="InsuranceRecordTable" disable/>
     </CommonBoard>
-    <CommonBoard class="w-full" :title="`處所資料 數量:${placeInfoList.length}`">
+    <CommonBoard class="w-full" :hasCover="uploadFile" :title="`處所資料 數量:${placeInfoList.length}`">
       <PlaceInfo
         :infoList.sync="placeInfoList"
         @addItem="$store.dispatch('place/addPlaceInfo')"
@@ -56,6 +56,13 @@
         :disable="calculateModel || InsuranceActive == 7"
         :questionnaire="questionnaire"
       />
+      <LoadingScreen slot="cover" :hasCover="false" :isLoading="uploadFile"/>
+      <div v-if="false" slot="right" class=" absolute right-0 w-36">
+        <label for="fileUpload" class="cursor-pointer">
+          <font-awesome-icon  class="mr-1 text-main text-base" :icon="['fa', 'cloud-arrow-up']" /><span class="text-base text-main">匯入處所資料</span>
+          <input id="fileUpload" type="file" name="fileUpload" ref="fileUpload" accept=".xlsx" class="w-full" @change="newFile">
+        </label>
+      </div>
     </CommonBoard>
     <CommonBoard class="w-full" title="保險金額/自負額(新台幣元)">
       <InsuranceAmount
@@ -127,11 +134,17 @@
       </div>
       <div class="flex flex-col justify-center items-center sm:flex-row">
         <Button @click.native="nextStep" class="my-4  w-56 md:w-42" :class="{'md:mr-5': underwriteStatus.underwriteDirection == 1}">下一步</Button>
-        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="updateUnderwrite(3)">不予核保</Button>
+        <Button v-if="underwriteStatus.underwriteDirection == 1" class="my-2 w-56 md:w-42" :class="{'md:mr-5': insuranceAmountListData.amount && !isNaN(insuranceAmountListData.amount.replace('NT$', ''))}" @click.native="openReason = true">不予核保</Button>
       </div>
     </div>
-    <img v-if="false" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
-    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
+    <img v-if="appSetting.showMessagePlatform" @click="openChat = true" class="chat-btn" src="../assets/images/chat_btn.svg" alt="">
+    <QuotationCommentPopup
+      :open.sync="openChat"
+      :messageList="chatMessageList"
+      :quotationPage="true"
+      :mainOrderNo="InsuranceActive === 0 ? '' : mainOrderNo"
+      @updatedMessage="() => { getChatComment (mainOrderNo)}"
+    />
     <Questionnaire type="place" :open.sync="openQuestionnaire" :audit="InsuranceActive == 7" :questionnaire="questionnaire" :multiplePlaceInfo="placeInfoList.length > 1" :orderNo="orderNo"/>
     <LoadingScreen :isLoading="loading.length > 0"/>
     <PlaceModifyAmount
@@ -170,6 +183,17 @@
     <p v-if="insuranceAmountListData.parameter.amount">{{`(處所基本純保費(${insuranceAmountListData.parameter.basicFee})*高保額係數(${insuranceAmountListData.parameter.finalHC})*規模細數(${insuranceAmountListData.parameter.sizeParameter})*多處所係數(${insuranceAmountListData.parameter.mutiSizeParameter})*(1+自負額係數(${insuranceAmountListData.parameter.selfInflictedParameter}))*(1 + 核保加減費系數(${insuranceAmountListData.parameter.underwriteCoefficient}))*(1+附加險條款費用係數(${insuranceAmountListData.parameter.additionTermCoefficientParameter}))*(1+AGG > AOA *2係數(${insuranceAmountListData.parameter.aggAOACoefficient}))*短期費率(${insuranceAmountListData.parameter.shortPeriodParameter})/(1-附加費用率(${insuranceAmountListData.parameter.additionalCostParameter})+PL005(${insuranceAmountListData.parameter.termPL005Fee})+PL058(${insuranceAmountListData.parameter.termPL058Fee}))=總保費(${insuranceAmountListData.parameter.amount})`}}</p>
     <div v-else>尚未試算保費</div>
     </PopupDialog>
+    <PopupDialog
+      :open.sync="openReason">
+      <div>
+        <p>確定此報價單不予核保?</p>
+        <textarea class="w-full mt-4 border-2 border-gray-400 rounded-lg p-3" rows=4 v-model="underwritingReasons" maxlength="2000" placeholder="不予核保原因說明，限制字數2000字以內（非必填）"></textarea>
+        <div class="flex justify-around w-full">
+          <Button class="w-1/4 mt-4" @click.native="openReason = false">取消</Button>
+          <Button class="w-1/4 mt-4" @click.native="updateUnderwrite(3)">確定</Button>
+        </div>
+      </div>
+    </PopupDialog>
   </div>
 </template>
 
@@ -205,6 +229,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { numFormat } from '@/utils/regex'
 import { quotation } from '@/utils/dataTemp'
 import FileSaver from 'file-saver'
+import { read, utils } from "xlsx";
 export default {
   mixins: [mixinVerify, editCopyQuotation,routeChange,editCopyQuestionnaire,audit],
   components: {
@@ -233,6 +258,7 @@ export default {
     return {
       numFormat,
       IsRenewal: false,
+      uploadFile: false,
       searchText: '',
       industryList:[],
       industryType:[],
@@ -245,10 +271,12 @@ export default {
       openFormula: false,
       openAudit: false,
       openChat: false,
+      openReason: false,
       createOder: true,//複製報價單時ㄧ次性使用的參數，讓元件不覆蓋報價單資料
       underwriteStatus: {},
       underwriteLevel: null,
-      underwriteCoefficient: '0%'
+      underwriteCoefficient: '0%',
+      underwritingReasons: ''
     }
   },
   computed: {
@@ -275,7 +303,8 @@ export default {
       userInfo: state => state.home.userInfo,
       placeQuotation: state => state.place.placeQuotation,
       level: state => state.home.level,
-      chatMessageList: state => state.common.chatMessageList
+      chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     placeInfoList: {
       get () {
@@ -832,22 +861,22 @@ export default {
       console.log(data)
     },
     async updateUnderwrite(type) {
-      Popup.create({
-        hasHtml: true,
-				maskClose: false,
-				confirm: true,
-				ok: '是',
-				cancel: '否',
-				htmlText: `<p>確定此報價單${type == 3 ? '不予核保': '向上核保'}？</p>`,
-      }).then(async()=> {
-        await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', {orderno: this.orderNo, processType: type})
-        this.$store.dispatch('common/updatedCalculateModel', false)
-        this.$store.dispatch(`place/updatedInsuranceActive`,0)
-        this.$router.push('/underwriting-list')
-        this.$store.dispatch('place/clearAll')
-        this.$store.dispatch('place/updatedUUID', '')
-        this.$store.dispatch('common/updateOrderNo',{orderNo: '',mainOrderNo: ''})
-      })
+      if (this.underwritingReasons) {
+        await this.$store.dispatch('common/addCountents', {
+          mainOrderNo: this.mainOrderNo,
+          newMessageContents: [
+            { content: '不予核保 ' + this.underwritingReasons }
+          ]
+        })
+      }
+      await this.$store.dispatch('underwrite/UpdateUnderwriteProcess', { orderno: this.orderNo, processType: type })
+      this.underwritingReasons = ''
+      this.$store.dispatch('common/updatedCalculateModel', false)
+      this.$store.dispatch(`place/updatedInsuranceActive`, 0)
+      this.$router.push('/underwriting-list')
+      this.$store.dispatch('place/clearAll')
+      this.$store.dispatch('place/updatedUUID', '')
+      this.$store.dispatch('common/updateOrderNo', { orderNo: '', mainOrderNo: '' })
     },
     async downloadFile(policyAttachmentId,fileAttachmentId,fileName) {
       if(policyAttachmentId && fileAttachmentId) {
@@ -858,25 +887,79 @@ export default {
         const blob = new Blob([res.data], {type: "application/octet-stream"});
         FileSaver.saveAs(blob, `${fileName}`);
       }
+    },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
+    async newFile(e) {
+      this.uploadFile = true
+      const f = await (e.target.files[0]).arrayBuffer();
+      const wb = read(f)
+      const data = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
+      let formatError = false
+      let errorArr = []
+      const formateData = data.map((item,index) => {
+
+        // eslint-disable-next-line no-prototype-builtins
+        if(item.hasOwnProperty('holdState') && item.hasOwnProperty('squareFeet') && item.hasOwnProperty('area') && item.hasOwnProperty('city') && item.hasOwnProperty('subAddress')) {
+          if(typeof item.holdState !== 'boolean') {errorArr.push(`第${index+1}列 持有狀態資料型態錯誤`)}
+          if(typeof item.squareFeet !== 'number') {errorArr.push(`第${index + 1}列 處所坪數資料型態錯誤`)}
+          if(typeof item.subAddress !== 'string') {errorArr.push(`第${index + 1}列 處所地址資料型態錯誤`)}
+          if(!this.countyList.find(i => i.Text === item.city.replace('台', '臺'))) {errorArr.push(`第${index + 1}列 縣市資料錯誤`)}
+          if(!this.areaList.find(i => i.Text === item.area)) {errorArr.push(`第${index + 1}列 鄉鎮市區資料錯誤`)}
+          if(!errorArr.includes(`第${index + 1}列`)) {
+            return {
+              ...item,
+              city: this.countyList.find(i => i.Text === item.city.replace('台','臺')),
+              area: this.areaList.find(i => i.Text === item.area),
+            }
+          }
+        } else {
+          formatError = true
+        }
+      })
+      setTimeout(() => {
+        this.uploadFile = false
+        if (formatError) {
+          Popup.create({
+            hasHtml: true,
+            htmlText: `<p>檔案格式錯誤</p>`,
+          })
+        } else {
+          if(errorArr.length > 0) {
+            Popup.create({
+              hasHtml: true,
+              htmlText: `<p>${errorArr.join('<br>')}</p>`,
+            })
+          } else {
+            this.placeInfoList = formateData
+          }
+        }
+        this.$refs.fileUpload.value = ''
+        errorArr = []
+      }, 1500);
     }
   },
   async mounted() {
+    await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
     await this.pageInit()
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())
     }
-    // if(this.InsuranceActive == 0) {
-    //   this.$store.dispatch('common/updateOrderNo', {orderNo: '',mainOrderNo: ''})
-    // }
     if(this.InsuranceActive !== 7) {
       this.$store.dispatch('place/updatedQuestionnaire', {...this.questionnaire,userId: this.userInfo.userid})
     }
+    if(this.InsuranceActive !== 0 ) {
+      await this.getChatComment(this.mainOrderNo)
+    }
     if(!this.period.startDate.year && !this.period.startDate.month && !this.period.startDate.day && !this.period.startDate.hour) {
+      const tomorrow = new Date().setDate(new Date().getDate() + 1)
       let date = {
         startDate: {
-          year: new Date().getFullYear()-1911,
-          month: new Date().getMonth() + 1,
-          day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
+          year: new Date().getHours() > 12 ?  new Date(tomorrow).getFullYear()-1911 : new Date().getFullYear()-1911,
+          month: new Date().getHours() > 12 ? new Date(tomorrow).getMonth() + 1 : new Date().getMonth() + 1,
+          day: new Date().getHours() > 12 ? new Date(tomorrow).getDate() : new Date().getDate(),
           hour: 12,
         }
       }
@@ -919,11 +1002,11 @@ export default {
           date = {
             ...date,
             endDate: {
-                year: (new Date().getFullYear() + 1)-1911,
-                month: new Date().getMonth()+1,
-                day: new Date().getHours() > 12 ? new Date().getDate()+1 : new Date().getDate(),
-                hour: 12
-              }
+              year: new Date().getHours() > 12 ? new Date(tomorrow).getFullYear() - 1910 : new Date().getFullYear() - 1910,
+              month: new Date().getHours() > 12 ? new Date(tomorrow).getMonth() + 1 : new Date().getMonth() + 1,
+              day: new Date().getHours() > 12 ? new Date(tomorrow).getDate() : new Date().getDate(),
+              hour: 12,
+            }
           }
         }
         this.periodData = date
@@ -942,6 +1025,9 @@ export default {
 
   .chat-btn {
     @apply fixed bottom-0 right-0 mr-4 mb-4 cursor-pointer w-16
+  }
+  [name="fileUpload"] {
+    display: none;
   }
   
 </style>

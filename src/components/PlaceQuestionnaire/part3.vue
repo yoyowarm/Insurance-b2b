@@ -28,19 +28,6 @@
     </div>
       <div class="text-lg">{{item}}</div>
     </div>
-    <!-- <div class="flex flex-col my-3">
-      <FormTitle lgTitle title="如有下列設施，請勾選" class="my-3 text-lg"/>
-      <Checkbox
-        v-for="(list,index) in facilityList" :key="`${list}${index}`"
-        class="text-lg mb-2"
-        :id="list"
-        :text="list"
-        :checked="data.part3.facility.includes(list)"
-        :value="data.part3.facility.includes(list)"
-        slot="input"
-        @updateValue="(e) =>updateFacility(e,list)"
-      />
-    </div> -->
     <FormTitle lgTitle title="2.商場、百貨公司、超級市場" class="my-3 text-lg"/>
     <div class="w-full flex flex-row mt-4 pl-6">
       <div class="flex flex-row justify-between">
@@ -87,14 +74,12 @@
 import InputGroup from '@/components/InputGroup'
 import FormTitle from '@/components/FormTitle.vue'
 import Input from '@/components/InputGroup/Input'
-// import Checkbox from '@/components/Checkbox'
 import RadioInput from '@/components/Radio'
 export default {
   components: {
     InputGroup,
     FormTitle,
     Input,
-    // Checkbox,
     RadioInput
   },
   props:{
@@ -177,24 +162,6 @@ export default {
         })
       }
     },
-    // updateFacility(e,list) {
-    //   let arr = []
-    //   if(e && !this.data.part3.facility.includes(list)) {
-    //     arr.push(list)
-    //   }
-    //   if(!e && this.data.part3.facility.includes(list)) {
-    //     arr = [...this.data.part3.facility]
-    //     const index = arr.findIndex(item => item === list)
-    //     arr.splice(index,1)
-    //   }
-    //   this.$emit('update:data',{
-    //     ...this.data,
-    //     part3: {
-    //       ...this.data.part3,
-    //       facility: e ? [...this.data.part3.facility,...arr] : arr
-    //     }
-    //   })
-    // }
   }
 }
 </script>

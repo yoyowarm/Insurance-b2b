@@ -20,46 +20,57 @@
           </span>
           <span class="text-white p-2 leading-none rounded-xl text-sm flex justify-center items-center" :class="{'bg-green-700': tableData.rows[0].type == 1, 'bg-red-500':tableData.rows[0].type == 2}">{{tableData.rows[0].type == 1 ? '處所':'活動'}}</span>
         </div>
-        <div class="flex flex-row" :class="{'ml-4': windowWidth <= 600}">
+        <div class="flex flex-row" :class="{'ml-4': windowWidth <= 600, 'flex-col': windowWidth <= 600 }">
           <span :class="{'ml-0 mr-4': windowWidth <= 600, 'ml-4 mr-4': windowWidth > 600}">關聯號{{tableData.rows[0].mainOrderNo}}<span  v-if="currentTag == 0" :class="{'text-red-500': !tableData.rows[0].isFinishQuotation, 'text-success': tableData.rows[0].isFinishQuotation}">-{{tableData.rows[0].isFinishQuotation ? '已確認' : '未確認'}}</span></span>
           <span v-if="currentTag == 0">保單編號{{tableData.rows[0].policyNo}}</span>
         </div>
-        <div v-if="false" class=" comment-btn" @click="openChat = true">
+        <div v-if="appSetting.showMessagePlatform" class=" comment-btn" @click="openChatComment(tableData.rows[0].mainOrderNo)">
           <img src="../assets/images/comment.svg" width="20" alt="">
           <span class="pl-1">討論版</span>
         </div>
       </div>
       <TableGroup :key="'tableData'+index" :data="tableData" :slotName="tableData.slotArray" scrollX column3 @review="(e) =>review(e,tableData.rows, currentTag ==2)" class="mb-4" style="border-bottom: 1px solid #d1d5db">
         <template v-for="(item,index) in tableData.rows">
-          <div v-if="currentTag == 0" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100 rounded-b-xl': windowWidth <= 600 && item.policyStatus !== 99}">
+          <div v-if="currentTag == 0" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-10 bg-gray-100 rounded-b-xl': windowWidth <= 600 && item.policyStatus !== 99}">
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4" v-if="item.policyStatus == 99 && !item.newSerialNo">- -</div>
             <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4 mr-9 mt-5 ml-1" v-else-if="(item.policyStatus == 7 && tableData.rows.filter(i => i.mainOrderNo == item.mainOrderNo).length > 1 && tableData.rows.some(i => i.policyStatus == 8))">- -</div>
-            <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4" v-if="item.policyStatus == 99 && item.newSerialNo">序號改為:{{item.newSerialNo}}</div>
-            <div v-else class="flex items-center mx-2 mt-1" :class="{'absolute flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col': windowWidth > 600}">
+            <div class="text-gray-600 bg-gray-100 md:bg-white text-center md:text-left md:p-1 md:rounded-b-xl  min-h-4 mt-2" v-if="item.policyStatus == 99 && item.newSerialNo">序號改為:{{item.newSerialNo}}</div>
+            <div v-else class="flex items-center mx-2 mt-1" :class="{'ml-0 flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col': windowWidth > 600}">
               <span v-if="item.stateText !== '取消'" class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
               <span
                 class="download whitespace-no-wrap"
                 :class="{'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600, 'disable': item.stateText == '核保中' || (item.iofficer !==userInfo.userid )}"
                 v-if="!tableData.rows[0].isFinishQuotation"
                 @click.stop="() => { if(item.stateText !== '核保中')copyQuotation(item.type,item.orderNo, item.mainOrderNo,'correct')}">更正</span>
-              <span v-if="item.stateText !== '取消'" class="download whitespace-no-wrap" :class="{'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
+              <span v-if="item.stateText !== '取消'" class="download whitespace-no-wrap" :class="{ 'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo)}">複製</span>
+              <span
+                class="download whitespace-no-wrap"
+                :class="{'mb-3': windowWidth > 600, 'ml-8': windowWidth <= 600, 'disable': item.stateText == '核保中' || (item.iofficer !==userInfo.userid )}"
+                v-if="!tableData.rows[0].isFinishQuotation && false"
+               >取消</span>
             </div>
-            <div class="flex" v-if="item.policyStatus !== 99" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
-              <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
-              <Button class="minButton whitespace-no-wrap" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
-              <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7 || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();finishQuotation(item.orderNo)}" v-if="!item.isFinishQuotation" outline>確認報價</Button>
-              <Button class="minButton whitespace-no-wrap" :disabled="isNaN(item.insuranceAmount) || (item.iofficer !==userInfo.userid && !['H318','H338'].includes(userInfo.userid))" :class="{'ml-1': windowWidth <= 600}" @click.native="(e) => {e.stopPropagation();updateUnderwrite(item.orderNo)}" v-if="!item.isFinishQuotation" outline>向上核保</Button>
-            </div>
+            
+          </div>
+          <div v-if="currentTag == 0 && item.policyStatus !== 99" :slot="`edit2-${index}`" :key="`edit2-${index}`" class="flex flex-row relative" :class="{ 'h-10 bg-gray-100 rounded-b-xl': windowWidth <= 600 && item.policyStatus !== 99 }">
+            <div class="flex" v-if="item.policyStatus !== 99" :class="{ 'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600 }">
+                <Button class="minButton whitespace-no-wrap" @click.native="(e) => { e.stopPropagation(); processHistory(item.orderNo) }" outline>查看歷程</Button>
+                <Button class="minButton whitespace-no-wrap" :class="{ 'ml-1': windowWidth <= 600 }" @click.native="(e) => { e.stopPropagation(); modifyLogs(item.orderNo) }" outline>異動比對</Button>
+                <Button class="minButton whitespace-no-wrap" :disabled="item.policyStatus !== 7 || (item.iofficer !== userInfo.userid && !['H318', 'H338'].includes(userInfo.userid))" :class="{ 'ml-1': windowWidth <= 600 }" @click.native="(e) => { e.stopPropagation(); finishQuotation(item.orderNo) }" v-if="!item.isFinishQuotation" outline>確認報價</Button>
+                <Button class="minButton whitespace-no-wrap" :disabled="isNaN(item.insuranceAmount) || (item.iofficer !== userInfo.userid && !['H318', 'H338'].includes(userInfo.userid))" :class="{ 'ml-1': windowWidth <= 600 }" @click.native="(e) => { e.stopPropagation(); updateUnderwrite(item.orderNo) }" v-if="!item.isFinishQuotation" outline>向上核保</Button>
+              </div>
           </div>
           <div v-if="currentTag == 1 || currentTag == 2" :slot="`edit-${index}`" :key="`edit-${index}`" class="flex flex-row relative" :class="{'h-20 bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99}">
             <div class="flex items-center  mt-1" :class="{'absolute flex-row mr-0 justify-center top-12 ': windowWidth <= 600, 'flex-col mr-3': windowWidth > 600}">
               <span class="download whitespace-no-wrap" :class="{'mb-3': windowWidth > 600}" @click.stop="popup(item)">列印</span>
               <span v-if="currentTag == 1" class="download whitespace-no-wrap" :class="{'ml-8': windowWidth <= 600}" @click.stop="() => {copyQuotation(item.type,item.orderNo,item.mainOrderNo,'audit')}">審核</span>
             </div>
-            <div class="flex" :class="{'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600}">
-              <Button class="minButton whitespace-no-wrap" @click.native="(e) =>{e.stopPropagation();processHistory(item.orderNo)}" outline>查看歷程</Button>
-              <Button class="minButton whitespace-no-wrap" :class="{'ml-5': windowWidth <= 600}" @click.native="(e) =>{e.stopPropagation();modifyLogs(item.orderNo)}" outline>異動比對</Button>
-            </div>
+            
+          </div>
+          <div v-if="currentTag == 1 || currentTag == 2" :slot="`edit2-${index}`" :key="`edit2-${index}`" class="flex flex-row relative" :class="{ 'h-20 bg-gray-100': windowWidth <= 600 && item.policyStatus !== 99 }">
+            <div class="flex" :class="{ 'flex-row absolute  justify-center top-2': windowWidth <= 600, 'flex-col': windowWidth > 600 }">
+                <Button class="minButton whitespace-no-wrap" @click.native="(e) => { e.stopPropagation(); processHistory(item.orderNo) }" outline>查看歷程</Button>
+                <Button class="minButton whitespace-no-wrap" :class="{ 'ml-5': windowWidth <= 600 }" @click.native="(e) => { e.stopPropagation(); modifyLogs(item.orderNo) }" outline>異動比對</Button>
+              </div>
           </div>
           <div class="text-gray-600  md:bg-white md:p-1 rounded-b-xl md:text-left  min-h-4 flex flex-col" :class="{ 'bg-gray-100  text-center':windowWidth <= 600}" :slot="`ConvergeStartDate-${index}`" :key="`ConvergeStartDate-${index}`">
             <span :class="{'whitespace-no-wrap':windowWidth > 600}">{{item.insuranceBeginTime.split('T')[0]}}起</span>
@@ -71,7 +82,7 @@
           </template>
       </TableGroup>
     </template>
-    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList"/>
+    <QuotationCommentPopup :open.sync="openChat" :messageList="chatMessageList" :mainOrderNo="chatMainOrderNo" @updatedMessage="() =>{getChatComment(chatMainOrderNo)}"/>
     <HistoryPopup :open.sync="openHistory" :historyData="historyData"/>
     <ModifyLogPopup :open.sync="openLog" :modifyLogData="modifyLogData"/>
     <DownloadFile :open.sync="open" :orderNo="orderNo" :item="downloadQuotation" headerText="列印文件"/>
@@ -117,6 +128,7 @@ export default {
       openHistory: false,
       openLog:false,
       openChat: false,
+      chatMainOrderNo: '',
       historyData: [],
       modifyLogData: [],
       downloadQuotation: {},
@@ -126,7 +138,8 @@ export default {
     ...mapState({
       'orderNo': state => state.common.orderNo,
       userInfo: state => state.home.userInfo,
-      chatMessageList: state => state.common.chatMessageList
+      chatMessageList: state => state.common.chatMessageList,
+      appSetting: state => state.app.appSetting,
     }),
     listData () {
       const arr = []
@@ -135,13 +148,14 @@ export default {
           const target = arr.find(i => i.rows.find(z => z.mainOrderNo === item.mainOrderNo))
           target.rows.push(item)
           target.slotArray.push(`edit-${target.rows.length-1}`)
+          target.slotArray.push(`edit2-${target.rows.length-1}`)
           target.slotArray.push(`ConvergeStartDate-${target.rows.length-1}`)
           target.slotArray.push(`quotationDate-${target.rows.length-1}`)
         } else {
           if(this.windowWidth > 600) {
-            arr.push({head: this.currentTag == 0 ? quotationListTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationListTable().head : auditListTable().head, rows: [item], slotArray: ['edit-0','edit2-0', 'ConvergeStartDate-0', 'quotationDate-0']})
           } else {
-            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListMobileTable().head, rows: [item], slotArray: ['edit-0', 'ConvergeStartDate-0', 'quotationDate-0']})
+            arr.push({head: this.currentTag == 0 ? quotationLisMobileTable().head : auditListMobileTable().head, rows: [item], slotArray: ['edit-0', 'edit2-0', 'ConvergeStartDate-0', 'quotationDate-0']})
           }
         }
       })
@@ -212,18 +226,6 @@ export default {
             perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
             perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
             perBodyAmount: item.perBodyAmount/10000,
-            // parameter: {
-            //   basicFee: '',
-            //   finalHC: '',
-            //   sizeParameter: '',
-            //   selfInflictedParameter: '',
-            //   shortPeriodParameter: '',
-            //   additionalCostParameter: '',
-            //   mutiSizeParameter: '',
-            //   additionTermCoefficientParameter: '',
-            //   aggAOACoefficient: '',
-            //   amount: '',
-            // }
           }
         })
       }
@@ -288,7 +290,16 @@ export default {
         }
       })
       this.openLog = true
-    }
+    },
+    async openChatComment(mainOrderNo) {
+      await this.getChatComment(mainOrderNo)
+      this.openChat = true
+      this.chatMainOrderNo = mainOrderNo
+    },
+    async getChatComment(mainOrderNo) {
+      const data = await this.$store.dispatch('common/getContents', mainOrderNo)
+      this.$store.dispatch('common/updatedChatMessage', data.data.content.contents)
+    },
   }
 }
 </script>
