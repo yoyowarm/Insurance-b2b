@@ -93,7 +93,7 @@
       :open.sync="openReason">
       <div>
         <p>確定此報價單不予核保?</p>
-        <textarea class="w-full mt-4 border-2 border-gray-400 rounded-lg p-3" rows=4 v-model="underwritingReasons" maxlength="2000" placeholder="不予核保原因說明，限制字數2000字以內（非必填）"></textarea>
+        <textarea v-if="appSetting.showMessagePlatform" class="w-full mt-4 border-2 border-gray-400 rounded-lg p-3" rows=4 v-model="underwritingReasons" maxlength="2000" placeholder="不予核保原因說明，限制字數2000字以內（非必填）"></textarea>
         <div class="flex justify-around w-full">
           <Button class="w-1/4 mt-4" @click.native="openReason = false">取消</Button>
           <Button class="w-1/4 mt-4" @click.native="updateUnderwrite(3)">確定</Button>
@@ -266,7 +266,7 @@ export default {
       })
     },
     async updateUnderwrite(type) {
-      if (this.underwritingReasons && type ===3) {
+      if (this.underwritingReasons && type ===3 && this.appSetting.showMessagePlatform) {
         await this.$store.dispatch('common/addCountents', {
           mainOrderNo: this.mainOrderNo,
           newMessageContents: [
