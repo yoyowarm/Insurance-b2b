@@ -2,7 +2,7 @@
   <div>
     <CommonBoard class="w-full" title="訂單續保">
       <template slot="right">
-        <Button class="text-base" @click.native="clearAll" outline>清除全部資料</Button>
+        <Button class="text-base" outline>清除全部資料</Button>
       </template>
       <div class="column-5">
         <InputGroup class="item" title="是否續保" dash disabled>
@@ -24,7 +24,7 @@
     </CommonBoard>
     <CommonBoard class="w-full mt-12" title="投保行業">
       <InputGroup slot="right" class="industry-input-group w-52 ml-28" bgColor="white" noMt>
-        <Input slot="input" class="max-w-full" :value="searchText" @updateValue="(e) => searchText = e" placeholder="輸入行業關鍵字" slotIcon>
+        <Input slot="input" class="max-w-full" :value="searchText" placeholder="輸入行業關鍵字" slotIcon>
           <font-awesome-icon class="text-main absolute top-3 right-3" :icon="['fas','magnifying-glass']" />
         </Input>
       </InputGroup>
@@ -260,8 +260,49 @@ export default {
       IsRenewal: false,
       uploadFile: false,
       searchText: '',
-      industryList:[],
-      industryType:[],
+      industryList: [
+        // 製造業
+        { dangerSeq: 101, typeName: '製造業', itemName: 'metalFactory', displayItemName: '金屬加工廠', isEnable: true },
+        { dangerSeq: 102, typeName: '製造業', itemName: 'plasticFactory', displayItemName: '塑膠製品工廠', isEnable: true },
+        { dangerSeq: 103, typeName: '製造業', itemName: 'foodProcessing', displayItemName: '食品加工廠', isEnable: true },
+
+        // 建築業
+        { dangerSeq: 201, typeName: '建築業', itemName: 'buildingWorker', displayItemName: '建築工地', isEnable: true },
+        { dangerSeq: 202, typeName: '建築業', itemName: 'interiorWorker', displayItemName: '室內裝修工', isEnable: true },
+
+        // 服務業
+        { dangerSeq: 301, typeName: '服務業', itemName: 'restaurant', displayItemName: '餐廳', isEnable: true },
+        { dangerSeq: 302, typeName: '服務業', itemName: 'salon', displayItemName: '美容院', isEnable: true },
+        { dangerSeq: 303, typeName: '服務業', itemName: 'cleaning', displayItemName: '清潔公司', isEnable: true },
+
+        // 農林漁牧業
+        { dangerSeq: 401, typeName: '農林漁牧業', itemName: 'fishFarm', displayItemName: '魚塭', isEnable: true },
+        { dangerSeq: 402, typeName: '農林漁牧業', itemName: 'orchard', displayItemName: '果園', isEnable: true },
+
+        // 教育文化業
+        { dangerSeq: 501, typeName: '教育文化業', itemName: 'kindergarten', displayItemName: '幼兒園', isEnable: true },
+        { dangerSeq: 502, typeName: '教育文化業', itemName: 'library', displayItemName: '圖書館', isEnable: true },
+
+        // 交通運輸業
+        { dangerSeq: 601, typeName: '交通運輸業', itemName: 'taxi', displayItemName: '計程車公司', isEnable: true },
+        { dangerSeq: 602, typeName: '交通運輸業', itemName: 'freight', displayItemName: '貨運物流', isEnable: true },
+
+        // 資訊科技業
+        { dangerSeq: 701, typeName: '資訊科技業', itemName: 'softwareCompany', displayItemName: '軟體公司', isEnable: true },
+        { dangerSeq: 702, typeName: '資訊科技業', itemName: 'dataCenter', displayItemName: '資料中心', isEnable: true },
+
+        // 其他
+        { dangerSeq: 801, typeName: '其他', itemName: 'freelancer', displayItemName: '自由工作者', isEnable: true },
+        { dangerSeq: 802, typeName: '其他', itemName: 'other', displayItemName: '其他', isEnable: true }
+      ],
+      industryType: ['製造業',
+        '建築業',
+        '服務業',
+        '農林漁牧業',
+        '教育文化業',
+        '交通運輸業',
+        '資訊科技業',
+        '其他'],
       countyList: [],
       areaList: [],
       countyAmount: [],
@@ -358,7 +399,7 @@ export default {
   watch:{
     openQuestionnaire: async function(val) {
       if(!val && this.questionnaireFinished && this.InsuranceActive !==7) {
-        await this.questionnaireCoefficient()
+        // await this.questionnaireCoefficient()
       }
     },
     periodData: {
@@ -475,10 +516,10 @@ export default {
         if(res.data.content.questionnaire) {
           this.$store.dispatch(`place/updateQuestionnaireFinished`, true)
           this.AssignQuestionnaire('place')
-          await this.questionnaireCoefficient()
+          // await this.questionnaireCoefficient()
         } 
         if(res.data.content.placeInsureInfo) {
-          this.step1InitAssignValue('place')
+          // this.step1InitAssignValue('place')
         }
       }
     },
@@ -505,8 +546,51 @@ export default {
         })
     },
     async initTerm() {
-      const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
-      this.additionTermsList = data.data.content.additionTermsDetails.filter(i => i.isPlaceEnable)
+      // const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
+      this.additionTermsList = [
+        {
+          additionTermId: '758A',
+          additionTermName: '責任自負條款',
+          isSuggest: false,
+          disable: true,
+          description: '此條款自動啟用，不能取消'
+        },
+        {
+          additionTermId: '911',
+          additionTermName: '公共安全條款',
+          isSuggest: false,
+          disable: true,
+          description: '保障活動中發生的公共意外'
+        },
+        {
+          additionTermId: 'PL013',
+          additionTermName: '損失分攤條款',
+          isSuggest: false,
+          disable: true,
+          description: '用於多保險人損失比例分攤'
+        },
+        {
+          additionTermId: 'A001',
+          additionTermName: '食品責任附加條款',
+          isSuggest: true,
+          disable: false,
+          description: '建議針對提供餐飲的場所加保'
+        },
+        {
+          additionTermId: 'B002',
+          additionTermName: '臨時設施條款',
+          isSuggest: false,
+          disable: false,
+          description: '適用於臨時搭建設施的風險'
+        },
+        {
+          additionTermId: 'C003',
+          additionTermName: '人員疏散附加條款',
+          isSuggest: true,
+          disable: false,
+          description: '建議針對高人流活動選擇'
+        }
+      ]
       this.termsInit()
     },
     termsInit() {
@@ -583,38 +667,31 @@ export default {
     },
 
     async pageInit() {
-      const places = await this.$store.dispatch('resource/PlacesSetting', this.InsuranceActive == 7 ? 2 : 1)
-      const districts = await this.$store.dispatch('resource/Districts')
-      const county = await this.$store.dispatch('resource/CountyMinimumSettings')
-      const underwriteLevel = await this.$store.dispatch('underwriteLevelSetting/GetUserUnderwriteLevel')
-      await this.getAttachmentList()
-      if(underwriteLevel.data.content.underwriteLevel) {
-        this.underwriteLevel = underwriteLevel.data.content.underwriteLevel
-      }
-      places.data.content.map(item => {
-        if(!this.industryType.includes(item.typeName)) {
-          this.industryType.push(item.typeName)
-        }
-      })
-      this.industryList = this.InsuranceActive == 7 ? places.data.content.filter(item => item.canShowLevel <= this.level) : places.data.content
-      districts.data.content.map(item => {
-        this.countyList.push({
-          ...item,
-          Value: item.cityId,
-          Text: item.cityName
-        })
-        item.countyDistricts.map(subItem => {
-          this.areaList.push({
-            ...subItem,
-            Value: subItem.areaId,
-            Text: subItem.areaName
-          })
-        })
-      })
-      this.countyAmount = county.data.content
+      this.underwriteLevel = 1
+      // await this.getAttachmentList()
+      this.countyList = [{ cityId: '01', cityName: '台北市', Value: '01', Text: '台北市' },
+        { cityId: '02', cityName: '新北市', Value: '02', Text: '新北市' },
+        { cityId: '03', cityName: '台中市', Value: '03', Text: '台中市' },
+        { cityId: '04', cityName: '高雄市', Value: '04', Text: '高雄市' }]
+        this.areaList = [
+          { areaId: '0101', areaName: '中正區', cityId: '01', Value: '0101', Text: '中正區' },
+          { areaId: '0102', areaName: '大安區', cityId: '01', Value: '0102', Text: '大安區' },
+          { areaId: '0201', areaName: '板橋區', cityId: '02', Value: '0201', Text: '板橋區' },
+          { areaId: '0202', areaName: '新店區', cityId: '02', Value: '0202', Text: '新店區' },
+          { areaId: '0301', areaName: '西屯區', cityId: '03', Value: '0301', Text: '西屯區' },
+          { areaId: '0302', areaName: '北屯區', cityId: '03', Value: '0302', Text: '北屯區' },
+          { areaId: '0401', areaName: '苓雅區', cityId: '04', Value: '0401', Text: '苓雅區' },
+          { areaId: '0402', areaName: '左營區', cityId: '04', Value: '0402', Text: '左營區' }
+        ]
+
+      this.countyAmount = [
+        { cityId: '01', minimumAmount: 100000 },
+        { cityId: '02', minimumAmount: 90000 },
+        { cityId: '03', minimumAmount: 85000 },
+        { cityId: '04', minimumAmount: 80000 }
+      ]
       if(this.industry.Value) {
-        const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
-        this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isPlaceEnable)
+        this.initTerm()
       }
       if((this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) ) {//報價明細更正、複製時塞資料
         await this.step1InitAssignValue('place')
@@ -634,8 +711,24 @@ export default {
     },
     correctAmount() {
       this.insuranceAmountListData = {
-        ...this.insuranceAmountListData,
-        amount: '',
+        "amount": '',
+        "parameter": {
+          "basicFee": "2000",
+          "finalHC": "1.1",
+          "sizeParameter": "0.95",
+          "selfInflictedParameter": "1.05",
+          "shortPeriodParameter": "1.2",
+          "additionalCostParameter": "300",
+          "mutiSizeParameter": "1.0",
+          "additionTermCoefficientParameter": "0.98",
+          "aggAOACoefficient": "1.1",
+          "amount": "150000",
+          "underwriteCoefficient": 0.02
+        },
+        "quotationReason": [
+          "被保險人產業屬高風險類別",
+          "歷年理賠金額偏高，需進一步評估"
+        ]
       }
       this.$store.dispatch('common/updatedCalculateModel',false)
     },
@@ -725,28 +818,39 @@ export default {
           this.placeQuestionnaireMapping(data)
         }
         this.$store.dispatch('common/updatedCalculateModel',true)
-        const res = await this.$store.dispatch('quotation/GetPlaceInsuranceProjectAmount',{data})
-        if(!res.data.content) {
-          Popup.create({
-            headerText: '',
-            hasHtml: true,
-            htmlText: res.data.message,
-          })
-        }
+        // const res = await this.$store.dispatch('quotation/GetPlaceInsuranceProjectAmount',{data})
+        // if(!res.data.content) {
+        //   Popup.create({
+        //     headerText: '',
+        //     hasHtml: true,
+        //     htmlText: res.data.message,
+        //   })
+        // }
         this.insuranceAmountListData = {
-          ...this.insuranceAmountListData,
-          amount: res.data.content.amount ? `NT$${res.data.content.amount}` : '請洽核保',
-          parameter: res.data.content.parameter
-            ? {...res.data.content.parameter,underwriteCoefficient: res.data.content.parameter.underwriteCoefficient > 0 
-              ? `+${Number(res.data.content.parameter.underwriteCoefficient)*100}%`
-              : (res.data.content.parameter.underwriteCoefficient < 0 ? `${Number(res.data.content.parameter.underwriteCoefficient)*100}%` : `0%`)}
-            : this.insuranceAmountListData.parameter,
+          "amount": 150000,
+          "parameter": {
+            "basicFee": "2000",
+            "finalHC": "1.1",
+            "sizeParameter": "0.95",
+            "selfInflictedParameter": "1.05",
+            "shortPeriodParameter": "1.2",
+            "additionalCostParameter": "300",
+            "mutiSizeParameter": "1.0",
+            "additionTermCoefficientParameter": "0.98",
+            "aggAOACoefficient": "1.1",
+            "amount": "150000",
+            "underwriteCoefficient": 0.02
+          },
+          "quotationReason": [
+            "被保險人產業屬高風險類別",
+            "歷年理賠金額偏高，需進一步評估"
+          ]
         }
-        if(res.data.content.quotationReason.length > 0) {
+        if (this.insuranceAmountListData.quotationReason.length > 0) {
           Popup.create({
             headerText: '請洽核保原因',
             hasHtml: true,
-            htmlText: res.data.content.quotationReason.join('<br>'),
+            htmlText: this.insuranceAmountListData.quotationReason.join('<br>'),
           })
         } else if (this.InsuranceActive == 7) {
           this.openAudit = true
@@ -754,8 +858,8 @@ export default {
       }
     },
     async getAttachmentList() {
-      const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
-      this.attachmentList = AttachmentDetails.data.content
+      // const AttachmentDetails = await this.$store.dispatch('common/AttachmentDetails', {policyAttachmentId: this.uuid})
+      // this.attachmentList = AttachmentDetails.data.content
     },
     async clearAll() {
       this.$store.dispatch('place/clearAll')
@@ -942,7 +1046,7 @@ export default {
     }
   },
   async mounted() {
-    await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
+    // await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
     await this.pageInit()
     if(!this.uuid){
       this.$store.dispatch('place/updatedUUID', uuidv4())

@@ -18,12 +18,12 @@
         <span class="text-white text-lg font-bold">報價明細</span>
       </div>
     </DynamicLink>
-    <DynamicLink v-if="level > 0" type="router" path="/underwriting-list" @click.native="$emit('update:openMenu', false)">
+    <!-- <DynamicLink v-if="level > 0" type="router" path="/underwriting-list" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/underwriting-list'}">
       <div class="icon underwriting"/>
         <span class="text-white text-lg font-bold">核保明細</span>
       </div>
-    </DynamicLink>
+    </DynamicLink> -->
     <DynamicLink v-if="permissions.includes('PlaceQuote')" type="router" path="/place-quotation/step1" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/place-quotation/step')}">
       <div class="icon placeQuotation"/>
@@ -48,12 +48,12 @@
         <span class="text-white text-lg font-bold">最新消息</span>
       </div>
     </DynamicLink>
-    <DynamicLink v-if="permissions.includes('QuestionnaireManage')" type="router" path="/questionnaire-management" @click.native="$emit('update:openMenu', false)">
+    <!-- <DynamicLink v-if="permissions.includes('QuestionnaireManage')" type="router" path="/questionnaire-management" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path.includes('/questionnaire-management')}">
         <div class="icon questionnaire"/>
         <span class="text-white text-sm font-bold">詢問表填寫及查詢</span>
       </div>
-    </DynamicLink>
+    </DynamicLink> -->
     <!-- <DynamicLink type="router" path="/Office-audit" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/Office-audit'}">
         <div class="icon branchAudit"/>
@@ -66,7 +66,7 @@
         <span class="text-white text-lg font-bold">分公司核保</span>
       </div>
     </DynamicLink> -->
-    <DynamicLink v-if="permissions.includes('PermissionSetting')" type="router" path="/permissionSetting" @click.native="$emit('update:openMenu', false)">
+    <!-- <DynamicLink v-if="permissions.includes('PermissionSetting')" type="router" path="/permissionSetting" @click.native="$emit('update:openMenu', false)">
       <div class="nav-item" :class="{'active': path === '/permissionSetting'}">
         <div class="icon permissionSetting"/>
         <span class="text-white text-lg font-bold">權限群組設定</span>
@@ -118,8 +118,8 @@
           </DynamicLink>
         </div>
       </div>
-    </DynamicLink>
-    <DynamicLink v-if="permissions.includes('UnderwriteLevel') || permissions.includes('UnderwriteGroup')" type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
+    </DynamicLink> -->
+    <!-- <DynamicLink v-if="permissions.includes('UnderwriteLevel') || permissions.includes('UnderwriteGroup')" type="router" path="/underwritingCooperation/Setting" @click.native="$emit('update:openMenu', false)">
       <div @mouseover="showUnderwriting = true" @mouseout="showUnderwriting = false" class="nav-item sub-pages" :class="{'active': path.includes('underwritingCooperation'), 'h180': (windowWidth <=770 && path.includes('underwritingCooperation'))}">
         <div class="flex flex-row items-center md:flex-col" ref="underwritingCooperation">
           <div class="icon underwritingCooperation"/>
@@ -134,7 +134,7 @@
           </DynamicLink>
         </div>
       </div>
-    </DynamicLink>
+    </DynamicLink> -->
     <WindowResizeListener @resize="handleResize"/>
   </div>
 </template>
@@ -168,12 +168,12 @@ export default {
       showUnderwriting: false,
       parameterSettingTop: 0,
       SuggestTermSettingTop: 0,
+      permissions: 'QuoteDetails,PlaceQuote,ActivityQuote,QuestionnaireManage,PermissionSetting,PlaceActivityTypeSetting,PlaceActivityTypeSetting,CountyMinimumSetting,BasicPremium,QuoteInsuranceAmount,NewsSetting,DocumentDownloadSetting,SuggestTermSetting,QuoteAndWeight,QuoteAmount,SuggestTermSetting,QuoteAndWeight,QuoteAmount,UnderwriteLevel,UnderwriteGroup,UnderwriteGroup,UnderwriteLevel',
     }
   },
   computed: {
     ...mapState({
       userInfo: state => state.home.userInfo,
-      permissions: state => state.home.userInfo.permissions,
       level: state => state.home.level
     }),
     path() {

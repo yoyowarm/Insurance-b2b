@@ -276,26 +276,26 @@ export default {
   },
   watch: {
     async currentPage() {
-      await this.getQuotationList()
+      // await this.getQuotationList()
     },
     async currentTag(val,oldVal) {
       if(val !== oldVal) {
         this.$route.query.tag = val
-        await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
-        await this.getQuotationList(true)
+        // await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
+        // await this.getQuotationList(true)
       }
     },
     quotationStatus() {
       if(this.currentPage > 1) {
         this.changePage(1)
       } else {
-        this.getQuotationList()
+        // this.getQuotationList()
       }
     },
     stateSelected: {
       async handler(val,old) {
         if(this.currentTag == 0 && val.Value !== old.Value) {
-          await this.getQuotationList()
+          // await this.getQuotationList()
         }
       },
       deep: true
@@ -358,81 +358,186 @@ export default {
       if(this.endDate.year !== '' && this.endDate.month !== '' && this.endDate.day !== '') {
         data.QuotationDateEnd = `${Number(this.endDate.year)+1911}-${this.endDate.month}-${this.endDate.day}`
       }
-      if(this.currentTag == 0) {
-        const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
-        this.quotationList = [...quotationList.data.content.quotations.map(item => {
-          return {
-            ...item,
-            serialNo: item.serialNo.toString(),
-            daySettleDate: item.daySettleDate ? item.daySettleDate.split('T')[0] : '- -',
-            InsurancePremiums: item.InsurancePremiums ? item.InsurancePremiums : '- -',
-            insuranceAmount: item.insuranceAmount && item.policyStatus !==2 && item.policyStatus !==6 ? item.insuranceAmount : '- -',
-            quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
-            stateText: this.stateText[item.policyStatus]
-          }
-        })
-        ]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
-      } else {
-        let quotationList = null
-        data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
-        data.GroupName = this.NGroup == '選擇公司單位' ? '' : this.NGroup
-        data.Level = this.layer == '7' ? '' : this.layer
-        if(this.currentTag == 1) {
-          quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
-        } else if (this.currentTag ==2) {
-          quotationList = await this.$store.dispatch('underwrite/GetUnderwriteReviewedList', data)
+      this.quotationList = [
+        {
+          "serialNo": "10000",
+          "daySettleDate": "2025-06-01",
+          "InsurancePremiums": 950,
+          "insuranceAmount": 500000,
+          "quotationDate": "2025-06-01",
+          "insuranceBeginTime": "2025-07-01T00:00:00",
+          "insuranceEndTime": "2026-07-01T00:00:00",
+          "policyStatus": 7,
+          "stateText": "已核保",
+          "mainOrderNo": "MO-10000",
+          "orderNo": "O-10000",
+          "type": 1,
+          "policyNo": "PN-10000",
+          "isFinishQuotation": false,
+          "iofficer": "H318",
+          "insuredName": "保戶1",
+          "applicantName": "保戶1"
+        },
+        {
+          "serialNo": "10001",
+          "daySettleDate": null,
+          "InsurancePremiums": 950,
+          "insuranceAmount": 500000,
+          "quotationDate": "2025-06-02",
+          "insuranceBeginTime": "2025-07-02T00:00:00",
+          "insuranceEndTime": "2026-07-02T00:00:00",
+          "policyStatus": 7,
+          "stateText": "已核保",
+          "mainOrderNo": "MO-10001",
+          "orderNo": "O-10001",
+          "type": 2,
+          "policyNo": "PN-10001",
+          "isFinishQuotation": false,
+          "iofficer": "H318",
+          "insuredName": "保戶2",
+          "applicantName": "保戶2"
+        },
+        {
+          "serialNo": "10002",
+          "daySettleDate": "2025-06-03",
+          "InsurancePremiums": 800,
+          "insuranceAmount": 500000,
+          "quotationDate": "2025-06-03",
+          "insuranceBeginTime": "2025-07-03T00:00:00",
+          "insuranceEndTime": "2026-07-03T00:00:00",
+          "policyStatus": 1,
+          "stateText": "待核保",
+          "mainOrderNo": "MO-10002",
+          "orderNo": "O-10002",
+          "type": 2,
+          "policyNo": "PN-10002",
+          "isFinishQuotation": true,
+          "iofficer": "H318",
+          "insuredName": "保戶3",
+          "applicantName": "保戶3"
+        },
+        {
+          "serialNo": "10003",
+          "daySettleDate": null,
+          "InsurancePremiums": null,
+          "insuranceAmount": null,
+          "quotationDate": "2025-06-04",
+          "insuranceBeginTime": "2025-07-04T00:00:00",
+          "insuranceEndTime": "2026-07-04T00:00:00",
+          "policyStatus": 99,
+          "stateText": "取消",
+          "mainOrderNo": "MO-10003",
+          "orderNo": "O-10003",
+          "type": 2,
+          "policyNo": "PN-10003",
+          "isFinishQuotation": false,
+          "iofficer": "H318",
+          "insuredName": "保戶4",
+          "applicantName": "保戶4"
+        },
+        {
+          "serialNo": "10004",
+          "daySettleDate": "2025-06-05",
+          "InsurancePremiums": 1200,
+          "insuranceAmount": 500000,
+          "quotationDate": "2025-06-05",
+          "insuranceBeginTime": "2025-07-05T00:00:00",
+          "insuranceEndTime": "2026-07-05T00:00:00",
+          "policyStatus": 8,
+          "stateText": "完成報價",
+          "mainOrderNo": "MO-10004",
+          "orderNo": "O-10004",
+          "type": 2,
+          "policyNo": "PN-10004",
+          "isFinishQuotation": false,
+          "iofficer": "H318",
+          "insuredName": "保戶5",
+          "applicantName": "保戶5"
         }
-        this.quotationList = [...quotationList.data.content[this.currentTag == 1 ? 'underwrites' : 'underwriteReviews'].map(item => {
-          return {
-            ...item,
-            serialNo: item.serialNo.toString(),
-            underwriteStateText: this.currentTag ==1 ? (item.underwriteState === 0 ? '待確認核保結果' : '核保中') : this.quotationStateText[item.quotationListState],
-            quotationDate: item.quotationDate? item.quotationDate.split(' ')[0] : '',
-            insuranceAmount: item.insuranceAmount ? item.insuranceAmount : '- -',
-            waitConfirmEmployeeName: item.waitConfirmEmployeeName ? item.waitConfirmEmployeeName : '- -',
-            underwriteEmployee: item.underwriteEmployee ? item.underwriteEmployee : '- -',
-          }
-        })]
-        this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+      ]
+      if(this.currentTag == 0) {
+        // const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
+        
+        // this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
+      } else {
+        // let quotationList = null
+        // data.UnderwriteDirection = this.verifyStatus == 2 ? '' : this.verifyStatus
+        // data.GroupName = this.NGroup == '選擇公司單位' ? '' : this.NGroup
+        // data.Level = this.layer == '7' ? '' : this.layer
+        // if(this.currentTag == 1) {
+        //   quotationList = await this.$store.dispatch('underwrite/GetUnderwriteQuotationList', data)
+        // } else if (this.currentTag ==2) {
+        //   quotationList = await this.$store.dispatch('underwrite/GetUnderwriteReviewedList', data)
+        // }
+        // this.quotationList = [...quotationList.data.content[this.currentTag == 1 ? 'underwrites' : 'underwriteReviews'].map(item => {
+        //   return {
+        //     ...item,
+        //     serialNo: item.serialNo.toString(),
+        //     underwriteStateText: this.currentTag ==1 ? (item.underwriteState === 0 ? '待確認核保結果' : '核保中') : this.quotationStateText[item.quotationListState],
+        //     quotationDate: item.quotationDate? item.quotationDate.split(' ')[0] : '',
+        //     insuranceAmount: item.insuranceAmount ? item.insuranceAmount : '- -',
+        //     waitConfirmEmployeeName: item.waitConfirmEmployeeName ? item.waitConfirmEmployeeName : '- -',
+        //     underwriteEmployee: item.underwriteEmployee ? item.underwriteEmployee : '- -',
+        //   }
+        // })]
+        // this.$store.dispatch('app/updatedTotalPage',Math.ceil(quotationList.data.content.totalCount/10))
       }
       
     },
-    async quotationDetail(type,orderNo) {
-      const detail = await this.$store.dispatch(`quotation/Get${type == 1?'Place': 'Activity'}QuotationDetail`, orderNo)
+    async quotationDetail(type) {
+      // const detail = await this.$store.dispatch(`quotation/Get${type == 1?'Place': 'Activity'}QuotationDetail`, orderNo)
       const data = {
-        ...detail.data.content,
-        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
-          return {
-            ...item,
-            // eslint-disable-next-line no-prototype-builtins
-            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
+        insuranceAmounts: [
+          {
+            insuranceTotalAmount: 500000 / 10000,           // => 50
+            mergeSingleAmount: 300000 / 10000,              // => 30
+            perAccidentBodyAmount: 200000 / 10000,          // => 20
+            perAccidentFinanceAmount: 100000 / 10000,       // => 10
+            perBodyAmount: 150000 / 10000,                  // => 15
+            selected: true,
             fixed: false,
-            insuranceTotalAmount: item.insuranceTotalAmount/10000,
-            mergeSingleAmount: item.mergeSingleAmount/10000,
-            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
-            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
-            perBodyAmount: item.perBodyAmount/10000,
             parameter: {
-              basicFee: '',
-              finalHC: '',
-              sizeParameter: '',
-              selfInflictedParameter: '',
-              shortPeriodParameter: '',
-              additionalCostParameter: '',
-              mutiSizeParameter: '',
-              additionTermCoefficientParameter: '',
-              aggAOACoefficient: '',
-              amount: '',
+              basicFee: '500',
+              finalHC: '100',
+              sizeParameter: '1.2',
+              selfInflictedParameter: '0.9',
+              shortPeriodParameter: '1.1',
+              additionalCostParameter: '200',
+              mutiSizeParameter: '1.0',
+              additionTermCoefficientParameter: '0.95',
+              aggAOACoefficient: '1.05',
+              amount: '500000'
+            }
+          },
+          {
+            insuranceTotalAmount: 300000 / 10000,           // => 30
+            mergeSingleAmount: 200000 / 10000,              // => 20
+            perAccidentBodyAmount: 100000 / 10000,          // => 10
+            perAccidentFinanceAmount: 50000 / 10000,        // => 5
+            perBodyAmount: 80000 / 10000,                   // => 8
+            selected: false,
+            fixed: false,
+            parameter: {
+              basicFee: '300',
+              finalHC: '80',
+              sizeParameter: '1.0',
+              selfInflictedParameter: '1.0',
+              shortPeriodParameter: '1.0',
+              additionalCostParameter: '150',
+              mutiSizeParameter: '0.9',
+              additionTermCoefficientParameter: '0.92',
+              aggAOACoefficient: '1.02',
+              amount: '300000'
             }
           }
-        })
+        ],
+        questionnaire: true // 加上這行，讓之前的條件成立
       }
       this.$store.dispatch(`${type == 1?'place' : 'activity'}/updatedQuotationData`,data)
     },
   },
   async mounted() {
-    await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
+    // await this.$store.dispatch('app/getSetting')//取得設定是否有討論版
     this.$store.dispatch('app/updatedCurrentPage',1)
     if(this.$route.query.type) {
       const target = this.stateList.find(i => i.Text == this.$route.query.type)
@@ -447,19 +552,19 @@ export default {
       this.itemLists = [{ text: '核保明細', value: 1 },{ text: '核保歷程', value: 2}]
     }
     await this.getQuotationList()
-    const data = await this.$store.dispatch('quotation/GetQuotationState')
-    this.quotationState = data.data.content
-    const group = await this.$store.dispatch('resource/GetTaianNGroup')
-    this.NGroupLists = group.data.content.map(i => {
-      return {
-        Value: i,
-        Text: i
-      }
-    })
-    this.NGroupLists.unshift({
-      Value: '',
-      Text: '全部'
-    })
+    // const data = await this.$store.dispatch('quotation/GetQuotationState')
+    // this.quotationState = data.data.content
+    // const group = await this.$store.dispatch('resource/GetTaianNGroup')
+    // this.NGroupLists = group.data.content.map(i => {
+    //   return {
+    //     Value: i,
+    //     Text: i
+    //   }
+    // })
+    // this.NGroupLists.unshift({
+    //   Value: '',
+    //   Text: '全部'
+    // })
     
   },
   destroyed() {

@@ -12,12 +12,12 @@ export default {
     if (key) {
       this.$store.dispatch('home/setToken', key)
     }
-    const level = await this.$store.dispatch('underwrite/GetEmployeeUnderwriteLevel')
-    if(level.data.content) {
-      this.$store.dispatch('home/setLevel', level.data.content)
-    } else {
-      this.$store.dispatch('home/setLevel', 0)
-    }
+    // const level = await this.$store.dispatch('underwrite/GetEmployeeUnderwriteLevel')
+    this.$store.dispatch('home/setLevel', 3)
+    // if(level.data.content) {
+    // } else {
+    //   this.$store.dispatch('home/setLevel', 0)
+    // }
   }
 }
 </script>

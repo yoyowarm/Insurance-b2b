@@ -62,7 +62,7 @@
         <TableGroup :data="productListTable" urlKey="ProductName" :slotName="productSlotArray" boldFont>
           <template v-for="(item,index) in productListTable.rows">
             <div :slot="`title-${index}`" :key="`title${index}`" class="flex whitespace-no-wrap custom-column">
-              <span @click="downloadProduct(item)" class="link">{{item.title}}</span>
+              <span  class="link">{{item.title}}</span>
             </div>
           </template>
         </TableGroup>
@@ -75,7 +75,7 @@
       <CommonBoard class="w-full md:mt-6 lg:mt-0 lg:w-1/2" title="報價明細">
         <img slot="icon" class="w-7 h-8 mr-1" src="../assets/images/icon_list_alt.png" alt="">
         <template slot="right">
-          <DynamicLink type="router" path="/quotation/list" class="more">
+          <DynamicLink type="router" path="/quotation-list" class="more">
             <div class="flex items-end h-full">
               <img src="../assets/images/icon_expand_circle_down.png" alt="">
               <span class="text-base text-main">查看更多</span>
@@ -152,7 +152,33 @@ export default {
             size: '3-6'
           },
         ],
-        rows: []
+        rows: [
+          {
+            lumchTime: '2025/06/01',
+            title: '系統更新公告',
+            content: '本網站於 6/5 進行系統維護，屆時部分功能將暫停服務。'
+          },
+          {
+            lumchTime: '2025/06/10',
+            title: '新版功能上線',
+            content: '全新「報表匯出」功能已上線，歡迎前往功能頁體驗。'
+          },
+          {
+            lumchTime: '2025/06/15',
+            title: '假日服務時間調整',
+            content: '端午連假期間，客服將於每日 9:00-15:00 提供服務。'
+          },
+          {
+            lumchTime: '2025/06/16',
+            title: '常見問題集更新',
+            content: '我們新增了針對用戶回報問題的 FAQ 區，歡迎參閱。'
+          },
+          {
+            lumchTime: '2025/06/17',
+            title: '平台使用人數突破 10 萬！',
+            content: '感謝支持，我們將持續優化平台與服務。'
+          }
+        ]
       },
       productListTable: {
         head: [
@@ -168,7 +194,28 @@ export default {
           },
 
       ],
-      rows: []
+      rows: [
+        {
+          createTime: '2025/06/01',
+          title: '產品手冊_V1.pdf'
+        },
+        {
+          createTime: '2025/06/05',
+          title: '系統操作指南.docx'
+        },
+        {
+          createTime: '2025/06/10',
+          title: '最新價目表_2025.xlsx'
+        },
+        {
+          createTime: '2025/06/14',
+          title: 'APP更新紀錄.txt'
+        },
+        {
+          createTime: '2025/06/17',
+          title: '功能清單_v2.json'
+        }
+      ]
     },
       quotationListTable: {
         head: [
@@ -194,7 +241,43 @@ export default {
           },
 
         ],
-        rows: []
+        rows: [
+          {
+            quotationDate: '2025/06/01',
+            stateCode: 1,
+            stateText: '待核保',
+            mainOrderNo: 'QO20250601-001',
+            insuredName: '王小明'
+          },
+          {
+            quotationDate: '2025/06/03',
+            stateCode: 7,
+            stateText: '已核保',
+            mainOrderNo: 'QO20250603-002',
+            insuredName: '陳美芳'
+          },
+          {
+            quotationDate: '2025/06/05',
+            stateCode: 8,
+            stateText: '完成報價',
+            mainOrderNo: 'QO20250605-003',
+            insuredName: '林志強'
+          },
+          {
+            quotationDate: '2025/06/06',
+            stateCode: 9,
+            stateText: '已出單',
+            mainOrderNo: 'QO20250606-004',
+            insuredName: '張淑華'
+          },
+          {
+            quotationDate: '2025/06/07',
+            stateCode: 99,
+            stateText: '取消',
+            mainOrderNo: 'QO20250607-005',
+            insuredName: '李宜君'
+          }
+        ]
       },
       state: [],
       stateText: {
@@ -243,47 +326,46 @@ export default {
       })
     },
     async getTop3Quotation() {
-      const data = {
-        Skip: 0,
-        Take: 3,
-        QuotationListState: '',
-        Type: '',
-        ApplicantName: '',
-      }
-      const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
-      this.quotationListTable.rows = quotationList.data.content.quotations.map(item => {
-        return {
-          ...item,
-          serialNo: item.serialNo.toString(),
-          quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
-          typeText: item.type === 1 ? '處所' : item.type === 2 ? '活動' : '',
-          stateText: this.stateText[item.policyStatus]
-        }
-      })
+      // const data = {
+      //   Skip: 0,
+      //   Take: 3,
+      //   QuotationListState: '',
+      //   Type: '',
+      //   ApplicantName: '',
+      // }
+      // const quotationList = await this.$store.dispatch('quotation/GetQuotationList', data)
+      // this.quotationListTable.rows = quotationList.data.content.quotations.map(item => {
+      //   return {
+      //     ...item,
+      //     serialNo: item.serialNo.toString(),
+      //     quotationDate: item.quotationDate? item.quotationDate.split('T')[0] : '',
+      //     typeText: item.type === 1 ? '處所' : item.type === 2 ? '活動' : '',
+      //     stateText: this.stateText[item.policyStatus]
+      //   }
+      // })
     },
     async getTop3top3Products() {
-       const data = {
-        take: 3,
-        skip: 0,
-        categoryId:1,
+      //  const data = {
+      //   take: 3,
+      //   skip: 0,
+      //   categoryId:1,
+      // }
+      return {
+        createTime: '' ,
+        categoryText: '基本條款',
       }
-      const productList = await this.$store.dispatch('documentDownload/GetDocumentSettings', data)
-      this.productListTable.rows = productList.data.content.documents.map(item => {
-        return {
-          ...item,
-          createTime: item.createTime.split('T')[0] ,
-          categoryText: '基本條款',
-        }
-      })
+      // const productList = await this.$store.dispatch('documentDownload/GetDocumentSettings', data)
+      // this.productListTable.rows = productList.data.content.documents.map(item => {
+      // })
     },
     async getTop3News() {
-      const newsList = await this.$store.dispatch('news/GetNewsList', {skip:0, take:3, isEnable: true})
-      this.newsListTable.rows = newsList.data.content.news.map(i => {
-        return {
-          ...i,
-          lumchTime: i.lumchTime.split('T')[0] 
-        }
-      })
+      // const newsList = await this.$store.dispatch('news/GetNewsList', {skip:0, take:3, isEnable: true})
+      // this.newsListTable.rows = newsList.data.content.news.map(i => {
+      //   return {
+      //     ...i,
+      //     lumchTime: i.lumchTime.split('T')[0] 
+      //   }
+      // })
     },
     async getAllState() {
       const state = await this.$store.dispatch('resource/AllState', {SalesLayer: this.userInfo.salesLayer, UserId: this.userInfo.UserId})

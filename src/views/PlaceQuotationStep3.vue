@@ -201,34 +201,105 @@ export default {
       this.$router.push(`/place-quotation/step1`)
     },
     async quotationDetail() {
-      const detail = await this.$store.dispatch('quotation/GetPlaceQuotationDetail', {orderno: this.orderNo,mainOrderNo: this.mainOrderNo})
       const quotationData = {
-        ...detail.data.content,
-        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
-          return {
-            ...item,
-            // eslint-disable-next-line no-prototype-builtins
-            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
-            fixed: false,
-            insuranceTotalAmount: item.insuranceTotalAmount/10000,
-            mergeSingleAmount: item.mergeSingleAmount/10000,
-            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
-            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
-            perBodyAmount: item.perBodyAmount/10000,
-            parameter: {
-              basicFee: '',
-              finalHC: '',
-              sizeParameter: '',
-              selfInflictedParameter: '',
-              shortPeriodParameter: '',
-              additionalCostParameter: '',
-              mutiSizeParameter: '',
-              additionTermCoefficientParameter: '',
-              aggAOACoefficient: '',
-              amount: '',
+        "insuraned": {
+          "name": "王曉明",
+          "id": "A123456789",
+          "birthday": "1985-03-15",
+          "phone": "0912345678"
+        },
+        "applicant": {
+          "name": "王曉明",
+          "id": "A123456789",
+          "relationship": "本人",
+          "address": "台北市中山區中山北路一段1號"
+        },
+        "placeInsureInfo": {
+          "renewal": {
+            "isRenewal": true,
+            "insuranceNumber": "POL20250617001"
+          },
+          "insuranceBeginDate": "2025-06-17T08:53:22",
+          "insuranceBeginHour": 12,
+          "insuranceEndDate": "2026-06-17T08:53:22",
+          "insuranceEndHour": 12,
+          "displayInsureType": "其他",
+          "otherIndustryName": "資訊科技顧問服務",
+          "insuranceRecord": {
+            "lastYear": {
+              "status": true,
+              "averagePremium": 35000,
+              "claimAmount": 10000
+            },
+            "previousYear": {
+              "status": false,
+              "averagePremium": null,
+              "claimAmount": null
             }
+          },
+          "placeInfo": [
+            {
+              "holdState": 1,
+              "squareFeet": 300,
+              "city": "台北市",
+              "subAddress": "信義路五段7號"
+            },
+            {
+              "holdState": 0,
+              "squareFeet": 200,
+              "city": "新北市",
+              "subAddress": "板橋區文化路一段360號"
+            }
+          ],
+          "additionTerms": [
+            {
+              "additionTermId": "911",
+              "additionTermName": "財損責任保險附加條款",
+              "selected": true,
+              "disable": true
+            },
+            {
+              "additionTermId": "PL013",
+              "additionTermName": "食品中毒附加條款",
+              "selected": false,
+              "disable": false
+            }
+          ],
+          "remark": "被保險人有海外展店計畫，需延長保期。",
+          "fileAttachments": [
+            {
+              "fileName": "保險合約.pdf"
+            },
+            {
+              "fileName": "財務報表.xlsx"
+            }
+          ]
+        },
+        "insuranceAmounts": [
+          {
+            "isSelected": true,
+            "insuranceTotalAmount": 2000000,
+            "mergeSingleAmount": 1000000,
+            "perAccidentBodyAmount": 500000,
+            "perAccidentFinanceAmount": 200000,
+            "perBodyAmount": 300000,
+            "insuranceAmount": 5000
+          },
+          {
+            "isSelected": false,
+            "insuranceTotalAmount": 3000000,
+            "mergeSingleAmount": 1500000,
+            "perAccidentBodyAmount": 600000,
+            "perAccidentFinanceAmount": 300000,
+            "perBodyAmount": 400000,
+            "insuranceAmount": 7000
           }
-        })
+        ],
+        "questionnaire": {
+          "part1": {
+            "businessType": "餐廳"
+          }
+        }
       }
       this.$store.dispatch(`place/updatedQuotationData`,quotationData)
     },
@@ -294,10 +365,178 @@ export default {
     },
   },
   async mounted() {
-    await this.getChatComment(this.mainOrderNo)
+    // await this.getChatComment(this.mainOrderNo)
     await this.quotationDetail()
-    const county = await this.$store.dispatch('resource/CountyMinimumSettings')
-    this.countyAmount = county.data.content
+    this.countyAmount = [
+      {
+        "authorityId": "1",
+        "countyName": "基隆市政府",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 1500,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 3400
+      },
+      {
+        "authorityId": "2",
+        "countyName": "台北市政府 ",
+        "perBodyAmount": 600,
+        "perAccidentBodyAmount": 3000,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 6600
+      },
+      {
+        "authorityId": "3",
+        "countyName": "新北市政府 ",
+        "perBodyAmount": 600,
+        "perAccidentBodyAmount": 3000,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 6600
+      },
+      {
+        "authorityId": "4",
+        "countyName": "桃園市政府 ",
+        "perBodyAmount": 600,
+        "perAccidentBodyAmount": 3000,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 6600
+      },
+      {
+        "authorityId": "5",
+        "countyName": "新竹市政府 ",
+        "perBodyAmount": 600,
+        "perAccidentBodyAmount": 3000,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 6600
+      },
+      {
+        "authorityId": "6",
+        "countyName": "新竹縣政府 ",
+        "perBodyAmount": 200,
+        "perAccidentBodyAmount": 2000,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 3600
+      },
+      {
+        "authorityId": "7",
+        "countyName": "苗栗縣政府 ",
+        "perBodyAmount": 200,
+        "perAccidentBodyAmount": 1000,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 2400
+      },
+      {
+        "authorityId": "8",
+        "countyName": "台中市政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 3000,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 4800
+      },
+      {
+        "authorityId": "9",
+        "countyName": "彰化縣政府 ",
+        "perBodyAmount": 600,
+        "perAccidentBodyAmount": 3000,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 6600
+      },
+      {
+        "authorityId": "10",
+        "countyName": "南投縣政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 1500,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 3400
+      },
+      {
+        "authorityId": "11",
+        "countyName": "雲林縣政府 ",
+        "perBodyAmount": 200,
+        "perAccidentBodyAmount": 1000,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 2400
+      },
+      {
+        "authorityId": "12",
+        "countyName": "嘉義縣(市)政府 ",
+        "perBodyAmount": 200,
+        "perAccidentBodyAmount": 1000,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 2400
+      },
+      {
+        "authorityId": "13",
+        "countyName": "台南市政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 1500,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 2400
+      },
+      {
+        "authorityId": "14",
+        "countyName": "高雄市政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 1500,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 4800
+      },
+      {
+        "authorityId": "15",
+        "countyName": "屏東縣政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 3000,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 6400
+      },
+      {
+        "authorityId": "16",
+        "countyName": "宜蘭縣政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 3000,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 4800
+      },
+      {
+        "authorityId": "17",
+        "countyName": "花蓮縣政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 1500,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 2400
+      },
+      {
+        "authorityId": "18",
+        "countyName": "台東縣政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 2000,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 2400
+      },
+      {
+        "authorityId": "19",
+        "countyName": "澎湖縣政府 ",
+        "perBodyAmount": 300,
+        "perAccidentBodyAmount": 1500,
+        "perAccidentFinanceAmount": 300,
+        "insuranceTotalAmount": 3600
+      },
+      {
+        "authorityId": "20",
+        "countyName": "金門縣政府 ",
+        "perBodyAmount": 200,
+        "perAccidentBodyAmount": 1000,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 2400
+      },
+      {
+        "authorityId": "21",
+        "countyName": "連江縣政府 ",
+        "perBodyAmount": 200,
+        "perAccidentBodyAmount": 1000,
+        "perAccidentFinanceAmount": 200,
+        "insuranceTotalAmount": 2400
+      }
+    ]
     if(this.InsuranceActive == 7) {
       const underwriteStatus = await this.$store.dispatch('underwrite/GetUnderwriteStatusParameter', this.orderNo)
       this.underwriteStatus = underwriteStatus.data.content

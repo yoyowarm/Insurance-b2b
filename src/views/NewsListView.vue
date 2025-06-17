@@ -50,7 +50,33 @@ export default {
             size: '5-6'
           },
         ],
-        rows: []
+        rows: [
+          {
+            lumchTime: '2025/06/01',
+            title: '系統更新公告',
+            content: '本網站於 6/5 進行系統維護，屆時部分功能將暫停服務。'
+          },
+          {
+            lumchTime: '2025/06/10',
+            title: '新版功能上線',
+            content: '全新「報表匯出」功能已上線，歡迎前往功能頁體驗。'
+          },
+          {
+            lumchTime: '2025/06/15',
+            title: '假日服務時間調整',
+            content: '端午連假期間，客服將於每日 9:00-15:00 提供服務。'
+          },
+          {
+            lumchTime: '2025/06/16',
+            title: '常見問題集更新',
+            content: '我們新增了針對用戶回報問題的 FAQ 區，歡迎參閱。'
+          },
+          {
+            lumchTime: '2025/06/17',
+            title: '平台使用人數突破 10 萬！',
+            content: '感謝支持，我們將持續優化平台與服務。'
+          }
+        ]
       },
     }
   },
@@ -85,17 +111,17 @@ export default {
       this.$store.dispatch('app/updatedCurrentPage',page)
       await this.getNews(page)
     },
-    async getNews(page) {
-      const newsList = await this.$store.dispatch('news/GetNewsList', {skip: page ? (page-1)*10 : (this.currentPage-1)*10, isEnable: true})
-      this.$store.dispatch('app/updatedTotalPage',newsList.data.TotalPage)
-      this.newsListTable.rows = newsList.data.content.news.map(i => {
-        return {
-          ...i,
-          lumchTime: i.lumchTime.split('T')[0]
-        }
-      })
-      this.$store.dispatch('app/updatedCurrentPage',1)
-      this.$store.dispatch('app/updatedTotalPage',Math.ceil(newsList.data.content.totalCount/10))
+    async getNews() {
+      // const newsList = await this.$store.dispatch('news/GetNewsList', {skip: page ? (page-1)*10 : (this.currentPage-1)*10, isEnable: true})
+      // this.$store.dispatch('app/updatedTotalPage',newsList.data.TotalPage)
+      // this.newsListTable.rows = newsList.data.content.news.map(i => {
+      //   return {
+      //     ...i,
+      //     lumchTime: i.lumchTime.split('T')[0]
+      //   }
+      // })
+      // this.$store.dispatch('app/updatedCurrentPage',1)
+      // this.$store.dispatch('app/updatedTotalPage',Math.ceil(newsList.data.content.totalCount/10))
     },
     popup(item) {
       NewsPopup.create({

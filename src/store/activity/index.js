@@ -10,31 +10,58 @@ export default {
     quotationData: {},
     underwriteQuotationData: {},
     underwriteQuotationIsChange: false,
-    activityInfo: [{
-      number: '',
-      city: {
-        Text: '選擇縣市',
-        Value: '',
+    activityInfo: [
+      {
+        number: '150',
+        city: {
+          Text: '台北市',
+          Value: '01',
+        },
+        area: {
+          Text: '大安區',
+          Value: '0101',
+        },
+        address: '信義路四段100號',
+        day: '1',
+        startDate: {
+          year: '114',
+          month: '07',
+          day: '20',
+          hour: '09'
+        },
+        endDate: {
+          year: '114',
+          month: '07',
+          day: '20',
+          hour: '17'
+        },
       },
-      area: {
-        Text: '選擇區域',
-        Value: '',
-      },
-      address: '',
-      day: '1',
-      startDate: {
-        year: '',
-        month: '',
-        day: '',
-        hour: ''
-      },
-      endDate: {
-        year: '',
-        month: '',
-        day: '',
-        hour: ''
-      },
-    }],
+      {
+        number: '80',
+        city: {
+          Text: '高雄市',
+          Value: '02',
+        },
+        area: {
+          Text: '苓雅區',
+          Value: '0205',
+        },
+        address: '中正一路55號',
+        day: '2',
+        startDate: {
+          year: '114',
+          month: '08',
+          day: '05',
+          hour: '13'
+        },
+        endDate: {
+          year: '114',
+          month: '08',
+          day: '06',
+          hour: '18'
+        },
+      }
+    ],
     period: {
       startDate: {
         year: '',

@@ -46,7 +46,28 @@ export default {
             size: '3-6'
           },
         ],
-        rows: []
+        rows: [
+          {
+            createTime: '2025/06/01',
+            title: '產品手冊_V1.pdf'
+          },
+          {
+            createTime: '2025/06/05',
+            title: '系統操作指南.docx'
+          },
+          {
+            createTime: '2025/06/10',
+            title: '最新價目表_2025.xlsx'
+          },
+          {
+            createTime: '2025/06/14',
+            title: 'APP更新紀錄.txt'
+          },
+          {
+            createTime: '2025/06/17',
+            title: '功能清單_v2.json'
+          }
+        ]
       },
       currentTag: 1,
       itemLists:[
@@ -87,7 +108,7 @@ export default {
     async changePage(page) {
       if(this.currentPage === page || page < 1) return
       this.$store.dispatch('app/updatedCurrentPage',page)
-      await this.getProducts()
+      // await this.getProducts()
     },
     async getCategories() {
       const res = await this.$store.dispatch('documentDownload/GetCategories')
@@ -120,8 +141,8 @@ export default {
   },
   async mounted() {
     this.$store.dispatch('app/updatedCurrentPage',1)
-    await this.getCategories()
-    await this.getProducts('',1)
+    // await this.getCategories()
+    // await this.getProducts('',1)
   }
 }
 </script>

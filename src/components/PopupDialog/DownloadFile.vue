@@ -117,6 +117,7 @@ export default {
       this.value = true
     },
     async downloadFile(orderNo, type, quotationType) {
+      if (orderNo) return
       if (type == 'insurance') {
        const res = await this.$store.dispatch('common/GetInsuranceDocument', orderNo)
        var blob = new Blob([res.data], {type: "application/octet-stream"});

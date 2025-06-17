@@ -16,9 +16,9 @@
               </a>
               <span v-else-if="item.ID && headItem.value === 'Title'" class="link cursor-pointer" @click="$emit('popup', index)">{{item[headItem.value]}}</span>
               <span class="text-gray-600" v-else-if="item.class && headItem.value === statusKey" :class="item.class" v-html="item[headItem.value]">
-                {{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}
+                
               </span>
-              <span class="text-gray-600" :class="{'font-semibold': boldFont}" v-else>{{item[headItem.value] ? item[headItem.value].replace(/<(\/*)[^>]*>/g,'') : ''}}</span>
+              <span class="text-gray-600" :class="{'font-semibold': boldFont}" v-else>{{item[headItem.value] ? item[headItem.value] : ''}}</span>
             </div>
           </template>
         </div>

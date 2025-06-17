@@ -159,14 +159,14 @@ export default {
           }
         }
       })
-      arr.map(item => {
-        if(item.rows[0].applicantName === item.rows[0].insuredName) {
-          item.head[1].text = '要/被保險人'
-          item.head[1].size = '4-6'
-          item.head[1].colSpan = true
-          item.head.splice(2,1)
-        }
-      })
+      // arr.map(item => {
+      //   if(item.rows[0].applicantName === item.rows[0].insuredName) {
+      //     item.head[1].text = '要/被保險人'
+      //     item.head[1].size = '4-6'
+      //     item.head[1].colSpan = true
+      //     item.head.splice(2,1)
+      //   }
+      // })
       return arr
     },
   },
@@ -211,27 +211,47 @@ export default {
         this.$router.push(`/${type == 1 ? 'place' : 'activity'}-quotation/step1`)
       }
     },
-    async quotationDetail(type,orderNo,mainOrderNo) {
-      const detail = await this.$store.dispatch(`quotation/Get${type == 1?'Place': 'Activity'}QuotationDetail`, {orderno:orderNo,mainOrderNo})
+    async quotationDetail(type) {
+      // const detail = await this.$store.dispatch(`quotation/Get${type == 1?'Place': 'Activity'}QuotationDetail`, {orderno:orderNo,mainOrderNo})
       const data = {
-        ...detail.data.content,
-        insuranceAmounts: detail.data.content.insuranceAmounts.map((item,index) => {
-          return {
-            ...item,
-            // eslint-disable-next-line no-prototype-builtins
-            selected: item.hasOwnProperty('isSelected') ? item.isSelected : (index == 0 ? true : false),
-            fixed: false,
-            insuranceTotalAmount: item.insuranceTotalAmount/10000,
-            mergeSingleAmount: item.mergeSingleAmount/10000,
-            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
-            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
-            perBodyAmount: item.perBodyAmount/10000,
-          }
-        })
+        content: {
+          orderNo: 'Q1234567890',
+          mainOrderNo: 'M20250617001',
+          iofficer: 'H318',
+          iOfficerName: '陳大安',
+          applicantName: '林志明',
+          insuredName: '林志明',
+          companyDepartment: '業務一課',
+          policyStatus: 7,
+          quotationDate: '2025-06-17T10:00:00',
+          daySettleDate: '2025-06-18T00:00:00',
+          insuranceBeginTime: '2025-07-01T00:00:00',
+          insuranceEndTime: '2026-07-01T00:00:00',
+          insurancePremiums: 3200,
+          insuranceAmount: 500000,
+          type: 1,
+          questionnaire: true,
+          insuranceAmounts: [
+            {
+              insuranceTotalAmount: 1000000,
+              mergeSingleAmount: 500000,
+              perAccidentBodyAmount: 300000,
+              perAccidentFinanceAmount: 200000,
+              perBodyAmount: 100000,
+              isSelected: true
+            },
+            {
+              insuranceTotalAmount: 2000000,
+              mergeSingleAmount: 1000000,
+              perAccidentBodyAmount: 500000,
+              perAccidentFinanceAmount: 400000,
+              perBodyAmount: 300000
+            }
+          ]
+        }
       }
-      if(detail.data.content.questionnaire) {
-        this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updateQuestionnaireFinished`, true)
-      }
+      
+      this.$store.dispatch(`${type == 1 ? 'place' : 'activity'}/updateQuestionnaireFinished`, true)
       this.$store.dispatch(`${type == 1?'place' : 'activity'}/updatedQuotationData`,data)
     },
     async finishQuotation(orderNo) {//確認報價
@@ -271,24 +291,96 @@ export default {
         this.$emit('updateQuotationList')
       })
     },
-    async processHistory(orderNo) {
-      const res = await this.$store.dispatch('underwrite/GetUnderwriteProcessHistory', orderNo)
-      this.historyData = res.data.content.map(item => {
-        return {
-          ...item,
-          employee: `${item.employeeName}(${item.employeeId})`,
+    async processHistory() {
+      // const res = await this.$store.dispatch('underwrite/GetUnderwriteProcessHistory', orderNo)
+      this.historyData = [
+        {
+          "date": "2025-06-01",
+          "employee": "王小明(001)",
+          "operate": "建立報價單"
+        },
+        {
+          "date": "2025-06-02",
+          "employee": "林美麗(002)",
+          "operate": "修改保費金額"
+        },
+        {
+          "date": "2025-06-03",
+          "employee": "張大同(003)",
+          "operate": "新增保險項目"
+        },
+        {
+          "date": "2025-06-04",
+          "employee": "李小花(004)",
+          "operate": "提交核保"
+        },
+        {
+          "date": "2025-06-05",
+          "employee": "陳大安(005)",
+          "operate": "完成報價"
         }
-      })
+      ]
       this.openHistory = true
     },
-    async modifyLogs(orderNo) {
-      const res = await this.$store.dispatch('underwrite/GetUnderwriteModifyLogs', {orderno:orderNo, quotationUnderwriteType : this.currentTag == 0 ? 1 : 2})
-      this.modifyLogData = res.data.content.map(item => {
-        return {
-          ...item,
-          employee: `${item.eMployeeName}(${item.employeeId})`,
+    async modifyLogs() {
+      // const res = await this.$store.dispatch('underwrite/GetUnderwriteModifyLogs', {orderno:orderNo, quotationUnderwriteType : this.currentTag == 0 ? 1 : 2})
+      this.modifyLogData = [
+        {
+          "modifyTime": "2025-06-01 14:30",
+          "employee": "王小明(001)",
+          "modifyDetails": [
+            {
+              "field": "保費",
+              "originData": "3000",
+              "modifyData": "3200"
+            }
+          ]
+        },
+        {
+          "modifyTime": "2025-06-02 14:31",
+          "employee": "林美麗(002)",
+          "modifyDetails": [
+            {
+              "field": "保險期間",
+              "originData": "2025/06/01 ~ 2025/07/01",
+              "modifyData": "2025/06/01 ~ 2025/08/01"
+            }
+          ]
+        },
+        {
+          "modifyTime": "2025-06-03 14:32",
+          "employee": "張大同(003)",
+          "modifyDetails": [
+            {
+              "field": "要保人姓名",
+              "originData": "王小明",
+              "modifyData": "王小豪"
+            }
+          ]
+        },
+        {
+          "modifyTime": "2025-06-04 14:33",
+          "employee": "李小花(004)",
+          "modifyDetails": [
+            {
+              "field": "公司單位",
+              "originData": "業務一課",
+              "modifyData": "業務二課"
+            }
+          ]
+        },
+        {
+          "modifyTime": "2025-06-05 14:34",
+          "employee": "陳大安(005)",
+          "modifyDetails": [
+            {
+              "field": "狀態",
+              "originData": "待核保",
+              "modifyData": "已核保"
+            }
+          ]
         }
-      })
+      ]
       this.openLog = true
     },
     async openChatComment(mainOrderNo) {

@@ -61,10 +61,10 @@ export default {
         const data = utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]);
         console.log(data)
       } else {
-        await this.$store.dispatch('common/UploadFile', {
-          policyAttachmentId: this.uuid,
-          file: e.target.files[0]
-        })
+        // await this.$store.dispatch('common/UploadFile', {
+        //   policyAttachmentId: this.uuid,
+        //   file: e.target.files[0]
+        // })
       }
       
       this.$emit('updatedFile')
@@ -73,14 +73,14 @@ export default {
       if( this.type) {
         console.log('delete')
       } else {
-        const res = await this.$store.dispatch('common/DeleteFile',{
-          policyAttachmentId: this.attachment.policyAttachmentId,
-          fileAttachmentId: this.attachment.id
-        })
-        if(res.data.code == 1) {
-          this.fileName = ''
-          this.$emit('updatedFile')
-        }
+        // const res = await this.$store.dispatch('common/DeleteFile',{
+        //   policyAttachmentId: this.attachment.policyAttachmentId,
+        //   fileAttachmentId: this.attachment.id
+        // })
+        // if(res.data.code == 1) {
+        // }
+        this.fileName = ''
+        this.$emit('updatedFile')
       }
     },
   },

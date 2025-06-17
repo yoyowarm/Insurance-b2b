@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '../store/index'
-import { routeMatch } from '@/utils/regex'
+// import store from '../store/index'
+// import { routeMatch } from '@/utils/regex'
 
 Vue.use(VueRouter)
 
@@ -233,28 +233,28 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const whitelist = ['/', '/news/list', '/product/list', '/underwriting-list']
-  if (!store.state.home.userInfo.permissions.includes(routeMatch(to.path)) && !whitelist.includes(to.path)) {
-    next({ name: 'quotationList' })
-  }
-  if (to.path === '/place-quotation/step2' && from.path === '/place-quotation/step3') {
-    next({ name: 'place-quotation-step3' })
-  }
-  if (to.path === '/activity-quotation/step2' && from.path === '/activity-quotation/step3') {
-    next({ name: 'activity-quotation-step3' })
-  }
-  if (from.path === '/place-quotation/step3' && store.state.place.InsuranceActive == 0) {
-    store.dispatch('place/clearAll')
-    store.dispatch('activity/clearAll')
-    store.dispatch('common/updateOrderNo', '')
-    store.dispatch('common/updatedCalculateModel', false)
-  }
-  if (from.path === '/activity-quotation/step3' && store.state.activity.InsuranceActive == 0) {
-    store.dispatch('place/clearAll')
-    store.dispatch('activity/clearAll')
-    store.dispatch('common/updateOrderNo', '')
-    store.dispatch('common/updatedCalculateModel', false)
-  }
+  // const whitelist = ['/', '/news/list', '/product/list', '/underwriting-list']
+  // if (!store.state.home.userInfo.permissions.includes(routeMatch(to.path)) && !whitelist.includes(to.path)) {
+  //   next({ name: 'quotationList' })
+  // }
+  // if (to.path === '/place-quotation/step2' && from.path === '/place-quotation/step3') {
+  //   next({ name: 'place-quotation-step3' })
+  // }
+  // if (to.path === '/activity-quotation/step2' && from.path === '/activity-quotation/step3') {
+  //   next({ name: 'activity-quotation-step3' })
+  // }
+  // if (from.path === '/place-quotation/step3' && store.state.place.InsuranceActive == 0) {
+  //   store.dispatch('place/clearAll')
+  //   store.dispatch('activity/clearAll')
+  //   store.dispatch('common/updateOrderNo', '')
+  //   store.dispatch('common/updatedCalculateModel', false)
+  // }
+  // if (from.path === '/activity-quotation/step3' && store.state.activity.InsuranceActive == 0) {
+  //   store.dispatch('place/clearAll')
+  //   store.dispatch('activity/clearAll')
+  //   store.dispatch('common/updateOrderNo', '')
+  //   store.dispatch('common/updatedCalculateModel', false)
+  // }
   next()
 })
 export default router

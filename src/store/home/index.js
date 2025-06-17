@@ -3,7 +3,7 @@ export default {
   state: {
     token: '',
     userInfo: {
-      permissions: []
+      permissions: ['QuoteDetails', 'PlaceQuote', 'ActivityQuote', 'QuestionnaireManage', 'PermissionSetting', 'PlaceActivityTypeSetting', 'PlaceActivityTypeSetting', 'CountyMinimumSetting', 'BasicPremium', 'QuoteInsuranceAmount', 'NewsSetting', 'DocumentDownloadSetting', 'SuggestTermSetting', 'QuoteAndWeight', 'QuoteAmount', 'SuggestTermSetting', 'QuoteAndWeight', 'QuoteAmount', 'UnderwriteLevel', 'UnderwriteGroup', 'UnderwriteGroup', 'UnderwriteLevel']
     },
     level: ''
   },

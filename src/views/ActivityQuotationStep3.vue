@@ -151,6 +151,110 @@ export default {
       underwriteStatus: {},
       underwriteCoefficient: '',
       underwritingReasons: '',
+      quotationData: {
+        insuraned: {
+          name: '王大明',
+          id: 'A123456789',
+          phone: '0912345678',
+        },
+        applicant: {
+          name: '李小花',
+          id: 'B987654321',
+          phone: '0922333444',
+        },
+        activityInsureInfo: {
+          displayInsureType: '其他',
+          otherIndustryName: '心理輔導與家庭諮詢機構',
+          insuranceBeginDate: '2025-07-01T00:00:00',
+          insuranceBeginHour: 12,
+          insuranceEndDate: '2026-06-30T00:00:00',
+          insuranceEndHour: 12,
+          remark: '這是備註文字，說明投保細節。',
+          additionTerms: [
+            {
+              additionTermId: '758A',
+              additionTermName: '意外醫療費用附加條款'
+            },
+            {
+              additionTermId: '911',
+              additionTermName: '公共意外責任附加條款'
+            }
+          ],
+          activityInfo: [
+            {
+              dailyPeople: '1000',
+              cityId: '01',
+              areaId: '0101',
+              countyCode: 'A1',
+              city: '台北市',
+              area: '中正區',
+              subAddress: '仁愛路一段1號',
+              activityDays: 1,
+              activityBeginDate: '2025-08-15',
+              activityBeginHour: 9,
+              activityEndDate: '2025-08-15',
+              activityEndHour: 17
+            },
+            {
+              dailyPeople: '800',
+              cityId: '02',
+              areaId: '0201',
+              countyCode: 'A2',
+              city: '新北市',
+              area: '板橋區',
+              subAddress: '中山路二段88號',
+              activityDays: 1,
+              activityBeginDate: '2025-09-01',
+              activityBeginHour: 10,
+              activityEndDate: '2025-09-01',
+              activityEndHour: 18
+            }
+          ]
+        },
+        activityInfo: [
+          {
+            dailyPeople: '100',
+            cityId: '01',
+            city: '台北市',
+            areaId: '0102',
+            area: '信義區',
+            countyCode: '100',
+            subAddress: '信義路五段100號',
+            activityDays: '1',
+            activityBeginDate: '2025-07-01',
+            activityBeginHour: '09',
+            activityEndDate: '2025-07-01',
+            activityEndHour: '18',
+          }
+        ],
+        additionTerms: [
+          { additionTermId: '758A', additionTermName: '特定條款一' },
+          { additionTermId: '911', additionTermName: '特定條款二' }
+        ],
+        insuranceAmounts: [
+          {
+            insuranceTotalAmount: 5000000,
+            mergeSingleAmount: 3000000,
+            perAccidentBodyAmount: 1000000,
+            perAccidentFinanceAmount: 1000000,
+            perBodyAmount: 1000000,
+            fixed: false,
+            parameter: {
+              basicFee: '',
+              finalHC: '',
+              sizeParameter: '',
+              selfInflictedParameter: '',
+              shortPeriodParameter: '',
+              additionalCostParameter: '',
+              mutiSizeParameter: '',
+              additionTermCoefficientParameter: '',
+              aggAOACoefficient: '',
+              amount: '',
+            }
+          }
+        ],
+        remark: '本次活動為戶外運動營隊。',
+      }
     }
   },
   computed: {
@@ -168,7 +272,7 @@ export default {
       InsuranceActive: state => state.activity.InsuranceActive,
       PolicyStatus: state => state.activity.PolicyStatus,
       parameter: state => state.activity.parameter,
-      quotationData: state => state.activity.quotationData,
+      // quotationData: state => state.activity.quotationData,
       questionnaire: state => state.activity.questionnaire,
       chatMessageList: state => state.common.chatMessageList,
       appSetting: state => state.app.appSetting,
@@ -201,18 +305,46 @@ export default {
   },
   methods: {
     async quotationDetail() {
-      const detail = await this.$store.dispatch('quotation/GetActivityQuotationDetail', {orderno: this.orderNo,mainOrderNo: this.mainOrderNo})
+      // const detail = await this.$store.dispatch('quotation/GetActivityQuotationDetail', {orderno: this.orderNo,mainOrderNo: this.mainOrderNo})
       const quotationData = {
-        ...detail.data.content,
-        insuranceAmounts: detail.data.content.insuranceAmounts.map((item) => {
-          return {
-            ...item,
+        insuraned: {
+          name: '王大明',
+          id: 'A123456789',
+          phone: '0912345678',
+        },
+        applicant: {
+          name: '李小花',
+          id: 'B987654321',
+          phone: '0922333444',
+        },
+        activityInfo: [
+          {
+            dailyPeople: '100',
+            cityId: '01',
+            city: '台北市',
+            areaId: '0102',
+            area: '信義區',
+            countyCode: '100',
+            subAddress: '信義路五段100號',
+            activityDays: '1',
+            activityBeginDate: '2025-07-01',
+            activityBeginHour: '09',
+            activityEndDate: '2025-07-01',
+            activityEndHour: '18',
+          }
+        ],
+        additionTerms: [
+          { additionTermId: '758A', additionTermName: '特定條款一' },
+          { additionTermId: '911', additionTermName: '特定條款二' }
+        ],
+        insuranceAmounts: [
+          {
+            insuranceTotalAmount: 5000000,
+            mergeSingleAmount: 3000000,
+            perAccidentBodyAmount: 1000000,
+            perAccidentFinanceAmount: 1000000,
+            perBodyAmount: 1000000,
             fixed: false,
-            insuranceTotalAmount: item.insuranceTotalAmount/10000,
-            mergeSingleAmount: item.mergeSingleAmount/10000,
-            perAccidentBodyAmount: item.perAccidentBodyAmount/10000,
-            perAccidentFinanceAmount: item.perAccidentFinanceAmount/10000,
-            perBodyAmount: item.perBodyAmount/10000,
             parameter: {
               basicFee: '',
               finalHC: '',
@@ -226,7 +358,8 @@ export default {
               amount: '',
             }
           }
-        })
+        ],
+        remark: '本次活動為戶外運動營隊。',
       }
        this.$store.dispatch(`activity/updatedQuotationData`,quotationData)
     },
@@ -261,11 +394,11 @@ export default {
         cancel: '取消',
         htmlText: `<p>${key && key !== 'up'? '完成報價' : (key == 'up' ? '向上核保':'送出核保') }後將無法改動報價內容，確定${key && key !== 'up'? '完成報價' : (key == 'up' ? '向上核保':'送出核保') }？</p>`,
       }).then(async () => {
-        if(key && key !== 'up') {
-          await this.$store.dispatch('quotation/FinishQuotation', {orderNo: this.orderNo})
-        } else if (key == 'up' || !key) {
-          await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
-        }
+        // if(key && key !== 'up') {
+        //   await this.$store.dispatch('quotation/FinishQuotation', {orderNo: this.orderNo})
+        // } else if (key == 'up' || !key) {
+        //   await this.$store.dispatch('underwrite/BeginUnderwriting',{orderno: this.orderNo})
+        // }
         this.packHome(key && key == 'up'?false:true)
         this.$store.dispatch('common/updatedCalculateModel', false)
         this.$store.dispatch(`activity/updatedInsuranceActive`,0)
@@ -287,23 +420,56 @@ export default {
         this.$store.dispatch(`activity/updatedInsuranceActive`,0)
     },
     async pageInit() {
-      const districts = await this.$store.dispatch('resource/Districts')
-      const county = await this.$store.dispatch('resource/CountyMinimumSettings')
-      this.countyAmount = county.data.content
-      districts.data.content.map(item => {
-        this.cityList.push({
-          ...item,
-          Value: item.cityId,
-          Text: item.cityName
-        })
-        item.countyDistricts.map(subItem => {
-          this.areaList.push({
-            ...subItem,
-            Value: subItem.areaId,
-            Text: subItem.areaName
-          })
-        })
-      })
+      this.countyAmount = [
+        { cityId: '01', minimumAmount: 100000 },
+        { cityId: '02', minimumAmount: 90000 },
+        { cityId: '03', minimumAmount: 85000 },
+        { cityId: '04', minimumAmount: 80000 }
+      ]
+      this.cityList = [
+        {
+          cityId: '01',
+          cityName: '台北市',
+          Value: '01',
+          Text: '台北市'
+        },
+        {
+          cityId: '02',
+          cityName: '新北市',
+          Value: '02',
+          Text: '新北市'
+        }
+      ]
+      this.areaList = [
+        {
+          areaId: '0101',
+          areaName: '中正區',
+          cityId: '01',
+          Value: '0101',
+          Text: '中正區'
+        },
+        {
+          areaId: '0102',
+          areaName: '信義區',
+          cityId: '01',
+          Value: '0102',
+          Text: '信義區'
+        },
+        {
+          areaId: '0201',
+          areaName: '板橋區',
+          cityId: '02',
+          Value: '0201',
+          Text: '板橋區'
+        },
+        {
+          areaId: '0202',
+          areaName: '新店區',
+          cityId: '02',
+          Value: '0202',
+          Text: '新店區'
+        }
+      ]
     },
     async questionnaireCoefficient() {
       let data = {}
@@ -319,7 +485,7 @@ export default {
     },
   },
   async mounted() {
-    await this.getChatComment(this.mainOrderNo)
+    // await this.getChatComment(this.mainOrderNo)
     await this.quotationDetail()
     await this.pageInit()
     if(this.InsuranceActive == 7) {
