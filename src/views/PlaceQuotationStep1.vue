@@ -74,10 +74,10 @@
         type="place"
       />
     </CommonBoard>
-    <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest && item.isEnable).length > 0">
+    <CommonBoard class="w-full" title="建議條款">
       <TermsList
         :terms.sync="termsData"
-        :termsLists="additionTermsList.filter(item => item.isSuggest && item.isEnable)"
+        :termsLists="additionTermsList"
         :disable="calculateModel"
         :holdState="placeInfo.every(i => i.holdState == false)"
       />
@@ -690,9 +690,7 @@ export default {
         { cityId: '03', minimumAmount: 85000 },
         { cityId: '04', minimumAmount: 80000 }
       ]
-      if(this.industry.Value) {
-        this.initTerm()
-      }
+      this.initTerm()
       if((this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) ) {//報價明細更正、複製時塞資料
         await this.step1InitAssignValue('place')
         this.AssignQuestionnaire('place')

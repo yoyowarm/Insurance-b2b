@@ -9,7 +9,7 @@
           :checked="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
           :value="copyTerms[item.additionTermName]? copyTerms[item.additionTermName].selected : false"
           :disabled="disable || item.disable"
-          @updateValue="(e) =>updateTerms(item.additionTermName, e)"
+
           :ref="item.additionTermName"
         />
         <p class="ml-1 cursor-pointer" @click="setDialog(item,true)">{{item.additionTermName}}</p>
@@ -80,14 +80,11 @@ export default {
   },
   methods: {
     async setDialog(item, hasHtml) {
-      const Descriptions = await this.$store.dispatch('resource/AdditionTermDescriptions',{additionTermId: item.additionTermId})
-      if(Descriptions.data.content.descriptions.length >0) {
-        Popup.create({
-          headerText: item.additionTermName,
-          hasHtml,
-          htmlText: Descriptions.data.content.descriptions.map(i => i.replace(' ','　')).join('<br>'),
-        })
-      }
+      Popup.create({
+        headerText: item.additionTermName,
+        hasHtml,
+        htmlText: item.description,
+      })
     },
     updateTerms(additionTermName, e) {
       if(additionTermName.includes('PL005') && this.holdState) {

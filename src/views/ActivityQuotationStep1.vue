@@ -48,10 +48,10 @@
         
       />
     </CommonBoard>
-    <CommonBoard class="w-full" title="建議條款" v-if="additionTermsList.filter(item => item.isSuggest).length > 0">
+    <CommonBoard class="w-full" title="建議條款">
       <TermsList
         :terms.sync="termsData"
-        :termsLists="additionTermsList.filter(item => item.isSuggest)"
+        :termsLists="additionTermsList"
         :disable="calculateModel"
         :holdState="false"
       />
@@ -441,6 +441,7 @@ export default {
       //   const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
       //   this.additionTermsList = data.data.content.additionTermsDetails.filter(i=> i.isActivityEnable)
       // }
+      this.initTerm()
       if(this.InsuranceActive !== 0 || this.orderNo || this.mainOrderNo) {//報價明細更正、複製時塞資料
         await this.step1InitAssignValue('activity')
         this.AssignQuestionnaire('activity')
@@ -481,7 +482,7 @@ export default {
     },
     async initTerm() {
       // const data = await this.$store.dispatch('resource/AdditionTermsType', this.industry.Value)
-      this.additionTermsList = this.additionTermsList = [
+      this.additionTermsList =  [
         {
           additionTermId: '758A',
           additionTermName: '責任自負條款',

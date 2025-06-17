@@ -192,17 +192,17 @@ export default {
           insuranceTotalAmount: '',
           selfInflictedAmount: ''
         }
-      this.infoList.map(item => {
-        let target
-        if(item.city.Text == '嘉義市') {
-          target = this.countyAmount.find(i => i.countyName.includes('嘉義'))
-        } else {
-          target = this.countyAmount.find(i => i.countyName.includes(item.city.Text))
-        }
-        if (target) {
-          arr.push(target)
-        }
-      })
+      // this.infoList.map(item => {
+      //   let target
+      //   if(item.city.Text == '嘉義市') {
+      //     target = this.countyAmount.find(i => i.countyName.includes('嘉義'))
+      //   } else {
+      //     target = this.countyAmount.find(i => i.countyName.includes(item.city.Text))
+      //   }
+      //   if (target) {
+      //     arr.push(target)
+      //   }
+      // })
       
       if(arr.length > 1) {
         arr.sort((a, b) => a.perBodyAmount - b.perBodyAmount)
