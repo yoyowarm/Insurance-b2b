@@ -27,7 +27,7 @@ module.exports = {
       })
   },
   publicPath: process.env.NODE_ENV === 'uat' || process.env.NODE_ENV === 'production'
-    ? '/PLIB2B/'
+    ? '/'
     : '/'
 
 }
