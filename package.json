@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build",
+    "build": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build --no-cache",
     "build:gcp": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build --mode gcp",
     "build:uat": "node --max_old_space_size=4096 node_modules/@vue/cli-service/bin/vue-cli-service.js build --mode uat",
     "mock": "cd mock && node index.js",
