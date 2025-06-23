@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunktaiancglib2b_frontend"]=self["webpackChunktaiancglib2b_frontend"]||[]).push([[246],{40246:function(n,e,t){t.r(e),t.d(e,{default:function(){return f}});var r=function(){var n=this,e=n.$createElement,t=n._self._c||e;return t("div",[n._v("分公司核保")])},u=[],c={},l=c,a=t(1001),i=(0,a.Z)(l,r,u,!1,null,"c50de992",null),f=i.exports}}]);
+//# sourceMappingURL=246.83afa054.js.map
