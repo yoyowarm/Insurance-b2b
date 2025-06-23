@@ -26,6 +26,6 @@ module.exports = {
         return args;
       })
   },
-  publicPath: '/'
+  publicPath: '/yoyoyo'
 
 }
