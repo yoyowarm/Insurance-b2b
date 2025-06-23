@@ -26,8 +26,6 @@ module.exports = {
         return args;
       })
   },
-  publicPath: process.env.NODE_ENV === 'uat' || process.env.NODE_ENV === 'production'
-    ? '/'
-    : '/'
+  publicPath: '/'
 
 }
