@@ -1,4 +1,3 @@
-const timestamp = new Date().getTime()
 module.exports = {
   transpileDependencies: true,
   devServer: {
@@ -11,12 +10,6 @@ module.exports = {
         ws: true,
       }
     }
-  },
-  configureWebpack: {
-    output: {
-      filename: `js/[name].${timestamp}.js`,
-      chunkFilename: `js/[name].${timestamp}.js`,
-    },
   },
   chainWebpack: config => {
     config
